@@ -1,0 +1,524 @@
+---
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
+# subtitle: "Muestreo y Análisis de Datos"
+subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 0. Ejercicio 1"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+# institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+#   beamer:
+#     logo: figure/by-nc-sa2.png
+#     titlegraphic: figure/by-nc-sa.png
+#     theme: Boadilla # Copenhagen # CambridgeUS #
+#     outertheme: miniframes
+#     colortheme: crane
+#     section-titles: false
+#     fontsize: 10pt
+# #    header-includes:
+# #      - \setbeameroption{show notes}
+# #      # - \setbeameroption{show notes on second screen}
+  # revealjs:
+  #   logo: figure/by-nc-sa2.png
+  #   titlegraphic: figure/by-nc-sa.png
+  #   theme:  serif # simple # default # moon # beige # sky #
+  #   smaller: false
+  #   scrollable: true
+  #   embed-resources: true
+  #   slide-number: true
+  #   show-slide-number: all
+  #   transition: slide # concave # 
+  #   background-transition: fade
+  #   progress: true
+  html: 
+    embed-resources: true
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  #| echo: FALSE
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: false
+# css: styles.css
+---
+
+
+```{r setup}
+#| include: FALSE
+library(kableExtra)
+library(knitr)
+```
+
+
+* En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](Tema00ej1_12345678.R)
+
+
+
+```{r}
+#| echo: FALSE
+################################################################################
+# extract R code
+# knitr::purl("Tema01_ejerc.Rmd", output = "Tema01_ejerc_sol1.R", documentation = 1)
+################################################################################
+
+
+############################################################
+## Ejercicio Tema 01
+## NOMBRE: (reemplaza esto con tu Nombre y Apellido(s))
+## DNI:    (reemplaza esto con tu DNI, o similar)
+############################################################
+```
+
+
+# Apartado 1
+
+a) Tenemos la siguiente información sobre las ventas de dos tiendas, A y B, a lo largo de una semana. Generar dos vectores llamados, `Ventas_A`  y `Ventas_B`, que contenga esta información; cada elemento del vector debe tener su correspondiente nombre (día de la semana).
+
+```{r ej.1a}
+#| echo: FALSE
+###---------- Apartado 1.a) ----------------------------------------------------
+
+# Ventas de la Tienda A de Lunes a Viernes
+Ventas_A <- c(140, 50, 20, 120, 240)
+
+# Ventas de la Tienda B de Lunes a Viernes
+Ventas_B <- c(25, 50, 100, 350, 10)
+
+# Vector de nombres de días
+vector_dias <- c("Lunes", "Martes", "Miercoles", "Jueves", "Viernes")
+
+# Asignar nombres
+names(Ventas_A) <- vector_dias
+names(Ventas_B) <- vector_dias
+
+Ventas_A
+
+Ventas_B
+```
+
+```{r ej.1a.show}
+#| echo: FALSE
+#| results: 'asis'
+################################################################################
+Ventas <- matrix(c(Ventas_A, Ventas_B), nrow = 2, byrow = TRUE, 
+                 dimnames = list(c("Tienda A", "Tienda B"), vector_dias) )
+
+Ventas|> kbl(format = "html")|> kable_paper("hover")
+```
+
+b) Generar el vector que contenga las ventas totales (sumando ambas tiendas) para cada día, `Ventas_totales_diarias`,  la variable (escalar) con las ventas totales de ambas tiendas en toda la semana, `Ventas_totales_semana`, y la variable (escalar) con las ventas medias de la semana de la tienda A, `Ventas_media_A`.
+
+```{r ej.1b}
+#| echo: FALSE
+###---------- Apartado 1.b) ----------------------------------------------------
+
+# Vector de Ventas totales por dia
+Ventas_totales_diarias <-  Ventas_A + Ventas_B
+
+Ventas_totales_diarias
+
+# Total de Ventas semanales en A y en B
+total_semana_A <- sum(Ventas_A)
+total_semana_B <- sum(Ventas_B)
+# Total de ventas semanales
+Ventas_totales_semana <- total_semana_A + total_semana_B
+Ventas_totales_semana <- sum(Ventas_totales_diarias)
+
+Ventas_totales_semana
+
+# Ventas medias de la semana en A
+Ventas_media_A <- mean(Ventas_A)
+
+Ventas_media_A
+```
+
+c) Generar los siguientes objetos
+
+    * el vector `Ventas_A_entre_semana` con las ventas de cada día de la tienda A exceptando los lunes y viernes.
+  
+    * el vector `Ventas_seleccion` con las ventas totales de cada día para ambas tiendas en los días en los que la tienda B vende más que la tienda A.
+  
+    * el vector `dias_Ventas_seleccion` con los nombres de los días en los que la tienda B vende más que la tienda A. 
+  
+
+```{r ej.1c}
+#| echo: FALSE
+###---------- Apartado 1.c) ----------------------------------------------------
+
+# Ventas en A de martes a jueves (inclusive)
+Ventas_A_entre_semana <- Ventas_A[2:4]
+Ventas_A_entre_semana <- Ventas_A[c("Martes", "Miercoles", "Jueves")]
+
+Ventas_A_entre_semana
+
+# Ventas totales diarias en los días en que B vendió más que A
+vector_seleccion <- Ventas_B > Ventas_A
+Ventas_seleccion <- Ventas_totales_diarias[vector_seleccion]
+
+Ventas_seleccion
+
+# Nombre de los días en que las ventas de B fueron mayores que las de A
+dias_Ventas_seleccion <- names(Ventas_seleccion)
+
+dias_Ventas_seleccion
+```
+
+# Apartado 2
+
+a) La siguiente tabla muestras las ventas de tres productos (X, Y y Z) a nivel nacional y a nivel internacional (en millones de euros). Generar una matriz, `matriz_ventas`, que contenga esta información; sus filas y columnas deben tener los nombres apropiados.
+
+```{r ej.2a}
+#| echo: FALSE
+###---------- Apartado 2.a) ----------------------------------------------------
+
+# Ventas de cada producto (Miles de euros)
+Prod_X <- c(460.998, 314.4)
+Prod_Y <- c(290.475, 247.900)
+Prod_Z <- c(309.306, 165.8)
+
+# vector de ventas
+ventas <- c(Prod_X, Prod_Y, Prod_Z)
+# Matriz de ventas
+matriz_ventas <- matrix(ventas, nrow = 3, byrow = TRUE) 
+
+# Vectores de region y titulos, para nombres
+region  <- c("Nacional", "Internacional")
+nombres <- c("Producto X", "Producto Y", "Producto Z")
+
+# Aplicar nombres de region a columnas
+colnames(matriz_ventas) <- region
+# y nombres de productos a filas
+rownames(matriz_ventas) <- nombres
+
+matriz_ventas
+```
+
+
+```{r ej.2a.show}
+#| echo: FALSE
+#| results: 'asis'
+################################################################################
+matriz_ventas|> kbl(format = "html")|> kable_paper("hover")
+```
+
+b) Considerar las ventas de otros tres productos según la siguiente tabla. Generar una nueva matriz, `matriz_ventas2`, con esta información y combinarla con la matriz del apartado anterior para obtener una nueva matriz, `matriz_ventas_combinada`, con información para todos los productos.
+
+```{r ej.2b}
+#| echo: FALSE
+###---------- Apartado 2.b) ----------------------------------------------------
+
+# Construir matriz_ventas2
+ventas2 <- c(474.5, 552.5, 310.7, 338.7, 380.3, 468.5)
+nombres2 <- c("Producto R", "Producto S", "Producto T")
+matriz_ventas2 <- matrix(ventas2, nrow=3, byrow = TRUE) 
+  #, dimnames = list(nombres2, region))
+
+# Aplicar nombres de region a columnas
+colnames(matriz_ventas2) <- region
+# Nombres de filas
+rownames(matriz_ventas2) <- nombres2
+
+matriz_ventas2
+
+# Combinar
+matriz_ventas_combinada <- rbind(matriz_ventas, matriz_ventas2)
+
+matriz_ventas_combinada
+
+```
+
+```{r ej.2b.shwo}
+#| echo: FALSE
+#| results: 'asis'
+########################################################################
+matriz_ventas2|> kbl(format = "html")|> kable_paper("hover")
+```
+
+c) Generar un vector, `ventas_total`, con las ventas totales (nacionales más internacionales) de cada producto. Generar una matriz, `matriz_ventas_combinada_total`, que añada  una columna con las ventas totales a `matriz_ventas_combinada`.
+
+```{r ej.2c}
+#| echo: FALSE
+###---------- Apartado 2.c) ----------------------------------------------------
+
+# Calcular total ventas
+ventas_total <- rowSums(matriz_ventas_combinada)
+
+ventas_total
+
+# Añadir columna de ventas mundiales
+matriz_ventas_combinada_total <- cbind(matriz_ventas_combinada, ventas_total)
+
+colnames(matriz_ventas_combinada_total)[3] <- "Total"
+#colnames(matriz_ventas_combinada_total) <- c(colnames(matriz_ventas_combinada), "Total")
+
+matriz_ventas_combinada_total
+```
+
+d) Generar una variable (escalar), `internac_media`, con la media de las ventas internacionales (media sobre todos los productos) y otro vector, `nacional_seleccion_media`, con la media de las ventas nacionales sobre los productos X, Y y R.
+
+```{r ej.2d}
+#| echo: FALSE
+###---------- Apartado 2.d) ----------------------------------------------------
+
+# Seleccionar ventas Internacionales para todos los productos
+internac_todos <- matriz_ventas_combinada_total[,2]
+
+# Ventas medias Internacionales para todos los productos 
+internac_media <- mean(internac_todos)
+
+internac_media
+
+# Seleccionar ventas nacionales de X, Y y R
+nacional_seleccion <- matriz_ventas_combinada_total[c(1:2,4),1]
+
+# Media de ventas nacionales de X, Y y R
+nacional_seleccion_media <- mean(nacional_seleccion)
+
+nacional_seleccion_media
+```
+
+e) Se quiere conocer el número de compradores de los productos a partir de la matriz de ventas, `matriz_ventas_combinada`. 
+
+    * Generar una matriz, `compradores_estimados`, de compradores estimados para cada producto y destino (nacional e internacional) suponiendo que el precio de todos los productos es 5. 
+    * Generar la matriz `compradores` con un cálculo más exacto a partir de la siguiente información de precios.
+
+```{r ej.2e}
+#| echo: FALSE
+###---------- Apartado 2.e) ----------------------------------------------------
+
+# Estimar número de compradores
+compradores_estimados <- matriz_ventas_combinada / 5
+
+compradores_estimados
+
+# Matriz de precios
+precios_matriz <- matrix(c(5.2, 4.7, 5.7, 6.1, 7, 6.7, 4.2, 4.3, 4.2, 4.5, 4.9, 4.8), 
+                         nrow = 6, byrow = TRUE, 
+                         dimnames = list(c(nombres,nombres2), region))
+
+# Calcular número de compradores
+compradores <- matriz_ventas_combinada / precios_matriz
+
+compradores
+```
+
+```{r ej.2e.show}
+#| echo: FALSE
+#| results: 'asis'
+########################################################################
+precios_matriz|> kbl(format = "html")|> kable_paper("hover")
+```
+
+
+# Apartado 3
+
+a) Se ha preguntado a cinco clientes sobre su satisfacción con los servicios de una empresa. Su contestación ha sido: "poco", "nada", "nada", "poco", "mucho". Generar un vector, `factor_satisf_vector`, adecuado para esta información.
+
+```{r ej.3a}
+#| echo: FALSE
+###---------- Apartado 3.a) ----------------------------------------------------
+
+# Vector de satisfacción
+satisf_vector <- c("poco", "nada", "nada", "poco", "mucho")
+
+#factor_satisf_vector0 <- factor(satisf_vector, ordered = TRUE)
+#levels(factor_satisf_vector0)
+#summary(factor_satisf_vector0)
+
+factor_satisf_vector <- factor(satisf_vector, ordered = TRUE, 
+                               levels = c("nada", "poco", "mucho"))
+#levels(factor_satisf_vector)
+#summary(factor_satisf_vector)
+
+factor_satisf_vector
+```
+
+b) Generar un vector, `sum_factor`, con las estadísticas descriptivas de la información del apartado anterior y muestra el resultado ("imprime" ese vector). 
+
+```{r ej.3b}
+#| echo: FALSE
+###---------- Apartado 3.b) ----------------------------------------------------
+
+# Resumen del vector
+sum_vector <- summary(satisf_vector)
+print(sum_vector)
+
+# Resumen del factor
+sum_factor <- summary(factor_satisf_vector)
+print(sum_factor)
+```
+
+c) Crear el vector `comparar_clientes` que informe sobre si el cliente 2 está más satisfecho que el cliente 5.
+
+```{r ej.3c}
+#| echo: FALSE
+###---------- Apartado 3.c) ----------------------------------------------------
+
+# Valor del factor para el segundo cliente
+cliente2 <- factor_satisf_vector[2]
+# Valor del factor para el quinto cliente
+cliente5 <- factor_satisf_vector[5]
+
+# Está el segundo cliente más safisfecho
+comparar_clientes <- cliente2 > cliente5
+
+comparar_clientes
+class(comparar_clientes)
+
+# satisf_vector[2] > satisf_vector[5]
+```
+
+
+# Apartado 4
+
+a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar en la ayuda de RStudio `mtcars` para conocer las variables que incluye. Comprobar la estructura con `str()` y visualizar las primeras observaciones con `head()`. 
+
+    * Generar la variable (escalar) `Datsun710_CV` con los caballos de potencia del coche modelo Datsun 710.
+    
+    * Generar el vector `Valiant_vector` con toda la información (esto es, variables) disponibles sobre el coche modelo `Valiant`.
+
+```{r ej.4a}
+#| echo: FALSE
+###---------- Apartado 4.a) ----------------------------------------------------
+
+# Mostrar la estructura del conjunto de datos
+str(mtcars)
+
+# Mostrar las primeras filas (observaciones)
+head(mtcars)
+
+# Caballos del Datsun 710
+Datsun710_CV <- mtcars[3, "hp"]
+
+Datsun710_CV
+
+# Características del Valiant
+Valiant_vector <- mtcars[6,]
+Valiant_vector <- mtcars["Valiant",]
+
+Valiant_vector
+```
+
+b) Generar el vector `cilindros` con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector `cambio_vector` con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.
+
+```{r ej.4b}
+#| echo: FALSE
+###---------- Apartado 4.b) ----------------------------------------------------
+
+# Variable cilindros como vector usando $
+cilindros <- mtcars$cyl
+
+cilindros
+
+# Tipo de cambio de los Mazda y Hornet
+cambio_vector <- mtcars[c(1:2,4:5),"am"]
+
+cambio_vector
+```
+
+c) Generar `media_consumo_autom` con el consumo medio de los coches con cambio automático. Generar `media_consumo_autom_cyl4` con el consumo medio de los coches con cambio automático y cuatro cilindros.
+
+```{r ej.4c}
+#| echo: FALSE
+###---------- Apartado 4.c) ----------------------------------------------------
+
+# Seleccionar cambio automático 
+sel_cambio <- mtcars$am == 1
+  
+# Media de consumo para coches de cambio automático
+consumo_cambio_vector <- mtcars[sel_cambio, "mpg"]
+media_consumo_autom  <- mean(consumo_cambio_vector)
+
+media_consumo_autom 
+
+# Seleccionar cambio automático y cuatro cilindros 
+sel_cambio2 <- mtcars$am == 1 & mtcars$cyl == 4
+
+# Media de consumo para coches de cambio automático y cuatro cilindros
+media_consumo_autom_cyl4 <- mean(mtcars[sel_cambio2, "mpg"])
+
+media_consumo_autom_cyl4
+
+
+# # Select planets with diameter < 1
+# #subset(planets_df, subset = diameter < 1)
+
+#
+## Use order() to create positions
+#positions <- order(planets_df$diameter)
+#
+## Use positions to sort planets_df
+#planets_df[positions, ]
+```
+
+<!--
+# Apartado 5
+
+```{r ej.5a}
+#| echo: FALSE
+###---------- Apartado 5.a) ----------------------------------------------------
+
+# Vector numérico de 1 a 10
+mi_vector <- 1:10 
+
+# Matrix con númemros de 1 a 4
+mi_matriz <- matrix(1:4, ncol = 4)
+
+# Data Frame con 10 primeros elementos de mtcars
+mis_datos <- mtcars[1:10,]
+
+# Construir lista:
+mi_lista <- list(vector = mi_vector, matriz = mi_matriz, datos = mis_datos)
+
+# Estructura de la lista
+str(mi_lista)
+
+mi_lista
+```
+
+```{r ej.5b}
+#| echo: FALSE
+#| results: 'asis'
+###---------- Apartado 5.b) ----------------------------------------------------
+
+# media del vector de la lista
+media_vector <- mean(mi_lista$vector)
+media_vector <- mean(mi_lista[[1]])
+media_vector <- mean(mi_lista[["vector"]])
+
+media_vector
+
+# media de la 5 primeras observaciones de consumo de los datos de la lista
+media_datos_5 <- mean(mi_lista[[3]][1:5,1])
+
+media_datos_5
+```
+-->
+
+# Entrega del ejercicio
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSfNcz7-CZ4fZOFL4KJzgVNGpcrVMSTjzqsRX8e5HW08hb3B1g/viewform) con vuestros datos y subid 
+
+  * vuestro archivo de R 
+    
+<!--  * el fichero .csv que utilizáis.. -->
+    
+IMPORTANTE: el nombre de los ficheros que subáis DEBE  seguir el  siguiente formato que incluye vuestro número de DNI: ej., 
+
+  * Tema00ej1_123456787.R
+    
+<!--  * 12345678_ET05_datos.csv -->
+
+
+

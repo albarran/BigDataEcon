@@ -1,0 +1,73 @@
+---
+title: "Evaluación"
+lang: es
+strip-comments: true
+---
+
+# Dos opciones de evaluación (primera convocatoria)
+
+* Nota: información adicional sobre segunda convocatoria y posibles contingencias en [la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2023-24)
+
+## Evaluación Continua:
+
+  * Ejercicios teórico-prácticos durante el periodo de clases (30%)
+
+      - preguntas y pequeños ejercicios en clase
+    
+      - prácticas a entregar
+
+  * Trabajo empírico final (50%)
+
+  * Examen final (20%)
+
+  * Requisito: asistir al menos a un 80% de las clases.
+
+
+## Evaluación No Continua:
+
+  * Trabajo empírico final (50%)
+
+  * Examen final (50%)
+
+
+***
+
+# Examen Final
+
+El examen final se realizará en la fecha asignada oficialmente. Constará de dos partes: preguntas tipo test con múltiples opciones y preguntas breves a desarrollar (con espacio limitado). 
+
+* Ejemplo de preguntas tipo test para el examen, [aquí](ExamTest.pdf)
+
+* Ejemplo de preguntas de desarrollar, [aquí](ExamPreg.pdf)
+
+# Proyecto Final
+
+<!--
+* Información sobre la evaluación el proyecto final [aquí](Info01.html)
+-->
+
+
+* A lo largo del curso, tendréis información más detallada sobre este ejercicio empírico.
+
+* El objetivo será un análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. aplicando los conocimientos adquiridos en el curso.
+
+* Tendréis que proponer un tema de estudio. Los datos podéis haberlos obtenido por vuestra cuenta (por trabajo, contactos, busqueda propia, etc.) o bien podéis elegirlos a partir de fuentes de datos que os popondré.
+
+
+* Información preliminar sobre plazos:
+
+  * Deberéis proponer un tema en diciembre (antes de que concluyan las clases)
+  
+  * La entrega del proyecto final será a principios de febrero (con tiempo suficiente para su corrección antes del cierre de actas). 
+
+<br>
+
+
+* IMPORTANTE: **plagio**
+
+  * Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también. 
+  
+  * La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.
+
+
+***

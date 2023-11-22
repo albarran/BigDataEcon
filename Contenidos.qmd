@@ -1,0 +1,243 @@
+---
+title: "Contenidos"
+classoption: twocolumn
+lang: es
+strip-comments: true
+---
+
+
+<!-- **********************************************************************  -->
+:::: {.columns}
+
+::: {.column width="33%"}
+## Semana 1  
+(11-Sept. a 15-Sept.)
+
+  * [Introducción](docs/0Intro.qmd)
+  * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
+  * [Tema 0 - Ejercicio 1](docs/Tema00ej1.qmd)
+  * [Tema 0 - Ejercicio 2](docs/Tema00ej2.qmd) 
+  
+:::
+
+
+::: {.column width="33%"}
+
+## Semana 2
+(18-Sept. a 22-Sept.)
+
+
+  * Fecha límite de entrega de los ejercicios del Tema 0: **vie., 22-sept., 23:59h**
+
+
+  * [Tema 01 - Transformación de datos](docs/Tema01.qmd)
+  * [Tema 01 - Ejercicio 1](docs/Tema01ej1.qmd)
+
+
+:::
+
+
+::: {.column width="33%"}
+
+## Semana 3
+(25-Sept. a 29-Sept.)
+
+
+  * [Tema 02 - Manipulación de datos relacionales](docs/Tema02.qmd)
+
+  
+:::
+
+
+::::
+
+<!-- **********************************************************************  -->
+
+:::: {.columns}
+
+::: {.column width="33%"}
+
+## Semana 4
+(2-Oct. a 6-Oct.)
+
+  * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
+  
+:::
+
+
+::: {.column width="33%"}
+
+
+## Semana 5
+(09-Oct. a 13-Oct.)
+
+  * [Tema 03 - Datos Ordenados](docs/Tema03.qmd)
+
+:::
+
+
+::: {.column width="33%"}
+
+## Semana 6
+(16-Oct. a 20-Oct.)
+
+  * [Tema 04 - Visualización de Datos](docs/Tema04.qmd)
+  
+  * [Tema 04 - Ejercicio](docs/Tema04ej.qmd)
+  
+    - Fecha límite de entrega: **lun., 30-oct., 23:59h**
+
+  * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
+
+  
+:::
+
+::::
+
+
+<!-- ********************************************************************** -->
+
+
+:::: {.columns}
+
+::: {.column width="33%"}
+
+## Semana 7
+(23-Oct. a 27-Oct.)
+
+<!-- * [Tema 06 - Introducción a Quarto](docs/Tema06.qmd) -->
+ 
+ * [Tema 06 - Ejercicio](docs/Tema06ej.qmd)
+    - Fecha:  mie. 8-Nov. 23:59h 
+ 
+:::
+
+::: {.column width="33%"}
+
+
+## Semana 8
+(30-Oct. a 3-Nov.)
+
+ * [Tema 07 - Fundamentos Estadísticos](docs/Tema07.qmd)
+
+:::
+
+
+::: {.column width="33%"}
+
+
+## Semana 9
+(6-Nov. a 10-Nov.)
+
+ * [Tema 05 - Ejercicio](docs/Tema05ejWebScrap.qmd)
+    - Fecha:  mie. 29-Nov. 23:59h 
+
+ * [Tema 07 - Ejercicio](docs/Tema07ej.qmd)
+
+    - Fecha:  mie. 29-Nov. 23:59h 
+
+
+:::
+
+::::
+
+
+<!-- ********************************************************************** -->
+
+:::: {.columns}
+
+::: {.column width="33%"}
+
+## Semana 10
+(13-Nov. a 17-Nov.)
+ 
+  * [Tema 08 - Aprendizaje Estadístico](docs/Tema08.qmd)
+
+
+:::
+
+
+::: {.column width="33%"}
+
+## Semana 11
+(20-Nov. a 26-Nov.)
+
+  * [Tema 09 - Selección y Regularización](docs/Tema09.qmd)
+
+  * [Tema 10 - Modelización con `tidymodels`](docs/Tema10.qmd)
+
+:::
+
+
+::: {.column width="33%"}
+## Semana 12
+(27-Nov. a 03-Dic.)
+
+  * [Tema 11 - kNN](docs/Tema11.qmd)
+<!--
+  
+  * [Tema 12 - Métodos basados en árboles](docs/Tema12.qmd)
+
+
+  * [Tema 13 - Ejercicio](docs/Tema13_Ejerc.html)
+
+    - Entregar [aquí](https://docs.google.com/forms/d/e/1FAIpQLSeDCAi9CtQvZVOk7DiWeZKevOBDO_4uvWrKTbTR5xEaMrtarg/viewform)
+    - Fecha:  dom. 11-Dic. 23:00h  
+-->
+:::
+
+::::
+
+
+<!-- ********************************************************************** -->
+
+<!--
+:::: {.columns}
+
+::: {.column width="33%"}
+
+## Semana 13
+(05-Dic. a 09-Dic.)
+
+  * [Tema 14 - Otros algoritmos de aprendizaje supervisado](docs/Tema14.html)
+
+  * [Tema 15 - Aprendizaje No Supervisado](docs/Tema15.html)
+  
+  * [Tema 14 - Ejercicio](docs/Tema14_Ejerc.html)
+
+    - Entregar [aquí](https://docs.google.com/forms/d/e/1FAIpQLSd2Li9iaD6Wy1nHKT25kHcF_mDY2rhqPQP1KVzptn7hxjnW-g/viewform)
+    - Fecha:  dom. 18-Dic. 23:00h  
+    
+  * [Tema 15 - Ejercicio](docs/Tema15_Ejerc.html)
+
+    - Entregar [aquí](https://docs.google.com/forms/d/e/1FAIpQLSdECFv5-MbsUxeYphn_7n1_56o5owqnA9V8ppV0Cga5I7QgTg/viewform)
+    - Fecha:  dom. 18-Dic. 23:00h  
+
+:::
+
+
+::: {.column width="33%"}
+
+## Semana 14
+(12-Dic. a 16-Dic.)
+
+  * [Tema 16 - Usando `rtweet` para Análisis de Redes y de Texto](docs/Tema16.html)
+
+  * [Ejemplo de Proyecto](docs/Proyect01.html)
+
+:::
+
+
+::: {.column width="33%"}
+
+## Semana 15
+(19-Dic. a 23-Dic.)
+
+
+:::
+
+::::
+
+<!--
+
+-->

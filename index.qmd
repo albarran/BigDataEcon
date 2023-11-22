@@ -1,0 +1,112 @@
+---
+title: "Técnicas para 'Big Data' en Economía"
+subtitle: "Universidad de Alicante, Curso 2023-2024 (Primer cuatrimestre)"
+lang: es
+strip-comments: true
+---
+
+
+# Profesores: 
+
+## [Pedro Albarrán](https://sites.google.com/site/pedroalbarran)
+
+* Despacho 19, Segundo (último) piso, Edificio 31
+[(Facultad de Ciencias Económicas y Empresariales)](https://www.google.es/maps/@38.3835237,-0.5130815,17z)
+
+* e-mail: [albarran@ua.es](mailto:albarran@ua.es)
+
+
+* Tutorias:
+
+    + Lunes de 11h a 13h 
+  
+    + Lunes de 15:30h  a 17h
+
+    + Viernes de 11 a 13h
+
+
+    (solicitada previamente con al menos 24 horas de antelación, por UACloud o email)
+
+* También podéis usar UACloud
+
+## Alberto Pérez  
+
+* Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)
+
+
+* e-mail: [alberto.perezbernabeu@ua.es](mailto:alberto.perezbernabeu@ua.es)
+
+
+<!--
+* Tutorias: Miércoles de 10:30 a 12:30
+
+    (solicitada previamente con al menos 24 horas de antelación, por UACloud o email)
+
+* También podéis usar la herramienta de tutorías de UACloud
+
+-->
+
+***
+
+# Objetivos
+
+- Aprender a **extraer información** de los datos, especialmente datos masivos ("big data")
+
+- Enfoque práctico: aprenderemos técnicas y cómo aplicarlas para posteriormente usar la información en crear valor
+
+- Tres Componentes: 
+
+    1. Nociones de Programación
+    
+    2. Obtención y Procesamiento de Datos
+    
+    3. Modelos de Aprendizaje Estadístico
+
+-   Más detalles a lo largo del curso y en 
+<!-- para **Economía** -->
+[la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2023-24)
+
+
+***
+
+# Información para las clases
+
+<!--
+* **NOTA**: es MUY RECOMENDABLE haber cursado y aprobado *todas* las asignaturas de Estadística y de Econometría de cursos anteriores del grado para poder seguir el curso con solvencia.
+-->
+
+* <!-- Para el seguimiento habitual de las clases y para la realización de ejercicios, prácticas, etc. es --> Es **muy recomendable** que cada estudiante trabaje en clase con su propio ordenador de forma habitual
+
+	-   Nota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si  sus baterías tienen poca duración).
+
+<!--
+	-    La conserjería del aulario dispone de regletas; pero considerad traer alguna de casa.
+-->
+
+<!--
+* En particular, las primeras clases estarán dedicadas en exclusiva a aprender lenguaje de programación R, que será el software estadístico-econométrico usado en el curso.
+-->
+
+*  ANTES DE comenzar las clases, vuestro ordenador deberá tener instalados los siguientes programas de software (totalmente gratuitos): el lenguaje de programación R y el interfaz-editor para trabajar con R llamado RStudio.
+
+	-   OJO: es conveniente tener el sistema de vuestros ordenadores actualizados antes de instalar nada.
+
+*  Podéis descargar R desde [https://cran.r-project.org/](https://cran.r-project.org/) siguiendo las instrucciones para vuestro sistema operativo.
+
+	-   para Windows, entrad en "Download R for Windows", luego en "base" y allí encontraréis la versión actual "Download R-4.3.1 for Windows".
+	-   para MacOS, entrad en "Download R for (Mac) OS X", y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS "R-4.3.1-x86_64.pkg" o "R-4.3.1-arm64.pkg", según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.
+	-   para Linux, seguid las instrucciones (típicamente a través de vuestro sistema de instalación).
+
+*  Podéis descargar RStudio desde [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+
+	-   Desplazaros hacia abajo en la página hasta encontrar una tabla con enlaces para descargas
+	-   Elegid el enlace de descarga para vuestro sistema.
+	       +  En Windows, usad el instalador ejecutable .EXE (no .ZIP) y durante la instalación elegid la opción de 64 bits.
+
+
+-   NOTA: existe la posibilidad de usar R y RStudio de forma online, sin instalar nada en el ordenador (o incluso usando una tablet). Se puede encontrar en [https://posit.cloud/](https://posit.cloud/) . Sin embargo, no la recomendamos para su uso habitual; en particular, algunas cosas son ligeramente diferentes, es más lenta, depende de conexión a internet y, aunque es gratuita, requiere registrarse.
+
+-   Más adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional
+
+   <!-- +   Instrucciones en anuncio UACloud  -->
+    

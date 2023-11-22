@@ -1,0 +1,61 @@
+---
+title: "Datos"
+lang: es
+strip-comments: true
+---
+
+####  A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo. 
+
+<!--
+  * Podéis ver el directorio con todos [aquí](https://github.com/albarran/BigDataEcon2021/raw/main/data)
+-->
+
+<!--(https://drive.google.com/file/d/1_oeCFuxeu_11qFuBGgI6YhfqfYcMDT7W/view?usp=sharing) -->
+
+<!--
+* Descargad el archivo comprimido .zip con todos  [aquí](data.zip)
+
+  * Descomprimid todo el contenido en un subdirectorio llamado **data** de vuestro directorio de trabajo para poder usarlos en el futuro
+-->
+
+* Tema 0:
+  + [renta.txt](https://raw.githubusercontent.com/albarran/00datos/main/renta.txt)
+  + [sex_data.csv](https://raw.githubusercontent.com/albarran/00datos/main/sex_data.csv)
+  + [beauty.xls](https://raw.githubusercontent.com/albarran/00datos/main/beauty.xls)
+  + [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)
+  + [earn.RData](https://raw.githubusercontent.com/albarran/00datos/main/earn.RData)
+
+* Tema 1:
+
+  + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
+  
+* Tema 4:
+
+  + [landdata-states.csv](https://raw.githubusercontent.com/albarran/00datos/main/landdata-states.csv)
+  
+
+* Tema 5:
+
+  + [BankMarketing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BankMarketing.csv)
+  
+  + [BostonHousing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv)
+
+
+* Tema 7:
+
+  + [discount.csv](https://raw.githubusercontent.com/albarran/00datos/main/discount.csv)
+
+
+* Tema 8:
+
+  + [census.csv](https://raw.githubusercontent.com/albarran/00datos/main/census.csv)
+
+
+<!--
+[aquí](https://github.com/albarran/BigDataEcon2021/raw/main/data.zip)
+
+-->
+
+
+<br>
+
