@@ -1,0 +1,970 @@
+---
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
+# subtitle: "Muestreo y Análisis de Datos"
+subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 08 - Aprendizaje Estadístico"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+ #  beamer:
+ #    handout: false
+ #    logo: figure/by-nc-sa2.png
+ #    titlegraphic: figure/by-nc-sa.png
+ #    theme:  Boadilla # Copenhagen # CambridgeUS #
+ #    outertheme: miniframes
+ #    colortheme: crane
+ #    section-titles: false
+ #    fontsize: 10pt
+ #    header-includes: |
+ #        \setbeamertemplate{footline}
+ #        {
+ #        \leavevmode%
+ #        \hbox{%
+ #        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+ #        \usebeamerfont{author in head/foot}\insertshortauthor%
+ #        \end{beamercolorbox}%
+ #        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+ #        \usebeamerfont{title in head/foot}\insertshorttitle%
+ #        \end{beamercolorbox}%
+ #        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+ #        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+ #        \end{beamercolorbox}}%
+ #        }
+ #       # - \setbeamertemplate{navigation symbols}{}
+ #       # - \setbeamertemplate{caption}[numbered]
+ #       # - \setbeamertemplate{headline}[page number]
+ #       # - \setbeameroption{show notes}
+ #       # - \setbeameroption{show notes on second screen}
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r setup, include=FALSE}
+#```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
+# include=F es suficiente para no incluir mensajes, etc.
+
+# Opciones por defecto para los fragmentos de código
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+                      warning = FALSE, message = FALSE,
+                      results = "hide", fig.show="hide")
+# se muestra y evalúa el código,
+# no se muestran mensajes, ni avisos (warnings)
+# no se muestran los resultados de código (tampoco gráficos)
+#     en los códigos que considere necesarios los mostraré
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())       
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+
+#fijo el directorio de trabajo
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+## Aprendizaje Estadístico o Automático
+
+* Aprendizaje automático (*machine learning*, ML) o estadístico (*statiscal learning*): conjunto de técnicas algorítmicas para extraer información de los datos
+
+<!--
+<center>
+![](figure/ML2.jpg){width=65%}
+</center>
+
+
+## Aprendizaje supervisado vs. no supervisado
+-->
+
+
+
+<!--
+<center>    
+![](figure/imgSuper-Unsuper.png){width=55%} 
+</center> 
+-->
+
+<!--
+https://www.favouriteblog.com/wp-content/uploads/2017/07/Types-of-Learning.png):
+-->
+
+* [Tipos principales](https://vitalflux.com/wp-content/uploads/2020/12/mind_map_machine_learning_3.jpg) 
+
+1. **Aprendizaje supervisado**: escenarios en los que para cada observación de las mediciones $X_i$ hay una *respuesta asociada* $Y_i$ ("supervisa" el aprendizaje)
+
+    + Aprendemos la respuesta de casos nuevos a partir de casos previos 
+
+
+2. **Aprendizaje no supervisado**: no hay una respuesta asociada a las mediciones de $X_i$ para supervisar el análisis que generará un modelo.
+
+    + Aprendemos rasgos no medidos a partir de casos "no etiquetados": ej. observaciones similares organizadas en grupos distintos <!--(de clientes, países)-->
+    
+
+<!--
+
+supervisado conjunto de datos X Y (variable especial) Y=F(X) aprender F(), relación, para predecir
+
+no supervisado: conjunto datos X identifcar patrones- geiser = tipos de clientes
+
+-->
+
+## Aprendizaje supervisado
+
+* $\small Y = f(X) + \varepsilon$: modelo para la variable dependiente (de respuesta) en función de factores observados (predictores/características) y no observados ($\small \varepsilon$)
+
+    <!--Y= variable objetivo)-->
+    <!--X= independientes (predictores, características, regresores, factores)-->
+    <!--X= inputs, features, covariates -->
+    
+    + $f$ representa la información/relación sistemática que $X$ (género, educación, etc.) ofrecen sobre un resultado medido $Y$ (ej. renta)
+
+* Objetivos:  predecir casos *nuevos* <!-- a partir de otros previamente etiquetados  (medidos/clasificados)--> y  comprender qué factores afectan al resultado y cómo (¡cuidado con afirmaciones de *causalidad*!)
+
+<!--
+    + evaluar la calidad de nuestras predicciones e inferencias
+-->
+
+<!--
+* Cuidado con afirmaciones sobre *causalidad*!
+-->
+
+<!--    
+## Aprendizaje supervisado: estimar $f$ desconocida
+-->
+
+* **Modelo paramétrico:** supone un forma de $f$ que depende de parámetros desconocidos, p.e., lineal  $f(x) =\beta_0 + \beta_1 x_1 + \dots + \beta_k x_k$
+
+* **Modelo no paramétrico:** ajustar $f$ a los datos sin supuestos funcionales
+
+  - más flexibilidad y mejor ajuste, pero más difícil de estimar e interpretar    
+
+<!--
+    + Es más sencillo estimar parámetros que una función arbitraria
+
+  * A mayor flexibilidad, mejor ajuste, PERO existe una disyuntiva entre precisión de la predicción e **interpretabilidad** (inferencia)
+-->
+  
+<!--
+* A veces solo nos interesa predecir el resultado a partir de unos factores
+-->    
+
+<!--
+* Preferimos un método más restrictivo si no solo interesa predecir, sino *entender* la manera en que $X$ afecta a $Y$ 
+
+    + variables relevantes y su signo y magnitud, 
+    + generar hipótesis, etc.
+-->
+
+## Problemas de "regresión" y de clasificación
+
+<!--
+* El método de aprendizaje supervisado más adecuado para un problema depende de si la respuesta es cualitativa o cuantitativa.
+-->
+
+1.- **Regresión**: variable de respuesta cuantitativa (toma valores numéricos)
+```{r}
+library(mosaicData)
+mod <- lm(volume ~ poly(hightemp,3), data = RailTrail)
+cbind(RailTrail$volume, mod$fitted, RailTrail$hightemp) %>% head()
+```
+
+2.- **Clasificación**: variable de respuesta cualitativa (toma valores en una de $C$ categorías o clases)
+```{r}
+censo <- read_csv("data/census.csv") %>%
+  mutate(income = as.integer(factor(income))-1)
+logit <- glm(income ~ capital_gain, data = censo, family = "binomial")
+cbind(censo$income, predict(logit, type = "response")) %>% head()
+```
+
+
+* La predicción mejora si incluimos más variables explicativas (modelo más flexible)
+
+<!--
+No trataremos todas las técnicas ni podemos entrar en el fondo de cada técnica.  
+
+El objetivo es proporcionar una visión general de alto nivel de las técnicas y modelos empleados habitualmente y así comprender los objetivos generales del aprendizaje automático.
+-->
+
+<!--
+## Ejemplo de regresión
+
+* Predecir el número de usuarios (`volume`):
+
+```{r}
+library(mosaicData)
+RailTrail %>% ggplot(aes(x = hightemp, y = volume)) + 
+  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,3) ) +
+  coord_cartesian(ylim = c(100,750))
+```
+
+* `volume` "supervisa" el ajuste del modelo
+
+* Podemos usar el modelo para predecir `volume`
+
+```{r}
+RailTrail.fit <- RailTrail %>% 
+  mutate(
+    lm.fit = lm(volume ~ poly(hightemp,3), data = .)$fitted) 
+head(select(RailTrail.fit, volume, lm.fit, hightemp))
+```
+
+```{r, echo=FALSE, eval=FALSE}
+RailTrail.fit %>%
+  ggplot() + 
+  geom_point(aes(x = hightemp, y = volume)) + 
+  geom_line(aes(x = hightemp, y = loess.fit), color = "blue")
+```
+-->
+
+<!--
+## Ejemplo de clasificación
+
+* Clasificación del tipo de flor en los [datos Iris](https://es.wikipedia.org/wiki/Iris_flor_conjunto_de_datos)
+
+```{r} 
+iris %>% ggplot(aes(x = Petal.Length, y = Species, color = Species))  +
+  geom_point()
+```
+
+* Clasificación rudimentaria en función de longitud del pétalo:
+
+  * Setosa, si < 2 
+    
+  * Versicolor, si >2 y <5
+  
+  * Virginica, si > 5
+     
+```{r, echo=FALSE, eval=FALSE}
+iris.crude <- iris %>% mutate(true.Species = Species) %>%
+  mutate(
+    predicted.Species = 
+      ifelse(Petal.Length < 2, "setosa", 
+             ifelse(Petal.Length < 5, "vesicolor", 
+                    "virginica"))
+    ) 
+
+iris.crude %>% 
+  ggplot(aes(x = Petal.Length, y = true.Species,  
+             color = true.Species, shape = predicted.Species)) + 
+  geom_point()
+```
+
+
+* La predicción es mucho mejor si se utilizan más variables
+
+
+* La visualización tiene un poder limitado: debemos usar métodos de clasificación basados en modelos o algoritmos.
+
+-->
+
+<!--
+## Ejemplo de clasificación
+
+* Factores para predecir si un cliente potencial es de alto ingreso
+```{r}
+censo <- read_csv("data/census.csv") %>%
+  mutate(income = as.integer(factor(income))-1)
+```
+
+* Ajustamos un modelo logístico (logit) simple
+```{r}
+modelo_logistico <- glm(income ~ capital_gain, data = censo, family = "binomial")
+summary(modelo_logistico)
+cbind(censo$income, predict(modelo_logistico, type = "response")) %>% head()
+```
+
+
+* La predicción mejora si incluimos más variables explicativas (modelo más flexible)
+-->
+
+<!--
+```{r, eval=FALSE, echo=FALSE}
+modelo_logistico2 <- glm(income ~ capital_gain + age + education + sex, 
+                         data = censo, family = "binomial")
+summary(modelo_logistico2)
+cbind(censo$income, predict(modelo_logistico2, type = "response")) %>% head()
+```
+-->
+
+<!--
+## Ejemplo de aprendizaje no supervisado
+
+<!--
+Usamos técnicas en el aprendizaje no supervisado cuando no hay ninguna variable de respuesta. Simplemente tenemos un conjunto de observaciones $X$, y queremos entender las relaciones entre ellos.
+-->
+
+<!--
+
+* *Clustering*  (agrupamiento o particionamiento): identificar grupos desconocidos de casos a partir de características observadas
+
+<!--
+Tiempo de espera entre erupciones y sobre duración de la erupción para el géiser Old Faithful en el Parque Nacional de Yellowstone, EE.UU.
+
+![https://en.wikipedia.org/wiki/Old_Faithful](figure/OldFaithful1948.jpg)
+-->
+
+<!--
+* Tiempo de espera entre erupciones y sobre duración de la erupción para el géiser Old Faithful
+```{r echo=FALSE, eval=FALSE}
+library(tidyverse)
+head(faithful)
+```
+
+
+```{r}
+faithful%>% ggplot(aes(y = eruptions, x = waiting)) + 
+  geom_point()
+```
+
+* Se pueden apreciar dos "grupos" o *clusters* o tipos de erupciones.
+
+```{r}
+faithful.clustered <- 
+  faithful %>% mutate(cluster = factor(kmeans(x = ., centers = 2)$cluster))
+faithful.clustered %>% ggplot(aes(y = eruptions, x = waiting)) + 
+  geom_point(aes(color = cluster))
+```
+
+-->
+
+## Error de predicción
+
+* Un modelo es mejor si sus predicciones se ajusten mejor a las observaciones
+
+* El error de predicción es $y - \widehat{y} = f(X) - \widehat{f}(X)  + \varepsilon$
+
+  + $f - \widehat{f}$ = error reducible (eligiendo modelo)
+
+  + $\varepsilon$ = error irreducible (variables no observadas) 
+
+* La **función de pérdida (o coste)** evalúa cómo valoramos las desviaciones 
+```{r figures-side}
+#| echo: false
+#| layout-ncol: 2
+#| fig.show: hold
+
+#
+# #| out.width="50%"
+# #| fig.height=4
+library(latex2exp)
+curve(x^2, from = -2, to = 2, xlab = TeX("$y-\\hat{y}$"), ylab = "Coste")
+curve(abs(x), add = TRUE, col = "blue")
+legend('top',legend = c("x^2", "abs(x)"), text.col = c("black","blue"))
+
+curve(0 * (x>=0) - x * (x<0), from = -2, to = 2, xlab = TeX("$y-\\hat{y}$"), ylab = "Coste", col = "red")
+curve(0.25 * (x> 0 & x<0.5) + 0.75 * (x>0.5) + 0.75 * (x>1.5) + 0.25 * (x < -1), add = TRUE, col = "black")
+```
+
+## Métricas de error de predicción (cuantitativa)
+
+* **Mean Square Error** (Error Cuadrático Medio): $\small MSE(y,\widehat{y})={\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+
+    + penaliza grandes desviaciones
+
+    + $\small R^2$ y $\small R^2$-ajustado son variantes del MSE, y solo sirven para comparar modelos con la *misma variable dependiente*.
+    
+  <!-- $R^2$-ajustado penaliza por número de variables -->
+
+* **Root Mean Square Error**: $\small RMSE(y,\widehat{y})=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+
+    + mismas unidades que $\small y$
+
+* **Mean Absolute Error**: $\small MAE(y,\widehat{y})=\frac{1}{n}\sum_{i=1}^{n}\left|y-\widehat{y}\right|$
+
+<!--     + también mediana -->
+
+ <!--
+* *Correlación* lineal o de rangos entre $\small y$ y $\small \widehat{y}$ 
+ 
+
+      + lineal ($y$ y $\widehat{y}$ pueden no tener las mismas unidades y escala como con RMSE y MAE) 
+      + de rangos ($y$ y $\widehat{y}$ solo tiene que tener el mismo orden relativo, no minimizar distancia entre ellas)
+      
+* *Coeficiente de determinación*
+-->
+
+* Otras medidas basadas en distintas funciones de pérdida, la verosimilitud del modelo ($\small AIC$, $\small BIC$), etc
+
+<!-- AIC, BIC ajustan por el número de parámetros -->
+
+<!-- https://yardstick.tidymodels.org/reference/rmse.html -->
+
+## Muestras de entrenamiento y de prueba
+
+* Las métricas de error (ej., $\small MSE$) suelen calcularse para predicciones de los mismos datos usados para ajustar/estimar el modelo (*in-sample prediction*)  
+
+    + Esta muestra se denomina **muestra de entrenamiento** (*training sample*)
+
+* PERO queremos saber qué tal se predicen *casos nuevos* (*out-sample prediction*)
+
+* Usar las métricas en muestras de entrenamiento implica problemas de **"overfitting"**: sobreajuste a las características de la muestra concreta
+
+    * <!--escenarios en los que--> Un modelo menos flexible podría tener menor error de predicción con casos nuevos
+
+<!--
+    * Los grados de libertad (número de valores en el modelo que son libres de variar) resume la *flexibilidad* de una curva.
+-->
+
+* Debemos calcular las métricas de error con observaciones que el modelo NO ha usado antes: **muestra de prueba** (*test sample*)
+
+<center>
+![](figure/train_test.png)
+</center>
+
+
+## "Overfitting"
+<center>
+![](figure/overfitting01c.png){width=85%}
+</center>
+
+```{r echo=FALSE, eval=FALSE}
+ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point() + 
+  geom_smooth(method = "lm", formula = y ~ poly(x,2), se = FALSE) + 
+  coord_cartesian(ylim = c(10,30))
+```
+
+```{r}
+RailTrail %>% ggplot(aes(x = hightemp, y = volume)) + 
+  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) +
+  coord_cartesian(ylim = c(100,750))
+```
+
+
+## "Overfitting" (cont.)
+
+:::: {style="display: flex;"}
+
+::: {}
+![](figure/overfitting2n.png){width=99%}  
+
+:::
+
+::: {}
+\ \ 
+::: 
+
+::: {}
+![](figure/overfitting3n.png){width=99%} 
+:::
+
+::::
+
+
+<!--
+* Independientemente de los datos y método, a medida que aumenta la flexibilidad 
+-->
+* Siempre que aumenta la flexibilidad, el MSE
+    + disminuye en la muestra de entrenamiento 
+
+    + tiene forma de U en la muestra de prueba
+ 
+* Nota: el MSE en entrenamiento es siempre menor que en prueba
+
+## MSE en la muestra de prueba
+
+$$
+\small
+E\left[\left(y-\widehat{f}(x)\right)^2\right] =
+E\left[\left(f(x)-\widehat{f}(x) + \varepsilon 
++ E\left[\widehat{f}(x)\right]-E\left[\widehat{f}(x)\right] \right)^2\right] =
+$$
+
+$$
+\small
+=\underbrace{\left[E\left(\widehat{f}(x)\right)-f(x)\right]^2}_{(1)} + \underbrace{E\left(\left[\widehat{f}(x)-E\left(\widehat{f}(x)\right)\right]^2\right)}_{(2)}+Var(\varepsilon)
+$$
+
+
+* $\small (1)=\left[Sesgo\left(\widehat{f}(x)\right)\right]^2$: error por supuestos erróneos en $f$
+
+    + ajuste insuficiente (*underfit*) al perder relaciones relevantes entre $X$ e $Y$
+
+* $\small (2)=Var\left(\widehat{f}(x)\right)$: sensibilidad a fluctuaciones en el  entrenamiento
+    + si el algoritmo modela puro ruido en entrenamiento, ajustará bien allí, pero predecirá mal casos nuevos (*overfit*)
+  
+<!--
+Recuerdo de Econometría I:
+1. sesgo por omisión de variables relevantes
+2. aumento de varianza por inclusión de variable irrelevante
+-->
+  
+## "Trade-off" Varianza--Sesgo
+
+* El sesgo se reduce y la varianza aumenta con la complejidad del modelo $\Rightarrow$  encontrar un método (ej., flexibilidad) para el que ambos sean bajos
+
+
+<!--
+A medida que se añaden más y más parámetros a un modelo, la complejidad del modelo aumenta y la varianza se convierte en nuestra principal preocupación, mientras que el sesgo disminuye constantemente. Por ejemplo, a medida que se añaden más términos polinómicos a una regresión lineal, mayor será la complejidad del modelo resultante. 
+-->
+
+<center>
+![](figure/biasvariance-tradeoff.png){width=75%}
+</center>
+
+<!--
+SESGO-VARIANZA VISTO EN ECONOMETRIA I: omitir variable relevante (modelos menos flexible), crea sesgo.
+                                       incluir variable no relevante (mas flexibe), aumenta varianza
+-->
+
+<!--
+## "Trade-off" Varianza--Sesgo (cont.)
+
+* Es fácil construir un modelo con bajo sesgo, pero tendrá alta varianza. Y al revés.
+-->
+
+<!--
+* El desafío es encontrar un método (ej., flexibilidad del modelo) para el cual tanto la varianza como el sesgo cuadrado sean bajos
+-->
+
+
+* NO  es posible minimizar simultáneamente ambas fuentes de error:  *memorización* (en entrenamiento) vs. *generalización* de resultados
+
+
+## Medir el Error en la Clasificación
+
+* Los modelos de clasificación NO predicen directamente la categoría, sino la *probabilidad* de que una observación pertenezca a cada categoría
+
+* Típicamente se asigna la clase predicha como aquella con mayor probabilidad. 
+
+* En el caso binario, equivale a fijar un umbral de 0.5, pero se deberían probar varios valores del umbral
+
+```{r}
+logit <- glm(income ~ capital_gain, data = censo, family = "binomial")
+prob.predict <- predict(logit, type = "response")
+
+umbral <- 0.5
+cat.predict  <- if_else(prob.predict > umbral, 1, 0) 
+cbind(censo$income, cat.predict, prob.predict) %>% head(10)
+```
+
+* Como no tiene sentido diferencia de clases (variables categóricas), NO se pueden calcular medidas como el MSE y otros relacionados
+
+<!--
+* Existen pseudo-$\small R^2$ como la correlación al cuadrado entre 
+
+-->
+## Matriz de Confusión
+
+* Tabular categorías observadas frente a las categorías predichas 
+
+```{r echo=FALSE, eval=TRUE, results='asis'}
+library(kableExtra)
+library(tidyverse)
+tab <- tibble(` ` = c("POSITIVO (1)", " ", "NEGATIVO (0)", " "),
+              `POSITIVO (1)` = c("Verdadero Positivo [VP]", " ", "Falso Negativo [FN]", "(Error Tipo II)"),
+              `NEGATIVO (0)` = c("Falso Positivo [FP]", "(Error Tipo I)", "Verdadero Negativo [VN]", " "))
+
+tab %>% kbl(align = "c", col.names = c(".", "POSITIVO (1)", "NEGATIVO (0)")) %>%  
+  kable_paper("striped", full_width = T) %>%
+  add_header_above(c(" " = 1, "CLASE OBSERVADA" = 2), bold = TRUE, font_size = "x-large") %>% 
+  collapse_rows(columns = 1, valign = "middle")  %>%
+  pack_rows("CLASE PREDICHA", 1, 4)
+```
+
+```{r}
+table(cat.predict, censo$income)
+```
+
+* Existen varias medidas derivadas de la [matriz de confusión](https://en.wikipedia.org/wiki/Confusion_matrix)
+
+<!--
+* Una medida global para datos *imbalanced* es la *exactitud equilibrada*: $\small \frac{TVP+TVN}{2}$
+-->
+
+
+
+## Métricas con la matriz de confusión
+
+* **Tasa de observaciones correctamente clasificadas** (exactitud o *accuracy*) 
+
+$$
+\scriptsize ACCUR=\frac{VP+VN}{VP+FP+VN+FN} 
+$$
+
+<!-- = 1 - TCE$ -->
+
+<!--
+* Su complemento es la *tasa de clasificación errónea*<!-- o de error en la clasificación --><!--: <!-- $\scriptsize  TCE=\frac{FP+FN}{VP+FP+VN+FN}$
+-->
+
+<!--
+<center>
+$\small TCE=\frac{FP+FN}{VP+FP+VN+FN} = \frac{1}{n}\sum_{i=1}^{n}I\left[y_i \neq \widehat{y}_i\right]$
+</center>
+-->
+
+* No es informativo cuando algunas clases son infrecuentes (datos <!--*imbalanced* o--> desequilibrados)
+
+  + si hay poco fraude/enfermos (ej., 5%), predecir que nunca hay fraude implica $\scriptsize ACCUR=95\%$, PERO NO detecta fraude/enfermedad
+
+<!--
+    - si apenas hay fraude/enfermos (ej., 5%), predecir *siempre* que no hay fraude/individuo sano implica una alta ACCUR=95% 
+    
+    - PERO es incapaz detectar fraude/enfermedad
+-->
+
+<!-- fraude o enfermedad -->
+
+
+* El **estadístico Kappa** ($\small \kappa$) es una medida similar, pero que ajusta por lo se esperaría solo por azar (corrigiendo en parte el desequilibrio entre clases).
+
+<!-- https://en.wikipedia.org/wiki/Cohen's_kappa -->
+
+
+## Métricas con la matriz de confusión (cont.)
+
+* La **tasa de verdaderos positivos** o **sensibilidad** (*recall*) es el porcentaje de verdaderos positivos sobre el total de positivos observados 
+$$
+\scriptsize TVP=SENSIT=\frac{VP}{VP+FN}
+$$
+
+    - ej., tasa de fraude/enfermos existentes que se detectan correctamente
+
+
+<!-- probabilidad de detección, potencia  -->
+
+* La **tasa de verdaderos negativos** o **especificidad** es el porcentaje de verdaderos negativos sobre el total de negativos observados
+$$
+\scriptsize TVN=ESPECIF=\frac{VN}{VN+FP}
+$$
+
+    - ej., tasa de "otras" opciones que se clasifican correctamente
+
+    - **Tasa de falsos positivos**: $\scriptsize TFP = 1 - TVN = 1 - ESPECIF$
+
+<!--
+
+Ejemplo: prueba diagnóstica, sensibilidad cuantos enfermos es capaz de detectar
+
+especificifciad, cuantos no enfermos es capaz de detectar corre
+
+-->
+
+
+
+## Métricas con la matriz de confusión (y 3)
+
+* La **exactitud equilibrada** (*Balanced Accuracy*) es una media <!--(aritmética o geométrica)--> de la sensibilidad y de la especificidad
+
+<!-- G-mean = sqrt(sensit * especif ) -->
+
+* La **precisión** o valor de predicción positivo es la cantidad de verdaderos positivos sobre el total de positivos predichos 
+
+$$
+\scriptsize PREC=\frac{VP}{VP+FP}
+$$
+
+<!--
+    + Tasa de falso descubrimiento: $\small 1-PREC$ 
+-->
+
+* La familia de **medidas $\small F_{\beta}$** es una ratio de la importancia ponderada de la sensibilidad y de la precisión: $\scriptsize F_{\beta}=\frac{(1+\beta)^2 \times SENSIT \times PREC}{\beta^2 \times SENSIT + PREC}$
+
+  + Para $\scriptsize \beta<1$<!-- ($\scriptsize >1$)-->, se da menos <!--(más)--> importancia a la sensibilidad: los falsos positivos <!--(negativos)--> se consideran más costosos 
+
+  + Para $\scriptsize \beta>1$, los falsos negativos son más costosos y para $\scriptsize \beta=1$ son igualmente costosos
+
+## Curva ROC ("Receiver Operating Characteristic")
+
+<!--
+https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
+-->
+
+* Representa TVP (eje y) frente a TFP (eje x) en *diferentes umbrales* <!-- de clasificación*-->: reducir el umbral clasifica más elementos como positivos (verdaderos y falsos)
+
+<!--(es una curva de probabilidad)-->
+
+<!--
+* Reducir el umbral clasifica más elementos como positivos, por lo que aumentan tanto los falsos positivos como los verdaderos positivos.
+-->
+
+:::: {style="display: flex;"}
+
+::: {}
+
+<center>
+![](figure/ROC-AUC.svg){width=65%}
+</center>
+
+:::
+
+::: {}
+
+
+<center>
+![](figure/ROC.png){width=75%}
+</center>
+
+
+:::
+
+::::
+
+* La curva ROC informa del grado de separabilidad: dado un nivel de TFP, el clasificador es mejor cuanto mayor sea TVP
+
+<!--
+clasificador aleatorio:  por debajo de 45º el clasificador es pesimo predice más positivos entre los negativos que entre los positivos
+-->
+
+
+<!--
+* Con datos *imbalanced*  puede ser más informativo graficar TFP frente a precisión 
+-->
+
+<!--
+
+![](figure/ROCCurve.svg){width=40%}
+![](figure/AUC.svg){width=40%}
+
+https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-classification-in-python/
+
+https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
+-->
+
+## AUC ("area under the curve")
+
+<!--
+* AUC informa del grado de separabilidad: mayor AUC implica que el modelo es capaz de distinguir entre clases (predecir 0s y 1s correctamente)
+-->
+
+* La AUC es el área bajo la curva ROC: ofrece una medida agregada de rendimiento entre 0 (todas las clasificaciones incorrectas) y 1 (todas correctas) 
+
+<!--
+AUC provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example.
+-->
+
+* Resume la curva ROC y permite comparar curvas que se cruzan
+
+<center>
+![](figure/ROC_intersect.png){width=55%}
+</center>
+
+
+
+## Extensiones. Métricas adicionales
+
+
+* Con más de dos clases, se realiza un análisis AUC-ROC para cada categoría (frente a las demás) <!--: se define una variable binaria para la categoría frente a todas las demás--> y se promedian<!-- la ROC y la AUC--> (ej., ponderando por casos en cada clase) <!--o no-->
+
+<!--
+https://yardstick.tidymodels.org/reference/roc_aunp.html
+
+https://yardstick.tidymodels.org/reference/roc_aunu.html
+
+-->
+
+
+<!--
+* Cuando la variable de respuesta tiene más de dos clases, 
+
+    1. Se realiza un análisis AUC-ROC para cada categoría: se define una variable binaria para la categoría frente a todas las demás
+
+    2. Se obtiene el promedio de tanto de la ROC como de la AUC, bien dando igual peso a cada categoría o bien ponderando el número de casos de cada una
+
+-->
+
+* Con clases desequilibradas, se puede preferir en lugar de la ROC un gráfico de precisión frente sensibilidad (*precision-recall*) y su correspondiente AUC (*PR-AUC*)
+
+<!--
+https://yardstick.tidymodels.org/reference/pr_auc.html
+
+https://yardstick.tidymodels.org/reference/average_precision.html
+-->
+
+* Existen múltiples funciones de pérdida (o coste de clasificación) posibles.
+
+  + Las relacionadas con la *curva de ganancia* consideran el coste de alcanzar un cierto nivel de sensibilidad
+
+  + Otras se basan en la función de verosimilud o la entropía como medidas de pérdida (ej. *mean log loss*)
+
+<!--
++ gain curve: https://yardstick.tidymodels.org/reference/gain_curve.html 
+
+https://yardstick.tidymodels.org/reference/gain_capture.html
+
++ mn_log_loss: https://yardstick.tidymodels.org/reference/mn_log_loss.html
+
+-->
+
+
+## Evaluación de Modelos: entrenamiento y prueba
+
+
+* Para minimizar problemas de *underfit* y, sobre todo, de *overfit*, DEBEMOS **dividir aleatoriamente** el conjunto de datos en dos partes:
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+<center>
+![](figure/train_test_split2.png){width=95%}
+</center>
+
+::: 
+
+::: {}
+
+* **Entrenamiento** (80-90%): datos sobre los que se construye/estima el modelo
+
+* **Prueba**(20-10%): se usa el modelo construido para predecir y se evalúa con datos no vistos antes
+
+::: 
+
+::::
+
+* ¿Por qué renunciar a parte de los datos si sabemos que un tamaño muestral grande es importante? Evaluar correctamente un modelo lo es mucho más
+
+* La estimación del error en prueba puede ser volátil dependiendo de las observaciones incluidas en cada grupo
+
+## Evaluación de Modelos: Validación cruzada
+
+<!--
+* Los resultados de evaluación puede verse afectados por la partición concreta obtenida (ej. incluir observaciones atípicas en la muestra de prueba)
+-->
+
+* Para evitar que los datos sean sensibles a una partición concreta, se usa validación cruzada (*cross-validation* o *rotation estimation*)
+
+* Se repite varias veces y de forma ordenada el proceso de remuestreo para la partición en grupos de entrenamiento y prueba (similar a *bootstrap*)
+
+* Permite utilizar todas las observaciones de la muestra, tanto para estimar como para evaluar el modelo (aunque no a la vez)
+
+<!--
+<center>
+![](figure/k-crossVal_split2.png){width=55%}
+</center>
+-->
+<!--
+* Entre las variantes más habituales se encuentran:
+
+    - Validación cruzada de K iteraciones (*K-fold cross-validation* o K-fold CV)
+    
+    - Validación cruzada aleatoria (*Random cross-validation*, RCV)
+    
+    - Validación cruzada dejando uno fuera (*Leave-one-out cross-validation*, LOOCV)
+    
+    - Validación cruzada dejando p fuera (*Leave-p-out cross-validation*, LpOCV)
+-->
+
+<!--
+https://en.wikipedia.org/wiki/Cross-validation_(statistics)
+-->
+
+## Validación cruzada de K bloques
+
+
+* Se divide, aleatoriamente y *ex-ante*, la muestra en K subconjuntos (normalmente, 5 o 10)
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+<!-- De Joan.domenech91 - Trabajo propio, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17616792 -->
+<center>
+![](figure/K-fold_cross_validation.jpg){heigth=150%}
+</center>
+:::
+
+::: {.column width="40%"}
++ Un subconjunto se usa como prueba y el K-1 restantes como entrenamiento
+
++ Se repite el proceso durante k iteraciones, con cada posible subconjunto de datos de prueba. 
+:::
+
+::::
+
+
++ Se obtiene una métrica de error en cada iteración; se promedian para obtener un único resultado de evaluación
+
+
+* Es el tipo más habitual de validación cruzada
+
+
+
+## Validación cruzada aleatoria (RCV) y LOOCV
+
+:::: {.columns}
+
+::: {.column width="60%"}
+<center>
+![](figure/Random_cross_validation.jpg)
+</center>
+:::
+
+::: {.column width="40%"}
++ **RCV**: en *cada iteración* se realiza la particion aleatoria (con reemplazamiento) entre entrenamiento y prueba
+
++ Las observaciones pueden "repetir" como prueba
+:::
+
+::::
+
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+<center>
+![](figure/Leave-one-out.jpg)
+</center>
+
+:::
+
+::: {.column width="40%"}
++ **LOOCV** (*leave one out CV*): solo una observación se usa como prueba en cada iteración y el resto como entrenamiento
+
++ Se realizan $n$ iteraciones; se calcula una media sobre $n$ resultados
+:::
+
+::::
+
