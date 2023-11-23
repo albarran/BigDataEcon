@@ -102,16 +102,10 @@ data("RailTrail")
 
 El PVPC quiere entender la relación entre el número de ciclistas diarios (es decir, el número de ciclistas y caminantes que usan el carril bici en un día dado) y una colección de variables explicativas, incluyendo la temperatura, lluvia, nubosidad y el día de la semana. Para esto, estimamos el siguiente modelo de regresión:
 
-```{r, echo=FALSE, eval=TRUE}
-modelo1 <- lm(volume ~ hightemp + cloudcover + weekday + precip, 
-             data = RailTrail)
-library(equatiomatic)
-```
+$$
+volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip + \varepsilon
+$$
 
-```{r, echo=FALSE, eval=TRUE, results='asis'}
-extract_eq(modelo1,  intercept = "\\beta_0", greek = "\\beta", 
-            raw_tex = TRUE, ital_vars = TRUE)
-```
 
 
 ```{r, echo=TRUE, eval=TRUE}
@@ -150,13 +144,9 @@ modelo2 %>% tidy() %>% select(term:std.error) %>% full_join(m1, by = "term")
 También podemos mostrar resultados usando el comando `modelsummary()` de la biblioteca del mismo nombre. Además nos permite mostrar los resultados de varios modelos en la misma tabla. Igual que con `kableExtra`,  la celda de código debe tener la opción `results: markup`. 
 
 Consideramos el siguiente modelo:
-
-```{r, echo=FALSE, eval=TRUE, results='asis'}
-modelo2 <- lm(volume ~ hightemp + cloudcover + weekday + precip
-              + spring + summer, data = RailTrail)
-extract_eq(modelo2,  intercept = "\\beta_0", greek = "\\beta", 
-            raw_tex = TRUE, ital_vars = TRUE)
-```
+$$
+volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip + \beta_5 \cdot spring + \beta_6 \cdot summer + \varepsilon
+$$
 
 ```{r}
 #| results: markup
@@ -440,15 +430,17 @@ lm(volume ~  hightemp  + cloudcover + weekday + I(precip>0 & precip<=0.5) + I(pr
 
 Finalmente, vamos a considerar otra variante del Modelo 2 donde los efectos de la temperatura (`hightemp`) y de la nubosidad (`cloudcover`) no son constantes, sino que su efecto es heterogéneo en función de otros factores. En particular, estimaremos el siguiente modelo
 
-```{r echo=FALSE, eval=TRUE, results='markup'}
-modelo5.1 <- lm(volume ~  hightemp*(summer + spring + weekday) + cloudcover*weekday+precip, 
-             data = RailTrail)
-extract_eq(modelo5.1,  intercept = "\\beta_0", greek = "\\beta", 
-            raw_tex = TRUE, wrap = TRUE, ital_vars = TRUE)
-```
+$$
+\begin{aligned}
+volume &= \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot summer + \beta_3 \cdot spring + \beta_4 \cdot weekday \\
+       &+ \beta_5 \cdot cloudcover + \beta_6 \cdot precip + \beta_7 \cdot hightemp \cdot summer + \beta_8 \cdot hightemp \cdot spring \\
+       &+ \beta_9 \cdot hightemp \cdot weekday + \beta_{10} \cdot cloudcover \cdot weekday + \varepsilon
+\end{aligned}
+$$
 
-
-```{r echo=TRUE}
+```{r}
+#| echo: true
+#| eval: true
 modelo5.1 <- lm(volume ~  hightemp*(summer + spring + weekday) + cloudcover*weekday + precip, 
              data = RailTrail)
 ```
