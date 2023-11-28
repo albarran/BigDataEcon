@@ -749,6 +749,83 @@
     "text": "Equivalencia con bases de datos SQL\n\nSQL soporta más tipos de unión y puede trabajar con más de dos tablas."
   },
   {
+    "objectID": "docs/Tema12.html#estratificación-para-asociaciones-no-lineales",
+    "href": "docs/Tema12.html#estratificación-para-asociaciones-no-lineales",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Estratificación para asociaciones no lineales",
+    "text": "Estratificación para asociaciones no lineales\n\n\n\nEjemplo: relación no lineal en los datos de viviendas de Boston\n\n\nBoston &lt;- read_csv(\"https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv\")\n\n\nCuantos más particiones, mejor ajuste.\nPERO ¿dónde dividimos?, ¿cuántas particiones?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEsta cuestión también aplica a las interacciones entre variables para capturar heterogeneidad del efecto de una variable: ¿cuántas interacciones? ¿con cuántos intervalos?"
+  },
+  {
+    "objectID": "docs/Tema12.html#árboles-de-decisión",
+    "href": "docs/Tema12.html#árboles-de-decisión",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Árboles de decisión",
+    "text": "Árboles de decisión\n\nUn árbol de decisión es un diagrama de flujo con reglas para segmentar el espacio de regresores en regiones más simples y clasificar observaciones"
+  },
+  {
+    "objectID": "docs/Tema12.html#árboles-de-regresión",
+    "href": "docs/Tema12.html#árboles-de-regresión",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Árboles de Regresión",
+    "text": "Árboles de Regresión\n\n¿Cómo construimos estos árboles para una variable cuantitativa?\n\nDividir el espacio de predicción, \\(\\small x_1, x_2, \\dots, x_p\\) en regiones \\(\\small J\\) distintas y no superpuestas, \\(\\small R_1, R_2, \\dots, R_J\\)\n\ncada vez más homogéneas o “puras”: como todos los modelos (ej., kNN), mismas características, mismo valor esperado de \\(y\\)\n\nCada observación que caiga en la región \\(\\small R_j\\) tiene el mismo valor predicho: la media de \\(\\small y\\) para las observaciones de entrenamiento en \\(\\small R_j\\), \\(\\small \\widehat{y}_{i\\in R_j}= \\bar{y}_{R_j}\\)\n\nEs INVIABLE considerar todas las particiones en \\(\\small J\\) regiones \nAlternativas heurísticas: un algoritmo “voraz” elige una opción localmente óptima en cada paso con la esperanza de llegar a una solución general óptima\n\n(en lugar de elegir la mejor partición para un paso futuro)"
+  },
+  {
+    "objectID": "docs/Tema12.html#partición-binaria-recursiva",
+    "href": "docs/Tema12.html#partición-binaria-recursiva",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Partición binaria recursiva",
+    "text": "Partición binaria recursiva\n\nEn la parte alta, todas las observaciones pertenecen a una sola región\nSe divide sucesivamente cada región en dos ramas: \\(\\small R_1(j,s) = \\{X|X_j &lt; s\\}\\) y \\(\\small R_2(j,s) = \\{X|X_j \\geq s\\}\\)\n\nEn cada nodo, se consideran todos los regresores \\(\\small X_j\\) y todos los umbrales \\(s\\)\nSe calcula el error de predicción por particionar de esa manera \\(\\small SCR_{j,s} = \\sum_{i\\in R_1(j,s)}(y_i-\\widehat{y}_{R_1})^2 + \\sum_{i\\in R_2(j,s)}(y_i-\\widehat{y}_{R_2})^2\\)\nSOLO una partición en cada iteración: se elige \\(\\small j\\) y \\(\\small s\\) con menor \\(\\small SCR_{j,s}\\) \n\nRepetimos el proceso particionando cada región de la iteración anterior \nSe continua hasta que se cumpla un criterio de parada; p.e., ninguna región contiene más de \\(5\\) observaciones"
+  },
+  {
+    "objectID": "docs/Tema12.html#podar-un-árbol-pruning",
+    "href": "docs/Tema12.html#podar-un-árbol-pruning",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Podar un árbol (pruning)",
+    "text": "Podar un árbol (pruning)\n\nEvitar árboles demasiados complejos (“overfitting”)\nHacer crecer un árbol “grande” con \\(\\small T_0\\) nodos terminales y podarlo para quedarnos con un sub-árbol con \\(\\small T\\) nodos terminales \\[\n\\small\nmin \\sum_{m=1}^T \\sum_{i \\in R_m} (y_i-\\widehat{y}_{R_m})^2 + \\alpha |T|\n\\] donde \\(\\small R_m\\) es la región de \\(\\small m\\)-nodo terminal\n\\(\\small \\alpha\\) es el hiperparámetro de coste de complejidad de la poda, elegido por validación cruzada"
+  },
+  {
+    "objectID": "docs/Tema12.html#árboles-de-clasificación",
+    "href": "docs/Tema12.html#árboles-de-clasificación",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Árboles de clasificación",
+    "text": "Árboles de clasificación\n\nPara un árbol de clasificación, se predice que cada observación pertenece a la clase más común en la región a la que pertenece en entrenamiento\nTambién se pueden obtener la proporción de una clase \\(\\small k\\) dentro de una región particular \\(\\small m\\) de nodos terminales: \\(\\small \\widehat{p}_{mk}\\)\nLa métrica usada para hacer crecer los árboles NO puede ser SCR\n\n\nÍndice de Gini: medida de la varianza entre clases \\(\\small G=\\sum_{k=1}^{K}\\widehat{p}_{mk}(1-\\widehat{p}_{mk})\\)\nEntropía (cruzada) \\(\\small D=\\sum_{k=1}^{K}\\widehat{p}_{mk}log(\\widehat{p}_{mk})\\)\n\n\nAmbos son medidas de “pureza” del nodo: un valor pequeño indica que la región contiene en su mayoría observaciones de una sola clase."
+  },
+  {
+    "objectID": "docs/Tema12.html#algoritmos-para-árboles-e-hiperparámetros",
+    "href": "docs/Tema12.html#algoritmos-para-árboles-e-hiperparámetros",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Algoritmos para árboles e hiperparámetros",
+    "text": "Algoritmos para árboles e hiperparámetros\n\nMotores para árboles: rpart (defecto), spark y C5.0 (solo clasificación)\nDepende de varios hiperparámetros elegidos por tuning\n\nmin_n: mínimo número de observaciones en un nodo parar dividirse más\ntree_depth: máx. número de niveles de profundidad del árbol (no C5.0)\ncost_complexity: coste de complejidad (sólo rpart)\n\n\n\ncenso_modelo_arbol  &lt;- set_engine(\"rpart\") %&gt;% decision_tree(mode = \"classification\", \n                                     cost_complexity = .01)\n\n\nPodemos visualizar un modelo árbol estimado con la biblioteca rpart.plot\n\n\narbol &lt;- censo_flujo_arbol_est %&gt;% extract_fit_parsnip() \nrpart.plot(arbol$fit)"
+  },
+  {
+    "objectID": "docs/Tema12.html#comentarios",
+    "href": "docs/Tema12.html#comentarios",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Comentarios",
+    "text": "Comentarios\n\nPredicción: media o clase mayoritaria de las observaciones de entrenamiento en el nodo que corresponde a una observación nueva\nImportancia de las variables: reducción total de la SCR o Gini debida a las particiones de una variable\n\nvariables usadas en nodos iniciales o más veces son más importantes\n\nVentajas:\n\najusta (no paramétricamente) relaciones no lineales/complejeas\nfáciles de explicar (más que la regresión lineal) y visualizar\nno requieren dummies (ni transformaciones no lineales de variables continuas)\n\n\n\nDesventajas: overfit (no robustos a cambios en los datos) y bajo poder de predicción"
+  },
+  {
+    "objectID": "docs/Tema12.html#bagging",
+    "href": "docs/Tema12.html#bagging",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Bagging",
+    "text": "Bagging\n\nAgregación de Bootstrap (bagging): procedimiento general para reducir la varianza, promediando \\(\\small \\{x_i\\}_{i=1}^n iid \\sim (\\mu, \\sigma^2) \\Rightarrow \\bar{x} \\sim (\\mu, \\sigma^2/n)\\)\nPodemos tomar \\(B\\) re-muestras del único conjunto de entrenamiento\n\n\nEn lugar de un único árbol complejo, se combinan muchos árboles diversos que pueden reflejar patrones sutiles\nLa variación muestral en las condiciones de “entrenamiento” se genera mediante “bootstrap”"
+  },
+  {
+    "objectID": "docs/Tema12.html#random-forest",
+    "href": "docs/Tema12.html#random-forest",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "“Random forest”",
+    "text": "“Random forest”\n\nEs un algoritmo específico de agregación de árboles que introduce aleatorización para eliminar correlación entre los árboles.\n\nSe construyen varios árboles en muestras de entrenamiento de bootstrap\nEn cada partición de un árbol, se seleccionan aleatoriamente \\(\\small m \\approx \\sqrt{k}\\) regresores del total\nSe mitiga la influencia de regresores fuertes, permitiendo una mayor diversidad en los árboles agregados\n\n\n\nMejor predicción a expensas de la interpretación \\(\\Rightarrow\\) medidas de importancia variable: reducción promedio en SCR / Gini para un regresor en los \\(\\small B\\) árboles\n\n\nLa importancia tiene un papel análogo al de los p-valores (sin una inferencia estadística formal), para ayudar a generar hipótesis."
+  },
+  {
+    "objectID": "docs/Tema12.html#algoritmos-para-rf-e-hiperparámetros",
+    "href": "docs/Tema12.html#algoritmos-para-rf-e-hiperparámetros",
+    "title": "Tema 12 - Métodos basados en árboles",
+    "section": "Algoritmos para RF e hiperparámetros",
+    "text": "Algoritmos para RF e hiperparámetros\n\nMotores principales para RF en R: ranger, randomForest y spark\n\n\nDepende de trees, números de árboles, a considerar en la agregación (no genera “overfitting”) y de dos hiperparámetros\n\nmtry: número de variables a considerar en cada partición\nmin_n: igual que en árboles\n\n\n\nRailTrail_modelo_RF  &lt;- rand_forest(mode = \"regression\",          # classification\n                                       mtry = 3, trees = 100) %&gt;% \n                          set_engine(\"ranger\", importance = \"impurity\")\n\nRailTrail_flujo_RF_est_fit &lt;- extract_fit_parsnip(RailTrail_flujo_RF_est)$fit\nRailTrail_flujo_RF_est_fit$variable.importance\n\nlibrary(vip)\nextract_fit_parsnip(RailTrail_flujo_RF_est) %&gt;% vip()"
+  },
+  {
     "objectID": "docs/Tema00ej1.html",
     "href": "docs/Tema00ej1.html",
     "title": "Tema 0. Ejercicio 1",
@@ -1775,7 +1852,7 @@
     "href": "Contenidos.html#semana-12",
     "title": "Contenidos",
     "section": "Semana 12",
-    "text": "Semana 12\n(27-Nov. a 03-Dic.)\n\nTema 11 - kNN"
+    "text": "Semana 12\n(27-Nov. a 03-Dic.)\n\nTema 11 - kNN\nTema 12 - Métodos basados en árboles"
   },
   {
     "objectID": "Evaluacion.html",
