@@ -12,7 +12,7 @@ Para realizar este proyecto final, debéis proponer un *tema* de estudio usando 
 En cualquier caso, el resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis según el conocido flujo
 
 <center>
-![](pic/data-science-model.svg)
+![](docs/figure/data-science-model.svg)
 </center>
 
 Por tanto, debe explicarse claramente:
@@ -33,19 +33,19 @@ Por tanto, debe explicarse claramente:
 
 # Resultado final
 
-Se debe crear un informe<!-- con Quarto-->, con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea **mínimamente presentable** y profesional; estos años en la Universidad os deben haber proporcionado las capacidades y las herramientas para que vuestro trabajo sea un mini-informe que presentaríais si estuvieseis trabajando. Sin perder excesivo tiempo en una forma perfecta de presentación, no produzcáis un documento con tablas y gráficos difíciles de leer o poco informativos, con una estructura inconexa, etc. No se trata de “amontonar” resultados, sino de presentar una historia que los datos nos cuentas.
+Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea **mínimamente presentable** y profesional; estos años en la Universidad os deben haber proporcionado las capacidades y las herramientas para que vuestro trabajo sea un mini-informe que presentaríais si estuvieseis trabajando. Sin perder excesivo tiempo en una forma perfecta de presentación, no produzcáis un documento con tablas y gráficos difíciles de leer o poco informativos, con una estructura inconexa, etc. No se trata de “amontonar” resultados, sino de presentar una historia que los datos nos cuentas.
 
 Durante el curso aprenderemos herramientas para realizar el informe.
 
-<!--
-Como es habitual, deberéis entregar un archivo .Qmd y el resultado de renderizarlo (o bien un archivo .html y su carpeta asociada o bien un archivo .pdf o bien .docx). También se adjuntarán otros archivos que fueran necesarios para **reproducir** totalmente el documento o archivos complementarios que consideréis importantes (archivos de datos, archivos de código R complementario, etc.).
+Como es habitual, deberéis entregar un archivo .qmd y el resultado de renderizarlo (un archivo .html, .pdf o .docx). También se adjuntarán otros archivos que fueran necesarios para **reproducir** totalmente el documento o archivos complementarios que consideréis importantes (tanto la carpeta asociada al .html como archivos de datos, archivos de código R complementario, etc.).
 
-Los nombres de los TODOS archivos DEBEN EMPEZAR con vuestro número de DNI (el resto es libre): ej., 
+Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye vuestro número de DNI: ej.,
 
-* 12345678_miFinal.Qmd
+  * Final_123456789.qmd
+ 
+  * Final_123456789.html
 
-* 12345678_miFinal.html
-
+  * Final_123456789.zip
 
 # Plazos
 
@@ -55,12 +55,11 @@ Los nombres de los TODOS archivos DEBEN EMPEZAR con vuestro número de DNI (el r
 
 * Deben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)
 
-* Aunque no pondré plazo formal, os recomiendo hacer esto cuanto antes y, como fecha orientativa, del **miércoles, 28 de diciembre de 2022**.
+* Aunque no pondré plazo formal, os recomiendo hacer esto cuanto antes y, como fecha orientativa, del **jueves, 28 de diciembre de 2023**.
 
     + Cuanto antes lo hagáis, antes podéis empezar a organizaros y trabajar
 
     + PERO debéis esperar a que os dé mi visto bueno sobre vuestra propuesta para asegurarme de que vuestra propuesta tiene sentido y, por ejemplo, que dos estudiantes diferentes NO hacen el mismo trabajo (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
--->
 
 
 <!--
@@ -70,24 +69,17 @@ QUIZÁS
 * El día asignado oficialmente para el examen de la asignatura haréis una *breve* presentación del estado de vuestro proyecto. Debéis enviar vuestra presentación el día antes en este [formulario](https://docs.google.com/forms/d/e/1FAIpQLSdET7RvNdwAaG4f2nO7_qnhbcymqmUoluybtQ8zQsOEel5X_w/viewform). En esta presentación explicaréis el objetivo del análisis y el estado de vuestro proyecto. En particular, podéis mostrar partes del trabajo ya completadas y presentar esquemáticamente vuestro plan de trabajo previsto. El objetivo de esta presentación NO es evaluar lo que lleváis hecho, sino que os pueda ayudar con comentarios por si tenéis que cambiar, añadir, rectificar, etc. 
 -->
 
-<!--
 * En cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.
-
---> 
 
 <!--En particular, el día reservado para el examen de la asignatura (que no realizamos) sería un momento propicio puesto que ya disponemos de un aula asignada.--> 
 <!--Por favor, avisadme con suficiente antelación.-->
 
 
-<!--
 ## Entrega Final
 
 
-* El trabajo en su formato final deberá entregarse antes del **miércoles, 1 de febrero de 2023** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSdYMg3LtT4SaxIIMhVt2BDOyZfO2oeY578RPcWO8XYWvCiBIQ/viewform)
-  
--->
+* El trabajo en su formato final deberá entregarse antes del **jueves, 1 de febrero de 2024** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSdYMg3LtT4SaxIIMhVt2BDOyZfO2oeY578RPcWO8XYWvCiBIQ/viewform)
 
-<!--
 # Evaluación
 
 En la nota de trabajo se valorará la complejidad de todo el proceso del análisis. No es lo mismo usar unos datos sencillos y ya preparados que  necesitar varias fuentes de datos y combinarlas, usar datos que requieran mucha limpieza o complejos de analizar por el número de observaciones o variables, etc. Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación se tendrá en cuenta; hacer los más básico visto en clase con unos datos similares a los de clase es válido, pero incluso estando perfecto no podéis esperar la máxima nota.
@@ -99,12 +91,9 @@ En la nota de trabajo se valorará la complejidad de todo el proceso del anális
   * Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también. 
   
   * La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la **apertura de un expediente**.
--->
 
-<!--
-No es la primera vez que estos datos u otros que me propongáis vosotros se han utilizado. Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también. Probablemente sabéis que la Universidad para una (carísima) licencia para que podamos usar la mejor aplicación de detección de plagio. Yo utilizo adicionalmente otras aplicaciones y algoritmos propios, por ser específicos para detectar variantes de código o porque implementan formas de detección diferentes a las de la aplicación comercial. Por supuesto podéis “colármela” dado que ningún sistema es perfecto (ya sabéis, Falsos Positivos y Falsos Negativos). Evaluad bien las probabilidades y realizad el análisis coste-beneficio con toda la información disponible. Si lo conseguís, enhorabuena. Sabed que la detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.
+No es la primera vez que estos datos u otros que me propongáis vosotros se han utilizado. Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. **Yo también**. <!--Probablemente sabéis que la Universidad para una (carísima) licencia para que podamos usar la mejor aplicación de detección de plagio. Yo utilizo adicionalmente otras aplicaciones y algoritmos propios, por ser específicos para detectar variantes de código o porque implementan formas de detección diferentes a las de la aplicación comercial. Por supuesto podéis “colármela” dado que ningún sistema es perfecto (ya sabéis, Falsos Positivos y Falsos Negativos). Evaluad bien las probabilidades y realizad el análisis coste-beneficio con toda la información disponible. Si lo conseguís, enhorabuena. Sabed que la detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.-->
 
--->
 
 # Algunas propuestas de temas y fuentes de datos
 
@@ -130,9 +119,7 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 
    (https://www.kaggle.com/devashish0507/big-mart-sales-prediction)
 -->
-<!--
 2. **Black Friday**. "ABC Private Limited" quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí](https://www.dropbox.com/s/37m2nynxxjzmxta/02black.csv?dl=0)
--->
 <!--
    (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
 -->
@@ -182,7 +169,7 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
    (http://archive.ics.uci.edu/ml/machine-learning-databases/census-income-mld/census-income.html)
 -->
 
-7. **Precios de las casas**
+6. **Precios de las casas**
 
     a. Disponemos de información describiendo (casi) todos los aspectos de las casas residenciales en **Ames, Iowa**, para predecir el precio final de cada casa. Datos y descripción [aquí](https://www.dropbox.com/s/zvvfs88xn8dt4no/07houses.zip?dl=0).
 <!--
@@ -198,7 +185,7 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 
     c. Datos se han extraído de los resultados públicos publicados cada semana en <http://domain.com.au> con información sobre precios de las casa en **Melbourne, Australia**. Datos e información [aquí](https://drive.google.com/file/d/1zz8kjIhEGSfKOS6YQOnSOEAoDKivQl0m/view?usp=sharing)
     
-9. **Delitos**. 
+7. **Delitos**. 
 
     a. Datos e información [aquí](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) sobre los crímenes cometidos en **Chicago** desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).
 
@@ -213,7 +200,7 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
    [//]: #(https://geodacenter.github.io/data-and-lab//comarea_vars/)
 -->
 
-10. **Propinas en taxis de NY**. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos [aquí](https://www.dropbox.com/s/zaptbme1txrhdhi/10taxis.zip?dl=0).
+8. **Propinas en taxis de NY**. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos [aquí](https://www.dropbox.com/s/zaptbme1txrhdhi/10taxis.zip?dl=0).
 <!--
    [//]: # (https://padamson.github.io/rwml-R/Chapter6.html)
    [//]: # (este son varios gigas, un subset mas manejable en Kaggle)
@@ -229,35 +216,33 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 -->
 
 
-11. **Airbnb**. En este [enlace](http://tomslee.net/airbnb-data-collection-get-the-data) están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el "web scraping" si queréis...). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos "demasiado" similares) como porque, como con otros datos, se pueden analizar más de una cosa.
+9. **Airbnb**. En este [enlace](http://tomslee.net/airbnb-data-collection-get-the-data) están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el "web scraping" si queréis...). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos "demasiado" similares) como porque, como con otros datos, se pueden analizar más de una cosa.
 <!--
   [//]: # (https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
 -->
 
-12. **Precio de las acciones**. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar [estos datos](http://www.usfundamentals.com/download/) o buscar vuestros propios datos de otras empresas (por ejemplo, españolas).
+10. **Precio de las acciones**. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar [estos datos](http://www.usfundamentals.com/download/) o buscar vuestros propios datos de otras empresas (por ejemplo, españolas).
 <!--
   [//]: # (https://elitedatascience.com/machine-learning-projects-for-beginners)
   [//]: # (http://www.usfundamentals.com/download/)
 -->
 
-13. **Predicción de Respuesta del Cliente** y maximización de beneficios. Datos de una campaña de "mailing" directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción [aquí](https://www.dropbox.com/s/9hfftmdbgrerv6h/13respuesta.zip?dl=0).
+11. **Predicción de Respuesta del Cliente** y maximización de beneficios. Datos de una campaña de "mailing" directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción [aquí](https://www.dropbox.com/s/9hfftmdbgrerv6h/13respuesta.zip?dl=0).
 <!--
   [//]: # (r data mining libro descargado con datos de KDD CUP: https://kdd.ics.uci.edu/databases/kddcup98/kddcup98.html)
 -->
-<!--  
-14. **Stock pairs** es un estrategia de "trading" desarrollada por "Morgan Stanley" en los años 1980 (ver [aquí](https://en.wikipedia.org/wiki/Pairs_trade)). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto.
+
+12. **Stock pairs** es un estrategia de "trading" desarrollada por "Morgan Stanley" en los años 1980 (ver [aquí](https://en.wikipedia.org/wiki/Pairs_trade)). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto.
 <!--
   [//]: # (http://rdatasciencecases.org/Data.html)
   [//]: # (data-science-in-r.pdf descargado)
 -->
 
-15. [Este paquete](https://github.com/datawookie/trundler) de R  acceso a los datos de productos y precios históricos de una serie de minoristas en línea.
+13. [Este paquete](https://github.com/datawookie/trundler) de R  acceso a los datos de productos y precios históricos de una serie de minoristas en línea.
 
-16. [Este conjunto de datos](https://www.kaggle.com/aungpyaeap/supermarket-sales) contiene información sobre las ventas históricas de una compañía de supermercados.
+14. [Este conjunto de datos](https://www.kaggle.com/aungpyaeap/supermarket-sales) contiene información sobre las ventas históricas de una compañía de supermercados.
 
-<!--
-17. Se pueden utilizar encuestas oficiales para **predecir la pobreza** de los hogares. Si os interesa, preguntadme.
--->
+15. Se pueden utilizar encuestas oficiales para **predecir la pobreza** de los hogares. Si os interesa, preguntadme.
 
 <!--
 Se pueden encontrar otras fuentes con información sobre datos en Internet. Por ejemplos, distintas organizaciones y empresas celebran "hackatones" de análisis de datos y aprendizaje automático; por ejemplo, [aquí](https://www.zaratalent.com/data.html).

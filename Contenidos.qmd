@@ -174,16 +174,9 @@ strip-comments: true
 (27-Nov. a 03-Dic.)
 
   * [Tema 11 - kNN](docs/Tema11.qmd)
-<!--
   
   * [Tema 12 - Métodos basados en árboles](docs/Tema12.qmd)
 
-
-  * [Tema 13 - Ejercicio](docs/Tema13_Ejerc.html)
-
-    - Entregar [aquí](https://docs.google.com/forms/d/e/1FAIpQLSeDCAi9CtQvZVOk7DiWeZKevOBDO_4uvWrKTbTR5xEaMrtarg/viewform)
-    - Fecha:  dom. 11-Dic. 23:00h  
--->
 :::
 
 ::::
@@ -191,48 +184,37 @@ strip-comments: true
 
 <!-- ********************************************************************** -->
 
-<!--
 :::: {.columns}
 
 ::: {.column width="33%"}
 
 ## Semana 13
-(05-Dic. a 09-Dic.)
+(04-Dic. a 10-Dic.)
 
-  * [Tema 14 - Otros algoritmos de aprendizaje supervisado](docs/Tema14.html)
+  * [Tema 10 - Ejercicio](docs/Tema10ej.qmd)
 
-  * [Tema 15 - Aprendizaje No Supervisado](docs/Tema15.html)
-  
-  * [Tema 14 - Ejercicio](docs/Tema14_Ejerc.html)
-
-    - Entregar [aquí](https://docs.google.com/forms/d/e/1FAIpQLSd2Li9iaD6Wy1nHKT25kHcF_mDY2rhqPQP1KVzptn7hxjnW-g/viewform)
-    - Fecha:  dom. 18-Dic. 23:00h  
-    
-  * [Tema 15 - Ejercicio](docs/Tema15_Ejerc.html)
-
-    - Entregar [aquí](https://docs.google.com/forms/d/e/1FAIpQLSdECFv5-MbsUxeYphn_7n1_56o5owqnA9V8ppV0Cga5I7QgTg/viewform)
-    - Fecha:  dom. 18-Dic. 23:00h  
+  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 :::
 
 
 ::: {.column width="33%"}
-
+<!--
 ## Semana 14
 (12-Dic. a 16-Dic.)
 
   * [Tema 16 - Usando `rtweet` para Análisis de Redes y de Texto](docs/Tema16.html)
 
   * [Ejemplo de Proyecto](docs/Proyect01.html)
-
+-->
 :::
 
 
 ::: {.column width="33%"}
-
+<!--
 ## Semana 15
 (19-Dic. a 23-Dic.)
-
+-->
 
 :::
 
