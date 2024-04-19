@@ -105,7 +105,7 @@ strip-comments: true
 ## Semana 7
 (23-Oct. a 27-Oct.)
 
-<!-- * [Tema 06 - Introducción a Quarto](docs/Tema06.qmd) -->
+ * [Tema 06 - Introducción a Quarto](docs/Tema06.qmd) 
  
  * [Tema 06 - Ejercicio](docs/Tema06ej.qmd)
     - Fecha:  mie. 8-Nov. 23:59h 
@@ -197,24 +197,19 @@ strip-comments: true
 
 :::
 
-
 ::: {.column width="33%"}
-<!--
 ## Semana 14
-(12-Dic. a 16-Dic.)
+(11-Dic. a 17-Dic.)
 
-  * [Tema 16 - Usando `rtweet` para Análisis de Redes y de Texto](docs/Tema16.html)
+  * [Tema 13 - Otros algoritmos de Aprendizaje Supervisado](docs/Tema13.qmd)
 
-  * [Ejemplo de Proyecto](docs/Proyect01.html)
--->
+  * [Tema 14 - Aprendizaje No Supervisado](docs/Tema14.qmd)
 :::
 
 
 ::: {.column width="33%"}
-<!--
 ## Semana 15
-(19-Dic. a 23-Dic.)
--->
+(18-Dic. a 24-Dic.)
 
 :::
 

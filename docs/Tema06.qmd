@@ -1,7 +1,8 @@
 ---
-# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
-# subtitle: "Muestreo y Análisis de Datos"
 subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
 title    :  "Tema 06 - Introducción a Quarto"
 author:  
     - "Pedro Albarrán"
@@ -12,35 +13,35 @@ institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alican
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
-  # beamer:
-  #   handout: false
-  #   logo: figure/by-nc-sa2.png
-  #   titlegraphic: figure/by-nc-sa.png
-  #   theme:  Boadilla # Copenhagen # CambridgeUS #
-  #   outertheme: miniframes
-  #   colortheme: crane
-  #   section-titles: false
-  #   fontsize: 10pt
-  #   header-includes: |
-  #       \setbeamertemplate{footline}
-  #       {
-  #       \leavevmode%
-  #       \hbox{%
-  #       \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-  #       \usebeamerfont{author in head/foot}\insertshortauthor%
-  #       \end{beamercolorbox}%
-  #       \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-  #       \usebeamerfont{title in head/foot}\insertshorttitle%
-  #       \end{beamercolorbox}%
-  #       \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
-  #       \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
-  #       \end{beamercolorbox}}%
-  #       }
-  #      # - \setbeamertemplate{navigation symbols}{}
-  #      # - \setbeamertemplate{caption}[numbered]
-  #      # - \setbeamertemplate{headline}[page number]
-  #      # - \setbeameroption{show notes}
-  #      # - \setbeameroption{show notes on second screen}
+#   beamer:
+#     handout: false
+#     logo: figure/by-nc-sa2.png
+#     titlegraphic: figure/by-nc-sa.png
+#     theme:  Boadilla # Copenhagen # CambridgeUS #
+#     outertheme: miniframes
+#     colortheme: crane
+#     section-titles: false
+#     fontsize: 10pt
+#     header-includes: |
+#         \setbeamertemplate{footline}
+#         {
+#         \leavevmode%
+#         \hbox{%
+#         \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+#         \usebeamerfont{author in head/foot}\insertshortauthor%
+#         \end{beamercolorbox}%
+#         \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+#         \usebeamerfont{title in head/foot}\insertshorttitle%
+#         \end{beamercolorbox}%
+#         \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+#         \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+#         \end{beamercolorbox}}%
+#         }
+#        # - \setbeamertemplate{navigation symbols}{}
+#        # - \setbeamertemplate{caption}[numbered]
+#        # - \setbeamertemplate{headline}[page number]
+#        # - \setbeameroption{show notes}
+#        # - \setbeameroption{show notes on second screen}
   revealjs:
     logo: figure/by-nc-sa2.png
     titlegraphic: figure/by-nc-sa.png
@@ -62,7 +63,7 @@ format:
     # margin: 0.05
 execute:
   enabled: true      # (no) ejecutar code chunks
-  eval: true        # por defecto, evalúa y muestra códido de code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
   echo: true
   warning: false    # pero no los mensajes ni warnings
   message: false
@@ -116,16 +117,16 @@ library(rmarkdown)
 
 ## El sistema de publicaciones [Quarto](https://quarto.org/) 
 
-:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+:::: {.columns}
 
-::: {}
+::: {.column width="50%"}
 -   Orientado al análisis de datos **reproducible**: combina código, resultados y comentarios
 
 -   Útil como cuaderno de trabajo del código y para **comunicar** resultados en un documento final para tomar decisiones
 
 :::
 
-::: {}
+::: {.column width="50%"}
 <center>
 ![](figure/data-science-communicate.svg)
 
@@ -559,18 +560,19 @@ asis: Show plots exactly in places where they were generated (as if the code wer
 
 * `layout-ncol`: en cuantas columnas se componen los resultados
 
-```{r}
+```{{r}}
 #| layout-ncol: 2
+#| fig-show: hold
 ggplot(data = cars) + geom_histogram(aes(x = speed))  # en la izquierda
 ggplot(data = cars) + geom_histogram(aes(x = dist))   # en la derecha
 ```
 
 ```{r}
 #| echo: false
+#| eval: true
+#| fig-show: hold
 #| layout-ncol: 2
-#| fig-show: hold    # esta y la siguiente línea no funciona en Quarto, usa layout
-#| out-width: 50%
-#| fig-height: 3
+library(ggplot2)
 ggplot(data = cars) + geom_histogram(aes(x = speed))  # en la izquierda
 ggplot(data = cars) + geom_histogram(aes(x = dist))   # en la derecha
 ```

@@ -50,6 +50,10 @@ strip-comments: true
 
   + [census.csv](https://raw.githubusercontent.com/albarran/00datos/main/census.csv)
 
+* Tema 14:
+
+  + [clientes.csv](https://raw.githubusercontent.com/albarran/00datos/main/clientes.csv)
+
 
 <!--
 [aquí](https://github.com/albarran/BigDataEcon2021/raw/main/data.zip)

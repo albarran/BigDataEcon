@@ -1,0 +1,312 @@
+---
+subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 14 - Aprendizaje No Supervisado"
+author: 
+  - "Prof.: Pedro Albarrán"
+  - "Prof.: Alberto Pérez Bernabeu"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  # beamer:
+  #   handout: false
+  #   logo: figure/by-nc-sa2.png
+  #   titlegraphic: figure/by-nc-sa.png
+  #   theme:  Boadilla # Copenhagen # CambridgeUS #
+  #   outertheme: miniframes
+  #   colortheme: crane
+  #   section-titles: false
+  #   fontsize: 10pt
+  #   header-includes: |
+  #       \setbeamertemplate{footline}
+  #       {
+  #       \leavevmode%
+  #       \hbox{%
+  #       \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+  #       \usebeamerfont{author in head/foot}\insertshortauthor%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  #       \usebeamerfont{title in head/foot}\insertshorttitle%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+  #       \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+  #       \end{beamercolorbox}}%
+  #       }
+  #      # - \setbeamertemplate{navigation symbols}{}
+  #      # - \setbeamertemplate{caption}[numbered]
+  #      # - \setbeamertemplate{headline}[page number]
+  #      # - \setbeameroption{show notes}
+  #      # - \setbeameroption{show notes on second screen}
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+
+```{r setup, eval=TRUE, include=FALSE}
+#```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
+# include=F es suficiente para no incluir mensajes, etc.
+
+# Opciones por defecto para los fragmentos de código
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+                      warning = FALSE, message = FALSE,
+                      results = "hide", fig.show="hide")
+# se muestra y evalúa el código,
+# no se muestran mensajes, ni avisos (warnings)
+# no se muestran los resultados de código (tampoco gráficos)
+#     en los códigos que considere necesarios los mostraré
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())       
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+
+#fijo el directorio de trabajo
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+
+## Aprendizaje no supervisado 
+
+* Objetivo: buscar patrones o relaciones en los datos sin una meta clara <!--(p.e. predecir y de X)-->
+
+  - Ej.: compradores con historias de navegación y compra similares
+
+* En ocasiones, parte del análisis exploratorio de datos. 
+
+* Resultados más subjetivos: sin objetivos claros y sin mecanismos para validar los resultados (no hay respuesta correcta para comparar los resultados)
+
+* *Clustering*: técnicas para identificar subgrupos homogéneos de observaciones a partir de sus características observadas.
+
+  - La estructura o patrón a descubrir no se conoce de antemano. 
+
+<!--
+  - Qué es similar o diferente depende del contexto
+-->  
+
+* P.e., la segmentación de mercado pretende identificar subgrupos más receptivos a publicidad o comprar un producto a partir de información de renta, edad, género, etc.
+
+
+<!--
+* Métodos de "clustering"
+
+  1. Métodos de partición (K-means, K-medoids)
+
+  2. Agrupación jerárquica 
+  <!-- (*Hierarchical clustering*, que puede ser "agglomerative" o "divisive") -->
+
+<!--
+  3. Modelos de mixtura gausiana (basados en modelos)
+-->
+
+##  Clustering
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+<center>
+![](figure/kmeans-difk.png){width=90%}
+</center>
+::: 
+
+::: {}
+* Para K dado, se divide el conjunto de datos en K grupos distintos $\small C_1,\dots,C_K$ (no solapados)
+
+* Cada observación pertenece a un grupo
+
+::: 
+::::
+
+* La variación dentro de un cluster (*within-cluster sum of squares* o *wss*) es una medida de cuánto difieren las observaciones de un cluster entre sí
+
+<!--
+$$\small W(C_{k}) = \frac{1}{|C_{k}|}\sum_{i,i^{\prime} \in C_{k}} \sum_{j=1}^{p}(x_{ij} - x_{i^{\prime}j})^{2}$$
+-->
+$$\scriptsize W(C_{k}) = \frac{1}{|n_{k}|}\sum_{i,i^{\prime} \in C_{k}} \sum_{j=1}^{p}(x_{ij} - x_{i^{\prime}j})^{2}$$
+
+* La partición óptima minimiza la suma total de la variación *within* (*total wss*) $\small \mathrm{min}_{C_{1},\ \dots,\ C_{K}} \bigg \{\sum_{k=1}^{K} W(C_{k}) \bigg \}$  $\Rightarrow$ INVIABLE ($\small K^n$ particiones) 
+
+##  Algoritmo de K-Means
+
+* Se puede encontrar un mínimo local
+
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+1. Conjetura inicial: asignar cada observación a un grupo (aleatoriamente)
+
+2. Iterar hasta las asignaciones dejen de cambiar:
+
+    a.- Calcular el centroide $\small m_k$ de cada grupo(vector de medias de las observaciones del grupo $\small k$)
+
+    b.- Asignar cada observación al grupo cuyo centroide es el más cercano (distancia L2).
+
+:::
+
+::: {}
+<center>
+![](figure/kmeans-algor.png){width=85%}
+</center>
+
+:::
+::::
+
+
+
+##  Algoritmo de K-Means: diferentes mínimos
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+<center>
+![](figure/kmeans-3localminima.png)
+</center>
+:::
+
+::: {}
+* Este algoritmo garantiza que la función objetivo disminuye en cada paso
+
+<!--
+  - las observaciones se reubican basadas en la minimización de la suma total de desviaciones al cuadrado
+
+* Cuando la asignación ya no cambia, se ha encontrado un óptimo local
+-->
+
+* El resultado (óptimo local) depende de la asignación aleatoria inicial
+
+* Se DEBE ejecutar el algoritmo con varias asignaciones iniciales y seleccionar la solución con menor valor de la función objetivo
+
+:::
+::::
+
+## Número óptimo de *clusters*
+
+<!--
+* ¿Cómo elegir el número correcto de *clusters*? Lamentablemente, no hay una respuesta definitiva a esta pregunta. 
+-->
+
+* La agrupación óptima es relativamente "subjetiva": depende de cómo se miden las similitudes, qué parámetros se utilizan para la partición, etc.
+
+* Entre los muchos métodos existentes el "método del codo" (*elbow method*) es relativamente sencillo
+
+<!-- el método de $K-means$ minimizando la variación total dentro del clúster. -->
+
+1. Calcular el algoritmo de *clustering* para diferentes valores de $\small k$. 
+
+2. Para cada $\small k$, obtener la suma cuadrática total dentro del grupo (*total wss*)
+
+3. Dibujar un gráfico de la *total wss* en función de $\small k$ 
+<!--(Este gráfico se denomina gráfico del acantilado o del despeñamiento,  *scree plot*.)
+-->
+
+4. Un cambio de curvatura se considera como un indicador de $\small k$ óptimo
+
+
+## Ejemplo de *clustering*
+
+```{r echo=FALSE, eval=FALSE}
+clientes <- read_csv("https://www.dropbox.com/s/c55ju8yrmnbfys6/clientes.csv?dl=1")
+```
+
+```{r}
+clientes <- read_csv("https://raw.githubusercontent.com/albarran/00datos/main/clientes.csv")
+clientes2 <- clientes %>% 
+                mutate(cluster = factor(kmeans(x = ., centers = 2)$cluster) )
+clientes2 %>% 
+  ggplot(aes(y = valor_compra, x = dias_transcurridos)) + 
+  geom_point(aes(color = cluster))
+```
+
+
+<!--
+
+```{r}
+iris.data <- iris[-5]
+```
+
+```{r}
+set.seed(123)
+k.max <- 15 
+iris.data <- iris[-5]
+```
+
+```{r}
+wss <- lapply(1:k.max, function(k){kmeans(iris.data, k)$tot.withinss}) %>% unlist()
+
+plot.data <- tibble(k=1:k.max, wss)
+
+ggplot(data=plot.data, aes(x=k, y=wss)) +
+    geom_point() +
+    geom_line() +
+    xlab("Número de grupos, K") +
+    ylab("Suma Cuadrática Total dentro del grupo") +
+    geom_vline(aes(xintercept=3, color="red"))
+```
+
+En este caso, el método del codo sugiere tres grupos.
+-->
+
+* El método del codo se implementa con la función `fviz_nbclust()`:
+
+```{r}
+library(factoextra)
+fviz_nbclust(clientes, kmeans, method = "wss") +
+    geom_vline(xintercept = 2)
+```
+
+```{r eval=FALSE}
+iris.data <- iris %>% select(-5)
+fviz_nbclust(iris.data, kmeans, method = "wss") +
+    geom_vline(xintercept = 3)
+```
