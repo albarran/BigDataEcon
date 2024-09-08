@@ -9,7 +9,7 @@ strip-comments: true
 
 Para realizar este proyecto final, debéis proponer un *tema* de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.
   
-En cualquier caso, el resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis según el conocido flujo
+El resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (**"business analytics"**). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:
 
 <center>
 ![](docs/figure/data-science-model.svg)
@@ -31,6 +31,8 @@ Por tanto, debe explicarse claramente:
 
 **LA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO**
 
+<!--
+--------------------------------------------------------------------------------
 # Resultado final
 
 Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea **mínimamente presentable** y profesional; estos años en la Universidad os deben haber proporcionado las capacidades y las herramientas para que vuestro trabajo sea un mini-informe que presentaríais si estuvieseis trabajando. Sin perder excesivo tiempo en una forma perfecta de presentación, no produzcáis un documento con tablas y gráficos difíciles de leer o poco informativos, con una estructura inconexa, etc. No se trata de “amontonar” resultados, sino de presentar una historia que los datos nos cuentas.
@@ -61,19 +63,24 @@ Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye 
 
     + PERO debéis esperar a que os dé mi visto bueno sobre vuestra propuesta para asegurarme de que vuestra propuesta tiene sentido y, por ejemplo, que dos estudiantes diferentes NO hacen el mismo trabajo (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
 
+--------------------------------------------------------------------------------
+-->
 
 <!--
 
 QUIZÁS
 
 * El día asignado oficialmente para el examen de la asignatura haréis una *breve* presentación del estado de vuestro proyecto. Debéis enviar vuestra presentación el día antes en este [formulario](https://docs.google.com/forms/d/e/1FAIpQLSdET7RvNdwAaG4f2nO7_qnhbcymqmUoluybtQ8zQsOEel5X_w/viewform). En esta presentación explicaréis el objetivo del análisis y el estado de vuestro proyecto. En particular, podéis mostrar partes del trabajo ya completadas y presentar esquemáticamente vuestro plan de trabajo previsto. El objetivo de esta presentación NO es evaluar lo que lleváis hecho, sino que os pueda ayudar con comentarios por si tenéis que cambiar, añadir, rectificar, etc. 
+
+* En particular, el día reservado para el examen de la asignatura (que no realizamos) sería un momento propicio puesto que ya disponemos de un aula asignada.
+* Por favor, avisadme con suficiente antelación.
+
 -->
 
+
+<!--
+--------------------------------------------------------------------------------
 * En cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.
-
-<!--En particular, el día reservado para el examen de la asignatura (que no realizamos) sería un momento propicio puesto que ya disponemos de un aula asignada.--> 
-<!--Por favor, avisadme con suficiente antelación.-->
-
 
 ## Entrega Final
 
@@ -92,7 +99,12 @@ En la nota de trabajo se valorará la complejidad de todo el proceso del anális
   
   * La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la **apertura de un expediente**.
 
-No es la primera vez que estos datos u otros que me propongáis vosotros se han utilizado. Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. **Yo también**. <!--Probablemente sabéis que la Universidad para una (carísima) licencia para que podamos usar la mejor aplicación de detección de plagio. Yo utilizo adicionalmente otras aplicaciones y algoritmos propios, por ser específicos para detectar variantes de código o porque implementan formas de detección diferentes a las de la aplicación comercial. Por supuesto podéis “colármela” dado que ningún sistema es perfecto (ya sabéis, Falsos Positivos y Falsos Negativos). Evaluad bien las probabilidades y realizad el análisis coste-beneficio con toda la información disponible. Si lo conseguís, enhorabuena. Sabed que la detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.-->
+No es la primera vez que estos datos u otros que me propongáis vosotros se han utilizado. Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. **Yo también**. 
+
+--------------------------------------------------------------------------------
+-->
+
+<!--Probablemente sabéis que la Universidad para una (carísima) licencia para que podamos usar la mejor aplicación de detección de plagio. Yo utilizo adicionalmente otras aplicaciones y algoritmos propios, por ser específicos para detectar variantes de código o porque implementan formas de detección diferentes a las de la aplicación comercial. Por supuesto podéis “colármela” dado que ningún sistema es perfecto (ya sabéis, Falsos Positivos y Falsos Negativos). Evaluad bien las probabilidades y realizad el análisis coste-beneficio con toda la información disponible. Si lo conseguís, enhorabuena. Sabed que la detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.-->
 
 
 # Algunas propuestas de temas y fuentes de datos

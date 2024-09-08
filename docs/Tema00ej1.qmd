@@ -1,7 +1,7 @@
 ---
 # subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
 # subtitle: "Muestreo y Análisis de Datos"
-subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
 title    :  "Tema 0. Ejercicio 1"
 author:  
     - "Pedro Albarrán"

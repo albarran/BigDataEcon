@@ -7,7 +7,9 @@ strip-comments: true
 
 
 <!-- **********************************************************************  -->
+:::: {.columns}
 
+::: {.column width="33%"}
 ## Semana 1  
 (09-Sept. a 15-Sept.)
 
@@ -16,8 +18,10 @@ strip-comments: true
   * [Tema 0 - Ejercicio 1](docs/Tema00ej1.qmd)
   * [Tema 0 - Ejercicio 2](docs/Tema00ej2.qmd) 
   
+:::
 
-<!--
+
+::: {.column width="33%"}
 
 ## Semana 2
 (18-Sept. a 22-Sept.)
@@ -30,6 +34,10 @@ strip-comments: true
   * [Tema 01 - Ejercicio 1](docs/Tema01ej1.qmd)
 
 
+:::
+
+
+::: {.column width="33%"}
 
 ## Semana 3
 (25-Sept. a 29-Sept.)
@@ -38,18 +46,37 @@ strip-comments: true
   * [Tema 02 - Manipulación de datos relacionales](docs/Tema02.qmd)
 
   
+:::
+
+
+::::
+
+<!-- **********************************************************************  -->
+
+:::: {.columns}
+
+::: {.column width="33%"}
 
 ## Semana 4
 (2-Oct. a 6-Oct.)
 
   * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
   
+:::
+
+
+::: {.column width="33%"}
+
 
 ## Semana 5
 (09-Oct. a 13-Oct.)
 
   * [Tema 03 - Datos Ordenados](docs/Tema03.qmd)
 
+:::
+
+
+::: {.column width="33%"}
 
 ## Semana 6
 (16-Oct. a 20-Oct.)
@@ -63,6 +90,18 @@ strip-comments: true
   * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
 
   
+:::
+
+::::
+
+
+<!-- ********************************************************************** -->
+
+
+:::: {.columns}
+
+::: {.column width="33%"}
+
 ## Semana 7
 (23-Oct. a 27-Oct.)
 
@@ -71,11 +110,20 @@ strip-comments: true
  * [Tema 06 - Ejercicio](docs/Tema06ej.qmd)
     - Fecha:  mie. 8-Nov. 23:59h 
  
+:::
+
+::: {.column width="33%"}
+
 
 ## Semana 8
 (30-Oct. a 3-Nov.)
 
  * [Tema 07 - Fundamentos Estadísticos](docs/Tema07.qmd)
+
+:::
+
+
+::: {.column width="33%"}
 
 
 ## Semana 9
@@ -89,12 +137,27 @@ strip-comments: true
     - Fecha:  mie. 29-Nov. 23:59h 
 
 
+:::
+
+::::
+
+
+<!-- ********************************************************************** -->
+
+:::: {.columns}
+
+::: {.column width="33%"}
+
 ## Semana 10
 (13-Nov. a 17-Nov.)
  
   * [Tema 08 - Aprendizaje Estadístico](docs/Tema08.qmd)
 
 
+:::
+
+
+::: {.column width="33%"}
 
 ## Semana 11
 (20-Nov. a 26-Nov.)
@@ -103,7 +166,10 @@ strip-comments: true
 
   * [Tema 10 - Modelización con `tidymodels`](docs/Tema10.qmd)
 
+:::
 
+
+::: {.column width="33%"}
 ## Semana 12
 (27-Nov. a 03-Dic.)
 
@@ -111,6 +177,16 @@ strip-comments: true
   
   * [Tema 12 - Métodos basados en árboles](docs/Tema12.qmd)
 
+:::
+
+::::
+
+
+<!-- ********************************************************************** -->
+
+:::: {.columns}
+
+::: {.column width="33%"}
 
 ## Semana 13
 (04-Dic. a 10-Dic.)
@@ -119,18 +195,25 @@ strip-comments: true
 
   * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
+:::
 
+::: {.column width="33%"}
 ## Semana 14
 (11-Dic. a 17-Dic.)
 
   * [Tema 13 - Otros algoritmos de Aprendizaje Supervisado](docs/Tema13.qmd)
 
   * [Tema 14 - Aprendizaje No Supervisado](docs/Tema14.qmd)
+:::
 
+
+::: {.column width="33%"}
 ## Semana 15
 (18-Dic. a 24-Dic.)
 
+:::
 
+::::
 
 <!--
 

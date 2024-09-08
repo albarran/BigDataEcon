@@ -25,6 +25,8 @@ strip-comments: true
   + [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)
   + [earn.RData](https://raw.githubusercontent.com/albarran/00datos/main/earn.RData)
 
+<!--
+
 * Tema 1:
 
   + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
@@ -56,8 +58,6 @@ strip-comments: true
 
 
 <!--
-[aquí](https://github.com/albarran/BigDataEcon2021/raw/main/data.zip)
-
 -->
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Técnicas para 'Big Data' en Economía"
-subtitle: "Universidad de Alicante, Curso 2023-2024 (Primer cuatrimestre)"
+subtitle: "Universidad de Alicante, Curso 2024-2025 (Primer cuatrimestre)"
 lang: es
 strip-comments: true
 ---
@@ -18,11 +18,11 @@ strip-comments: true
 
 * Tutorias:
 
-    + Lunes de 11h a 13h 
+    + Lunes de 11h a 12:45h 
   
-    + Lunes de 15:30h  a 17h
+    + Miércoles de 11h a 12:45h 
 
-    + Viernes de 11 a 13h
+    + Viernes de 11 a 12:45h
 
 
     (solicitada previamente con al menos 24 horas de antelación, por UACloud o email)
@@ -50,9 +50,9 @@ strip-comments: true
 
 # Objetivos
 
-- Aprender a **extraer información** de los datos, especialmente datos masivos ("big data")
+- Aprender **extraer información** de los datos, especialmente datos masivos ("big data")
 
-- Enfoque práctico: aprenderemos técnicas y cómo aplicarlas para posteriormente usar la información en crear valor
+- Enfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (**analítica de negocios**)
 
 - Tres Componentes: 
 
@@ -75,7 +75,7 @@ strip-comments: true
 * **NOTA**: es MUY RECOMENDABLE haber cursado y aprobado *todas* las asignaturas de Estadística y de Econometría de cursos anteriores del grado para poder seguir el curso con solvencia.
 -->
 
-* <!-- Para el seguimiento habitual de las clases y para la realización de ejercicios, prácticas, etc. es --> Es **muy recomendable** que cada estudiante trabaje en clase con su propio ordenador de forma habitual
+* Es **muy recomendable** que cada estudiante trabaje en clase con su propio ordenador de forma habitual
 
 	-   Nota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si  sus baterías tienen poca duración).
 
@@ -93,8 +93,8 @@ strip-comments: true
 
 *  Podéis descargar R desde [https://cran.r-project.org/](https://cran.r-project.org/) siguiendo las instrucciones para vuestro sistema operativo.
 
-	-   para Windows, entrad en "Download R for Windows", luego en "base" y allí encontraréis la versión actual "Download R-4.3.1 for Windows".
-	-   para MacOS, entrad en "Download R for (Mac) OS X", y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS "R-4.3.1-x86_64.pkg" o "R-4.3.1-arm64.pkg", según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.
+	-   para Windows, entrad en "Download R for Windows", luego en "base" y allí encontraréis la versión actual "Download R-4.4.1 for Windows".
+	-   para MacOS, entrad en "Download R for (Mac) OS X", y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS "R-4.4.1-x86_64.pkg" o "R-4.4.1-arm64.pkg", según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.
 	-   para Linux, seguid las instrucciones (típicamente a través de vuestro sistema de instalación).
 
 *  Podéis descargar RStudio desde [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
@@ -106,7 +106,7 @@ strip-comments: true
 
 -   NOTA: existe la posibilidad de usar R y RStudio de forma online, sin instalar nada en el ordenador (o incluso usando una tablet). Se puede encontrar en [https://posit.cloud/](https://posit.cloud/) . Sin embargo, no la recomendamos para su uso habitual; en particular, algunas cosas son ligeramente diferentes, es más lenta, depende de conexión a internet y, aunque es gratuita, requiere registrarse.
 
--   Más adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional
+-   Más adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional: PowerBI, Tableau, Python, etc.
 
    <!-- +   Instrucciones en anuncio UACloud  -->
     
