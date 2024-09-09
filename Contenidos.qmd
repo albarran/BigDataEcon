@@ -17,10 +17,11 @@ strip-comments: true
   * [Tema 0 - Ejercicio 2](docs/Tema00ej2.qmd) 
   
 
-<!--
 
 ## Semana 2
-(18-Sept. a 22-Sept.)
+(16-Sept. a 22-Sept.)
+
+<!--
 
 
   * Fecha límite de entrega de los ejercicios del Tema 0: **vie., 22-sept., 23:59h**
