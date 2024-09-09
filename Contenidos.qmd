@@ -22,8 +22,6 @@ strip-comments: true
 (16-Sept. a 22-Sept.)
 
 <!--
-
-
   * Fecha límite de entrega de los ejercicios del Tema 0: **vie., 22-sept., 23:59h**
 
 
