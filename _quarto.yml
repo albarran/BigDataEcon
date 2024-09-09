@@ -3,13 +3,13 @@ project:
   resources: data
 
 website:
-  title:  "'Big Data' para Economía (UA)"
+  title: "'Big Data' para Economía (UA)"
   # "Técnicas para 'Big Data' en Economía"
   navbar:
     left:
-#      - href: index.qmd
-#        text: Home
-#      - about.qmd
+      #      - href: index.qmd
+      #        text: Home
+      #      - about.qmd
       - text: "Índice"
         href: index.html
       - text: "Datos"
@@ -29,15 +29,15 @@ website:
 #         - text: "Create a _site.yml"
 #           href: create_yml.html
 #     - text: "Add Features"
-#       menu: 
+#       menu:
 #         - text: "Tables and Plots"
 #           href: tables_plots.html
 #         - text: "Include Images"
 #           href: images.html
 #         - text: "Embed a webpage"
 #           href: embed.html
-#     - text: "Publish and Update"      
-#       menu: 
+#     - text: "Publish and Update"
+#       menu:
 #         - text: "Publishing"
 #           href: publishing.html
 #         - text: "Updating"
@@ -45,7 +45,6 @@ website:
 
 format:
   html:
-    theme: zephyr # materia # readable # cerulean # pulse # spacelab # litera # 
+    theme: zephyr # materia # readable # cerulean # pulse # spacelab # litera #
     css: styles.css
     toc: true
-

@@ -37,7 +37,7 @@ format:
     transition: slide # concave # 
     background-transition: fade
     progress: true
-execute:
+execute:  
   enabled: false      # (no) ejecutar code chunks
   eval: false        # por defecto, evalúa y muestra códido de code chunks
   echo: true
