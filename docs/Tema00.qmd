@@ -1,7 +1,8 @@
 ---
-# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
-# subtitle: "Muestreo y Análisis de Datos"
-# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+#subtitle: "Técnicas para 'Big Data' en Economía - Curso 2024/25 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2024/25 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+subtitle: "Econometría II - Curso 2024/25 \n\n Universidad de Alicante"
 title    :  "Tema 0: Introducción a R y RStudio (Posit)"
 author:  
     - "Pedro Albarrán"
@@ -12,22 +13,40 @@ institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alican
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
-#   beamer:
-#     logo: figure/by-nc-sa2.png
-#     titlegraphic: figure/by-nc-sa.png
-#     theme: Boadilla # Copenhagen # CambridgeUS #
-#     outertheme: miniframes
-#     colortheme: crane
-#     section-titles: false
-#     fontsize: 10pt
-# #    header-includes:
-# #      - \setbeameroption{show notes}
-# #      # - \setbeameroption{show notes on second screen}
+  beamer:
+    handout: false
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  Boadilla # Copenhagen # CambridgeUS #
+    outertheme: miniframes
+    colortheme: crane
+    section-titles: false
+    fontsize: 10pt
+    header-includes: |
+        \setbeamertemplate{footline}
+        {
+        \leavevmode%
+        \hbox{%
+        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{author in head/foot}\insertshortauthor%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshorttitle%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+        \end{beamercolorbox}}%
+        }
+       # - \setbeamertemplate{navigation symbols}{}
+       # - \setbeamertemplate{caption}[numbered]
+       # - \setbeamertemplate{headline}[page number]
+       # - \setbeameroption{show notes}
+       # - \setbeameroption{show notes on second screen}
   revealjs:
     logo: figure/by-nc-sa2.png
     titlegraphic: figure/by-nc-sa.png
     theme:  
-        - serif # simple # default # moon # beige # sky #
+        - beige # sky # serif # simple # default # moon #  
         - custom.scss
     smaller: true
     scrollable: true
@@ -37,9 +56,14 @@ format:
     transition: slide # concave # 
     background-transition: fade
     progress: true
-execute:  
-  enabled: false      # (no) ejecutar code chunks
-  eval: false        # por defecto, evalúa y muestra códido de code chunks
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: true        # por defecto, evalúa y muestra códido de code chunks
   echo: true
   warning: false    # pero no los mensajes ni warnings
   message: false
@@ -49,7 +73,10 @@ knitr:
     fig.show: hide
 lang: es
 strip-comments: true
-toc: false
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
 css: styles.css
 ---
 
@@ -222,7 +249,11 @@ abs(-5)
 
 -   Conviene **organizar los archivos** relacionados con un mismo tema en una estructura de (sub)directorios <!--y subdirectorios--> a partir de un **directorio de trabajo** principal <!--, que se puede fijar "manualmente"  con `setwd()` -->
 
+<!--
 -  Esto puede hacerse manualmente, pero RStudio permite definir **proyectos** para gestionarlo fácilmente a través del menú *File* o desplegando el icono en la parte superior derecha ![](figure/Project.png){width="15%" .center} 
+-->
+
+-  RStudio permite definir **proyectos** para gestionarlo fácilmente a través del menú *File* o desplegando el icono en la parte superior derecha ![](figure/Project.png){width="15%" .center}
 
 <!--
 * Organizar los directorio y archivos es habitual: ej., directorios diferentes para asignaturas, subdirectorios por temas, etc.
@@ -286,18 +317,26 @@ getwd()
 
 :::
 
--  Desde el menú *File > New Proyect* o desde el icono, <!-- ![](figure/newProject.png){width="20%" .center} --> creamos un nuevo proyecto que estará asociado a un directorio de trabajo. 
+-  Desde el menú *File > New Proyect* o desde el icono, creamos un nuevo proyecto:
 
-    + El nombre del proyecto será el nombre del directorio
+    + Podemos usar un *Nuevo Directorio* o elegir una ubicación ya existente
+  
+    + El **nombre del proyecto será el nombre del directorio**
     
     + También se crea un archivo con el mismo nombre y extensión ".Rproj"
 
+- Al abrir RStudio, tenemos activo el último proyecto abierto: ej., ![](figure/openProject.png){width="10%" .center}
 
-* Tenemos la opción de usar un Nuevo Directorio para el nuevo proyecto, seleccionando una ubicación y un nombre para el proyecto=directorio en esa ubicación
+- Tanto desde el menú como desde el icono de gestión de proyectos, podemos 
 
-* O bien elegimos un directorio ya existente para nuestro proyecto
+    + cerrar el proyecto actual, *File > Close Projects*, 
+    
+    + abrir otros proyectos guardados: *File > Open Project* o *File > Recent Projects*
+    
 
-  <!--  ![](figure/newProjectDir.png){width="20%" .center} -->
+ <!-- ![](figure/newProject.png){width="20%" .center} -->
+ 
+  <!--  ![](figure/existingDir.png){width="20%" .center} -->
 
 
 <!--
@@ -331,6 +370,7 @@ getwd()
 
 ## Proyectos (cont.) 
 
+<!--
 - Cuando cerramos y volvemos a abrir RStudio, tendremos activo el último proyecto abierto: ej., ![](figure/openProject.png){width="10%" .center}
 
 - Tanto desde el menú como desde el icono de gestión de proyectos, podemos 
@@ -338,14 +378,15 @@ getwd()
     + cerrar el proyecto actual, *File > Close Projects*, 
     
     + abrir otros proyectos guardados: *File > Open Project* o *File > Recent Projects*
-    
-* Para trabajar en R con un archivo del proyecto, accedemos usando la **ruta relativa** al directorio de trabajo: 
+-->
+
+* Para trabajar <!--en  R--> con un archivo, usamos la **ruta relativa** al directorio de trabajo: 
 
     + si están en el raíz del directorio: `codigo.R`, `misdatos.Rdata`
     
     + si están en un subdirectorio, indicamos la ruta separando directorios por `/`: `datos/ventas.Rdata`, `datos/ano2020/ingresos.Rdata`
 
-* La **pestaña** ![](figure/Files.jpg){width="8%"} en el cuadrante inferior-derecho ofrece una forma visual de <!-- realizar operaciones de archivos: --> abrir, crear, copiar, mover o eliminar archivos o directorios, etc.
+* La **pestaña** ![](figure/Files.jpg){width="7%"} en el cuadrante inferior-derecho ofrece una forma visual de <!-- realizar operaciones de archivos: --> abrir, crear, copiar, mover o eliminar archivos o directorios, etc.
 
 <!--
     - Navegar por directorios: p.e., *Files \> More*: *Go to Working Directory*
@@ -364,6 +405,11 @@ getwd()
 
 * <!--Nota: aunque no suele dar problemas, --> Evitad caracteres "raros" (acentos, espacios, etc.) en directorios y ficheros
 
+* NOTA. El Explorador de Archivos de Windows y Finder de MacOS, no muestran defecto las extensiones de los archivos.
+
+  + Puede ser confuso para distinguir entre dos archivos con el mismo nombre y diferente extensión: `proyecto.R` y `proyecto.Rproj`
+  
+  + Consultad cómo mostrarlas: p.e., para  [Windows](https://support.microsoft.com/es-es/windows/extensiones-de-nombre-de-archivo-comunes-en-windows-da4a4430-8e76-89c5-59f7-1cdbbc75cb01) y [MacOS](https://support.apple.com/es-es/guide/script-editor/scpedt1025/mac)
 
 ## Funciones en R 
 
@@ -476,7 +522,8 @@ help(min)
 
 ```{r}
 x <- 2*3    # asignación, no muestra resultado
-x           # ejecutamos mostrar la variable   # print(x)
+x           # ejecutamos mostrar la variable   
+print(x)
 (x <- 2)    # asignación e impresión a la vez
 ```
 
@@ -513,26 +560,30 @@ y           # NO cambia con el nuevo valor de x
 
 -   El espacio de trabajo es el conjunto de objetos activos en memoria, resultado de todos los comandos ejecutados previamente
 
--   En RStudio, la pestaña ![](figure/Environment.jpg){width="15%"} muestra los objetos
-    y su valor
+-   En RStudio, la pestaña ![](figure/Environment.jpg){width="15%"} muestra los objetos y su valor
 
--   Para mostrar y eliminar objetos del espacio de trabajo:
+-   Las funciones `ls()` y `rm()` muestran y eliminan respectivamente objetos del espacio de trabajo
+
+::: {.notes}
 
 ```{r}
 #| eval: false
+#| echo: false
 ls()        # mostrar objetos
 rm(y)       # eliminar el objeto "y"
 rm(a,b,c)   # eliminar varios objetos (separados por comas)
 ```
 
+:::
 
 -   Borramos *todos* los objetos con ![](figure/escoba.jpg){width="5%"} en el `Environment` <!--de RStudio--> o el comando
 
 ```{r}
-rm( list=ls() )
+rm( list=ls() )  # eliminar todos los objetos
+rm(y, x)         # eliminar solo algunos objetos
 ```
 
--  Guardamos el contenido del entorno de trabajo con ![](figure/guardar.png){width="5%" .center} <!--en el `Environment`--> (o al cerrar RStudio), pero es innecesario si tenemos la secuencia de comandos
+-  Guardamos el contenido del entorno de trabajo con ![](figure/guardar.png){width="5%" .center} <!--en el `Environment`--> (o al cerrar RStudio), pero es **innecesario**: ejecutando los comandos guardados en  un archivo `.R` recuperamos los objetos
 
 ::: {.notes}
 
@@ -703,10 +754,10 @@ $\Longrightarrow$ **Objetos con formas** (dimensiones)
 
     1. vectores
     2. factores
-    3. listas
-    4. conjuntos de datos ("data frames")
+    3. conjuntos de datos ("data frames")
+    4. listas
     
-* Además, estos objetos pueden contener varios tipos de datos o variables:
+* Estos objetos pueden contener varios tipos de datos o variables:
 
 
     + entero
@@ -721,13 +772,13 @@ $\Longrightarrow$ **Objetos con formas** (dimensiones)
 
 ## Vectores
 
--   Un vector es una secuencia de <!--objetos--> datos elementales, creados con el operador "`c()`" (combinar)
+-   Un vector es una secuencia de datos elementales, creados con el operador "`c()`" (combinar)
 
 ```{r}
-xvect <- c(2.5,-4.1,6.4,8.2)           # vector numérico
-wvect <- c(3,0,-1,2)                   # vector de enteros
-yvect <- c("hola", 'adios')            # vector de caracteres 
-zvect <- c(FALSE, TRUE, T, F)          # vector lógico
+x <- c(2.5,-4.1,6.4,8.2)           # vector numérico
+y <- c(3,0,-1,2)                   # vector de enteros
+w <- c("hola", 'adios')            # vector de caracteres 
+z <- c(FALSE, TRUE, T, F)          # vector lógico
 ```
 
 ::: {.notes}
@@ -741,13 +792,23 @@ zvect <- c(FALSE, TRUE, T, F)          # vector lógico
 
 -   Podemos crear vectores a partir de otros vectores o usando comandos 
 
+```{r}
+z <- c(x, y)
+x <- rep(1, times=4)
+y <- seq(from = 10, to = 1, by = -1)
+z <- 1:10       # equivale a z <- seq(1,10,1)
+```
+
+<!--
 :::: {.columns}
 
 ::: {.column width="32%"}
 
 ```{r}
-yvect <- c(1,3,5,7,9)
-z <- c(xvect, yvect)
+#| echo: false
+#| eval: false
+y <- c(1,3,5,7,9)
+z <- c(x, y)
 ```
 ::: 
 
@@ -768,38 +829,21 @@ y <- seq(from = 10, to = 1, by = -1)
 -   Para incrementos unitarios consecutivos se usa `:`
 
 ```{r}
+#| echo: false
+#| eval: false
 z <- 1:10       # equivale a z <- seq(1,10,1)
 ```
 
-
-## Clase de un vector
-
--   La clase de un objeto es *única* (solo un tipo de <!--objetos--> elementales) y puede conocerse <!--con `class()` o--> en el `Environment` <!-- de RStudio--> o con `str()`
-
-```{r}
-str(yvect)
-```
+-->
 
 
-::: {.notes}
-
-* con `class()`
-* También se puede conocer la clase/modo con `is()` o `mode()`
-
-```{r}
-#| echo: false
-#| eval: false
-is(xvect)
-class(yvect)
-mode(zvect)
-```
-
-*  `str()` sirve para cualquier tipo de objeto: p.e., funciones: `str(log)`
-
-:::
+* Un vector sólo puede contener objetos de un **unico tipo** elemental, que podemos conocer en el `Environment` o con `str()`
 
 
-- Si se mezclan <!--objetos elementales de clases distintas-->tipos distintos, R busca una clase que "acomode" a todos
+## Vectores (cont.)
+
+
+- Si se mezclan tipos distintos, R busca una clase que "acomode" a todos
 
 ```{r}
 vcr <- c("lunes", 2) 
@@ -848,6 +892,33 @@ c <- 'a' + 1
 ```
 
 
+<!-- ## Clase de un vector -->
+
+::: {.notes}
+
+-   La clase de un objeto es *única* (solo un tipo de <!--objetos--> elementales) y puede conocerse <!--con `class()` o--> en el `Environment` <!-- de RStudio--> o con `str()`
+
+```{r}
+#| eval: false
+str(y)
+```
+
+
+* con `class()`
+* También se puede conocer la clase/modo con `is()` o `mode()`
+
+```{r}
+#| echo: false
+#| eval: false
+is(x)
+class(y)
+mode(z)
+```
+
+*  `str()` sirve para cualquier tipo de objeto: p.e., funciones: `str(log)`
+
+:::
+
 
 <!--
 ## Clase de un vector (cont.)
@@ -875,10 +946,13 @@ log(5, base="mibase")
 
 -->
 
-## Atributos de un objecto Vector
 
--   Los vectores pueden tener nombres: una "etiqueta" (única) para cada elemento del vector
+<!-- ## Atributos de un objecto Vector -->
 
+-   Los vectores pueden tener *nombres* (una "etiqueta" única para cada elemento): un vector de caracteres de la misma longitud
+que se asigna con `names()`
+
+::: {.notes}
 -   Los nombres de un vector son un vector de caracteres de la misma
     longitud
 
@@ -898,6 +972,7 @@ names(altura2) <- nombres2
 altura2
 ```
 
+:::
 
 ::: {.notes}
 
@@ -914,19 +989,19 @@ altura2
 #| eval: false
 numeric(n)      # crea un vector con n ceros
 
-length(xvect)   # longitud: número de elementos
-sort(xvect)     # ordenar
+length(x)   # longitud: número de elementos
+sort(x)     # ordenar
  
-max(xvect)      # máximo
-min(xvect)      # mínimos
-sum(xvect)      # suma de los elementos
-prod(xvect)     # producto de los elementos
+max(x)      # máximo
+min(x)      # mínimos
+sum(x)      # suma de los elementos
+prod(x)     # producto de los elementos
 
-mean(xvect)     # media de los ementos
-var(xvect)      # varianza
-table(xvect)    # tabla de frecuencias
+mean(x)     # media de los ementos
+var(x)      # varianza
+table(x)    # tabla de frecuencias
 
-summary(xvect)  # estadísticos descriptivos
+summary(x)  # estadísticos descriptivos
 ```
 -->
 
@@ -935,14 +1010,14 @@ summary(xvect)  # estadísticos descriptivos
 
 * También podemos usar la función "paste" para crear un nuevo carácter a partir de otros
 ```{r}
-w <- "Universidad"; x <- "de"; y <- "Alicante"
-z <- paste(w,x,y)
+a <- "Universidad"; b <- "de"; c <- "Alicante"
+d <- paste(a,b,c)
 ```
 
 * Podemos especificar que un carácter aparezca entre las cadenas con la opción `sep`; la opción por defecto en `paste` es espacio en blanco " "
 ```{r}
-z <- paste(w,x,y,sep=".")
-z <- paste(w,x,y,sep=",")
+d <- paste(a,b,c,sep=".")
+d <- paste(a,b,c,sep=",")
 ```
 
 * La función `paste0` equivale a `paste` sin carácter de separación (`sep=""`)
@@ -952,6 +1027,7 @@ z <- paste(w,x,y,sep=",")
 ## Aritmética de vectores
 
 -   La mayoría de los operadores se aplican *elemento-a-elemento*
+
 
 :::: {.columns}
 
@@ -981,71 +1057,71 @@ a*b
 
 :::: {.columns}
 
-::: {.column width="40%"}
+::: {.column width="45%"}
 
 ```{r}
 b <- 6:9
 a + b
-# a veces es lo que queremos!  
-a + 1
+a + 1  # lo que queremos!
 ```
-
-<!-- a veces es el comportamiento deseado -->
 
 ```{r}
 #| echo: false
 a * 2
 ```
-
 :::
 
 ::: {.column width="5%"}
 
 :::
 
-::: {.column width="40%"}
+::: {.column width="45%"}
 
+<!--
 - Si las dimensiones no son múltiplos exactos...
 ```{r}
 b <- 1:12  
 a+b   # Warning!     
 ```
+-->
 
 :::
 
 ::::
 
+
 * Algunas **funciones** relevantes
+
+<p>
 
 :::: {.columns}
 
-::: {.column width="40%"}
-```{r}
-length(xvect)   # longitud
-sort(xvect)     # ordenar
-max(xvect)      # máximo
-min(xvect)      # mínimos
-sum(xvect)      # suma 
-prod(xvect)     # producto 
-```
+::: {.column width="45%"}
 
-::: 
+```{r}
+length(x)   # longitud
+sort(x)     # ordenar
+max(x)      # máximo
+min(x)      # mínimos
+sum(x)      # suma 
+prod(x)     # producto 
+```
+:::
 
 ::: {.column width="5%"}
 
-::: 
+:::
 
-::: {.column width="40%"}
+::: {.column width="45%"}
 
 ```{r}
-mean(xvect)     # media 
-var(xvect)      # varianza
-table(xvect)    # frecuencias
+mean(x)     # media 
+var(x)      # varianza
+table(x)    # frecuencias
 
-summary(xvect)  # estadísticos 
+summary(x)  # estadísticos 
 ```
-
-::: 
+:::
 
 ::::
 
@@ -1057,9 +1133,7 @@ summary(xvect)  # estadísticos
 
 ## Vectores lógicos
 
--   Obtenemos objeto lógico  enunciando una relación<!--(con operadores lógicos básicos)--> que puede ser cierta <!--(`TRUE`)--> o falsa <!--(`FALSE`)-->
-
--   Estos enunciados incluyen comparaciones básicas de igualdad o desigualdad
+-   Obtenemos  un objeto lógico  enunciando una relación<!--(con operadores lógicos básicos)--> que puede ser cierta <!--(`TRUE`)--> o falsa <!--(`FALSE`)-->, como comparaciones básicas de igualdad o desigualdad
 
 :::: {.columns}
 
@@ -1099,12 +1173,11 @@ a + 1 <= 10  # FALSE
 
 :::: 
 
-* O combinar varios enunciados con operadores Y (`&`), O (`|`) y NO (`!`):
-
+* Combinamos varios enunciados con operadores Y (`&`), O (`|`) y NO (`!`)
 
 <!--
 *  Combinamos valores lógicos con operadores booleanos 
--->
+
 
 ```{r}
 #| echo: false
@@ -1112,6 +1185,7 @@ TRUE & TRUE  # Operador AND: A & B = T si ambas T
 TRUE | FALSE # Operador OR:  A | B = T si al menos una T
 !TRUE        # Operador NOT: !A = T si A=F y !A=F si A=T
 ```
+-->
 
 -   Para conjuntos, `x %in% Y` es cierto cuando `x` es un elemento de  `Y`
 
@@ -1134,8 +1208,9 @@ TRUE | FALSE # Operador OR:  A | B = T si al menos una T
 
 :::
 
-* En vectores las operaciones son elemento a elemento
+<!-- * En vectores las operaciones son elemento a elemento -->
 
+<!--
 :::: {.columns}
 
 ::: {.column width="40%"}
@@ -1160,6 +1235,19 @@ condicion <- !(altura <= 170)
 :::
 
 ::::
+
+-->
+
+```{r}
+altura <- c(176, 165, 189, 155, 168)
+
+altura >= c(175, 165, 195, 165, 168)  # elemento a elemento
+altura == 155                         # elemento a elemento
+altura > 160 & altura <= 180
+altura < 160 | altura >= 180
+c(165,179) %in% altura
+condicion <- !(altura <= 170)
+```
 
 
 ::: {.notes}
@@ -1317,7 +1405,21 @@ altura[-c(2,4)]
 
 :::
 
-2. **Nombres** de los elementos, usando un vector de caracteres
+2. **Condición** que satisfacen los elementos, usando un vector lógico
+```{r}
+#| echo: false
+altura[altura >= 165]
+
+pos <- (altura > 180 | altura < 160)
+altura[pos]
+```
+
+```{r}
+altura[altura > 180 | altura < 160]
+```
+
+
+3. (Si lo tienen) **Nombres** de los elementos, usando un vector de caracteres
 
 ```{r}
 #| echo: false
@@ -1329,21 +1431,9 @@ altura[pos]
 ```
 
 ```{r}
+#| echo: false
 altura[ "Juan" ]
 altura[ c("Jose", "Elena") ]
-```
-
-3. **Condición** que satisfacen los elementos, usando un vector lógico
-```{r}
-#| echo: false
-altura[altura >= 165]
-
-pos <- (altura > 180 | altura < 160)
-altura[pos]
-```
-
-```{r}
-altura[altura > 180 | altura < 160]
 ```
 
 
@@ -1363,7 +1453,10 @@ altura[pos]
 
 ::: 
 
-## Acceso a los elementos de un vector (cont.)
+
+::: {.notes}
+
+<!-- ## Acceso a los elementos de un vector (cont.) -->
 
 -   Los vectores de selección pueden ser un objeto previamente asignado en los tres casos; p.e.,
 
@@ -1397,6 +1490,8 @@ altura[c("María", "Luis")] <- c(169, 175)
 altura[length(altura)+1] <- 200     # altura <- c(altura,200)
 ```
 -->
+
+:::
 
 <!--
 
@@ -1472,18 +1567,33 @@ seq(from == 1, to = 5, by = 1)   # ¿por qué?
 
 ## Factores
 
--   Los factores son un tipo de objeto de R específico para trabajar con información **cualitativa**
+<!-- -   Los factores son un tipo de objeto de R específico para trabajar con **información cualitativa** -->
 
--   Los datos originales pueden estar codificados de forma poco clara para el análisis (género como número o abreviatura)
+- La **información cualitativa** se suele codificar como texto o números, pero NO tiene sentido numérico (ni de "texto"): *representan* clases o **categorías**
+  
+<!-- -   Los datos originales pueden estar codificados de forma poco clara para el análisis (género como número o abreviatura) -->
 
--   Se usa `factor()` para crear un vector de tipo factor,  con argumentos para los niveles y sus etiquetas
+- Para destacar la naturaleza distinta de estos datos, existe un tipo de objeto específico en R: los **factores**
+
+- Además de otras ventajas que veremos, permiten separar la representación original de las categorías (niveles) de cómo queremos mostrarlas (etiquetas) 
+
+<!-- -   Se usa `factor()` para crear un vector de tipo factor,  con argumentos para los niveles y sus etiquetas -->
 
 ```{r}
-genero   <- c(1, 2, 2, 1, 1)
-genero_f <- factor(genero, 
-                    labels = c("Mujer", "Hombre"), 
-                    levels = c(1,2))
+genero   <- c(2, 1, 2, 2, 2)
+genero_f <- factor(genero, levels = c(1, 2), 
+                           labels = c("Mujer", "Hombre"))
 ```
+
+* Se asocia nivel 1 con "Mujer", 2 con "Hombre", etc.
+
+- Las operaciones con factores se realiza con las etiquetas, no con los niveles
+
+```{r}
+genero_f == 1
+genero_f == "Mujer"
+```
+
 
 ::: {.notes}
 
@@ -1493,14 +1603,45 @@ genero_f <- factor(genero,
 
 :::
 
--   También podemos crear un factor con orden 
 
+## Factores (cont.)
+
+- También podemos usar `as.factor()` para convertir un vector <!--existente--> en un factor
+
+- PERO es conveniente especificar los niveles y las categorías porque si no, R los asigna alfabéticamente
+
+```{r}
+g <- factor(genero)  # as.factor(genero) hace lo mismo
+g
+```
+
+* En este caso la etiqueta del primer nivel encontrado en los datos (el número 2) es "1" y la del siguiente nivel (el número 1) es "2"
+
+
+-   También podemos tener factores con orden con la opción `order = TRUE` y enumerando los niveles  en orden
+
+
+```{r}
+satisf   <- c("A", "B", "A", "B", "M")
+satisf_f <- factor(satisf, order = TRUE, 
+                    levels = c("B", "M", "A"),
+                    labels = c("Bajo", "Medio", "Alto"))
+```
+
+::: {.notes}
+
+* Si etiquetas y niveles coinciden, no es necesario especificarlos
 
 ```{r}
 satisf   <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
 satisf_f <- factor(satisf, order = TRUE,
                         levels = c("Bajo", "Medio", "Alto"))
 ```
+
+
+:::
+
+
 
 
 <!--
@@ -1617,395 +1758,307 @@ summary(factor_satisfaccion)
 ```
 
 
-
-## Matrices
-
--   Las matrices son una extensión de vectores a dos dimensiones. 
-
-<!--
-- Se pueden crear con `matrix(), a partir de un vector con todos los valores,  rellenando por columnas (argumento `byrow = FALSE`) y conocemos su dimensión con `dim()`-->
-
-```{r}
-#| echo: false
-matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), nrow = 2)
-dim(matrx)
-```
-
--  Se pueden crear con `matrix()` o <!--También se crear -->uniendo vectores filas o vectores columnas (de las mismas dimensiones) con `cbind()` y `rbind()`
-
-:::: {.columns}
-
-::: {.column width="40%"}
-
-
-```{r}
-r1 <- 1:4
-r2 <- c(4, 8, 5, 10)
-M1 <- rbind(r1, r2)
-```
-
-::: 
-
-::: {.column width="5%"}
-
-:::
-
-::: {.column width="45%"}
-
-```{r}
-c1 <- 11:12
-c2 <- 25:26
-c3 <- c(14, 25)
-M2 <- cbind(c1, c2, c3)
-```
-
-:::
-
-::::
-
-* Podemos usarlos para añadir nuevas filas, columnas u otra matriz
-
-```{r}
-#| echo: false
-#| eval: false
-M1 <- cbind(matrx, c(90,95))          
-M2 <- rbind(matrx, c(40, -20, 25))    
-
-A <- cbind(c(40,30), c(70, 75))
-cbind(M1, A)
-
-B <- cbind(c(40, 2), c(-20, 1), c(25, 1))
-rbind(matrx, B)
-```
-
-::: {.notes}
-+ Si no tienen dimensiones compatibles, R repetirá (como ya vimos en aritmética de vectores)
-
-`M1 <- cbind(matrx, c(90,95))`
-
-`M2 <- rbind(matrx, c(40, -20, 25))`
-
-
-`A <- cbind(c(40,30), c(70, 75))`
-
-`cbind(M1, A)`
-
-
-`B <- cbind(c(40, 2), c(-20, 1), c(25, 1))`
-
-`rbind(matrx, B)`
-
-:::
-
--   Podemos dar nombres a columnas y filas 
-
-```{r}
-colnames(M2) <- c("ene", "feb", "mar")
-rownames(M2) <- c("gast", "ingr")
-```
-
-
-## Matrices (cont.)
-
-<!-- -   Podemos dar nombres a columnas y filas -->
-
-```{r}
-#| echo: false
-colnames(M2) <- c("ene", "feb", "mar")
-rownames(M2) <- c("gast", "ingr")
-```
-
-::: {.notes}
--   Notad que NO podemos usar la función `names()` vista anteriormente
-    porque solo aplica a vectores
-
--  También se puede especificar los nombres al crear con matrix con argumento `dimnames`
-
-`meses <- c("ene", "feb", "mar")`
-
-`matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), `
-
-`           nrow = 2,dimnames=list(c("gast", "ingr"), meses))`
-:::
-
--   Usamos los paréntesis cuadrados para acceder a los elementos (o una sub-matriz) por posición, nombre o condición lógica
-
-
-```{r}
-#| echo: false
-M2[4]   # posición total
-M2[[4]] 
-```
-
-
-
-```{r}
-#| echo: false
-M2[1,3]                 
-M2["ingr", "ene"]      
-M2[c(1:2),c(1,3)]
-```
-
-
-:::: {.columns}
-
-::: {.column width="40%"}
-
-
-```{r}
-M2[1,3]                 
-M2["ingr", "ene"]      
-M2[c(1:2),c(1,3)]
-```
-
-::: 
-
-::: {.column width="5%"}
-
-:::
-
-::: {.column width="45%"}
-
-```{r}
-M2[2,]      # fila entera
-M2[,"feb"]  # columna entera
-
-```
-
-:::
-
-::::
-
-
 ::: {.notes}
 
-+ Notad que en matrices tiene más sentido el doble paréntesis cuadrado `[[ ]]` (debería preferirse para acceder a un elemento por su posición sobre el total)
+[]: # 
+[]: # ## Matrices
+[]: # 
+[]: # -   Las matrices son una extensión de vectores a dos dimensiones. 
+[]: # 
+[]: # <!--
+[]: # - Se pueden crear con `matrix(), a partir de un vector con todos los valores,  rellenando por []: # columnas (argumento `byrow = FALSE`) y conocemos su dimensión con `dim()`-->
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), nrow = 2)
+[]: # dim(matrx)
+[]: # ```
+[]: # 
+[]: # -  Se pueden crear con `matrix()` o <!--También se crear -->uniendo vectores filas o vectores []: # columnas (de las mismas dimensiones) con `cbind()` y `rbind()`
+[]: # 
+[]: # :::: {.columns}
+[]: # 
+[]: # ::: {.column width="40%"}
+[]: # 
+[]: # 
+[]: # ```{r}
+[]: # r1 <- 1:4
+[]: # r2 <- c(4, 8, 5, 10)
+[]: # M1 <- rbind(r1, r2)
+[]: # ```
+[]: # 
+[]: # ::: 
+[]: # 
+[]: # ::: {.column width="5%"}
+[]: # 
+[]: # :::
+[]: # 
+[]: # ::: {.column width="45%"}
+[]: # 
+[]: # ```{r}
+[]: # c1 <- 11:12
+[]: # c2 <- 25:26
+[]: # c3 <- c(14, 25)
+[]: # M2 <- cbind(c1, c2, c3)
+[]: # ```
+[]: # 
+[]: # :::
+[]: # 
+[]: # ::::
+[]: # 
+[]: # * Podemos usarlos para añadir nuevas filas, columnas u otra matriz
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # #| eval: false
+[]: # M1 <- cbind(matrx, c(90,95))          
+[]: # M2 <- rbind(matrx, c(40, -20, 25))    
+[]: # 
+[]: # A <- cbind(c(40,30), c(70, 75))
+[]: # cbind(M1, A)
+[]: # 
+[]: # B <- cbind(c(40, 2), c(-20, 1), c(25, 1))
+[]: # rbind(matrx, B)
+[]: # ```
+[]: # 
+[]: # ::: {.notes}
+[]: # + Si no tienen dimensiones compatibles, R repetirá (como ya vimos en aritmética de vectores)
+[]: # 
+[]: # `M1 <- cbind(matrx, c(90,95))`
+[]: # 
+[]: # `M2 <- rbind(matrx, c(40, -20, 25))`
+[]: # 
+[]: # 
+[]: # `A <- cbind(c(40,30), c(70, 75))`
+[]: # 
+[]: # `cbind(M1, A)`
+[]: # 
+[]: # 
+[]: # `B <- cbind(c(40, 2), c(-20, 1), c(25, 1))`
+[]: # 
+[]: # `rbind(matrx, B)`
+[]: # 
+[]: # :::
+[]: # 
+[]: # -   Podemos dar nombres a columnas y filas 
+[]: # 
+[]: # ```{r}
+[]: # colnames(M2) <- c("ene", "feb", "mar")
+[]: # rownames(M2) <- c("gast", "ingr")
+[]: # ```
+[]: # 
+[]: # 
+[]: # ## Matrices (cont.)
+[]: # 
+[]: # <!-- -   Podemos dar nombres a columnas y filas -->
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # colnames(M2) <- c("ene", "feb", "mar")
+[]: # rownames(M2) <- c("gast", "ingr")
+[]: # ```
+[]: # 
+[]: # ::: {.notes}
+[]: # -   Notad que NO podemos usar la función `names()` vista anteriormente
+[]: #     porque solo aplica a vectores
+[]: # 
+[]: # -  También se puede especificar los nombres al crear con matrix con argumento `dimnames`
+[]: # 
+[]: # `meses <- c("ene", "feb", "mar")`
+[]: # 
+[]: # `matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), `
+[]: # 
+[]: # `           nrow = 2,dimnames=list(c("gast", "ingr"), meses))`
+[]: # :::
+[]: # 
+[]: # -   Usamos los paréntesis cuadrados para acceder a los elementos (o una sub-matriz) por posición, []: # nombre o condición lógica
+[]: # 
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # M2[4]   # posición total
+[]: # M2[[4]] 
+[]: # ```
+[]: # 
+[]: # 
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # M2[1,3]                 
+[]: # M2["ingr", "ene"]      
+[]: # M2[c(1:2),c(1,3)]
+[]: # ```
+[]: # 
+[]: # 
+[]: # :::: {.columns}
+[]: # 
+[]: # ::: {.column width="40%"}
+[]: # 
+[]: # 
+[]: # ```{r}
+[]: # M2[1,3]                 
+[]: # M2["ingr", "ene"]      
+[]: # M2[c(1:2),c(1,3)]
+[]: # ```
+[]: # 
+[]: # ::: 
+[]: # 
+[]: # ::: {.column width="5%"}
+[]: # 
+[]: # :::
+[]: # 
+[]: # ::: {.column width="45%"}
+[]: # 
+[]: # ```{r}
+[]: # M2[2,]      # fila entera
+[]: # M2[,"feb"]  # columna entera
+[]: # 
+[]: # ```
+[]: # 
+[]: # :::
+[]: # 
+[]: # ::::
+[]: # 
+[]: # 
+[]: # ::: {.notes}
+[]: # 
+[]: # + Notad que en matrices tiene más sentido el doble paréntesis cuadrado `[[ ]]` (debería preferirse []: # para acceder a un elemento por su posición sobre el total)
+[]: # 
+[]: # :::
+[]: # 
+[]: # <!--
+[]: # -   También se pueden extraer filas o columnas enteras
+[]: # -->
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # M2[2,]      # por posición
+[]: # M2[,"feb"]  # por nombre
+[]: # ```
+[]: # 
+[]: # <!--
+[]: # ## Aritmética de Matrices 
+[]: # -->
+[]: # 
+[]: # -   Las operaciones habituales son elemento a elemento: la matrices deben tener las mismas []: # dimensiones (o R repetirá elementos)
+[]: # 
+[]: # 
+[]: # 
+[]: # :::: {.columns}
+[]: # 
+[]: # ::: {.column width="40%"}
+[]: # 
+[]: # 
+[]: # ```{r}
+[]: # matrx + M2
+[]: # matrx * M2
+[]: # ```
+[]: # 
+[]: # ::: 
+[]: # 
+[]: # ::: {.column width="5%"}
+[]: # 
+[]: # :::
+[]: # 
+[]: # ::: {.column width="45%"}
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # matrx - 3
+[]: # matrx * 10 
+[]: # matrx / 2
+[]: # ```
+[]: # 
+[]: # 
+[]: # ```{r}
+[]: # matrx - 3
+[]: # matrx * 10 
+[]: # ```
+[]: # 
+[]: # :::
+[]: # 
+[]: # ::::
+[]: # 
+[]: # 
+[]: # ::: {.notes}
+[]: # 
+[]: # * Como en el caso de vectores, si las dimensiones no son iguales, se repiten elementos
+[]: # 
+[]: # * En las operaciones con escalares , realmente se han "expandido" los escalares a una matriz de []: # dimensiones equivalentes (una matriz con todos los elementos iguales al escalar)
+[]: # 
+[]: # 
+[]: # :::
+[]: # 
+[]: # -   Se pueden hacer todo tipo [operaciones matriciales con
+[]: #     R](http://www.statmethods.net/advstats/matrix.html) como multiplicación matricial, `%*%`, []: # transponer, `t(M1)`, invertir, `solve(A)`, etc.
+[]: # 
+[]: # -   También existen funciones para matrices: `diag()`, `rowSums()`, `colMeans()`, etc.
+[]: # 
+[]: # <!--
+[]: # ## Funciones para Matrices
+[]: # 
+[]: # * Para crear la matriz identidad de dimensiones $n\times n$
+[]: # ```{r}
+[]: # #| eval: false
+[]: # #| echo: false
+[]: # diag(n)     
+[]: # ```
+[]: # 
+[]: # * Para crear un matriz con los elementos del vector `vec` en la diagonal
+[]: # ```{r}
+[]: # #| eval: false
+[]: # #| echo: false
+[]: # diag(vec)   
+[]: # ```
+[]: # 
+[]: # -   Se pueden calcular sumas o medias de las filas o columnas de una
+[]: #     matriz
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # rowSums(M2)
+[]: # colMeans(M2)
+[]: # ```
+[]: # 
+[]: # ::: {.notes}
+[]: # 
+[]: # * Notar que `mean(matrx)` calcula la media de *todos* los elementos de la matriz (como si fuera un []: # vector)
+[]: # 
+[]: # 
+[]: # -   También, se puede operar con un subconjunto de la matriz (que puede
+[]: #     ser otra matriz o un vector)
+[]: # 
+[]: # ```{r}
+[]: # #| echo: false
+[]: # #| eval: false
+[]: # colSums(M2[1:2,2:3])
+[]: # mean(M2[3,2:3])
+[]: # ```
+[]: # 
+[]: # :::
+[]: # -->
+[]: # 
+[]: # <!--
+[]: # ## "Arrays"
+[]: # 
+[]: # * Un "Array" es un vector de "n" dimensiones. Se crea con la función `array`
+[]: # ```{r}
+[]: # x <- array(c(1:8), dim =c(2,2,2) )
+[]: # x
+[]: # ```
+[]: # 
+[]: # * Se puede acceder a los elementos con paréntesis cuadrados
+[]: # ```{r}
+[]: # x[2,1,2]
+[]: # x[,,1]
+[]: # ```
+[]: # 
+[]: # * Los nombres de todas las dimensiones de un "array" (includas matrices) se manejan con la función []: # `dimnames`, además de al crearlos.
+[]: # 
+[]: #     + Es un tipo de objetos nuevos conocidos como listas.
+[]: # -->
 
 :::
-
-<!--
--   También se pueden extraer filas o columnas enteras
--->
-
-```{r}
-#| echo: false
-M2[2,]      # por posición
-M2[,"feb"]  # por nombre
-```
-
-<!--
-## Aritmética de Matrices 
--->
-
--   Las operaciones habituales son elemento a elemento: la matrices deben tener las mismas dimensiones (o R repetirá elementos)
-
-
-
-:::: {.columns}
-
-::: {.column width="40%"}
-
-
-```{r}
-matrx + M2
-matrx * M2
-```
-
-::: 
-
-::: {.column width="5%"}
-
-:::
-
-::: {.column width="45%"}
-
-```{r}
-#| echo: false
-matrx - 3
-matrx * 10 
-matrx / 2
-```
-
-
-```{r}
-matrx - 3
-matrx * 10 
-```
-
-:::
-
-::::
-
-
-::: {.notes}
-
-* Como en el caso de vectores, si las dimensiones no son iguales, se repiten elementos
-
-* En las operaciones con escalares , realmente se han "expandido" los escalares a una matriz de dimensiones equivalentes (una matriz con todos los elementos iguales al escalar)
-
-
-:::
-
--   Se pueden hacer todo tipo [operaciones matriciales con
-    R](http://www.statmethods.net/advstats/matrix.html) como multiplicación matricial, `%*%`, transponer, `t(M1)`, invertir, `solve(A)`, etc.
-
--   También existen funciones para matrices: `diag()`, `rowSums()`, `colMeans()`, etc.
-
-<!--
-## Funciones para Matrices
-
-* Para crear la matriz identidad de dimensiones $n\times n$
-```{r}
-#| eval: false
-#| echo: false
-diag(n)     
-```
-
-* Para crear un matriz con los elementos del vector `vec` en la diagonal
-```{r}
-#| eval: false
-#| echo: false
-diag(vec)   
-```
-
--   Se pueden calcular sumas o medias de las filas o columnas de una
-    matriz
-
-```{r}
-#| echo: false
-rowSums(M2)
-colMeans(M2)
-```
-
-::: {.notes}
-
-* Notar que `mean(matrx)` calcula la media de *todos* los elementos de la matriz (como si fuera un vector)
-
-
--   También, se puede operar con un subconjunto de la matriz (que puede
-    ser otra matriz o un vector)
-
-```{r}
-#| echo: false
-#| eval: false
-colSums(M2[1:2,2:3])
-mean(M2[3,2:3])
-```
-
-:::
--->
-
-<!--
-## "Arrays"
-
-* Un "Array" es un vector de "n" dimensiones. Se crea con la función `array`
-```{r}
-x <- array(c(1:8), dim =c(2,2,2) )
-x
-```
-
-* Se puede acceder a los elementos con paréntesis cuadrados
-```{r}
-x[2,1,2]
-x[,,1]
-```
-
-* Los nombres de todas las dimensiones de un "array" (includas matrices) se manejan con la función `dimnames`, además de al crearlos.
-
-    + Es un tipo de objetos nuevos conocidos como listas.
--->
-
-## Listas
-
--   Una lista es una colección genérica de objetos: *similares* a los vectores, pero conteniendo objetos de distintos tipos 
-
-```{r}
-x <- 1:30
-miLista <- list("hola", x, list(1:4, "X"))
-miLista
-```
-
--   La función `str` también se puede usar para listas
-
-```{r}
-str(miLista)
-```
-
-::: {.notes}
--   Veremos que muchos objetos de R son listas
-
--   También vemos las propiedades del objeto en el `Environment`
-:::
-
--   Podemos añadir nombres a los elementos de una lista o dáreselos al generarla:
-
-```{r}
-names(miLista) <- c("saludo", "vec", "lista")
-miLista <- list(saludo="hola", vec=x, lista=list(1:4, "X"))
-```
-
-## Listas (cont.)
-
--   Con `[]` extraemos elementos por posición o por nombre, como listas
-
-```{r}
-#| eval: false
-class(miLista["vec"])
-miLista[2] + 2     # operación incompatible entre clases
-```
-
--   Con `[[ ]]` (por posición o por nombre) o con `$`(solo por nombre) extraemos los elementos en su clase original
-
-:::: {.columns}
-
-::: {.column width="40%"}
-
-```{r}
-class(miLista$"vec")
-```
-
-:::
-
-::: {.column width="10%"}
-
-
-:::
-
-::: {.column width="40%"}
-```{r}
-class(miLista[[2]])
-miLista[["vec"]] + 2
-```
-:::
-
-::::
-
-
-:::{.notes}
-
-* Nota: el uso de `[ ]` y `[[ ]]` también se aplica a "data frames"
-
-* Es importante entender el tipo de objeto de obtenemos con una forma de acceso u otra, por las operaciones que podemos realizar y por las transformaciones que se permiten
-
--   P.e., podemos acceder a elementos individuales de la (sub-)lista con `[[ ]]`, pero no con `[ ]`:
-
-```{r}
-#| echo: false
-#| eval: false
-miLista[[2]][2]
-
-miLista[2][2]   # lista de longitud 1
-```
-
-`miLista[[2]][2]`
-
-`miLista[2][2]   # lista de longitud 1`
-
-
-:::
-
--    `unlist()` convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales) <!-- típicamente, caracteres -->
-
 
 
 ## "Data Frames"
@@ -2015,18 +2068,34 @@ miLista[2][2]   # lista de longitud 1
     filas.
 
 
--   Se pueden crear con `data.frame()` a partir de vectores existentes, dando nombres a las variables, o de matrices
+<!-- -   Se pueden crear con `data.frame()` a partir de vectores existentes, dando nombres a las variables, o de matrices -->
 
-    + A diferencia de las matrices, las columnas pueden ser de tipo diferentes    
+<!--     + A diferencia de las matrices, las columnas pueden ser de tipo diferentes     -->
+
+- Es una colección de vectores columna, cada uno con un **nombre** y tipos de datos potencialmente diferentes
 
 ```{r}
+#| echo: false
+#| eval: false
 altura <- c(177, 178, 168, 164, 186, 162, 160)
 peso   <- c(75, 85, 70, 60, 80, 65, 54)
-genero <- factor(c(1,2,2,2,1,1,2), 
+genero_f <- factor(c(1,2,2,2,1,1,2), 
                 labels = c("Mujer", "Hombre"))
 datos <- data.frame("Altura"=altura, "Peso"=peso, "Genero"= genero)
 class(datos) 
 ```
+
+
+```{r}
+#| echo: true
+altura <- c(177, 178, 168, 164, 186, 162, 160)
+peso   <- c(75, 85, 70, 60, 80, 65, 54)
+genero   <- c(2, 1, 2, 2, 2, 1, 1)
+genero_f <- factor(genero, levels = c(1, 2), 
+                           labels = c("Mujer", "Hombre"))
+datos <- data.frame("Altura"=altura, "Peso"=peso, "Genero"= genero_f)
+```
+
 
 :::{.notes}
 
@@ -2063,7 +2132,7 @@ datos <- as.data.frame(mat)
 -   Se puede visualizar con `View(datos)` o en "Enviroment" de RStudio
 
 ```{r}
-#| echo: true
+#| echo: false
 #| eval: false
 View(datos)
 ```
@@ -2119,7 +2188,7 @@ names(vector)        # solo para vectores
 - Un sub-componente de un "data frame" puede ser un objeto diferente
 -->
 
--   Podemos acceder a columnas por su nombre **con `$`** o por nombre o posición de la columna **con \[\[ \]\]**
+-   Seleccionamos columnas por nombre **con `$`** o por nombre o posición <!--de la columna--> **con \[\[ \]\]**
 
 <!--
 -   Manejamos cada variable como hemos visto con vectores
@@ -2141,9 +2210,10 @@ datos[[2]] == datos[["Peso"]]
 :::
 
 
--   También se puede usar **notación de matrices**. <!--OJO: el resultado puede ser un vector o un conunto de datos-->
+<!-- -   También se puede usar **notación de matrices**. <!--OJO: el resultado puede ser un vector o un conunto de datos--> 
 
 ```{r}
+#| echo: false
 datos[,1]           # 1ª columna  = vector
 datos[1,c("Altura", "Genero")]   # data frame
 datos[1:3,1:2]                   # data frame
@@ -2169,12 +2239,22 @@ datos[3,2]            # 3ª fila, 2ª columna = vector (escalar)
 
 <!-- -   Podemos usar todos los tipos de accesos y filtros basados en condiciones de sus elementos que ya hemos visto -->
 
--  También seleccionamos usando filtros basados en condiciones lógicas
+<!-- -  También seleccionamos usando filtros basados en condiciones lógicas -->
+
+* También podemos usar `[]` para seleccionar filas y columnas por posición, nombre y/o condición lógica
+
 
 ```{r}
-d1 <- datos[datos$Altura > 165,]           # data.frame
+#| echo: false
+d1 <- datos[datos$Altura > 165,]                    # data.frame
 d2 <- datos[datos$Altura %in% c(177,178), "Altura"] # vector
+d3 <- datos[datos$Genero == "Hombre", 2]         
 ```
+
+```{r}
+datos1 <- datos[datos$Genero == "Hombre", 2]  # Peso de los hombres        
+```
+
 
 <!-- -   Generar nueva variable -->
 
@@ -2190,9 +2270,14 @@ datos$IMC <- datos$Peso / datos$Altura_m^2
 ```
 
 
-## Trabajando con "Data Frames" (cont.)
+<!-- ## Trabajando con "Data Frames" (cont.) -->
 
-* La función `subset()` extrae parte de los datos, basado en una condición lógica; devuelve siempre un "data frame"
+<!-- * La función `subset()` extrae parte de los datos, basado en una condición lógica; devuelve siempre un "data frame" -->
+
+<!-- -  La función `subset()` extrae parte de los datos, basado en una condición lógica; devuelve siempre un "data frame" -->
+
+- Suele ser mejor usar `subset()` que devuelve siempre un "data frame"
+
 
 ```{r}
 D1 <- subset(datos, Altura > 165)   
@@ -2260,7 +2345,130 @@ datos[pos,]
 
 :::
 
-* En general, no generaremos nuestros conjuntos de datos sino que los incorporaremos como objetos a R de varias formas.
+<!-- * En general, no generaremos nuestros conjuntos de datos sino que los incorporaremos como objetos a R de varias formas. -->
+
+
+<!-- * En general, incorporaremos los datos como objetos a R de varias formas.  -->
+
+
+## Listas
+
+<!-- -   Una lista es una colección <!--genérica--> <!--de objetos de distinto tipo. Es *similar* a un vectores, pero los objetos pueden ser de distintos tipos -->
+
+-   Una lista es una colección <!--genérica--> de objetos de distinto tipo (a diferencia de un vector)
+
+<!--
+```{r}
+#| echo: false
+x <- 1:30
+miLista <- list("hola", x, list(1:4, "X"))
+miLista
+```
+
+-   La función `str` también se puede usar para listas
+
+```{r}
+str(miLista)
+```
+
+-->
+
+::: {.notes}
+-   Veremos que muchos objetos de R son listas
+
+-   También vemos las propiedades del objeto en el `Environment`
+:::
+
+<!-- -   Podemos añadir nombres a los elementos de una lista o dáreselos al generarla: -->
+
+```{r}
+#| echo: false
+miLista <- list("hola", x, list(1:4, "X"))
+names(miLista) <- c("saludo", "vec", "lista")
+miLista <- list(saludo="hola", vec=x, lista=list(1:4, "X"))
+```
+
+* Los elementos de una lista suelen tener nombres
+
+```{r}
+miLista <- list(saludo="hola", vec=x, lista=list(1:4, "X"), 
+                datos=datos)
+```
+
+
+<!-- ## Listas (cont.) -->
+
+<!-- -   Con `[]` extraemos elementos por posición o por nombre, como listas -->
+
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- class(miLista["vec"]) -->
+<!-- miLista[2] + 2     # operación incompatible entre clases -->
+<!-- ``` -->
+
+-   Con `[[ ]]` (por posición o por nombre) o con `$`(solo por nombre) extraemos los elementos en su clase original
+
+
+```{r}
+miLista$vec
+miLista[[2]] + 3
+```
+
+
+<!-- :::: {.columns} -->
+
+<!-- ::: {.column width="40%"} -->
+
+<!-- ```{r} -->
+<!-- class(miLista$"vec") -->
+<!-- ``` -->
+
+<!-- ::: -->
+
+<!-- ::: {.column width="10%"} -->
+
+
+<!-- ::: -->
+
+<!-- ::: {.column width="40%"} -->
+<!-- ```{r} -->
+<!-- class(miLista[[2]]) -->
+<!-- miLista[["vec"]] + 2 -->
+<!-- ``` -->
+<!-- ::: -->
+
+<!-- :::: -->
+
+* También podemos usar `[]`, pero devuelve una lista
+
+:::{.notes}
+
+* Nota: el uso de `[ ]` y `[[ ]]` también se aplica a "data frames"
+
+* Es importante entender el tipo de objeto de obtenemos con una forma de acceso u otra, por las operaciones que podemos realizar y por las transformaciones que se permiten
+
+-   P.e., podemos acceder a elementos individuales de la (sub-)lista con `[[ ]]`, pero no con `[ ]`:
+
+```{r}
+#| echo: false
+#| eval: false
+miLista[[2]][2]
+
+miLista[2][2]   # lista de longitud 1
+```
+
+`miLista[[2]][2]`
+
+`miLista[2][2]   # lista de longitud 1`
+
+
+:::
+
+-    `unlist()` convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales) <!-- típicamente, caracteres -->
+
+
+
+
 
 # Extendiendo R
 
@@ -2401,7 +2609,7 @@ help("Affairs")
 #| eval: false
 x <- 1:20
 y <- 2 * x ^ 2 + 1
-save(x, file="data/x.RData")      # un objeto, o varios
+save(x, file="x.RData")      # un objeto, o varios
 save(x, y, file="data/xy.RData")  #   separados por comas
 ```
 
@@ -2731,13 +2939,19 @@ export(nsw, "data/nsw.csv")
 ## Otras fuentes de datos
 
 
--   La biblioteca `httr` tiene la función `GET()` para descargar una
-    página web 
+-   La biblioteca `httr` tiene la función `GET()` para descargar páginas web 
+
+-   [`googlesheets4`](https://github.com/tidyverse/googlesheets4)
+
+-   [`qualtRics`](https://cran.r-project.org/web/packages/qualtRics/vignettes/qualtRics.html) trabaja con software de encuestas `qualtrics`
+
+-   `DBI` accede con Bases de Datos relaciones (SQL) 
+
     
 -   Bibliotecas con datos muy utilizados: `pwt` ("Penn World
     Tables")
 
--   Bibliotecas con funciones para acceder directamente a datos online
+-   Bibliotecas con funciones para obtener datos online
     (con
     [APIs](https://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones) públicas)
 
@@ -2852,7 +3066,7 @@ https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-import.pdf
 
     descargarlos con `download.file()`
 
-```{r echo=F}
+```{r echo=F, eval=F}
 url_rdata <- "https://s3.amazonaws.com/assets.datacamp.com/production/course_1478/datasets/wine.RData"
 download.file(url_rdata, destfile = "wine_local.RData")
 ```
@@ -3154,6 +3368,8 @@ dev.off()
 - También se puede exportar (o copiar al portapapeles) desde la pestaña *Plots*
 
 -->
+
+# R para análisis de datos
 
 ## Estadísticos descriptivos: variables discretas
 
@@ -3603,6 +3819,8 @@ tibble(x = 1:5, y = 1, z = x ^ 2 + y)
 
 -->
 
+<!--
+
 ## Estadísticas por grupos: `aggregate`
 
 * Para obtener estadísticas de una variable por grupos definidos por otra, podemos filtrar los datos
@@ -3774,6 +3992,7 @@ testres$p.value
 
 -->
 
+
 ## Nota sobre programación "avanzada"
 
 -   Como en todo lenguaje de programación R, tiene funciones para
@@ -3815,6 +4034,7 @@ if (p<=0.05) {
 :::
 
 
+<!--
 
 ## Simulaciones
 
@@ -4048,3 +4268,4 @@ summary(lm(data=Affairs, affairs ~ yearsmarried + relig_f))
 
 :::
 -->
+

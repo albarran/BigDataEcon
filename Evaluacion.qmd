@@ -21,9 +21,9 @@ strip-comments: true
 
 ## Evaluación No Continua:
 
-  * Trabajo empírico final (50%)
+  * Trabajo empírico final (65%)
 
-  * Examen final (50%)
+  * Examen final (35%)
 
 
 ***
