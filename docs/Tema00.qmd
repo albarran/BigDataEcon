@@ -2,17 +2,36 @@
 #subtitle: "Técnicas para 'Big Data' en Economía - Curso 2024/25 \n\n Universidad de Alicante"
 # subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2024/25 \n\n Universidad de Alicante"
 # subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
-subtitle: "Econometría II - Curso 2024/25 \n\n Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2024/25 \n\n Universidad de Alicante"
 title    :  "Tema 0: Introducción a R y RStudio (Posit)"
 author:  
     - "Pedro Albarrán"
-    - "Teresa Molina"
+    #- "Teresa Molina"
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
    
 # institute: 
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
   beamer:
     handout: false
     logo: figure/by-nc-sa2.png
@@ -42,25 +61,6 @@ format:
        # - \setbeamertemplate{headline}[page number]
        # - \setbeameroption{show notes}
        # - \setbeameroption{show notes on second screen}
-  revealjs:
-    logo: figure/by-nc-sa2.png
-    titlegraphic: figure/by-nc-sa.png
-    theme:  
-        - beige # sky # serif # simple # default # moon #  
-        - custom.scss
-    smaller: true
-    scrollable: true
-    embed-resources: true
-    slide-number: true
-    show-slide-number: all
-    transition: slide # concave # 
-    background-transition: fade
-    progress: true
-    height: 800
-    width: 1200
-    # width: 3000
-    # height: 2000
-    # margin: 0.05
 execute:
   enabled: true      # (no) ejecutar code chunks
   eval: true        # por defecto, evalúa y muestra códido de code chunks
@@ -473,7 +473,7 @@ help(min)
 
 -->
 
--   Las búsquedas online o las IAs (como chatGPT o Bard) pueden ser útiles.
+-   Las búsquedas online o las IAs (como chatGPT, Gemini o Copilot) pueden ser útiles.
 
 -   PERO debemos tener un conocimiento mínimo para aprovechar realmente una solución
 
@@ -837,7 +837,7 @@ z <- 1:10       # equivale a z <- seq(1,10,1)
 -->
 
 
-* Un vector sólo puede contener objetos de un **unico tipo** elemental, que podemos conocer en el `Environment` o con `str()`
+* Un vector sólo puede contener objetos de un **único tipo** elemental, que podemos conocer en el `Environment` o con `str()`
 
 
 ## Vectores (cont.)
@@ -2538,7 +2538,7 @@ library(help=utils)      # Ayuda para una biblioteca concreta
 
 -   El nombre completo de un objeto es `biblioteca::nombre`
   
-    + La biblioteca solo es necesaria si no se ha cargado o dos objetos diferentes tienen el mismo nombre en bibliotecas distintas
+    + La nombre de la biblioteca solo es necesaria si no se ha cargado o dos objetos diferentes tienen el mismo nombre en bibliotecas distintas
 
 :::: {.columns}
 
@@ -2582,9 +2582,10 @@ library(Hmisc)
 find("units")
 ```
 
+* También se usa nombre completo si no se ha cargado la biblioteca
+
 :::
 
-* También se usa nombre completo si no se ha cargado la biblioteca
 
 -   Para mostrar todos los datos de las bibliotecas cargadas
 
@@ -2655,7 +2656,7 @@ unlink("xy.RData")
 
 ## Datos en otros formatos externos a R
 
--   Varias bibliotecas permiten trabajar con distintos tipos de archivos de datos; entre otros:
+-   Varias bibliotecas permiten trabajar con distintos <!--tipos de archivos--> formatos de datos, p.e.:
 
     1. Texto, con delimitadores o de ancho fijo: `utils` (R base), `readr`
     2. Hojas de cálculo: `readxl`, `openxlsx` <!-- `gdata` (solo .xls), `XLConnect` (lectura y escritura, pero requiere Java)-->
@@ -2671,7 +2672,7 @@ unlink("xy.RData")
 
 :::
 
--   Descargad estos ejemplos: [renta.txt](https://albarran.quarto.pub/big-data-economia-ua/docs/data/renta.txt), [sex_data.csv](https://albarran.quarto.pub/big-data-economia-ua/docs/data/sex_data.csv), [beauty.xls](https://albarran.quarto.pub/big-data-economia-ua/docs/data/beauty.xls), [nsw.dta](https://albarran.quarto.pub/big-data-economia-ua/docs/data/nsw.dta)
+-   Descargad estos ejemplos (UA cloud): [renta.txt](https://raw.githubusercontent.com/albarran/00datos/main/renta.txt), [sex_data.csv](https://raw.githubusercontent.com/albarran/00datos/main/sex_data.csv), [beauty.xls](https://raw.githubusercontent.com/albarran/00datos/main/beauty.xls), [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)
 
 - En ![Import Dataset](figure/Import.jpg){width="15%"} de RStudio, tenemos acceso visual para cargar algunos formatos (con la biblioteca necesaria instalada)
 
@@ -2709,7 +2710,8 @@ unlink("xy.RData")
     o tienen un ancho fijo 
     
 
--   Se pueden leer en un editor, por ejemplo, el de RStudio: en ![Files](figure/Files.jpg){width="8%"} encontrar, p.e., `sex_data.csv`, hacer clic y elegir *View File* <!--![View File](figure/ViewFile.jpg){width="15%"}-->
+-   Se pueden leer en un editor, por ejemplo, el de RStudio: en ![Files](figure/Files.jpg){width="8%"} encontrar, p.e., `sex_data.csv`, hacer clic y elegir *View File* <!--![View File](figure/ViewFile.jpg){width="15%"}
+-->
 
 <!--
 ## Archivos de texto (cont.)
@@ -2735,14 +2737,14 @@ sexdata <- read.table("data/sex_data.csv",
                       colClasses = c(rep("character",25)))
 ```
 
-`sexdata <- read.table("data/sex_data.csv", `
-
-`                      header=F, sep=",",   `
-
-`                      col.names = c("valor", "fecha", "otra", as.character(4:25)), `
-
-`                      colClasses = c(rep("character",25))) `
-
+```{r}
+#| echo: false
+#| eval: false
+sexdata <- read.table("data/sex_data.csv", 
+                      header=F, sep=",",   
+                      col.names = c("valor", "fecha", "otra", as.character(4:25)), 
+                      colClasses = c(rep("character",25))) 
+```
 
 
 :::
@@ -2804,7 +2806,7 @@ perritos <- read_delim("data/hotdogs.txt", delim = "\t",
 ```
 -->
 
-`<!--
+<!--
 ver ayuda: para tipo columnas también
 
 fac <- col_factor(levels = c("Beef", "Meat", "Poultry"))
@@ -2903,12 +2905,18 @@ urbanpop_sel <- read_excel("data/urbanpop.xlsx", sheet = 2,
 
 ## Importar y exportar con `rio`
 
+<!--
 * `rio` permite trabajar con varios formatos de forma **simple** y unificada (el mismo comando para todos) 
 
     + P.e., datos nativos de R, archivos de texto (también comprimidos), hojas de cálculo, formatos de software estadístico, Google Sheets, json
-    
+-->
+
+* `rio` permite trabajar con el **mismo comando** para todos los formatos, pero las opciones por defecto pueden no ser adecuadas
+
     + En la Ayuda se incluye una presentación completa del paquete
-    
+  
+    <!-- + Las opciones por defecto para un archivo pueden no ser adecuadas -->
+
 * El comando `import()` se usa para leer los datos
 
 ```{r}
@@ -2919,6 +2927,8 @@ beauty <- import("data/beauty.xls")
 nsw    <- import("data/nsw.dta")    # formato Stata
 ```
 
+
+<!--
 ## Importar y exportar con `rio` (cont.)
 
 * Las opciones por defecto para un archivo pueden no ser adecuadas (p.e., el tipo de separador con .csv)
@@ -2926,6 +2936,8 @@ nsw    <- import("data/nsw.dta")    # formato Stata
 * La Ayuda describe los argumentos para cambiarlas
 
   + a veces, pasando argumentos del comando de la biblioteca original
+
+-->
 
 * Podemos exportar datos a un tipo de formato con `export()`
 
@@ -2939,15 +2951,6 @@ export(nsw, "data/nsw.csv")
 ## Otras fuentes de datos
 
 
--   La biblioteca `httr` tiene la función `GET()` para descargar páginas web 
-
--   [`googlesheets4`](https://github.com/tidyverse/googlesheets4)
-
--   [`qualtRics`](https://cran.r-project.org/web/packages/qualtRics/vignettes/qualtRics.html) trabaja con software de encuestas `qualtrics`
-
--   `DBI` accede con Bases de Datos relaciones (SQL) 
-
-    
 -   Bibliotecas con datos muy utilizados: `pwt` ("Penn World
     Tables")
 
@@ -2955,20 +2958,29 @@ export(nsw, "data/nsw.csv")
     (con
     [APIs](https://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones) públicas)
 
+    -   datos de las `OECD` y `eurostat`
+        (incluye datos del INE español)
+
     -   `rdbnomics` para los datos gratuitos de
         <https://db.nomics.world/>
 
-    -   `OECD` para los datos de la OCDE
-
-    -   `eurostat`
-        (incluye datos del INE español)
-
+    -   datos económicos y financieros con `quantmod` y `tidyquant`
+    
     -   [`quandl`](https://www.rdocumentation.org/packages/Quandl/versions/2.11.0)
         (de pago)
 
-    -   `quantmod` y `tidyquant`
     
-    -  `MicroDatosEs` con microdatos del INE (ej., EPA)
+    <!-- -  `MicroDatosEs` con microdatos del INE (ej., EPA) -->
+
+-   [`qualtRics`](https://cran.r-project.org/web/packages/qualtRics/vignettes/qualtRics.html) trabaja con software de encuestas `qualtrics`
+
+-   Descarga de páginas web y *webscraping* con las bibliotecas `rvest` y `httr` (función `GET()`)
+
+-   [`googlesheets4`](https://github.com/tidyverse/googlesheets4)
+
+-   `DBI` accede con Bases de Datos relaciones (SQL) 
+
+    
 
 <!--
 ## Formatos de software estadístico con `haven`
@@ -3232,24 +3244,31 @@ cor(inf[1:10], gdp[2:11]) # misma dimension,
 
 :::: {.columns}
 
-::: {.column width="40%"}
+::: {.column width="45%"}
 
 ```{r}
-x <- c(3, 4, 5, 6, 7, 8, 9)
-y <- c(5, 6, 8, 9, 5, 9, 10)
+x <- c(3, 4, 5, 6, 7, 8)
+y <- c(5, 3, 7, 7, 5, 10)
 ```
+
 
 :::
 
-::: {.column width="10%"}
+::: {.column width="5%"}
 
 
 :::
 
 ::: {.column width="45%"}
+
 ```{r}
+#| echo: false
 plot(x,y)
 curve(x^2, from=-2, to=2)
+```
+
+```{r}
+plot(x,y)
 ```
 
 :::
@@ -3377,8 +3396,8 @@ dev.off()
 
 ```{r}
 data("PSID1982", package = "AER")
-(frec   <- table(PSID1982$occupation) )
-(frec_c <- table(PSID1982$occupation, PSID1982$ethnicity))
+(frec  <- table(PSID1982$occupation) )
+(frec2 <- table(PSID1982$occupation, PSID1982$ethnicity))
 ```
 
 ::: {.notes}
@@ -3393,24 +3412,24 @@ data("PSID1982", package = "AER")
 
 :::: {.columns}
 
-::: {.column width="30%"}
+::: {.column width="35%"}
 ```{r}
 prop.table(frec)
-prop.table(frec_c)
+prop.table(frec2)
 ```
 
 
 :::
 
-::: {.column width="10%"}
+::: {.column width="5%"}
 
 :::
 
 ::: {.column width="55%"}
 
 ```{r}
-prop.table(frec_c, margin = 1)
-prop.table(frec_c, margin = 2)
+prop.table(frec2, margin = 1)
+prop.table(frec2, margin = 2)
 ```
 
 
@@ -3449,7 +3468,7 @@ barplot(frec, horiz = T)
 ::: {.column width="65%"}
 
 ```{r}
-barplot(prop.table(frec_c), beside = T)
+barplot(prop.table(frec2), beside = T)
 ```
 
 
@@ -3460,13 +3479,13 @@ barplot(prop.table(frec_c), beside = T)
 
 ```{r}
 barplot(frec, horiz = T)
-barplot(prop.table(frec_c), beside = T)
+barplot(prop.table(frec2), beside = T)
 ```
 
 
 ::: {.notes}
 
-- `barplot(prop.table(frec_c))` en otros casos puede ser más informativo que aquí
+- `barplot(prop.table(frec2))` en otros casos puede ser más informativo que aquí
 
 - También se puede representar con gráficos de tarta: `pie(frec)`
 
@@ -3625,7 +3644,7 @@ boxplot(ceosal1$roe~ceosal1$consprod)
 
 ## Valores ausentes ("missing values"): `NA`
 
--   Muchos conjuntos de datos tienen valores ausentes de ciertas observaciones para algunas variables: ej., descargad [earn.RData](https://albarran.quarto.pub/big-data-economia-ua/docs/data/earn.RData)
+-   Muchos conjuntos de datos tienen valores ausentes de ciertas observaciones para algunas variables: ej., descargad (UA Cloud) [earn.RData](https://raw.githubusercontent.com/albarran/00datos/main/earn.RData)
 
 <!-- En R se representan con `NA` -->
 -   Sabemos si una observación es `NA` y la frecuencia total: 
