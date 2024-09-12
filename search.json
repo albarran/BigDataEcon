@@ -1,5 +1,75 @@
 [
   {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+  },
+  {
+    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "title": "Introducción",
+    "section": "“Datificación” de la vida diaria",
+    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
+  },
+  {
+    "objectID": "docs/0Intro.html#importancia-de-los-datos",
+    "href": "docs/0Intro.html#importancia-de-los-datos",
+    "title": "Introducción",
+    "section": "Importancia de los datos",
+    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
+  },
+  {
+    "objectID": "docs/0Intro.html#objetivos",
+    "href": "docs/0Intro.html#objetivos",
+    "title": "Introducción",
+    "section": "Objetivos",
+    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
+  },
+  {
+    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "title": "Introducción",
+    "section": "Aprendiendo a analizar datos",
+    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
+  },
+  {
+    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
+    "href": "docs/0Intro.html#análitica-cadena-de-valor",
+    "title": "Introducción",
+    "section": "Análitica: Cadena de Valor",
+    "text": "Análitica: Cadena de Valor"
+  },
+  {
+    "objectID": "docs/0Intro.html#tipos-de-análisis",
+    "href": "docs/0Intro.html#tipos-de-análisis",
+    "title": "Introducción",
+    "section": "Tipos de Análisis",
+    "text": "Tipos de Análisis"
+  },
+  {
+    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Ciclo de Vida del Análisis de Datos",
+    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
+  },
+  {
+    "objectID": "docs/Tema00ej2.html",
+    "href": "docs/Tema00ej2.html",
+    "title": "Tema 0. Ejercicio 2",
+    "section": "",
+    "text": "Datos Económicos con quantmod\nLa biblioteca quandmod nos permite acceder directamente desde R datos macroeconomicos de muchos países disponibles en FRED.\n\nSe busca un dato (concreto) de, por ejemplo, inflación en España: “Inflation, consumer prices for Spain; Percent, Annual, Not Seasonally Adjusted”\nAsí, averiguamos el “symbol” o nombre interno de la variable\n\n\nlibrary(quantmod)\ngetSymbols(\"FPCPITOTLZGESP\",src='FRED')\nplot(FPCPITOTLZGESP)\n\nstr(FPCPITOTLZGESP)\n\nplot(FPCPITOTLZGESP[1:20,])\n\n\nNOTA: para usar las series quantmod con la función de gráficos plot(), especialmente con más de una serie a la vez, es conveniente convertirlas en vectores con as.numeric()\n\n\ngetSymbols(\"FPCPITOTLZGESP\", src = 'FRED')\nx &lt;- as.numeric(FPCPITOTLZGESP)\nplot(FPCPITOTLZGESP)\n\ngetSymbols(\"IRLTLT01ESA156N\", src = \"FRED\")\ny &lt;- as.numeric(IRLTLT01ESA156N)\nplot(x[-c(1:20)], y)\n\nTambién se pueden obtener datos de Yahoo Finance, averiguando el símbolo de una acción: ej., “Telefonica, Equity - NYQ”\n\ngetSymbols('TEF',src='yahoo')\ndim(TEF)\nplot(TEF$TEF.Close)\n\nEsta biblioteca también incluye funciones de análisis como gráficos específicos\n\ncandleChart(TEF[-(1:3650),], up.col = \"black\", dn.col = \"red\", \n            theme = \"white\")\n\n\ngetSymbols('^IBEX',src='yahoo')\ncandleChart(IBEX[1:20,], up.col = \"black\", dn.col = \"red\", theme = \"white\")\n\ncandleChart(IBEX[-(1:3150),], up.col = \"black\", dn.col = \"red\", theme = \"white\")\n\n\n\nVuestro ejercicio\nElegid una serie de datos de Yahoo Finance y dos de FRED. Debéis escribir un fichero de código de R con los comando necesarios para\n\ncargar los datos\nrealizar un breve análisis descriptivo de la serie de Yahoo Finance y un grafico de velas\nrealizar un breve análisis descriptivo de una de los dos series de FRED y un gráfico con su evolución temporal\nrealizar un análisis gráfico (gráfico de dispersión) y numérico (correlación) de las dos series de FRED\n\nNo os olvidéis de incluir algunos (breves pero descriptivos) comentarios en vuestro código sobre qué hacéis y por qué.\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej2_123456787.R"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Técnicas para ‘Big Data’ en Economía",
@@ -21,6 +91,27 @@
     "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es"
   },
   {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -33,6 +124,13 @@
     "title": "Proyecto Final",
     "section": "",
     "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Ejercicio 1",
+    "section": "",
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nApartado 1\n\nTenemos la siguiente información sobre las ventas de dos tiendas, A y B, a lo largo de una semana. Generar dos vectores llamados, Ventas_A y Ventas_B, que contenga esta información; cada elemento del vector debe tener su correspondiente nombre (día de la semana).\n\n\nGenerar el vector que contenga las ventas totales (sumando ambas tiendas) para cada día, Ventas_totales_diarias, la variable (escalar) con las ventas totales de ambas tiendas en toda la semana, Ventas_totales_semana, y la variable (escalar) con las ventas medias de la semana de la tienda A, Ventas_media_A.\n\n\nGenerar los siguientes objetos\n\nel vector Ventas_A_entre_semana con las ventas de cada día de la tienda A exceptando los lunes y viernes.\nel vector Ventas_seleccion con las ventas totales de cada día para ambas tiendas en los días en los que la tienda B vende más que la tienda A.\nel vector dias_Ventas_seleccion con los nombres de los días en los que la tienda B vende más que la tienda A.\n\n\n\n\nApartado 2\n\nLa siguiente tabla muestras las ventas de tres productos (X, Y y Z) a nivel nacional y a nivel internacional (en millones de euros). Generar una matriz, matriz_ventas, que contenga esta información; sus filas y columnas deben tener los nombres apropiados.\n\n\nConsiderar las ventas de otros tres productos según la siguiente tabla. Generar una nueva matriz, matriz_ventas2, con esta información y combinarla con la matriz del apartado anterior para obtener una nueva matriz, matriz_ventas_combinada, con información para todos los productos.\n\n\nGenerar un vector, ventas_total, con las ventas totales (nacionales más internacionales) de cada producto. Generar una matriz, matriz_ventas_combinada_total, que añada una columna con las ventas totales a matriz_ventas_combinada.\n\n\nGenerar una variable (escalar), internac_media, con la media de las ventas internacionales (media sobre todos los productos) y otro vector, nacional_seleccion_media, con la media de las ventas nacionales sobre los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir de la matriz de ventas, matriz_ventas_combinada.\n\nGenerar una matriz, compradores_estimados, de compradores estimados para cada producto y destino (nacional e internacional) suponiendo que el precio de todos los productos es 5.\nGenerar la matriz compradores con un cálculo más exacto a partir de la siguiente información de precios.\n\n\n\n\nApartado 3\n\nSe ha preguntado a cinco clientes sobre su satisfacción con los servicios de una empresa. Su contestación ha sido: “poco”, “nada”, “nada”, “poco”, “mucho”. Generar un vector, factor_satisf_vector, adecuado para esta información.\n\n\nGenerar un vector, sum_factor, con las estadísticas descriptivas de la información del apartado anterior y muestra el resultado (“imprime” ese vector).\n\n\nCrear el vector comparar_clientes que informe sobre si el cliente 2 está más satisfecho que el cliente 5.\n\n\n\nApartado 4\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456787.R"
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -165,7 +263,7 @@
     "href": "docs/Tema00.html#factores",
     "title": "Tema 0: Introducción a R y RStudio (Posit)",
     "section": "Factores",
-    "text": "Factores\n\nLa información cualitativa se suele codificar como texto o números, pero NO tiene sentido numérico (ni de “texto”): representan clases o categorías\n\n\nPara destacar la naturaleza distinta de estos datos, existe un tipo de objeto específico en R: los factores\nAdemás de otras ventajas que veremos, permiten separar la representación original de las categorías (niveles) de cómo queremos mostrarlas (etiquetas)\n\n\ngenero   &lt;- c(2, 1, 2, 2, 2)\ngenero_f &lt;- factor(genero, levels = c(1, 2), \n                           labels = c(\"Mujer\", \"Hombre\"))\n\n\nSe asocia nivel 1 con “Mujer”, 2 con “Hombre”, etc.\nLas operaciones con factores se realiza con las etiquetas, no con los niveles\n\n\ngenero_f == 1\ngenero_f == \"Mujer\"\n\n\n\nNotar que el comando factor() se extiende en el editor en varias lineas (no es “una” línea por comando)\nEn la consola, se indica que sigue siendo el mismo comando en múltiples líneas con + en lugar de &gt;"
+    "text": "Factores\n\nLa información cualitativa se suele codificar como texto o números, pero NO tiene sentido numérico (ni de “texto”): representan clases o categorías\n\n\nPara destacar la naturaleza distinta de estos datos, existe un tipo de objeto específico en R: los factores\nAdemás de otras ventajas que veremos, permiten separar la representación original de las categorías (niveles) de cómo queremos mostrarlas (etiquetas)\n\n\ngenero   &lt;- c(2, 1, 2, 2, 2)\ngenero_f &lt;- factor(genero, levels = c(1, 2), \n                           labels = c(\"Mujer\", \"Hombre\"))\n\n\nSe asocia nivel 1 con “Mujer”, 2 con “Hombre”, etc.\nLas operaciones con factores se realiza con las etiquetas, no con los niveles\n\n\ngenero_f == 1       # NO existe valor 1\ngenero_f == \"Mujer\"\n\n\n\nNotar que el comando factor() se extiende en el editor en varias lineas (no es “una” línea por comando)\nEn la consola, se indica que sigue siendo el mismo comando en múltiples líneas con + en lugar de &gt;"
   },
   {
     "objectID": "docs/Tema00.html#factores-cont.",
@@ -285,104 +383,6 @@
     "title": "Tema 0: Introducción a R y RStudio (Posit)",
     "section": "Nota sobre programación “avanzada”",
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
-  },
-  {
-    "objectID": "docs/Tema00ej2.html",
-    "href": "docs/Tema00ej2.html",
-    "title": "Tema 0. Ejercicio 2",
-    "section": "",
-    "text": "Datos Económicos con quantmod\nLa biblioteca quandmod nos permite acceder directamente desde R datos macroeconomicos de muchos países disponibles en FRED.\n\nSe busca un dato (concreto) de, por ejemplo, inflación en España: “Inflation, consumer prices for Spain; Percent, Annual, Not Seasonally Adjusted”\nAsí, averiguamos el “symbol” o nombre interno de la variable\n\n\nlibrary(quantmod)\ngetSymbols(\"FPCPITOTLZGESP\",src='FRED')\nplot(FPCPITOTLZGESP)\n\nstr(FPCPITOTLZGESP)\n\nplot(FPCPITOTLZGESP[1:20,])\n\n\nNOTA: para usar las series quantmod con la función de gráficos plot(), especialmente con más de una serie a la vez, es conveniente convertirlas en vectores con as.numeric()\n\n\ngetSymbols(\"FPCPITOTLZGESP\", src = 'FRED')\nx &lt;- as.numeric(FPCPITOTLZGESP)\nplot(FPCPITOTLZGESP)\n\ngetSymbols(\"IRLTLT01ESA156N\", src = \"FRED\")\ny &lt;- as.numeric(IRLTLT01ESA156N)\nplot(x[-c(1:20)], y)\n\nTambién se pueden obtener datos de Yahoo Finance, averiguando el símbolo de una acción: ej., “Telefonica, Equity - NYQ”\n\ngetSymbols('TEF',src='yahoo')\ndim(TEF)\nplot(TEF$TEF.Close)\n\nEsta biblioteca también incluye funciones de análisis como gráficos específicos\n\ncandleChart(TEF[-(1:3650),], up.col = \"black\", dn.col = \"red\", \n            theme = \"white\")\n\n\ngetSymbols('^IBEX',src='yahoo')\ncandleChart(IBEX[1:20,], up.col = \"black\", dn.col = \"red\", theme = \"white\")\n\ncandleChart(IBEX[-(1:3150),], up.col = \"black\", dn.col = \"red\", theme = \"white\")\n\n\n\nVuestro ejercicio\nElegid una serie de datos de Yahoo Finance y dos de FRED. Debéis escribir un fichero de código de R con los comando necesarios para\n\ncargar los datos\nrealizar un breve análisis descriptivo de la serie de Yahoo Finance y un grafico de velas\nrealizar un breve análisis descriptivo de una de los dos series de FRED y un gráfico con su evolución temporal\nrealizar un análisis gráfico (gráfico de dispersión) y numérico (correlación) de las dos series de FRED\n\nNo os olvidéis de incluir algunos (breves pero descriptivos) comentarios en vuestro código sobre qué hacéis y por qué.\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej2_123456787.R"
-  },
-  {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Ejercicio 1",
-    "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nApartado 1\n\nTenemos la siguiente información sobre las ventas de dos tiendas, A y B, a lo largo de una semana. Generar dos vectores llamados, Ventas_A y Ventas_B, que contenga esta información; cada elemento del vector debe tener su correspondiente nombre (día de la semana).\n\n\nGenerar el vector que contenga las ventas totales (sumando ambas tiendas) para cada día, Ventas_totales_diarias, la variable (escalar) con las ventas totales de ambas tiendas en toda la semana, Ventas_totales_semana, y la variable (escalar) con las ventas medias de la semana de la tienda A, Ventas_media_A.\n\n\nGenerar los siguientes objetos\n\nel vector Ventas_A_entre_semana con las ventas de cada día de la tienda A exceptando los lunes y viernes.\nel vector Ventas_seleccion con las ventas totales de cada día para ambas tiendas en los días en los que la tienda B vende más que la tienda A.\nel vector dias_Ventas_seleccion con los nombres de los días en los que la tienda B vende más que la tienda A.\n\n\n\n\nApartado 2\n\nLa siguiente tabla muestras las ventas de tres productos (X, Y y Z) a nivel nacional y a nivel internacional (en millones de euros). Generar una matriz, matriz_ventas, que contenga esta información; sus filas y columnas deben tener los nombres apropiados.\n\n\nConsiderar las ventas de otros tres productos según la siguiente tabla. Generar una nueva matriz, matriz_ventas2, con esta información y combinarla con la matriz del apartado anterior para obtener una nueva matriz, matriz_ventas_combinada, con información para todos los productos.\n\n\nGenerar un vector, ventas_total, con las ventas totales (nacionales más internacionales) de cada producto. Generar una matriz, matriz_ventas_combinada_total, que añada una columna con las ventas totales a matriz_ventas_combinada.\n\n\nGenerar una variable (escalar), internac_media, con la media de las ventas internacionales (media sobre todos los productos) y otro vector, nacional_seleccion_media, con la media de las ventas nacionales sobre los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir de la matriz de ventas, matriz_ventas_combinada.\n\nGenerar una matriz, compradores_estimados, de compradores estimados para cada producto y destino (nacional e internacional) suponiendo que el precio de todos los productos es 5.\nGenerar la matriz compradores con un cálculo más exacto a partir de la siguiente información de precios.\n\n\n\n\nApartado 3\n\nSe ha preguntado a cinco clientes sobre su satisfacción con los servicios de una empresa. Su contestación ha sido: “poco”, “nada”, “nada”, “poco”, “mucho”. Generar un vector, factor_satisf_vector, adecuado para esta información.\n\n\nGenerar un vector, sum_factor, con las estadísticas descriptivas de la información del apartado anterior y muestra el resultado (“imprime” ese vector).\n\n\nCrear el vector comparar_clientes que informe sobre si el cliente 2 está más satisfecho que el cliente 5.\n\n\n\nApartado 4\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456787.R"
-  },
-  {
-    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "title": "Introducción",
-    "section": "“Datificación” de la vida diaria",
-    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
-  },
-  {
-    "objectID": "docs/0Intro.html#importancia-de-los-datos",
-    "href": "docs/0Intro.html#importancia-de-los-datos",
-    "title": "Introducción",
-    "section": "Importancia de los datos",
-    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
-  },
-  {
-    "objectID": "docs/0Intro.html#objetivos",
-    "href": "docs/0Intro.html#objetivos",
-    "title": "Introducción",
-    "section": "Objetivos",
-    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
-  },
-  {
-    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "title": "Introducción",
-    "section": "Aprendiendo a analizar datos",
-    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
-  },
-  {
-    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
-    "href": "docs/0Intro.html#análitica-cadena-de-valor",
-    "title": "Introducción",
-    "section": "Análitica: Cadena de Valor",
-    "text": "Análitica: Cadena de Valor"
-  },
-  {
-    "objectID": "docs/0Intro.html#tipos-de-análisis",
-    "href": "docs/0Intro.html#tipos-de-análisis",
-    "title": "Introducción",
-    "section": "Tipos de Análisis",
-    "text": "Tipos de Análisis"
-  },
-  {
-    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "title": "Introducción",
-    "section": "Ciclo de Vida del Análisis de Datos",
-    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
-  },
-  {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
   },
   {
     "objectID": "Datos.html",
