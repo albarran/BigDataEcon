@@ -6,7 +6,7 @@
 title    :  "Tema 0: Introducción a R y RStudio (Posit)"
 author:  
     - "Pedro Albarrán"
-    #- "Teresa Molina"
+#    - "Teresa Molina"
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
    
 # institute: 
@@ -1590,7 +1590,7 @@ genero_f <- factor(genero, levels = c(1, 2),
 - Las operaciones con factores se realiza con las etiquetas, no con los niveles
 
 ```{r}
-genero_f == 1
+genero_f == 1       # NO existe valor 1
 genero_f == "Mujer"
 ```
 
