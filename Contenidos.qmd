@@ -14,6 +14,10 @@ strip-comments: true
   * [Introducción](docs/0Intro.qmd)
   * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
 
+
+## Semana 2
+(16-Sept. a 22-Sept.)
+
 <!--
 
   * [Tema 0 - Ejercicio 1](docs/Tema00ej1.qmd)
@@ -22,8 +26,7 @@ strip-comments: true
 
 
 
-## Semana 2
-(16-Sept. a 22-Sept.)
+
 
 
   * Fecha límite de entrega de los ejercicios del Tema 0: **vie., 22-sept., 23:59h**
