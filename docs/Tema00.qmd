@@ -6,7 +6,7 @@
 title    :  "Tema 0: Introducción a R y RStudio (Posit)"
 author:  
     - "Pedro Albarrán"
-#    - "Teresa Molina"
+    # - "Teresa Molina"
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
    
 # institute: 
@@ -534,7 +534,7 @@ print(x)
 ```{r}
 y <- x + 5  # asignamos y a partir del VALOR de x
 (x <- x*3)  # re-asignamos x a partir de ella misma
-y           # NO cambia con el nuevo valor de x           
+y           # NO cambia (en Excel, sí)
 ```
 
 
@@ -950,7 +950,7 @@ log(5, base="mibase")
 <!-- ## Atributos de un objecto Vector -->
 
 -   Los vectores pueden tener *nombres* (una "etiqueta" única para cada elemento): un vector de caracteres de la misma longitud
-que se asigna con `names()`
+asignado con `names()`
 
 ::: {.notes}
 -   Los nombres de un vector son un vector de caracteres de la misma
@@ -2072,7 +2072,7 @@ summary(factor_satisfaccion)
 
 <!--     + A diferencia de las matrices, las columnas pueden ser de tipo diferentes     -->
 
-- Es una colección de vectores columna, cada uno con un **nombre** y tipos de datos potencialmente diferentes
+- Cada columna es un vector con un **nombre** y tipos de datos (quizás) diferentes
 
 ```{r}
 #| echo: false
@@ -2129,6 +2129,11 @@ datos <- as.data.frame(mat)
 :::
 -->
 
+-   Se visualizan con `View(datos)` o en "Enviroment" o una parte con `head()` <!--y `tail()`-->
+
+
+<!--
+
 -   Se puede visualizar con `View(datos)` o en "Enviroment" de RStudio
 
 ```{r}
@@ -2145,6 +2150,7 @@ head(datos)       # primeras 6 observaciones
 tail(datos)       # últimas 6 observaciones
 tail(datos, n=3)  # últimas 3 observaciones
 ```
+-->
 
 <!--
 ## Nombres y dimensiones de objetos en R
@@ -2182,19 +2188,31 @@ names(vector)        # solo para vectores
 
 <!-- ## Acceso a los elementos del "Data Frames" -->
 
-## Trabajando con "Data Frames"
+-   Seleccionamos columnas por nombre **con `$`** o por nombre o posición <!--de la columna--> **con \[\[ \]\]**
+
+
+```{r}
+vectAltura <- datos$Altura    # objeto resultante = vector
+datos[[2]] == datos[["Peso"]]
+```
+
+
+## "Data Frames" (cont.)
 
 <!--
 - Un sub-componente de un "data frame" puede ser un objeto diferente
 -->
 
--   Seleccionamos columnas por nombre **con `$`** o por nombre o posición <!--de la columna--> **con \[\[ \]\]**
+
+<!-- -   Seleccionamos columnas por nombre **con `$`** o por nombre o posición <!--de la columna--> <!--**con \[\[ \]\]** -->
 
 <!--
 -   Manejamos cada variable como hemos visto con vectores
 -->
 
 ```{r}
+#| echo: false
+#| eval: false
 vectAltura <- datos$Altura    # objeto resultante = vector
 datos[[2]] == datos[["Peso"]]
 ```
@@ -2252,9 +2270,21 @@ d3 <- datos[datos$Genero == "Hombre", 2]
 ```
 
 ```{r}
-datos1 <- datos[datos$Genero == "Hombre", 2]  # Peso de los hombres        
+datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres        
 ```
 
+
+::: {.notes}
+
+```{r}
+#| echo: false
+#| eval: false
+datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres        
+datos1 <- datos[datos$Genero == "Hombre", c("Altura", "Peso")] 
+
+```
+
+:::
 
 <!-- -   Generar nueva variable -->
 
@@ -2282,7 +2312,7 @@ datos$IMC <- datos$Peso / datos$Altura_m^2
 ```{r}
 D1 <- subset(datos, Altura > 165)   
 D2 <- subset(datos, subset = Altura %in% c(177,178),
-                    select = Altura) 
+                    select = c(Altura, Peso)) 
 ```
 
 -   Generamos nuevas variables con el vector de asignación
@@ -2350,6 +2380,7 @@ datos[pos,]
 
 <!-- * En general, incorporaremos los datos como objetos a R de varias formas.  -->
 
+* Se pueden añadir filas y columnas a un *data frame* con `rbind()` y `cbind()`, respectivamente, a partir de vectores u otros *data frames*
 
 ## Listas
 
