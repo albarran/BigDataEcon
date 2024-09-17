@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://albarran.github.io/BigDataEcon/index.html</loc>
-    <lastmod>2024-09-12T09:30:14.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://albarran.github.io/BigDataEcon/about.html</loc>
-    <lastmod>2023-11-22T00:50:26.325Z</lastmod>
-  </url>
-  <url>
-    <loc>https://albarran.github.io/BigDataEcon/ProyectoFinal.html</loc>
-    <lastmod>2024-09-08T22:02:36.429Z</lastmod>
-  </url>
-  <url>
     <loc>https://albarran.github.io/BigDataEcon/docs/Tema00.html</loc>
-    <lastmod>2024-09-15T11:05:41.231Z</lastmod>
-  </url>
-  <url>
-    <loc>https://albarran.github.io/BigDataEcon/docs/Tema00ej2.html</loc>
-    <lastmod>2024-09-08T23:32:06.131Z</lastmod>
-  </url>
-  <url>
-    <loc>https://albarran.github.io/BigDataEcon/docs/Tema00ej1.html</loc>
-    <lastmod>2024-09-08T23:31:59.821Z</lastmod>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
   </url>
   <url>
     <loc>https://albarran.github.io/BigDataEcon/docs/0Intro.html</loc>
-    <lastmod>2024-09-10T10:32:19.332Z</lastmod>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
   </url>
   <url>
-    <loc>https://albarran.github.io/BigDataEcon/Contenidos.html</loc>
-    <lastmod>2024-09-09T05:02:51.925Z</lastmod>
+    <loc>https://albarran.github.io/BigDataEcon/about.html</loc>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
   </url>
   <url>
     <loc>https://albarran.github.io/BigDataEcon/Evaluacion.html</loc>
-    <lastmod>2024-09-09T21:00:19.721Z</lastmod>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://albarran.github.io/BigDataEcon/Contenidos.html</loc>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
   </url>
   <url>
     <loc>https://albarran.github.io/BigDataEcon/Datos.html</loc>
-    <lastmod>2024-09-08T20:44:17.993Z</lastmod>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://albarran.github.io/BigDataEcon/ProyectoFinal.html</loc>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://albarran.github.io/BigDataEcon/index.html</loc>
+    <lastmod>2024-09-17T16:14:19.828Z</lastmod>
+  </url>
+  <url>
+    <loc>https://albarran.github.io/BigDataEcon/docs/Tema00ej2.html</loc>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://albarran.github.io/BigDataEcon/docs/Tema00ej1.html</loc>
+    <lastmod>2024-09-17T16:14:19.688Z</lastmod>
   </url>
 </urlset>
