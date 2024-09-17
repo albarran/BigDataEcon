@@ -8,7 +8,7 @@ strip-comments: true
 
 <!-- **********************************************************************  -->
 
-## Semana 1  
+## Semana 1
 (09-Sept. a 15-Sept.)
 
   * [Introducción](docs/0Intro.qmd)
@@ -22,11 +22,6 @@ strip-comments: true
 
   * [Tema 0 - Ejercicio 1](docs/Tema00ej1.qmd)
   * [Tema 0 - Ejercicio 2](docs/Tema00ej2.qmd) 
-  
-
-
-
-
 
 
   * Fecha límite de entrega de los ejercicios del Tema 0: **vie., 22-sept., 23:59h**
