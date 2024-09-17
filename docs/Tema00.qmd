@@ -3527,6 +3527,11 @@ barplot(prop.table(frec2), beside = T)
 ## Estadísticos descriptivos: variables continuas
 
 ```{r}
+#| echo: false
+library(wooldridge)
+```
+
+```{r}
 data(ceosal1, package='wooldridge')
 ```
 
