@@ -104,7 +104,7 @@ datos1 <- t(cbind(A, B)) |> as.data.frame()
 colnames(datos1) <- vector_dias
 datos1 <- rownames_to_column(datos1, var = "Tienda")
 
-export(datos1, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas1.xlsx", overwrite = TRUE)
+# export(datos1, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas1.xlsx", overwrite = TRUE)
 export(datos1, "Ventas1.xlsx", overwrite = TRUE)
 ```
 
@@ -175,7 +175,7 @@ rownames(mVentas) <- nombres
 mVentas <- as.data.frame(mVentas)
 mVentas <- rownames_to_column(mVentas, var = "Producto")
 
-export(mVentas, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2a.xlsx", overwrite = TRUE)
+# export(mVentas, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2a.xlsx", overwrite = TRUE)
 export(mVentas, "Ventas2a.xlsx", overwrite = TRUE)
 
 ################################################################################
@@ -194,7 +194,7 @@ rownames(mVentas2) <- nombres2
 mVentas2 <- as.data.frame(mVentas2)
 mVentas2 <- rownames_to_column(mVentas2, var = "Producto")
 
-export(mVentas2, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2b.xlsx", overwrite = TRUE)
+# export(mVentas2, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2b.xlsx", overwrite = TRUE)
 export(mVentas2, "Ventas2b.xlsx", overwrite = TRUE)
 
 ```
