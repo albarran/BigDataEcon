@@ -122,9 +122,18 @@ datos <- import("Ventas1.xlsx")
 Ventas_A <- datos[1, 2:6]
 Ventas_B <- datos[2, 2:6]
 
+# si no sabemos, el número de columnas
+# una *buena* pregunta 
+# *entendiendo* las respuestas: ncol(Ventas_A) o dim(Ventas_A)[2]
+
+# otras formas: datos[datos %in% "A", 2:ncol(Ventas_A)]
+
 # Ventas totales por día
 # aun así, podemos hacer algunas operaciones
 Ventas_totales_diarias <-  Ventas_A + Ventas_B
+
+# En Excel, mismo pasos algorítmicos, misma lógica
+# implementación propia
 
 Ventas_totales_diarias
 
@@ -139,6 +148,7 @@ Ventas_totales_semana
 
 # Ventas medias de la semana en A
 # solo podemos calcular media convertido a vector con as.numeric() o as.numeric()
+# chatGPT nos puede ayudar: si pregutamos bien y ENTENDEMOS conceptos de R (tipos de objetos)
 Ventas_media_A <- mean(as.numeric(Ventas_A))
 
 Ventas_media_A
@@ -268,8 +278,8 @@ c) Se quiere conocer el número de compradores de los productos a partir del val
 # Estimar número de compradores
 
 # Data Frame de precios
-precios <- data.frame("PrecioN" = c(5.2, 4.7, 5.7, 6.1, 7, 6.7),
-                      "PrecioI" = c(4.2, 4.3, 4.2, 4.5, 4.9, 4.8),
+precios <- data.frame("PrecioNac" = c(5.2, 4.7, 5.7, 6.1, 7, 6.7),
+                      "PrecioInt" = c(4.2, 4.3, 4.2, 4.5, 4.9, 4.8),
                       row.names = c("X", "Y", "Z", "R", "S", "T"))
   
 ########################################################################
