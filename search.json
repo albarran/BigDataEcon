@@ -1,54 +1,5 @@
 [
   {
-    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "title": "Introducción",
-    "section": "“Datificación” de la vida diaria",
-    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
-  },
-  {
-    "objectID": "docs/0Intro.html#importancia-de-los-datos",
-    "href": "docs/0Intro.html#importancia-de-los-datos",
-    "title": "Introducción",
-    "section": "Importancia de los datos",
-    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
-  },
-  {
-    "objectID": "docs/0Intro.html#objetivos",
-    "href": "docs/0Intro.html#objetivos",
-    "title": "Introducción",
-    "section": "Objetivos",
-    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
-  },
-  {
-    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "title": "Introducción",
-    "section": "Aprendiendo a analizar datos",
-    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
-  },
-  {
-    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
-    "href": "docs/0Intro.html#análitica-cadena-de-valor",
-    "title": "Introducción",
-    "section": "Análitica: Cadena de Valor",
-    "text": "Análitica: Cadena de Valor"
-  },
-  {
-    "objectID": "docs/0Intro.html#tipos-de-análisis",
-    "href": "docs/0Intro.html#tipos-de-análisis",
-    "title": "Introducción",
-    "section": "Tipos de Análisis",
-    "text": "Tipos de Análisis"
-  },
-  {
-    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "title": "Introducción",
-    "section": "Ciclo de Vida del Análisis de Datos",
-    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
-  },
-  {
     "objectID": "docs/Tema00.html#introducción",
     "href": "docs/Tema00.html#introducción",
     "title": "Tema 0: Introducción a R y RStudio (Posit)",
@@ -301,6 +252,62 @@
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
+    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "title": "Introducción",
+    "section": "“Datificación” de la vida diaria",
+    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
+  },
+  {
+    "objectID": "docs/0Intro.html#importancia-de-los-datos",
+    "href": "docs/0Intro.html#importancia-de-los-datos",
+    "title": "Introducción",
+    "section": "Importancia de los datos",
+    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
+  },
+  {
+    "objectID": "docs/0Intro.html#objetivos",
+    "href": "docs/0Intro.html#objetivos",
+    "title": "Introducción",
+    "section": "Objetivos",
+    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
+  },
+  {
+    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "title": "Introducción",
+    "section": "Aprendiendo a analizar datos",
+    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
+  },
+  {
+    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
+    "href": "docs/0Intro.html#análitica-cadena-de-valor",
+    "title": "Introducción",
+    "section": "Análitica: Cadena de Valor",
+    "text": "Análitica: Cadena de Valor"
+  },
+  {
+    "objectID": "docs/0Intro.html#tipos-de-análisis",
+    "href": "docs/0Intro.html#tipos-de-análisis",
+    "title": "Introducción",
+    "section": "Tipos de Análisis",
+    "text": "Tipos de Análisis"
+  },
+  {
+    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Ciclo de Vida del Análisis de Datos",
+    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
     "objectID": "Evaluacion.html",
     "href": "Evaluacion.html",
     "title": "Evaluación",
@@ -320,13 +327,6 @@
     "title": "Evaluación",
     "section": "",
     "text": "Trabajo empírico final (65%)\nExamen final (35%)"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData"
   },
   {
     "objectID": "Contenidos.html",
@@ -350,6 +350,20 @@
     "text": "Semana 1\n(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
   },
   {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
+    "section": "",
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData"
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Técnicas para ‘Big Data’ en Economía",
@@ -369,20 +383,6 @@
     "title": "Técnicas para ‘Big Data’ en Economía",
     "section": "",
     "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es"
-  },
-  {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
-    "section": "",
-    "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
   },
   {
     "objectID": "docs/Tema00ej2.html",
