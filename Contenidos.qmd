@@ -5,15 +5,86 @@ lang: es
 strip-comments: true
 ---
 
+<!--
+## Semana 15
+(18-Dic. a 24-Dic.)
 
-<!-- **********************************************************************  -->
+## Semana 14
+(11-Dic. a 17-Dic.)
 
-## Semana 1
-(09-Sept. a 15-Sept.)
+  * [Tema 13 - Otros algoritmos de Aprendizaje Supervisado](docs/Tema13.qmd)
+  * [Tema 14 - Aprendizaje No Supervisado](docs/Tema14.qmd)
 
-  * [Introducción](docs/0Intro.qmd)
-  * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
+## Semana 13
+(04-Dic. a 10-Dic.)
 
+  * [Tema 10 - Ejercicio](docs/Tema10ej.qmd)
+  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
+
+## Semana 12
+(27-Nov. a 03-Dic.)
+
+  * [Tema 11 - kNN](docs/Tema11.qmd)
+  * [Tema 12 - Métodos basados en árboles](docs/Tema12.qmd)
+
+## Semana 11
+(20-Nov. a 26-Nov.)
+
+  * [Tema 09 - Selección y Regularización](docs/Tema09.qmd)
+  * [Tema 10 - Modelización con `tidymodels`](docs/Tema10.qmd)
+
+## Semana 10
+(13-Nov. a 17-Nov.)
+
+  * [Tema 08 - Aprendizaje Estadístico](docs/Tema08.qmd)
+
+## Semana 9
+(6-Nov. a 10-Nov.)
+
+  * [Tema 05 - Ejercicio](docs/Tema05ejWebScrap.qmd)
+    - Fecha:  mie. 29-Nov. 23:59h 
+
+  * [Tema 07 - Ejercicio](docs/Tema07ej.qmd)
+    - Fecha:  mie. 29-Nov. 23:59h 
+
+## Semana 8
+(30-Oct. a 3-Nov.)
+
+  * [Tema 07 - Fundamentos Estadísticos](docs/Tema07.qmd)
+
+## Semana 7
+(23-Oct. a 27-Oct.)
+
+  * [Tema 06 - Introducción a Quarto](docs/Tema06.qmd)
+  * [Tema 06 - Ejercicio](docs/Tema06ej.qmd)
+    - Fecha:  mie. 8-Nov. 23:59h 
+
+## Semana 6
+(16-Oct. a 20-Oct.)
+
+  * [Tema 04 - Visualización de Datos](docs/Tema04.qmd)
+  * [Tema 04 - Ejercicio](docs/Tema04ej.qmd)
+    - Fecha límite de entrega: **lun., 30-oct., 23:59h**
+  * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
+
+## Semana 5
+(09-Oct. a 13-Oct.)
+
+  * [Tema 03 - Datos Ordenados](docs/Tema03.qmd)
+
+## Semana 4
+(2-Oct. a 6-Oct.)
+
+  * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
+
+## Semana 3
+(25-Sept. a 29-Sept.)
+
+  * [Tema 02 - Manipulación de datos relacionales](docs/Tema02.qmd)
+
+-->
+
+<!-- *********************************************************************  -->
 
 ## Semana 2
 (16-Sept. a 22-Sept.)
@@ -23,116 +94,18 @@ strip-comments: true
   * [Tema 0 - Ejercicio 1](docs/Tema00ej1.qmd)
   * [Tema 0 - Ejercicio 2](docs/Tema00ej2.qmd)
 
-
   * Fecha límite de entrega de los ejercicios del Tema 0: **vie., 22-sept., 23:59h**
-
 
   * [Tema 01 - Transformación de datos](docs/Tema01.qmd)
   * [Tema 01 - Ejercicio 1](docs/Tema01ej1.qmd)
 
+-->
 
+## Semana 1
+(09-Sept. a 15-Sept.)
 
-## Semana 3
-(25-Sept. a 29-Sept.)
-
-
-  * [Tema 02 - Manipulación de datos relacionales](docs/Tema02.qmd)
-
-  
-
-## Semana 4
-(2-Oct. a 6-Oct.)
-
-  * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
-  
-
-## Semana 5
-(09-Oct. a 13-Oct.)
-
-  * [Tema 03 - Datos Ordenados](docs/Tema03.qmd)
-
-
-## Semana 6
-(16-Oct. a 20-Oct.)
-
-  * [Tema 04 - Visualización de Datos](docs/Tema04.qmd)
-  
-  * [Tema 04 - Ejercicio](docs/Tema04ej.qmd)
-  
-    - Fecha límite de entrega: **lun., 30-oct., 23:59h**
-
-  * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
-
-  
-## Semana 7
-(23-Oct. a 27-Oct.)
-
- * [Tema 06 - Introducción a Quarto](docs/Tema06.qmd) 
- 
- * [Tema 06 - Ejercicio](docs/Tema06ej.qmd)
-    - Fecha:  mie. 8-Nov. 23:59h 
- 
-
-## Semana 8
-(30-Oct. a 3-Nov.)
-
- * [Tema 07 - Fundamentos Estadísticos](docs/Tema07.qmd)
-
-
-## Semana 9
-(6-Nov. a 10-Nov.)
-
- * [Tema 05 - Ejercicio](docs/Tema05ejWebScrap.qmd)
-    - Fecha:  mie. 29-Nov. 23:59h 
-
- * [Tema 07 - Ejercicio](docs/Tema07ej.qmd)
-
-    - Fecha:  mie. 29-Nov. 23:59h 
-
-
-## Semana 10
-(13-Nov. a 17-Nov.)
- 
-  * [Tema 08 - Aprendizaje Estadístico](docs/Tema08.qmd)
-
-
-
-## Semana 11
-(20-Nov. a 26-Nov.)
-
-  * [Tema 09 - Selección y Regularización](docs/Tema09.qmd)
-
-  * [Tema 10 - Modelización con `tidymodels`](docs/Tema10.qmd)
-
-
-## Semana 12
-(27-Nov. a 03-Dic.)
-
-  * [Tema 11 - kNN](docs/Tema11.qmd)
-  
-  * [Tema 12 - Métodos basados en árboles](docs/Tema12.qmd)
-
-
-## Semana 13
-(04-Dic. a 10-Dic.)
-
-  * [Tema 10 - Ejercicio](docs/Tema10ej.qmd)
-
-  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
-
-
-## Semana 14
-(11-Dic. a 17-Dic.)
-
-  * [Tema 13 - Otros algoritmos de Aprendizaje Supervisado](docs/Tema13.qmd)
-
-  * [Tema 14 - Aprendizaje No Supervisado](docs/Tema14.qmd)
-
-## Semana 15
-(18-Dic. a 24-Dic.)
-
-
-
+  * [Introducción](docs/0Intro.qmd)
+  * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
 <!--
 
 -->
