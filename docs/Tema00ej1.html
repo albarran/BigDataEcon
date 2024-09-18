@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pedro Albarrán">
 
-<title>Tema 0. Ejercicio 1 – ‘Big Data’ para Economía (UA)</title>
+<title>Tema 0. Introducción a R. Ejercicio 1 – ‘Big Data’ para Economía (UA)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4705,6 +4705,230 @@ vertical-align: -.125em;
     "search-label": "Buscar"
   }
 }</script>
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+<style type="text/css">
+.lightable-minimal {
+border-collapse: separate;
+border-spacing: 16px 1px;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-minimal td {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal th {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal thead tr:last-child th {
+border-bottom: 2px solid #00000050;
+empty-cells: hide;
+}
+.lightable-minimal tbody tr:first-child td {
+padding-top: 0.5em;
+}
+.lightable-minimal.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-minimal.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic {
+border-top: 0.16em solid #111111;
+border-bottom: 0.16em solid #111111;
+width: 100%;
+margin-bottom: 10px;
+margin: 10px 5px;
+}
+.lightable-classic tfoot tr td {
+border: 0;
+}
+.lightable-classic tfoot tr:first-child td {
+border-top: 0.14em solid #111111;
+}
+.lightable-classic caption {
+color: #222222;
+}
+.lightable-classic td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic thead tr:last-child th {
+border-bottom: 0.10em solid #111111;
+}
+.lightable-classic.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic-2 {
+border-top: 3px double #111111;
+border-bottom: 3px double #111111;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-classic-2 tfoot tr td {
+border: 0;
+}
+.lightable-classic-2 tfoot tr:first-child td {
+border-top: 3px double #111111;
+}
+.lightable-classic-2 caption {
+color: #222222;
+}
+.lightable-classic-2 td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic-2 th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic-2 tbody tr:last-child td {
+border-bottom: 3px double #111111;
+}
+.lightable-classic-2 thead tr:last-child th {
+border-bottom: 1px solid #111111;
+}
+.lightable-classic-2.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic-2.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #EEE;
+border-collapse: collapse;
+margin-bottom: 10px;
+}
+.lightable-material tfoot tr td {
+border: 0;
+}
+.lightable-material tfoot tr:first-child td {
+border-top: 1px solid #EEE;
+}
+.lightable-material th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+}
+.lightable-material td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+border-top: 1px solid #eeeeee;
+}
+.lightable-material.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #ddd;
+}
+.lightable-material-dark {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #FFFFFF12;
+border-collapse: collapse;
+margin-bottom: 10px;
+background-color: #363640;
+}
+.lightable-material-dark tfoot tr td {
+border: 0;
+}
+.lightable-material-dark tfoot tr:first-child td {
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF60;
+}
+.lightable-material-dark td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF;
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark.lightable-hover tbody tr:hover {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody tr:nth-child(even) {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material-dark.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #FFFFFF12;
+}
+.lightable-paper {
+width: 100%;
+margin-bottom: 10px;
+color: #444;
+}
+.lightable-paper tfoot tr td {
+border: 0;
+}
+.lightable-paper tfoot tr:first-child td {
+border-top: 1px solid #00000020;
+}
+.lightable-paper thead tr:last-child th {
+color: #666;
+vertical-align: bottom;
+border-bottom: 1px solid #00000020;
+line-height: 1.15em;
+padding: 10px 5px;
+}
+.lightable-paper td {
+vertical-align: middle;
+border-bottom: 1px solid #00000010;
+line-height: 1.15em;
+padding: 7px 5px;
+}
+.lightable-paper.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-paper.lightable-striped tbody tr:nth-child(even) {
+background-color: #00000008;
+}
+.lightable-paper.lightable-striped tbody td {
+border: 0;
+}
+</style>
 
 
 <style type="text/css">
@@ -4780,7 +5004,9 @@ font-size: 80% !important;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tema 0. Ejercicio 1</h1>
+<h1 class="title">Tema 0. Introducción a R. Ejercicio 1</h1>
+<p class="subtitle lead">Técnicas para ‘Big Data’ en Economía - Curso 2023/24<br>
+Universidad de Alicante</p>
 </div>
 
 
@@ -4808,57 +5034,69 @@ font-size: 80% !important;
 </ul>
 <section id="apartado-1" class="level1">
 <h1>Apartado 1</h1>
-<ol type="a">
-<li>Tenemos la siguiente información sobre las ventas de dos tiendas, A y B, a lo largo de una semana. Generar dos vectores llamados, <code>Ventas_A</code> y <code>Ventas_B</code>, que contenga esta información; cada elemento del vector debe tener su correspondiente nombre (día de la semana).</li>
-</ol>
-<ol start="2" type="a">
-<li>Generar el vector que contenga las ventas totales (sumando ambas tiendas) para cada día, <code>Ventas_totales_diarias</code>, la variable (escalar) con las ventas totales de ambas tiendas en toda la semana, <code>Ventas_totales_semana</code>, y la variable (escalar) con las ventas medias de la semana de la tienda A, <code>Ventas_media_A</code>.</li>
-</ol>
-<ol start="3" type="a">
-<li><p>Generar los siguientes objetos</p>
-<ul>
-<li><p>el vector <code>Ventas_A_entre_semana</code> con las ventas de cada día de la tienda A exceptando los lunes y viernes.</p></li>
-<li><p>el vector <code>Ventas_seleccion</code> con las ventas totales de cada día para ambas tiendas en los días en los que la tienda B vende más que la tienda A.</p></li>
-<li><p>el vector <code>dias_Ventas_seleccion</code> con los nombres de los días en los que la tienda B vende más que la tienda A.</p></li>
-</ul></li>
-</ol>
+<p>El archivo <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas1.xlsx"><code>Ventas1.xlsx</code></a> contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.</p>
+<p>NOTA: se recomienda crear un proyecto de RStudio y guardar el archivo <code>Ventas1.xlsx</code> en la carpeta.</p>
 </section>
 <section id="apartado-2" class="level1">
 <h1>Apartado 2</h1>
 <ol type="a">
-<li>La siguiente tabla muestras las ventas de tres productos (X, Y y Z) a nivel nacional y a nivel internacional (en millones de euros). Generar una matriz, <code>matriz_ventas</code>, que contenga esta información; sus filas y columnas deben tener los nombres apropiados.</li>
+<li>Los archivos <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx"><code>Ventas2a.xlsx</code></a> y <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx"><code>Ventas2b.xlsx</code></a> contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.</li>
 </ol>
 <ol start="2" type="a">
-<li>Considerar las ventas de otros tres productos según la siguiente tabla. Generar una nueva matriz, <code>matriz_ventas2</code>, con esta información y combinarla con la matriz del apartado anterior para obtener una nueva matriz, <code>matriz_ventas_combinada</code>, con información para todos los productos.</li>
+<li>Añadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.</li>
 </ol>
 <ol start="3" type="a">
-<li>Generar un vector, <code>ventas_total</code>, con las ventas totales (nacionales más internacionales) de cada producto. Generar una matriz, <code>matriz_ventas_combinada_total</code>, que añada una columna con las ventas totales a <code>matriz_ventas_combinada</code>.</li>
+<li>Calcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.</li>
 </ol>
-<ol start="4" type="a">
-<li>Generar una variable (escalar), <code>internac_media</code>, con la media de las ventas internacionales (media sobre todos los productos) y otro vector, <code>nacional_seleccion_media</code>, con la media de las ventas nacionales sobre los productos X, Y y R.</li>
+<ol start="3" type="a">
+<li>Se quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:</li>
 </ol>
-<ol start="5" type="a">
-<li><p>Se quiere conocer el número de compradores de los productos a partir de la matriz de ventas, <code>matriz_ventas_combinada</code>.</p>
-<ul>
-<li>Generar una matriz, <code>compradores_estimados</code>, de compradores estimados para cada producto y destino (nacional e internacional) suponiendo que el precio de todos los productos es 5.</li>
-<li>Generar la matriz <code>compradores</code> con un cálculo más exacto a partir de la siguiente información de precios.</li>
-</ul></li>
-</ol>
+<table class="lightable-paper lightable-hover caption-top table" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PrecioN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PrecioI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">5.2</td>
+<td style="text-align: right;">4.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Y</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">4.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Z</td>
+<td style="text-align: right;">5.7</td>
+<td style="text-align: right;">4.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R</td>
+<td style="text-align: right;">6.1</td>
+<td style="text-align: right;">4.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">S</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">4.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">6.7</td>
+<td style="text-align: right;">4.8</td>
+</tr>
+</tbody>
+</table>
+
+
 </section>
 <section id="apartado-3" class="level1">
 <h1>Apartado 3</h1>
-<ol type="a">
-<li>Se ha preguntado a cinco clientes sobre su satisfacción con los servicios de una empresa. Su contestación ha sido: “poco”, “nada”, “nada”, “poco”, “mucho”. Generar un vector, <code>factor_satisf_vector</code>, adecuado para esta información.</li>
-</ol>
-<ol start="2" type="a">
-<li>Generar un vector, <code>sum_factor</code>, con las estadísticas descriptivas de la información del apartado anterior y muestra el resultado (“imprime” ese vector).</li>
-</ol>
-<ol start="3" type="a">
-<li>Crear el vector <code>comparar_clientes</code> que informe sobre si el cliente 2 está más satisfecho que el cliente 5.</li>
-</ol>
-</section>
-<section id="apartado-4" class="level1">
-<h1>Apartado 4</h1>
 <ol type="a">
 <li><p>El conjunto de datos <code>mtcars</code> está incluido en R por defecto; buscar en la ayuda de RStudio <code>mtcars</code> para conocer las variables que incluye. Comprobar la estructura con <code>str()</code> y visualizar las primeras observaciones con <code>head()</code>.</p>
 <ul>
@@ -4881,7 +5119,7 @@ font-size: 80% !important;
 </ul>
 <p>IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,</p>
 <ul>
-<li>Tema00ej1_123456787.R</li>
+<li>Tema00ej1_123456789.R</li>
 </ul>
 
 
