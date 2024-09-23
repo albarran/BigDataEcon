@@ -76,15 +76,18 @@ strip-comments: true
 (2-Oct. a 6-Oct.)
 
   * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
-
-## Semana 3
-(25-Sept. a 29-Sept.)
-
-  * [Tema 02 - Manipulación de datos relacionales](docs/Tema02.qmd)
-
 -->
 
 <!-- *********************************************************************  -->
+
+
+## Semana 3
+(23-Sept. a 29-Sept.)
+
+  * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
+  * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
+<!--    - Fecha límite de entrega: **lun., 30-oct., 23:59h**
+-->
 
 ## Semana 2
 (16-Sept. a 22-Sept.)

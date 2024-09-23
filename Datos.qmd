@@ -25,21 +25,21 @@ strip-comments: true
   + [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)
   + [earn.RData](https://raw.githubusercontent.com/albarran/00datos/main/earn.RData)
 
+* Tema 1:
+
+  + [landdata-states.csv](https://raw.githubusercontent.com/albarran/00datos/main/landdata-states.csv)
+
 <!--
 
 * Tema 1:
 
   + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
-  
-* Tema 4:
 
-  + [landdata-states.csv](https://raw.githubusercontent.com/albarran/00datos/main/landdata-states.csv)
-  
 
 * Tema 5:
 
   + [BankMarketing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BankMarketing.csv)
-  
+
   + [BostonHousing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv)
 
 
