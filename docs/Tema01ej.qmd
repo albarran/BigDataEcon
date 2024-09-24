@@ -1,0 +1,205 @@
+---
+# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 01. Visualización de Datos. Ejercicio."
+author:  
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+# institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+#   beamer:
+#     logo: figure/by-nc-sa2.png
+#     titlegraphic: figure/by-nc-sa.png
+#     theme: Boadilla # Copenhagen # CambridgeUS #
+#     outertheme: miniframes
+#     colortheme: crane
+#     section-titles: false
+#     fontsize: 10pt
+# #    header-includes:
+# #      - \setbeameroption{show notes}
+# #      # - \setbeameroption{show notes on second screen}
+  # revealjs:
+  #   logo: figure/by-nc-sa2.png
+  #   titlegraphic: figure/by-nc-sa.png
+  #   theme:
+  #     - serif # simple # default # moon # beige # sky #
+  #     - custom.scss
+  #   smaller: true # false #
+  #   scrollable: true
+  #   embed-resources: true
+  #   slide-number: true
+  #   show-slide-number: all
+  #   transition: slide # concave #
+  #   background-transition: fade
+  #   progress: true
+  html: 
+    embed-resources: true
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: false
+css: styles.css
+---
+
+```{r setup}
+#| include: false
+# include=F es suficiente para no incluir mensajes, etc.
+
+# Opciones por defecto para los fragmentos de código
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+                      warning = FALSE, message = FALSE,
+                      results = "hide", fig.show="hide")
+# se muestra y evalúa el código,
+# no se muestran mensajes, ni avisos (warnings)
+# no se muestran los resultados de código (tampoco gráficos)
+#     en los códigos que considere necesarios los mostraré
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())       
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+
+#fijo el directorio de trabajo
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+library(pwt10)
+library(countrycode)
+library(rio)
+pwt <- pwt10.01
+
+pwt$continent <- countrycode(pwt$isocode, origin = 'iso3c', destination = 'continent')
+export(pwt, file = "/home/albarran/Archivos/teaching/MAD/000/00datos/pwt.csv")
+export(pwt, file = "data/pwt.csv")
+
+```
+
+
+### Apartado a)
+
+El fichero [pwt.csv](https://raw.githubusercontent.com/albarran/00datos/main/pwt.csv) contiene los datos de las Penn World Tables (una famosa fuente de datos macro-económicos). Instalad el paquete de R `pwt10`. En la ayuda de R, buscad `pwt10.01` para una descripción de las primeras 52 columnas; la última es el continente al que pertenece el país.
+  
+En este apartado, reproduciremos [este gráfico](http://www.economist.com/node/21541178) de `The Economist`, donde se relacionaba Corrupción y Desarrollo Humano
+<center>
+![](figure/Economist1.png)
+</center>
+
+PERO usando otras **dos variables** que tenga *sentido* relacionar. 
+
+  +  Debéis elegir la información de solo **uno de los años** disponibles. 
+  
+  +  La reproducción del gráfico es *aproximada*; p.e., no es necesario que el interior de los puntos esté vacio o colocar el $R^2$
+  
+
+Comentad **brevemente** la información que ofrece vuestro gráfico.
+
+### Apartado b)
+
+La siguiente tabla con datos del PIB (constante a precios de 2015, en miles de millones de dólares) en 2020 para unos cuantos países:
+
+```{r apartado2.ejem}
+#| echo: false
+#| results: 'asis'
+
+library(WDI)  # World Development Indicators (Banco Mundial)
+library(countrycode)
+library(tidyverse)
+
+# Fetch real GDP data in constant USD for European and African countries
+gdp <- WDI(country = c("FRA", "DEU", "ESP", "GBR", "ITA", "ZAF", "NGA", "AGO", "GHA", "EGY"), 
+                indicator = "NY.GDP.MKTP.KD", start = 2020, end = 2020)
+
+gdp$continent <- countrycode(gdp$iso3c, origin = 'iso3c', destination = 'continent')
+
+gdp <- gdp %>% select(pais=country, continente=continent, pib=NY.GDP.MKTP.KD) %>%   mutate(pib = round(pib/1e9, 2))
+
+gdp |> kbl(format = "html")|> kable_paper("hover")
+```
+´
+Mostrar un diagrama de caja de la distribución del PIB para cada continente, sin usar y usando escala logarítmica o no. Comentar la información que ofrecen ambos gráficos y discutir las razones para las diferencias (ej., posición central y dispersión de las distribuciones).
+
+Nota: realizar algunos ajustes (mínimos) a los gráficos como dar color a los diagramas (asociado al continente), poner título al gráfico, los ejes, etc. 
+
+
+### Apartado c)
+
+El fichero [hotels.csv](https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv) contiene información sobre reservas de hoteles, donde cada fila corresponde con una reserva; la información detallada sobre las variables puede encontrarse [aquí](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md). 
+
+<!-- https://medium.com/@AnalystEmelda/using-data-visualizations-to-support-marketing-strategies-a50c807c10bb -->
+
+
+```{r}
+#| echo: false
+#| results: 'asis'
+
+library(rio)
+
+datos <- import("https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv")
+
+ggplot (data = datos) + geom_bar (mapping = aes (x=market_segment)) + facet_wrap(~hotel)
+```
+
+#### Apartado c.1)
+
+La columna `market_segment` contiene información de a qué categoría de los segmentos de mercado pertenece la reserva: Aviation (reservas por aerolíneas), Complementary (reservas de cortesía/gratuitas), Corporate (reservas de Empresas), Direct (reservas directas), Groups (Grupos), Offline TA/TO (Agencia de Viajes/Tour Operador 'offline'), Online TA (Agencia de Viajes de internter), Undefined (Sin definir). <!-- Podemos representar la distribución de reservas en cada segmento de la siguiente manera: 
+
+```{r}
+#| echo: true
+#| results: 'asis'
+# suponiendo que los datos están en un data frame llamado datos
+ggplot (data = datos) + geom_bar (mapping = aes (x=market_segment))
+```
+-->
+
+Una cadena hotelera está interesada en desarrollar promociones basadas en diferentes segmentos de mercado. Pero primero necesita saber cuántas de las transacciones ocurren para cada segmento de mercado y si esto dependía del tipo de hotel. La variable `hotel` indica el tipo de hotel: `City Hotel` (hotel urbano) o `Resort Hotel` (hotel de vacaciones). 
+
+Mostrar una visualización que permita a la cadena hotelera tener la información para tomar decisiones sobre sus promociones. Realizar los ajustes necesarios para que la visualización sea clara y fácil de interpretar: títulos, etiquetas, colores, etc.
+
+#### Apartado c.2)
+
+Un directivo de la empresa afirma que deben centrarse en personas que reservan con antelación, y cree que las personas con hijos tienden a reservar con mayor anticipación. Realice un análisis que permita comprobar si esta afirmación es cierta o no. 
+
+Nota: para realizar este análisis, se puede usar la variable `lead_time` (número de días que transcurren entre la fecha de reserva y la fecha de llegada) y la variable `children` (número de niños).
+
+# Entrega del ejercicio
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSccdbd-7YhwJ2jSEEYbu9tWg4cjkw2run1wBioaiza5B-f6kQ/viewform) con vuestros datos y subid 
+
+  * vuestro archivo de R 
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE  seguir el  siguiente formato que incluye vuestro número de DNI: ej.,
+
+ * Tema01ej_123456789.R
+  
