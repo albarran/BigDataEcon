@@ -42,7 +42,7 @@ format:
     embed-resources: true
 execute:
   enabled: true      # (no) ejecutar code chunks
-  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  eval: true        # por defecto, evalúa y muestra códido de code chunks
   echo: true
   warning: false    # pero no los mensajes ni warnings
   message: false
@@ -132,6 +132,7 @@ La siguiente tabla con datos del PIB (constante a precios de 2015, en miles de m
 ```{r apartado2.ejem}
 #| echo: false
 #| results: 'asis'
+#| eval: true
 
 library(WDI)  # World Development Indicators (Banco Mundial)
 library(countrycode)
@@ -148,7 +149,7 @@ gdp <- gdp %>% select(pais=country, continente=continent, pib=NY.GDP.MKTP.KD) %>
 gdp |> kbl(format = "html")|> kable_paper("hover")
 ```
 ´
-Mostrar un diagrama de caja de la distribución del PIB para cada continente, sin usar y usando escala logarítmica o no. Comentar la información que ofrecen ambos gráficos y discutir las razones para las diferencias (ej., posición central y dispersión de las distribuciones).
+Mostrar un diagrama de caja de la distribución del PIB para cada continente, sin usar y usando escala logarítmica. Comentar la información que ofrecen ambos gráficos y discutir las razones para las diferencias (ej., posición central y dispersión de las distribuciones).
 
 Nota: realizar algunos ajustes (mínimos) a los gráficos como dar color a los diagramas (asociado al continente), poner título al gráfico, los ejes, etc. 
 
