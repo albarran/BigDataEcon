@@ -228,6 +228,17 @@
       ],
       "Hash": "e78499cbcbbca98200254bd171379165"
     },
+    "WDI": {
+      "Package": "WDI",
+      "Version": "2.7.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "jsonlite"
+      ],
+      "Hash": "d0621c89c78e458566b28c79c3b9faab"
+    },
     "abind": {
       "Package": "abind",
       "Version": "1.4-8",
@@ -503,6 +514,16 @@
         "rlang"
       ],
       "Hash": "bb097fccb22d156624fd07cd2894ddb6"
+    },
+    "countrycode": {
+      "Package": "countrycode",
+      "Version": "1.6.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "08b7058813f13c7a1bb294fea9045e3a"
     },
     "cowplot": {
       "Package": "cowplot",
@@ -815,6 +836,22 @@
         "withr"
       ],
       "Hash": "44c6a2f8202d5b7e878ea274b1092426"
+    },
+    "ggrepel": {
+      "Package": "ggrepel",
+      "Version": "0.9.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "ggplot2",
+        "grid",
+        "rlang",
+        "scales",
+        "withr"
+      ],
+      "Hash": "3d4156850acc1161f2f24bc61c9217c1"
     },
     "glue": {
       "Package": "glue",
