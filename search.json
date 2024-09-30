@@ -18,7 +18,7 @@
     "href": "docs/Tema02.html#datos-no-ordenados",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Datos no ordenados",
-    "text": "Datos no ordenados\n\n\n\n\n\n\n\n\nOtras estructuras pueden tener sentido para mostrar información (o por convenciones)\nUn ejemplo del portal de datos abiertos del Gobierno de España\nLa visualización es atractiva, PERO sobran filas para analizar los datos"
+    "text": "Datos no ordenados\n\n\n\n\n\n\n\n\nOtras estructuras como esta pueden tener sentido para mostrar información (o por convenciones)\n\n\nLa visualización es atractiva, PERO sobran filas para analizar los datos: ej., total de personas con hijos y sin pareja entre 30 y 39 años"
   },
   {
     "objectID": "docs/Tema02.html#funciones-de-transformación-de-datos",
@@ -32,7 +32,7 @@
     "href": "docs/Tema02.html#filtrar-filas",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Filtrar filas",
-    "text": "Filtrar filas\n2.- filter(): conserva filas en las que la condición lógica es verdadera\n\n\n\n\nfilter(presidential, party == \"Republican\")\nfilter(presidential, start &gt; 1973 & party == \"Democratic\")\n\n\nSe pueden combinar (anidar) porque ambas toman y devuelve un data frame, pero así son difíciles de leer\n\n\nselect(filter(presidential, start &gt; 1973, name))"
+    "text": "Filtrar filas\n2.- filter(): conserva filas en las que la condición lógica es verdadera\n\n\n\n\nfilter(presidential, party == \"Republican\")\nfilter(presidential, start &gt; 1973 & party == \"Democratic\")\n\n\nSe pueden combinar (anidar) porque ambas toman y devuelve un data frame, pero así son difíciles de leer\n\n\nselect(filter(presidential, start &gt; 1973), name)"
   },
   {
     "objectID": "docs/Tema02.html#el-operador-de-tubería",
@@ -46,21 +46,21 @@
     "href": "docs/Tema02.html#crear-nuevas-variables",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Crear nuevas variables",
-    "text": "Crear nuevas variables\n\n\n3.-mutate(): añade nuevas columnas, creando variables según una fórmula a partir de otras\n\n\n\n\n\n\ntambién rename(): cambiar el nombre de una columna \n\n\n\n\n\n\nmypresidents &lt;- presidential %&gt;%                 # evitar \"machacar\" una fuente original\n                  mutate(duracion = end - start) \n\npresidential %&gt;% mutate(sigloXXI = start &gt; 2000,\n                        duracion = end - start,\n                        duracio2 = duracion*2   )  # crear varias separadas por comas\n\npresidential %&gt;% rename(nombre = name)"
+    "text": "Crear nuevas variables\n\n\n3.-mutate(): añade nuevas columnas, creando variables según una fórmula a partir de otras\n\n\n\n\n\n\ntambién rename(): cambiar el nombre de una columna \n\n\n\n\n\n\n# evitar \"machacar\" la fuente original\nmypresidents &lt;- presidential %&gt;%          \n                  mutate(duracion = end - start) \n\n# crear varias, separadas por coma\npresidential %&gt;% mutate(sigloXXI = start &gt; 2000,   \n                        duracion = end - start,    \n                        duracio2 = duracion*2   )  \n\npresidential %&gt;% rename(nombre = name)"
   },
   {
     "objectID": "docs/Tema02.html#ordenar-filas",
     "href": "docs/Tema02.html#ordenar-filas",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Ordenar filas",
-    "text": "Ordenar filas\n\n\n4.- arrange(): re-ordena las filas todas las columnas de un data frame\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\nmypresidents %&gt;% arrange(desc(duracion))           \nmypresidents %&gt;% arrange(desc(duracion), party) # primero ordena por duración \n                                                # en casos de empate, por party"
+    "text": "Ordenar filas\n\n\n4.- arrange(): re-ordena las filas todas las columnas de un data frame\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\nmypresidents %&gt;% arrange(desc(duracion))\n\n# ordenar por más de una columna: primero por duración, \n# en caso de empate por partido\nmypresidents %&gt;% arrange(desc(duracion), party)"
   },
   {
     "objectID": "docs/Tema02.html#resumir-todo-el-conjunto-de-datos",
     "href": "docs/Tema02.html#resumir-todo-el-conjunto-de-datos",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Resumir todo el conjunto de datos",
-    "text": "Resumir todo el conjunto de datos\n5.- summarize(): colapsa valores de un data frame en una sola fila resumen\n\n\n\n\nEspecificando cómo se reducirá una columna entera de datos en un solo valor.\n\n\nlibrary(lubridate)\nmypresidents %&gt;%\n  summarize(media_duracion = mean(duracion),\n            N = n(),                         # n() cuenta número total de filas\n            first_year = min(year(start)),   # year() extrae el año de una fecha\n            num_dems = sum(party == \"Democratic\") )\n\n\nsummarize() suele usarse en conjunción con group_by()"
+    "text": "Resumir todo el conjunto de datos\n5.- summarize(): colapsa valores de un data frame en una sola fila resumen\n\n\n\n\nEspecificando cómo se reducirá una columna entera de datos en un solo valor.\n\n\nlibrary(lubridate)\nmypresidents %&gt;%\n  summarize(media_duracion = mean(duracion),\n            N = n(),                        # n() cuenta núm. total de filas\n            first_year = min(year(start)),  # year() extrae el año de una fecha\n            num_dems = sum(party == \"Democratic\") )\n\n\nsummarize() suele usarse en conjunción con group_by()"
   },
   {
     "objectID": "docs/Tema02.html#group_by",
@@ -95,14 +95,14 @@
     "href": "docs/Tema02.html#funciones-de-resumen-útiles",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Funciones de resumen útiles",
-    "text": "Funciones de resumen útiles\n\nMedidas de centralidad y de dispersión: mean(x), median(x), sd(x), IQR(x), mad(x)\nMedidas de rango: min(x), quantile(x, 0.25), max(x)\nMedidas de posición: first(x), nth(x, 2), last(x).\n\nsimilar a x[1], x[2] y x[length(x)]\n\nConteos:\n\nn(): observaciones totales (tamaño del grupo)\nsum(!is.na(x)): observaciones no ausentes\nn_distinct(x): filas distintas en x"
+    "text": "Funciones de resumen útiles\n\nMedidas de centralidad y de dispersión: mean(x), median(x), sd(x), IQR(x) \nMedidas de rango: min(x), quantile(x, 0.25), max(x)\nMedidas de posición: first(x), nth(x, 2), last(x).\nConteos:\n\nn(): observaciones totales (tamaño del grupo)\nsum(!is.na(x)): observaciones no ausentes\nn_distinct(x): filas distintas en x"
   },
   {
     "objectID": "docs/Tema02.html#cuatro-representaciones-de-los-mismos-datos",
     "href": "docs/Tema02.html#cuatro-representaciones-de-los-mismos-datos",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Cuatro representaciones de los mismos datos",
-    "text": "Cuatro representaciones de los mismos datos\n\n\n\nlibrary(tidyverse)\ntable1     # datos ordenados\ntable2     # no tiene un valor por celda\n\n\n\n\n\n\n\n\n\ntable3     # mezcla más de una variable en una columna\ntable4a \ntable4b\n\n\ntable4a y table4b ofrecen información útil para presentación"
+    "text": "Cuatro representaciones de los mismos datos\n\n\n\nlibrary(tidyverse)\ntable1     # datos ordenados\ntable2     # varios valores por celda\n\n\n\n\n\n\n\n\n\ntable3     # más de una variable en una columna\ntable4a \ntable4b\n\n\ntable4a y table4b ofrecen información útil para presentación"
   },
   {
     "objectID": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
@@ -116,35 +116,28 @@
     "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "pivot_longer(): de ancho a largo",
-    "text": "pivot_longer(): de ancho a largo\n\nPivotar las variables no ordenadas en dos nuevas columnas (deben crearse)\n\n\n\n\npivot_longer(table4a, \n             cols=2:3, \n             names_to = \"year\", \n             values_to = \"cases\") \n\n\n\n\n\n\n\ndata frame a cambiar de forma\nnombres o índices de las columnas que representan valores, no variables\nlos nombres de esas antiguas variables van como valores a nueva variable\nlos valores de las antiguas celdas van a otra nueva variable\n\n\n\n\nPara recuperar table1, se debería pivotar también table4b y unir ambas"
+    "text": "pivot_longer(): de ancho a largo\n\nPivotar las variables en dos nuevas columnas (deben crearse)\n\n\n\n\npivot_longer(table4a, \n             cols=2:3, \n             names_to = \"year\", \n             values_to = \"cases\") \n\n\n\n\n\n\n\ndata frame a cambiar de forma\nnombres o índices de las columnas que representan valores, no variables\nlos nombres de esas antiguas variables van como valores a nueva variable\nlos valores de las antiguas celdas van a otra nueva variable"
   },
   {
     "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
     "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "pivot_longer(): de ancho a largo (cont.)",
-    "text": "pivot_longer(): de ancho a largo (cont.)\n\nRecordatorio: formas equivalentes de hacer lo mismo\n\n\npivot_longer(table4a, 2:3, names_to = \"year\", values_to = \"cases\")       \ntable4a %&gt;% pivot_longer(c(`1999`, `2000`), values_to = \"cases\", names_to = \"year\")\ntable4a %&gt;% pivot_longer(names_to = \"year\", values_to = \"cases\", -country)\ntable4a %&gt;% pivot_longer(names_to = \"year\", values_to = \"cases\", `1999`:`2000`)\n\n\nNotar que los nombres de columna son caracteres y cuando son números van entre ` (evita confusión con índice de posición)\n\n\nDeberíamos cambiar el tipo de las nuevas variables\n\n\npivot_longer(table4a, 2:3, names_to = \"year\", values_to = \"cases\") %&gt;%\n  mutate(year= parse_number(year))"
+    "text": "pivot_longer(): de ancho a largo (cont.)\n\nRecordad que existen formas equivalentes de hacer lo mismo\n\n\ntable4a %&gt;% pivot_longer(`1999`:`2000`), \n                         values_to = \"cases\", names_to = \"year\")\n\n\nNotar que los nombres de columna son caracteres y cuando son números van entre ` (evita confusión con índice de posición)\n\n\nDeberíamos cambiar el tipo de las nuevas variables\n\n\ntable4a %&gt;% \n  pivot_longer(2:3, names_to = \"year\", values_to = \"cases\") %&gt;%\n  mutate(year= parse_number(year))"
   },
   {
     "objectID": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
     "href": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "pivot_wider(): de largo a ancho",
-    "text": "pivot_wider(): de largo a ancho\n\n\n\ntable2 %&gt;%\n    pivot_wider(names_from = type,  \n                values_from = count)\n\n\n\n\n\n\n\nel data frame a cambiar de forma\nnombre de la variable de cuyos valores vienen los nuevos nombres de columnas\nnombre de la variable de la que tomar los valores para las nuevas columnas\n\n\nAplicado a table2 sirve para limpiar datos con observaciones que se dispersan en varias filas\n\n\n\n\ntable1 %&gt;% select(-population) %&gt;%            # Tabla de presentación para casos\n    pivot_wider(names_from = year, values_from = cases)"
+    "text": "pivot_wider(): de largo a ancho\n\n\n\ntable2 %&gt;%\n    pivot_wider(names_from = type,  \n                values_from = count)\n\n\n\n\n\n\n\nel data frame a cambiar de forma\nnombre de la variable de cuyos valores vienen los nuevos nombres de columnas\nnombre de la variable de la que tomar los valores para las nuevas columnas\n\n\n\n\ntable1 %&gt;% select(-population) %&gt;%            # Tabla de presentación \n    pivot_wider(names_from = year, values_from = cases)"
   },
   {
     "objectID": "docs/Tema02.html#dos-funciones-útiles",
     "href": "docs/Tema02.html#dos-funciones-útiles",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Dos funciones útiles",
-    "text": "Dos funciones útiles\n\nseparate(): dividir una columna en múltiples variables indicando un separador o vector de posiciones en las que dividir\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), sep = \"/\")\ntable5 &lt;- table3 %&gt;% separate(year, into = c(\"century\", \"year\"), sep = 2)\n\n\nCon el argumento convert = TRUE intenta convertir el tipo de datos (no mantener carácter)\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), convert = TRUE)\n\n\nunite(): combinar múltiples columnas en una\n\n\ntable5 %&gt;% \n  unite(new, century, year, sep = \"-\")"
-  },
-  {
-    "objectID": "docs/Tema02.html#comentario-sobre-valores-ausentes",
-    "href": "docs/Tema02.html#comentario-sobre-valores-ausentes",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
-    "section": "Comentario sobre valores ausentes",
-    "text": "Comentario sobre valores ausentes\n\naccion &lt;- tibble( anio  = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),\n                  trim  = c(   1,    2,    3,    4,    2,    3,    4),\n                  rent  = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66))\n\n\nDos tipos de valores ausentes: en 2015.Q4 explícitos y en 2016.Q1 implícitos\nEsto cambia con la forma de representación\n\n\nancho &lt;- accion %&gt;% \n            pivot_wider(names_from = anio, values_from = rent)     \nancho             # NA explícitos al convertir a formato ancho\n\nancho %&gt;%  pivot_longer(cols = c(\"2015\",\"2016\"), \n                        names_to = \"anio\", values_to = \"rent\")\n\naccion %&gt;% complete(anio, trim)  # todos NA explícitos \n                                 # (rellena buscando todas combinacines)"
+    "text": "Dos funciones útiles\n\nseparate(): dividir una columna en múltiples variables indicando un separador o vector de posiciones en las que dividir\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), sep = \"/\")\ntable3 %&gt;% separate(year, into = c(\"century\", \"year\"), sep = 2)\n\n\nCon convert = TRUE intenta convertir el tipo (no mantener carácter)\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), \n                    convert = TRUE)\n\n\nunite(): combinar múltiples columnas en una\n\n\ntable5 %&gt;% \n  unite(new, century, year, sep = \"-\")"
   },
   {
     "objectID": "docs/Tema00ej1.html",
