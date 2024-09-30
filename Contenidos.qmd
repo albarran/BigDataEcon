@@ -71,15 +71,15 @@ strip-comments: true
 (09-Oct. a 13-Oct.)
 
   * [Tema 03 - Datos Ordenados](docs/Tema03.qmd)
-
-## Semana 4
-(2-Oct. a 6-Oct.)
-
-  * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
 -->
 
 <!-- *********************************************************************  -->
 
+
+## Semana 4
+(30-Sept. a 6-Oct.)
+
+  * [Tema 02 - Tratamiento de Datos](docs/Tema02.qmd)
 
 ## Semana 3
 (23-Sept. a 29-Sept.)

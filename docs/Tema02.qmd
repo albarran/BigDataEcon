@@ -1,0 +1,1492 @@
+---
+# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 02 - Tratamiento de datos (una tabla)" # con `dplyr` (una sola tabla)"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  beamer:
+    handout: false
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  Boadilla # Copenhagen # CambridgeUS #
+    outertheme: miniframes
+    colortheme: crane
+    section-titles: false
+    fontsize: 10pt
+    header-includes: |
+        \setbeamertemplate{footline}
+        {
+        \leavevmode%
+        \hbox{%
+        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{author in head/foot}\insertshortauthor%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshorttitle%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+        \end{beamercolorbox}}%
+        }
+       # - \setbeamertemplate{navigation symbols}{}
+       # - \setbeamertemplate{caption}[numbered]
+       # - \setbeamertemplate{headline}[page number]
+       # - \setbeameroption{show notes}
+       # - \setbeameroption{show notes on second screen}
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+
+
+```{r setup}
+#| include = FALSE
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/ECMTII/ECMTII/Slides_2022")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+<!--
+        * datos de gapminder en lugar de habitual <http://jules32.github.io/2016-07-12-Oxford/dplyr_tidyr/>                  <http://stat545.com/block009_dplyr-intro.html#revel-in-the-convenience>
+-->
+
+
+<!--
+## El meta-paquete `tidyverse`
+
+-   Muchos datos de ejemplo están ya preparados para el análisis. 
+
+-   En la vida real, los datos se tiene que recolectar, unir, limpiar, recodificar, etc.
+
+-   `tidyverse` incluye una colección de bibliotecas para todo el proceso "tratamiento de datos" y su visualización (para obtener información)
+
+-   El núcleo de `tidyverse` lo componen (una descripción [aquí](https://www.tidyverse.org/packages/)):
+
+:::: {.columns}
+
+::: {.column width="40%"}
+-   `readr`
+-   `tibble`
+-   `ggplot2`
+-   `tidyr`
+-   `purrr`
+-   `dplyr`
+
+::: 
+::: {.column width="40%"}
+
+![](figure/tidyverse_full.jpg){width="70%"}
+:::
+::::
+
+::: {.notes}
+
+- En Econometría II, los datos de ejemplo ya están limpios y preparados
+
+- Para trabajar en la vida real, conviene aprender `tidyverse`
+
+:::
+-->
+
+<!--
+## *data frame* (R `base`) vs *tibble* (`tidyverse`)
+
+::: {.notes} 
+
+- https://blog.rstudio.com/2016/03/24/tibble-1-0-0/#tibbles-vs-data-frames
+
+-   Es un ejemplo de una biblioteca ofreciendo objetos o funciones ya existentes, pero modificados/mejorados
+
+:::
+
+-   Los `tibbles` son *data frames* con propiedades mejoradas, especialmente para conjuntos de datos grandes: p.e., su visualización
+
+:::: {.columns}
+
+::: {.column width="40%"}
+```{r}
+library(tidyverse)
+```
+
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+```{r}
+mtcars
+as_tibble(mtcars)
+```
+
+:::
+
+::::
+
+
+::: {.notes}
+
+- Algunas mejoras ya se incorporan en R `base`: p.e., el uso de `[[]]` antes solo existía en `tibbles`, no en *data frames*
+
+- También distintos comportamiento: 
+
+  + en *data frames*,  df[,1] y df[[1]] son vectores y df[1] es un data frame
+  
+  + en *tibbles*, solo df[[1]] es vector, df[,1] y df[1] son tibbles
+
+- `median(iris[,1])` ok, median espera vector, pero no si tibble
+
+:::
+
+-   Se pueden crear con la función `tibble()`
+
+```{r}
+tibble(x = 1:5, y = 1, z = x ^ 2 + y)
+```
+
+::: {.notes}
+
+- Notar que `tibble()` no usa comillas para generar los nombres
+
+- Tampoco convierte caracteres a factores por defecto (r4ds)
+
+- Para crear por filas, ver `tribble()`
+
+- tibble es un data frame que permite complejos listas en las columnas ver nest() unnest()
+:::
+
+-->
+
+
+## Limpieza y "doma" de datos <!-- ("data wrangling")-->
+
+<!--
+ o "data munging"
+ -->
+ 
+<center>
+![](figure/data-science-wrangle.png){width=55%}
+</center>
+
+* Un análisis de datos adecuado requiere (mucho) tiempo <!--previo--> de [trabajo "sucio"](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html) 
+<!--  pero es clave para obtener información útil en la toma de decisiones -->
+
+* <!--El meta-paquete--> `tidyverse` incluye una colección de bibliotecas con herramientes eficientes para el proceso de "tratamiento de datos" ("data wrangling")
+
+<!-- ofrece herramientas eficientes inspiradas en <!--declaraciones de--> <!--consulta **SQL** -->
+<!-- (basadas en una *gramática de manipulación de datos*) -->
+
+* El objetivo es tener un conjunto de datos **ordenado** y **limpio** para poder realizar análisis de manera eficiente
+
+* Esto puede requerir seleccionar columnas, filtrar filas, crear nuevas variables, ordenar, agrupar, resumir, etc.
+
+<!--
+* La mayoría de operaciones pueden realizarse combinando 5 "verbos" <!--: `select()`, `filter()`, `mutate()`, `arrange()` y `summarize()` (más `%>%` y `group_by()`)-->
+
+<!--
+* Todos tienen como primer argumento un *data frame*, los siguientes describen qué hacer (con columnas o filas) y devuelven otro *data frame*
+-->
+
+<!--
+
+The github repo for [`dplyr`](https://github.com/hadley/dplyr) 
+
+  * https://tidyr.tidyverse.org/
+
+  * introductory vignette: `vignette("dplyr", package = "dplyr")`  <----- MUY BUENA REFERENCIA
+  
+  * Hadley Wickham's [Introduction to dplyr Vignette](https://github.com/hadley/dplyr/blob/master/vignettes/dplyr.Rmd), 
+  
+  [*R for data science*](http://r4ds.had.co.nz/transform.html), 
+  
+  * MDSR.
+  
+  * Joplin: Data Manipulation
+  
+   data.table dtplyr 
+   
+   vignette("two-table").
+   
+   
+   
+   -----
+   https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html
+   https://www.tidyverse.org/blog/2021/08/teach-tidyverse-2021/
+   https://www.r-bloggers.com/2021/05/data-manipulation-techniques-with-dplyr/
+   https://www.r-bloggers.com/2021/04/tidyverse-in-r-complete-tutorial/
+   
+   
+         <http://www.stat.pitt.edu/sungkyu/course/pds/material/Lec10.html>
+      https://beanumber.github.io/tidy-databases/tidy_databases_slides.html
+
+https://www.r-bloggers.com/2022/07/eight-r-tidyverse-tips-for-everyday-data-engineering/
+-->
+
+
+<!--
+## Los cinco verbos
+
+* La mayoría de operaciones en una tabla de datos pueden realizarse combinando cinco "verbos":
+
+<!--
+1. `select()`
+2. `filter()`
+3. `mutate()` (y `rename()`)
+4. `arrange()`
+5. `summarize()`
+-->
+
+
+<!--
+ Entre la colección de [chuletas](https://rstudio.com/resources/cheatsheets/) existe una de [transformación de datos](https://raw.githubusercontent.com/rstudio/cheatsheets/master/translations/spanish/data-transformation_Spanish.pdf). 
+
+
+También se pueden encontrar online esta y otras chuletas de R y RStudio [aquí](https://www.rstudio.com/resources/cheatsheets/); notad que existen versiones en castellano de algunas de ellas.
+
+<http://dplyr.tidyverse.org/> vignette("dplyr"). notar data.table dtplyr vignette("two-table").
+-->
+
+
+<!--
+## `dplyr` frente R `base`
+
+* sencillez, rapidez con big data, estilo SQL etc.
+
+1.  select()  =  data[, c("name") / pos] 
+              =  subset()
+
+2.  filter()  =  data[c("name") / pos, ] 
+              =  subset()
+
+3.  mutate()  = data$newvar <- 
+              = with(data, newvar = y - x)
+
+4.  arrange() = order()
+              [sort() es para vectores]
+
+5.  summarize() = aggregate(data,income, FUN=mean)
+
+6. groub_by() %>% summarize = aggregate(data,income~año, FUN=mean)
+
+-->
+
+```{r}
+#| echo: FALSE
+#| eval: FALSE
+library(tidyverse)
+
+data("presidential")
+presidential
+as.data.frame(presidential)
+
+```
+
+
+## ¿Qué son datos ordenados ('tidy data')?
+
+<!-- * Los conjuntos rectangulares de datos son tablas con datos ordenados: -->
+
+
+1.- Cada columna es una **variable**: mide el mismo *atributo* <!--(cuantitativo o cualitativo)o característica-->  entre unidades
+  
+2.- Cada fila es una **observación** (caso): <!--valores de la misma *unidad* a través de atributos--> misma *unidad* a través de atributos
+
+3.- Cada celda es un **valor**
+
+<center>
+![](figure/tidy-1.png){width=65%}
+</center>
+
+* Tenemos información similar y no redundante en una misma tabla 
+
+<!-- * Y se completa la información con uniones a tablas adicionales (ej., para variables codificadas) -->
+
+* Es una forma natural (variable = vector columna) para trabajar con datos <!-- en R y otros lenguajes-->
+ 
+<!--* Para acceder al vector valores de `cases`-->
+```{r}
+#| echo: false
+#| eval: false
+
+table1$cases                   # table1 %>% select(cases)
+table2$count[c(1,3,5,7,9,11)]  # table2 %>% filter(type == "cases") %>%
+                               #            select(count)
+c(table4a$`1999`, table4a$`2000`)
+# crear variables es fácil
+table1 %>% mutate(rate = cases / population * 10000)  
+```
+
+* `tidyverse` es eficiente con datos ordenados: ej., gráfico temporal
+
+```{r}
+ggplot(table1, aes(x = year, y = cases)) +  
+  geom_line(aes(colour = country))
+```
+
+
+
+## Datos no ordenados
+
+:::: {style="display: grid; grid-template-columns: 2fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+
+<center>
+![](figure/tablaNOordenados.png){width=100%}
+</center>
+
+::: 
+
+::: {}
+* Otras estructuras pueden tener sentido para *mostrar información* (o por convenciones)<!--para almacenar información -->
+
+* Un [ejemplo](https://datos.gob.es/es/catalogo/ea0010587-hombres-segun-si-tienen-hijos-o-no-situacion-sentimental-y-edad-identificador-api-t20-p317-a2018-def-p02-e01-l0-06001-px) del portal de datos abiertos del Gobierno de España
+
+* La visualización es atractiva, PERO sobran filas para **analizar** los datos
+
+::: 
+::::
+
+## Funciones de transformación de datos
+
+* La mayoría de operaciones pueden realizarse combinando 5 "verbos" <!--: `select()`, `filter()`, `mutate()`, `arrange()` y `summarize()` (más `%>%` y `group_by()`)-->
+
+  * NOTA: existe una colección de ["chuletas"](https://rstudio.com/resources/cheatsheets/) de R, p.e., para [transformación](https://raw.githubusercontent.com/rstudio/cheatsheets/master/translations/spanish/data-transformation_Spanish.pdf).
+
+* Todos tienen como primer argumento un *data frame*, los siguientes describen qué hacer (con columnas o filas) y devuelven otro *data frame*
+
+
+1.- `select()`: **selecciona variables** por nombres o posiciones de columnas, separados por comas
+
+<center>
+![](figure/select.png){width=55%}
+</center>
+
+```{r}
+select(presidential, name, party)
+select(presidential, 1:2, 4)
+```
+
+
+```{r echo=FALSE}
+presidential[,c("name", "party")]
+presidential[,c(1:2,4)]
+```
+
+ 
+
+<!-- ## Seleccionar variables y filtrar filas -->
+
+## Filtrar filas
+
+```{r,  echo = FALSE}
+presidential
+```
+
+<!--
+:::: {style="display: flex;"}
+
+::: {}
+
+1.- `select()`: selecciona variables por nombres o posiciones de columnas, separados por comas
+
+<center>
+![](figure/select.png){width=85%}
+</center>
+
+```{r}
+select(presidential, name, party)
+select(presidential, 1:2, 4)
+```
+
+
+```{r echo=FALSE}
+presidential[,c("name", "party")]
+presidential[,c(1:2,4)]
+```
+
+:::
+
+::: {}
+$\hspace{1cm}$
+:::
+
+::: {}
+2.- `filter()`: conserva filas en las que la *condición lógica* es verdadera
+
+<!--(o condiciones separadas por comas). -->
+
+<!--
+
+<center>
+![](figure/filter.png){width=85%}
+</center>
+
+
+```{r}
+filter(presidential, party == "Republican")
+```
+
+```{r echo=FALSE}
+subset(presidential, party == "Republican")
+presidential[presidential$party == "Republican",]
+
+```
+
+
+::: 
+
+::::
+
+-->
+
+2.- `filter()`: conserva filas en las que la *condición lógica* es verdadera
+
+<!--(o condiciones separadas por comas). -->
+
+
+
+<center>
+![](figure/filter.png){width=85%}
+</center>
+
+
+```{r}
+filter(presidential, party == "Republican")
+filter(presidential, start > 1973 & party == "Democratic")
+```
+
+```{r echo=FALSE}
+subset(presidential, party == "Republican")
+presidential[presidential$party == "Republican",]
+
+```
+
+
+
+<!--
+* Recuperar sólo los nombres y partidos de estos presidentes
+  - el primer argumento para  `select()` es el *data frame*
+  - luego una lista de nombres de columnas, separados por comas. 
+-->
+
+<!--
+* Recuperar sólo a los presidentes republicanos, utilizamos `filter()`
+  - el primer argumento para `filter()` es un *data frame*
+  - luego  *condiciones lógicas* evaluados en la columna involucrada.
+-->
+
+
+
+* Se pueden combinar (**anidar**) 
+<!-- `filter()` y `select()`  -->
+porque ambas toman y devuelve un *data frame*, pero así son difíciles de leer
+
+<!--: ej., <!--nombres de --><!--presidentes demócratas desde 1973 -->
+
+```{r}
+#| echo: false
+select(filter(presidential, start > 1973 & party == "Democratic"), name)
+```
+
+```{r}
+select(filter(presidential, start > 1973, name))
+```
+
+
+<!-- * Se pueden **anidar** porque toman y devuelve un *data frame*, pero así son difíciles de leer -->
+
+<!--
+* La operación `filter()` se puede **anidar** dentro de la operación `select()`, porque cada verbo toma y devuelve un *data frame*
+
+* Estas largas expresiones se vuelven muy difíciles de leer
+-->
+
+
+```{r echo=FALSE}
+paso1 <- filter(presidential, start > 1973 & party == "Democratic")
+select(paso1, name)
+class(paso1)
+```
+
+
+<!--
+## Anidamiento. El operador de tubería `%>%` 
+-->
+
+## El operador de tubería `%>%` 
+
+
+```{r echo=FALSE}
+paso1 <- presidential %>% filter(start > 1973 & party == "Democratic")
+paso1 %>% select(name)
+```
+
+* `datos %>% filter(condition)` equivale a `filter(datos, condition)`
+
+
+* El anidamiento es fácil:<br>
+<tab><tab> - Tomar `presidential` y pasarlo a filtrar (produce un nuevo *data frame*); <br>
+<tab><tab> - Tomar este resultado y pasarlo a seleccionar.
+
+```{r}
+#| echo: false
+presidential %>% 
+  filter(start > 1973 & party == "Democratic") %>% 
+  select(name)
+```
+
+```{r}
+presidential %>% 
+  filter(start > 1973) %>% 
+  select(name)
+```
+
+
+<!--
+* `ggplot2` uwa `+` en lugar de `%>%` (desarrollado antes)
+-->
+
+* Atajo de teclado: `Cmd / Ctrl + Mays + M `
+
+* Se puede aplicar a cualquier función: `10 %>% log()` es `log(10)`
+
+* También existe una tubería en R base: `|>`
+
+<!--
+* Se puede aplicar a cualquier función <!-- que hemos visto anteriormente (no solo verbos de manipulación de datos)-->
+```{r}
+#| echo: false
+10 %>% log()               # = log(10)
+presidential %>% head(2)   # = head(presidential, 2)
+lm(data = mtcars, mpg ~ hp) %>%  summary()
+```
+
+```{r echo=FALSE}
+sin(cos(log(10)))
+10 %>% log() %>% cos() %>% sin()
+
+10 |> log()
+lm(data = mtcars, mpg ~ hp) |>  summary()
+
+```
+
+<!--
+ Legibilidad sin almacenar resultados intermedios
+-->
+
+## Crear nuevas variables 
+
+:::: {style="display: flex;"}
+
+::: {}
+
+3.-`mutate()`: añade nuevas columnas, creando <!-- (o redefinir)--> variables según una **fórmula** a partir de otras
+
+<center>
+![](figure/mutate.png){width=95%}
+</center>
+
+:::
+
+::: {}
+
++ también `rename()`: cambiar el nombre de una columna <!--de un *data frame*;-->
+
+  <center>
+  ![](figure/rename.png){width=70%}
+::: 
+
+::::
+
+
+```{r}
+mypresidents <- presidential %>%                 # evitar "machacar" una fuente original
+                  mutate(duracion = end - start) 
+
+presidential %>% mutate(sigloXXI = start > 2000,
+                        duracion = end - start,
+                        duracio2 = duracion*2   )  # crear varias separadas por comas
+
+presidential %>% rename(nombre = name) 
+```
+
+```{r}
+#| echo: FALSE
+#| eval: FALSE
+presidential$duracion <- presidential$end-presidential$start
+
+
+presidential %>% mutate(nombre = name) %>% select(-1) 
+```
+
+
+<!--
+  - Un buen estilo crear un nuevo objeto en lugar de "machacar" una fuente externa
+
+  -  puedes hacer referencia a las columnas que acabas de crear:
+
+-->
+
+## Ordenar filas
+
+:::: {style="display: flex;"}
+
+::: {}
+
+4.- `arrange()`: re-ordena las filas todas las columnas de un *data frame*
+
+* en orden ascendente (por defecto) o descendente con `desc()`
+
+<!--
+* similar a Excel
+
+* sort() es para un vector
+-->
+
+:::
+
+::: {}
+
+<center>
+![](figure/arrange.png){width=75%}
+</center>
+
+
+:::
+
+::::
+
+
+
+```{r echo=F}
+mypresidents
+mypresidents %>% arrange(duracion)
+```
+
+
+```{r}
+mypresidents %>% arrange(desc(duracion))           
+mypresidents %>% arrange(desc(duracion), party) # primero ordena por duración 
+                                                # en casos de empate, por party
+```
+
+<!--
+con más de una variable, por orden en caso de empate: clasificar adicionalmente por otra variable, `start`.
+
+OJO: desc(): transforma en negativo
+-->
+
+
+## Resumir todo el conjunto de datos
+
+5.- `summarize()`: colapsa valores de un *data frame* en una sola fila resumen 
+
+<center>
+![](figure/summarise.png){width=60%}
+</center>
+
+* Especificando *cómo* se reducirá una columna entera de datos en un solo valor. 
+
+
+```{r echo=FALSE}
+library(lubridate)
+mypresidents %>%
+  summarize(media_duracion = mean(duracion),
+            min_duracion   = min(duracion)  )
+```
+
+```{r}
+library(lubridate)
+mypresidents %>%
+  summarize(media_duracion = mean(duracion),
+            N = n(),                         # n() cuenta número total de filas
+            first_year = min(year(start)),   # year() extrae el año de una fecha
+            num_dems = sum(party == "Democratic") )
+```
+
+```{r echo=FALSE}
+mypresidents %>% mutate(dem = party=="Democratic") %>% 
+  summarize(num_dem = sum(dem),
+            total_dias = sum(duracion))
+
+```
+
+* `summarize()` suele usarse en conjunción con `group_by()`
+
+## `group_by()`
+
+* `group_by()`:  cambia el alcance de *cada función* para que no actúe sobre todo el *data frame* sino en grupos individuales <!--de grupo en grupo.--> 
+
+* ¿Cuál es la duración media de los demócratas y de los republicanos? Hacerlo <!--para cada partido--> por separado no es eficiente:  <!--usaremos `summarize()` pero especificando--> especificamos que las filas <!--del *data frame*--> deben ser agrupadas <!--por los valores de esa variable-->
+
+```{r echo=FALSE}
+mypresidents %>% summarize(N = n(), media_duracion = mean(duracion))
+
+mypresidents %>% filter(party == "Democratic") %>%  summarize(N = n(), media_duracion = mean(duracion))
+mypresidents %>% filter(party == "Republican") %>%  summarize(N = n(), media_duracion = mean(duracion))
+```
+
+
+```{r}
+mypresidents %>% group_by(party) %>%          # "marca" dos grupos en los datos 
+  summarize(N = n(),                          # incluye estas variables 
+            media_duracion = mean(duracion))  # mas las de group_by()
+```
+
+<!--
+* Ver  `mypresidents %>% group_by(party)`: tibble muestra que hay dos grupos
+
+* `group_by()` similar a facet
+-->
+
+
+* Nuevo *data frame* con distinto nivel de observación (fila):  una fila para cada valor de la variable por la que se agrupa  (ej., de presidentes a partidos)
+
+<!--
+  * datos de información/ventas por empleado a información por tienda
+  
+  * DEBEN INCLUIRSE variables que se quieran mantener
+-->
+
+*  `ungroup()` elimina la agrupación: volvemos a operar en datos desagrupados 
+
+```{r}
+mypresidents %>% group_by(party) %>% 
+  mutate(media_duracion = mean(duracion)) %>% 
+  ungroup() %>% arrange(duracion) %>%  slice(1)
+```
+
+```{r echo=FALSE}
+mypresidents %>% mutate(media_dur = mean(duracion)) %>% arrange(duracion) %>%  slice(1)
+
+mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% arrange(duracion) %>%  slice(1)
+
+mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% ungroup() %>% arrange(duracion) %>%  slice(1)
+```
+
+
+## Seleccionar muchas variables 
+
+```{r}
+library(nycflights13)           # incluye flights:  19 variables
+select(flights, year:arr_time)    # desde variable "year" hasta "arr_time"
+select(flights, -(year:day))      # todas menos "year, month, day"
+```
+
+<!--
+* Seleccionar unas pocas variables es fácil:  `select(flights, year, month, day)`
+-->
+
+* Funciones a utilizar dentro de `select()`:
+    + `starts_with("abc")`: nombres que comienzan con "abc".
+    + `ends_with("xyz")`: nombres que acaban con "xyz".
+    + `contains("ijk")`: nombres que contienen "ijk".
+    + `num_range("x", 1:3)`: para x1, x2 y x3.
+    + `matches()`: nombres que coinciden con una [expresión regular](https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular)
+
+```{r echo=FALSE}
+presidential %>% select(party, everything())   # everything(): útil para reordenar
+```
+
+ 
+ <!--
+    + `matches("(.)\\1")`: selecciona las variables que coinciden con una expresión regular (en este caso, cualquier variable que contenga caracteres repetidos).
+-->
+
+
+<!-- ## ¿Cómo tratar los ("contagiosos") `NA`? -->
+<!-- valores `NA`? -->
+
+<!--
+* Eliminar observaciones con valores ausentes, PERO
+
+    - en *alguna variable*, con `na.rm=TRUE` o `filter(!is.na(x))` o `drop_na(x)` 
+
+    - en *todo* el conjunto de datos con `drop_na()`
+-->
+
+<!-- 
+ en `cor()`, `use = "complete.obs"`
+-->
+
+```{r echo=FALSE}
+data <- tibble(x1 = c(1:4, NA, 6.0, 7, NA), x2 = c(NA, 12:14, NA, 16.0, 17:18) )
+
+data %>% summarize(num = n(), meanNA = mean(x1), mean = mean(x1, na.rm = TRUE))
+
+data %>% filter(!is.na(x1)) %>% 
+  summarize(num = n(), meanNA = mean(x1), mean   = mean(x1, na.rm = TRUE))
+```
+
+
+```{r}
+#| echo: false
+data <- tibble(x1 = c(1:4, NA, 6.0, 7, NA), x2 = c(NA, 12:14, NA, 16.0, 17:18) )
+
+data %>% summarize(num = n(), meanNA = mean(x1), mean = mean(x1, na.rm = TRUE))
+
+data %>% drop_na(x1) %>% summarize(num = n(), mean = mean(x1))   # drop_na(x2)?
+data %>% drop_na()   %>% summarize(num = n(), mean = mean(x1))
+```
+
+<!-- * Reemplazar con un valor, PERO ¿cúal? -->
+
+<!--
+* NA por no presentarse a un examen es cero
+
+* NA por no contestar a pregunta de renta o gasto es ¿cero?
+-->
+
+
+```{r}
+#| echo: false
+data %>% mutate(x1 = if_else(is.na(x1), 0, x1)) %>% summarize(num = n(), mean = mean(x1))
+data %>% mutate(x1 = replace_na(x1,0))          %>% summarize(num = n(), mean = mean(x1))
+```
+
+
+<!--
+na.omit() vs. drop_na: el primero es de base (stats) el otro de tidyr
+-->
+
+## Algunos verbos adicionales
+
+* `slice()`, `slice_sample()`: extrae filas por posición o aleatoriamente
+
+```{r echo=T}
+mypresidents %>% slice(1, 4)
+```
+
+<!--
+   - `slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()`
+-->
+
+* `drop_na()` y `replace_na()`: elimina filas con valores ausentes o los reemplaza
+
+* `distinct()`: extrae sólo las filas únicas (una o varias variables)
+ 
+```{r echo=T}
+mypresidents %>% distinct(party)
+```
+
+<!--
+  - transmute(): como mutate() pero solo mantiene las variables creadas
+  
+  - relocate(): cambiar orden de columnas
+-->
+
+
+* `count()`: cuenta los valores únicos de una o más variables
+
+```{r echo=TRUE}
+mypresidents %>% count(party)    # mypresidents %>% group_by(party) %>% summarize(n=n())
+mypresidents %>% count(party, sort = TRUE)
+```
+
+```{r echo=FALSE}
+flights %>% group_by(tailnum) %>% summarize(n = n()) %>% arrange(desc(n))
+flights %>% count(tailnum, sort = TRUE) 
+```
+
+<!--
+* `count()` también puede realizar recuentos "ponderados" 
+  
+   sustituye n() por sum() de la variable de ponderación
+   
+```{r}
+flights %>% count(tailnum, wt = dep_delay)   # suma de retrasos acumulados 
+
+flights %>% group_by(tailnum) %>% summarize(n = sum(dep_delay))
+```  
+ -->
+
+* `across()`: aplica la misma transformación a múltiples columnas
+
+```{r}
+flights %>% mutate(across(air_time:distance, ~ log(.x)+1))
+flights %>% mutate(across(is.character, ~ parse_factor(.x)))
+```
+
+```{r, echo=FALSE}
+flights %>%
+  summarise(across(where(is.integer), n_distinct))
+flights %>%
+  summarise(across(where(is.integer), ~ sum(.x, na.rm = TRUE)))
+```
+
+
+<!--
+Para trabajar con factores:
+
+# using factors
+x <- factor(rep(LETTERS[1:15], times = c(20,15,23,2,4,3,1,1,1,5,2,8,3,1,1))) 
+x %>% table()
+
+x %>% 
+fct_lump_n(5) %>% 
+table()
+
+# or alternatively
+# x %>% fct_lump_min(5) %>% table()
+
+## result:
+>   A     B     C     J     L Other 
+>  20    15    23     5     8    19
+
+# great for displaying
+# using ggplot to show top 5 frequent carriers and "other" group
+flights %>%
+  mutate(name = fct_lump_n(carrier, 5)) %>%
+  count(name) %>%
+  mutate(name = fct_reorder(name, n)) %>%
+  ggplot(aes(x=name, y=n)) +
+  geom_col()
+-->
+
+<!-- ## Funciones útiles para crear variables -->
+## Funciones para crear variables 
+
+<!-- * Operadores aritméticos: `+`, `-`, `*`, `/`, `^`, `%/%` (división entera), `%%` (resto) -->
+
+<!--   - combinados con otros: <!--funciones de "agregación":--> <!--`x - mean(x)`, `y - sum(y)` -->
+
+<!-- * Logartimos, `log()`, retardos, `lag()`, adelantos, `lead()`, etc. -->
+
+<!--
+  - diferencia móvil, `x - lag(x)`, 
+  - ¿cambian el valor? `x! = lag (x)`
+-->
+
+<!-- * Agregados acumulativos y móviles: ver ayuda de `cumsum()`  y `cummean()` -->
+
+```{r echo=FALSE}
+cumsum(1:10)
+cumprod(1:10)
+cummin(1:10)
+cummax(1:10)
+cummean(1:10)
+```
+
+<!-- * Comparaciones lógicas: `<`, `<=`, `>`, `>=`, `!=`  -->
+
+* Operadores aritméticos (`+`, `-`, `*`, `/`, `^`, `%/%`, `%%`) y lógicos (`<`, `<=`, `>`, `>=`, `!=`)
+
+* Funciones como `log()`, `lag()`, `lead()`, `cumsum()`, `row_number()` etc.
+
+<!-- * Ordenamiento: `row_number()` -->
+
+<!-- `min_rank()`, `row_number()` y otras de `dplyr::ranking`  -->
+
+<!--, `percent_rank()`, `cume_dist()`-->
+
+```{r}
+#| echo: false
+y <- c (10, 2, 2, NA, 30, 4)
+min_rank(y)               
+min_rank(desc(y))
+row_number(y)
+```
+
+<!-- ## Funciones para crear variables (cont.) -->
+
+* `if_else()`: ejecución condicional (también `case_when()`)
+
+```{r}
+flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde", "bien")) 
+flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde",    # encadenados
+                                if_else(dep_delay <0, "bien", "normal")))
+```
+
+```{r}
+#| echo: false
+flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde", "bien")) %>% select(6,20)  
+
+flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde",             # encadenados
+                                        if_else(dep_delay <0, "bien", "normal")))
+```
+
+```{r, echo=FALSE}
+flights %>%
+  group_by(carrier) %>%
+  mutate(new_classification = case_when(
+    (origin == "EWR") & (dep_delay <= 0) ~ "EWR with negative delay",
+    (origin == "EWR") & (dep_delay > 0) ~ "EWR with positive delay",
+    (origin == "JFK") ~ "Stats for JFK Airport",
+    (origin == "LGA") &  (air_time <= 220) ~ "La Guardia under 6 hours flights",
+    TRUE   ~ "La Guardia above 6 hours flights"
+  )) %>%
+  count(new_classification) %>%
+  ungroup()
+```
+
+
+<!-- * Nota: `retraso` debería convertirse a factor -->
+
+<!--  
+- mejora `if.else()` 
+- alternativa replace()
+
+mutate(Quantity = replace(Quantity, Quantity<=0, NA), UnitPrice = replace(UnitPrice, UnitPrice<=0, NA))
+
+-->
+  
+* Discretizar variables<!--numéricas a categóricas-->: `cut_interval()`, `cut_number()`, `cut_width()`
+
+```{r echo=FALSE}
+flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
+```
+
+* Nota: `dplyr` tiene muchas funciones equivalentes a otras de R base:
+
+    - `parse_number()`, `parse_factor()`, etc. por `as.number()`, `as.factor()`, etc.
+    - `bind_cols()` y `bind_rows()` por `cbind()` y `rbind()`
+
+
+## Funciones de resumen útiles
+
+* Medidas de centralidad y de dispersión: `mean(x)`, `median(x)`, `sd(x)`, `IQR(x)`, `mad(x)`
+
+* Medidas de rango: `min(x)`, `quantile(x, 0.25)`, `max(x)`
+
+* Medidas de posición: `first(x)`, `nth(x, 2)`, `last(x)`. 
+
+  - similar a `x[1]`, `x[2]` y `x[length(x)]`  
+
+* Conteos: 
+
+  - `n()`: observaciones totales (tamaño del grupo)
+  
+  - `sum(!is.na(x))`: observaciones no ausentes
+  
+  - `n_distinct(x)`:  filas distintas en `x`
+  
+  <!-- más rápido que unique() -->
+
+
+
+## Cuatro representaciones de los mismos datos
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+library(tidyverse)
+table1     # datos ordenados
+table2     # no tiene un valor por celda
+```
+<center>
+![](figure/tidyvsmessy01_n.png){width=55%}
+</center>
+
+<center>
+![](figure/tidyvsmessy02_n.png){width=45%}
+</center>
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+table3     # mezcla más de una variable en una columna
+table4a 
+table4b
+```
+
+* `table4a` y `table4b` ofrecen información útil para presentación
+<!-- , pero  -->
+<!--     - variables tanto en filas como columnas -->
+<!--     - las cabeceras de columna son valores, no nombres de variables. -->
+
+<center>
+![](figure/tidyvsmessy04a_n.png){width=55%}
+</center>
+
+
+:::
+
+::::
+
+
+## Mismos datos, dos formatos: ancho o largo
+
+:::: {style="display: flex;"}
+
+::: {}
+
+* La utilidad de almacenar los datos en un rectángulo ancho ("wide") o en uno largo ("long"")  depende de qué queramos hacer
+
+* El cambio de forma <!--("reshaping") de una tabla-->  entre formatos es una tarea habitual del analista de datos. 
+
+
+* Cambiar entre representación larga y ancha se conoce como **pivotar (o girar)**
+
+<!--
+DISTINTO de trasponer filas y columnas en Excel
+
+Existe una función para pivotar en Excel -->
+
+<!--
+* Los datos en bruto suelen estar en formato largo: facilita la recogida de información, no el análisis
+-->
+
+:::
+
+::: {}
+
+![](./figure/original-dfs-tidy.png){width=100%}
+:::
+
+::::
+
+```{r}
+table4a        # formato ancho
+table1         # formato largo
+```
+
+
+<!--
+## Cambiar la forma de una tabla (pivotar / girar)
+
+* Las celdas en un formato se reordenan en el otro
+
+<center>
+![](./figure/tidyr-longer-wider.gif){width=45%}
+</center>
+
+* Los metadatos que no se reordenan son extendidos/reducidos para no perder información. 
+-->
+
+
+
+
+<!-- 
+https://tidyr.tidyverse.org/ 
+
+* reshape en R base:  https://jozef.io/r001-reshape/
+
+https://www.r-bloggers.com/2019/07/how-to-reshape-a-dataframe-from-wide-to-long-or-long-to-wide-format/
+
+
+<https://www.r-bloggers.com/how-to-reshape-data-in-r-tidyr-vs-reshape2/>
+
+<https://www.r-bloggers.com/pivoting-tidily/>
+
+-->
+
+<!--
+## Verbos principales en `tidyr`
+
+* `pivot_longer()`: cambia la forma de "anchos" a "largos" (+filas/-cols)
+
+    + **ordena** datos originales para facilitar el análisis.
+
+* `pivot_wider()` cambia la forma de "largos" a "anchos" (+cols/-filas)
+
+    + útil para crear tablas de resumen o un formato para otras herramientas.
+
+<center>
+![](figure/long-wide.png){width=75%}
+</center>
+
+<!--
+ La longitud es un término relativo, y sólo se puede decir (por ejemplo) que el conjunto de datos A es más largo que el conjunto de datos B.
+-->
+
+
+## `pivot_longer()`: de ancho a largo
+
+* Pivotar las variables no ordenadas en dos nuevas columnas (deben crearse) 
+
+:::: {style="display: flex;"}
+
+::: {}
+
+```{r, eval=FALSE, echo=TRUE}
+pivot_longer(table4a, 
+             cols=2:3, 
+             names_to = "year", 
+             values_to = "cases") 
+```
+
+<center>
+![](figure/longer.png){width=100%}
+</center>
+
+:::
+
+::: {}
+
+  1. *data frame* a cambiar de forma
+  
+  2. nombres o índices <!--numérico--> de las columnas que representan valores, no variables 
+  3. los nombres <!--(encabezamientos)--> de esas antiguas variables van como valores a nueva variable
+  4. los valores de las antiguas celdas van a otra nueva variable
+
+:::
+
+::::
+
+<!--  
+* Para ordenar `table4a`, necesitamos pivotar las variables que no están ordenadas (año y `cases`) en un par de nuevas columnas
+-->
+
+* Para recuperar `table1`, se debería pivotar también `table4b` y unir ambas
+
+```{r, echo=F, eval=F}
+tidy4a <- table4a %>% pivot_longer(2:3, names_to = "year", values_to = "cases")
+tidy4b <- table4b %>% pivot_longer(2:3, names_to = "year", values_to = "population")
+left_join(tidy4a, tidy4b)
+```
+
+
+## `pivot_longer()`: de ancho a largo (cont.)
+
+* Recordatorio: formas equivalentes de hacer lo mismo
+```{r, eval=FALSE, echo=TRUE}
+pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases")       
+table4a %>% pivot_longer(c(`1999`, `2000`), values_to = "cases", names_to = "year")
+table4a %>% pivot_longer(names_to = "year", values_to = "cases", -country)
+table4a %>% pivot_longer(names_to = "year", values_to = "cases", `1999`:`2000`)
+```
+
+
+* Notar que los nombres de columna son caracteres y cuando son números van entre \` (evita confusión con índice de posición)
+
+```{r echo=FALSE, eval=FALSE}
+table4a %>% pivot_longer(c(1999, 2000), values_to = "cases", names_to = "year")
+table1 %>% mutate(`tasa por 1000 mil habitantes` = cases/population*1000,
+                  tasa =cases/population*1000)
+```
+
+* Deberíamos cambiar el tipo de las nuevas variables 
+
+<!--  - y si fueran `Year1999`, `Year2000`, habría que separar texto y número -->
+
+
+```{r  eval=FALSE}
+pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases") %>%
+  mutate(year= parse_number(year))
+```
+
+```{r echo=FALSE}
+pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases") %>% mutate(year= as.integer(year))
+```
+
+
+
+
+## `pivot_wider()`: de largo a ancho 
+
+
+:::: {style="display: flex;"}
+
+::: {}
+```{r, eval=FALSE, echo=TRUE}
+table2 %>%
+    pivot_wider(names_from = type,  
+                values_from = count)
+```
+
+<center>
+![](figure/wider1.png){width=95%}
+</center>
+
+
+::: 
+
+::: {}
+
+1. el *data frame* a cambiar de forma
+2. nombre de la variable de cuyos valores vienen los nuevos nombres de columnas<!--(variables)-->
+3. nombre de la variable de la que tomar los valores para <!--las celdas de -->las nuevas columnas
+
+
+* Aplicado a `table2` sirve para limpiar datos con observaciones que se dispersan en varias filas
+
+:::
+::::
+
+
+```{r}
+table1 %>% select(-population) %>%            # Tabla de presentación para casos
+    pivot_wider(names_from = year, values_from = cases)   
+```
+
+<!--
+Pivotar data/table1.csv en Excel con tablas dinámicas
+-->
+
+## Dos funciones útiles
+
+* `separate()`: dividir una columna en múltiples variables indicando un separador o vector de posiciones en las que dividir
+
+<!--
+* Argumentos: *date frame*, columna a dividir, nombres de las nuevas variables y carácter separador (por defecto cualquier carácter no numérico)
+
+<!--(estrictamente, una expresión regular)-->
+
+```{r, eval=FALSE, echo=TRUE}
+table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
+table5 <- table3 %>% separate(year, into = c("century", "year"), sep = 2)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
+table3 %>% separate(rate, into = c("cases", "population")) 
+```
+
+<!--
+* Si se pasa a `sep` un vector de enteros, son posiciones en las que dividir
+    - la longitud de `sep` debe ser uno menos que la de `into`
+    - valores positivos comienzan (en 1)por la izquierda; negativos (desde -1) por la derecha
+
+```{r, eval=FALSE, echo=FALSE}
+table3 %>% separate(year, into = c("century", "year"), sep = 2)
+```
+-->
+
+* Con el argumento `convert = TRUE` intenta convertir el tipo de datos (no mantener carácter)
+
+
+```{r, eval=FALSE, echo=TRUE}
+table3 %>% separate(rate, into = c("cases", "population"), convert = TRUE)
+```
+
+* `unite()`: combinar múltiples columnas en una 
+
+<!--
+* Argumentos: 
+    - un *data frame*
+    - el nombre de la nueva variable a crear 
+    - un conjunto de columnas a combinar
+    - carácter entre valores de las columnas originales
+    
+* El separador por defecto es subrayado, `sep = _`
+-->
+
+```{r, eval=FALSE, echo=TRUE}
+table5 %>% 
+  unite(new, century, year, sep = "-")
+```
+
+```{r, eval=FALSE, echo=FALSE}
+table5 %>% 
+  unite(new, century, year, sep = "")   # sin separación
+
+table5 %>% 
+  unite(new, century, year, sep = "-")
+```
+
+<!--
+## Verbos principales en `tidyr` (cont.)
+
+* `separate()`: separar una columna que representa múltiples variables
+
+  ![](figure/separate2.png){width=85%}
+  
+* `unite()`: une varias columnas (inverso de `separate()`)
+-->
+
+## Comentario sobre valores ausentes
+
+```{r, eval=FALSE, echo=TRUE}
+accion <- tibble( anio  = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                  trim  = c(   1,    2,    3,    4,    2,    3,    4),
+                  rent  = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66))
+```
+
+*  **Dos tipos** de valores ausentes: en 2015.Q4 *explícitos* y en 2016.Q1 *implícitos*
+
+* Esto cambia con la forma de representación
+
+```{r, eval=FALSE, echo=TRUE}
+ancho <- accion %>% 
+            pivot_wider(names_from = anio, values_from = rent)     
+ancho             # NA explícitos al convertir a formato ancho
+
+ancho %>%  pivot_longer(cols = c("2015","2016"), 
+                        names_to = "anio", values_to = "rent")
+
+accion %>% complete(anio, trim)  # todos NA explícitos 
+                                 # (rellena buscando todas combinacines)
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+ancho %>%  pivot_longer(cols = c("2015","2016"), names_to = "anio", values_to = "rent",
+               values_drop_na = TRUE)  # NA implícitos al convertir a largo 
+
+```
+
+<!--
+* complete(): encuentra todas las combinaciones únicas y se asegura de la tabla contiene todos esos valores
+
+* rellenando `NA` explícitos cuando sea necesario.
+-->
+
+
+
