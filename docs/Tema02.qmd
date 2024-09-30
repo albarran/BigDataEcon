@@ -396,17 +396,17 @@ ggplot(table1, aes(x = year, y = cases)) +
 
 
 <center>
-![](figure/tablaNOordenados.png){width=100%}
+![](figure/tablaNOordenados.png){width=90%}
 </center>
 
 ::: 
 
 ::: {}
-* Otras estructuras pueden tener sentido para *mostrar información* (o por convenciones)<!--para almacenar información -->
+* Otras estructuras como [esta](https://datos.gob.es/es/catalogo/ea0010587-hombres-segun-si-tienen-hijos-o-no-situacion-sentimental-y-edad-identificador-api-t20-p317-a2018-def-p02-e01-l0-06001-px) pueden tener sentido para *mostrar información* (o por convenciones)<!--para almacenar información -->
 
-* Un [ejemplo](https://datos.gob.es/es/catalogo/ea0010587-hombres-segun-si-tienen-hijos-o-no-situacion-sentimental-y-edad-identificador-api-t20-p317-a2018-def-p02-e01-l0-06001-px) del portal de datos abiertos del Gobierno de España
+<!-- * Un [ejemplo](https://datos.gob.es/es/catalogo/ea0010587-hombres-segun-si-tienen-hijos-o-no-situacion-sentimental-y-edad-identificador-api-t20-p317-a2018-def-p02-e01-l0-06001-px) del portal de datos abiertos del Gobierno de España -->
 
-* La visualización es atractiva, PERO sobran filas para **analizar** los datos
+* La visualización es atractiva, PERO sobran filas para **analizar** los datos: ej., total de personas con hijos y sin pareja entre 30 y 39 años
 
 ::: 
 ::::
@@ -415,7 +415,7 @@ ggplot(table1, aes(x = year, y = cases)) +
 
 * La mayoría de operaciones pueden realizarse combinando 5 "verbos" <!--: `select()`, `filter()`, `mutate()`, `arrange()` y `summarize()` (más `%>%` y `group_by()`)-->
 
-  * NOTA: existe una colección de ["chuletas"](https://rstudio.com/resources/cheatsheets/) de R, p.e., para [transformación](https://raw.githubusercontent.com/rstudio/cheatsheets/master/translations/spanish/data-transformation_Spanish.pdf).
+  * NOTA: existe una colección de ["chuletas"](https://rstudio.com/resources/cheatsheets/) de R, p.e., para transformación.
 
 * Todos tienen como primer argumento un *data frame*, los siguientes describen qué hacer (con columnas o filas) y devuelven otro *data frame*
 
@@ -554,7 +554,7 @@ select(filter(presidential, start > 1973 & party == "Democratic"), name)
 ```
 
 ```{r}
-select(filter(presidential, start > 1973, name))
+select(filter(presidential, start > 1973), name)
 ```
 
 
@@ -665,12 +665,14 @@ lm(data = mtcars, mpg ~ hp) |>  summary()
 
 
 ```{r}
-mypresidents <- presidential %>%                 # evitar "machacar" una fuente original
+# evitar "machacar" la fuente original
+mypresidents <- presidential %>%          
                   mutate(duracion = end - start) 
 
-presidential %>% mutate(sigloXXI = start > 2000,
-                        duracion = end - start,
-                        duracio2 = duracion*2   )  # crear varias separadas por comas
+# crear varias, separadas por coma
+presidential %>% mutate(sigloXXI = start > 2000,   
+                        duracion = end - start,    
+                        duracio2 = duracion*2   )  
 
 presidential %>% rename(nombre = name) 
 ```
@@ -730,9 +732,11 @@ mypresidents %>% arrange(duracion)
 
 
 ```{r}
-mypresidents %>% arrange(desc(duracion))           
-mypresidents %>% arrange(desc(duracion), party) # primero ordena por duración 
-                                                # en casos de empate, por party
+mypresidents %>% arrange(desc(duracion))
+
+# ordenar por más de una columna: primero por duración, 
+# en caso de empate por partido
+mypresidents %>% arrange(desc(duracion), party) 
 ```
 
 <!--
@@ -764,8 +768,8 @@ mypresidents %>%
 library(lubridate)
 mypresidents %>%
   summarize(media_duracion = mean(duracion),
-            N = n(),                         # n() cuenta número total de filas
-            first_year = min(year(start)),   # year() extrae el año de una fecha
+            N = n(),                        # n() cuenta núm. total de filas
+            first_year = min(year(start)),  # year() extrae el año de una fecha
             num_dems = sum(party == "Democratic") )
 ```
 
@@ -1109,13 +1113,13 @@ flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
 
 ## Funciones de resumen útiles
 
-* Medidas de centralidad y de dispersión: `mean(x)`, `median(x)`, `sd(x)`, `IQR(x)`, `mad(x)`
+* Medidas de centralidad y de dispersión: `mean(x)`, `median(x)`, `sd(x)`, `IQR(x)` <!--, `mad(x)` -->
 
 * Medidas de rango: `min(x)`, `quantile(x, 0.25)`, `max(x)`
 
 * Medidas de posición: `first(x)`, `nth(x, 2)`, `last(x)`. 
 
-  - similar a `x[1]`, `x[2]` y `x[length(x)]`  
+  <!-- - similar a `x[1]`, `x[2]` y `x[length(x)]`   -->
 
 * Conteos: 
 
@@ -1136,14 +1140,14 @@ flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
 ```{r}
 library(tidyverse)
 table1     # datos ordenados
-table2     # no tiene un valor por celda
+table2     # varios valores por celda
 ```
 <center>
-![](figure/tidyvsmessy01_n.png){width=55%}
+![](figure/tidyvsmessy01_n.png){width=60%}
 </center>
 
 <center>
-![](figure/tidyvsmessy02_n.png){width=45%}
+![](figure/tidyvsmessy02_n.png){width=60%}
 </center>
 
 :::
@@ -1151,7 +1155,7 @@ table2     # no tiene un valor por celda
 ::: {.column width="50%"}
 
 ```{r}
-table3     # mezcla más de una variable en una columna
+table3     # más de una variable en una columna
 table4a 
 table4b
 ```
@@ -1162,7 +1166,7 @@ table4b
 <!--     - las cabeceras de columna son valores, no nombres de variables. -->
 
 <center>
-![](figure/tidyvsmessy04a_n.png){width=55%}
+![](figure/tidyvsmessy04a_n.png){width=60%}
 </center>
 
 
@@ -1259,7 +1263,7 @@ https://www.r-bloggers.com/2019/07/how-to-reshape-a-dataframe-from-wide-to-long-
 
 ## `pivot_longer()`: de ancho a largo
 
-* Pivotar las variables no ordenadas en dos nuevas columnas (deben crearse) 
+* Pivotar las variables <!--no ordenadas--> en dos nuevas columnas (deben crearse) 
 
 :::: {style="display: flex;"}
 
@@ -1294,7 +1298,7 @@ pivot_longer(table4a,
 * Para ordenar `table4a`, necesitamos pivotar las variables que no están ordenadas (año y `cases`) en un par de nuevas columnas
 -->
 
-* Para recuperar `table1`, se debería pivotar también `table4b` y unir ambas
+<!-- * Para recuperar `table1`, se debería pivotar también `table4b` y unir ambas -->
 
 ```{r, echo=F, eval=F}
 tidy4a <- table4a %>% pivot_longer(2:3, names_to = "year", values_to = "cases")
@@ -1305,13 +1309,21 @@ left_join(tidy4a, tidy4b)
 
 ## `pivot_longer()`: de ancho a largo (cont.)
 
-* Recordatorio: formas equivalentes de hacer lo mismo
-```{r, eval=FALSE, echo=TRUE}
+* Recordad que existen formas equivalentes de hacer lo mismo
+```{r, eval=FALSE, echo=FALSE}
 pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases")       
 table4a %>% pivot_longer(c(`1999`, `2000`), values_to = "cases", names_to = "year")
 table4a %>% pivot_longer(names_to = "year", values_to = "cases", -country)
 table4a %>% pivot_longer(names_to = "year", values_to = "cases", `1999`:`2000`)
 ```
+
+```{r}
+#| echo: true
+#| eval: false
+table4a %>% pivot_longer(`1999`:`2000`), 
+                         values_to = "cases", names_to = "year")
+```
+
 
 
 * Notar que los nombres de columna son caracteres y cuando son números van entre \` (evita confusión con índice de posición)
@@ -1328,7 +1340,8 @@ table1 %>% mutate(`tasa por 1000 mil habitantes` = cases/population*1000,
 
 
 ```{r  eval=FALSE}
-pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases") %>%
+table4a %>% 
+  pivot_longer(2:3, names_to = "year", values_to = "cases") %>%
   mutate(year= parse_number(year))
 ```
 
@@ -1365,14 +1378,14 @@ table2 %>%
 3. nombre de la variable de la que tomar los valores para <!--las celdas de -->las nuevas columnas
 
 
-* Aplicado a `table2` sirve para limpiar datos con observaciones que se dispersan en varias filas
+<!-- * Aplicado a `table2` sirve para limpiar datos con observaciones que se dispersan en varias filas -->
 
 :::
 ::::
 
 
 ```{r}
-table1 %>% select(-population) %>%            # Tabla de presentación para casos
+table1 %>% select(-population) %>%            # Tabla de presentación 
     pivot_wider(names_from = year, values_from = cases)   
 ```
 
@@ -1391,7 +1404,7 @@ Pivotar data/table1.csv en Excel con tablas dinámicas
 
 ```{r, eval=FALSE, echo=TRUE}
 table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
-table5 <- table3 %>% separate(year, into = c("century", "year"), sep = 2)
+table3 %>% separate(year, into = c("century", "year"), sep = 2)
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -1409,11 +1422,12 @@ table3 %>% separate(year, into = c("century", "year"), sep = 2)
 ```
 -->
 
-* Con el argumento `convert = TRUE` intenta convertir el tipo de datos (no mantener carácter)
+* Con  `convert = TRUE` intenta convertir el tipo <!--de datos--> (no mantener carácter)
 
 
 ```{r, eval=FALSE, echo=TRUE}
-table3 %>% separate(rate, into = c("cases", "population"), convert = TRUE)
+table3 %>% separate(rate, into = c("cases", "population"), 
+                    convert = TRUE)
 ```
 
 * `unite()`: combinar múltiples columnas en una 
@@ -1451,6 +1465,7 @@ table5 %>%
 * `unite()`: une varias columnas (inverso de `separate()`)
 -->
 
+<!--
 ## Comentario sobre valores ausentes
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -1481,6 +1496,8 @@ ancho %>%  pivot_longer(cols = c("2015","2016"), names_to = "anio", values_to = 
                values_drop_na = TRUE)  # NA implícitos al convertir a largo 
 
 ```
+
+-->
 
 <!--
 * complete(): encuentra todas las combinaciones únicas y se asegura de la tabla contiene todos esos valores
