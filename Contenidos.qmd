@@ -86,7 +86,7 @@ strip-comments: true
 
   * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
   * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
-    - Fecha límite de entrega: **vie., 04-oct., 23:59h**
+    - Fecha límite de entrega: **dom., 06-oct., 23:59h**
 
 ## Semana 2
 (16-Sept. a 22-Sept.)
