@@ -399,67 +399,25 @@
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
+    "objectID": "docs/Tema02ej1.html",
+    "href": "docs/Tema02ej1.html",
+    "title": "Tema 2. Transformación de Datos. Ejercicio 1",
     "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
+    "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPregunta 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nEn clase haremos estos apartados tanto usando un programa de hoja de cálculo (como Excel, LibreOffice Calc o Google Sheets) como usando R.\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nRepetir los apartados anteriores para cada empleado de la empresa. Es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores y en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\n¿En qué periodo hubo más ventas en total en la empresa y cuántas fueron?\n\n\nEncontrar los nombres y apellidos de los diez empleados con más ventas (mayor número total de ventas) entre julio de 2002 (incluido) y junio de 2006 (incluido).\n\n\nObtener las ventas anuales de los hombres y de las mujeres. Representar su evolución temporal.\n\n\n\nPregunta 2\nCargar los datos de vuelos flights de la biblioteca nycflights13.\nCalcular para cada compañía (carrier) el número total de vuelos, el retraso medio en la salida, el número de destinos únicos a los que vuela, y el número de aviones únicos utilizados. Mostrar el histograma del número de destinos únicos.\n\n\nPregunta 3\n\nElegir UN conjunto de datos de la web Gapminder, aquí. Descargar los datos en formato .csv y leerlos en R. Por ejemplo:\n\n\nlibrary(tidyverse)\nlibrary(rio)\ndatos &lt;- import(\"data/expenditure_per_student_tertiary_percent_of_gdp_per_person.csv\")\nco2   &lt;- impor(\"data/co2_emissions_tonnes_per_person.csv\")\nsex_ratio &lt;- import(\"data/sex_ratio_0_14_years.csv\")\n\n\nTransformar el conjunto de datos a una tabla de datos ordenados con tres variables: país, año y valor de la variable que habéis elegido.\n\nProbablemente la variable de año tendrá tipo de carácter; usar mutate() y parse_number() para arreglarlo.\n\n\n\nRepresentar la evolución temporal de la variable con ggplot, usando el color para distinguir entre países. Elegid sólo cuatro países para representarlos sin que el gráfico esté saturado. Explicar brevemente si preferís los datos originales o los ordenados para el gráfico."
   },
   {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+    "text": "About this site"
   },
   {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
     "section": "",
-    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv"
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(30-Sept. a 6-Oct.)\n\nTema 02 - Tratamiento de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-4",
-    "href": "Contenidos.html#semana-4",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(30-Sept. a 6-Oct.)\n\nTema 02 - Tratamiento de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "Semana 3",
-    "text": "Semana 3\n(23-Sept. a 29-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 06-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(16-Sept. a 22-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: vie., 04-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+    "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
   },
   {
     "objectID": "index.html",
@@ -483,18 +441,74 @@
     "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es"
   },
   {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
     "section": "",
-    "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
+    "text": "(07-Oct. a 13-Oct.)\n\nTema 02 - Ejercicio 1"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "Contenidos.html#semana-5",
+    "href": "Contenidos.html#semana-5",
+    "title": "Contenidos",
     "section": "",
-    "text": "About this site"
+    "text": "(07-Oct. a 13-Oct.)\n\nTema 02 - Ejercicio 1"
+  },
+  {
+    "objectID": "Contenidos.html#semana-4",
+    "href": "Contenidos.html#semana-4",
+    "title": "Contenidos",
+    "section": "Semana 4",
+    "text": "Semana 4\n(30-Sept. a 6-Oct.)\n\nTema 02 - Tratamiento de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "Semana 3",
+    "text": "Semana 3\n(23-Sept. a 29-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 06-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(16-Sept. a 22-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: vie., 04-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+  },
+  {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
+    "section": "",
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nEmpleados"
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
   },
   {
     "objectID": "docs/Tema01.html#introducción",
