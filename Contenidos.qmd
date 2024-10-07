@@ -102,5 +102,4 @@ strip-comments: true
   * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
 
 <!--
-
 -->
