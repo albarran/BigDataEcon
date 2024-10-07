@@ -100,6 +100,7 @@ strip-comments: true
 
   * [Introducción](docs/0Intro.qmd)
   * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
+
 <!--
 
 -->
