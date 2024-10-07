@@ -34,7 +34,6 @@ strip-comments: true
 
   + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
 
-
 <!--
 * Tema 5:
 
