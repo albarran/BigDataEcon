@@ -67,14 +67,14 @@ strip-comments: true
     - Fecha límite de entrega: **lun., 30-oct., 23:59h**
   * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
 
-## Semana 5
-(09-Oct. a 13-Oct.)
-
-  * [Tema 03 - Datos Ordenados](docs/Tema03.qmd)
 -->
 
 <!-- *********************************************************************  -->
 
+## Semana 5
+(07-Oct. a 13-Oct.)
+
+  * [Tema 02 - Ejercicio 1](docs/Tema02ej1.qmd)
 
 ## Semana 4
 (30-Sept. a 6-Oct.)

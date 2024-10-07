@@ -29,13 +29,13 @@ strip-comments: true
 
   + [landdata-states.csv](https://raw.githubusercontent.com/albarran/00datos/main/landdata-states.csv)
 
-<!--
 
-* Tema 1:
+* Tema 2:
 
   + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
 
 
+<!--
 * Tema 5:
 
   + [BankMarketing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BankMarketing.csv)
