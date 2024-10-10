@@ -75,103 +75,10 @@ library(knitr)
 
 # Entrega del ejercicio
 
-<!--
-Escribe un archivo .Rmd con el código y el texto (breve) para responder a las siguientes preguntas. La transformación de datos deberá ser una línea con comandos anidados.
-
-
-Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLScYLKXLOzQWcL5ACQuwlixcx18411t90JRFfzHK_AtQDcosPA/viewform) con vuestros datos y subid
-
-- vuestro archivo de .Rmd
-- el archivo .html resultado de compilarlo en RStudio.
-
-IMPORTANTE: los nombres de los archivos DEBEN EMPEZAR con vuestro número de DNI (el resto es libre): ej.,
-
-> 12345678_T05_ejerc.Rmd
-
-> 12345678_T05_ejerc.html
--->
-
 Este ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).
-
-<!-- Para responder a las preguntas, rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSfXrZsW-_u968ffht7GCeXKts5CKljG5uqq07H0UjA-EBN_0A/viewform) con vuestros datos usando vuestra cuenta institucional de Google Cloud (@gcloud.ua.es). El proceso será contestar a UNA pregunta solo y enviar (*Submit*). **Importante**: NO cerrar la pestaña después de enviar y que aparezca "Tú respuesta ha sido guardada correctamente", porque usaremos el enlace que aparece en "Edit your response" para volver al *mismo* formulario con vuestros datos ya rellenos (y la respuesta a preguntas anteriores) para responder a las siguientes preguntas. -->
 
 
 # Pregunta 1
-
-```{r echo=FALSE, eval=FALSE}
-library(tidyverse)
-library(babynames)
-
-rm(list=ls())
-
-nombreF <- read_tsv("./0data/nombreF.csv", col_names = c("nombre","freq"), 
-                    locale = locale(decimal_mark = ",", grouping_mark = "."), 
-                    col_types = "cn",skip = 100) %>% 
-            mutate(freq=floor(freq/sum(freq)*4100))
-
-nombreH <- read_tsv("./0data/nombreH.csv", col_names = c("nombre","freq"), 
-                    locale = locale(decimal_mark = ",", grouping_mark = "."), 
-                    col_types = "cn",skip = 100) %>% 
-            mutate(freq=floor(freq/sum(freq)*6100))
-
-apellido <- read_tsv("./0data/apellido.csv", col_names = c("apellido","freqA"),
-                     locale = locale(decimal_mark = ",", grouping_mark = "."), 
-                     col_types = "cn") %>% 
-  mutate(freqA=floor(freqA/sum(freqA)*6200))
-
-
-nombreF_2 <- rep(nombreF$nombre, nombreF$freq)
-nombreH_2 <- rep(nombreH$nombre, nombreH$freq)
-apellido_2 <- rep(apellido$apellido, apellido$freqA)
-
-datosH <- cbind(apellido_2, apellido$apellido, nombreH_2) %>% as_tibble() %>% distinct()
-datosM <- cbind(apellido_2, apellido$apellido, nombreF_2) %>% as_tibble() %>% distinct()
-
-numH <- datosH %>% nrow()
-numM <- datosM %>% nrow()
-
-datosH <- datosH %>% sample_n(numH) %>% distinct()
-datosM <- datosM %>% sample_n(numM) %>% distinct()
-
-datos <- datosH %>% rename(apellido1 = apellido_2, apellido2 = V2, nombre = nombreH_2) %>% mutate(genero = "Hombre")
-
-datos <- datosM %>% rename(apellido1 = apellido_2, apellido2 = V2, nombre = nombreF_2) %>% mutate(genero = "Mujer") %>% bind_rows(datos)
-
-rm(datosH, datosM, nombreF, nombreH, apellido_2, nombreF_2, nombreH_2, apellido)
-
-num <- datos %>% nrow()
-
-datos <- datos %>% sample_n(num) %>% mutate(ID = row_number(), genero = parse_factor(genero)) 
-
-num <- datos %>% nrow()
-datos %>% distinct() %>% nrow()
-
-d0 <- babynames %>% count(name, wt =n, sort = TRUE) %>% 
-        slice_head(n = num) %>% mutate(ID=row_number()) %>% 
-        select(name, ID)
-
-datos2 <-
-babynames %>% right_join(d0, by = "name") %>% 
-  inner_join(datos, by = "ID") %>% select(ID:genero, year, n) %>% 
-  rename(ventas = n)
-
-datos2 %>% mutate(anio = 2000+floor((year-1880)/12),
-                                      mes  = (year-1880) -floor((year-1880)/12)*12+1) %>% 
-  group_by(year, anio, mes) %>% summarize(n=n())
-
-datos2 <-
-  datos2 %>% mutate(anio = 2000+floor((year-1880)/12),
-                   mes  = (year-1880) -floor((year-1880)/12)*12+1) %>% 
-  select(-year)
-
-datos2 %>% drop_na() %>% distinct(ID) %>% count()
-
-write_csv2(datos2, "~/Dropbox/MAD/00.TEC/data/empleados.csv")
-zip("~/Dropbox/MAD/00.TEC/data/empleados.csv.zip", "~/Dropbox/MAD/00.TEC/data/empleados.csv")
-
-rm(list=ls())
-```
-
 
 Descargad [este archivo (comprimido)](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (`ID`), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las `ventas` realizadas por dicho empleado en un periodo concreto, dado por año y mes.
 
@@ -179,9 +86,7 @@ Descargad [este archivo (comprimido)](https://raw.githubusercontent.com/albarran
 #| echo: false
 library(rio)
 empleados <- import("data/empleados.csv.zip")
-# empleados <- import("https://github.com/albarran/BigDataEcon2021/raw/main/data/empleados.csv.zip")
-# empleados <- read_csv2("~/Dropbox/MAD/00.TEC/data/empleados.csv")
-empleados %>% drop_na() %>% distinct(ID) %>% count()
+# empleados <- import("https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip")
 ```
 
 
@@ -191,29 +96,22 @@ a. Elige como identificador del empleado las cuatro últimas cifras de tu DNI o 
 
 ```{r echo=FALSE, eval=FALSE}
 library(tidyverse)
-# (alternativa 1)
-empleados %>%
-  filter(ID == 8751) %>%
-  filter(ventas == max(ventas))%>%    
-  select(anio, mes)
-
-# (alternativa 2)                   # misma secuencia que en Excel....
+# (alternativa 1)                   # misma secuencia que en Excel....
 empleados %>%
   filter(ID == 8751) %>%            # slice_max(ventas)
   arrange(desc(ventas)) %>%    
   slice(1) %>%                       # slice_head(n=1) o head(1)
   select(anio, mes)
 
+# (alternativa 2)
+empleados %>%
+  filter(ID == 8751) %>%
+  filter(ventas == max(ventas))%>%    
+  select(anio, mes)
+
 # Horrible solución equivalente
 head(select(arrange(filter(empleados, ID == 8751), desc(ventas)), anio, mes),1)
 
-
-# Para todos                      # imposible (o casi) en Excel
-empleados %>% 
-  group_by(ID) %>% 
-  arrange(desc(ventas)) %>%    
-  slice(1) %>%                       
-  select(ID, anio, mes)
 ```
 
 
@@ -239,7 +137,7 @@ b. Elige como identificador del empleado las cuatro últimas cifras de tu DNI o 
 # (alternativa 1)
 empleados %>%
   group_by(anio, mes) %>% 
-  mutate(ventas_prop = ventas / sum(ventas)*100) %>%
+  mutate(ventas_prop = ventas / sum(ventas)*100) %>%   ## COMPLICADO EN EXCEL
   ungroup() %>%                                        
   filter(ID == 8751) %>%
   arrange(desc(ventas_prop)) %>%  
@@ -270,22 +168,22 @@ NO olvidar ungroup() cuando ya no necesitamos
 -->
 
 
-c. Repetir los apartados anteriores para **cada empleado** de la empresa. Es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores y en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.
+c. Repetir el apartado a) para **cada empleado** de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.
 
-<!--
-2. ¿Qué nombre fue el más popular en el año del apartado anterior?
- 
-```{r echo=F, eval=F}
-  # SAMPLE SOLUTION:
-  babynames %>%
-  filter(year == 1957) %>%
-  arrange(desc(n)) %>%
-  head(1) %>% 
-  select(name)
+```{r}
+#| echo: false
+#| eval: false
+# Para todos                      # imposible (o casi) en Excel
+empleados %>% 
+  group_by(ID) %>% 
+  arrange(desc(ventas)) %>%    
+  slice(1) %>%                       
+  select(ID, anio, mes)
 ```
--->
 
-d. ¿En qué periodo hubo más ventas en total en la empresa y cuántas fueron?
+<!-- De manera similar, se podría hacer para ventas relativas -->
+
+d. ¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?
   
 ```{r echo=F, eval=F}
 # solución
@@ -315,6 +213,7 @@ nuevo conjunto de datos a nivel de empresa-periodo (con summarize), en lugar de 
 
 -->
 
+<!--
 e. Encontrar los nombres y apellidos de los diez empleados con más ventas (mayor número total de ventas) entre julio de 2002 (incluido) y junio de 2006 (incluido).
 ```{r echo=F, eval=F}
 # solución
@@ -348,6 +247,7 @@ empleados %>%
 # alternativa: usar 
 # slice_max(ventas_totales, n=10) 
 ```
+-->
 
 <!--
 PASOS: primero extraer SOLO las filas del período relevante (última parte del enunciado, pero primer paso)
@@ -360,97 +260,27 @@ si usamos mutate en lugar de summarize, no solo filas redundantes: la solución 
 
 -->
 
+e. Representar la evolución temporal de (1) las ventas anuales totales realizadas por los hombres y de las mujeres de las empresa y (2) el número de hombres y mujeres empleados en la empresa en cada año.
 
-<!--  
-4. Obtener un conjunto de datos (`data frame`) con tres variables: cada nombre, el primer año en que aparece y el último año en que aparece.
+    Presentar una tabla con la media de ventas anuales de hombres y mujeres en los años 2000, 2005 y 2010.
 
-```{r echo=F, eval=F}
-  # sample solution
-  babynames %>%
-    group_by(name) %>%
-    summarize(earliest = min(year), latest = max(year))
-```
--->
+```{r}
+#| echo: false
 
+datosAnioGenero <- empleados %>%
+  group_by(anio, genero) %>%
+  summarize(ventas_totales = sum(ventas)) %>%
+  ungroup()
 
-<!--  
-3. In which year was that name given to M and F babies most equally (i.e. closest to a 50/50 split)?
-
-```{r echo=F, eval=F}
-  
-babynames %>%
-  filter(name == "Jackie") %>%
-  group_by(year) %>%
-  summarize(
-    num_sexes = n(), 
-    total = sum(n), 
-    boys = sum(ifelse(sex == "M", n, 0)),
-    girls = total - boys,
-    girl_pct = girls / total
-  )
-```
-
-There are 15 names that have been assigned to both sexes in all 138 years. List them.
-
-```{r echo=F, eval=F}
-# sample solution
-babynames %>%
-  group_by(name) %>%
-  summarize(num_appearances = n()) %>%
-  filter(num_appearances == 276)
+ggplot(data = datosAnioGenero, aes(x = anio, y = ventas_totales, color = genero)) +
+  geom_line() +
+  labs(title = "Evolución temporal de las ventas anuales por género",
+       x = "Año",
+       y = "Ventas totales")
 
 ```
--->
-  
-<!--
-5. Considera los nombres con al menos 1% de nacimientos en un año dado. ¿Cuál es el año más reciente en que aparece?
-
-```{r echo=F, eval=F}
-# sample solution
-babynames %>%
-#  mutate(is_popular = prop >= 0.01) %>%
-#  filter(is_popular == TRUE) %>%
-  filter(prop >= 0.01) %>%
-  group_by(name) %>%
-  summarize(earliest = min(year)) %>%
-  arrange(desc(earliest))
-```
--->  
-
-<!--  
-It seems like there is more diversity of names now than in the past. How have the number of names used changed over time? Has it been the same for boys and girls?
-
-  
-```{r echo=FALSE,eval=FALSE}
-
-```
--->
 
 <!--
-Use ggplot2 and group_by() to create an interesting and informative data graphic. It need not be about babynames. Post your graphic and a short description of it to Slack.
--->
-
-<!--More Practice (optional)
-
-If you are looking for some more practice, try these, using the nycflights13 package.
--->
-
-<!--
-What was the daily average number of flights leaving each of the three NYC airports in 2013?
-
-```{r echo=F, eval=F}
-  # sample solution
-  library(nycflights13)
-flights %>%
-  group_by(origin, month, day) %>%
-  summarize(num_flights = n()) %>%
-  group_by(origin) %>%
-  summarize(num_days = n(), avg_daily = mean(num_flights))
-
-```
--->
-
-f. Obtener las ventas anuales de los hombres y de las mujeres. Representar su evolución temporal.
 
 # Pregunta 2
 
@@ -479,6 +309,8 @@ hist(df$num_dests, breaks = c(-1:6,seq(10,70,1)))
 # ggplot(data = df) +
 #   geom_histogram(aes(x = num_dests))
 ```
+
+-->
 
 <!--
 
@@ -512,69 +344,213 @@ ggplot(data = df) +
 
 
 <!--
-Plot the distribution of average daily delay time across the entire year for each of the three airports.
+# Pregunta 2
 
-Challenge: Plot the average arrival delay time as a function of the distance flown to the nearest 100 miles for each of the three airports.
--->
-
-# Pregunta 3
-
-* Elegir UN conjunto de datos de la web Gapminder, [aquí](http://www.gapminder.org/data/). Descargar los datos en formato .csv y leerlos en R. Por ejemplo:
-
+* Elegir UN conjunto de datos de la web Gapminder, [aquí](http://www.gapminder.org/data/). Descargar los datos en formato .xlsx y leerlos en R. Por ejemplo, "Consumption CO2 emissions (millions tonnes)" y "Expenditure per student, tertiary (% of GDP per person)".
 
 ```{r}
+#| echo: false
 library(tidyverse)
 library(rio)
-datos <- import("data/expenditure_per_student_tertiary_percent_of_gdp_per_person.csv")
-co2   <- impor("data/co2_emissions_tonnes_per_person.csv")
-sex_ratio <- import("data/sex_ratio_0_14_years.csv")
+expend <- import("data/expenditure_per_student_tertiary_percent_of_gdp_per_person.csv")
+co2    <- import("data/co2_cons.csv")
 
+expend <- import("data/expenditure_per_student_tertiary_percent_of_gdp_per_person.csv", header = TRUE)
+co2    <- import("data/co2_cons.csv", header = TRUE)
+
+expend <- read_csv("data/expenditure_per_student_tertiary_percent_of_gdp_per_person.csv")
+co2    <- read_csv("data/co2_cons.csv")
 ```
 
 * Transformar el conjunto de datos a una tabla de datos ordenados con tres variables: país, año y valor de la variable que habéis elegido.
 
-    * Probablemente la variable de año tendrá tipo de carácter; usar `mutate()` y `parse_number()` para arreglarlo.
+    * NOTA: prestad atención a los tipos de las variables!
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
+expendLargo <- expend %>% 
+  pivot_longer(-country, names_to = "year", values_to= "gasto")
 
-datos2 <- datos %>% 
-  pivot_longer(-country, names_to = "year", values_to= "gasto") %>%
-  mutate(year = (parse_number(year)))
+expendLargo <- expendLargo %>%
+  mutate(year = parse_number(year))
+```
 
+```{r}
+#| echo: false
 # problemas al pivotar porque en algunos años  
 # se tiene 2k o 2M en lugar de dos mil o dos millones
-co2_largo <- co2 %>% pivot_longer(cols =  -country,
-                                  names_to = "anio",
-                                  values_to = "co2") %>%
-  mutate(year = (parse_number(year)))
-
-sex_ratio_largo <- sex_ratio %>% pivot_longer(cols =  -country,
-                                  names_to = "anio",
-                                  values_to = "sex_ratio") %>%
-  mutate(year = (parse_number(year)))
-
-
+co2Largo <- co2 %>% pivot_longer(cols =  -country,
+                                  names_to = "year",
+                                  values_to = "co2",
+                    #              values_transform = as.character) %>%
+                    #mutate(year = (parse_number(year)))
+                    values_transform = as.numeric)
 ```
 
-* Representar la evolución temporal de la variable con `ggplot`, usando el color para distinguir entre países. Elegid sólo cuatro países para representarlos sin que el gráfico esté saturado. Explicar *brevemente* si preferís los datos originales o los ordenados para el gráfico.
+* Representar la evolución temporal de la variable con `ggplot`, usando el color para distinguir entre estos países: "India", "Finland", "Argentina", "Spain", "Angola" y "Canada". Explicar *brevemente* si preferís los datos originales o los ordenados para el gráfico.
 
-<!--
-* Comentar *brevemente* vuestro gráfico.
--->
-
-```{r echo=FALSE, eval=FALSE}
-
-datos2 %>% 
-  filter(country %in% c("India", "Finland", "France", "Spain")) %>% 
-  filter(year > 1990) %>% 
+```{r}
+#| echo: false
+#| eval: false
+expendLargo %>% 
+  filter(country %in% c("India", "Finland", "Argentina", "Spain", "Angola", "Canada")) %>% 
+  filter(year > 1990) %>%
   ggplot(aes(x=year, y=gasto)) +
   geom_line(aes(color=country))
-
-# recordad: los argumentos en ggplot() afectan a todos los geoms (ojo en ocasiones)
-ggplot() +
-  geom_line(data = datos2 %>% filter(country %in% c("India", "Finland", "France", "Spain")),
-            aes(x=year, y=gasto, color=country)) +
-  geom_point()
-
 ```
 
+```{r}
+#| echo: false
+#| eval: false
+co2Largo %>% 
+  filter(country %in% c("India", "Finland", "Argentina", "Spain", "Angola", "Canada")) %>% 
+  filter(year > 1990) %>%
+  ggplot(aes(x=year, y=co2)) +
+  geom_line(aes(color=country))
+```
+-->
+
+
+<!--
+# Pregunta 2
+
+El archivo [ChaseBank.csv](https://raw.githubusercontent.com/albarran/00datos/main/ChaseBank.csv) incluye un registro de cada sucursal de Chase Bank en EE.UU., con la siguiente información:
+
+| **Variable**          | **Descripción**                                      |
+|-----------------------|------------------------------------------------------|
+| `Institution Name`    | Nombre de la institución                             |
+| `Main Office`         | = 1 si es la oficina principal del banco             |
+| `Branch Name`         | Nombre de la sucursal                                |
+| `Branch Number`       | Identificador de la sucursal                         |
+| `Established Date`    | Fecha de establecimiento de la sucursal              |
+| `Acquired Date`       | Fecha de adquisición por JP Morgan Chase (si aplica) |
+| `Street Address`      | Dirección de la sucursal                             |
+| `City`                | Ciudad de la sucursal                                |
+| `County`              | Condado de la sucursal                               |
+| `State`               | Estado de la sucursal                                |
+| `Zipcode`             | Código postal de la sucursal                         |
+| `Latitude`            | Coordenada de latitud de la ubicación de la sucursal |
+| `Longitude`           | Coordenada de longitud de la ubicación de la sucursal|
+| `XXXX Deposits`       | Depósitos en la sucursal durante el año XXXX (en $)  |
+
+
+Para todos los análisis siempre excluimos la oficina principal. NOTAD que en R, los nombres de las columnas con espacios se escriben entre `` ` ``; por ejemplo, `` `Main Office` ``.
+
+```{r}
+#| echo: false
+#| eval: false
+library(rio)
+library(tidyverse)
+
+ChaseBank <- import("https://raw.githubusercontent.com/albarran/00datos/main/ChaseBank.csv") %>% 
+              filter(`Main Office` == 0) 
+```
+
+a. Presenta una tabla con el nombre, ciudad y estado de las tres oficinas con más depósitos en cada año. 
+
+```{r}
+#| echo: false
+#| eval: false
+ChaseBank %>% 
+  pivot_longer(cols = starts_with("20"), 
+               names_to = "year", values_to = "deposits") %>% 
+  mutate(year = parse_number(year)) %>% 
+  group_by(year) %>% 
+  arrange(desc(deposits)) %>% 
+  slice_head(n = 3) %>%
+  select(`Branch Name`, City, State, year, deposits)
+```
+
+
+a. En cada año, ¿qué sucursal ha tenido la mayor tasa de crecimiento en la cantidad total de depósitos (respecto al anterior)? 
+
+    * NOTA: en R, la función `lag()` permite acceder al valor de la fila anterior.
+
+```{r}
+#| echo: false
+
+ChaseBankLargo <- ChaseBank %>% 
+  select(`Branch Name`, `Branch Number`, City:Zipcode, starts_with("20")) %>% 
+  pivot_longer(cols = starts_with("20"), 
+               names_to = "year", values_to = "deposits") %>% 
+  mutate(year = parse_number(year)) 
+
+ChaseBankLargo2 <- 
+  ChaseBankLargo %>% 
+    group_by(`Branch Number`) %>% 
+    arrange(`Branch Number`, year) %>%
+    mutate(tasa_crecim = 
+             if_else(lag(deposits)==0, 
+                     NA, 
+                     100*(deposits - lag(deposits)) / lag(deposits)))
+
+ChaseBankLargo2 %>%
+   group_by(year) %>%
+   arrange(desc(tasa_crecim)) %>% 
+   slice_head(n=1)
+
+
+ChaseBankLargo2 %>%
+  group_by(`Branch Name`, City, State) %>%
+  summarise(media_tasa  = mean(tasa_crecim, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(desc(media_tasa))  %>% 
+   slice_head(n=1)
+```
+
+
+b. ¿Qué sucursal ha tenido un mayor crecimiento en los depósitos acumulado en todo este periodo? ¿Y crecimiento medio anual?
+
+
+
+
+
+
+¿Qué sucursal bancaria ha tenido mayor tasa de crecimiento anual (respecto al año anterior) en los depósitos? ¿Qué sucursal ha tenido mayor tasa media de crecimiento anual en este periodo?
+
+    * NOTA: en R, la función `lag()` permite acceder al valor de la fila anterior.
+
+```{r}
+#| echo: false
+#| eval: false
+ChaseBank2 <- ChaseBank %>% 
+  select(`Branch Name`, `Branch Number`, City:Zipcode, starts_with("20")) %>% 
+  pivot_longer(cols = starts_with("20"), 
+               names_to = "year", values_to = "deposits") %>% 
+  mutate(year = parse_number(year)) %>% 
+  group_by(`Branch Number`) %>% 
+  arrange(`Branch Number`, year) %>%
+  mutate(deposits = if_else(deposits == 0, NA, deposits),
+    tasa_crecim = 100*(deposits - lag(deposits)) / lag(deposits))
+
+
+ ChaseBank2 %>%
+   group_by(year) %>%
+   arrange(desc(tasa_crecim)) %>% 
+   slice_head(n=1)
+
+
+ ChaseBank2 %>%
+   group_by(`Branch Name`, City, State) %>%
+  summarise(media_tasa  = mean(tasa_crecim, na.rm = TRUE)) %>%
+  arrange(desc(media_tasa))
+
+
+ 
+```
+
+```{r}
+temp <- ChaseBank2 %>% filter(max(deposits==0)==T)
+```
+
+
+   a.3. Para cada estado, ¿cuál es la oficina en que más dinero depositaron los clientes en cada año? 
+
+
+
+b. Para cada estado, queremos saber:
+  b.1. ¿cuántas sucursales bancarias hay?
+  b.2. ¿cuál ha sido el crecimiento anual medio de los depósitos?
+  b.3. Representar gráficamente la cantidad de depósitos en el tiempo para cada estado.
+
+-->

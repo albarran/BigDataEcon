@@ -920,7 +920,7 @@ na.omit() vs. drop_na: el primero es de base (stats) el otro de tidyr
 
 ## Algunos verbos adicionales
 
-* `slice()`, `slice_sample()`: extrae filas por posición o aleatoriamente
+* `slice()`, `slice_head()`, `slice_sample()`: extrae filas por posición o aleatoriamente
 
 ```{r echo=T}
 mypresidents %>% slice(1, 4)
@@ -930,7 +930,7 @@ mypresidents %>% slice(1, 4)
    - `slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()`
 -->
 
-* `drop_na()` y `replace_na()`: elimina filas con valores ausentes o los reemplaza
+* `drop_na()` y `replace_na()`: elimina/reemplaza filas con valores ausentes
 
 * `distinct()`: extrae sólo las filas únicas (una o varias variables)
  
@@ -1121,6 +1121,8 @@ flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
 
   <!-- - similar a `x[1]`, `x[2]` y `x[length(x)]`   -->
 
+* Sumas, productos, etc.
+
 * Conteos: 
 
   - `n()`: observaciones totales (tamaño del grupo)
@@ -1130,7 +1132,6 @@ flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
   - `n_distinct(x)`:  filas distintas en `x`
   
   <!-- más rápido que unique() -->
-
 
 
 ## Cuatro representaciones de los mismos datos
