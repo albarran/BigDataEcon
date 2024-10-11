@@ -379,12 +379,17 @@ c(table4a$`1999`, table4a$`2000`)
 table1 %>% mutate(rate = cases / population * 10000)  
 ```
 
-* `tidyverse` es eficiente con datos ordenados: ej., gráfico temporal
+* `tidyverse` es eficiente con datos ordenados 
+
+<!--
+: ej., gráfico temporal
 
 ```{r}
+#| echo: false
 ggplot(table1, aes(x = year, y = cases)) +  
   geom_line(aes(colour = country))
 ```
+-->
 
 
 
@@ -588,10 +593,11 @@ paso1 %>% select(name)
 
 * `datos %>% filter(condition)` equivale a `filter(datos, condition)`
 
+    * Aplicable a cualquier función: `10 %>% log()` es `log(10)`
 
-* El anidamiento es fácil:<br>
-<tab><tab> - Tomar `presidential` y pasarlo a filtrar (produce un nuevo *data frame*); <br>
-<tab><tab> - Tomar este resultado y pasarlo a seleccionar.
+* El anidamiento es fácil:
+    - Tomar `presidential` y pasarlo a filtrar (produce un nuevo *data frame*); <br>
+    - Tomar este resultado y pasarlo a seleccionar.
 
 ```{r}
 #| echo: false
@@ -612,8 +618,6 @@ presidential %>%
 -->
 
 * Atajo de teclado: `Cmd / Ctrl + Mays + M `
-
-* Se puede aplicar a cualquier función: `10 %>% log()` es `log(10)`
 
 * También existe una tubería en R base: `|>`
 
@@ -767,10 +771,11 @@ mypresidents %>%
 ```{r}
 library(lubridate)
 mypresidents %>%
-  summarize(media_duracion = mean(duracion),
-            N = n(),                        # n() cuenta núm. total de filas
-            first_year = min(year(start)),  # year() extrae el año de una fecha
-            num_dems = sum(party == "Democratic") )
+  summarize(
+    media_duracion = mean(duracion),
+    N = n(),                        # n(): cuenta número de filas
+    first_year = min(year(start)),  # year(): año de una fecha
+    num_dems = sum(party == "Democratic") )
 ```
 
 ```{r echo=FALSE}
@@ -797,9 +802,9 @@ mypresidents %>% filter(party == "Republican") %>%  summarize(N = n(), media_dur
 
 
 ```{r}
-mypresidents %>% group_by(party) %>%          # "marca" dos grupos en los datos 
-  summarize(N = n(),                          # incluye estas variables 
-            media_duracion = mean(duracion))  # mas las de group_by()
+mypresidents %>% group_by(party) %>%         # solo "marca" dos grupos 
+  summarize(N = n(),                         # nuevas variables
+            media_duracion = mean(duracion)) # 
 ```
 
 <!--
@@ -809,28 +814,29 @@ mypresidents %>% group_by(party) %>%          # "marca" dos grupos en los datos
 -->
 
 
-* Nuevo *data frame* con distinto nivel de observación (fila):  una fila para cada valor de la variable por la que se agrupa  (ej., de presidentes a partidos)
+* **Nuevo** conjunto de datos con nuevas variables (columnas) a un distinto nivel de observación (fila):  una fila para cada valor del grupo 
 
+<!-- la variable por la que se agrupa <!--(ej., de presidentes a partidos)--> 
 <!--
   * datos de información/ventas por empleado a información por tienda
-  
   * DEBEN INCLUIRSE variables que se quieran mantener
 -->
 
-*  `ungroup()` elimina la agrupación: volvemos a operar en datos desagrupados 
+* Relacionado con *Tablas dinámicas* en Excel (y *SUMAR.SI*/*SUMIF*) 
+
+* `ungroup()` elimina la agrupación para volver a operar en datos desagrupados 
 
 ```{r}
-mypresidents %>% group_by(party) %>% 
-  mutate(media_duracion = mean(duracion)) %>% 
-  ungroup() %>% arrange(duracion) %>%  slice(1)
+mypresidents %>% group_by(party) %>% mutate(MD = mean(duracion)) %>% 
+  ungroup() %>% arrange(duracion) %>%  slice_head(n=1)
 ```
 
 ```{r echo=FALSE}
-mypresidents %>% mutate(media_dur = mean(duracion)) %>% arrange(duracion) %>%  slice(1)
+mypresidents %>% mutate(media_dur = mean(duracion)) %>% arrange(duracion) %>%  slice_head(n=1)
 
-mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% arrange(duracion) %>%  slice(1)
+mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% arrange(duracion) %>%  slice_head(n=1)
 
-mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% ungroup() %>% arrange(duracion) %>%  slice(1)
+mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% ungroup() %>% arrange(duracion) %>%  slice_head(n=1)
 ```
 
 
@@ -838,8 +844,8 @@ mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>%
 
 ```{r}
 library(nycflights13)           # incluye flights:  19 variables
-select(flights, year:arr_time)    # desde variable "year" hasta "arr_time"
-select(flights, -(year:day))      # todas menos "year, month, day"
+select(flights, year:arr_time)  # desde variable "year" hasta "arr_time"
+select(flights, -(year:day))    # todas menos "year, month, day"
 ```
 
 <!--
@@ -923,7 +929,7 @@ na.omit() vs. drop_na: el primero es de base (stats) el otro de tidyr
 * `slice()`, `slice_head()`, `slice_sample()`: extrae filas por posición o aleatoriamente
 
 ```{r echo=T}
-mypresidents %>% slice(1, 4)
+mypresidents %>% slice_head(n=3)
 ```
 
 <!--
@@ -1058,7 +1064,13 @@ row_number(y)
 
 <!-- ## Funciones para crear variables (cont.) -->
 
-* `if_else()`: ejecución condicional (también `case_when()`)
+
+* Muchas funciones son equivalentes a otras de R base:
+
+    - `parse_number()`, `parse_factor()`, etc. por `as.number()`, `as.factor()`, etc.
+    - `bind_cols()` y `bind_rows()` por `cbind()` y `rbind()`
+
+    - `if_else()`: ejecución condicional por `ifelse()` (también `case_when()`)
 
 ```{r}
 flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde", "bien")) 
@@ -1105,11 +1117,12 @@ mutate(Quantity = replace(Quantity, Quantity<=0, NA), UnitPrice = replace(UnitPr
 flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
 ```
 
+<!--
 * Nota: `dplyr` tiene muchas funciones equivalentes a otras de R base:
 
     - `parse_number()`, `parse_factor()`, etc. por `as.number()`, `as.factor()`, etc.
     - `bind_cols()` y `bind_rows()` por `cbind()` y `rbind()`
-
+-->
 
 ## Funciones de resumen útiles
 
@@ -1183,6 +1196,10 @@ table4b
 ::: {}
 
 * La utilidad de almacenar los datos en un rectángulo ancho ("wide") o en uno largo ("long"")  depende de qué queramos hacer
+
+  * En general, el formato largo es más útil para el análisis
+  
+  * Incluso en Excel, se prefiere el formato largo para tablas dinámicas, fórmulas de agregración (*SUMAR.SI*) y algunos gráficos
 
 * El cambio de forma <!--("reshaping") de una tabla-->  entre formatos es una tarea habitual del analista de datos. 
 

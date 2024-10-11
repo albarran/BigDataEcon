@@ -98,9 +98,9 @@ a. Elige como identificador del empleado las cuatro últimas cifras de tu DNI o 
 library(tidyverse)
 # (alternativa 1)                   # misma secuencia que en Excel....
 empleados %>%
-  filter(ID == 8751) %>%            # slice_max(ventas)
-  arrange(desc(ventas)) %>%    
-  slice(1) %>%                       # slice_head(n=1) o head(1)
+  filter(ID == 8751) %>%            
+  arrange(desc(ventas)) %>%    # slice_max(ventas)
+  slice_head(n=1) %>%                     
   select(anio, mes)
 
 # (alternativa 2)
@@ -110,7 +110,7 @@ empleados %>%
   select(anio, mes)
 
 # Horrible solución equivalente
-head(select(arrange(filter(empleados, ID == 8751), desc(ventas)), anio, mes),1)
+# head(select(arrange(filter(empleados, ID == 8751), desc(ventas)), anio, mes),1)
 
 ```
 
@@ -141,7 +141,7 @@ empleados %>%
   ungroup() %>%                                        
   filter(ID == 8751) %>%
   arrange(desc(ventas_prop)) %>%  
-  slice(1) %>%                     # head(1) %>%   # si slice(1), necesita ungroup()
+  slice_head(n=1) %>%                     # head(1) %>%   # si slice(1), necesita ungroup()
   select(anio, mes)
 
 # (alternativa 2)
@@ -165,6 +165,16 @@ group_by para limitar el alcance de sum() a periodo
 
 NO olvidar ungroup() cuando ya no necesitamos
 
+
+* En Excel: se podría crear Ventas_totales en cada periodo, y luego dividir por esa columna
+* opcion 1: tabla dinámica, PERO luego hay que hacer JOIN con la tabla original:
+              * BUSCARV, BUSCARH, BUSCARX,... HLOOKUP, VLOOKUP, XLOOKUP
+* opción 2: SUMAR.SI o SUMAR.SI.CONJUNTO,.. SUMIF, SUMIFS 
+             * SUMAR.SI.CONJUNTO(F:F,G:G,G2,H:H,H2)  (F: ventas, G: anio, H: mes)
+             * muy lento
+
+
+
 -->
 
 
@@ -177,7 +187,7 @@ c. Repetir el apartado a) para **cada empleado** de la empresa, es decir, encont
 empleados %>% 
   group_by(ID) %>% 
   arrange(desc(ventas)) %>%    
-  slice(1) %>%                       
+  slice_head(n=1) %>%                       
   select(ID, anio, mes)
 ```
 
@@ -191,7 +201,7 @@ empleados %>%
   group_by(anio, mes) %>%
   summarize(ventas_totales = sum(ventas)) %>%
   arrange(desc(ventas_totales)) %>%            
-  head(1)
+  slice_head(n=1)
 
 # dos opciones alternativas para los dos últimos pasos:
 # filter(ventas_totales = max(ventas_totales))
@@ -260,7 +270,9 @@ si usamos mutate en lugar de summarize, no solo filas redundantes: la solución 
 
 -->
 
-e. Representar la evolución temporal de (1) las ventas anuales totales realizadas por los hombres y de las mujeres de las empresa y (2) el número de hombres y mujeres empleados en la empresa en cada año.
+e. Representar la evolución temporal de las ventas anuales totales realizadas por los hombres y de las mujeres de las empresa.
+
+    Presentar un gráfico de barras con el número de hombres y mujeres empleados en la empresa en cada año.
 
     Presentar una tabla con la media de ventas anuales de hombres y mujeres en los años 2000, 2005 y 2010.
 
@@ -269,7 +281,9 @@ e. Representar la evolución temporal de (1) las ventas anuales totales realizad
 
 datosAnioGenero <- empleados %>%
   group_by(anio, genero) %>%
-  summarize(ventas_totales = sum(ventas)) %>%
+  summarize(ventas_totales = sum(ventas),
+            num = n(),
+            ventas_medias = mean(ventas)) %>%
   ungroup()
 
 ggplot(data = datosAnioGenero, aes(x = anio, y = ventas_totales, color = genero)) +
@@ -278,6 +292,23 @@ ggplot(data = datosAnioGenero, aes(x = anio, y = ventas_totales, color = genero)
        x = "Año",
        y = "Ventas totales")
 
+ggplot(data = datosAnioGenero) +
+  geom_bar(aes(x = anio, y = num, fill = genero), stat = "identity", position = "dodge") +
+  labs(title = "Número de empleados por género",
+       x = "Año",
+       y = "Número de empleados")
+
+ggplot(data=empleados) + 
+  geom_bar(aes(x=anio, fill=genero), position="dodge") +
+  labs(title = "Número de empleados por género",
+       x = "Año",
+       y = "Número de empleados")
+
+datosAnioGenero %>% 
+  filter(anio %in% c(2000, 2005, 2010)) %>%
+  select(genero, anio, ventas_medias) %>%
+  pivot_wider(names_from = anio, values_from = ventas_medias)
+  # pivot_wider(names_from = genero, values_from = ventas_medias)
 ```
 
 <!--
