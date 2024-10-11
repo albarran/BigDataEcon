@@ -144,7 +144,7 @@
     "href": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Mismos datos, dos formatos: ancho o largo",
-    "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”“) depende de qué queramos hacer\n\nEn general, el formato largo es más útil para el análisis\nIncluso en Excel, se prefiere el formato largo para tablas dinámicas, fórmulas de agregración (SUMAR.SI) y algunos gráficos\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\n\n\n\n\n\ntable4a        # formato ancho\ntable1         # formato largo"
+    "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”“) depende de qué queramos hacer\n\nP.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregración (SUMAR.SI) y algunos gráficos\n\n\n\n\n\n\n\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\ntable4a        # formato ancho\ntable1         # formato largo"
   },
   {
     "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
