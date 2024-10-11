@@ -1197,14 +1197,19 @@ table4b
 
 * La utilidad de almacenar los datos en un rectángulo ancho ("wide") o en uno largo ("long"")  depende de qué queramos hacer
 
-  * En general, el formato largo es más útil para el análisis
+  <!-- * En general, el formato largo es más útil para el análisis -->
   
-  * Incluso en Excel, se prefiere el formato largo para tablas dinámicas, fórmulas de agregración (*SUMAR.SI*) y algunos gráficos
+  * P.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregración (*SUMAR.SI*) y algunos gráficos
 
-* El cambio de forma <!--("reshaping") de una tabla-->  entre formatos es una tarea habitual del analista de datos. 
+<!--
+* El cambio de forma <!--("reshaping") de una tabla-->
+
+<!--
+entre formatos es una tarea habitual del analista de datos. 
 
 
 * Cambiar entre representación larga y ancha se conoce como **pivotar (o girar)**
+-->
 
 <!--
 DISTINTO de trasponer filas y columnas en Excel
@@ -1223,6 +1228,20 @@ Existe una función para pivotar en Excel -->
 :::
 
 ::::
+
+* El cambio de forma <!--("reshaping") de una tabla--> entre formatos es una tarea habitual del analista de datos. 
+
+* Cambiar entre representación larga y ancha se conoce como **pivotar (o girar)**
+
+<!--
+DISTINTO de trasponer filas y columnas en Excel
+
+Existe una función para pivotar en Excel -->
+
+<!--
+* Los datos en bruto suelen estar en formato largo: facilita la recogida de información, no el análisis
+-->
+
 
 ```{r}
 table4a        # formato ancho
