@@ -199,7 +199,8 @@ d. ¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuá
 # solución
 empleados %>% 
   group_by(anio, mes) %>%
-  summarize(ventas_totales = sum(ventas)) %>%
+  summarize(ventas_totales = sum(ventas)) %>% 
+  ungroup() %>%                               ### OJO: ungroup() IMPORTANTE
   arrange(desc(ventas_totales)) %>%            
   slice_head(n=1)
 
@@ -212,7 +213,7 @@ empleados %>%
   group_by(anio, mes) %>% 
   mutate(ventas_totales = sum(ventas)) %>% 
   arrange(desc(ventas_totales)) %>%            # mas lento por más filas
-  head(1)                                      # columnas innecesarias
+  slice_head(n=1)                                      # columnas innecesarias
 ```  
 
 <!--
@@ -270,11 +271,11 @@ si usamos mutate en lugar de summarize, no solo filas redundantes: la solución 
 
 -->
 
-e. Representar la evolución temporal de las ventas anuales totales realizadas por los hombres y de las mujeres de las empresa.
+e. Representar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.
 
-    Presentar un gráfico de barras con el número de hombres y mujeres empleados en la empresa en cada año.
+    Presentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.
 
-    Presentar una tabla con la media de ventas anuales de hombres y mujeres en los años 2000, 2005 y 2010.
+    Presentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010.
 
 ```{r}
 #| echo: false
@@ -283,26 +284,48 @@ datosAnioGenero <- empleados %>%
   group_by(anio, genero) %>%
   summarize(ventas_totales = sum(ventas),
             num = n(),
+            num2 = n_distinct(ID), 
             ventas_medias = mean(ventas)) %>%
   ungroup()
 
-ggplot(data = datosAnioGenero, aes(x = anio, y = ventas_totales, color = genero)) +
-  geom_line() +
+##########################################################################
+
+ggplot(data = datosAnioGenero, aes(x = anio, y = ventas_totales)) +
+  geom_line(color = genero) +
   labs(title = "Evolución temporal de las ventas anuales por género",
        x = "Año",
        y = "Ventas totales")
 
+##########################################################################
+
+## gráfico de barras como Excel: con frecuencias calculadas
 ggplot(data = datosAnioGenero) +
-  geom_bar(aes(x = anio, y = num, fill = genero), stat = "identity", position = "dodge") +
+  geom_bar(aes(x = anio, y = num, fill = genero), 
+           stat = "identity", 
+           position = "dodge") +
   labs(title = "Número de empleados por género",
        x = "Año",
        y = "Número de empleados")
 
+## gráfico de barras, calculando las frecuncias
 ggplot(data=empleados) + 
-  geom_bar(aes(x=anio, fill=genero), position="dodge") +
+  geom_bar(aes(x=anio, fill=genero), 
+           # stat = "count",
+           position="dodge") +
   labs(title = "Número de empleados por género",
        x = "Año",
        y = "Número de empleados")
+
+#### Realmente queremos ESTO: empleados únicos
+ggplot(data = datosAnioGenero) +
+  geom_bar(aes(x = anio, y = num2, fill = genero), 
+           stat = "identity", 
+           position = "dodge") +
+  labs(title = "Número de empleados por género",
+       x = "Año",
+       y = "Número de empleados")
+
+##########################################################################
 
 datosAnioGenero %>% 
   filter(anio %in% c(2000, 2005, 2010)) %>%

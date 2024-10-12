@@ -1195,11 +1195,11 @@ table4b
 
 ::: {}
 
-* La utilidad de almacenar los datos en un rectángulo ancho ("wide") o en uno largo ("long"")  depende de qué queramos hacer
+* La utilidad de almacenar los datos en un rectángulo ancho ("wide") o en uno largo ("long")  depende de qué queramos hacer
 
   <!-- * En general, el formato largo es más útil para el análisis -->
   
-  * P.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregración (*SUMAR.SI*) y algunos gráficos
+  * P.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregación (*SUMAR.SI*) y algunos gráficos
 
 <!--
 * El cambio de forma <!--("reshaping") de una tabla-->
@@ -1357,7 +1357,7 @@ table4a %>% pivot_longer(names_to = "year", values_to = "cases", `1999`:`2000`)
 ```{r}
 #| echo: true
 #| eval: false
-table4a %>% pivot_longer(`1999`:`2000`), 
+table4a %>% pivot_longer(cols = `1999`:`2000`, 
                          values_to = "cases", names_to = "year")
 ```
 
