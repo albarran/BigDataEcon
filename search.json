@@ -7,32 +7,53 @@
     "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nVentasTabla\nEmpleados"
   },
   {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
+    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "title": "Introducción",
+    "section": "“Datificación” de la vida diaria",
+    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
   },
   {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+    "objectID": "docs/0Intro.html#importancia-de-los-datos",
+    "href": "docs/0Intro.html#importancia-de-los-datos",
+    "title": "Introducción",
+    "section": "Importancia de los datos",
+    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
   },
   {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
+    "objectID": "docs/0Intro.html#objetivos",
+    "href": "docs/0Intro.html#objetivos",
+    "title": "Introducción",
+    "section": "Objetivos",
+    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
+    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "title": "Introducción",
+    "section": "Aprendiendo a analizar datos",
+    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
+  },
+  {
+    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
+    "href": "docs/0Intro.html#análitica-cadena-de-valor",
+    "title": "Introducción",
+    "section": "Análitica: Cadena de Valor",
+    "text": "Análitica: Cadena de Valor"
+  },
+  {
+    "objectID": "docs/0Intro.html#tipos-de-análisis",
+    "href": "docs/0Intro.html#tipos-de-análisis",
+    "title": "Introducción",
+    "section": "Tipos de Análisis",
+    "text": "Tipos de Análisis"
+  },
+  {
+    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Ciclo de Vida del Análisis de Datos",
+    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
   },
   {
     "objectID": "docs/Tema02.html#limpieza-y-doma-de-datos",
@@ -144,7 +165,7 @@
     "href": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Mismos datos, dos formatos: ancho o largo",
-    "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”“) depende de qué queramos hacer\n\nP.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregración (SUMAR.SI) y algunos gráficos\n\n\n\n\n\n\n\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\ntable4a        # formato ancho\ntable1         # formato largo"
+    "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”) depende de qué queramos hacer\n\nP.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregación (SUMAR.SI) y algunos gráficos\n\n\n\n\n\n\n\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\ntable4a        # formato ancho\ntable1         # formato largo"
   },
   {
     "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
@@ -158,7 +179,7 @@
     "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "pivot_longer(): de ancho a largo (cont.)",
-    "text": "pivot_longer(): de ancho a largo (cont.)\n\nRecordad que existen formas equivalentes de hacer lo mismo\n\n\ntable4a %&gt;% pivot_longer(`1999`:`2000`), \n                         values_to = \"cases\", names_to = \"year\")\n\n\nNotar que los nombres de columna son caracteres y cuando son números van entre ` (evita confusión con índice de posición)\n\n\nDeberíamos cambiar el tipo de las nuevas variables\n\n\ntable4a %&gt;% \n  pivot_longer(2:3, names_to = \"year\", values_to = \"cases\") %&gt;%\n  mutate(year= parse_number(year))"
+    "text": "pivot_longer(): de ancho a largo (cont.)\n\nRecordad que existen formas equivalentes de hacer lo mismo\n\n\ntable4a %&gt;% pivot_longer(cols = `1999`:`2000`, \n                         values_to = \"cases\", names_to = \"year\")\n\n\nNotar que los nombres de columna son caracteres y cuando son números van entre ` (evita confusión con índice de posición)\n\n\nDeberíamos cambiar el tipo de las nuevas variables\n\n\ntable4a %&gt;% \n  pivot_longer(2:3, names_to = \"year\", values_to = \"cases\") %&gt;%\n  mutate(year= parse_number(year))"
   },
   {
     "objectID": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
@@ -173,216 +194,6 @@
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
     "section": "Dos funciones útiles",
     "text": "Dos funciones útiles\n\nseparate(): dividir una columna en múltiples variables indicando un separador o vector de posiciones en las que dividir\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), sep = \"/\")\ntable3 %&gt;% separate(year, into = c(\"century\", \"year\"), sep = 2)\n\n\nCon convert = TRUE intenta convertir el tipo (no mantener carácter)\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), \n                    convert = TRUE)\n\n\nunite(): combinar múltiples columnas en una\n\n\ntable5 %&gt;% \n  unite(new, century, year, sep = \"-\")"
-  },
-  {
-    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "title": "Introducción",
-    "section": "“Datificación” de la vida diaria",
-    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
-  },
-  {
-    "objectID": "docs/0Intro.html#importancia-de-los-datos",
-    "href": "docs/0Intro.html#importancia-de-los-datos",
-    "title": "Introducción",
-    "section": "Importancia de los datos",
-    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
-  },
-  {
-    "objectID": "docs/0Intro.html#objetivos",
-    "href": "docs/0Intro.html#objetivos",
-    "title": "Introducción",
-    "section": "Objetivos",
-    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
-  },
-  {
-    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "title": "Introducción",
-    "section": "Aprendiendo a analizar datos",
-    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
-  },
-  {
-    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
-    "href": "docs/0Intro.html#análitica-cadena-de-valor",
-    "title": "Introducción",
-    "section": "Análitica: Cadena de Valor",
-    "text": "Análitica: Cadena de Valor"
-  },
-  {
-    "objectID": "docs/0Intro.html#tipos-de-análisis",
-    "href": "docs/0Intro.html#tipos-de-análisis",
-    "title": "Introducción",
-    "section": "Tipos de Análisis",
-    "text": "Tipos de Análisis"
-  },
-  {
-    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "title": "Introducción",
-    "section": "Ciclo de Vida del Análisis de Datos",
-    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
-  },
-  {
-    "objectID": "docs/Tema01.html#introducción",
-    "href": "docs/Tema01.html#introducción",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Introducción",
-    "text": "Introducción\n\nLa representación visual permite resumir información e identificar patrones que no se verían en los datos en bruto (en una hoja de cálculo).\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos\n\n\nUsaremos la biblioteca ggplot2, basada en la Gramática de Gráficos (Wilkinson, 2005)\n\nalgunos gráficos simples requieren más opciones que en R base\nPERO ofrece facilidades para gráficos complejos y profesionales\n\n\n\nOtras bibliotecas: rgl (gráfics 3D), ggvis (interactivos), plotly"
-  },
-  {
-    "objectID": "docs/Tema01.html#elementos-básicos-de-un-gráfico-de-datos",
-    "href": "docs/Tema01.html#elementos-básicos-de-un-gráfico-de-datos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Elementos básicos de un gráfico de datos",
-    "text": "Elementos básicos de un gráfico de datos\n\nSeñales visuales: posición, longitud, área, etc.\nSistema de coordenadas: ¿cómo se organizan los puntos de datos?\n\ncartesiano, polar, geográfico\n\nEscala: ¿cómo se traduce la distancia en algo con significado?\n\nnumérica lineal, numérica logarítmica, categórica, de tiempo\n\nContexto: ¿en relación con qué?\n\ntítulos, leyendas, etiquetas de ejes, puntos/líneas de referencia\n\nOtros: facetas/pequeños múltiplos, capas, animaciones, etc.\n\n\n“Por encima de todo, mostrar los datos”"
-  },
-  {
-    "objectID": "docs/Tema01.html#señales-visuales",
-    "href": "docs/Tema01.html#señales-visuales",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Señales Visuales",
-    "text": "Señales Visuales"
-  },
-  {
-    "objectID": "docs/Tema01.html#la-gramática-de-gráficos",
-    "href": "docs/Tema01.html#la-gramática-de-gráficos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "La “Gramática de Gráficos”",
-    "text": "La “Gramática de Gráficos”\n\nEspecificar bloques independientes y combinarlos para crear cualquier visualización gráfica, como las frases a partir de nombres, verbos, objetos, etc.\nBloques de construcción de un gráfico\n\nDatos: data\nObjeto geométrico (qué dibujamos: líneas, puntos, barras, etc.): geom_*()\nAtributos estéticos (del objeto geométrico, como posición, color, forma, tamaño) que transmiten información de una variable: aes()\nEscalas (rango of valores, colores, etc.): scale_*()\nSistema de Coordenadas\nFacetas (pequeños múltiplos): facet_wrap(), facet_grid()"
-  },
-  {
-    "objectID": "docs/Tema01.html#creando-un-ggplot",
-    "href": "docs/Tema01.html#creando-un-ggplot",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Creando un “ggplot”",
-    "text": "Creando un “ggplot”\n\nggplot(data = mpg, aes(x = displ, y = hwy)) + \n  geom_point()\n\n\nggplot(data = mpg) + \n  geom_point(mapping = aes(x = displ, y = hwy))\n\n\nggplot(data = mpg) = gráfico vacío (coordenadas cartesianas, por defecto)\nAñadir capas con +: ej., objeto geométrico del tipo puntos = geom_point()\nEl argumento mapping, asociado a aes(), define cómo las variables son asignadas a propiedades visuales\n\nx e y especifican qué variables asignar a cada eje\n\n\n\nNOTA: el primer código define datos y estética para todas las capas que siguen; el segundo solo para el objeto geométrico de puntos."
-  },
-  {
-    "objectID": "docs/Tema01.html#objetos-geométricos",
-    "href": "docs/Tema01.html#objetos-geométricos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Objetos geométricos",
-    "text": "Objetos geométricos\n\nCada geom_*() agrega un tipo diferente de capa/marcas en el gráfico \n\npuntos (geom_point, para diagramas de dispersión, de puntos, etc.)\nlíneas (geom_line, para series de tiempo, líneas de tendencia, etc.)\ndiagrama de caja (geom_boxplot)\netc.\n\n\n\nPara una lista de objetos geométricos disponibles, buscar las funciones que comienzan con geom_ en la Ayuda"
-  },
-  {
-    "objectID": "docs/Tema01.html#elementos-estéticos-con-aes",
-    "href": "docs/Tema01.html#elementos-estéticos-con-aes",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Elementos Estéticos con aes()",
-    "text": "Elementos Estéticos con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\nCada elemento estético con aes() es un asociación (“mapping”) entre una señal visual y una variable\n\nposición (p.e., en los ejes x e y)\ncolor (color “exterior”)\nrelleno (color “interior”), fill\nforma (de los puntos), shape\ntipo de línea,\ntamaño, size\n\nCada geom acepta solo un subconjunto de todos los elementos estéticos.\n\nEn la ayuda de cada geom se puede ver qué asignaciones acepta en aes()."
-  },
-  {
-    "objectID": "docs/Tema01.html#esquisse-una-interfaz-gráfica",
-    "href": "docs/Tema01.html#esquisse-una-interfaz-gráfica",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "esquisse: una interfaz gráfica ",
-    "text": "esquisse: una interfaz gráfica \n\nesquisse implementa de forma visual (“arrastrar y soltar”) la lógica de composición de gráficos de ggplot2\n\nSimilar a otras herramientas como Tableau o PowerBI o Gapminder\n\nEjecutamos esquisser() para crear el gráfico, eligiendo datos \n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   # lanzar visor externo   \n\n\nSe pueden elegir muchos (no todos) aspectos del gráfico que veremos en este tema: tipo de gráfico, asignaciones estéticas, títulos, apariencia, etc.\nGenera un posible código de R para crea el gráfico\n\n\nTambién se puede descargar el gráfico creado"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-como-objetos-de-r",
-    "href": "docs/Tema01.html#gráficos-como-objetos-de-r",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos como objetos de R",
-    "text": "Gráficos como objetos de R\n\nhousing   &lt;- rio::import(\"data/landdata-states.csv\")\nhp2001Q1  &lt;- housing[housing$Date == 2001.00,] \ngraf_base &lt;- ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto gráfico y mostrarlo\n\n\ngraf_base + geom_line()        # ¿tiene sentido este gráfico?\ngraf_base + geom_point(aes(shape = region)) \n\n\nAñadimos una señal visual de formas (o color, etc.), NO para “embellecer” sino para representar la información de una variable adicional\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\ngraf_base + geom_point(aes(size = Home.Price.Index,   \n          color=Home.Value))    # ¿qué aportan estas variables?"
-  },
-  {
-    "objectID": "docs/Tema01.html#asociación-estética-y-asignación-de-opción-fija",
-    "href": "docs/Tema01.html#asociación-estética-y-asignación-de-opción-fija",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Asociación estética y Asignación de opción fija",
-    "text": "Asociación estética y Asignación de opción fija\n\nUna asociación (“mapping”) estética, con aes(), visualiza una variable\n\n\nUna opción estética establece, fuera de aes(), un valor fijo de la señal visual\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(shape = \"cross\",  color=\"red\")   \n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(aes(shape = region, color=Home.Value))\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(aes(shape = region, color=Home.Value),\n             size = 3)\n\n\nNota: region, carácter convertido a factor, se representa en escala categórica"
-  },
-  {
-    "objectID": "docs/Tema01.html#más-geoms-smoothers-y-texto",
-    "href": "docs/Tema01.html#más-geoms-smoothers-y-texto",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Más geoms: “Smoothers” y Texto",
-    "text": "Más geoms: “Smoothers” y Texto\n\nNo todos los geoms son formas simples: aquí, por defecto, una línea (función no lineal estimada) y un área (intervalo de confianza de la predicción)\n\n\ngraf_base + geom_smooth()\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\nCada geom acepta un conjunto particular de asignaciones: geom_text() acepta etiquetas\n\n\ngraf_base + geom_text(aes(label=State), size = 3)\n\n\nSi queremos el punto y la etiqueta de texto\n\n\n#install.packages(\"ggrepel\") \nlibrary(ggrepel)\ngraf_base + geom_text_repel(aes(label=State), size = 3)"
-  },
-  {
-    "objectID": "docs/Tema01.html#comentario",
-    "href": "docs/Tema01.html#comentario",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Comentario",
-    "text": "Comentario\n\nCada objeto geométrico puede tener características propias\n\nusar datos distintos para diferentes objetos,\nutilizar diferentes estéticas en distintos objetos, etc..\n\nPor ejemplo, usamos solo un subconjunto de los datos para el objeto geométrico de texto\n\n\ngraf_base + geom_point() + \n  geom_text_repel(\n    data = subset(hp2001Q1, State %in% c(\"NY\",\"NJ\",\"KY\")), \n    mapping = aes(label=State), size = 3)"
-  },
-  {
-    "objectID": "docs/Tema01.html#transformaciones-estadísticas",
-    "href": "docs/Tema01.html#transformaciones-estadísticas",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Transformaciones Estadísticas",
-    "text": "Transformaciones Estadísticas\n\nEn algunos gráficos, como el de dispersión, cada punto grafica unas coordenadas (x e y) iguales al valor original de las variables a representar (aunque podemos transformarlas)\n\n\nggplot(hp2001Q1, aes(x = log(Land.Value), y = Structure.Cost)) + \n      geom_point()\n\n\nOtros gráficos representan estadísticas obtenidas a partir de las variables (no las variables directamente)\n\n\n\n\nPara “smoother”, se calcula una regresión\nPara un gráfico de caja, se calculan estadísticos descriptivos\n\n\nggplot(hp2001Q1, \n       aes(y = Home.Value/1000)) +  \n  geom_boxplot()"
-  },
-  {
-    "objectID": "docs/Tema01.html#modificar-las-transformaciones-estadísticas",
-    "href": "docs/Tema01.html#modificar-las-transformaciones-estadísticas",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Modificar las Transformaciones Estadísticas",
-    "text": "Modificar las Transformaciones Estadísticas\n\nPodemos cambiar qué estadísticas calcular o representar en geoms que representan estadísticas\nUn histograma (variables continuas) depende de qué intervalos definamos para calcular las frecuencias: podemos cambiar el número de grupos (bins) o su ancho (binwidth) o fijar los rangos (breaks)\n\n\ngraf &lt;- ggplot(housing, aes(x = Home.Value))\ngraf + geom_histogram(stat = \"bin\", binwidth=4000)\ngraf + geom_histogram(stat = \"bin\", bins=40)\n\n\nPodemos representar la densidad, en lugar de frecuencias absolutas\n\n\ngraf + geom_histogram(stat = \"density\" )  \n\n\nEn un gráfico de barras (variables discretas), se calculan por defecto frecuencias de una variable, pero podemos representar otra variable, con identity"
-  },
-  {
-    "objectID": "docs/Tema01.html#escalas-control-de-la-asociación-estética",
-    "href": "docs/Tema01.html#escalas-control-de-la-asociación-estética",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escalas: control de la asociación estética",
-    "text": "Escalas: control de la asociación estética\n\naes() establece la variable asignada, no cómo se representa\n\naes(shape = region): qué forma para cada región\naes(color = Home.Value): qué color para cada valor\n\nLas funciones para modificar la escala siguen el esquema scale_&lt;estética&gt;_&lt;tipo&gt;\n\n\nArgumentos habituales para la escala:\n\nname: título de la escala (en eje o leyenda)\nlimits: el mínimo y el máximo de la escala\nbreaks: valores donde deberían aparecer las etiquetas\nlabels: las etiquetas que aparecen en cada break\n\nFunciones específicas de escala pueden tener argumentos adicionales"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejemplos-de-modificación-de-escala",
-    "href": "docs/Tema01.html#ejemplos-de-modificación-de-escala",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Ejemplos de modificación de escala",
-    "text": "Ejemplos de modificación de escala\n\ng2 &lt;- ggplot(housing, aes(y = State, x = Home.Price.Index)) + \n  geom_point(aes(color = Date))\n\n\nModificamos breaks, etiquetas y colores de la escala de color\n\n\ng2 + scale_color_continuous(breaks = c(1975.00, 1994.00, 2013.00),\n            labels = c(1975, 1994, 2013), low = \"blue\", high = \"red\")\n\n\nUna escala diferente para color, interpolando entre tres colores\n\n\ng2 + scale_color_gradient2(breaks = c(1975.00, 1994.00, 2013.00),\n                           labels = c(1975, 1994, 2013),\n                        low = \"blue\", high = \"red\", mid = \"gray60\", \n                        midpoint = 1994.00)"
-  },
-  {
-    "objectID": "docs/Tema01.html#listado-parcial-de-escalas-disponibles",
-    "href": "docs/Tema01.html#listado-parcial-de-escalas-disponibles",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Listado (parcial) de escalas disponibles",
-    "text": "Listado (parcial) de escalas disponibles"
-  },
-  {
-    "objectID": "docs/Tema01.html#facetas-pequeños-múltiplos",
-    "href": "docs/Tema01.html#facetas-pequeños-múltiplos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Facetas (pequeños múltiplos)",
-    "text": "Facetas (pequeños múltiplos)\n\nPara facilitar la comparación de gráficos (no solo objetos geométricos), se divide en subgráficos para distintos subconjuntos de los datos\n\n\ngraf_estad &lt;- ggplot(housing, aes(x = Date, y = Home.Value))\ngraf_estad +  geom_line(aes(color = State))        # gráfico confuso\n\n\nfacet_wrap() para facetas en función de variable discreta (usando “fórmula”)\n\n\ngraf_estad +  geom_line() + facet_wrap(~State, ncol = 10)\n\n\nfacet_grid() para facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = housing %&gt;% filter(Year&gt;2005)) + \n               geom_histogram(aes(x=Home.Value))\ng3 +  facet_grid(region ~ Year)\n\ng3 + facet_grid(region ~ .)     # También solo por filas \ng3 + facet_grid(. ~ region)     # o columnas"
-  },
-  {
-    "objectID": "docs/Tema01.html#contexto-con-labs-título-ejes-leyendas",
-    "href": "docs/Tema01.html#contexto-con-labs-título-ejes-leyendas",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Contexto con labs(): título, ejes, leyendas",
-    "text": "Contexto con labs(): título, ejes, leyendas\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n labs(\n   title = \"Relación entre coste de la construcción y valor del terreno\",\n   subtitle = \"Datos del Primer Trimestre de 2001\",\n   caption = \"Fuente: Elaboración propia\")\n\n\nEs una buena idea que los nombres de ejes, leyendas, etc. sean descripciones claras de las variables (y sus unidades)\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) + \n  scale_x_log10() + \n  geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n  labs(x = \"Valor del terreno (miles de $), escala logarítmica\",\n       y = \"Valor de la construcción (miles de $)\",\n       colour = \"Región\") +\n  scale_y_continuous(breaks=seq(80,200,40),labels=seq(80,200,40) )\n\n\n¿Qué hace la escala logarítmica? ¿Y usar x = log(Land.Value/1000)?"
-  },
-  {
-    "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
-    "href": "docs/Tema01.html#otros-elementos-de-contexto",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Otros elementos de contexto",
-    "text": "Otros elementos de contexto\n\n\nYa vimos geom_text() para asociar una variable a un estética de etiqueta\nannotate() añade objetos geométricos no asociados a variables: “text”, “rect”, “segment”, “pointrange”\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) +\n  geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n  scale_x_log10()+\n  annotate(\"text\", x = 140, y = 180, label = \"casa cara\") +\n  annotate(\"text\", x = 110, y = 150, label = \"R ^ 2 == 0.026\", \n           parse = TRUE)\n\n\nSe pueden añadir líneas de referencias verticales, horizontals o diagonales\n\n\n  g2 +\n    geom_vline(aes(xintercept = 1), linetype = 3, color = \"black\")"
-  },
-  {
-    "objectID": "docs/Tema01.html#cambiar-colores",
-    "href": "docs/Tema01.html#cambiar-colores",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Cambiar colores",
-    "text": "Cambiar colores\n\nSe puede cambiar manualmente la combinación (paleta) de colores por defecto dando el nombre o el código hexadecimal HTML de color\n\n\ngraf &lt;- ggplot(hp2001Q1, \n            aes(x = region, y = Home.Value, fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(\n          values = c(\"red\", \"green\", \"blue\", \"yellow\", \"gray\"))\n\n\nDe igual forma se podría cambiar la forma con scale_shape_manual()\n\n\nEs recomendable usar paletas predefinidas, con criterios de diseño y visualización de información, como RColorBrewer o viridis \n\n\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set3\")\ngraf + scale_fill_brewer(palette = \"Dark2\")"
-  },
-  {
-    "objectID": "docs/Tema01.html#temas",
-    "href": "docs/Tema01.html#temas",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Temas",
-    "text": "Temas\n\nPodemos definir el estilo general del gráfico: etiquetas de los ejes, fondo del gráfico, apariencia de las leyendas, etc.\n\n\ngraf + theme_gray()       # predeterminado\ngraf + theme_linedraw()\ngraf + theme_light()\ngraf + theme_minimal()\ngraf + theme_dark()\ngraf + theme_classic()\n\n\nCiertos elementos específicos del tema pueden ser cambiados con theme() y guardados para definir temas personalizados (para aplicarlos después)\n\n\nggthemes ofrece temas creados por profesionales en diseño y comunicación\n\n\n#install.packages(\"ggthemes\")\nlibrary(ggthemes)\ngraf +  theme_economist() +  # diseño gráfico de \"The Economist\"   \n  scale_fill_economist()"
-  },
-  {
-    "objectID": "docs/Tema01.html#comentarios-finales",
-    "href": "docs/Tema01.html#comentarios-finales",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Comentarios finales",
-    "text": "Comentarios finales\n\nGuardar los gráficos: en la pestaña , lista desplegable  o comando ggsave()\n\n\nggsave(\"my-plot.pdf\")\n\n\nAyuda en RStudio, Help &gt; Cheatsheets &gt; Data Visualization with ggplot2\nFuentes de información con chuletas de R y RStudio aquí\n\nexisten versiones en castellano de algunas de ellas."
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -637,25 +448,18 @@
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
-    "objectID": "docs/Tema02ej1.html",
-    "href": "docs/Tema02ej1.html",
-    "title": "Tema 2. Transformación de Datos. Ejercicio 1",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPregunta 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nEn clase haremos estos apartados tanto usando un programa de hoja de cálculo (como Excel, LibreOffice Calc o Google Sheets) como usando R.\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nRepetir el apartado a) para cada empleado de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\n¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?\n\n\nRepresentar la evolución temporal de las ventas anuales totales realizadas por los hombres y de las mujeres de las empresa.\nPresentar un gráfico de barras con el número de hombres y mujeres empleados en la empresa en cada año.\nPresentar una tabla con la media de ventas anuales de hombres y mujeres en los años 2000, 2005 y 2010."
+    "text": "About this site"
   },
   {
-    "objectID": "docs/Tema01ej.html",
-    "href": "docs/Tema01ej.html",
-    "title": "Tema 01. Visualización de Datos. Ejercicio.",
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
     "section": "",
-    "text": "Apartado a)\nEl fichero pwt.csv contiene los datos de las Penn World Tables (una famosa fuente de datos macro-económicos). Instalad el paquete de R pwt10. En la ayuda de R, buscad pwt10.01 para una descripción de las primeras 52 columnas; la última es el continente al que pertenece el país.\nEn este apartado, reproduciremos este gráfico de The Economist, donde se relacionaba Corrupción y Desarrollo Humano\n\n\n\nPERO usando otras dos variables que tenga sentido relacionar.\n\nDebéis elegir la información de solo uno de los años disponibles.\nLa reproducción del gráfico es aproximada; p.e., no es necesario que el interior de los puntos esté vacio o colocar el \\(R^2\\)\n\nComentad brevemente la información que ofrece vuestro gráfico.\n\n\nApartado b)\nLa siguiente tabla con datos del PIB (constante a precios de 2015, en miles de millones de dólares) en 2020 para unos cuantos países:\n\n\n\npais\ncontinente\npib\n\n\n\n\nAngola\nAfrica\n81.40\n\n\nGermany\nEurope\n3459.66\n\n\nEgypt, Arab Rep.\nAfrica\n412.21\n\n\nSpain\nEurope\n1176.07\n\n\nFrance\nEurope\n2419.49\n\n\nUnited Kingdom\nEurope\n2830.29\n\n\nGhana\nAfrica\n62.79\n\n\nItaly\nEurope\n1746.02\n\n\nNigeria\nAfrica\n500.23\n\n\nSouth Africa\nAfrica\n338.05\n\n\n\n\n\n´ Mostrar un diagrama de caja de la distribución del PIB para cada continente, sin usar y usando escala logarítmica. Comentar la información que ofrecen ambos gráficos y discutir las razones para las diferencias (ej., posición central y dispersión de las distribuciones).\nNota: realizar algunos ajustes (mínimos) a los gráficos como dar color a los diagramas (asociado al continente), poner título al gráfico, los ejes, etc.\n\n\nApartado c)\nEl fichero hotels.csv contiene información sobre reservas de hoteles, donde cada fila corresponde con una reserva; la información detallada sobre las variables puede encontrarse aquí.\n\nApartado c.1)\nLa columna market_segment contiene información de a qué categoría de los segmentos de mercado pertenece la reserva: Aviation (reservas por aerolíneas), Complementary (reservas de cortesía/gratuitas), Corporate (reservas de Empresas), Direct (reservas directas), Groups (Grupos), Offline TA/TO (Agencia de Viajes/Tour Operador ‘offline’), Online TA (Agencia de Viajes de internter), Undefined (Sin definir). \nUna cadena hotelera está interesada en desarrollar promociones basadas en diferentes segmentos de mercado. Pero primero necesita saber cuántas de las transacciones ocurren para cada segmento de mercado y si esto dependía del tipo de hotel. La variable hotel indica el tipo de hotel: City Hotel (hotel urbano) o Resort Hotel (hotel de vacaciones).\nMostrar una visualización que permita a la cadena hotelera tener la información para tomar decisiones sobre sus promociones. Realizar los ajustes necesarios para que la visualización sea clara y fácil de interpretar: títulos, etiquetas, colores, etc.\n\n\nApartado c.2)\nUn directivo de la empresa afirma que deben centrarse en personas que reservan con antelación, y cree que las personas con hijos tienden a reservar con mayor anticipación. Realice un análisis que permita comprobar si esta afirmación es cierta o no.\nNota: para realizar este análisis, se puede usar la variable lead_time (número de días que transcurren entre la fecha de reserva y la fecha de llegada) y la variable children (número de niños).\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema01ej_123456789.R"
-  },
-  {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Introducción a R. Ejercicio 1",
-    "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nApartado 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nApartado 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioNac\nPrecioInt\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\n\nApartado 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
+    "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
   },
   {
     "objectID": "Contenidos.html",
@@ -721,10 +525,206 @@
     "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es"
   },
   {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
     "section": "",
-    "text": "Objetivos\nPara realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.\n\nLA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO\n\n\nAlgunas propuestas de temas y fuentes de datos\n\nVentas de “Big Mart”. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están aquí \nBlack Friday. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0) \nConcesión de préstamos. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción aquí \nClasificación de la calidad crediticia. Datos de una compañía de tarjetas de crédito alemana, aquí \nServicio de bicicletas. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información aquí \nPrecios de las casas\n\nDisponemos de información describiendo (casi) todos los aspectos de las casas residenciales en Ames, Iowa, para predecir el precio final de cada casa. Datos y descripción aquí. \nDatos extraídos de la American Community Survey de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en California y Pennsylvania. Datos e información aquí. \nDatos se han extraído de los resultados públicos publicados cada semana en http://domain.com.au con información sobre precios de las casa en Melbourne, Australia. Datos e información aquí\n\nDelitos.\n\nDatos e información aquí sobre los crímenes cometidos en Chicago desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).\nTambién existe información para Boston aquí y aquí y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) \n\nPropinas en taxis de NY. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos aquí. \nAirbnb. En este enlace están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el “web scraping” si queréis…). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa. \nPrecio de las acciones. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar estos datos o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). \nPredicción de Respuesta del Cliente y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción aquí. \nStock pairs es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver aquí). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. \nEste paquete de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.\nEste conjunto de datos contiene información sobre las ventas históricas de una compañía de supermercados.\nSe pueden utilizar encuestas oficiales para predecir la pobreza de los hogares. Si os interesa, preguntadme.\n\nOtras fuentes generales son:\n\nhttps://www.kaggle.com/datasets\nhttps://github.com/caesar0301/awesome-public-datasets\nhttps://www.kdnuggets.com/datasets/index.html\nhttps://github.com/rfordatascience/tidytuesday\nhttps://www.data.gov/\nhttps://data.worldbank.org/\nhttps://github.com/fivethirtyeight/data\nhttps://aws.amazon.com/datasets/\nhttps://cloud.google.com/bigquery/public-data/\nhttps://www.quandl.com/"
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
+  },
+  {
+    "objectID": "docs/Tema01ej.html",
+    "href": "docs/Tema01ej.html",
+    "title": "Tema 01. Visualización de Datos. Ejercicio.",
+    "section": "",
+    "text": "Apartado a)\nEl fichero pwt.csv contiene los datos de las Penn World Tables (una famosa fuente de datos macro-económicos). Instalad el paquete de R pwt10. En la ayuda de R, buscad pwt10.01 para una descripción de las primeras 52 columnas; la última es el continente al que pertenece el país.\nEn este apartado, reproduciremos este gráfico de The Economist, donde se relacionaba Corrupción y Desarrollo Humano\n\n\n\nPERO usando otras dos variables que tenga sentido relacionar.\n\nDebéis elegir la información de solo uno de los años disponibles.\nLa reproducción del gráfico es aproximada; p.e., no es necesario que el interior de los puntos esté vacio o colocar el \\(R^2\\)\n\nComentad brevemente la información que ofrece vuestro gráfico.\n\n\nApartado b)\nLa siguiente tabla con datos del PIB (constante a precios de 2015, en miles de millones de dólares) en 2020 para unos cuantos países:\n\n\n\npais\ncontinente\npib\n\n\n\n\nAngola\nAfrica\n81.40\n\n\nGermany\nEurope\n3459.66\n\n\nEgypt, Arab Rep.\nAfrica\n412.21\n\n\nSpain\nEurope\n1176.07\n\n\nFrance\nEurope\n2419.49\n\n\nUnited Kingdom\nEurope\n2830.29\n\n\nGhana\nAfrica\n62.79\n\n\nItaly\nEurope\n1746.02\n\n\nNigeria\nAfrica\n500.23\n\n\nSouth Africa\nAfrica\n338.05\n\n\n\n\n\n´ Mostrar un diagrama de caja de la distribución del PIB para cada continente, sin usar y usando escala logarítmica. Comentar la información que ofrecen ambos gráficos y discutir las razones para las diferencias (ej., posición central y dispersión de las distribuciones).\nNota: realizar algunos ajustes (mínimos) a los gráficos como dar color a los diagramas (asociado al continente), poner título al gráfico, los ejes, etc.\n\n\nApartado c)\nEl fichero hotels.csv contiene información sobre reservas de hoteles, donde cada fila corresponde con una reserva; la información detallada sobre las variables puede encontrarse aquí.\n\nApartado c.1)\nLa columna market_segment contiene información de a qué categoría de los segmentos de mercado pertenece la reserva: Aviation (reservas por aerolíneas), Complementary (reservas de cortesía/gratuitas), Corporate (reservas de Empresas), Direct (reservas directas), Groups (Grupos), Offline TA/TO (Agencia de Viajes/Tour Operador ‘offline’), Online TA (Agencia de Viajes de internter), Undefined (Sin definir). \nUna cadena hotelera está interesada en desarrollar promociones basadas en diferentes segmentos de mercado. Pero primero necesita saber cuántas de las transacciones ocurren para cada segmento de mercado y si esto dependía del tipo de hotel. La variable hotel indica el tipo de hotel: City Hotel (hotel urbano) o Resort Hotel (hotel de vacaciones).\nMostrar una visualización que permita a la cadena hotelera tener la información para tomar decisiones sobre sus promociones. Realizar los ajustes necesarios para que la visualización sea clara y fácil de interpretar: títulos, etiquetas, colores, etc.\n\n\nApartado c.2)\nUn directivo de la empresa afirma que deben centrarse en personas que reservan con antelación, y cree que las personas con hijos tienden a reservar con mayor anticipación. Realice un análisis que permita comprobar si esta afirmación es cierta o no.\nNota: para realizar este análisis, se puede usar la variable lead_time (número de días que transcurren entre la fecha de reserva y la fecha de llegada) y la variable children (número de niños).\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema01ej_123456789.R"
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
+    "section": "",
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nApartado 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nApartado 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioNac\nPrecioInt\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\n\nApartado 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
+  },
+  {
+    "objectID": "docs/Tema01.html#introducción",
+    "href": "docs/Tema01.html#introducción",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Introducción",
+    "text": "Introducción\n\nLa representación visual permite resumir información e identificar patrones que no se verían en los datos en bruto (en una hoja de cálculo).\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos\n\n\nUsaremos la biblioteca ggplot2, basada en la Gramática de Gráficos (Wilkinson, 2005)\n\nalgunos gráficos simples requieren más opciones que en R base\nPERO ofrece facilidades para gráficos complejos y profesionales\n\n\n\nOtras bibliotecas: rgl (gráfics 3D), ggvis (interactivos), plotly"
+  },
+  {
+    "objectID": "docs/Tema01.html#elementos-básicos-de-un-gráfico-de-datos",
+    "href": "docs/Tema01.html#elementos-básicos-de-un-gráfico-de-datos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Elementos básicos de un gráfico de datos",
+    "text": "Elementos básicos de un gráfico de datos\n\nSeñales visuales: posición, longitud, área, etc.\nSistema de coordenadas: ¿cómo se organizan los puntos de datos?\n\ncartesiano, polar, geográfico\n\nEscala: ¿cómo se traduce la distancia en algo con significado?\n\nnumérica lineal, numérica logarítmica, categórica, de tiempo\n\nContexto: ¿en relación con qué?\n\ntítulos, leyendas, etiquetas de ejes, puntos/líneas de referencia\n\nOtros: facetas/pequeños múltiplos, capas, animaciones, etc.\n\n\n“Por encima de todo, mostrar los datos”"
+  },
+  {
+    "objectID": "docs/Tema01.html#señales-visuales",
+    "href": "docs/Tema01.html#señales-visuales",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Señales Visuales",
+    "text": "Señales Visuales"
+  },
+  {
+    "objectID": "docs/Tema01.html#la-gramática-de-gráficos",
+    "href": "docs/Tema01.html#la-gramática-de-gráficos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "La “Gramática de Gráficos”",
+    "text": "La “Gramática de Gráficos”\n\nEspecificar bloques independientes y combinarlos para crear cualquier visualización gráfica, como las frases a partir de nombres, verbos, objetos, etc.\nBloques de construcción de un gráfico\n\nDatos: data\nObjeto geométrico (qué dibujamos: líneas, puntos, barras, etc.): geom_*()\nAtributos estéticos (del objeto geométrico, como posición, color, forma, tamaño) que transmiten información de una variable: aes()\nEscalas (rango of valores, colores, etc.): scale_*()\nSistema de Coordenadas\nFacetas (pequeños múltiplos): facet_wrap(), facet_grid()"
+  },
+  {
+    "objectID": "docs/Tema01.html#creando-un-ggplot",
+    "href": "docs/Tema01.html#creando-un-ggplot",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Creando un “ggplot”",
+    "text": "Creando un “ggplot”\n\nggplot(data = mpg, aes(x = displ, y = hwy)) + \n  geom_point()\n\n\nggplot(data = mpg) + \n  geom_point(mapping = aes(x = displ, y = hwy))\n\n\nggplot(data = mpg) = gráfico vacío (coordenadas cartesianas, por defecto)\nAñadir capas con +: ej., objeto geométrico del tipo puntos = geom_point()\nEl argumento mapping, asociado a aes(), define cómo las variables son asignadas a propiedades visuales\n\nx e y especifican qué variables asignar a cada eje\n\n\n\nNOTA: el primer código define datos y estética para todas las capas que siguen; el segundo solo para el objeto geométrico de puntos."
+  },
+  {
+    "objectID": "docs/Tema01.html#objetos-geométricos",
+    "href": "docs/Tema01.html#objetos-geométricos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Objetos geométricos",
+    "text": "Objetos geométricos\n\nCada geom_*() agrega un tipo diferente de capa/marcas en el gráfico \n\npuntos (geom_point, para diagramas de dispersión, de puntos, etc.)\nlíneas (geom_line, para series de tiempo, líneas de tendencia, etc.)\ndiagrama de caja (geom_boxplot)\netc.\n\n\n\nPara una lista de objetos geométricos disponibles, buscar las funciones que comienzan con geom_ en la Ayuda"
+  },
+  {
+    "objectID": "docs/Tema01.html#elementos-estéticos-con-aes",
+    "href": "docs/Tema01.html#elementos-estéticos-con-aes",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Elementos Estéticos con aes()",
+    "text": "Elementos Estéticos con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\nCada elemento estético con aes() es un asociación (“mapping”) entre una señal visual y una variable\n\nposición (p.e., en los ejes x e y)\ncolor (color “exterior”)\nrelleno (color “interior”), fill\nforma (de los puntos), shape\ntipo de línea,\ntamaño, size\n\nCada geom acepta solo un subconjunto de todos los elementos estéticos.\n\nEn la ayuda de cada geom se puede ver qué asignaciones acepta en aes()."
+  },
+  {
+    "objectID": "docs/Tema01.html#esquisse-una-interfaz-gráfica",
+    "href": "docs/Tema01.html#esquisse-una-interfaz-gráfica",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "esquisse: una interfaz gráfica ",
+    "text": "esquisse: una interfaz gráfica \n\nesquisse implementa de forma visual (“arrastrar y soltar”) la lógica de composición de gráficos de ggplot2\n\nSimilar a otras herramientas como Tableau o PowerBI o Gapminder\n\nEjecutamos esquisser() para crear el gráfico, eligiendo datos \n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   # lanzar visor externo   \n\n\nSe pueden elegir muchos (no todos) aspectos del gráfico que veremos en este tema: tipo de gráfico, asignaciones estéticas, títulos, apariencia, etc.\nGenera un posible código de R para crea el gráfico\n\n\nTambién se puede descargar el gráfico creado"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-como-objetos-de-r",
+    "href": "docs/Tema01.html#gráficos-como-objetos-de-r",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos como objetos de R",
+    "text": "Gráficos como objetos de R\n\nhousing   &lt;- rio::import(\"data/landdata-states.csv\")\nhp2001Q1  &lt;- housing[housing$Date == 2001.00,] \ngraf_base &lt;- ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto gráfico y mostrarlo\n\n\ngraf_base + geom_line()        # ¿tiene sentido este gráfico?\ngraf_base + geom_point(aes(shape = region)) \n\n\nAñadimos una señal visual de formas (o color, etc.), NO para “embellecer” sino para representar la información de una variable adicional\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\ngraf_base + geom_point(aes(size = Home.Price.Index,   \n          color=Home.Value))    # ¿qué aportan estas variables?"
+  },
+  {
+    "objectID": "docs/Tema01.html#asociación-estética-y-asignación-de-opción-fija",
+    "href": "docs/Tema01.html#asociación-estética-y-asignación-de-opción-fija",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Asociación estética y Asignación de opción fija",
+    "text": "Asociación estética y Asignación de opción fija\n\nUna asociación (“mapping”) estética, con aes(), visualiza una variable\n\n\nUna opción estética establece, fuera de aes(), un valor fijo de la señal visual\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(shape = \"cross\",  color=\"red\")   \n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(aes(shape = region, color=Home.Value))\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(aes(shape = region, color=Home.Value),\n             size = 3)\n\n\nNota: region, carácter convertido a factor, se representa en escala categórica"
+  },
+  {
+    "objectID": "docs/Tema01.html#más-geoms-smoothers-y-texto",
+    "href": "docs/Tema01.html#más-geoms-smoothers-y-texto",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Más geoms: “Smoothers” y Texto",
+    "text": "Más geoms: “Smoothers” y Texto\n\nNo todos los geoms son formas simples: aquí, por defecto, una línea (función no lineal estimada) y un área (intervalo de confianza de la predicción)\n\n\ngraf_base + geom_smooth()\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\nCada geom acepta un conjunto particular de asignaciones: geom_text() acepta etiquetas\n\n\ngraf_base + geom_text(aes(label=State), size = 3)\n\n\nSi queremos el punto y la etiqueta de texto\n\n\n#install.packages(\"ggrepel\") \nlibrary(ggrepel)\ngraf_base + geom_text_repel(aes(label=State), size = 3)"
+  },
+  {
+    "objectID": "docs/Tema01.html#comentario",
+    "href": "docs/Tema01.html#comentario",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Comentario",
+    "text": "Comentario\n\nCada objeto geométrico puede tener características propias\n\nusar datos distintos para diferentes objetos,\nutilizar diferentes estéticas en distintos objetos, etc..\n\nPor ejemplo, usamos solo un subconjunto de los datos para el objeto geométrico de texto\n\n\ngraf_base + geom_point() + \n  geom_text_repel(\n    data = subset(hp2001Q1, State %in% c(\"NY\",\"NJ\",\"KY\")), \n    mapping = aes(label=State), size = 3)"
+  },
+  {
+    "objectID": "docs/Tema01.html#transformaciones-estadísticas",
+    "href": "docs/Tema01.html#transformaciones-estadísticas",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Transformaciones Estadísticas",
+    "text": "Transformaciones Estadísticas\n\nEn algunos gráficos, como el de dispersión, cada punto grafica unas coordenadas (x e y) iguales al valor original de las variables a representar (aunque podemos transformarlas)\n\n\nggplot(hp2001Q1, aes(x = log(Land.Value), y = Structure.Cost)) + \n      geom_point()\n\n\nOtros gráficos representan estadísticas obtenidas a partir de las variables (no las variables directamente)\n\n\n\n\nPara “smoother”, se calcula una regresión\nPara un gráfico de caja, se calculan estadísticos descriptivos\n\n\nggplot(hp2001Q1, \n       aes(y = Home.Value/1000)) +  \n  geom_boxplot()"
+  },
+  {
+    "objectID": "docs/Tema01.html#modificar-las-transformaciones-estadísticas",
+    "href": "docs/Tema01.html#modificar-las-transformaciones-estadísticas",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Modificar las Transformaciones Estadísticas",
+    "text": "Modificar las Transformaciones Estadísticas\n\nPodemos cambiar qué estadísticas calcular o representar en geoms que representan estadísticas\nUn histograma (variables continuas) depende de qué intervalos definamos para calcular las frecuencias: podemos cambiar el número de grupos (bins) o su ancho (binwidth) o fijar los rangos (breaks)\n\n\ngraf &lt;- ggplot(housing, aes(x = Home.Value))\ngraf + geom_histogram(stat = \"bin\", binwidth=4000)\ngraf + geom_histogram(stat = \"bin\", bins=40)\n\n\nPodemos representar la densidad, en lugar de frecuencias absolutas\n\n\ngraf + geom_histogram(stat = \"density\" )  \n\n\nEn un gráfico de barras (variables discretas), se calculan por defecto frecuencias de una variable, pero podemos representar otra variable, con identity"
+  },
+  {
+    "objectID": "docs/Tema01.html#escalas-control-de-la-asociación-estética",
+    "href": "docs/Tema01.html#escalas-control-de-la-asociación-estética",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escalas: control de la asociación estética",
+    "text": "Escalas: control de la asociación estética\n\naes() establece la variable asignada, no cómo se representa\n\naes(shape = region): qué forma para cada región\naes(color = Home.Value): qué color para cada valor\n\nLas funciones para modificar la escala siguen el esquema scale_&lt;estética&gt;_&lt;tipo&gt;\n\n\nArgumentos habituales para la escala:\n\nname: título de la escala (en eje o leyenda)\nlimits: el mínimo y el máximo de la escala\nbreaks: valores donde deberían aparecer las etiquetas\nlabels: las etiquetas que aparecen en cada break\n\nFunciones específicas de escala pueden tener argumentos adicionales"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-de-modificación-de-escala",
+    "href": "docs/Tema01.html#ejemplos-de-modificación-de-escala",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos de modificación de escala",
+    "text": "Ejemplos de modificación de escala\n\ng2 &lt;- ggplot(housing, aes(y = State, x = Home.Price.Index)) + \n  geom_point(aes(color = Date))\n\n\nModificamos breaks, etiquetas y colores de la escala de color\n\n\ng2 + scale_color_continuous(breaks = c(1975.00, 1994.00, 2013.00),\n            labels = c(1975, 1994, 2013), low = \"blue\", high = \"red\")\n\n\nUna escala diferente para color, interpolando entre tres colores\n\n\ng2 + scale_color_gradient2(breaks = c(1975.00, 1994.00, 2013.00),\n                           labels = c(1975, 1994, 2013),\n                        low = \"blue\", high = \"red\", mid = \"gray60\", \n                        midpoint = 1994.00)"
+  },
+  {
+    "objectID": "docs/Tema01.html#listado-parcial-de-escalas-disponibles",
+    "href": "docs/Tema01.html#listado-parcial-de-escalas-disponibles",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Listado (parcial) de escalas disponibles",
+    "text": "Listado (parcial) de escalas disponibles"
+  },
+  {
+    "objectID": "docs/Tema01.html#facetas-pequeños-múltiplos",
+    "href": "docs/Tema01.html#facetas-pequeños-múltiplos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Facetas (pequeños múltiplos)",
+    "text": "Facetas (pequeños múltiplos)\n\nPara facilitar la comparación de gráficos (no solo objetos geométricos), se divide en subgráficos para distintos subconjuntos de los datos\n\n\ngraf_estad &lt;- ggplot(housing, aes(x = Date, y = Home.Value))\ngraf_estad +  geom_line(aes(color = State))        # gráfico confuso\n\n\nfacet_wrap() para facetas en función de variable discreta (usando “fórmula”)\n\n\ngraf_estad +  geom_line() + facet_wrap(~State, ncol = 10)\n\n\nfacet_grid() para facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = housing %&gt;% filter(Year&gt;2005)) + \n               geom_histogram(aes(x=Home.Value))\ng3 +  facet_grid(region ~ Year)\n\ng3 + facet_grid(region ~ .)     # También solo por filas \ng3 + facet_grid(. ~ region)     # o columnas"
+  },
+  {
+    "objectID": "docs/Tema01.html#contexto-con-labs-título-ejes-leyendas",
+    "href": "docs/Tema01.html#contexto-con-labs-título-ejes-leyendas",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Contexto con labs(): título, ejes, leyendas",
+    "text": "Contexto con labs(): título, ejes, leyendas\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n labs(\n   title = \"Relación entre coste de la construcción y valor del terreno\",\n   subtitle = \"Datos del Primer Trimestre de 2001\",\n   caption = \"Fuente: Elaboración propia\")\n\n\nEs una buena idea que los nombres de ejes, leyendas, etc. sean descripciones claras de las variables (y sus unidades)\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) + \n  scale_x_log10() + \n  geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n  labs(x = \"Valor del terreno (miles de $), escala logarítmica\",\n       y = \"Valor de la construcción (miles de $)\",\n       colour = \"Región\") +\n  scale_y_continuous(breaks=seq(80,200,40),labels=seq(80,200,40) )\n\n\n¿Qué hace la escala logarítmica? ¿Y usar x = log(Land.Value/1000)?"
+  },
+  {
+    "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
+    "href": "docs/Tema01.html#otros-elementos-de-contexto",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Otros elementos de contexto",
+    "text": "Otros elementos de contexto\n\n\nYa vimos geom_text() para asociar una variable a un estética de etiqueta\nannotate() añade objetos geométricos no asociados a variables: “text”, “rect”, “segment”, “pointrange”\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) +\n  geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n  scale_x_log10()+\n  annotate(\"text\", x = 140, y = 180, label = \"casa cara\") +\n  annotate(\"text\", x = 110, y = 150, label = \"R ^ 2 == 0.026\", \n           parse = TRUE)\n\n\nSe pueden añadir líneas de referencias verticales, horizontals o diagonales\n\n\n  g2 +\n    geom_vline(aes(xintercept = 1), linetype = 3, color = \"black\")"
+  },
+  {
+    "objectID": "docs/Tema01.html#cambiar-colores",
+    "href": "docs/Tema01.html#cambiar-colores",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Cambiar colores",
+    "text": "Cambiar colores\n\nSe puede cambiar manualmente la combinación (paleta) de colores por defecto dando el nombre o el código hexadecimal HTML de color\n\n\ngraf &lt;- ggplot(hp2001Q1, \n            aes(x = region, y = Home.Value, fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(\n          values = c(\"red\", \"green\", \"blue\", \"yellow\", \"gray\"))\n\n\nDe igual forma se podría cambiar la forma con scale_shape_manual()\n\n\nEs recomendable usar paletas predefinidas, con criterios de diseño y visualización de información, como RColorBrewer o viridis \n\n\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set3\")\ngraf + scale_fill_brewer(palette = \"Dark2\")"
+  },
+  {
+    "objectID": "docs/Tema01.html#temas",
+    "href": "docs/Tema01.html#temas",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Temas",
+    "text": "Temas\n\nPodemos definir el estilo general del gráfico: etiquetas de los ejes, fondo del gráfico, apariencia de las leyendas, etc.\n\n\ngraf + theme_gray()       # predeterminado\ngraf + theme_linedraw()\ngraf + theme_light()\ngraf + theme_minimal()\ngraf + theme_dark()\ngraf + theme_classic()\n\n\nCiertos elementos específicos del tema pueden ser cambiados con theme() y guardados para definir temas personalizados (para aplicarlos después)\n\n\nggthemes ofrece temas creados por profesionales en diseño y comunicación\n\n\n#install.packages(\"ggthemes\")\nlibrary(ggthemes)\ngraf +  theme_economist() +  # diseño gráfico de \"The Economist\"   \n  scale_fill_economist()"
+  },
+  {
+    "objectID": "docs/Tema01.html#comentarios-finales",
+    "href": "docs/Tema01.html#comentarios-finales",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Comentarios finales",
+    "text": "Comentarios finales\n\nGuardar los gráficos: en la pestaña , lista desplegable  o comando ggsave()\n\n\nggsave(\"my-plot.pdf\")\n\n\nAyuda en RStudio, Help &gt; Cheatsheets &gt; Data Visualization with ggplot2\nFuentes de información con chuletas de R y RStudio aquí\n\nexisten versiones en castellano de algunas de ellas."
+  },
+  {
+    "objectID": "docs/Tema02ej1.html",
+    "href": "docs/Tema02ej1.html",
+    "title": "Tema 2. Transformación de Datos. Ejercicio 1",
+    "section": "",
+    "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPregunta 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nEn clase haremos estos apartados tanto usando un programa de hoja de cálculo (como Excel, LibreOffice Calc o Google Sheets) como usando R.\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nRepetir el apartado a) para cada empleado de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\n¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?\n\n\nRepresentar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.\nPresentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.\nPresentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010."
   }
 ]
