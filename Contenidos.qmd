@@ -68,6 +68,7 @@ strip-comments: true
 
   * [Tema 03 - Datos relacionales](docs/Tema03.qmd)
 
+
   * [Tema 04 - Introducción a Quarto](docs/Tema04.qmd)
   * [Tema 04 - Ejercicio](docs/Tema04ej.qmd)
     - Fecha límite de entrega: **jue., 31-oct., 23:59h**
