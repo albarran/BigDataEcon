@@ -900,14 +900,14 @@
     "href": "docs/Tema03.html#argumento-by-cómo-se-emparejan-las-tablas",
     "title": "Tema 03 - Manipulación de datos relacionales",
     "section": "Argumento by: ¿Cómo se emparejan las tablas?",
-    "text": "Argumento by: ¿Cómo se emparejan las tablas?\n\nCon by = c(\"varX\", \"varY\") indicamos las claves (variables que relacionan ambas tablas)\n\n\nflights2 %&gt;% inner_join(airlines, by = c(\"carrier\")) \nflights2 %&gt;% inner_join(weather, \n                by = c(\"year\", \"month\", \"day\", \"hour\", \"origin\"))\n\n\nColumnas con el mismo nombre (ej., año) se desambigúan con un sufijo\n\n\nflights2 %&gt;% left_join(planes, by = c(\"tailnum\"))   \n\n\nby = c(\"x1\" = \"y1\", \"x2\" = \"y2\") para emparejar la variable x1 en la primera tabla con la variable y1 en la segunda, y la variable x2 con y2\n\n\nflights2 %&gt;% left_join(airports, \n                  by = c(\"dest\" = \"faa\"))    # aeropuerto de destino"
+    "text": "Argumento by: ¿Cómo se emparejan las tablas?\n\nCon by = c(\"varX\", \"varY\") indicamos las claves (variables que relacionan ambas tablas)\n\n\nflights2 %&gt;% inner_join(airlines, by = c(\"carrier\")) \nflights2 %&gt;% inner_join(weather, \n                by = c(\"year\", \"month\", \"day\", \"hour\", \"origin\"))\n\n\nSi se omite el argumento by, se usan todas las variables en común. Esto no siempre es deseable: ej., año no es lo mismo en flights y planes\nColumnas con el mismo nombre (ej., año) se desambigúan con un sufijo\n\n\nflights2 %&gt;% left_join(planes, by = c(\"tailnum\"))   \n\n\nby = c(\"x1\" = \"y1\", \"x2\" = \"y2\") para emparejar la variable x1 en la primera tabla con la variable y1 en la segunda, y la variable x2 con y2\n\n\nflights2 %&gt;% left_join(airports, \n                  by = c(\"dest\" = \"faa\"))    # aeropuerto de destino"
   },
   {
     "objectID": "docs/Tema03.html#unión-interna",
     "href": "docs/Tema03.html#unión-interna",
     "title": "Tema 03 - Manipulación de datos relacionales",
     "section": "Unión interna",
-    "text": "Unión interna\n\ndf1 &lt;- tibble(clave = c(1:3), val_x = c(\"x1\", \"x2\", \"x3\"))\ndf2 &lt;- tibble(clave = c(1:2, 4), val_y = c(\"y1\",\"y2\",\"y4\"))\n\n\ninner_join(x, y) sólo incluye observaciones que coincidan en x y y.\n\n\ndf1 %&gt;% inner_join(df2)"
+    "text": "Unión interna\n\ndf1 &lt;- tibble(clave = c(1:3), val_x = c(\"x1\", \"x2\", \"x3\"))\ndf2 &lt;- tibble(clave = c(1:2, 4), val_y = c(\"y1\",\"y2\",\"y4\"))\n\n\ninner_join(x, y) sólo incluye observaciones que coincidan en x y y.\n\n\ndf1 %&gt;% inner_join(df2, by = c(\"clave\"))"
   },
   {
     "objectID": "docs/Tema03.html#uniones-externas",
@@ -928,7 +928,7 @@
     "href": "docs/Tema03.html#uniones-de-filtro",
     "title": "Tema 03 - Manipulación de datos relacionales",
     "section": "Uniones de filtro",
-    "text": "Uniones de filtro\n\nFiltra las observaciones de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla\nSe tiene un subconjunto de las filas de la tabla de la izquierda\n\n\n\n\nsemi_join(x, y) mantiene todas las observaciones en x que coinciden en y\n\n\n\ndf1 %&gt;% semi_join(df2)\n\n\n\n\nanti_join(x, y) elimina todas las observaciones en x que coinciden en y\n\n\n\ndf1 %&gt;% anti_join(df2)"
+    "text": "Uniones de filtro\n\nFiltra las observaciones de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla\nSe tiene un subconjunto de las filas de la tabla de la izquierda\n\n\n\n\nsemi_join(x, y) mantiene las observaciones en x que están en y\n\n\n\ndf1 %&gt;% semi_join(df2, \n          by = c(\"clave\"))\n\n\n\n\nanti_join(x, y) elimina las observaciones en x que están en y\n\n\n\ndf1 %&gt;% anti_join(df2, \n          by = c(\"clave\"))"
   },
   {
     "objectID": "docs/Tema03.html#uniones-de-filtro-cont.",
