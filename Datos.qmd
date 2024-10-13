@@ -35,6 +35,10 @@ strip-comments: true
   + [VentasTabla](https://raw.githubusercontent.com/albarran/00datos/main/VentasTabla.xlsx)
   + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
 
+* Tema 3:
+
+  + [DosTablas](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx)
+
 <!--
 * Tema 5:
 

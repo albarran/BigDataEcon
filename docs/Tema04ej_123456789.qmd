@@ -1,0 +1,204 @@
+---
+title: "Ejercicio Tema 04"
+author: "Yo mismo"
+format: 
+  html:
+    embed-resources: true
+    theme: slate
+    code-fold: true
+    # fig-width: 10
+    df-print: paged
+editor: visual
+execution:
+  output: true
+---
+
+```{r}
+#| include: false
+# "iniciliazamos" el espacio de trabajo para el código del documento 
+# en una celda que se ejecuta pero no muestra código ni resultados
+
+# borramos todos los objetos, para empezar con un espacio limpio
+# (útil en las pruebas de sesión para evitar objetos externos al documento)
+rm(list = ls())
+
+# cargamos las bibliotecas necesarias
+library(tidyverse)
+library(rio)
+
+# Podemos fijar el directorio de trabajo
+# RECORDAR: será distinto de la sesion de R; pueder ser importante para cargar datos...
+# setwd("~/Dropbox/MAD/00.TEC")
+# beauty <- import("data/beauty.csv")
+```
+
+# Apartado a)
+
+Este es mi primer documento de [Quarto](https://quarto.org/) y usando RStudio y R.
+
+![](https://quarto.org/docs/get-started/images/rstudio-logo.png){fig-align="center" width="117"}
+
+Notad que podemos cambiar el tamaño (y otras cosas) de la imagen de forma visual.
+
+Recordad el directorio de trabajo: el documento .Qmd se guarda allí.
+
+En el Tema 3, elegí las variables
+
+-   hc: el (índice de) capital humano por persona, basado en años de educación y rentabilidad de la educación.
+
+-   rtfpna: la productividad total de los factores, en precios (nacionales) constantes de 2011
+
+# Apartado b)
+
+La media se calcula `mean(mtcars$mpg)` y su valor es `r mean(mtcars$mpg)`.
+
+## Celdas de código
+
+Muestra código pero no resultado (porque no lo evalúa)
+
+```{r}
+#| echo: true
+#| eval: false
+#| output: true
+2+3
+summary(mtcars)
+```
+
+Muestra resultado pero no código
+
+```{r}
+#| echo: false
+#| eval: true
+#| output: true
+2+3
+summary(mtcars)
+```
+
+Muestra ambos (por defecto)
+
+```{r}
+#| output: true
+2+3
+summary(mtcars)
+```
+
+NO quiero que muestre mensajes para evitar "ensuciar" el documento
+
+```{r}
+#| error: false
+#| message: false
+#| warning: false
+library(AER)
+library(Hmisc)
+```
+
+## Evaluando o no evaluando
+
+```{r}
+#| eval: false
+(a <- 2+3)
+summary(mtcars$mpg)
+```
+
+La siguiente celda da error si la anterior no se evalúa, por eso cambiamos `eval` a `true`
+
+```{r}
+#| eval: false
+b <- 3 +a
+```
+
+Otras opciones (no pedidas). Evaluar pero sin mostar el resultado
+
+```{r}
+#| eval: false
+#| output: false
+(a <- 2+3)
+summary(mtcars$mpg)
+```
+
+No hay problema con esto
+
+```{r}
+#| eval: false
+b <- 3 +a
+```
+
+Y de esta forma
+
+```{r}
+#| eval: false
+#| results: hide
+(a <- 2+3)
+summary(mtcars$mpg)
+```
+
+tampoco hay problema con esto
+
+```{r}
+#| eval: false
+b <- 3 +a
+```
+
+Notar el efecto de retener (`hold`) los resultados
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| results: hide
+(a <- 2+3)
+summary(mtcars$mpg)
+```
+
+# Apartado c)
+
+```{r}
+#| fig-cap: "Gráfico de dispersión"
+#| fig-show: asis
+library(ggplot2)
+ggplot(data=mtcars) + geom_point(aes(x=disp, y=mpg))
+```
+
+El ancho se puede cambiar como opción de fragmento concreto o para todos en la cabecera del documento, que es como se pide aquí. La figura original es de 10x10. Probamos con valores de `fig-width` de 1 (muy estrecha), 5 (la mitad), 10 (su ancho original) y 20; en este caso, se contrae el alto: todo el ancho de pantalla es 20, y 10 pasa a ser su mitad
+
+```{r}
+#| echo: true
+#| layout-ncol: 2
+#| fig-show: asis
+ggplot(data = mtcars) + geom_boxplot(aes(x = disp))  # en la izquierda
+ggplot(data = mtcars) + geom_boxplot(aes(x = mpg))   # en la derecha
+```
+
+# Apartado d)
+
+## Mostrar un conjunto de datos y su resumen
+
+```{r}
+#| results: asis
+mtcars
+summary(mtcars)
+```
+
+## Mostrarlas con `kableExtra()`
+
+```{r}
+#| results: asis
+library(kableExtra)
+mtcars %>% kbl()  %>%
+  kable_styling()
+summary(mtcars) %>% kbl()  %>%
+  kable_styling()
+
+mtcars %>% kbl()  %>%
+  kable_classic(full_width = F)
+summary(mtcars) %>% kbl()  %>%
+  kable_minimal()
+
+```
+
+La presentación es más elegante en el segundo caso
+
+# Apartado e)
+
+La opcion `df-print: paged` hace que el conjunto de datos se muestre por partes (en el primer caso, cuando `kable()` no ha intervenido y ya la ha convertido a una tabla en lugar de seguir siendo un conjunto de datos.
+
+La opción `code-fold: true` no muestra directamente el código en el documento de salida (cuando le hemos dicho que lo muestre para una celda). En su lugar, aparece un desplegable para mostrarlo sólo cuando queramos. Podría aplicarse como opción solo para algunas celdas.
