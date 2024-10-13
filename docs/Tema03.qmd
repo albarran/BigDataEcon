@@ -293,6 +293,8 @@ flights2 %>% inner_join(weather,
                 by = c("year", "month", "day", "hour", "origin"))
 ```
 
+* Si se omite el argumento `by`, se usan todas las variables en común. <!-- de ambas tablas. --> Esto no siempre es deseable: ej., año no es lo mismo en `flights` y `planes`
+
 * Columnas con el mismo nombre (ej., año) se desambigúan con un sufijo
 
 ```{r}
@@ -372,7 +374,7 @@ df2 <- tibble(clave = c(1:2, 4), val_y = c("y1","y2","y4"))
 
 * `inner_join(x, y)` sólo incluye observaciones que coincidan en `x` y `y`.
 ```{r}
-df1 %>% inner_join(df2)
+df1 %>% inner_join(df2, by = c("clave"))
 ```
 
 
@@ -554,43 +556,40 @@ melt et al. <http://had.co.nz/reshape/>
 
 ## Uniones de filtro
 
+<!-- * Las uniones de filtro pero **afectan a las observaciones**, no a las variables -->
+
 * Filtra las **observaciones** de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla
 
 * Se tiene un subconjunto de las filas de la tabla de la izquierda
-
-<!--
-* Las uniones de filtro pero **afectan a las observaciones**, no a las variables
--->
 
 :::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 20px; "}
 
 ::: {}
 
-
-* `semi_join(x, y)` mantiene todas las observaciones en `x` que coinciden en `y`
+* `semi_join(x, y)` mantiene <!--todas--> las observaciones en `x` que están <!--coinciden--> en `y`
 
 ![](figure/join-semi.png){width=95%}
 
 ```{r}
-df1 %>% semi_join(df2)
+df1 %>% semi_join(df2, 
+          by = c("clave"))
 ```
 
 :::
 
 ::: {}
 
-
-* `anti_join(x, y)` elimina todas las observaciones en `x` que coinciden en `y`
+* `anti_join(x, y)` elimina <!--todas--> las observaciones en `x` que están <!--coinciden--> en `y`
 
 ![](figure/join-anti.png){width=95%}
 
 ```{r}
-df1 %>% anti_join(df2)
+df1 %>% anti_join(df2, 
+          by = c("clave"))
 ```
 ::: 
 
 ::::
-
 
 ## Uniones de filtro (cont.)
 
