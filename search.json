@@ -731,8 +731,8 @@
     "objectID": "docs/Tema04.html#comentarios-finales",
     "href": "docs/Tema04.html#comentarios-finales",
     "title": "Tema 04 - Introducción a Quarto",
-    "section": "Comentarios finales:",
-    "text": "Comentarios finales:\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nPodéis ver ejemplos de sus capacidades usando el paquete Shiny de R en esta galería\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\n\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
+    "section": "Comentarios finales",
+    "text": "Comentarios finales\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nEjemplos de sus capacidades usando el paquete shiny, shinydashboards o flexdashboard\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\n\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
   },
   {
     "objectID": "docs/Tema02.html#limpieza-y-doma-de-datos",
