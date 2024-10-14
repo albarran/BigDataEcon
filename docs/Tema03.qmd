@@ -285,10 +285,10 @@ flights2 %>% mutate(name = if_else(carrier == "9E", "Endeavor Air Inc.",
 
 ##  Argumento `by`: ¿Cómo se emparejan las tablas? 
 
-* Con `by = c("varX", "varY")` indicamos las claves (variables que relacionan ambas tablas)
+* Las claves (variables que relacionan ambas tablas) se indican, para una variable, con `by = "varX"` o, para varias, con `by = c("varX", "varY")` 
 
 ```{r}
-flights2 %>% inner_join(airlines, by = c("carrier")) 
+flights2 %>% inner_join(airlines, by = "carrier") 
 flights2 %>% inner_join(weather, 
                 by = c("year", "month", "day", "hour", "origin"))
 ```
@@ -298,7 +298,7 @@ flights2 %>% inner_join(weather,
 * Columnas con el mismo nombre (ej., año) se desambigúan con un sufijo
 
 ```{r}
-flights2 %>% left_join(planes, by = c("tailnum"))   
+flights2 %>% left_join(planes, by = c("tailnum"))
 ```
 
 * `by = c("x1" = "y1", "x2" = "y2")` para emparejar la variable `x1` en la primera tabla con la variable `y1` en la segunda, y la variable `x2` con `y2`
@@ -374,7 +374,7 @@ df2 <- tibble(clave = c(1:2, 4), val_y = c("y1","y2","y4"))
 
 * `inner_join(x, y)` sólo incluye observaciones que coincidan en `x` y `y`.
 ```{r}
-df1 %>% inner_join(df2, by = c("clave"))
+df1 %>% inner_join(df2, by = "clave")
 ```
 
 
@@ -572,7 +572,7 @@ melt et al. <http://had.co.nz/reshape/>
 
 ```{r}
 df1 %>% semi_join(df2, 
-          by = c("clave"))
+          by = "clave")
 ```
 
 :::
@@ -585,7 +585,7 @@ df1 %>% semi_join(df2,
 
 ```{r}
 df1 %>% anti_join(df2, 
-          by = c("clave"))
+          by = "clave")
 ```
 ::: 
 

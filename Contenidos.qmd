@@ -67,6 +67,7 @@ strip-comments: true
 (14-Oct. a 20-Oct.)
 
   * [Tema 03 - Datos relacionales](docs/Tema03.qmd)
+  * [Tema 03 - Ejercicio](docs/Tema03ej.qmd)
 
 
   * [Tema 04 - Introducción a Quarto](docs/Tema04.qmd)
