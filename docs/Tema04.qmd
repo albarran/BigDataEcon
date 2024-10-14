@@ -759,14 +759,14 @@ https://stackoverflow.com/questions/43820483/difference-between-r-markdown-and-r
 <!--, `stargazer`-->
 
 
-## Comentarios finales:
+## Comentarios finales
 
 
 * **Dashboards** (tableros): son presentaciones visuales e **interactivas** de los resultados  claves de un análisis que permiten una comunicación más efectiva
 
     * Quarto permite crear [*dashboards*](https://quarto.org/docs/interactive/) con tablas, gráficos y otros elementos
 
-    * Podéis ver ejemplos de sus capacidades usando el paquete `Shiny` de R en esta [galería](https://shiny.rstudio.com/gallery/)
+    * Ejemplos de sus capacidades usando el paquete [shiny](https://shiny.rstudio.com/gallery/), [shinydashboards](https://rstudio.github.io/shinydashboard/) o [flexdashboard](https://pkgs.rstudio.com/flexdashboard/articles/examples.html)
 
 
 * **Jupyter Notebook**: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para `Python`, admiten varios lenguajes de programación (como Quarto)  
