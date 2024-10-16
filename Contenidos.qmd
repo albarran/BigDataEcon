@@ -57,6 +57,7 @@ strip-comments: true
 <!-- *********************************************************************  -->
 
 ## Semana 7
+(21-Oct. a 27-Oct.)
 
   * [Tema 03 - Ejercicio](docs/Tema03ej.qmd)
 
