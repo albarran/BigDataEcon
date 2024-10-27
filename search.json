@@ -4,7 +4,7 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nVentasTabla\nEmpleados\n\nTema 3:\n\nDosTablas"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nVentasTabla\nEmpleados\n\nTema 3:\n\nDosTablas\n\nTema 5:\n\nBankMarketing.csv\nBostonHousing.csv"
   },
   {
     "objectID": "Evaluacion.html",
@@ -490,6 +490,125 @@
     "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\n\n\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\n\n\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema04ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio con el mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todos con el código summary(mtcars). El primero debe mostrar el código, pero no el resultado; el segundo sólo mostrar el resultado (no el código); el tercero debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir un celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del depósito) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\n \n\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej_123456789.qmd\nTema04ej_123456789.zip"
   },
   {
+    "objectID": "docs/Tema05.html#de-los-datos-en-bruto-a-la-información",
+    "href": "docs/Tema05.html#de-los-datos-en-bruto-a-la-información",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "De los datos en bruto a la información",
+    "text": "De los datos en bruto a la información\n\n\n  \n    \n      \n        image/svg+xml\n        \n        \n      \n    \n  \n  \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n  \n  \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n    \n    \n    \n  \n\n\n\n\nAED es una fase inicial importante, con dos objetivos:\n\nConocer nuestros datos e identificar problemas \\(\\Longrightarrow\\) Preprocesamiento\n\nqué variables, tipo de información, calidad (información faltante, inconsistencias, problemas en combinación de datos.)\n\nAnálisis descriptivo: identificar patrones y encontrar escenarios de análisis\n\n\n\nNO hay una “receta”: el proceso es diferente con distintos datos o con los mismos datos para diferentes objetivos\nEs un proceso iterativo para descubrir información"
+  },
+  {
+    "objectID": "docs/Tema05.html#primera-aproximación-a-los-datos",
+    "href": "docs/Tema05.html#primera-aproximación-a-los-datos",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Primera aproximación a los datos",
+    "text": "Primera aproximación a los datos\n\nContexto: conocimiento previo de nuestros datos, aquí o aquí\n\nfuente (de dónde han salido), cómo están almacenados (.csv, .xlsx, …)\n“diccionario”: información de cada variable (descripción, unidades, etc.)\n\n\n\nCargar los datos\n\n\nBank &lt;- read_csv2(\"data/BankMarketing.csv\")\nBoston &lt;- read_csv(\"data/BostonHousing.csv\")\n\n\nReconocimiento inicial de las características de los datos: número de observaciones y de variables, tipo de cada variable, etc.\n\n\n\n\nglimpse(Bank)  # str(Bank)\n\n\n\n\nView(Bank)     # head(Bank)\n\n\n\n\nNO TODO lo que hagamos se incluirá en un documento para comunicar"
+  },
+  {
+    "objectID": "docs/Tema05.html#primera-aproximación-a-los-datos-cont.",
+    "href": "docs/Tema05.html#primera-aproximación-a-los-datos-cont.",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Primera aproximación a los datos (cont.)",
+    "text": "Primera aproximación a los datos (cont.)\n\nLimpiar y procesar los datos:\n\nDebemos asegurarnos de que los datos son ordenados\n¿Tienen las variables la información y el tipo adecuado? Convertimos datos a factores, numéricas, etc.\nTransformamos variables (logaritmos, discretizar variables continuas), creamos nuevas o renombramos para mayor claridad\n¿Mantenemos solo algunas variables u observaciones?\n\nUn caso destacado: ¿cuántos NA? ¿qué hacer con ellos?\n\n\n\n\n\nBank %&gt;%  is.na() %&gt;% summary()\nBank %&gt;% summary()\n\n\n\nload(\"data/earn.RData\")\nearn %&gt;% is.na() %&gt;% summary()\n\n\n\n\nNO ES UNA RECETA: más adelante puede que volvamos hacia atrás o rehagamos parte de esto y decidiremos sobre NAs al modelizar"
+  },
+  {
+    "objectID": "docs/Tema05.html#análsis-de-variación-univariante",
+    "href": "docs/Tema05.html#análsis-de-variación-univariante",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Análsis de Variación (“univariante”)",
+    "text": "Análsis de Variación (“univariante”)\n\n\nLa variación es la tendencia de los valores de una variable a cambiar entre medidas (p.e., educación de dos personas o ventas de dos empresas) \n\n\n\nLas técnicas para analizar el patrón de variación, es decir, la distribución de valores, dependen del tipo de variable\nVariables Categóricas (previamente convertidas a factores):\n\nConteos, Porcentajes, Moda\n\ncon summary(), count(), table(), summarize(), mode()\n\nVisualización: Gráficos de Barras (también, quizás, circulares)\n\nVariables Numéricas:\n\nEstadísticas Descriptivas: Mínimo, Máximo, Media, Mediana, Moda\n\ncon summary() o summarize() con funciones para estadísticos\n\nDispersión: Rango, Varianza, Desviación Estándar, Cuartiles.\nVisualización: Histogramas, Densidades, Boxplots."
+  },
+  {
+    "objectID": "docs/Tema05.html#visualizando-distribuciones",
+    "href": "docs/Tema05.html#visualizando-distribuciones",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Visualizando distribuciones",
+    "text": "Visualizando distribuciones\n\n\nVariables Categóricas: gráficos de barras para conteos o porcentajes\n\n\ng0 &lt;- ggplot(data = Bank) \ng0 + geom_bar(aes(x = job)) + \n        theme(axis.text.x = element_text(angle = 90))\ng0 + geom_bar( aes(x = \"\", fill = education))\n\n\nBank %&gt;% count(education) %&gt;% mutate(prop = n / sum(n)) %&gt;% \n  ggplot() + geom_bar(aes(x = education, y = prop), stat = \"identity\")\n\n\nPara variables continuas, usar un histograma o densidad (o ambos)\n\n\ng0 + geom_histogram(mapping = aes(x = age), binwidth = 5)\ng0 + geom_density(mapping = aes(x = balance)) + scale_x_log10()\nBoston %&gt;%  ggplot(aes(x=medv)) + \n  geom_histogram(aes(y=..density..)) + geom_density() \n\n\nConsideramos varios anchos del intervalo: pueden revelar diferentes patrones\n\n\ng0 + geom_histogram(mapping = aes(x = age), binwidth = 1)\ng0 + geom_histogram(mapping = aes(x = age), binwidth = 10)"
+  },
+  {
+    "objectID": "docs/Tema05.html#visualizando-distribuciones-cont.",
+    "href": "docs/Tema05.html#visualizando-distribuciones-cont.",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Visualizando distribuciones (cont.)",
+    "text": "Visualizando distribuciones (cont.)\n\nLos gráficos de caja también aportan información para distribuciones continuas\n\n\nggplot(Boston) + geom_boxplot(mapping = aes(y = medv))"
+  },
+  {
+    "objectID": "docs/Tema05.html#aspectos-a-prestar-atención",
+    "href": "docs/Tema05.html#aspectos-a-prestar-atención",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Aspectos a prestar atención",
+    "text": "Aspectos a prestar atención\n\nValores frecuentes, concentración en valores concretos (p.e., ceros, números “redondos”, etc.): ¿por qué se producen? ¿son “esperables”?\n\n\n¿Tienen sentido las categorías de las variables cualitativas?\n\nagrupar valores con pocas observaciones\ncrear categorías más “finas”o más agregadas (ej. de países a continentes)\n\n\n\n¿Sería preferible discretizar alguna variable continua?\nVariables con alta dispersión o distribución asimétrica (logs?)\n\n\nVariables con información redundante, homogeneizar valores, normalidad(?)\n\n\nValores inusuales (“atípicos” o “outliers”): no encajan en el patrón general\n\n¿cambian los resultados del análisis sin ellos? ¿Qué los ha causado?"
+  },
+  {
+    "objectID": "docs/Tema05.html#otras-herramientas-para-aed",
+    "href": "docs/Tema05.html#otras-herramientas-para-aed",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Otras herramientas para AED",
+    "text": "Otras herramientas para AED\n\nPara una primera aproximación automática , pero NO todas para incluir en un informe final\n\n\nlibrary(skimr)\nskim(Bank)   # ¿para incluir en un informe?\n\n\nlibrary(DataExplorer)\nplot_bar(Bank)        # para TODAS las variables categóricas\nplot_histogram(Bank)  # para TODAS las variables numéricas\n\n\nLa biblioteca modelsummary() incluye funciones como datasummary_skim() y datasummary()"
+  },
+  {
+    "objectID": "docs/Tema05.html#otras-herramientas-dlookr",
+    "href": "docs/Tema05.html#otras-herramientas-dlookr",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Otras herramientas: dlookr",
+    "text": "Otras herramientas: dlookr\n\ndescribe(): estadísticos como un data frame, para usar con kable()\n\n\nlibrary(dlookr)            # en MacOS, puede pedir instalar XQuartz\ndescribe(Bank, campaign:y)\n\nBank %&gt;% describe() %&gt;%\n  select(described_variables, skewness, mean, p25, p50, p75) %&gt;% \n  filter(!is.na(skewness)) %&gt;% arrange(desc(abs(skewness)))\n\nBank %&gt;%\n  group_by(education) %&gt;% \n  describe(age, balance, campaign, pdays) \n\n\nearn %&gt;% eda_web_report()"
+  },
+  {
+    "objectID": "docs/Tema05.html#análisis-de-covariación-multivariante",
+    "href": "docs/Tema05.html#análisis-de-covariación-multivariante",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Análisis de Covariación (“multivariante”)",
+    "text": "Análisis de Covariación (“multivariante”)\n\nLa variación describe el comportamiento dentro de una variable\nLa covariación describe relaciones entre variables: tendencia a que sus valores cambien juntos\nÚtil para formular modelos, que explican patrones complejos de los datos\n\n¿qué explica la relación sugerida por el patrón de covariación?\n¿cómo de fuerte es la relación?\n¿otras variables pueden afectar a la relación? ¿varían por subgrupos?\n\nCovariación implica que los valores de una variable se pueden predecir a partir de otra\n\n¿es la covariación una relación causal?"
+  },
+  {
+    "objectID": "docs/Tema05.html#una-variable-continua-y-una-categórica",
+    "href": "docs/Tema05.html#una-variable-continua-y-una-categórica",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Una variable continua y una categórica",
+    "text": "Una variable continua y una categórica\n\n¿Es diferente la distribución de Y (continua) por categorías de X? Si \\(\\small{\\Pr(Y|X=x_1) = \\Pr(Y|X=x_0) =  \\Pr(Y)} \\Rightarrow\\) Y NO depende de X\n\n1.- mediante el histograma o densidad (en el mismo gráfico o diferentes)\n\n\nggplot(Bank) + geom_density(aes(x = balance, color = default))  + scale_x_log10()\nggplot(Bank) + geom_density(aes(x = balance)) + facet_wrap(~default)  + scale_x_log10()\nggplot(Boston) + geom_density(aes(x=lstat, color=as.factor(chas))) \n\n\n2.- mediante gráficos de caja: menos información pero más fácil de comparar\n\nggplot(Boston) + geom_boxplot(aes(x=medv, y=as.factor(chas)))\nggplot(Bank) + geom_boxplot(aes(x=duration, y=as.factor(y)))\n\n\nSi un grupo es mucho más pequeño, es difícil ver las diferencias\nSe pueden necesitar reordenar las categorías de un factor, rotar los ejes, etc."
+  },
+  {
+    "objectID": "docs/Tema05.html#correlación-entre-una-variable-continua-y-una-categórica",
+    "href": "docs/Tema05.html#correlación-entre-una-variable-continua-y-una-categórica",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "“Correlación” entre una variable continua y una categórica",
+    "text": "“Correlación” entre una variable continua y una categórica\n\nLa regresión simple también describe una relación: equivale a calcular la media de la variable continua por grupos definidos por la categórica\n\n\\[\nE[Y|X]=\\beta_0+\\beta_1 X \\Rightarrow\n\\begin{cases}\nE[Y|X=0] &=\\beta_0 \\\\\nE[Y|X=1]&=\\beta_0+\\beta_1\n\\end{cases}\n\\]\n\nsummary(lm(data = Bank, balance ~ default))\nBank %&gt;% group_by(default) %&gt;% summarise(media = mean(balance))\n\nBank %&gt;% group_by(y) %&gt;% summarise(media = mean(duration))\n\n\n¿Mediante la correlación? NO tiene sentido cuando una variable es categórica\n\n\nPara variables dependientes categóricas veremos una variante de regresión lineal: regresión logística"
+  },
+  {
+    "objectID": "docs/Tema05.html#dos-variables-categóricas",
+    "href": "docs/Tema05.html#dos-variables-categóricas",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Dos variables categóricas",
+    "text": "Dos variables categóricas\n\n\nTabular/visualizar el número de observaciones para cada combinación\n\n\nBank %&gt;% count(job, education) %&gt;% pivot_wider(names_from = education, values_from = n)\nggplot(Bank, aes(y=job, x=education)) + geom_count() \nggplot(Bank, aes(y=job, x=education)) + geom_count(aes(size=after_stat(prop), group=1)) \n\n\nTambién se pueden visualizar sus histogramas\n\n\nBank %&gt;%  ggplot(aes(x=y)) + geom_bar(aes(fill=education)) \nBank %&gt;%  ggplot(aes(x=y)) + geom_bar(aes(fill=education), position=\"dodge2\")\nBank %&gt;%  ggplot(aes(x=y)) + geom_bar()+ facet_wrap(~education)\n\n\nO los histogramas de proporciones generados manualmente\n\n\nBank %&gt;% group_by(education, y) %&gt;% summarise(n=n()) %&gt;%  \n   group_by(education) %&gt;% mutate(prop=n/sum(n)) %&gt;% \n   ggplot() + geom_bar(aes(x=education, y = prop), stat =\"identity\") + facet_wrap(~y)"
+  },
+  {
+    "objectID": "docs/Tema05.html#dos-variables-continuas",
+    "href": "docs/Tema05.html#dos-variables-continuas",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Dos variables continuas",
+    "text": "Dos variables continuas\n\nLa forma obvia de visualizar relaciones entre variables continuas es un gráfico de dispersión; añadir smoothers ayuda a apreciar un patrón en los puntos\n\n\nggplot(Boston, aes(y=medv, x=lstat)) + geom_point() + geom_smooth()\nggplot(Boston, aes(y=medv, x=lstat)) + geom_point() + geom_smooth() +\n  scale_y_log10()\n\n\nlibrary(GGally)\nBoston %&gt;% ggpairs()\n\n\nOtra opción categorizar una variable continua y usar las técnicas anteriores\n\n\nggplot(Bank) + geom_boxplot(aes(x= balance, y=cut_width(age, 10)))  +\n  scale_x_log10()\nBank %&gt;% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %&gt;% \n  ggplot()  + geom_boxplot(aes(x= balance, y =agegroup))"
+  },
+  {
+    "objectID": "docs/Tema05.html#correlación-entre-variables-continuas",
+    "href": "docs/Tema05.html#correlación-entre-variables-continuas",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Correlación entre variables continuas",
+    "text": "Correlación entre variables continuas\n\nObviamente podemos calcular modelos de regresión con dos variables continuas\n\n\nsummary(lm(data = Boston, medv ~ lstat) )\n\n\nY también correlaciones (dos variables, múltiples, visualizándolas)\n\n\ncor(Boston$medv, Boston$lstat, use = \"complete.obs\")\nBoston %&gt;% select(medv, lstat) %&gt;%  dlookr::correlate()\n\nBoston %&gt;%  dlookr::correlate()\nBoston %&gt;%  group_by(chas) %&gt;%  dlookr::correlate() %&gt;% plot()\n\nlibrary(corrplot)\ncorrplot(cor(Boston))\ncorrplot.mixed(cor(Boston))"
+  },
+  {
+    "objectID": "docs/Tema05.html#más-herramientas-de-aed-automático",
+    "href": "docs/Tema05.html#más-herramientas-de-aed-automático",
+    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
+    "section": "Más herramientas de AED “automático”",
+    "text": "Más herramientas de AED “automático”\n\nMuchas partes del AED son parcialmente “automatizables”: muchos paquetes tratan de facilitar esas partes\nRadiant, que puede probarse online\nGwalkR, explore\n\n\nlibrary(GWalkR)\ndata(iris)\ngwalkr(iris)\n\n\nDataMaid, smartEDA\n\n\nlibrary(dataMaid)\nmakeDataReport(Bank, output = \"pdf\", replace = TRUE)\n\n\nOtras partes y sobre la interpretación del AED es muy específica de los datos y del objetivo del estudio"
+  },
+  {
+    "objectID": "docs/Tema03ej.html",
+    "href": "docs/Tema03ej.html",
+    "title": "Tema 03. Datos Relacionales. Ejercicio.",
+    "section": "",
+    "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPreguntas\nEn este ejercicio vamos a utilizar, por un lado, los datos de este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes. Por otro lado, disponemos de este archivo Excel con dos hojas: regiones, con la clave de las regiones donde la empresa tiene sedes y el nombre completo de cada región, y regionEmpleado, con el identificador de cada individuo y la región a la que pertenece.\n\nMostrar en una tabla el nombre y apellidos del empleado de cada región con mayores ventas totales en el periodo de tiempo analizado.\n\n\nMostrar el nombre completo de la región con más ventas cada año.\n\n\nMostrar los nombres y apellidos de los empleado “misteriosos”: es decir, aquellos que no sabemos a qué región pertenecen."
+  },
+  {
     "objectID": "docs/Tema04ej_123456789.html",
     "href": "docs/Tema04ej_123456789.html",
     "title": "Ejercicio Tema 04",
@@ -523,13 +642,6 @@
     "title": "Ejercicio Tema 04",
     "section": "Mostrarlas con kableExtra()",
     "text": "Mostrarlas con kableExtra()\n\nCode\nlibrary(kableExtra)\n\n\nAttaching package: 'kableExtra'\nThe following object is masked from 'package:dplyr':\n\n    group_rows\n\nCode\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\n\n\n\n\n\nmpg\ncyl\ndisp\nhp\ndrat\nwt\nqsec\nvs\nam\ngear\ncarb\n\n\n\n\nMazda RX4\n21.0\n6\n160.0\n110\n3.90\n2.620\n16.46\n0\n1\n4\n4\n\n\nMazda RX4 Wag\n21.0\n6\n160.0\n110\n3.90\n2.875\n17.02\n0\n1\n4\n4\n\n\nDatsun 710\n22.8\n4\n108.0\n93\n3.85\n2.320\n18.61\n1\n1\n4\n1\n\n\nHornet 4 Drive\n21.4\n6\n258.0\n110\n3.08\n3.215\n19.44\n1\n0\n3\n1\n\n\nHornet Sportabout\n18.7\n8\n360.0\n175\n3.15\n3.440\n17.02\n0\n0\n3\n2\n\n\nValiant\n18.1\n6\n225.0\n105\n2.76\n3.460\n20.22\n1\n0\n3\n1\n\n\nDuster 360\n14.3\n8\n360.0\n245\n3.21\n3.570\n15.84\n0\n0\n3\n4\n\n\nMerc 240D\n24.4\n4\n146.7\n62\n3.69\n3.190\n20.00\n1\n0\n4\n2\n\n\nMerc 230\n22.8\n4\n140.8\n95\n3.92\n3.150\n22.90\n1\n0\n4\n2\n\n\nMerc 280\n19.2\n6\n167.6\n123\n3.92\n3.440\n18.30\n1\n0\n4\n4\n\n\nMerc 280C\n17.8\n6\n167.6\n123\n3.92\n3.440\n18.90\n1\n0\n4\n4\n\n\nMerc 450SE\n16.4\n8\n275.8\n180\n3.07\n4.070\n17.40\n0\n0\n3\n3\n\n\nMerc 450SL\n17.3\n8\n275.8\n180\n3.07\n3.730\n17.60\n0\n0\n3\n3\n\n\nMerc 450SLC\n15.2\n8\n275.8\n180\n3.07\n3.780\n18.00\n0\n0\n3\n3\n\n\nCadillac Fleetwood\n10.4\n8\n472.0\n205\n2.93\n5.250\n17.98\n0\n0\n3\n4\n\n\nLincoln Continental\n10.4\n8\n460.0\n215\n3.00\n5.424\n17.82\n0\n0\n3\n4\n\n\nChrysler Imperial\n14.7\n8\n440.0\n230\n3.23\n5.345\n17.42\n0\n0\n3\n4\n\n\nFiat 128\n32.4\n4\n78.7\n66\n4.08\n2.200\n19.47\n1\n1\n4\n1\n\n\nHonda Civic\n30.4\n4\n75.7\n52\n4.93\n1.615\n18.52\n1\n1\n4\n2\n\n\nToyota Corolla\n33.9\n4\n71.1\n65\n4.22\n1.835\n19.90\n1\n1\n4\n1\n\n\nToyota Corona\n21.5\n4\n120.1\n97\n3.70\n2.465\n20.01\n1\n0\n3\n1\n\n\nDodge Challenger\n15.5\n8\n318.0\n150\n2.76\n3.520\n16.87\n0\n0\n3\n2\n\n\nAMC Javelin\n15.2\n8\n304.0\n150\n3.15\n3.435\n17.30\n0\n0\n3\n2\n\n\nCamaro Z28\n13.3\n8\n350.0\n245\n3.73\n3.840\n15.41\n0\n0\n3\n4\n\n\nPontiac Firebird\n19.2\n8\n400.0\n175\n3.08\n3.845\n17.05\n0\n0\n3\n2\n\n\nFiat X1-9\n27.3\n4\n79.0\n66\n4.08\n1.935\n18.90\n1\n1\n4\n1\n\n\nPorsche 914-2\n26.0\n4\n120.3\n91\n4.43\n2.140\n16.70\n0\n1\n5\n2\n\n\nLotus Europa\n30.4\n4\n95.1\n113\n3.77\n1.513\n16.90\n1\n1\n5\n2\n\n\nFord Pantera L\n15.8\n8\n351.0\n264\n4.22\n3.170\n14.50\n0\n1\n5\n4\n\n\nFerrari Dino\n19.7\n6\n145.0\n175\n3.62\n2.770\n15.50\n0\n1\n5\n6\n\n\nMaserati Bora\n15.0\n8\n301.0\n335\n3.54\n3.570\n14.60\n0\n1\n5\n8\n\n\nVolvo 142E\n21.4\n4\n121.0\n109\n4.11\n2.780\n18.60\n1\n1\n4\n2\n\n\n\n\n\n\nCode\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\n\n\n\n\nmpg\ncyl\ndisp\nhp\ndrat\nwt\nqsec\nvs\nam\ngear\ncarb\n\n\n\n\n\nMin. :10.40\nMin. :4.000\nMin. : 71.1\nMin. : 52.0\nMin. :2.760\nMin. :1.513\nMin. :14.50\nMin. :0.0000\nMin. :0.0000\nMin. :3.000\nMin. :1.000\n\n\n\n1st Qu.:15.43\n1st Qu.:4.000\n1st Qu.:120.8\n1st Qu.: 96.5\n1st Qu.:3.080\n1st Qu.:2.581\n1st Qu.:16.89\n1st Qu.:0.0000\n1st Qu.:0.0000\n1st Qu.:3.000\n1st Qu.:2.000\n\n\n\nMedian :19.20\nMedian :6.000\nMedian :196.3\nMedian :123.0\nMedian :3.695\nMedian :3.325\nMedian :17.71\nMedian :0.0000\nMedian :0.0000\nMedian :4.000\nMedian :2.000\n\n\n\nMean :20.09\nMean :6.188\nMean :230.7\nMean :146.7\nMean :3.597\nMean :3.217\nMean :17.85\nMean :0.4375\nMean :0.4062\nMean :3.688\nMean :2.812\n\n\n\n3rd Qu.:22.80\n3rd Qu.:8.000\n3rd Qu.:326.0\n3rd Qu.:180.0\n3rd Qu.:3.920\n3rd Qu.:3.610\n3rd Qu.:18.90\n3rd Qu.:1.0000\n3rd Qu.:1.0000\n3rd Qu.:4.000\n3rd Qu.:4.000\n\n\n\nMax. :33.90\nMax. :8.000\nMax. :472.0\nMax. :335.0\nMax. :4.930\nMax. :5.424\nMax. :22.90\nMax. :1.0000\nMax. :1.0000\nMax. :5.000\nMax. :8.000\n\n\n\n\n\n\nCode\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\n\n\n\n\n\nmpg\ncyl\ndisp\nhp\ndrat\nwt\nqsec\nvs\nam\ngear\ncarb\n\n\n\n\nMazda RX4\n21.0\n6\n160.0\n110\n3.90\n2.620\n16.46\n0\n1\n4\n4\n\n\nMazda RX4 Wag\n21.0\n6\n160.0\n110\n3.90\n2.875\n17.02\n0\n1\n4\n4\n\n\nDatsun 710\n22.8\n4\n108.0\n93\n3.85\n2.320\n18.61\n1\n1\n4\n1\n\n\nHornet 4 Drive\n21.4\n6\n258.0\n110\n3.08\n3.215\n19.44\n1\n0\n3\n1\n\n\nHornet Sportabout\n18.7\n8\n360.0\n175\n3.15\n3.440\n17.02\n0\n0\n3\n2\n\n\nValiant\n18.1\n6\n225.0\n105\n2.76\n3.460\n20.22\n1\n0\n3\n1\n\n\nDuster 360\n14.3\n8\n360.0\n245\n3.21\n3.570\n15.84\n0\n0\n3\n4\n\n\nMerc 240D\n24.4\n4\n146.7\n62\n3.69\n3.190\n20.00\n1\n0\n4\n2\n\n\nMerc 230\n22.8\n4\n140.8\n95\n3.92\n3.150\n22.90\n1\n0\n4\n2\n\n\nMerc 280\n19.2\n6\n167.6\n123\n3.92\n3.440\n18.30\n1\n0\n4\n4\n\n\nMerc 280C\n17.8\n6\n167.6\n123\n3.92\n3.440\n18.90\n1\n0\n4\n4\n\n\nMerc 450SE\n16.4\n8\n275.8\n180\n3.07\n4.070\n17.40\n0\n0\n3\n3\n\n\nMerc 450SL\n17.3\n8\n275.8\n180\n3.07\n3.730\n17.60\n0\n0\n3\n3\n\n\nMerc 450SLC\n15.2\n8\n275.8\n180\n3.07\n3.780\n18.00\n0\n0\n3\n3\n\n\nCadillac Fleetwood\n10.4\n8\n472.0\n205\n2.93\n5.250\n17.98\n0\n0\n3\n4\n\n\nLincoln Continental\n10.4\n8\n460.0\n215\n3.00\n5.424\n17.82\n0\n0\n3\n4\n\n\nChrysler Imperial\n14.7\n8\n440.0\n230\n3.23\n5.345\n17.42\n0\n0\n3\n4\n\n\nFiat 128\n32.4\n4\n78.7\n66\n4.08\n2.200\n19.47\n1\n1\n4\n1\n\n\nHonda Civic\n30.4\n4\n75.7\n52\n4.93\n1.615\n18.52\n1\n1\n4\n2\n\n\nToyota Corolla\n33.9\n4\n71.1\n65\n4.22\n1.835\n19.90\n1\n1\n4\n1\n\n\nToyota Corona\n21.5\n4\n120.1\n97\n3.70\n2.465\n20.01\n1\n0\n3\n1\n\n\nDodge Challenger\n15.5\n8\n318.0\n150\n2.76\n3.520\n16.87\n0\n0\n3\n2\n\n\nAMC Javelin\n15.2\n8\n304.0\n150\n3.15\n3.435\n17.30\n0\n0\n3\n2\n\n\nCamaro Z28\n13.3\n8\n350.0\n245\n3.73\n3.840\n15.41\n0\n0\n3\n4\n\n\nPontiac Firebird\n19.2\n8\n400.0\n175\n3.08\n3.845\n17.05\n0\n0\n3\n2\n\n\nFiat X1-9\n27.3\n4\n79.0\n66\n4.08\n1.935\n18.90\n1\n1\n4\n1\n\n\nPorsche 914-2\n26.0\n4\n120.3\n91\n4.43\n2.140\n16.70\n0\n1\n5\n2\n\n\nLotus Europa\n30.4\n4\n95.1\n113\n3.77\n1.513\n16.90\n1\n1\n5\n2\n\n\nFord Pantera L\n15.8\n8\n351.0\n264\n4.22\n3.170\n14.50\n0\n1\n5\n4\n\n\nFerrari Dino\n19.7\n6\n145.0\n175\n3.62\n2.770\n15.50\n0\n1\n5\n6\n\n\nMaserati Bora\n15.0\n8\n301.0\n335\n3.54\n3.570\n14.60\n0\n1\n5\n8\n\n\nVolvo 142E\n21.4\n4\n121.0\n109\n4.11\n2.780\n18.60\n1\n1\n4\n2\n\n\n\n\n\n\nCode\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\n\n\n\n\nmpg\ncyl\ndisp\nhp\ndrat\nwt\nqsec\nvs\nam\ngear\ncarb\n\n\n\n\n\nMin. :10.40\nMin. :4.000\nMin. : 71.1\nMin. : 52.0\nMin. :2.760\nMin. :1.513\nMin. :14.50\nMin. :0.0000\nMin. :0.0000\nMin. :3.000\nMin. :1.000\n\n\n\n1st Qu.:15.43\n1st Qu.:4.000\n1st Qu.:120.8\n1st Qu.: 96.5\n1st Qu.:3.080\n1st Qu.:2.581\n1st Qu.:16.89\n1st Qu.:0.0000\n1st Qu.:0.0000\n1st Qu.:3.000\n1st Qu.:2.000\n\n\n\nMedian :19.20\nMedian :6.000\nMedian :196.3\nMedian :123.0\nMedian :3.695\nMedian :3.325\nMedian :17.71\nMedian :0.0000\nMedian :0.0000\nMedian :4.000\nMedian :2.000\n\n\n\nMean :20.09\nMean :6.188\nMean :230.7\nMean :146.7\nMean :3.597\nMean :3.217\nMean :17.85\nMean :0.4375\nMean :0.4062\nMean :3.688\nMean :2.812\n\n\n\n3rd Qu.:22.80\n3rd Qu.:8.000\n3rd Qu.:326.0\n3rd Qu.:180.0\n3rd Qu.:3.920\n3rd Qu.:3.610\n3rd Qu.:18.90\n3rd Qu.:1.0000\n3rd Qu.:1.0000\n3rd Qu.:4.000\n3rd Qu.:4.000\n\n\n\nMax. :33.90\nMax. :8.000\nMax. :472.0\nMax. :335.0\nMax. :4.930\nMax. :5.424\nMax. :22.90\nMax. :1.0000\nMax. :1.0000\nMax. :5.000\nMax. :8.000\n\n\n\n\n\nLa presentación es más elegante en el segundo caso"
-  },
-  {
-    "objectID": "docs/Tema03ej.html",
-    "href": "docs/Tema03ej.html",
-    "title": "Tema 03. Datos Relacionales. Ejercicio.",
-    "section": "",
-    "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPreguntas\nEn este ejercicio vamos a utilizar, por un lado, los datos de este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes. Por otro lado, disponemos de este archivo Excel con dos hojas: regiones, con la clave de las regiones donde la empresa tiene sedes y el nombre completo de cada región, y regionEmpleado, con el identificador de cada individuo y la región a la que pertenece.\n\nMostrar en una tabla el nombre y apellidos del empleado de cada región con mayores ventas totales en el periodo de tiempo analizado.\n\n\nMostrar el nombre completo de la región con más ventas cada año.\n\n\nMostrar los nombres y apellidos de los empleado “misteriosos”: es decir, aquellos que no sabemos a qué región pertenecen."
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -886,14 +998,21 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(21-Oct. a 27-Oct.)\n\nTema 03 - Ejercicio\nTema 04 - Introducción a Quarto\nTema 04 - Ejercicio\n\nFecha límite de entrega: dom., 03-nov., 23:59h"
+    "text": "(28-Oct. a 3-Nov.)\n\nTema 05 - Análisis Exploratorio de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-8",
+    "href": "Contenidos.html#semana-8",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(28-Oct. a 3-Nov.)\n\nTema 05 - Análisis Exploratorio de Datos"
   },
   {
     "objectID": "Contenidos.html#semana-7",
     "href": "Contenidos.html#semana-7",
     "title": "Contenidos",
-    "section": "",
-    "text": "(21-Oct. a 27-Oct.)\n\nTema 03 - Ejercicio\nTema 04 - Introducción a Quarto\nTema 04 - Ejercicio\n\nFecha límite de entrega: dom., 03-nov., 23:59h"
+    "section": "Semana 7",
+    "text": "Semana 7\n(21-Oct. a 27-Oct.)\n\nTema 03 - Ejercicio\nTema 04 - Introducción a Quarto\nTema 04 - Ejercicio\n\nFecha límite de entrega: dom., 03-nov., 23:59h"
   },
   {
     "objectID": "Contenidos.html#semana-6",
