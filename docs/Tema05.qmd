@@ -1,0 +1,993 @@
+---
+subtitle: "Técnicas para 'Big Data' en Economía - Curso 2024/25 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 05 - Análisis Exploratorio de Datos (AED)"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+  
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  # beamer:
+  #   handout: false
+  #   logo: figure/by-nc-sa2.png
+  #   titlegraphic: figure/by-nc-sa.png
+  #   theme:  Boadilla # Copenhagen # CambridgeUS #
+  #   outertheme: miniframes
+  #   colortheme: crane
+  #   section-titles: false
+  #   fontsize: 10pt
+  #   header-includes: |
+  #       \setbeamertemplate{footline}
+  #       {
+  #       \leavevmode%
+  #       \hbox{%
+  #       \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+  #       \usebeamerfont{author in head/foot}\insertshortauthor%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  #       \usebeamerfont{title in head/foot}\insertshorttitle%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+  #       \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+  #       \end{beamercolorbox}}%
+  #       }
+  #      # - \setbeamertemplate{navigation symbols}{}
+  #      # - \setbeamertemplate{caption}[numbered]
+  #      # - \setbeamertemplate{headline}[page number]
+  #      # - \setbeameroption{show notes}
+  #      # - \setbeameroption{show notes on second screen}
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r setup, include=FALSE}
+#```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
+# include=F es suficiente para no incluir mensajes, etc.
+
+# Opciones por defecto para los fragmentos de código
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+                      warning = FALSE, message = FALSE,
+                      results = "hide", fig.show="hide")
+# se muestra y evalúa el código,
+# no se muestran mensajes, ni avisos (warnings)
+# no se muestran los resultados de código (tampoco gráficos)
+#     en los códigos que considere necesarios los mostraré
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())       
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+
+#fijo el directorio de trabajo
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+
+## De los datos en bruto a la información
+
+
+<center>
+
+![](figure/data-science-explore.svg){width=70%}
+
+</center>
+
+
+::: {style="font-size: 95%;"}
+
+* AED es una fase inicial importante, con dos objetivos:
+
+  + **Conocer** nuestros datos e **identificar problemas** $\Longrightarrow$ **Preprocesamiento** 
+  
+      - qué variables, tipo de información, calidad (información faltante, inconsistencias, <!--datos que no tienen sentido matemático y--> problemas en <!--la consolidación y--> combinación de datos.)
+
+
+  + **Análisis descriptivo**: identificar <!--los primeros--> patrones y encontrar escenarios de análisis
+
+<!--
+  + ¿Qué variables tenemos? ¿Necesitamos nuevas?
+  + ¿Qué tipo de información tienen? Numérica, Categórica, Otra
+  + ¿Hay valores ausentes?
+-->
+
+<!--NO es proceso formal con reglas estrictas: --> 
+* **NO hay una "receta"**: el proceso es diferente con distintos datos o con los mismos datos para diferentes objetivos
+
+* Es un proceso **iterativo** <!--y creativo--> para descubrir información
+
+<!--     + Dada una *pregunta*, exploramos para aprender información útil, por sí misma o para posteriormente modelizar -->
+<!--     + PERO lo aprendido también refinar las preguntas y/o generar nuevas -->
+
+<!--
+## Tipos de preguntas 
+
+
+* Dos *tipos* de preguntas siempre serán útiles  para hacer descubrimientos dentro de sus datos
+
+1. ¿Qué tipo de **variación** tiene cada variable? (análisis univariante)
+    
+2. ¿Qué tipo de relaciones se produce entre las variables (**covariación**)? (análisis multivariante)
+
+* La respuesta implica analizar distribuciones, numérica y/o gráficamenente.
+
+    + El análisis es diferente si las variables son numéricas o categóricas
+
+-->
+
+:::
+
+## Primera aproximación a los datos
+
+* **Contexto**: conocimiento previo de nuestros datos,  [aquí](https://archive.ics.uci.edu/ml/datasets/bank+marketing) o  [aquí](https://www.cs.toronto.edu/~delve/data/boston/bostonDetail.html)
+
+    - fuente (de dónde han salido), cómo están almacenados (.csv, .xlsx, ...)
+
+    - "diccionario": información de cada variable (<!--nombre, -->descripción, unidades, etc.) 
+    
+<!-- Esta información también puede estar en la ayuda de un paquete de R -->
+
+* Cargar los datos
+
+```{r}
+#| eval: false
+Bank <- read_csv2("data/BankMarketing.csv")
+Boston <- read_csv("data/BostonHousing.csv")
+```
+
+* **Reconocimiento inicial** de las características de los datos: número de observaciones y de variables, tipo de cada variable, etc. 
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 30px; "}
+
+::: {}
+
+```{r, echo=TRUE, eval=FALSE}
+glimpse(Bank)  # str(Bank)
+```
+
+::: 
+
+::: {}
+```{r, echo=TRUE, eval=FALSE}
+View(Bank)     # head(Bank)
+```
+
+::: 
+::::
+
+
+
+* NO TODO lo que hagamos se incluirá en un documento para comunicar
+
+## Primera aproximación a los datos (cont.)
+
+* **Limpiar y procesar** los datos: 
+
+  - Debemos asegurarnos de que los datos son *ordenados*
+  - ¿Tienen las variables la información y el tipo adecuado? Convertimos datos a factores, numéricas, etc.
+  - Transformamos variables (logaritmos, discretizar variables continuas), creamos nuevas o renombramos para mayor claridad
+  - ¿Mantenemos *solo* algunas variables u observaciones?
+  
+* Un caso destacado: ¿cuántos `NA`? ¿qué hacer con ellos? 
+
+<!--: eliminar en una variable, en todas, reemplazar por algún valor-->
+
+<!--
+* ¿Por qué mantener observaciones con `NA`s en alguna(s) variable(s)?
+
+    + pueden ser variables que quizás utilicemos o quizás no
+
+    + queremos entender qué características tienen las observaciones `NA`
+    
+    + AED es un proceso iterativo!
+-->
+
+::: {style="font-size: 80%;"} 
+
+:::: {.columns}
+
+::: {.column width="47%"}
+```{r}
+#| eval: false
+Bank %>%  is.na() %>% summary()
+Bank %>% summary()
+```
+
+:::
+
+
+::: {.column width="47%"}
+
+```{r}
+#| eval: false
+load("data/earn.RData")
+earn %>% is.na() %>% summary()
+```
+
+::: 
+::::
+
+::: 
+- NO ES UNA RECETA: más adelante puede que volvamos hacia atrás o rehagamos parte de esto y decidiremos sobre `NAs` al modelizar
+
+## Análsis de Variación ("univariante")
+
+::: {style="font-size: 90%;"}
+
+<!--
+1. ¿Qué tipo de **variación** tiene cada variable? (análisis univariante)
+-->
+
+* La variación es la tendencia de los valores de una variable a cambiar entre *medidas* (p.e., educación de dos personas o ventas de dos empresas)
+<!--"medida" y "medida"-->
+
+    <!-- + p.e., nivel educativo de dos personas  (cualitativa) o ventas de dos empresas (continua)--> 
+
+<!-- * Cada variable tiene su propio patrón de variación. esta información relevante se obtiene analizando su **distribución** de valores, númerica o gráficamente -->
+
+* Las técnicas para analizar el patrón de variación, es decir, la **distribución** de valores, dependen del tipo de variable
+
+- **Variables Categóricas** (previamente convertidas a factores):
+
+  - Conteos, Porcentajes, Moda 
+      + con `summary()`, `count()`, `table()`, `summarize()`, `mode()`
+  - Visualización: Gráficos de Barras (también, quizás, circulares)
+
+
+- **Variables Numéricas**:
+
+  - Estadísticas Descriptivas: Mínimo, Máximo, Media, Mediana, Moda 
+      + con `summary()` o `summarize()` con funciones para estadísticos
+  - Dispersión: Rango, Varianza, Desviación Estándar, Cuartiles.
+  - Visualización: Histogramas, Densidades,  Boxplots.
+
+:::
+
+<!--   * `summary()` para calcular estadísticos básicos, y complementer con otros (varianza, percentiles, asimetría y kurtosis, etc.) -->
+<!--   *  `count()` o `table()` (para frecuencias) y `summarize()` (con funciones para estadísticos) -->
+
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- summary(Bank) -->
+<!-- ``` -->
+
+<!-- ```{r echo=FALSE} -->
+<!-- #| eval: false -->
+<!-- Bank <- Bank %>% mutate(across(is.character, ~parse_factor(.x))) -->
+<!-- summary(Bank) -->
+<!-- ``` -->
+
+
+<!-- * Notar que el análisis es diferente para variables categóricas y numéricas: es conveniente describirlas por separado en un documento final -->
+
+
+
+
+## Visualizando distribuciones
+
+::: {style="font-size: 90%;"}
+
+* **Variables Categóricas**: gráficos de barras para conteos o porcentajes
+
+
+```{r}
+#| eval: false
+g0 <- ggplot(data = Bank) 
+g0 + geom_bar(aes(x = job)) + 
+        theme(axis.text.x = element_text(angle = 90))
+g0 + geom_bar( aes(x = "", fill = education))
+```
+
+```{r}
+#| eval: false
+Bank %>% count(education) %>% mutate(prop = n / sum(n)) %>% 
+  ggplot() + geom_bar(aes(x = education, y = prop), stat = "identity")
+```
+
+```{r}
+#| eval: false
+#| echo: false
+Bank %>% group_by(education) %>% summarize(prop=n()/nrow(Bank)) %>% 
+  ggplot() + geom_bar(aes(x = education, y=prop), stat="identity" )
+
+Bank %>%
+  ggplot(aes(x = education)) +
+  geom_bar(aes(y = ..prop.., group = 1), stat = "count")
+
+```
+
+
+* Para **variables continuas**, usar un histograma o densidad (o ambos)
+```{r eval=FALSE}
+g0 + geom_histogram(mapping = aes(x = age), binwidth = 5)
+g0 + geom_density(mapping = aes(x = balance)) + scale_x_log10()
+Boston %>%  ggplot(aes(x=medv)) + 
+  geom_histogram(aes(y=..density..)) + geom_density() 
+```
+
+<!--
+* La tabla del histograma `Bank %>% count(cut_width(Age, 5))`
+
+Bank %>% mutate(EdadD=cut_width(Age, 5)) %>%
+count(EdadD) %>% ggplot(aes(x = EdadD, y = n)) + geom_bar(stat="identity")
+-->
+
+* Consideramos varios anchos del intervalo: pueden revelar diferentes patrones
+```{r, echo=TRUE, eval=FALSE, messages=FALSE, warning=FALSE}
+g0 + geom_histogram(mapping = aes(x = age), binwidth = 1)
+g0 + geom_histogram(mapping = aes(x = age), binwidth = 10)
+```
+
+::: 
+
+## Visualizando distribuciones (cont.)
+
+
+
+* Los gráficos de caja también aportan información para distribuciones continuas 
+
+```{r}
+#| eval: false
+ggplot(Boston) + geom_boxplot(mapping = aes(y = medv))
+```
+
+```{r echo=FALSE, eval=FALSE}
+ggplot(Boston) + geom_boxplot(mapping = aes(y = medv)) + scale_y_log10()
+```
+
+<center>
+![](figure/eda-boxplot.png){width=75%}
+</center>
+
+## Aspectos a prestar atención
+
+<!--
+* Patrones inusuales: ¿razones?
+-->
+
+
+* Valores frecuentes, concentración en valores concretos (p.e., ceros, números "redondos", etc.): ¿por qué se producen? ¿son "esperables"? 
+
+<!--
+  + pocas observaciones con edad joven
+
+  + redondeo típico en precios: agrupar?
+-->
+
+* ¿Tienen sentido las categorías de las variables cualitativas?
+    + agrupar valores con pocas observaciones 
+    + crear categorías más "finas"o más agregadas (ej. de países a continentes)
+
+<!--
+Entrepreneur + self-employed en bank?
+-->
+
+* ¿Sería preferible discretizar alguna variable continua?
+
+* Variables con alta dispersión o distribución asimétrica (logs?)
+
+<!--
+
+* Identificar las variables con "desequilibrio" o con alta dispersión
+
+* Variables continuas con distribución asimétrica <!--: puede necesitar transformación (logs) para modelos-->
+
+<!--
+* ¿Hay agrupamientos? ¿Cómo se parecen dentro de un grupo y diferencian del otro? 
+```{r}
+ggplot(faithful, aes(x = eruptions)) +  geom_histogram()
+```
+
+<!--
+  - ¿Cómo se pueden explicar los cúmulos? ¿Pueden ser engañosos?
+-->
+
+<!--
+* En este punto y en el resto del AED debemos pensar si los datos necesitan alguna limpieza o transformación
+-->
+
+* Variables con información redundante, homogeneizar valores, normalidad(?)
+
+<!--
+* ¿Existen variables con información redundante?
+    + Ej. temperatura media, máx. y mín. tienen distribución similar
+
+* Homogeneizar valores (ej., algunos valores son años, otros año-mes)
+-->
+
+* Valores inusuales ("atípicos" o "outliers"): no encajan en el patrón general
+
+  + ¿cambian los resultados del análisis sin ellos? ¿Qué los ha causado?
+
+<!--
+## Aspectos a prestar atención (cont.)
+
+
+
+* ¿Es la distribución de las variables continuas normal? (IRRELEVANTE)
+
+<!--
+    * normalidad NO es un objetivo, transformar en logaritmos implica cambiar la interpretación de los datos
+-->
+
+<!--
+* Valores inusuales ("atípicos" o "outliers"): no encajan en el patrón general de una variable
+
+  + ¿cambian los resultados del análisis si se cambian a `NA`? ¿Qué los ha causado?
+  
+  <!--
+
+  * NO existe una definición: criterios son una **convención**
+  
+  * Un valor puede no "encajar" en lo que esperamos o nuestro modelo porque estos no son suficientemente flexibles o generales. 
+  
+  * Cuidado con quitar valores extremos o justificar la transformación en ellos.
+
+  -->
+
+## Otras herramientas para AED
+
+<!--
+* Herramientas principales: R base, `tidyverse`, `ggplot2`
+
+* Herramientas específicas: CUIDADO: no todas se llevan bien entre ellas y con `tidyverse`
+-->
+
+
+<!-- https://joachim-gassen.github.io/ExPanDaR/
+-->
+* Para una primera aproximación automática <!-- (qué patrones existen, qué cambiar)-->, pero NO todas para incluir en un informe final
+
+
+```{r}
+#| echo: true
+library(skimr)
+skim(Bank)   # ¿para incluir en un informe?
+```
+
+<!--
+    + desglosa estadístico por tipo de datos
+    + Visualización rápida de distribuciones
+-->
+
+```{r echo=FALSE, eval=TRUE}
+#| eval: false
+library(DataExplorer)
+introduce(Boston)
+plot_intro(Boston)
+
+plot_missing(earn)      # porcentaje de `NA` en cada variable
+```
+
+<!--
+https://www.r-bloggers.com/2019/08/how-to-automate-eda-with-dataexplorer-in-r/
+-->
+
+```{r}
+#| eval: false
+library(DataExplorer)
+plot_bar(Bank)        # para TODAS las variables categóricas
+plot_histogram(Bank)  # para TODAS las variables numéricas
+```
+
+```{r echo=FALSE, eval=FALSE}
+earn %>% create_report()
+```
+
+```{r echo = FALSE, eval=FALSE}
+Bank %>% plot_density()
+Bank %>% plot_boxplot()
+
+Bank %>% plot_bar(ncol = 2, nrow = 4)
+Bank %>% plot_histogram(ncol = 3, nrow = 3)
+```
+
+
+* La biblioteca `modelsummary()` incluye funciones como `datasummary_skim()` y `datasummary()`
+
+## Otras herramientas: `dlookr`
+
+```{r echo=FALSE}
+#| eval: false
+library(dlookr)         # en MacOS, puede pedir instalar XQuartz
+diagnose(Bank)
+```
+
+* `describe()`: estadísticos como un `data frame`, para usar con `kable()`
+
+```{r, echo=TRUE, eval=FALSE}
+library(dlookr)            # en MacOS, puede pedir instalar XQuartz
+describe(Bank, campaign:y)
+
+Bank %>% describe() %>%
+  select(described_variables, skewness, mean, p25, p50, p75) %>% 
+  filter(!is.na(skewness)) %>% arrange(desc(abs(skewness)))
+
+Bank %>%
+  group_by(education) %>% 
+  describe(age, balance, campaign, pdays) 
+```
+
+```{r eval=FALSE}
+earn %>% eda_web_report()
+```
+
+```{r echo=FALSE, eval=FALSE}
+Bank %>% eda_report()
+
+earn %>% eda_paged_report(output_format = "pdf")
+
+Bank %>% rename(Balance = balance) %>% eda_web_report()
+```
+
+
+```{r, echo=FALSE, eval=FALSE}
+normality(Carseats, Sales:Advertising)
+Carseats %>%
+  normality() %>%
+  filter(p_value <= 0.01) %>% 
+  arrange(abs(p_value))
+
+Bank %>% normality() %>%
+  filter(p_value <= 0.01) %>% arrange(abs(p_value))
+
+Bank %>% plot_normality()
+
+Carseats %>%
+  filter(ShelveLoc == "Good") %>%
+  group_by(US) %>%
+  plot_normality(Advertising)
+```
+
+## Análisis de Covariación ("multivariante")
+
+* La variación describe el comportamiento *dentro* de una variable
+
+* La **covariación** describe relaciones entre variables: tendencia a que sus valores cambien juntos
+
+* Útil para formular modelos, que explican patrones complejos de los datos
+
+  - ¿qué explica la relación sugerida por el patrón de covariación? 
+  
+  - ¿cómo de fuerte es la relación?
+  
+  - ¿otras variables pueden afectar a la relación? ¿varían por subgrupos?
+
+*  Covariación implica que los valores de una variable se pueden predecir a partir de otra  
+  
+    - ¿es la covariación una relación causal? 
+
+<!--
+* Detectamos covariación visualizando la relación entre variables, PERO la forma depende del tipo de variables
+-->
+
+
+
+## Una variable continua y una categórica
+
+* ¿Es diferente la distribución de Y (continua) por categorías de X? Si $\small{\Pr(Y|X=x_1) = \Pr(Y|X=x_0) =  \Pr(Y)} \Rightarrow$ Y NO depende de X 
+
+<!--(son independientes)-->
+
+<!--
+
+   Pr(Balance|default=Y)=Pr(Balance|default=N)=Pr(Balance)
+
+-->
+
+
+1.- mediante el histograma o densidad (en el mismo gráfico o diferentes)  
+
+::: {style="font-size: 85%;"}
+```{r, echo=TRUE, eval=FALSE}
+ggplot(Bank) + geom_density(aes(x = balance, color = default))  + scale_x_log10()
+ggplot(Bank) + geom_density(aes(x = balance)) + facet_wrap(~default)  + scale_x_log10()
+ggplot(Boston) + geom_density(aes(x=lstat, color=as.factor(chas))) 
+```      
+:::
+
+```{r, echo=FALSE, eval=FALSE}
+g0 <- ggplot(Bank, aes(x = balance)) + scale_x_log10()
+g0 + geom_density(aes(color = default))     
+g0 + geom_density() + facet_wrap(~default)
+```      
+
+
+```{r, echo=FALSE, eval=FALSE}
+g0 + geom_density(mapping = aes(color = education))
+g0 + geom_density() + facet_wrap(~education)
+
+Boston %>% ggplot() + geom_density(aes(x=medv, color=as.factor(chas)))
+```      
+
+2.- mediante gráficos de caja: menos información pero más fácil de comparar     
+```{r, echo=TRUE, eval=FALSE}
+ggplot(Boston) + geom_boxplot(aes(x=medv, y=as.factor(chas)))
+ggplot(Bank) + geom_boxplot(aes(x=duration, y=as.factor(y)))
+```      
+
+<!--
+
+CUIDADO con interpretar la relación duracion - subscribir como CAUSAL
+-->
+
+```{r echo=FALSE}
+#| eval: false
+ggplot(Bank) + geom_boxplot(aes(x=balance, y=default)) + scale_x_log10()
+
+```
+
+* Si un grupo es mucho más pequeño<!-- que los otros-->, es difícil ver las diferencias
+
+* Se pueden necesitar reordenar las categorías de un factor, rotar los ejes, etc.
+
+```{r, echo=FALSE, eval=FALSE}
+library(ISLR)
+data(Carseats)
+ggplot(Carseats %>% na.omit(), aes(y = Price, x = reorder(ShelveLoc, Price, FUN=median))) + 
+  geom_boxplot()  + coord_flip()
+```      
+
+## "Correlación" entre una variable continua y una categórica 
+
+* La regresión simple también describe una relación: equivale a calcular la media de la variable continua por grupos definidos por la categórica
+
+$$
+E[Y|X]=\beta_0+\beta_1 X \Rightarrow 
+\begin{cases} 
+E[Y|X=0] &=\beta_0 \\
+E[Y|X=1]&=\beta_0+\beta_1
+\end{cases}
+$$
+
+```{r, echo=TRUE, eval=FALSE}
+summary(lm(data = Bank, balance ~ default))
+Bank %>% group_by(default) %>% summarise(media = mean(balance))
+
+Bank %>% group_by(y) %>% summarise(media = mean(duration))
+```
+
+```{r echo=FALSE}
+#| eval: false
+summary(lm(data = Boston, crim ~ as.factor(chas)))
+```
+
+
+<!-- que la duración media sea distinta implica que "puede explicar" y (suscripción) como variable dependiente -->
+
+* ¿Mediante la correlación? NO tiene sentido cuando una variable es categórica  
+```{r, echo=FALSE, eval=FALSE}
+cor(Bank$balance, Bank$Credito, use = "complete.obs")
+``` 
+
+* Para variables dependientes categóricas veremos una variante de regresión lineal: regresión logística 
+```{r, echo=FALSE, eval=FALSE}
+summary(lm(data = Bank %>% mutate(susc = if_else(y == "yes",1,0)), susc  ~ duration))
+``` 
+
+
+## Dos variables categóricas
+
+::: {style="font-size: 85%;"}
+* Tabular/visualizar el número de observaciones para cada combinación
+
+<!--
+*  Una forma de hacerlo es `geom_count()`
+-->
+
+```{r, echo=TRUE, eval=FALSE}
+Bank %>% count(job, education) %>% pivot_wider(names_from = education, values_from = n)
+ggplot(Bank, aes(y=job, x=education)) + geom_count() 
+ggplot(Bank, aes(y=job, x=education)) + geom_count(aes(size=after_stat(prop), group=1)) 
+``` 
+
+<!--
+*  O usar `count()` y visualiza con `geom_tile()` y la estética de relleno:
+```{r, echo=TRUE, eval=FALSE}
+Carseats %>% na.omit() %>%  count(ShelveLoc, Urban) %>% 
+  ggplot(aes(x=ShelveLoc, y=Urban)) +
+    geom_tile(aes(fill = n))
+``` 
+-->
+
+* También se pueden visualizar sus histogramas
+```{r, echo=TRUE, eval=FALSE}
+Bank %>%  ggplot(aes(x=y)) + geom_bar(aes(fill=education)) 
+Bank %>%  ggplot(aes(x=y)) + geom_bar(aes(fill=education), position="dodge2")
+Bank %>%  ggplot(aes(x=y)) + geom_bar()+ facet_wrap(~education)
+``` 
+
+* O los histogramas de proporciones generados manualmente
+
+```{r}
+#| eval: false
+Bank %>% group_by(education, y) %>% summarise(n=n()) %>%  
+   group_by(education) %>% mutate(prop=n/sum(n)) %>% 
+   ggplot() + geom_bar(aes(x=education, y = prop), stat ="identity") + facet_wrap(~y)
+```
+
+```{r echo=FALSE}
+#| eval: false
+Bank %>% group_by(education, y) %>% summarise(n=n()) %>%  
+   group_by(education) %>% mutate(prop=n/sum(n)) %>% filter(y=="yes") %>% 
+   ggplot() + geom_bar(aes(x=education, y = prop), stat ="identity")
+```
+
+```{r echo=FALSE, eval=FALSE}
+Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
+  group_by(agegroup, y) %>% summarise(n=n()) %>%             # education, contact, month
+  pivot_wider(names_from = y, values_from = n) %>% 
+  mutate(prop = yes / (yes + no)) %>% 
+   ggplot() + geom_bar(aes(x=agegroup, y = prop), stat ="identity")
+```
+```{r echo=FALSE, eval=FALSE}
+Bank %>% group_by(education, y) %>% summarise(n=n()) %>%   
+  pivot_wider(names_from = y, values_from = n) %>% 
+  mutate(prop = yes / (yes + no)) %>% 
+   ggplot() + geom_bar(aes(x=education, y = prop), stat ="identity")
+
+Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
+  group_by(agegroup, y) %>% summarise(n=n()) %>%
+  pivot_wider(names_from = y, values_from = n) %>% 
+  mutate(prop = yes / (yes + no)) %>% 
+   ggplot() + geom_bar(aes(x=agegroup, y = prop), stat ="identity")
+
+Bank %>% group_by(contact, y) %>% summarise(n=n()) %>%
+  pivot_wider(names_from = y, values_from = n) %>% 
+  mutate(prop = yes / (yes + no)) %>% 
+   ggplot() + geom_bar(aes(x=contact, y = prop), stat ="identity")
+
+Bank %>% group_by(month, y) %>% summarise(n=n()) %>%
+  pivot_wider(names_from = y, values_from = n) %>% 
+  mutate(prop = yes / (yes + no)) %>% 
+   ggplot() + geom_bar(aes(x=month, y = prop), stat ="identity")
+
+```
+
+:::
+
+## Dos variables continuas
+
+* La forma obvia de visualizar relaciones entre variables continuas es un gráfico de dispersión; añadir `smoothers` ayuda a apreciar un patrón en los puntos
+
+```{r, echo=TRUE, eval=FALSE}
+ggplot(Boston, aes(y=medv, x=lstat)) + geom_point() + geom_smooth()
+ggplot(Boston, aes(y=medv, x=lstat)) + geom_point() + geom_smooth() +
+  scale_y_log10()
+``` 
+
+```{r}
+#| eval: false
+library(GGally)
+Boston %>% ggpairs()
+```
+
+
+<!--
+* Se puede cambiar el ancho de los "intervalos" en dos dimensiones para apreciar mejor patrones 
+
+```{r, echo=TRUE, eval=FALSE}
+ggplot(Boston, aes(y=medv, x=lstat)) + geom_bin2d()
+``` 
+-->
+
+```{r, echo=FALSE, eval=FALSE}
+#o "intervalos" hexagonales  
+ggplot(Boston, aes(y=medv, x=lstat)) + geom_hex()  #install.packages("hexbin")
+``` 
+* Otra opción categorizar una variable continua y usar las técnicas anteriores
+
+```{r, echo=TRUE, eval=FALSE}
+ggplot(Bank) + geom_boxplot(aes(x= balance, y=cut_width(age, 10)))  +
+  scale_x_log10()
+Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
+  ggplot()  + geom_boxplot(aes(x= balance, y =agegroup)) 
+
+``` 
+
+
+## Correlación entre variables continuas
+
+* Obviamente podemos calcular modelos de regresión con dos variables continuas
+
+```{r, echo=TRUE, eval=FALSE}
+summary(lm(data = Boston, medv ~ lstat) )
+``` 
+
+* Y también correlaciones (dos variables, múltiples, visualizándolas)
+```{r, echo=TRUE, eval=FALSE}
+cor(Boston$medv, Boston$lstat, use = "complete.obs")
+Boston %>% select(medv, lstat) %>%  dlookr::correlate()
+
+Boston %>%  dlookr::correlate()
+Boston %>%  group_by(chas) %>%  dlookr::correlate() %>% plot()
+
+library(corrplot)
+corrplot(cor(Boston))
+corrplot.mixed(cor(Boston))
+``` 
+
+<!--
+https://cran.r-project.org/web/packages/dlookr/vignettes/EDA.html
+
+correlate(carseats, Sales:Income)
+
+carseats %>%
+  correlate(Sales:Income) %>%
+  filter(as.integer(var1) > as.integer(var2))
+  
+carseats %>%
+  filter(ShelveLoc == "Good") %>%
+  group_by(Urban, US) %>%
+  correlate(Sales) %>%
+  filter(abs(coef_corr) > 0.5)
+  
+plot_correlate(carseats)
+
+carseats %>%
+  filter(ShelveLoc == "Good") %>%
+  group_by(Urban, US) %>%
+  plot_correlate(Sales)
+  
+categ <- target_by(carseats, US)
+
+EDA when target variable is categorical variable
+
+Cases where predictors are numeric variable
+cat_num <- relate(categ, Sales)
+cat_num
+plot(cat_num)
+
+Cases where predictors are categorical variable
+cat_cat <- relate(categ, ShelveLoc)
+cat_cat
+plot(cat_cat)
+
+EDA when target variable is numerical variable
+num <- target_by(carseats, Sales)
+
+Cases where predictors are numeric variable
+num_num <- relate(num, Price)
+num_num  |hace regresion
+summary(num_num)
+plot(num_num)    # linea ajustada + predichos vs observados
+
+Cases where predictors are categorical variable
+num_cat <- relate(num, ShelveLoc)
+num_cat
+plot(num_cat)   # boxplot
+
+carseats %>%
+  eda_report(target = Sales, output_format = "html", output_file = "EDA.html")
+-->
+
+<!--
+* `funModelling::status`
+
+```{r, echo=TRUE, eval=FALSE}
+status(Carseats)
+```
+
+plot_num(): grafica todas las numericas
+profiling_num(): estadisticas de todas las numericas
+-->
+
+## Más herramientas de AED "automático"
+
+* Muchas partes del AED son parcialmente "automatizables": muchos paquetes tratan de facilitar esas partes
+
+
+* [`Radiant`](https://radiant-rstats.github.io/docs/), que puede probarse [online](https://vnijs.shinyapps.io/radiant/)
+
+* `GwalkR`, `explore`
+
+```{r}
+#| echo: true
+library(GWalkR)
+data(iris)
+gwalkr(iris)
+```
+
+* `DataMaid`, `smartEDA`
+
+```{r}
+#| echo: true
+#| eval: false
+library(dataMaid)
+makeDataReport(Bank, output = "pdf", replace = TRUE)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+library(SmartEDA)
+ExpReport(Bank,op_file='smartEDA.pdf')
+```
+
+<!-- 
+
+explore
+exploreR
+
+https://www.r-bloggers.com/2022/09/explore-simplified-exploratory-data-analysis-eda-in-r/
+
+correlationfunnel
+2.4 tableone 
+
+
+<!--
+https://www.reddit.com/r/rstats/comments/vas33l/what_are_the_best_r_packages_for_exploratory_data/
+
+https://www.arxiv-vanity.com/papers/1904.02101/
+
+
+-->
+
+
+<!--
+https://www.reddit.com/r/rstats/comments/vas33l/what_are_the_best_r_packages_for_exploratory_data/
+-->
+
+* Otras partes y sobre la interpretación del AED es muy específica de los datos y del objetivo del estudio
+
+<!--
+Guide to EDA: https://www.r-bloggers.com/2020/07/exploratory-data-analysis-guide/
+https://r4ds.had.co.nz/introduction.html
+https://blog.datascienceheroes.com/exploratory-data-analysis-in-r-intro/
+https://bookdown.org/rdpeng/exdata/exploratory-data-analysis-checklist.html
+https://www.r-bloggers.com/2020/09/how-to-explore-data-dataexplorer-package/
+https://cran.r-project.org/web/packages/dlookr/vignettes/EDA.html    
+-->
