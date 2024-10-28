@@ -214,14 +214,26 @@ View(Bank)     # head(Bank)
 
 ## Primera aproximación a los datos (cont.)
 
-* **Limpiar y procesar** los datos: 
+* **Limpiar y procesar** los datos para asegurar que son *ordenados*:
 
-  - Debemos asegurarnos de que los datos son *ordenados*
+  <!-- - Debemos asegurarnos de que los datos son *ordenados* -->
+
   - ¿Tienen las variables la información y el tipo adecuado? Convertimos datos a factores, numéricas, etc.
-  - Transformamos variables (logaritmos, discretizar variables continuas), creamos nuevas o renombramos para mayor claridad
+
+  - Eliminar filas vacías, observaciones duplicadas
+  
+  - Renombrar variables (para mayor claridad), generar nuevas
+
+  - Detectar inconsistencias en texto, fechas, unidades, etc.
+  
+  <!-- - Transformamos variables (logaritmos, discretizar variables continuas), creamos nuevas o renombramos para mayor claridad -->
+  
   - ¿Mantenemos *solo* algunas variables u observaciones?
   
-* Un caso destacado: ¿cuántos `NA`? ¿qué hacer con ellos? 
+
+* Caso destacado: identificar `NA`
+  
+<!-- * Un caso destacado: ¿cuántos `NA`? ¿qué hacer con ellos?  -->
 
 <!--: eliminar en una variable, en todas, reemplazar por algún valor-->
 
@@ -261,7 +273,7 @@ earn %>% is.na() %>% summary()
 ::::
 
 ::: 
-- NO ES UNA RECETA: más adelante puede que volvamos hacia atrás o rehagamos parte de esto y decidiremos sobre `NAs` al modelizar
+- NO ES UNA RECETA: más adelante podemos volver atrás, para rehacer o tomar decisiones (qué hacer con `NAs` al modelizar)
 
 ## Análsis de Variación ("univariante")
 
@@ -480,6 +492,8 @@ ggplot(faithful, aes(x = eruptions)) +  geom_histogram()
 
 ## Otras herramientas para AED
 
+::: {style="font-size: 75%;"} 
+
 <!--
 * Herramientas principales: R base, `tidyverse`, `ggplot2`
 
@@ -489,13 +503,13 @@ ggplot(faithful, aes(x = eruptions)) +  geom_histogram()
 
 <!-- https://joachim-gassen.github.io/ExPanDaR/
 -->
-* Para una primera aproximación automática <!-- (qué patrones existen, qué cambiar)-->, pero NO todas para incluir en un informe final
-
+* Para una primera aproximación automática <!-- (qué patrones existen, qué cambiar)-->, pero NO todas para incluir en un informe final: con las bibliotecas `skimr` (o `modelsummary`) y `DataExplorer`
 
 ```{r}
 #| echo: true
 library(skimr)
-skim(Bank)   # ¿para incluir en un informe?
+skim(Bank)        # ¿para incluir en un informe?
+modelsummary::datasummary_skim(Bank)
 ```
 
 <!--
@@ -535,9 +549,26 @@ Bank %>% plot_bar(ncol = 2, nrow = 4)
 Bank %>% plot_histogram(ncol = 3, nrow = 3)
 ```
 
+* El paquete `janitor` contiene herramientas para limpieza de datos
 
-* La biblioteca `modelsummary()` incluye funciones como `datasummary_skim()` y `datasummary()`
+* La biblioteca `dlookr` ofrece heramientas para diagnóstico y exploración de datos (entre otras), devolviendo *data frame* (para usar con `kable()`)
 
+```{r}
+library(dlookr)     # en MacOS, puede pedir instalar XQuartz
+Bank %>% diagnose()
+Bank %>% describe() %>%
+  select(described_variables, skewness, mean, p25, p50, p75) %>% 
+  filter(!is.na(skewness)) %>% arrange(desc(abs(skewness)))
+Bank %>% group_by(education) %>% 
+  describe(age, balance, campaign, pdays) 
+
+Bank %>% eda_report()
+earn %>% eda_paged_report(output_format = "pdf")
+```
+:::
+
+
+<!--
 ## Otras herramientas: `dlookr`
 
 ```{r echo=FALSE}
@@ -591,6 +622,7 @@ Carseats %>%
   group_by(US) %>%
   plot_normality(Advertising)
 ```
+-->
 
 ## Análisis de Covariación ("multivariante")
 
