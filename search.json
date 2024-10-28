@@ -508,7 +508,7 @@
     "href": "docs/Tema05.html#primera-aproximación-a-los-datos-cont.",
     "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
     "section": "Primera aproximación a los datos (cont.)",
-    "text": "Primera aproximación a los datos (cont.)\n\nLimpiar y procesar los datos:\n\nDebemos asegurarnos de que los datos son ordenados\n¿Tienen las variables la información y el tipo adecuado? Convertimos datos a factores, numéricas, etc.\nTransformamos variables (logaritmos, discretizar variables continuas), creamos nuevas o renombramos para mayor claridad\n¿Mantenemos solo algunas variables u observaciones?\n\nUn caso destacado: ¿cuántos NA? ¿qué hacer con ellos?\n\n\n\n\n\nBank %&gt;%  is.na() %&gt;% summary()\nBank %&gt;% summary()\n\n\n\nload(\"data/earn.RData\")\nearn %&gt;% is.na() %&gt;% summary()\n\n\n\n\nNO ES UNA RECETA: más adelante puede que volvamos hacia atrás o rehagamos parte de esto y decidiremos sobre NAs al modelizar"
+    "text": "Primera aproximación a los datos (cont.)\n\nLimpiar y procesar los datos para asegurar que son ordenados:\n\n¿Tienen las variables la información y el tipo adecuado? Convertimos datos a factores, numéricas, etc.\nEliminar filas vacías, observaciones duplicadas\nRenombrar variables (para mayor claridad), generar nuevas\nDetectar inconsistencias en texto, fechas, unidades, etc.\n\n\n¿Mantenemos solo algunas variables u observaciones?\n\nCaso destacado: identificar NA\n\n\n\n\n\nBank %&gt;%  is.na() %&gt;% summary()\nBank %&gt;% summary()\n\n\n\nload(\"data/earn.RData\")\nearn %&gt;% is.na() %&gt;% summary()\n\n\n\n\nNO ES UNA RECETA: más adelante podemos volver atrás, para rehacer o tomar decisiones (qué hacer con NAs al modelizar)"
   },
   {
     "objectID": "docs/Tema05.html#análsis-de-variación-univariante",
@@ -543,14 +543,7 @@
     "href": "docs/Tema05.html#otras-herramientas-para-aed",
     "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
     "section": "Otras herramientas para AED",
-    "text": "Otras herramientas para AED\n\nPara una primera aproximación automática , pero NO todas para incluir en un informe final\n\n\nlibrary(skimr)\nskim(Bank)   # ¿para incluir en un informe?\n\n\nlibrary(DataExplorer)\nplot_bar(Bank)        # para TODAS las variables categóricas\nplot_histogram(Bank)  # para TODAS las variables numéricas\n\n\nLa biblioteca modelsummary() incluye funciones como datasummary_skim() y datasummary()"
-  },
-  {
-    "objectID": "docs/Tema05.html#otras-herramientas-dlookr",
-    "href": "docs/Tema05.html#otras-herramientas-dlookr",
-    "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
-    "section": "Otras herramientas: dlookr",
-    "text": "Otras herramientas: dlookr\n\ndescribe(): estadísticos como un data frame, para usar con kable()\n\n\nlibrary(dlookr)            # en MacOS, puede pedir instalar XQuartz\ndescribe(Bank, campaign:y)\n\nBank %&gt;% describe() %&gt;%\n  select(described_variables, skewness, mean, p25, p50, p75) %&gt;% \n  filter(!is.na(skewness)) %&gt;% arrange(desc(abs(skewness)))\n\nBank %&gt;%\n  group_by(education) %&gt;% \n  describe(age, balance, campaign, pdays) \n\n\nearn %&gt;% eda_web_report()"
+    "text": "Otras herramientas para AED\n\n\nPara una primera aproximación automática , pero NO todas para incluir en un informe final: con las bibliotecas skimr (o modelsummary) y DataExplorer\n\n\nlibrary(skimr)\nskim(Bank)        # ¿para incluir en un informe?\nmodelsummary::datasummary_skim(Bank)\n\n\nlibrary(DataExplorer)\nplot_bar(Bank)        # para TODAS las variables categóricas\nplot_histogram(Bank)  # para TODAS las variables numéricas\n\n\nEl paquete janitor contiene herramientas para limpieza de datos\nLa biblioteca dlookr ofrece heramientas para diagnóstico y exploración de datos (entre otras), devolviendo data frame (para usar con kable())\n\n\nlibrary(dlookr)     # en MacOS, puede pedir instalar XQuartz\nBank %&gt;% diagnose()\nBank %&gt;% describe() %&gt;%\n  select(described_variables, skewness, mean, p25, p50, p75) %&gt;% \n  filter(!is.na(skewness)) %&gt;% arrange(desc(abs(skewness)))\nBank %&gt;% group_by(education) %&gt;% \n  describe(age, balance, campaign, pdays) \n\nBank %&gt;% eda_report()\nearn %&gt;% eda_paged_report(output_format = \"pdf\")"
   },
   {
     "objectID": "docs/Tema05.html#análisis-de-covariación-multivariante",
