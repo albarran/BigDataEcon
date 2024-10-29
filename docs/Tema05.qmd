@@ -218,20 +218,33 @@ View(Bank)     # head(Bank)
 
   <!-- - Debemos asegurarnos de que los datos son *ordenados* -->
 
-  - ¿Tienen las variables la información y el tipo adecuado? Convertimos datos a factores, numéricas, etc.
+  - ¿Tienen las variables la información y el tipo adecuado? P.e.: *job* en *Bank*. Convertimos datos a factores, numéricas, etc.
+  
+    ```{r}
+    #| echo: false
+    Bank <- Bank %>% mutate(job = as.factor(job),
+                            marital = as.factor(marital) ) # habría que hacerlo con todos
+    
+    # recordando algo que hemos visto
+    Bank <- Bank %>% mutate(across(where(is.character), ~ parse_factor(.x)))
+    
+    # si no queremos todos los caracteres
+    Bank <- Bank %>% mutate(across(c(-where(is.numeric), -marital),~ parse_factor(.x)))
+    ```
+    
 
   - Eliminar filas vacías, observaciones duplicadas
   
   - Renombrar variables (para mayor claridad), generar nuevas
 
-  - Detectar inconsistencias en texto, fechas, unidades, etc.
+  - Detectar inconsistencias en texto, fechas, unidades, etc. <!-- ej. "marrid" en *marital* de Bank-->
   
   <!-- - Transformamos variables (logaritmos, discretizar variables continuas), creamos nuevas o renombramos para mayor claridad -->
   
   - ¿Mantenemos *solo* algunas variables u observaciones?
   
 
-* Caso destacado: identificar `NA`
+* Caso destacado: identificar cuántos `NAs` en cada variable
   
 <!-- * Un caso destacado: ¿cuántos `NA`? ¿qué hacer con ellos?  -->
 
@@ -275,7 +288,7 @@ earn %>% is.na() %>% summary()
 ::: 
 - NO ES UNA RECETA: más adelante podemos volver atrás, para rehacer o tomar decisiones (qué hacer con `NAs` al modelizar)
 
-## Análsis de Variación ("univariante")
+## Análisis de Variación ("univariante")
 
 ::: {style="font-size: 90%;"}
 
@@ -295,7 +308,7 @@ earn %>% is.na() %>% summary()
 - **Variables Categóricas** (previamente convertidas a factores):
 
   - Conteos, Porcentajes, Moda 
-      + con `summary()`, `count()`, `table()`, `summarize()`, `mode()`
+      + con `summary()`, `table()`, `mode()` o `summarize()`, `count()`
   - Visualización: Gráficos de Barras (también, quizás, circulares)
 
 
@@ -347,18 +360,21 @@ g0 + geom_bar( aes(x = "", fill = education))
 #| eval: false
 Bank %>% count(education) %>% mutate(prop = n / sum(n)) %>% 
   ggplot() + geom_bar(aes(x = education, y = prop), stat = "identity")
+
+Bank %>% ggplot(aes(x = education)) +
+  geom_bar(aes(y = ..prop.., group = 1))
 ```
 
 ```{r}
 #| eval: false
 #| echo: false
-Bank %>% group_by(education) %>% summarize(prop=n()/nrow(Bank)) %>% 
-  ggplot() + geom_bar(aes(x = education, y=prop), stat="identity" )
-
 Bank %>%
   ggplot(aes(x = education)) +
-  geom_bar(aes(y = ..prop.., group = 1), stat = "count")
+  geom_bar(aes(y = ..prop.., group = 1))
 
+Bank %>% 
+  ggplot(aes(x = education, y = ..count../sum(..count..))) + 
+  geom_bar() 
 ```
 
 
@@ -406,10 +422,13 @@ ggplot(Boston) + geom_boxplot(mapping = aes(y = medv)) + scale_y_log10()
 
 ## Aspectos a prestar atención
 
+::: {style="font-size: 90%;"} 
+
 <!--
 * Patrones inusuales: ¿razones?
 -->
 
+* Detectar inconsistencias en la distribución de valores o en las categorías: p.e., "unknown" en *job* de Bank
 
 * Valores frecuentes, concentración en valores concretos (p.e., ceros, números "redondos", etc.): ¿por qué se producen? ¿son "esperables"? 
 
@@ -427,7 +446,7 @@ ggplot(Boston) + geom_boxplot(mapping = aes(y = medv)) + scale_y_log10()
 Entrepreneur + self-employed en bank?
 -->
 
-* ¿Sería preferible discretizar alguna variable continua?
+* ¿Sería preferible discretizar alguna variable continua? Ej., grupos de edad
 
 * Variables con alta dispersión o distribución asimétrica (logs?)
 
@@ -489,6 +508,8 @@ ggplot(faithful, aes(x = eruptions)) +  geom_histogram()
   * Cuidado con quitar valores extremos o justificar la transformación en ellos.
 
   -->
+  
+:::
 
 ## Otras herramientas para AED
 
@@ -562,10 +583,23 @@ Bank %>% describe() %>%
 Bank %>% group_by(education) %>% 
   describe(age, balance, campaign, pdays) 
 
-Bank %>% eda_report()
-earn %>% eda_paged_report(output_format = "pdf")
+Bank %>% mutate(across(where(is.character), ~parse_factor(.x))) %>% 
+  eda_web_report()
 ```
 :::
+
+
+```{r}
+#| echo: false
+#| eval: false
+library(dlookr)
+
+Bank %>% eda_web_report()
+Bank %>% eda_paged_report()
+
+Bank %>% eda_paged_report(output_format = "pdf")
+
+```
 
 
 <!--
@@ -660,30 +694,31 @@ Carseats %>%
 
 -->
 
-
+::: {style="font-size: 85%;"}
 1.- mediante el histograma o densidad (en el mismo gráfico o diferentes)  
 
-::: {style="font-size: 85%;"}
-```{r, echo=TRUE, eval=FALSE}
-ggplot(Bank) + geom_density(aes(x = balance, color = default))  + scale_x_log10()
-ggplot(Bank) + geom_density(aes(x = balance)) + facet_wrap(~default)  + scale_x_log10()
+```{r}
+#| echo: false
+g0 <- ggplot(Bank) + scale_x_log10()
+g0 + geom_density(aes(x = balance, color = default)) 
+g0 + geom_density(aes(x = balance)) + facet_wrap(~default)
+g0 + geom_density(aes(x = balance, color = education)) 
+ggplot(Boston) + geom_density(aes(x=lstat, color=as.factor(chas)))
+```
+
+
+```{r}
+#| echo: true
+ggplot(Bank) + geom_density(aes(x = balance, color = default)) + 
+  scale_x_log10()
+ggplot(Bank) + geom_density(aes(x = balance)) + facet_wrap(~default) + 
+  scale_x_log10()
+ggplot(Bank) + geom_density(aes(x = balance, color = education)) + 
+  scale_x_log10()
 ggplot(Boston) + geom_density(aes(x=lstat, color=as.factor(chas))) 
 ```      
-:::
-
-```{r, echo=FALSE, eval=FALSE}
-g0 <- ggplot(Bank, aes(x = balance)) + scale_x_log10()
-g0 + geom_density(aes(color = default))     
-g0 + geom_density() + facet_wrap(~default)
-```      
 
 
-```{r, echo=FALSE, eval=FALSE}
-g0 + geom_density(mapping = aes(color = education))
-g0 + geom_density() + facet_wrap(~education)
-
-Boston %>% ggplot() + geom_density(aes(x=medv, color=as.factor(chas)))
-```      
 
 2.- mediante gráficos de caja: menos información pero más fácil de comparar     
 ```{r, echo=TRUE, eval=FALSE}
@@ -702,6 +737,8 @@ ggplot(Bank) + geom_boxplot(aes(x=balance, y=default)) + scale_x_log10()
 
 ```
 
+:::
+
 * Si un grupo es mucho más pequeño<!-- que los otros-->, es difícil ver las diferencias
 
 * Se pueden necesitar reordenar las categorías de un factor, rotar los ejes, etc.
@@ -717,6 +754,8 @@ ggplot(Carseats %>% na.omit(), aes(y = Price, x = reorder(ShelveLoc, Price, FUN=
 
 * La regresión simple también describe una relación: equivale a calcular la media de la variable continua por grupos definidos por la categórica
 
+::: {style="font-size: 85%;"}
+
 $$
 E[Y|X]=\beta_0+\beta_1 X \Rightarrow 
 \begin{cases} 
@@ -724,10 +763,11 @@ E[Y|X=0] &=\beta_0 \\
 E[Y|X=1]&=\beta_0+\beta_1
 \end{cases}
 $$
+:::
 
 ```{r, echo=TRUE, eval=FALSE}
-summary(lm(data = Bank, balance ~ default))
-Bank %>% group_by(default) %>% summarise(media = mean(balance))
+summary(lm(data = Bank, balance ~ education))
+Bank %>% group_by(education) %>% summarise(media = mean(balance))
 
 Bank %>% group_by(y) %>% summarise(media = mean(duration))
 ```
@@ -754,85 +794,111 @@ summary(lm(data = Bank %>% mutate(susc = if_else(y == "yes",1,0)), susc  ~ durat
 ## Dos variables categóricas
 
 ::: {style="font-size: 85%;"}
-* Tabular/visualizar el número de observaciones para cada combinación
+* Tabular o visualizar la frecuencia absoluta (conteo) para cada combinación
 
-<!--
-*  Una forma de hacerlo es `geom_count()`
--->
 
-```{r, echo=TRUE, eval=FALSE}
-Bank %>% count(job, education) %>% pivot_wider(names_from = education, values_from = n)
-ggplot(Bank, aes(y=job, x=education)) + geom_count() 
-ggplot(Bank, aes(y=job, x=education)) + geom_count(aes(size=after_stat(prop), group=1)) 
-``` 
+```{r}
+#| echo: false
+#| eval: false
+# otras formas de tabular y visualizar frecuencias
+Bank %>% count(education, job) %>% 
+  pivot_wider(names_from = education, values_from = n)
+ggplot(Bank, aes(x=job, y=education)) + geom_count() 
+ggplot(Bank, aes(x=job, y=education)) + geom_count(aes(size=after_stat(prop), group=1)) 
 
-<!--
-*  O usar `count()` y visualiza con `geom_tile()` y la estética de relleno:
-```{r, echo=TRUE, eval=FALSE}
+# usar `count()` y visualiza con `geom_tile()` y la estética de relleno:
 Carseats %>% na.omit() %>%  count(ShelveLoc, Urban) %>% 
   ggplot(aes(x=ShelveLoc, y=Urban)) +
     geom_tile(aes(fill = n))
-``` 
--->
 
-* También se pueden visualizar sus histogramas
-```{r, echo=TRUE, eval=FALSE}
-Bank %>%  ggplot(aes(x=y)) + geom_bar(aes(fill=education)) 
-Bank %>%  ggplot(aes(x=y)) + geom_bar(aes(fill=education), position="dodge2")
-Bank %>%  ggplot(aes(x=y)) + geom_bar()+ facet_wrap(~education)
+# better table with janitor
+Bank %>% janitor::tabyl(job, education)
 ``` 
-
-* O los histogramas de proporciones generados manualmente
 
 ```{r}
-#| eval: false
+#| echo: true
+table(Bank$job, Bank$education)
+Bank %>% count(job, education) %>% 
+  pivot_wider(names_from = education, values_from = n)
+
+Bank %>%  ggplot(aes(x=education)) + geom_bar(aes(fill=job)) 
+Bank %>%  ggplot(aes(x=education)) + geom_bar(aes(fill=job), position="dodge")
+
+```
+
+
+```{r}
+#| echo: false
+Bank %>%  ggplot(aes(x=y)) + geom_bar(aes(fill=education)) 
+Bank %>%  ggplot(aes(x=y)) + geom_bar(aes(fill=education), position="dodge")
+Bank %>%  ggplot(aes(x=y)) + geom_bar()+ facet_wrap(~education)
+
+Bank %>%  ggplot(aes(x=education)) + geom_bar()+ facet_wrap(~job)
+``` 
+
+
+* O para las frecuencias relativas (proporciones)
+
+```{r}
+#| echo: true
+table(Bank$job, Bank$education) %>% prop.table(margin = 2)
+Bank %>% count(job, education) %>% 
+  group_by(education) %>% mutate(prop= n/sum(n)) %>% select(-n) %>% 
+  pivot_wider(names_from = education, values_from = prop)  
+
+Bank %>% ggplot(aes(x=education)) + geom_bar(aes(fill=job), position = "fill") 
+
+Bank %>% count(job, education) %>% 
+  group_by(education) %>% mutate(prop= n/sum(n)) %>% 
+  ggplot() + geom_bar(aes(x=education, y=prop, fill = job), 
+                      stat = "identity")
+```
+
+
+```{r}
+#| echo: false
+Bank %>%  ggplot(aes(x=education)) + geom_bar(aes(y = ..prop.., group=job, fill = job), position = "dodge") 
+
+library(ggmosaic)
+ggplot(Bank2) + geom_mosaic(aes(x = product(job), fill = job, conds = product(education)))
+
+Bank %>%  ggplot(aes(x=education)) + geom_bar(aes(fill=y), position = "fill") 
+``` 
+
+```{r}
+#| echo: false
 Bank %>% group_by(education, y) %>% summarise(n=n()) %>%  
    group_by(education) %>% mutate(prop=n/sum(n)) %>% 
    ggplot() + geom_bar(aes(x=education, y = prop), stat ="identity") + facet_wrap(~y)
+
+Bank %>% group_by(education, y) %>% summarise(n=n()) %>%  
+   group_by(education) %>% mutate(prop=n/sum(n)) %>%  ggplot(aes(x=y)) +
+  geom_bar(aes(y=prop, fill = education), stat = "identity") 
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 #| eval: false
 Bank %>% group_by(education, y) %>% summarise(n=n()) %>%  
    group_by(education) %>% mutate(prop=n/sum(n)) %>% filter(y=="yes") %>% 
    ggplot() + geom_bar(aes(x=education, y = prop), stat ="identity")
 ```
 
-```{r echo=FALSE, eval=FALSE}
+```{r}
+#| echo: false
+#| eval: false
 Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
-  group_by(agegroup, y) %>% summarise(n=n()) %>%             # education, contact, month
+  group_by(agegroup, y) %>% summarise(n=n()) %>%             # education, contact, month, en lugar de agegroup
   pivot_wider(names_from = y, values_from = n) %>% 
   mutate(prop = yes / (yes + no)) %>% 
    ggplot() + geom_bar(aes(x=agegroup, y = prop), stat ="identity")
-```
-```{r echo=FALSE, eval=FALSE}
-Bank %>% group_by(education, y) %>% summarise(n=n()) %>%   
-  pivot_wider(names_from = y, values_from = n) %>% 
-  mutate(prop = yes / (yes + no)) %>% 
-   ggplot() + geom_bar(aes(x=education, y = prop), stat ="identity")
-
-Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
-  group_by(agegroup, y) %>% summarise(n=n()) %>%
-  pivot_wider(names_from = y, values_from = n) %>% 
-  mutate(prop = yes / (yes + no)) %>% 
-   ggplot() + geom_bar(aes(x=agegroup, y = prop), stat ="identity")
-
-Bank %>% group_by(contact, y) %>% summarise(n=n()) %>%
-  pivot_wider(names_from = y, values_from = n) %>% 
-  mutate(prop = yes / (yes + no)) %>% 
-   ggplot() + geom_bar(aes(x=contact, y = prop), stat ="identity")
-
-Bank %>% group_by(month, y) %>% summarise(n=n()) %>%
-  pivot_wider(names_from = y, values_from = n) %>% 
-  mutate(prop = yes / (yes + no)) %>% 
-   ggplot() + geom_bar(aes(x=month, y = prop), stat ="identity")
-
 ```
 
 :::
 
 ## Dos variables continuas
 
+::: {style="font-size: 90%;"}
 * La forma obvia de visualizar relaciones entre variables continuas es un gráfico de dispersión; añadir `smoothers` ayuda a apreciar un patrón en los puntos
 
 ```{r, echo=TRUE, eval=FALSE}
@@ -841,10 +907,12 @@ ggplot(Boston, aes(y=medv, x=lstat)) + geom_point() + geom_smooth() +
   scale_y_log10()
 ``` 
 
+* Con la bibliteca `GGally` obtenemos una primera visión de conjunto
+
 ```{r}
 #| eval: false
 library(GGally)
-Boston %>% ggpairs()
+Boston %>% select(-chas) %>% ggpairs()
 ```
 
 
@@ -862,7 +930,15 @@ ggplot(Boston, aes(y=medv, x=lstat)) + geom_hex()  #install.packages("hexbin")
 ``` 
 * Otra opción categorizar una variable continua y usar las técnicas anteriores
 
-```{r, echo=TRUE, eval=FALSE}
+```{r}
+#| echo: true
+Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
+  ggplot()  + geom_boxplot(aes(x= balance, y =agegroup)) 
+
+``` 
+
+```{r}
+#| echo: false
 ggplot(Bank) + geom_boxplot(aes(x= balance, y=cut_width(age, 10)))  +
   scale_x_log10()
 Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>% 
@@ -870,22 +946,33 @@ Bank %>% mutate(agegroup=cut(age, breaks=seq(20, 70, by=10))) %>%
 
 ``` 
 
+:::
 
 ## Correlación entre variables continuas
 
-* Obviamente podemos calcular modelos de regresión con dos variables continuas
+* Podemos calcular modelos de regresión con dos variables continuas
 
-```{r, echo=TRUE, eval=FALSE}
+```{r}
+#| echo: true
 summary(lm(data = Boston, medv ~ lstat) )
 ``` 
 
-* Y también correlaciones (dos variables, múltiples, visualizándolas)
-```{r, echo=TRUE, eval=FALSE}
+* Y también correlaciones para dos o múltiples variables
+```{r}
+#| echo: true
 cor(Boston$medv, Boston$lstat, use = "complete.obs")
-Boston %>% select(medv, lstat) %>%  dlookr::correlate()
 
-Boston %>%  dlookr::correlate()
-Boston %>%  group_by(chas) %>%  dlookr::correlate() %>% plot()
+library(dlookr)
+Boston %>% correlate()
+Boston %>% select(medv, lstat) %>%  correlate() 
+Boston %>% group_by(chas) %>%  correlate() 
+```
+
+* O visualizar las correlaciones
+
+```{r}
+#| echo: true
+Boston %>% select(-chas) %>% correlate() %>% plot()
 
 library(corrplot)
 corrplot(cor(Boston))
@@ -962,31 +1049,48 @@ profiling_num(): estadisticas de todas las numericas
 * Muchas partes del AED son parcialmente "automatizables": muchos paquetes tratan de facilitar esas partes
 
 
-* [`Radiant`](https://radiant-rstats.github.io/docs/), que puede probarse [online](https://vnijs.shinyapps.io/radiant/)
+* [`Radiant`](https://radiant-rstats.github.io/docs/) puede instalarse o probarse [online](https://vnijs.shinyapps.io/radiant/)
 
-* `GwalkR`, `explore`
+  + Sirve tanto para análisis exploratorio, visualización y transformación como para algunas modelizaciones
+
+* Algunas bibliotecas permiten explorar datos y/o realizar visualizaciones y tableros fácilmente de forma interactiva: `GwalkR`, `explore`
 
 ```{r}
-#| echo: true
+#| echo: false
+#| eval: false
 library(GWalkR)
 data(iris)
 gwalkr(iris)
 ```
 
-* `DataMaid`, `smartEDA`
+* Informes automatizados con `dlookr`, `DataExplorer`, `DataMaid`, `smartEDA`
 
 ```{r}
 #| echo: true
 #| eval: false
-library(dataMaid)
-makeDataReport(Bank, output = "pdf", replace = TRUE)
+library(dlookr)
+Bank %>% mutate(across(where(is.character), ~parse_factor(.x))) %>% 
+  eda_web_report(target = "y")
 ```
+
 
 ```{r}
 #| echo: false
 #| eval: false
+
+library(DataExplorer)
+Bank %>% eda_report(target = "y", output_file = "AED.html")
+
+library(dataMaid)
+makeDataReport(Bank, output = "pdf", replace = TRUE)
+
 library(SmartEDA)
 ExpReport(Bank,op_file='smartEDA.pdf')
+
+library(dlookr)
+Bank %>% mutate(across(where(is.character), ~parse_factor(.x))) %>% eda_web_report(target = "y")
+Bank %>% mutate(across(where(is.character), ~parse_factor(.x))) %>% eda_paged_report(target = "y")
+
 ```
 
 <!-- 
@@ -1013,7 +1117,7 @@ https://www.arxiv-vanity.com/papers/1904.02101/
 https://www.reddit.com/r/rstats/comments/vas33l/what_are_the_best_r_packages_for_exploratory_data/
 -->
 
-* Otras partes y sobre la interpretación del AED es muy específica de los datos y del objetivo del estudio
+* Algunos componentes del AED y sobre todo la interpretación del AED son específica de los datos y del objetivo del estudio
 
 <!--
 Guide to EDA: https://www.r-bloggers.com/2020/07/exploratory-data-analysis-guide/
