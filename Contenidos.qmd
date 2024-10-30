@@ -55,6 +55,8 @@ strip-comments: true
 (28-Oct. a 3-Nov.)
 
   * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
+  * [Tema 05 - Ejercicio 1](docs/Tema05ej1.qmd)
+
 
 ## Semana 7
 (21-Oct. a 27-Oct.)
