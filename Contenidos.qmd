@@ -56,6 +56,7 @@ strip-comments: true
 
   * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
   * [Tema 05 - Ejercicio 1](docs/Tema05ej1.qmd)
+    - Fecha límite de entrega: **dom., 17-nov., 23:59h**
 
 
 ## Semana 7
