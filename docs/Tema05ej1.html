@@ -4760,7 +4760,7 @@ font-size: 80% !important;
 </style>
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -4808,7 +4808,32 @@ font-size: 80% !important;
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#apartado-1" id="toc-apartado-1" class="nav-link active" data-scroll-target="#apartado-1">Apartado 1</a>
+  <ul class="collapse">
+  <li><a href="#tidyquant-obtener-datos" id="toc-tidyquant-obtener-datos" class="nav-link" data-scroll-target="#tidyquant-obtener-datos"><code>tidyquant</code>: obtener datos</a>
+  <ul class="collapse">
+  <li><a href="#datos-económicos-de-fred" id="toc-datos-económicos-de-fred" class="nav-link" data-scroll-target="#datos-económicos-de-fred">Datos económicos de FRED,</a></li>
+  <li><a href="#datos-financieros" id="toc-datos-financieros" class="nav-link" data-scroll-target="#datos-financieros">Datos Financieros</a></li>
+  </ul></li>
+  <li><a href="#funciones-adicionales" id="toc-funciones-adicionales" class="nav-link" data-scroll-target="#funciones-adicionales">Funciones adicionales</a></li>
+  </ul></li>
+  <li><a href="#vuestro-ejercicio" id="toc-vuestro-ejercicio" class="nav-link" data-scroll-target="#vuestro-ejercicio">Vuestro ejercicio</a></li>
+  <li><a href="#apartado-2" id="toc-apartado-2" class="nav-link" data-scroll-target="#apartado-2">Apartado 2</a>
+  <ul class="collapse">
+  <li><a href="#scraping-con-rvest" id="toc-scraping-con-rvest" class="nav-link" data-scroll-target="#scraping-con-rvest"><em>Scraping</em> con <code>rvest</code></a></li>
+  <li><a href="#limpieza-de-datos" id="toc-limpieza-de-datos" class="nav-link" data-scroll-target="#limpieza-de-datos">Limpieza de datos</a></li>
+  <li><a href="#fechas-con-lubridate" id="toc-fechas-con-lubridate" class="nav-link" data-scroll-target="#fechas-con-lubridate">Fechas con <code>lubridate</code></a></li>
+  <li><a href="#vuestro-ejercicio-1" id="toc-vuestro-ejercicio-1" class="nav-link" data-scroll-target="#vuestro-ejercicio-1">Vuestro Ejercicio</a></li>
+  </ul></li>
+  <li><a href="#entrega-del-ejercicio" id="toc-entrega-del-ejercicio" class="nav-link" data-scroll-target="#entrega-del-ejercicio">Entrega del ejercicio</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -4839,21 +4864,23 @@ font-size: 80% !important;
 
 <section id="apartado-1" class="level1">
 <h1>Apartado 1</h1>
-<p>##<code>tidyquant</code></p>
+<section id="tidyquant-obtener-datos" class="level2">
+<h2 class="anchored" data-anchor-id="tidyquant-obtener-datos"><code>tidyquant</code>: obtener datos</h2>
 <p>La biblioteca <code>tidyquant</code> ofrece varias funcionalidades para obtener, transformar y visualizar datos económicos y financieros fácilmente. Aquí solo utilizaremos unas pocas de sus capacidades; podéis encontrar una descripción completa <a href="https://business-science.github.io/tidyquant/">aquí</a>.</p>
-<section id="obtener-datos" class="level2">
-<h2 class="anchored" data-anchor-id="obtener-datos">Obtener datos</h2>
-<p>Existen varias funciones para obtener datos: <code>tq_index()</code> (para índices bursátiles), <code>tq_exchange()</code> (para bolsas de valores) y <code>tq_get()</code> para datos económicos y financieros de varias fuentes en la web. En particular veremos como obtener datos macroeconómicos de muchos países disponibles en <a href="https://fred.stlouisfed.org/">FRED</a> y datos de acciones a través de <a href="https://es.finance.yahoo.com/">Yahoo Finance</a>.</p>
+<p>Existen varias funciones para obtener datos: <code>tq_index()</code> (para índices bursátiles), <code>tq_exchange()</code> (para bolsas de valores) y <code>tq_get()</code> para datos económicos y financieros de varias fuentes en la web.</p>
 <section id="datos-económicos-de-fred" class="level3">
 <h3 class="anchored" data-anchor-id="datos-económicos-de-fred">Datos económicos de FRED,</h3>
+<p>La web de <a href="https://fred.stlouisfed.org/">FRED</a> dispone de datos económicos de muchos países.</p>
 <ul>
-<li><p>Se busca un dato (concreto) de, por ejemplo, inflación en España: “Inflation, consumer prices for Spain; Percent, Annual, Not Seasonally Adjusted”</p></li>
+<li><p>Buscamos un dato concreto: p. e., inflación en España que aparece como “Inflation, consumer prices for Spain; Percent, Annual, Not Seasonally Adjusted”</p></li>
 <li><p>Así, averiguamos el “símbolo” o nombre interno de la variable</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;FPCPITOTLZGESP&quot;</span>, <span class="at">get =</span> <span class="st">&quot;economic.data&quot;</span>, <span class="at">from =</span> <span class="st">&quot;1960-01-01&quot;</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">&quot;FPCPITOTLZGESP&quot;</span>, <span class="at">get =</span> <span class="st">&quot;economic.data&quot;</span>, <span class="at">from =</span> <span class="st">&quot;1960-01-01&quot;</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Obtenemos unos <strong>datos ordenados</strong> con la fecha y el valor numérico de la variable disponibles para trabajar con las funciones de <code>tidyverse</code>. Podemos representar la evolución temporal de esta variable para todo el periodo o una parte (p.e., usando funciones como <code>year()</code> de <code>lubridate</code>)</p>
+<p>Obtenemos unos <em>datos ordenados</em> con la fecha y el valor numérico de la variable disponibles para trabajar con las funciones de <code>tidyverse</code>. Podemos representar la evolución temporal de esta variable para todo el periodo o una parte (p.e., usando funciones como <code>year()</code> de <code>lubridate</code>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>price))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -4872,7 +4899,7 @@ font-size: 80% !important;
 </section>
 <section id="funciones-adicionales" class="level2">
 <h2 class="anchored" data-anchor-id="funciones-adicionales">Funciones adicionales</h2>
-<p>Esta biblioteca también incluye funciones de análisis específicos, incluyendo <code>geoms</code> de <code>ggplot2</code> para nuevos tipos de gráficos.</p>
+<p>Esta biblioteca también incluye funciones de análisis específicos, como <code>geoms</code> de <code>ggplot2</code> para nuevos tipos de gráficos. Podemos representar los distintos precios de una o de varias empresas (“símbolos”) a la vez.</p>
 <ul>
 <li>Gráficos de barras</li>
 </ul>
@@ -4882,8 +4909,8 @@ font-size: 80% !important;
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close)) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_barchart</span>(<span class="fu">aes</span>(<span class="at">open =</span> open, <span class="at">high =</span> high, <span class="at">low =</span> low, <span class="at">close =</span> close))</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>acciones <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>acciones <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">month</span>(date) <span class="sc">==</span> <span class="dv">10</span> <span class="sc">&amp;</span> <span class="fu">year</span>(date) <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close)) <span class="sc">+</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_barchart</span>(<span class="fu">aes</span>(<span class="at">open =</span> open, <span class="at">high =</span> high, <span class="at">low =</span> low, <span class="at">close =</span> close)) <span class="sc">+</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>symbol)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4899,7 +4926,7 @@ font-size: 80% !important;
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>acciones <span class="sc">%&gt;%</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(symbol <span class="sc">==</span> <span class="st">&quot;TEF&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">month</span>(date) <span class="sc">==</span> <span class="dv">10</span> <span class="sc">&amp;</span> <span class="fu">year</span>(date) <span class="sc">==</span> <span class="dv">2024</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&gt;=</span> <span class="st">&quot;2024-02-01&quot;</span> <span class="sc">&amp;</span> date <span class="sc">&lt;=</span><span class="st">&quot;2024-03-31&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close)) <span class="sc">+</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_candlestick</span>(<span class="fu">aes</span>(<span class="at">open =</span> open, <span class="at">high =</span> high, <span class="at">low =</span> low, <span class="at">close =</span> close)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -4926,52 +4953,51 @@ font-size: 80% !important;
 </section>
 <section id="vuestro-ejercicio" class="level1">
 <h1>Vuestro ejercicio</h1>
-<p>Elegid una serie de datos de Yahoo Finance y una de FRED (que NO sean las del ejemplo). Debéis escribir un apartado de un documento .qmd que combine código para realizar las siguientes tareas y vuestros comentarios sobre las conclusiones que se derivan.</p>
+<p>Elegid una serie de datos de Yahoo Finance y una serie económica (cuya frecuencia NO sea diaria) de FRED; las series deben ser distintas de las del ejemplo. Debéis escribir un apartado de un documento .qmd que combine código para realizar las siguientes tareas y vuestros comentarios sobre las conclusiones que se derivan.</p>
+<ul>
+<li><p>Para la serie financiera,</p>
 <ol type="a">
-<li><p>Cargar los datos</p></li>
-<li><p>Realizar un breve análisis descriptivo de la serie financiera de Yahoo Finance, incluyendo un gráfico de velas o de barras para todo el periodo y para algún subperiodo que consideréis relevante. Comentar brevemente.</p></li>
-<li><p>Realizar un breve análisis descriptivo de la serie macroeconómica de FRED y un gráfico con su evolución temporal. Comentar brevemente.</p></li>
-<li><p>Combinar la serie económica y la financiera en un único conjunto de datos. Realizar un análisis gráfico y numérico de la covariación de ambas series. Comentar brevemente.</p></li>
-</ol>
-<pre><code>NOTA: combinar estas dos series implica poner ambas en la misma frecuencia: la serie financiera es diaria y la macroeconómica será, dependiendo de vuestra elección, anual, trimestral o mensual. Aunque se pueden usar funciones de `tidyquant` para esto, podéis usar funciones de `tidyverse` que conocemos. Simplemente tenéis que calcular la media mensual, trimestral o anual de los datos diarios.</code></pre>
-<p>No os olvidéis de incluir algunos (breves pero descriptivos) comentarios en vuestro código sobre qué hacéis y por qué.</p>
+<li><p>Realizar un gráfico de barras para los últimos cuatro años. Incluir información sobre las tendencias mediante medias móviles. Comentar brevemente.</p></li>
+<li><p>Elegid dos periodos diferentes de 2 meses cada uno y separados al menos por un mes que consideréis relevante (dados el gráfico anterior). Realizar un gráfico de velas y breve análisis descriptivo para cada periodo. Comentar brevemente resaltando las diferencias y similitudes entre los periodos.</p></li>
+</ol></li>
+<li><p>Para la serie económica, realizar un gráfico con su evolución temporal en un perido de al menos 25 años que incluya el periodo de la serie financiera. Comentar brevemente.</p></li>
+<li><p>Finalmente combinar la serie económica y la financiera en un único conjunto de datos. Realizar un análisis gráfico y numérico de la covariación de ambas series. Comentar brevemente.</p>
+<p>NOTA: combinar estas dos series implica poner ambas en la misma frecuencia: la serie financiera es diaria y la económica será, dependiendo de vuestra elección, anual, trimestral o mensual. Aunque se pueden usar funciones de <code>tidyquant</code> para esto, podéis usar funciones de <code>tidyverse</code> que conocemos. Simplemente tenéis que calcular la media mensual, trimestral o anual de los datos diarios.</p></li>
+</ul>
 </section>
 <section id="apartado-2" class="level1">
 <h1>Apartado 2</h1>
 <section id="scraping-con-rvest" class="level2">
 <h2 class="anchored" data-anchor-id="scraping-con-rvest"><em>Scraping</em> con <code>rvest</code></h2>
-<p>Internet es un gran lugar para obtener datos. Podemos usar <code>rvest</code> para extraer (en inglés, <em>scrap</em> significa literalmente raspar o rascar una superficie) los datos en tablas HTML de la web, pero a menudo requerirá una limpieza extensa antes de que se puedan usar adecuadamente.</p>
-<p>Considerar la siguiente lista de los fines de semana de apertura de taquillas más grandes:</p>
-<p>(http://www.boxofficemojo.com/alltime/weekends/)</p>
-<p>Usando <code>rvest</code> podemos traer esta tabla a R.</p>
+<p>Internet es un gran lugar para obtener datos. Podemos usar <code>rvest</code> para extraer los datos en tablas HTML de la web, pero a menudo requerirá una limpieza extensa antes de usarlo.</p>
+<p>En la web <a href="http://www.boxofficemojo.com/alltime/weekends/">http://www.boxofficemojo.com/alltime/weekends/</a> tenemos información sobre las películas con más recaudación en su fin de semana de estreno. Usando <code>rvest</code> podemos traer esta tabla a R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.boxofficemojo.com/alltime/weekends/&quot;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.boxofficemojo.com/alltime/weekends/&quot;</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Primero, necesitaremos leer el contenido de la página en HTML. La función <code>read_html()</code> proporcionada por <code>rvest</code> procesa el HTML:</p>
+<p>Primero, leemos el contenido de la página en HTML. La función <code>read_html()</code> proporcionada por <code>rvest</code> procesa el HTML:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>html_bom <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(html_bom)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>html_bom</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>html_bom <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>html_bom</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Desafortunadamente, esto no es muy legible. Lo que queremos es extraer los datos que están incrustados en las tablas HTML. Empecemos por tomar esas tablas que están dentro de los elementos del html llamados “table”. Para ello podemos utilizar <code>html_nodes()</code>:</p>
+<p>Esto no es muy legible. Además, queremos extraer las tablas dentro del HTML; estas se llaman “table” en html y para esto usamos <code>html_nodes()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">&lt;-</span> html_bom <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>tables</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">&lt;-</span> html_bom <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">&quot;table&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>tables</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>En este caso, solo hay 1 elementos de tabla en esa página .</p>
+<p>En este caso, solo hay 1 elementos de tipo tabla en esa página .</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tables[[<span class="dv">1</span>]]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tables[[<span class="dv">1</span>]]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La función <code>html_table()</code> extraerá los datos de esta tabla y los convertirá en un <em>data frame</em>. La opción <code>header = TRUE</code> indica a R que queremos usar la primera fila como nuestros nombres de variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> tables[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>(<span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(movies)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> tables[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>(<span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(movies)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>En algunas ocasiones, existen más de una tabla en una página web. Si son pocas se puede determinar cuál nos interesa mediante prueba y error. En particular, en esta caso sabemos que los datos tienen 200 observaciones y 9 columnas; si lo que leemos tiene una dimensiones (obtenidas con <code>str()</code>) muy diferentes no debe ser la tabla que buscamos. En cualquier caso, con muchas tablas en la página web, necesitaremos nuevas herramientas de programación que veremos en breve.</p>
+<p>En otrs ocasiones, existen más de una tabla en una página web. Si son pocas se puede determinar cuál nos interesa mediante prueba y error. En particular, en esta caso sabemos que los datos tienen 200 observaciones y 9 columnas; si lo que leemos tiene una dimensiones (obtenidas con <code>str()</code>) muy diferentes no debe ser la tabla que buscamos. En cualquier caso, con muchas tablas en la página web, necesitaremos nuevas herramientas de programación que veremos en breve.</p>
 </section>
 <section id="limpieza-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="limpieza-de-datos">Limpieza de datos</h2>
@@ -4980,57 +5006,52 @@ font-size: 80% !important;
 <li><p>los nombres de las variables contienen caracteres especiales, como asteriscos, paréntesis y espacios. Esto puede causar problemas, así que queremos cambiarlos.</p></li>
 <li><p>la mayoría de las columnas se almacenan como vectores de caracteres, aunque contienen información cuantitativa. En particular, hay columnas para dólares, porcentajes y fechas que están en el formato equivocado.</p></li>
 </ul>
-<p>Debido a este desajuste, si intentamos dibujar los datos, esto no funcionará como se esperaba.</p>
+<p>Por tanto, no podemos analizar adecuadamente la información. Incluso un simple gráfico, no funcionará como se esperaba.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> movies, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Opening)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> <span class="st">`</span><span class="at">% of Total</span><span class="st">`</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> movies, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Opening)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> <span class="st">`</span><span class="at">% of Total</span><span class="st">`</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Usaremos <code>parse_number()</code> junto con el verbo <code>mutate()</code> para renombrar las columnas al mismo tiempo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> movies <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">opening =</span> <span class="fu">parse_number</span>(Opening),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">percent_total =</span> <span class="fu">parse_number</span>(<span class="st">`</span><span class="at">% of Total</span><span class="st">`</span>)<span class="sc">/</span><span class="dv">100</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(movies)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> movies <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">opening =</span> <span class="fu">parse_number</span>(Opening),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">percent_total =</span> <span class="fu">parse_number</span>(<span class="st">`</span><span class="at">% of Total</span><span class="st">`</span>)<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ahora, cuando dibujamos los datos cuantitativos, obtenemos algo que tiene más sentido.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> movies, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> opening)) <span class="sc">+</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> percent_total))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> movies, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> opening)) <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> percent_total))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="fechas-con-lubridate" class="level2">
 <h2 class="anchored" data-anchor-id="fechas-con-lubridate">Fechas con <code>lubridate</code></h2>
-<p>Desafortunadamente, las fechas siguen siendo un problema. Echemos un vistazo a esas fechas:</p>
+<p>Las fechas están como caracteres en formato mes/día/año. En <code>tidyverse</code>, la biblioteca <code>lubridate</code> ofrece la función <code>mdy()</code> para convertir a tipo de fecha.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>movies <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Vemos que las fechas están en formato mes/día/año. Ya hemos visto anterioreme el paquete <code>lubridate</code> que proporciona funcionalidad para trabajar con fechas. Podemos utilizar la función <code>mdy()</code> para convertir el vector de caracteres en una clase de fecha.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> movies <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">release_date =</span> <span class="fu">mdy</span>(Date))</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(movies)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> movies <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">release_date =</span> <span class="fu">mdy</span>(Date))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> movies, <span class="fu">aes</span>(<span class="at">x =</span> release_date, <span class="at">y =</span> opening<span class="sc">/</span><span class="fl">1e6</span>)) <span class="sc">+</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> percent_total), <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">&quot;Recaudación en el Día de Apertura (en millones de $)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="st">&quot;Fecha de estreno&quot;</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> movies, <span class="fu">aes</span>(<span class="at">x =</span> release_date, <span class="at">y =</span> opening<span class="sc">/</span><span class="fl">1e6</span>)) <span class="sc">+</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> percent_total)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>() <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Recaudación en el Día de Apertura (en millones de $)&quot;</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Fecha de estreno&quot;</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="vuestro-ejercicio-1" class="level2">
 <h2 class="anchored" data-anchor-id="vuestro-ejercicio-1">Vuestro Ejercicio</h2>
-<ol type="1">
-<li>Repetir el ejercicio con la siguiente fuente de información: <a href="https://www.the-numbers.com/market/2024/top-grossing-movies">https://www.the-numbers.com/market/2024/top-grossing-movies</a>. Es decir, debéis extraer los datos relevantes de la web, limpiarlos y dejarlos preparados para trabajar,</li>
+<ol type="a">
+<li><p>Repetir el ejercicio con la siguiente fuente de información: <a href="https://www.the-numbers.com/market/2023/top-grossing-movies">https://www.the-numbers.com/market/2023/top-grossing-movies</a>. Es decir, debéis extraer los datos relevantes de la web, limpiarlos y dejarlos preparados para trabajar.</p>
+<ul>
+<li>NOTA: en ese caso, la tabla tiene dos filas al final que NO tienen información útil, sino que incluye totales (es decir, no tenemos inicialmente datos ordenados).</li>
+</ul></li>
 </ol>
-<ol start="2" type="1">
+<ol start="2" type="a">
 <li><p>Usando esos datos, realizar un BREVE análisis exploratorio de los datos. Crear las variables adicionales que consideréis necesarias con el tipo de datos adecuado. </p>
-<p>Describid la variación de algunas variables (no necesariamente todas) y algunas relaciones que consideréis relevantes.</p></li>
+<p>Describid la variación de algunas variables (no todas) y algunas relaciones que consideréis relevantes (p.e., entre género y recaudación o entradas vendidas, entre recaudación y mes o época del años, etc.).</p></li>
 </ol>
 </section>
 </section>
