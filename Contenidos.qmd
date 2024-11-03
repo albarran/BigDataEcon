@@ -38,11 +38,6 @@ strip-comments: true
 
   * [Tema 08 - Aprendizaje Estadístico](docs/Tema08.qmd)
 
-## Semana 9
-(4-Nov. a 10-Nov.)
-
-  * [Tema 05 - Ejercicio](docs/Tema05ejWebScrap.qmd)
-    - Fecha:  mie. 29-Nov. 23:59h 
 
   * [Tema 07 - Ejercicio](docs/Tema07ej.qmd)
     - Fecha:  mie. 29-Nov. 23:59h 
@@ -51,13 +46,16 @@ strip-comments: true
 
 <!-- *********************************************************************  -->
 
+## Semana 9
+(4-Nov. a 10-Nov.)
+
+  * [Tema 05 - Ejercicio 1](docs/Tema05ej1.qmd)
+    - Fecha límite de entrega: **dom., 17-nov., 23:59h**
+
 ## Semana 8
 (28-Oct. a 3-Nov.)
 
   * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
-  * [Tema 05 - Ejercicio 1](docs/Tema05ej1.qmd)
-    - Fecha límite de entrega: **dom., 17-nov., 23:59h**
-
 
 ## Semana 7
 (21-Oct. a 27-Oct.)
