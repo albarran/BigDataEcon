@@ -133,7 +133,7 @@ library(rmarkdown)
 ::: {.column width="55%"}
 
 <center>
-![](figure/data-science-model.svg)
+![](figure/data-science-model.png)
 </center>
 ::: 
 
