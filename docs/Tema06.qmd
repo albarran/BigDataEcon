@@ -1,0 +1,1236 @@
+---
+# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 06 - Modelización: métodos estadísticos"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  beamer:
+    handout: false
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  Boadilla # Copenhagen # CambridgeUS #
+    outertheme: miniframes
+    colortheme: crane
+    section-titles: false
+    fontsize: 10pt
+    header-includes: |
+        \setbeamertemplate{footline}
+        {
+        \leavevmode%
+        \hbox{%
+        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{author in head/foot}\insertshortauthor%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshorttitle%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+        \end{beamercolorbox}}%
+        }
+       # - \setbeamertemplate{navigation symbols}{}
+       # - \setbeamertemplate{caption}[numbered]
+       # - \setbeamertemplate{headline}[page number]
+       # - \setbeameroption{show notes}
+       # - \setbeameroption{show notes on second screen}
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r setup, include=FALSE}
+#```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
+# include=F es suficiente para no incluir mensajes, etc.
+
+# Opciones por defecto para los fragmentos de código
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+                      warning = FALSE, message = FALSE,
+                      results = "hide", fig.show="hide")
+# se muestra y evalúa el código,
+# no se muestran mensajes, ni avisos (warnings)
+# no se muestran los resultados de código (tampoco gráficos)
+#     en los códigos que considere necesarios los mostraré
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())       
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+
+#fijo el directorio de trabajo
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+## Métodos Estadísticos
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+
+- Los métodos estadísticos (**modelización**) permiten
+     
+    - Encontrar patrones <!--(complejos), y cuantifificar su fortaleza -->
+     
+    - Interpretar datos <!--(información)-->
+
+::: 
+
+::: {.column width="55%"}
+
+<center>
+![](figure/data-science-model.svg)
+</center>
+::: 
+
+::::
+
+. . . 
+
+
+* Los datos (casos observados) son una **muestra** de una *población* mayor (casos potenciales)
+
+<!--
+<center>
+![](figure/pop-muestra.png){width=45%}
+</center>
+-->
+
+<!--
+## Muestreo de la población. Variabilidad muestral
+
+* Sabiendo el número de ventas en un día o visitas por hora a nuestra web podemos planificar la gestión de una tienda, carga de la web, etc.
+-->
+
+* Las ventas salen de una población teórica $\chi^2_{(10)}$, con media poblacional 10:
+
+```{r}
+data <- tibble(x = rchisq(n=1e6, df=10))
+ggplot(data, aes(x)) + geom_vline(xintercept = 10, color = "red") +
+  geom_density() 
+```
+
+```{r}
+#| echo: false
+data <- tibble(x = round(rchisq(n=1e6, df=4)))
+ggplot(data, aes(x)) + geom_vline(xintercept = 4, color = "red") +
+  geom_histogram(aes(y = ..density..), bins = 200) 
+```
+
+```{r echo=FALSE, eval=FALSE}
+data <- tibble(x = round(rchisq(n=1e6, df=4)))
+ggplot(data, aes(x)) + geom_vline(xintercept = mean(data$x), color = "red") +
+  geom_histogram(aes(y = ..density..), bins = 200) + 
+  stat_function(fun = dnorm, col = "green",
+                args = list(mean = mean(data$x), sd = sd(data$x)))
+```
+
+<!--
+* Disponemos de una muestra con información de solo $n=25$ días
+
+```{r}
+set.seed(1510)  
+muestra <- tibble(x = rnbinom(n=25, size=7, prob=.6))
+muestra %>% summary()
+```
+-->
+
+<!-- OJO: números pseudo-aleatorios y semilla -->
+
+<!--
+## Incertidumbre por la distribución del muestreo
+* Un *estadístico* es un valor calculado a partir de una muestra (ej., la media). ¿Cómo de fiable es?
+-->
+
+* ¿Cómo de fiable es un *estadístico* (ej., la media) calculado en una *muestra*? 
+
+## Variabilidad muestral
+
+* Simulemos la distribución de la media en muchas muestras de $n=25$
+
+<!--
+:::: {style="display: flex;"}
+-->
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+```{r}
+set.seed(101)
+nsim <- 100
+N <- 25
+ybar <- numeric(nsim)
+```
+
+:::
+
+::: {}
+
+:::
+
+::: {}
+
+```{r}
+#| echo: false
+#| eval: false
+for (j in 1:nsim) { 
+  muestra <- round(rchisq(n=N, df=4)) 
+  ybar[j] <- mean(muestra) 
+}
+summary(ybar) 
+```
+
+```{r}
+for (j in 1:nsim) { 
+  muestra <- round(rchisq(n=N, df=10)) 
+  ybar[j] <- mean(muestra) 
+}
+summary(ybar) 
+```
+
+
+:::
+
+::::
+
+```{r echo=FALSE, eval=FALSE}
+set.seed(101)
+Muestras_df <- 1:100 %>% map_dfr(~tibble(x = rnbinom(n=25, size=7, prob=.6)) %>% 
+                    summarize(media=mean(x), sd=sd(x)))
+
+Muestras <- list()
+set.seed(101)
+for(i in 1:100){
+  Muestras[[i]] <- tibble(x = rnbinom(n=25, size=7, prob=.6))  %>% 
+        summarize(media = mean(x), sd = sd(x))
+}
+Muestras_df <- Muestras %>% bind_rows()
+```
+
+<!--
+* Existe una gran variabilidad del estadístico muestral: es poco fiable
+-->
+
+<!-- ## Distribuciones muestrales -->
+
+. . . 
+
+
+* **Distribución muestral** es la distribución del estadístico en **todas** las muestras potenciales de tamaño <!--muestral--> $n$
+
+  <!-- - nos interesan su *forma*, *error estándar* (variabilidad), etc. -->
+
+<!--
+* Nos interesan su *forma*, *error estándar* (variabilidad de la distribución muestral), *intervalo de confianza*, etc.
+-->
+
+
+<!--
+    + veríamos cómo varía el valor del estadístico en todas las muestras
+-->
+
+<!--
+    +  si conocemos las distribución poblacional que genera las muestras, podemos disponer de muestras y ver cómo varía el valor del estadístico
+    
+    + aquí lo hemos aproximado con 100 muestras 
+    
+-->
+
+```{r}
+as_tibble(ybar) %>% ggplot(aes(x=value)) + geom_density() # solo 100 muestras
+```
+
+<!--
+* Otra forma es el *intervalo de confianza del 95%*
+
+```{r echo=FALSE, eval=FALSE}
+mean(Muestras_df$media) + sd(Muestras_df$media) * 1.96 * c(-1,1) 
+```
+-->
+
+
+* ¿Es posible *cuantificar la incertidumbre* con UNA MUESTRA? 
+
+1. *Suponiendo* que los datos son normales, la media tiene una distribución normal
+
+2. [**Teorema Central del Límite**](https://openintro.shinyapps.io/CLT_mean/): para datos de cualquier distribución,  $\overline{Y} \overset{a}{\sim} N(\mu, \sigma^2/n)$ cuando $n \to \infty$ 
+    
+    
+    <!-- + Hemos visto ejemplos [aquí](https://openintro.shinyapps.io/CLT_mean/)  -->
+    
+<!--
+* ¿Cómo cambia  cuando varia el tamaño muestral?
+
+-->
+
+<!--
+## Distribuciones muestrales (cont.)
+
+<!--
+* La fiabilidad de un estadístico muestral se mide  por 
+
+  1. la media del estadístico (media de la distribución muestral): debe estar cerca del verdadero (en la población). 
+
+  2. el error estándar del estadístico (error estándar de la distribución muestral); debe ser pequeño. 
+-->
+
+<!--
+* ¿Cómo cambia la media y el error estándar del estadístico cuando varia el tamaño muestral?
+
+```{r, eval=FALSE}
+Muestras_porN <- list()
+nvec <- c(25, 50, 100, 200)
+for(j in seq_along(nvec)){
+  n <- nvec[j]
+  Muestras <- list()   # bucle anterior, generalizando n y conservándolo en summarize
+  set.seed(101)
+  for(i in 1:100){
+    Muestras[[i]] <- tibble(x = rlnorm(n = n, meanlog = 4.403, sdlog = 0.409) - 87)  %>%   
+        summarize(media = mean(x), sd = sd(x), n = n)      
+  }
+  Muestras_porN[[j]] <- Muestras %>% bind_rows()
+}
+Muestras_Final <- Muestras_porN %>% bind_rows()
+```
+
+```{r echo=FALSE, eval=FALSE}
+saveRDS(Muestras_Final, file="data/Muestras_Final.rds")
+```
+ 
+```{r}
+Muestras_Final <- readRDS("data/Muestras_Final.rds")
+```
+ 
+-->
+
+<!--
+## Distribuciones muestrales: LGN y TCL
+
+```{r echo=FALSE, eval=FALSE}
+Muestras_Final %>% ggplot(aes(x=media)) + geom_density() + facet_wrap(~n)
+Muestras_Final %>% group_by(n) %>% 
+  summarize(media_de_media = mean(media), error = sd(media))
+```
+
+- *Ley de números grandes*: para un tamaño de la muestra $n$ grande, el promedio de la muestra está cerca de la media de la población <!--, y el error estándar es pequeño. -->
+
+<!--
+- *Teorema de Límite Central*: para un tamaño de la muestra $n$ grande, la distribución muestral de la media es normal.
+
+* $\mbox{Error estándar}(\bar{X}_n) = \frac{\sigma}{\sqrt{n}},$
+    donde $\sigma$ es la desviación estándar de la población. 
+
+    * Si **aumentamos el tamaño de la muestra en $n$, el error estándar disminuirá**.
+
+* Demostración práctica: [aquí](https://openintro.shinyapps.io/CLT_mean/)
+
+-->
+
+## Procedimiento *Bootstrap* 
+
+<!-- * En la práctica, sólo tenemos UNA muestra de tamaño $n$ (no la población) -->
+
+* **Idea**: pensar en la ÚNICA muestra como si fuera la población 
+
+<!-- La muestra es representativa de la población ==> repetir el proceso de extracción de muestras con la única muestra
+
+<!-- Bootstrap genera variabilidad que simula/aproxima la variabilidad muestral -->
+
+
+1. Tomar muchas *remuestras* (muestras de Bootstrap) con reemplazamiento<!--de la original-->
+
+    - p.e., para (1,2,3) incluye los casos (1,1,2), (1,1,3), (2,2,1), etc.
+<!--  
+    * ${n\choose n}= (n + n - 1)!/(n! (n-1)!)$ remuestras: la muestra original es una combinación entre muchas
+-->
+
+2. En cada remuestra, se puede calcular cualquier estadístico 
+    
+    
+* Este procedimiento permite generar variación (de remuestras) a partir de una única muestra 
+
+* La **distribución muestral bootstrap** NO es la distribución muestral, pero aproxima sus aspectos principales <!--(*error estándard*)--> sin supuestos (normalidad, TCL)
+
+<!--una distribución de valores de los ensayos bootstrap -->
+<!-- aproxima para vlaores moderados de n -->
+
+* Puede aplicarse a **cualquier estadístico** (media, varianzas, regresión, etc.)
+
+<!-- es un método estadístico que nos  permite aproximar la distribución muestral sin acceso a la población.-->
+
+```{r eval=FALSE, echo=FALSE}
+boot_df <- 1:1000 %>% map_dfr(~muestra %>% slice_sample(n=25, replace = TRUE) %>% 
+                                summarize(media=mean(x)))
+boot_df %>% ggplot(aes(x = media)) + geom_density()  # densidad bootstrap de la media
+sd(boot_df$media)                                    # estimación del error estándar
+c(sort(boot_df$media)[25], sort(boot_df$media)[975]) # Intervalo de confianza al 95%
+```
+
+
+## Procedimiento *Bootstrap* (cont.)
+
+::: {style="font-size: 90%;"} 
+
+```{r}
+#| echo: true
+#| eval: false
+library(rsample)
+set.seed(101)
+UNAmuestra <- tibble(x=rchisq(n=25, df=10))
+
+nboot <- 10
+remuestras <- bootstraps(UNAmuestra, times = nboot)
+
+distrib <- list()
+for (i in 1:nboot) {
+  remuestrai <- remuestras$splits[[i]] %>% as_tibble()
+  mediai  <- mean(remuestrai$x)
+  sdi     <- sd(remuestrai$x)
+  distrib[[i]] <- list(medias = mediai, sds =sdi ) 
+}
+
+distribF <- distrib %>% bind_rows()
+```
+
+
+
+
+```{r}
+#| echo: false
+#| eval: false
+set.seed(101)
+muestra <- rchisq(n=25, df=10)
+nboot <- 1000
+boot_muestras <- list()
+
+for (i in 1:nboot) {
+  data1 <- muestra %>% 
+              as_tibble() %>% 
+              slice_sample(n=25, replace = TRUE) 
+  m <- mean(data1$value)
+  s <- sd(data1$value)
+  boot_muestras[[i]] <-  list(media = m, sd = s)
+}
+boot_datos <- boot_muestras %>% bind_rows()
+```
+
+```{r}
+#| echo: true
+#| eval: false
+distribF %>% ggplot(aes(x = medias)) + 
+  geom_density()                        # densidad bootstrap de la media
+sd(distribF$media)                    # estimación del E.S. de la media
+# I.C. al 95% de la media y de la DT
+c(sort(distribF$media)[25], sort(distribF$media)[975]) 
+c(sort(distribF$sd)[25], sort(distribF$sd)[975])       
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+set.seed(101)
+boot_df <- list()
+for (i in 1:1000) {
+  data1 <- muestra %>% slice_sample(n=25, replace = TRUE) 
+  m <- mean(data1$x)
+  s <- sd(data1$x)
+  boot_df[[i]] <-  list(media = m, sd = s)
+}
+boot_df %>% bind_rows() %>% ggplot(aes(x = media)) + geom_density()  
+
+set.seed(101)
+mis_estads <- function(n) {
+  data1 <- muestra %>% slice_sample(n=n, replace = TRUE) 
+  sol <- list(media = mean(data1$x), sd = sd(data1$x))
+  return(sol)
+}
+boot_df <- 1:1000 %>% map_dfr(~mis_estads(25))
+boot_df %>% bind_rows() %>% ggplot(aes(x = media)) + geom_density()
+```
+<!--
+## *Bootstrap* con $B = 1000$ para `datos1` 
+```{r, eval=FALSE}
+n <- nrow(datos1)
+boot <- list()
+set.seed(101)
+for(i in 1:1000){
+    boot[[i]] <- datos1 %>% 
+      sample_n(size = n, replace = TRUE) %>%
+      summarize(media = mean(x))
+  }
+boot_df <- boot %>% bind_rows()
+```
+
+```{r echo=FALSE, eval=FALSE}
+saveRDS(boot_df, file="data/boot_df.rds")
+```
+ 
+```{r}
+boot_df <- readRDS("data/boot_df.rds")
+```
+ 
+
+<!-- 
+- `sample_n()`  para seleccion filas de forma *aleatoria* de una tabla,
+-->
+
+<!--
+```{r}
+boot_df %>% ggplot(aes(x = media)) + geom_density() # densidad bootstrap de la media
+sd(boot_df$media)                                   # estimación bootstrap del error estándar
+```
+ 
+```{r, eval=FALSE, echo=FALSE}
+boot_df %>% ggplot(aes(x = media)) + 
+  geom_density() + 
+  labs(title = "Distribución Bootstrap de la media de retraso en `datos1`")
+```
+
+
+<!--
+* Aunque podemos obtener un mejor intervalo de confianza basado
+
+```{r}
+mean(boot_df$media) + c(-1,1) * 1.96 * sd(boot_df$media)
+```
+-->
+
+<!--
+* Sin suponer normalidad o TCL, se obtienen los percentiles del intervalo en la distribución muestral bootstrap:
+
+```{r}
+c(sort(boot_df$media)[25], sort(boot_df$media)[975])
+```
+-->
+
+
+<!--
+#### Errores estándar Bootstrap para muestras grandes
+
+El siguiente código toma muestras para la población `SF` sólo una vez para cada uno de los tamaños muestrales 25--200, y utiliza la muestra (sin referencia a la población) para estimar el error estándar. 
+
+```{r eval=FALSE}
+Trials.bootstrap <-list()
+nvec = c(25,50,100,200)
+for(j in seq_along(nvec)){
+  n <- nvec[j]
+  sample_df <- SF %>% sample_n(size = n)
+  Trials_n <- list() 
+  for(i in 1:1000){
+    Trials_n[[i]] <- sample_df %>% 
+      sample_n(size = n, replace = TRUE) %>%
+      summarize(mean = mean(arr_delay), n = n)
+  }
+  Trials.bootstrap[[j]] <- bind_rows(Trials_n)
+}
+bind_rows(Trials.bootstrap) %>% 
+  group_by(n) %>% 
+  summarize(error = sd(mean))
+```
+
+Estas estimaciones del error estándar, calculadas mediante bootstrapping de la muestra, se aproximan bastante el error estándar, calculado a partir de la población. 
+
+En este ejemplo, el estadístico muestral es la media. En la práctica, los estadísticos de interés son más complejos, por ejemplo, la estimación del coeficiente en el modelo de regresión lineal. El procedimiento de bootsrapping se puede aplicar a casi todas las situaciones, para cuantificar la incertidumbre en un estadístico.
+-->
+
+:::
+
+## Modelización Condicional. Causalidad 
+
+* La población NO suele ser *homogenea*: más visitas ciertos días, horas, etc.
+
+<!--
+* Los retrasos son más frecuentes a determinadas horas 
+
+```{r eval=FALSE}
+SF %>%
+  ggplot(aes(x = hour, y = arr_delay)) +
+  geom_boxplot(aes(group = hour)) + geom_smooth(method = "lm")  +
+  coord_cartesian(ylim = c(-30, 120))
+
+mod1 <- lm(arr_delay ~ hour, data = SF)
+broom::tidy(mod1)
+```
+
+* En particular, los grandes retrasos (superior a 60 minutos)
+```{r eval=FALSE}
+SF %>% mutate(gran_retraso = arr_delay > 60) %>%
+  ggplot(aes(x = hour, fill= gran_retraso)) + 
+  geom_bar(position = "fill")                  # para representar frecuencia
+```
+
+## Modelización Condicional (cont.)
+
+<!--
+* También tenemos variación por mes, día de la semana, aeropuerto de origen, aerolínea, etc.
+-->
+
+* Un modelo de regresión permite incluir todas las **variables explicativas** de la variación de la variable dependiente
+
+<!--
+```{r echo=TRUE, eval=FALSE}
+library(lubridate)
+SF2 <- SF %>% 
+  mutate(
+    fecha  = as.Date(time_hour), 
+    diasem = as.factor(wday(day, label = TRUE)),
+    estaci = ifelse(month %in% 6:7, "verano", "otros meses")
+  )
+
+mod2 <- lm(arr_delay ~ hour + origin + carrier + as.factor(month) + dow, data = SF2)
+broom::tidy(mod2)
+```
+
+* Para una variable de respuesta binaría como `gran_retraso` puede utilizar la *regresión logística* (logit)
+
+
+## "Confounding factor" y Causalidad
+-->
+
+* **"Correlación no implica causalidad"**, salvo en [ensayos científicos aleatorios](https://es.wikipedia.org/wiki/Prueba_controlada_aleatorizada) cuidadosamente controlados
+  + en otros campos como marketing digital o analítica de web se denominan [pruebas A/B](https://es.wikipedia.org/wiki/Prueba_A/B) (ej. dos versiones de una misma web)
+
+* En general (datos observacionales), nos preocupa que otros factores que puedan ser los verdaderos determinantes de la relación observada
+
+<!--
+* En los ensayos aleatorios se controla quien recibe una intervención (tratamiento) y quien no (control)
+
+    + En promedio, todos los demás factores están equilibrados entre los dos grupos: las diferencias pueden atribuirse a la aplicación del tratamiento
+
+    +  Pero si los sujetos no cumplen con los tratamientos o se pierden en el seguimiento...
+
+## "National Supported Work Demonstration"
+```{r}
+url <- "http://www.nber.org/~rdehejia/data/"
+nsw <- haven::read_dta(paste0(url,"nsw_dw.dta")) 
+lm(data=nsw %>%  filter(black==1), re78 ~ treat ) %>% broom::tidy()
+```
+
+* Añadimos más datos observacionales
+
+```{r}
+nsw2 <- nsw %>% bind_rows(haven::read_dta(paste0(url,"psid_controls.dta"))) 
+lm(data=nsw2 %>%  filter(black==1), re78 ~ treat ) %>% broom::tidy()
+```
+
+* El programa estaba dirigido a quienes previamente ganaban menos: 
+```{r}
+nsw2 <- nsw2 %>% mutate(rePre = (re74+re75)/2)
+lm(data=nsw2 %>%  filter(black==1), rePre ~ treat ) %>% broom::tidy()
+```
+
+* ¿Y si mantenemos "constante" ese factor en `nsw2`? ¿Y en `nsw`? [Responder](https://docs.google.com/forms/d/e/1FAIpQLSfTdODmH2MIUuC00wJF9H89aLsQf4KQqDeZ71BgaaSferbn1Q/viewform)
+```{r}
+lm(data=nsw2 %>%  filter(black==1), re78 ~ treat + rePre) %>% broom::tidy()
+```
+<!--
+
+* PREGUNTA: ¿cambia algo si controlamos por la renta previa usando los datos experimentales?
+
+```{r}
+nsw <- nsw %>% mutate(rePre = (re74+re75)/2)
+lm(data=nsw2 %>%  filter(black==1), re78 ~ treat + rePre) %>% broom::tidy()
+```
+
+```{r, echo=FALSE, eval=FALSE}
+nsw <- nsw %>% mutate(rePre = (re74+re75)/2)
+lm(data=nsw %>%  filter(black==1), rePre ~ treat ) %>% broom::tidy()
+```
+-->
+
+## "Confounding factor": Descuentos y ventas
+
+```{r echo=FALSE, eval=FALSE}
+clear 
+set seed 404
+set obs 404
+
+gen tipo = int(_n/40)
+
+gen discount = max(3.5*tipo + int(3*(uniform()-0.5)),0)
+
+gen income=uniform()*(20-tipo*2)*1000+2000
+gen renta_baja = income < 7500
+
+gen sales=5390+4.4*income+544*discount+990*discount*!renta_baja+invnorm(uniform())*1500
+
+drop tipo renta_baja
+cd /home/albarran/Archivos/teaching/MAD/00.TEC/data
+outsheet using discount.csv, delim(",") replace
+
+
+reg sales discount
+reg sales discount income
+
+gen renta_baja = income < 7500
+reg sales discount if renta_baja
+reg sales discount if !renta_baja
+```
+
+
+```{r}
+datos <- read_csv("data/discount.csv")
+```
+
+* El porcentaje medio de descuentos afecta negativamente a las ventas
+
+```{r echo=FALSE, eval=FALSE}
+datos %>% ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm")
+lm(data = datos, sales ~ discount) %>% broom::tidy()
+```
+
+```{r}
+datos %>% ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm")
+lm(data = datos, sales ~ discount) %>% summary()
+```
+
+* Pero si tenemos en cuenta la renta...
+
+```{r}
+datos %>% mutate(renta_baja = income < 7500) %>%  
+  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm") +
+  facet_wrap(~renta_baja)
+lm(data = datos, sales ~ discount + income) %>% summary()
+```
+
+
+
+
+## Regresión Lineal 
+
+* La regresión lineal predice una respuesta cuantitativa $\small Y$ como a partir de $k$ regresores $X=$ $\small X_1,X_2,\dots,X_k$
+
+* Supuesto<!-- de linealidad (en los parámetros)-->:  relación lineal entre $\small X$ e $\small Y$
+$$
+\small
+Y=\beta_0+\beta_1 X_1+ \dots + \beta_k X_k + \varepsilon
+$$
+
+* Los coeficientes o parámetros del modelo representan
+
+    * $\small \beta_0$ (constante): valor esperado de $\small Y$ cuando $\small X_1=X_2=\dots=X_k=0$
+
+    * $\small \beta_j$ (pendiente de la línea): cambio medio en $\small Y$ por un incremento de una unidad en $\small X_j$ (para $j=1,...,k$), *ceteris paribus*
+
+* Objetivo: estimar los coeficientes desconocidos a partir de una muestra
+
+## Regresión Lineal: Estimación
+
+* El error de estimación o **residuo** es $\small \hat{e}_i = y_i - \hat{y}_i$, donde la predicción a partir del modelo estimado es $\small \hat{y}_i=\hat{\beta}_0+\hat{\beta}_1 X_1+ \dots + \hat{\beta}_k X_p$ 
+
+* Los coeficientes estimados son los que minimizan la Suma Cuadrática de Residuos: la suma total de distancias entre los datos observados y predichos  
+
+
+:::: {style="display: flex;"}
+
+::: {}
+
+<center>
+![](figure/fig_E2b.jpeg){width=100%}
+</center>
+
+::: 
+
+::: {}
+
+$$
+\small SCR=\sum_{i=1}^{n} \hat{e}_i^2= \sum_{i=1}^{n} ( y_i - \hat{y}_i)^2
+$$
+
++ Por tanto, también minimiza $\small ECM = \frac{SCR}{n} = MSE$
+
+::: 
+
+::::
+
+* Esto equivale a las condiciones derivadas de suponer $\small E(\varepsilon|X)=0$
+   
+## Regresión Lineal: Precisión de las estimaciones
+
+* El **error estándar** $\small se(\widehat{\beta}_j)$ mmide la precisión del coeficiente estimado 
+
+<!--
+:::: {style="display: flex;"}
+
+::: {}
+
+$$
+\small se(\widehat{\beta}_j) =  \frac{\sigma^2}{(n-1)S^2_{x_j} (1 - R^2_{j})}
+$$
+:::
+
+::: {}
+\ \ \ 
+:::
+
+::: {}
+
++ $\small \sigma^2=Var(\varepsilon)$, estimada con $\small \frac{SCR}{n-k-1}$
++ $\small S^2_{x_j}=\frac{\sum (x_{ij}-\bar{x}_j)^2}{n-1}=$varianza muestral de $\small X_j$
++ $\small R^2_{j}$ es el $\small R^2$ de la regresión de $\small X_j$ sobre el resto de regresores
+
+<!-- \frac{\sigma^2}{SCT_j (1 - R^2_{j})} = -->
+
+<!--
+:::
+
+::::
+-->
+
+* Se usan para construir intervalos de confianza y estadísticos para contrastar hipótesis sobre los parámetros, p.e., significatividad
+    
+    + individual: $\small H_0: \beta_1=0$ con un estadístico $\small t=\frac{\widehat{\beta}_1-0}{se(\widehat{\beta}_1)}$
+    + conjunta: $\small H_0: \beta_1=\beta_2=\dots=\beta_k=0$ con un estadístico $\small F$
+
+
+* Medidas de la precisión del modelo: $\small MSE$ o $\small R^2=1-\frac{SCR}{SCT} = \frac{SCE}{SCT}$ 
+
+* La predicción $\widehat{y}$ también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas
+
+```{r}
+res <- lm(data = datos, sales ~ discount + income)
+cbind(datos$sales, res$fitted.values) %>% head()
+```
+
+<!--   
+## Regresión Lineal: Precisión del modelo
+
+* Medición de la precisión del modelo: 
+
+  + RMSE o variantes como el error estandar de la regresión, $\small \sqrt{\frac{SCR}{n-k-1}}$: son   medidas absolutas en las mismas unidades que $Y$ 
+  + $\small R^2=1-\frac{SCR}{SCT} = \frac{SCE}{SCT}$ es una medida relativa: proporción de la varianza explicada por el modelo
+
+ 
+* La predicción $\widehat{y}$ también están sujetas a incertidumbre por la estimación
+
+  + Existen formulas para calcular su error estándar (a partir de la matriz de varianza y covarianza de los coeficientes estimados) 
+  + Por tanto, también se puede calcular un intervalo de confianza
+
+```{r}
+res <- lm(data = datos, sales ~ discount + income)
+cbind(datos$sales, res$fitted.values) %>% head()
+```
+-->
+
+## Regresión Lineal: superando la linealidad
+
+* Se pueden incluir transformaciones no lineales de las variables del modelo 
+
+<!--, como logaritmos o incluir términos polinomiales-->
+
+* La interpretación del cambio de un regresor sobre $\small Y$ es diferente
+```{r}
+library(ISLR)
+data(Carseats)
+lm(data=Carseats %>% filter(Sales != 0), log(Sales) ~ poly(Advertising,2))
+```
+* Otra forma de permitir no linealidades es discretizando variables continuas: permite efectos "escalón" diferentes para distintos valores
+
+```{r}
+lm(data=Carseats , Sales ~ cut_width(Advertising, 10)) %>% summary()
+```
+
+* Se incluyen indicadores binarios para cada clase excepto uno
+  + la constante recoge el valor medio de $\small Y$ para ese grupo de referencia
+  + cada coeficiente recoge el efecto adicional de su grupo sobre $\small Y$ 
+
+
+```{r}
+#| echo: false
+#| eval: false
+datos <- read_csv("data/discount.csv")
+datos %>% mutate(renta_baja = income < 7500) %>%  
+  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm") +
+  facet_wrap(~renta_baja)
+datos2 <- datos %>% mutate(renta_baja = income < 7500)
+
+lm(data=datos2, sales ~ discount + renta_baja) %>% summary()
+
+lm(data=datos2, sales ~ discount + renta_baja + discount:renta_baja) %>% summary()
+
+lm(data=datos2, sales ~ discount * renta_baja ) %>% summary()
+
+
+lm(data=datos2, sales ~ discount:renta_baja) %>% summary()
+```
+
+<!--
+## Regresión Lineal: Variables cualitativas
+
+* Sólo dos valores: se incluye un regresor un indicador binario $\small D$
+  + la constante recoge el valor esperado de $\small Y$ para el grupo con $\small D=0$
+  + el coeficiente del indicador indica el efecto adicional (respecto al otro grupo) en el valor esperado de $\small Y$ para el grupo con $\small D=1$
+
+```{r, echo=FALSE, eval=FALSE}
+library(ISLR)
+lm(data=Carseats, Sales ~ Advertising + Urban)
+```
+* Con varias categorías: se incluyen indicadores binarios para cada clase excepto uno, el grupo de referencia
+  + la constante recoge el valor medio de $\small Y$ para el grupo de referencia
+  + cada coeficiente recoge el efecto adicional sobre $\small Y$ de su grupo
+
+```{r}
+library(ISLR)
+lm(data=Carseats , Sales ~ Urban + ShelveLoc)
+```
+
+* Aunque R los genera automáticamente para factores, también se pueden crear con `if_else()` o con el paquete `fastDummies` 
+
+<!--
+Now, before summarizing this R tutorial, it may be worth mentioning that there are other options to recode categorical data to dummy variables. For instance, we could have used the model.matrix function, the dummies package, and the step_dummy (recipes package).
+-->
+
+
+<!--
+## Superando el supuesto de linealidad
+
+* Se pueden incluir transformaciones no lineales de las variables del modelo, como logaritmos o incluir términos polinomiales
+
+* La interpretación del cambio de un regresor sobre $\small Y$ es diferente
+```{r}
+lm(data=Carseats %>% filter(Sales != 0), log(Sales) ~ poly(Advertising,2))
+```
+
+<!-- https://stackoverflow.com/questions/24198013/significance-of-i-keyword-in-lm-model-in-r -->
+
+
+<!--
+* Otra forma de permitir no linealidades es discretizando variables continuas: permite efectos "escalón" diferentes para distintos valores
+
+```{r}
+lm(data=Carseats , Sales ~ cut_width(Advertising, 10)) %>% summary()
+```
+-->
+
+## Regresión Lineal: superando la linealidad (cont.)
+
+<!--
+https://www.econometrics-with-r.org/8-3-interactions-between-independent-variables.html
+-->
+
+```{r echo=FALSE}
+datos <- read_csv("data/discount.csv")
+datos2 <- datos %>% mutate(renta_baja = income < 7500)
+datos2 %>%  
+  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm") +
+  facet_wrap(~renta_baja)
+lm(data = datos2, sales ~ discount * renta_baja) %>% summary()
+
+datos3 <- datos %>% mutate(grupos_renta = if_else(income < 5000, 1, 
+                                                  if_else(income < 12000,2, 3)))
+table(datos3$grupos_renta)
+lm(data = datos3, sales ~ discount * as.factor(grupos_renta)) %>% summary()
+res <- lm(data = datos3, sales ~ discount * as.factor(grupos_renta)) 
+confint(res)
+```
+
+
+* También podemos incluir interacciones entre variables: el efecto de un regresor dependerá de otro regresor
+
+```{r}
+lm(data=Carseats , Sales ~ Advertising*Income)
+```
+
+* Principio jerárquico: al incluir una interacción *siempre* deben incluirse los factores principales (NO sólo `Advertising:Income`)
+
+* Cuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo
+
+```{r}
+lm(data=Carseats , Sales ~ (Income + Advertising)*Urban)
+```
+
+* La interacción de dos variables binarias tiene una interpretación similar <!--, para el efecto esperado de $\small Y$-->
+
+```{r}
+lm(data=Carseats , Sales ~ ShelveLoc*Urban)
+```
+
+## "Problemas" del Modelo de Regresión Lineal
+
+* *No linealidad*: incluir transformaciones no lineales <!--de los regresores o la variable dependiente-->
+
+* *Correlación de los errores*: afecta a los errores estándar, no la estimación
+  + usar errores estándar robustos o modelizar la dinámica
+  
+* *Heterocedasticidad*: ídem, usar errores estándar robustos <!-- o pesos -->
+  + los gráficos de los residuos frente a un regresor o valores predichos: ¿heterocedasticidad o no linealidad? 
+  <!--logaritmos o raíz cuadrada cuando hay una amplifiación de los residuos -->
+  
+* *Outliers* en la variable de respuesta o en los regresores
+<!--: se puede intentar detectar con algunos criterios ("arbitrarios": ej. $\small \left|\frac{\hat{e}_i}{se(\hat{e}_i)}\right|>3$)-->
+
+* *Colinearidad*: indica que no es posible separar el efecto de cada regresor: eliminar alguno o recombinarlos
+
+* *No normalidad*: TCL, Bootstrap,...
+
+* El único supuesto realmente importante es $\small E[\varepsilon|X]=0$
+
+<!--
+    afecta a la varianza del estimador de un coeficiente, pero NO a significatividad conjunta
+    + realmente indica que no es posible separar adecuadamente el efecto de varios regresores por separado: eliminar alguno o recombinarlos -->
+
+<!--
+  + se suele usar criterios como VIF (*variance inflation factor*=1/(1-R^2_j)$=ratio de la varianza del estimador en regresion multiple / reg. simple) 
+  si VIF>5 o 10
+-->
+
+
+<!--
+## Selección de variables 
+
+<!--
+* En el análisis exploratorio, encontramos variables significativamente correlacionadas con la variable de respuesta
+-->
+
+
+<!--
+* NO se pueden examinar todos los posibles modelos que incluyen combinaciones de los regresores significativamente correlacionados <!--(incluyendo interacciones) -->
+
+
+<!--
+* Procesos automatizados frecuentemente utilizados:
+
+    + Selección hacia adelante (*forward selection*): añadir uno a uno los regresores más correlacionados <!--(criterio de parada en la mejora de SCR o p-valores.-->
+
+<!--
+    + Selección hacia atrás (*backward selection*): comenzando con todos, se va eliminando el regresor con mayor p-valor <!--(hasta criterio de parada)-->
+
+<!--
+    + Selección mixta: se añaden regresores uno a uno, pero en cada iteración se puede eliminar alguno si su p-valor excede un umbral
+
+* No tienen criterio riguroso ni llevan a la misma solución. Además, se suelen utilizar en la misma muestra donde se estima
+
+-->
+
+## Regresión Logística
+
+* La regresión lineal puede usarse respuestas binarias (no más de dos categorías),
+<!--
+$$
+\small
+\Pr(Y=1|X)=\beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k = z
+$$
+-->
+aunque genera predicciones fuera del rango $\small [0,1]$
+
+<!--
+* Además, no es adecuado con más de dos categorías
+-->
+  
+* Solución: aplicar al índice lineal una transformación $\small F(z)\in[0,1]$
+
+
+:::: {style="display: flex;"} 
+
+::: {}
+
+*  La función logística: $\small \Lambda (z)=\frac{e^z}{1+e^z}$
+::: 
+
+::: {}
+```{r, echo=FALSE, fig.show='asis', fig.height=3}
+#install.packages("latex2exp")
+library(latex2exp)
+Logistic <- function(x) {exp(x)/(1+exp(x))}
+ggplot(data = data.frame(x = 0), mapping = aes(x = x)) +
+    stat_function(fun = Logistic) + scale_x_continuous(limits = c(-5, 5), name = "z") +
+  scale_y_continuous(name = TeX("$\\Lambda(z)$")) #+
+  annotate("text", x = -3 , y = 0.7, label = TeX("$\\Lambda(z)=\\frac{exp(z)}{1+exp(z)}$", output='character'), parse=TRUE)
+```
+
+:::
+
+::::
+* De manera que $\small \Pr(Y=1|X)= p(x)= \Lambda( \beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k)$
+
+
+## Regresión Logística (cont.)
+
+* Los coeficientes NO se interpretan como cambios en la probabilidad ante cambios unitarios en un regresor (efecto marginal sobre la probabilidad)
+
+* PERO su signo (y significatividad) son los mismos que los del efecto marginal 
+
+<!--
+* En esta especificación, la probabilidad relativa ("odd") es 
+$$
+\small
+\frac{p(x)}{1-p(x)}=exp(\beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k)
+$$
+
+* Por tanto, su logaritmo ("log odd" o logit) es lineal: los coeficientes son la elasticidad de la probabilidad relativa
+
+## Regresión Logística: estimación 
+-->
+
+* Como NO tiene sentido minimizar la SCR, el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos
+
+<!--
+$$
+\small
+\ell(\beta_0, \beta_1, \dots, \beta_k)=\prod_{i:y_i=1}p(x_i) \prod_{i:y_i=0} \left(1 - p(x_i)\right)
+$$
+-->
+
+* La regresión logística pertenece a la familia de modelos lineales generalizados (GLM, en inglés) 
+
+<!--
+* En R, la regresión logística se puede estimar con la función `glm()`
+-->
+
+* Se pueden incluir como variables explicativas tanto variables cuantitativas como cualitativas, e incurrir en sesgo por omisión de variables
+
+```{r}
+glm(data = Default, default ~ student, family = "binomial" ) %>% summary()
+glm(data = Default, default ~ student + balance, family = "binomial" ) %>% summary()
+```
+
+## Regresión Logística: Predicciones
+
+* El objeto de R de `glm()` contiene valores predichos, que son probabilidades de $\small Y=1$
+
+```{r}
+logit <- glm(data = Default, default ~ balance*student, family = "binomial" ) 
+cbind(Default$default, logit$fitted)
+```
+
+<!--
+* También podemos usar la función `predict()` aplicada al objeto de `glm()` para predecir
+
+    - el índice lineal subyacente
+    
+    - la probabilidad
+    
+```{r}
+cbind(Default$default, logit$fitted, predict(logit), predict(logit, type="response"))
+```
+-->
+
+* También se puede predecir usando una muestra distinta de la usada para estimar o con valores concretos de los regresores
+
+```{r}
+logit <- glm(data = Default, default ~ balance, family = "binomial" )
+predict(logit, newdata = tibble(balance=c(0,100)), type="response")
+```
+
+
+<!--
+## Variables explicativas
+
+* Se pueden incluir como variables explicativas tanto variables cuantitativas como cualitativas
+
+```{r}
+glm(data = Default, default ~ student, family = "binomial" ) %>% summary()
+glm(data = Default, default ~ student + balance, family = "binomial" ) %>% summary()
+
+```
+
+
+* También transformaciones no lineales de estas e interacciones
+
+
+* Podemos incurrir en un sesgo por omisión de variables relevantes: ej., el efecto de `student` por omitir `balances` (con la que está correlacionada)
+```{r}
+glm(data = Default, default ~ student + balance, family = "binomial" ) %>% summary()
+```
+-->
+
+## Regresión logística con más de dos clases
+
+* La regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase
+$$
+\small
+\Pr(Y=c|X)=\frac{e^{\beta_{0c}+\beta_{1c}X_1+\dots+\beta_{kc}X_k}}{\sum_{l=1}^{C}e^{\beta_{0l}+\beta_{1l}X_1+\dots+\beta_{kl}X_k}}
+$$
+
+* La librería `glmnet()` permite la estimación de estos modelos
+
+```{r}
+library(glmnet)
+x <- model.matrix(Species ~ Sepal.Length + Sepal.Width, data = iris)
+mod.glmnet <- glmnet(x = x, y = iris$Species, family = "multinomial", 
+                     lambda = 0, type.multinomial = "grouped")
+coef(mod.glmnet) 
+predict(mod.glmnet, newx=x, type = "response")  # probabilidad de cada clase
+predict(mod.glmnet, newx=x, type = "class")     # clase
+```
+
+```{r echo=FALSE, eval=FALSE}
+library(glmnet)
+iris.x <- as.matrix(iris[1:2])
+iris.y <- as.matrix(iris[5])
+mod.glmnet <- glmnet(x = iris.x, y = iris.y, family = "multinomial", 
+                     lambda = 0, type.multinomial = "grouped")
+coef(mod.glmnet) 
+
+predict(mod.glmnet, newx=iris.x, type = "response")  # probabilidad de cada clase
+predict(mod.glmnet, newx=iris.x, type = "class")     # clase
+
+d <- coef(mod.glmnet) %>% reduce(cbind) 
+colnames(d) <- names(c)
+d
+```
+
+
+```{r, echo=FALSE, eval=FALSE}
+library(nnet)
+mod.nnet <- multinom(
+    Species ~ Sepal.Width + Petal.Length + Petal.Width, # Species ~ .
+    data = iris
+)
+mod.nnet
+```
+
