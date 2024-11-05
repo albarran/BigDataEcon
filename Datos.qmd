@@ -50,12 +50,9 @@ strip-comments: true
 
   + [descuento.csv](https://raw.githubusercontent.com/albarran/00datos/main/descuento.csv)
 
-<!--
-
-* Tema 8:
-
   + [census.csv](https://raw.githubusercontent.com/albarran/00datos/main/census.csv)
 
+<!--
 * Tema 14:
 
   + [clientes.csv](https://raw.githubusercontent.com/albarran/00datos/main/clientes.csv)
