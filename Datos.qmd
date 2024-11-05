@@ -48,7 +48,7 @@ strip-comments: true
 
 * Tema 6:
 
-  + [discount.csv](https://raw.githubusercontent.com/albarran/00datos/main/discount.csv)
+  + [descuento.csv](https://raw.githubusercontent.com/albarran/00datos/main/descuento.csv)
 
 <!--
 
