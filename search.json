@@ -378,116 +378,256 @@
     "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPregunta 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nEn clase haremos estos apartados tanto usando un programa de hoja de cálculo (como Excel, LibreOffice Calc o Google Sheets) como usando R.\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nRepetir el apartado a) para cada empleado de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\n¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?\n\n\nRepresentar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.\nPresentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.\nPresentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010."
   },
   {
-    "objectID": "docs/Tema06.html#métodos-estadísticos",
-    "href": "docs/Tema06.html#métodos-estadísticos",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "objectID": "docs/Tema06.html#métodos-estadísticos-1",
+    "href": "docs/Tema06.html#métodos-estadísticos-1",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Métodos Estadísticos",
-    "text": "Métodos Estadísticos\n\n\n\nLos métodos estadísticos (modelización) permiten\n\nEncontrar patrones \nInterpretar datos \n\n\n\n\n\n\n\n\n\nLos datos (casos observados) son una muestra de una población mayor (casos potenciales)\n\n\nLas ventas salen de una población teórica \\(\\chi^2_{(10)}\\), con media poblacional 10:\n\n\ndata &lt;- tibble(x = rchisq(n=1e6, df=10))\nggplot(data, aes(x)) + geom_vline(xintercept = 10, color = \"red\") +\n  geom_density() \n\n\n¿Cómo de fiable es un estadístico (ej., la media) calculado en una muestra?"
+    "text": "Métodos Estadísticos\n\n\n\nLa modelización mediante métodos estadísticos permite\n\nEncontrar patrones \nInterpretar datos \n\n\n\n\n\n\n\n\n\nLos datos (casos observados) son una muestra de una población mayor (casos potenciales)\n\n\nLas ventas salen de una población teórica uniforme entre 0 y 20 (media = 10)\n\n\ntibble(x = runif(n=1e7, min = 0, max = 20)) %&gt;% pull(x) %&gt;% mean()\n\n\n¿Cómo de fiable es un estadístico (ej., la media) calculado en una muestra?\n\n\nset.seed(9915)\ntibble(x = runif(n=25, min = 0, max = 20)) %&gt;% pull(x) %&gt;% mean()"
   },
   {
     "objectID": "docs/Tema06.html#variabilidad-muestral",
     "href": "docs/Tema06.html#variabilidad-muestral",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Variabilidad muestral",
-    "text": "Variabilidad muestral\n\nSimulemos la distribución de la media en muchas muestras de \\(n=25\\)\n\n\n\n\nset.seed(101)\nnsim &lt;- 100\nN &lt;- 25\nybar &lt;- numeric(nsim)\n\n\n\n\n\n\n\nfor (j in 1:nsim) { \n  muestra &lt;- round(rchisq(n=N, df=10)) \n  ybar[j] &lt;- mean(muestra) \n}\nsummary(ybar) \n\n\n\n\n\nDistribución muestral es la distribución del estadístico en todas las muestras potenciales de tamaño \\(n\\)\n\n\nas_tibble(ybar) %&gt;% ggplot(aes(x=value)) + geom_density() # solo 100 muestras\n\n\n¿Es posible cuantificar la incertidumbre con UNA MUESTRA?\n\n\nSuponiendo que los datos son normales, la media tiene una distribución normal\nTeorema Central del Límite: para datos de cualquier distribución, \\(\\overline{Y} \\overset{a}{\\sim} N(\\mu, \\sigma^2/n)\\) cuando \\(n \\to \\infty\\)"
+    "text": "Variabilidad muestral\n\nCon todas las muestras potenciales de tamaño \\(\\small n\\) conoceríamos la distribución muestral de un estadístico (información calculada en una muestra)\n\nSimulemos la distribución para la media en muchas muestras de \\(\\small n=25\\)\n\n\n\n\n\nset.seed(101)\nnsim &lt;- 1000\nN &lt;- 25\nybar &lt;- numeric(nsim)\n\n\n\nfor (j in 1:nsim) { \n  muestra &lt;- runif(n=N, 0, 20) \n  ybar[j] &lt;- mean(muestra) \n}\n\n\n\n\n\nas_tibble(ybar) %&gt;% ggplot(aes(x=value)) + geom_density() +\n  geom_vline(xintercept = 10)\n\n\n¿Es posible cuantificar la incertidumbre con UNA MUESTRA?\n\n\nSuponiendo que los datos son normales, la media tiene una distribución normal\nTeorema Central del Límite: para datos de cualquier distribución, \\(\\overline{Y} \\overset{a}{\\sim} N(\\mu, \\sigma^2/n)\\) cuando \\(n \\to \\infty\\)"
   },
   {
     "objectID": "docs/Tema06.html#procedimiento-bootstrap",
     "href": "docs/Tema06.html#procedimiento-bootstrap",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Procedimiento Bootstrap",
-    "text": "Procedimiento Bootstrap\n\nIdea: pensar en la ÚNICA muestra como si fuera la población\n\n\nTomar muchas remuestras (muestras de Bootstrap) con reemplazamiento\n\np.e., para (1,2,3) incluye los casos (1,1,2), (1,1,3), (2,2,1), etc. \n\nEn cada remuestra, se puede calcular cualquier estadístico\n\n\nEste procedimiento permite generar variación (de remuestras) a partir de una única muestra\nLa distribución muestral bootstrap NO es la distribución muestral, pero aproxima sus aspectos principales sin supuestos (normalidad, TCL)\n\n\nPuede aplicarse a cualquier estadístico (media, varianzas, regresión, etc.)"
+    "text": "Procedimiento Bootstrap\n\n\nIdea: pensar en la ÚNICA muestra como si fuera la población\n\n\nset.seed(101)\nUNICAmuestra &lt;- tibble(x=runif(n=25, 0, 20))\n\n\nTomar muchas remuestras (muestras de Bootstrap) con reemplazamiento\n\np.e., para (1,2,3) incluye los casos (1,1,2), (1,1,3), (2,2,1), etc. \n\n\n\nlibrary(rsample)\nnboot &lt;- 1000\nremuestras &lt;- bootstraps(UNICAmuestra, times = nboot)\n\n\nEn cada remuestra, se puede calcular cualquier estadístico\n\n\ndistrib &lt;- list()\nfor (r in 1:nboot) {\n  remuestra_r &lt;- remuestras$splits[[r]] %&gt;% as_tibble()\n  media_r  &lt;- remuestra_r %&gt;% pull(x) %&gt;% mean()\n  sd_r     &lt;- sd(remuestra_r$x)\n  distrib[[r]] &lt;- list(medias = media_r, sds =sd_r ) \n}\ndistribDF &lt;- distrib %&gt;% bind_rows()"
   },
   {
     "objectID": "docs/Tema06.html#procedimiento-bootstrap-cont.",
     "href": "docs/Tema06.html#procedimiento-bootstrap-cont.",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Procedimiento Bootstrap (cont.)",
-    "text": "Procedimiento Bootstrap (cont.)\n\n\nlibrary(rsample)\nset.seed(101)\nUNAmuestra &lt;- tibble(x=rchisq(n=25, df=10))\n\nnboot &lt;- 10\nremuestras &lt;- bootstraps(UNAmuestra, times = nboot)\n\ndistrib &lt;- list()\nfor (i in 1:nboot) {\n  remuestrai &lt;- remuestras$splits[[i]] %&gt;% as_tibble()\n  mediai  &lt;- mean(remuestrai$x)\n  sdi     &lt;- sd(remuestrai$x)\n  distrib[[i]] &lt;- list(medias = mediai, sds =sdi ) \n}\n\ndistribF &lt;- distrib %&gt;% bind_rows()\n\n\ndistribF %&gt;% ggplot(aes(x = medias)) + \n  geom_density()                        # densidad bootstrap de la media\nsd(distribF$media)                    # estimación del E.S. de la media\n# I.C. al 95% de la media y de la DT\nc(sort(distribF$media)[25], sort(distribF$media)[975]) \nc(sort(distribF$sd)[25], sort(distribF$sd)[975])"
+    "text": "Procedimiento Bootstrap (cont.)\n\n\nEste procedimiento permite generar variación (de remuestras) a partir de una única muestra\nLa distribución muestral bootstrap NO es la distribución muestral, pero aproxima sus aspectos principales sin supuestos (normalidad, TCL)\n\n\ndistribDF %&gt;% ggplot(aes(x=medias)) + geom_density()\n\n# Error estándar de la media\nmediaSE &lt;- distribDF %&gt;% pull(medias) %&gt;% sd()\n\n# Intervalos de confianza al 95% para la media\nmediaIC &lt;- distribDF %&gt;% pull(medias) %&gt;% quantile(c(0.025, 0.975))\n\n\nPuede aplicarse a cualquier estadístico (media, varianzas, regresión, etc.)"
   },
   {
-    "objectID": "docs/Tema06.html#modelización-condicional.-causalidad",
-    "href": "docs/Tema06.html#modelización-condicional.-causalidad",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
-    "section": "Modelización Condicional. Causalidad",
-    "text": "Modelización Condicional. Causalidad\n\nLa población NO suele ser homogenea: más visitas ciertos días, horas, etc.\n\n\nUn modelo de regresión permite incluir todas las variables explicativas de la variación de la variable dependiente\n\n\n“Correlación no implica causalidad”, salvo en ensayos científicos aleatorios cuidadosamente controlados\n\nen otros campos como marketing digital o analítica de web se denominan pruebas A/B (ej. dos versiones de una misma web)\n\nEn general (datos observacionales), nos preocupa que otros factores que puedan ser los verdaderos determinantes de la relación observada"
+    "objectID": "docs/Tema06.html#aprendizaje-estadístico-o-automático",
+    "href": "docs/Tema06.html#aprendizaje-estadístico-o-automático",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Aprendizaje Estadístico o Automático",
+    "text": "Aprendizaje Estadístico o Automático\n\nAprendizaje automático (machine learning, ML) o estadístico (statiscal learning): conjunto de técnicas algorítmicas para extraer información de los datos\n\n\nTipos principales\n\n\nAprendizaje supervisado: escenarios en los que para cada observación de las mediciones \\(X_i\\) hay una respuesta asociada \\(Y_i\\) (“supervisa” el aprendizaje)\n\nAprendemos la respuesta de casos nuevos a partir de casos previos\n\nAprendizaje no supervisado: no hay una respuesta asociada a las mediciones de \\(X_i\\) para supervisar el análisis que generará un modelo.\n\nAprendemos rasgos no medidos a partir de casos “no etiquetados”: ej. observaciones similares organizadas en grupos distintos"
   },
   {
-    "objectID": "docs/Tema06.html#confounding-factor-descuentos-y-ventas",
-    "href": "docs/Tema06.html#confounding-factor-descuentos-y-ventas",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
-    "section": "“Confounding factor”: Descuentos y ventas",
-    "text": "“Confounding factor”: Descuentos y ventas\n\ndatos &lt;- read_csv(\"data/discount.csv\")\n\n\nEl porcentaje medio de descuentos afecta negativamente a las ventas\n\n\ndatos %&gt;% ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = \"lm\")\nlm(data = datos, sales ~ discount) %&gt;% summary()\n\n\nPero si tenemos en cuenta la renta…\n\n\ndatos %&gt;% mutate(renta_baja = income &lt; 7500) %&gt;%  \n  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = \"lm\") +\n  facet_wrap(~renta_baja)\nlm(data = datos, sales ~ discount + income) %&gt;% summary()"
+    "objectID": "docs/Tema06.html#aprendizaje-supervisado",
+    "href": "docs/Tema06.html#aprendizaje-supervisado",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Aprendizaje supervisado",
+    "text": "Aprendizaje supervisado\n\n\\[\n\\small Y = f(X) + \\varepsilon\n\\]\n\nModelo para la variable dependiente (de respuesta) en función de factores observados (predictores/características) y no observados (\\(\\small \\varepsilon\\))\n \n\n\\(f\\) representa la información/relación sistemática que \\(X\\) (género, educación, etc.) ofrecen sobre un resultado medido \\(Y\\) (ej. renta)\n\nObjetivos:\n\n\nPredecir el valor esperado de \\(\\small Y\\) para casos nuevos \nComprender cómo afectan al resultado esperado de \\(\\small Y\\) cambios en los valores de las características\n\np.e., tiene la experiencia un efecto positivo o nula sobre la renta esperada\n¡cuidado con afirmaciones de causalidad!\n\n\n\nEn ambos casos, tenemos que estimar (“aprender”) la \\(f\\) desconocida"
   },
   {
-    "objectID": "docs/Tema06.html#regresión-lineal",
-    "href": "docs/Tema06.html#regresión-lineal",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
-    "section": "Regresión Lineal",
-    "text": "Regresión Lineal\n\nLa regresión lineal predice una respuesta cuantitativa \\(\\small Y\\) como a partir de \\(k\\) regresores \\(X=\\) \\(\\small X_1,X_2,\\dots,X_k\\)\nSupuesto: relación lineal entre \\(\\small X\\) e \\(\\small Y\\) \\[\n\\small\nY=\\beta_0+\\beta_1 X_1+ \\dots + \\beta_k X_k + \\varepsilon\n\\]\nLos coeficientes o parámetros del modelo representan\n\n\\(\\small \\beta_0\\) (constante): valor esperado de \\(\\small Y\\) cuando \\(\\small X_1=X_2=\\dots=X_k=0\\)\n\\(\\small \\beta_j\\) (pendiente de la línea): cambio medio en \\(\\small Y\\) por un incremento de una unidad en \\(\\small X_j\\) (para \\(j=1,...,k\\)), ceteris paribus\n\nObjetivo: estimar los coeficientes desconocidos a partir de una muestra"
+    "objectID": "docs/Tema06.html#aprendizaje-supervisado-cont.",
+    "href": "docs/Tema06.html#aprendizaje-supervisado-cont.",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Aprendizaje supervisado (cont.)",
+    "text": "Aprendizaje supervisado (cont.)\n\nDos formas de especificar la relación \\(f\\)\n\nModelo paramétrico: supone un forma de \\(f\\) que depende de parámetros desconocidos, p.e., lineal \\(f(x) =\\beta_0 + \\beta_1 x_1 + \\dots + \\beta_k x_k\\)\nModelo no paramétrico: ajustar \\(f\\) a los datos sin supuestos funcionales\n\nmás flexibilidad y mejor ajuste, pero más difícil de estimar e interpretar\n\n\nLa capacidad predictiva de un modelo mejora si incluimos más variables explicativas (modelo más flexible)\n\n\nDependiendo de la naturaleza de la variable dependiente, tenemos:\n1.- Problemas de Regresión: variable de respuesta cuantitativa (toma valores numéricos)\n2.- Problemas de Clasificación: variable de respuesta cualitativa (toma valores en una de \\(C\\) categorías o clases)"
+  },
+  {
+    "objectID": "docs/Tema06.html#modelo-de-regresión-lineal",
+    "href": "docs/Tema06.html#modelo-de-regresión-lineal",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Modelo de Regresión Lineal",
+    "text": "Modelo de Regresión Lineal\n\n\nEs un modelo paramétrico para problemas de regresión que supone una relación lineal entre \\(\\small Y\\) y \\(\\small X\\): \\(\\quad \\small \\color{blue}{ventas = \\beta_0 + \\beta_1 renta + \\beta_2 descuento + u}\\)\n\n\nLa constante \\(\\small \\color{blue}{\\beta_0= E(ventas|renta=0, descuento=0)}\\): valor esperado de \\(\\small Y\\), ventas, cuando todas las variables explicativas son cero\n\nen este caso, la renta es 0 y el individuo no tiene descuento\n\nLa pendiente de una variable continua \\(\\small \\color{blue}{\\beta_1 = \\frac{\\delta E(ventas|renta,descuento)}{\\delta{renta}}}\\): cambio esperado de \\(\\small Y\\), ventas, cuando la variable explicativa, renta, aumenta en una unidad, manteniendo el resto de variables constantes (en este caso, un valor dado para descuento)\n\nen algunos caso también puede verse como \\(\\small \\beta_1 = E(ventas|renta=x+1,descuento=d)-E(ventas|renta=x,descuento=d)\\)\n\nPara variables discretas binarias \\(\\small \\color{blue}{\\beta_2 = E(ventas|renta=x,descuento=1)-E(ventas|renta=x,descuento=0)}\\): diferencia del valor esperado de \\(\\small Y\\), ventas, para el grupo indicado por la variable (tienen descuento) respecto al grupo de referencia (no tienen descuento), mateniendo el resto de variables (en este caso, renta) constante"
   },
   {
     "objectID": "docs/Tema06.html#regresión-lineal-estimación",
     "href": "docs/Tema06.html#regresión-lineal-estimación",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Lineal: Estimación",
-    "text": "Regresión Lineal: Estimación\n\nEl error de estimación o residuo es \\(\\small \\hat{e}_i = y_i - \\hat{y}_i\\), donde la predicción a partir del modelo estimado es \\(\\small \\hat{y}_i=\\hat{\\beta}_0+\\hat{\\beta}_1 X_1+ \\dots + \\hat{\\beta}_k X_p\\)\nLos coeficientes estimados son los que minimizan la Suma Cuadrática de Residuos: la suma total de distancias entre los datos observados y predichos\n\n\n\n\n\n\n\n\n\\[\n\\small SCR=\\sum_{i=1}^{n} \\hat{e}_i^2= \\sum_{i=1}^{n} ( y_i - \\hat{y}_i)^2\n\\]\n\nPor tanto, también minimiza \\(\\small ECM = \\frac{SCR}{n} = MSE\\)\n\n\n\n\nEsto equivale a las condiciones derivadas de suponer \\(\\small E(\\varepsilon|X)=0\\)"
+    "text": "Regresión Lineal: Estimación\n\n\nObjetivo: estimar los coeficientes poblacionales desconocidos a partir de una muestra\nEl error de estimación o residuo es \\(\\small \\hat{e}_i = y_i - \\hat{y}_i\\), donde la predicción a partir del modelo estimado es \\(\\small \\hat{y}_i=\\hat{\\beta}_0+\\hat{\\beta}_1 X_1+ \\dots + \\hat{\\beta}_k X_p\\)\nLos coeficientes estimados son los que minimizan la Suma Cuadrática de Residuos: la suma total de distancias entre los datos observados y predichos\n\n\n\n\n\n\n\n\\[\n\\small SCR=\\sum_{i=1}^{n} \\hat{e}_i^2= \\sum_{i=1}^{n} ( y_i - \\hat{y}_i)^2\n\\]\n\n\nEsto equivale a las condiciones derivadas de suponer \\(\\small E(\\varepsilon|X)=0\\)"
   },
   {
-    "objectID": "docs/Tema06.html#regresión-lineal-precisión-de-las-estimaciones",
-    "href": "docs/Tema06.html#regresión-lineal-precisión-de-las-estimaciones",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
-    "section": "Regresión Lineal: Precisión de las estimaciones",
-    "text": "Regresión Lineal: Precisión de las estimaciones\n\nEl error estándar \\(\\small se(\\widehat{\\beta}_j)\\) mmide la precisión del coeficiente estimado\n\n\nSe usan para construir intervalos de confianza y estadísticos para contrastar hipótesis sobre los parámetros, p.e., significatividad\n\nindividual: \\(\\small H_0: \\beta_1=0\\) con un estadístico \\(\\small t=\\frac{\\widehat{\\beta}_1-0}{se(\\widehat{\\beta}_1)}\\)\nconjunta: \\(\\small H_0: \\beta_1=\\beta_2=\\dots=\\beta_k=0\\) con un estadístico \\(\\small F\\)\n\nMedidas de la precisión del modelo: \\(\\small MSE\\) o \\(\\small R^2=1-\\frac{SCR}{SCT} = \\frac{SCE}{SCT}\\)\nLa predicción \\(\\widehat{y}\\) también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas\n\n\nres &lt;- lm(data = datos, sales ~ discount + income)\ncbind(datos$sales, res$fitted.values) %&gt;% head()"
+    "objectID": "docs/Tema06.html#regresión-lineal-estimación-cont.",
+    "href": "docs/Tema06.html#regresión-lineal-estimación-cont.",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Regresión Lineal: Estimación (cont.)",
+    "text": "Regresión Lineal: Estimación (cont.)\n\nLos parámetros del modelo \\(f(.)\\) estimado, en este caso los \\(\\small \\beta_j\\) son estadísticos con variabilidad muestral, medida por su error estándar \\(\\small se(\\widehat{\\beta}_j)\\) \n\n\nSe usan para construir intervalos de confianza y para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad (\\(\\small \\beta_1=0\\))\n\n\nEn R, usamos la función lm()\n\n\ndescuento &lt;- read.csv(\"data/descuento.csv\") %&gt;% \n              mutate(zona = parse_factor(zona))\nmodelo &lt;- lm(data = descuento, ventas ~ renta + descuento)\nsummary(modelo)\n\n\nLa predicción \\(\\widehat{y}\\) también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas\n\n\nventas_pred &lt;- predict(modelo, type = \"response\")\ncbind(descuento$ventas, ventas_pred) %&gt;% head()"
   },
   {
     "objectID": "docs/Tema06.html#regresión-lineal-superando-la-linealidad",
     "href": "docs/Tema06.html#regresión-lineal-superando-la-linealidad",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Lineal: superando la linealidad",
-    "text": "Regresión Lineal: superando la linealidad\n\nSe pueden incluir transformaciones no lineales de las variables del modelo\n\n\nLa interpretación del cambio de un regresor sobre \\(\\small Y\\) es diferente\n\n\nlibrary(ISLR)\ndata(Carseats)\nlm(data=Carseats %&gt;% filter(Sales != 0), log(Sales) ~ poly(Advertising,2))\n\n\nOtra forma de permitir no linealidades es discretizando variables continuas: permite efectos “escalón” diferentes para distintos valores\n\n\nlm(data=Carseats , Sales ~ cut_width(Advertising, 10)) %&gt;% summary()\n\n\nSe incluyen indicadores binarios para cada clase excepto uno\n\nla constante recoge el valor medio de \\(\\small Y\\) para ese grupo de referencia\ncada coeficiente recoge el efecto adicional de su grupo sobre \\(\\small Y\\)"
+    "text": "Regresión Lineal: superando la linealidad\n\nSe pueden incluir transformaciones no lineales de las variables del modelo\n\n\nLa interpretación del cambio de un regresor sobre \\(\\small Y\\) es diferente\n\n\nlm(data=descuento, log(ventas) ~ renta + I(renta^2) + descuento) %&gt;% summary()\n\n\nOtra forma de permitir no linealidades es discretizando variables continuas: permite efectos “escalón” diferentes para distintos valores\n\n\nlm(data=descuento , ventas ~ cut_width(renta, 500) + descuento) %&gt;% summary()\n\n\nSe incluyen indicadores binarios para cada clase excepto uno\n\nla constante recoge el valor medio de \\(\\small Y\\) para ese grupo de referencia\ncada coeficiente recoge el efecto adicional de su grupo sobre \\(\\small Y\\)"
   },
   {
     "objectID": "docs/Tema06.html#regresión-lineal-superando-la-linealidad-cont.",
     "href": "docs/Tema06.html#regresión-lineal-superando-la-linealidad-cont.",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Lineal: superando la linealidad (cont.)",
-    "text": "Regresión Lineal: superando la linealidad (cont.)\n\nTambién podemos incluir interacciones entre variables: el efecto de un regresor dependerá de otro regresor\n\n\nlm(data=Carseats , Sales ~ Advertising*Income)\n\n\nPrincipio jerárquico: al incluir una interacción siempre deben incluirse los factores principales (NO sólo Advertising:Income)\nCuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo\n\n\nlm(data=Carseats , Sales ~ (Income + Advertising)*Urban)\n\n\nLa interacción de dos variables binarias tiene una interpretación similar \n\n\nlm(data=Carseats , Sales ~ ShelveLoc*Urban)"
+    "text": "Regresión Lineal: superando la linealidad (cont.)\n\nTambién podemos incluir interacciones entre variables: el efecto de un regresor dependerá de otro regresor\n\n\nlm(data=descuento, ventas ~ renta*descuento)  %&gt;% summary()\n\n\nPrincipio jerárquico: al incluir una interacción siempre deben incluirse los factores principales (NO sólo renta:descuento)\nCuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo\n\n\nlm(data=descuento , ventas ~ (renta + zona)*descuento) %&gt;% summary()\n\n–&gt;"
   },
   {
     "objectID": "docs/Tema06.html#problemas-del-modelo-de-regresión-lineal",
     "href": "docs/Tema06.html#problemas-del-modelo-de-regresión-lineal",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "“Problemas” del Modelo de Regresión Lineal",
     "text": "“Problemas” del Modelo de Regresión Lineal\n\nNo linealidad: incluir transformaciones no lineales \nCorrelación de los errores: afecta a los errores estándar, no la estimación\n\nusar errores estándar robustos o modelizar la dinámica\n\nHeterocedasticidad: ídem, usar errores estándar robustos \n\nlos gráficos de los residuos frente a un regresor o valores predichos: ¿heterocedasticidad o no linealidad? \n\nOutliers en la variable de respuesta o en los regresores \nColinearidad: indica que no es posible separar el efecto de cada regresor: eliminar alguno o recombinarlos\nNo normalidad: TCL, Bootstrap,…\nEl único supuesto realmente importante es \\(\\small E[\\varepsilon|X]=0\\)"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística",
     "href": "docs/Tema06.html#regresión-logística",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Logística",
-    "text": "Regresión Logística\n\nLa regresión lineal puede usarse respuestas binarias (no más de dos categorías), aunque genera predicciones fuera del rango \\(\\small [0,1]\\)\n\n\nSolución: aplicar al índice lineal una transformación \\(\\small F(z)\\in[0,1]\\)\n\n\n\n\nLa función logística: \\(\\small \\Lambda (z)=\\frac{e^z}{1+e^z}\\)\n\n\n\n\n\n\n\nDe manera que \\(\\small \\Pr(Y=1|X)= p(x)= \\Lambda( \\beta_0 + \\beta_1 x_1 + \\ldots + \\beta_k x_k)\\)"
+    "text": "Regresión Logística\n\nLa regresión lineal puede usarse respuestas binarias (no más de dos categorías), aunque genera predicciones fuera del rango \\(\\small [0,1]\\)\n\n\nSolución: aplicar al índice lineal una transformación \\(\\small F(z)\\in[0,1]\\)\n\n\n\n\nLa función logística: \\(\\small \\Lambda (z)=\\frac{e^z}{1+e^z}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDe manera que \\(\\small \\Pr(Y=1|X)= p(x)= \\Lambda( \\beta_0 + \\beta_1 x_1 + \\ldots + \\beta_k x_k)\\)"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística-cont.",
     "href": "docs/Tema06.html#regresión-logística-cont.",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Logística (cont.)",
     "text": "Regresión Logística (cont.)\n\nLos coeficientes NO se interpretan como cambios en la probabilidad ante cambios unitarios en un regresor (efecto marginal sobre la probabilidad)\nPERO su signo (y significatividad) son los mismos que los del efecto marginal\n\n\nComo NO tiene sentido minimizar la SCR, el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos\n\n\nLa regresión logística pertenece a la familia de modelos lineales generalizados (GLM, en inglés)\n\n\nSe pueden incluir como variables explicativas tanto variables cuantitativas como cualitativas, e incurrir en sesgo por omisión de variables\n\n\nglm(data = Default, default ~ student, family = \"binomial\" ) %&gt;% summary()\nglm(data = Default, default ~ student + balance, family = \"binomial\" ) %&gt;% summary()"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística-predicciones",
     "href": "docs/Tema06.html#regresión-logística-predicciones",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Logística: Predicciones",
     "text": "Regresión Logística: Predicciones\n\nEl objeto de R de glm() contiene valores predichos, que son probabilidades de \\(\\small Y=1\\)\n\n\nlogit &lt;- glm(data = Default, default ~ balance*student, family = \"binomial\" ) \ncbind(Default$default, logit$fitted)\n\n\nTambién se puede predecir usando una muestra distinta de la usada para estimar o con valores concretos de los regresores\n\n\nlogit &lt;- glm(data = Default, default ~ balance, family = \"binomial\" )\npredict(logit, newdata = tibble(balance=c(0,100)), type=\"response\")"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística-con-más-de-dos-clases",
     "href": "docs/Tema06.html#regresión-logística-con-más-de-dos-clases",
-    "title": "Tema 06 - Modelización: métodos estadísticos",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión logística con más de dos clases",
-    "text": "Regresión logística con más de dos clases\n\nLa regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase \\[\n\\small\n\\Pr(Y=c|X)=\\frac{e^{\\beta_{0c}+\\beta_{1c}X_1+\\dots+\\beta_{kc}X_k}}{\\sum_{l=1}^{C}e^{\\beta_{0l}+\\beta_{1l}X_1+\\dots+\\beta_{kl}X_k}}\n\\]\nLa librería glmnet() permite la estimación de estos modelos\n\n\nlibrary(glmnet)\nx &lt;- model.matrix(Species ~ Sepal.Length + Sepal.Width, data = iris)\nmod.glmnet &lt;- glmnet(x = x, y = iris$Species, family = \"multinomial\", \n                     lambda = 0, type.multinomial = \"grouped\")\ncoef(mod.glmnet) \npredict(mod.glmnet, newx=x, type = \"response\")  # probabilidad de cada clase\npredict(mod.glmnet, newx=x, type = \"class\")     # clase"
+    "text": "Regresión logística con más de dos clases\n\nLa regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase \\[\n\\small\n\\Pr(Y=c|X)=\\frac{e^{\\beta_{0c}+\\beta_{1c}X_1+\\dots+\\beta_{kc}X_k}}{\\sum_{l=1}^{C}e^{\\beta_{0l}+\\beta_{1l}X_1+\\dots+\\beta_{kl}X_k}}\n\\]\nLa librería glmnet() permite la estimación de estos modelos\n\n\n\nlibrary(glmnet)\nx &lt;- model.matrix(Species ~ Sepal.Length + Sepal.Width, data = iris)\nmod.glmnet &lt;- glmnet(x = x, y = iris$Species, family = \"multinomial\", \n                     lambda = 0, type.multinomial = \"grouped\")\ncoef(mod.glmnet) \npredict(mod.glmnet, newx=x, type = \"response\")  # probabilidad de cada clase\npredict(mod.glmnet, newx=x, type = \"class\")     # clase"
+  },
+  {
+    "objectID": "docs/Tema06.html#error-de-predicción",
+    "href": "docs/Tema06.html#error-de-predicción",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Error de predicción",
+    "text": "Error de predicción\n\nUn modelo es mejor si sus predicciones se ajusten mejor a las observaciones\nEl error de predicción es \\(y - \\widehat{y} = f(X) - \\widehat{f}(X)  + \\varepsilon\\)\n\n\\(f - \\widehat{f}\\) = error reducible (eligiendo modelo)\n\\(\\varepsilon\\) = error irreducible (variables no observadas)\n\nLa función de pérdida (o coste) evalúa cómo valoramos las desviaciones"
+  },
+  {
+    "objectID": "docs/Tema06.html#métricas-de-error-de-predicción-cuantitativa",
+    "href": "docs/Tema06.html#métricas-de-error-de-predicción-cuantitativa",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Métricas de error de predicción (cuantitativa)",
+    "text": "Métricas de error de predicción (cuantitativa)\n\nMean Square Error (Error Cuadrático Medio): \\(\\small MSE(y,\\widehat{y})={\\frac{1}{n}\\sum_{i=1}^{n}\\left(y-\\widehat{y}\\right)^2}\\)\n\npenaliza grandes desviaciones\n\\(\\small R^2\\) y \\(\\small R^2\\)-ajustado son variantes del MSE, y solo sirven para comparar modelos con la misma variable dependiente.\n\nRoot Mean Square Error: \\(\\small RMSE(y,\\widehat{y})=\\sqrt{\\frac{1}{n}\\sum_{i=1}^{n}\\left(y-\\widehat{y}\\right)^2}\\)\n\nmismas unidades que \\(\\small y\\)\n\nMean Absolute Error: \\(\\small MAE(y,\\widehat{y})=\\frac{1}{n}\\sum_{i=1}^{n}\\left|y-\\widehat{y}\\right|\\)\n\n\n\nOtras medidas basadas en distintas funciones de pérdida, la verosimilitud del modelo (\\(\\small AIC\\), \\(\\small BIC\\)), etc"
+  },
+  {
+    "objectID": "docs/Tema06.html#seleccionar-el-mejor-modelo",
+    "href": "docs/Tema06.html#seleccionar-el-mejor-modelo",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Seleccionar el mejor modelo",
+    "text": "Seleccionar el mejor modelo\n\n¿Podemos predecir el número de visitantes en función de la temperatura?\n\n\nlibrary(mosaicData)\ndata(RailTrail)\nRailTrail %&gt;% ggplot(aes(x = hightemp, y = volume)) + \n  geom_point() +  geom_smooth()\n\n\n¿Cuál es el mejor modelo?\n\n\\(\\small volume = \\beta_0 + \\beta_1 hightemp + \\varepsilon\\)\n\\(\\small volume = \\beta_0 + \\beta_1 hightemp + \\beta_2 hightemp^2 + \\varepsilon\\)\n…\n\\(\\small volume = \\beta_0 + \\beta_1 hightemp + \\dots + \\beta_{22} hightemp^{22} + \\varepsilon\\)\n\n\n\nRailTrail %&gt;% ggplot(aes(x = hightemp, y = volume)) + \n  geom_point() + \n  geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) + \n  coord_cartesian(ylim = c(100,750))"
+  },
+  {
+    "objectID": "docs/Tema06.html#muestras-de-entrenamiento-y-de-prueba",
+    "href": "docs/Tema06.html#muestras-de-entrenamiento-y-de-prueba",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Muestras de entrenamiento y de prueba",
+    "text": "Muestras de entrenamiento y de prueba\n\nLas métricas de error (ej., \\(\\small MSE\\)) suelen calcularse para predicciones de los mismos datos usados para ajustar/estimar el modelo (in-sample prediction)\n\nEsta muestra se denomina muestra de entrenamiento (training sample)\n\nPERO queremos saber qué tal se predicen casos nuevos (out-sample prediction)\nUsar las métricas en muestras de entrenamiento implica problemas de “overfitting”: sobreajuste a las características de la muestra concreta\n\nUn modelo menos flexible podría tener menor error de predicción con casos nuevos\n\n\n\nDebemos calcular las métricas de error con observaciones que el modelo NO ha usado antes: muestra de prueba (test sample)"
+  },
+  {
+    "objectID": "docs/Tema06.html#overfitting",
+    "href": "docs/Tema06.html#overfitting",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "“Overfitting”",
+    "text": "“Overfitting”\n\n\n\n\n\nSiempre que aumenta la flexibilidad, el MSE\n\ndisminuye en la muestra de entrenamiento\ntiene forma de U en la muestra de prueba\n\nNota: el MSE en entrenamiento es siempre menor que en prueba"
+  },
+  {
+    "objectID": "docs/Tema06.html#mse-en-la-muestra-de-prueba",
+    "href": "docs/Tema06.html#mse-en-la-muestra-de-prueba",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "MSE en la muestra de prueba",
+    "text": "MSE en la muestra de prueba\n\\[\n\\small\nE\\left[\\left(y-\\widehat{f}(x)\\right)^2\\right] =\nE\\left[\\left(f(x)-\\widehat{f}(x) + \\varepsilon\n+ E\\left[\\widehat{f}(x)\\right]-E\\left[\\widehat{f}(x)\\right] \\right)^2\\right] =\n\\]\n\\[\n\\small\n=\\underbrace{\\left[E\\left(\\widehat{f}(x)\\right)-f(x)\\right]^2}_{(1)} + \\underbrace{E\\left(\\left[\\widehat{f}(x)-E\\left(\\widehat{f}(x)\\right)\\right]^2\\right)}_{(2)}+Var(\\varepsilon)\n\\]\n\n\\(\\small (1)=\\left[Sesgo\\left(\\widehat{f}(x)\\right)\\right]^2\\): error por supuestos erróneos en \\(f\\)\n\najuste insuficiente (underfit) al perder relaciones relevantes entre \\(X\\) e \\(Y\\)\n\n\\(\\small (2)=Var\\left(\\widehat{f}(x)\\right)\\): sensibilidad a fluctuaciones en el entrenamiento\n\nsi el algoritmo modela puro ruido en entrenamiento, ajustará bien allí, pero predecirá mal casos nuevos (overfit)"
+  },
+  {
+    "objectID": "docs/Tema06.html#trade-off-varianzasesgo",
+    "href": "docs/Tema06.html#trade-off-varianzasesgo",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "“Trade-off” Varianza–Sesgo",
+    "text": "“Trade-off” Varianza–Sesgo\n\n\n\n\n\n\n\nEl sesgo se reduce y la varianza aumenta con la complejidad del modelo \\(\\Rightarrow\\) encontrar un método (ej., flexibilidad) para el que ambos sean bajos\n\n\nNO es posible minimizar simultáneamente ambas fuentes de error: memorización (en entrenamiento) vs. generalización de resultados"
+  },
+  {
+    "objectID": "docs/Tema06.html#medir-el-error-en-la-clasificación",
+    "href": "docs/Tema06.html#medir-el-error-en-la-clasificación",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Medir el Error en la Clasificación",
+    "text": "Medir el Error en la Clasificación\n\nLos modelos de clasificación NO predicen directamente la categoría, sino la probabilidad de que una observación pertenezca a cada categoría\n\n\nLa clase predicha será aquella con mayor probabilidad. En el caso binario, implicar superar el umbral de 0.5 (se deben probar varios valores)\n\n\ncenso &lt;- read_csv(\"data/census.csv\") %&gt;%\n  mutate(income = parse_factor(income))\nlogit &lt;- glm(income ~ capital_gain, data = censo, \n             family = \"binomial\")\nprob.predict &lt;- predict(logit, type = \"response\")\n\numbral &lt;- 0.5\ncat.predict  &lt;- if_else(prob.predict &gt; umbral, 1, 0) \ncbind(censo$income, cat.predict, prob.predict) %&gt;% head(10)\n\n\nComo no tiene sentido diferencia de clases (variables categóricas), NO se pueden calcular medidas como el MSE y otros relacionados"
+  },
+  {
+    "objectID": "docs/Tema06.html#matriz-de-confusión",
+    "href": "docs/Tema06.html#matriz-de-confusión",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Matriz de Confusión",
+    "text": "Matriz de Confusión\n\nTabular categorías observadas frente a las categorías predichas\n\n\n\n\n\n\n\n\n\n\n\nCLASE OBSERVADA\n\n\n\n.\nPOSITIVO (1)\nNEGATIVO (0)\n\n\n\n\nCLASE PREDICHA\n\n\nPOSITIVO (1)\nVerdadero Positivo [VP]\nFalso Positivo [FP]\n\n\n\n\n(Error Tipo I)\n\n\nNEGATIVO (0)\nFalso Negativo [FN]\nVerdadero Negativo [VN]\n\n\n\n(Error Tipo II)\n\n\n\n\n\n\n\ntable(cat.predict, censo$income)\n\n\nExisten varias medidas derivadas de la matriz de confusión"
+  },
+  {
+    "objectID": "docs/Tema06.html#métricas-con-la-matriz-de-confusión",
+    "href": "docs/Tema06.html#métricas-con-la-matriz-de-confusión",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Métricas con la matriz de confusión",
+    "text": "Métricas con la matriz de confusión\n\nTasa de observaciones correctamente clasificadas (exactitud o accuracy)\n\n\\[\n\\scriptsize ACCUR=\\frac{VP+VN}{VP+FP+VN+FN}\n\\]\n\nNo es informativo cuando algunas clases son infrecuentes (datos desequilibrados)\n\nsi hay poco fraude/enfermos (ej., 5%), predecir que nunca hay fraude implica \\(\\scriptsize ACCUR=95\\%\\), PERO NO detecta fraude/enfermedad\n\n\n\nEl estadístico Kappa (\\(\\small \\kappa\\)) es una medida similar, pero que ajusta por lo se esperaría solo por azar (corrigiendo en parte el desequilibrio entre clases)."
+  },
+  {
+    "objectID": "docs/Tema06.html#métricas-con-la-matriz-de-confusión-cont.",
+    "href": "docs/Tema06.html#métricas-con-la-matriz-de-confusión-cont.",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Métricas con la matriz de confusión (cont.)",
+    "text": "Métricas con la matriz de confusión (cont.)\n\nLa tasa de verdaderos positivos o sensibilidad (recall) es el porcentaje de verdaderos positivos sobre el total de positivos observados \\[\n\\scriptsize TVP=SENSIT=\\frac{VP}{VP+FN}\n\\]\n\nej., tasa de fraude/enfermos existentes que se detectan correctamente\n\n\n\nLa tasa de verdaderos negativos o especificidad es el porcentaje de verdaderos negativos sobre el total de negativos observados \\[\n\\scriptsize TVN=ESPECIF=\\frac{VN}{VN+FP}\n\\]\n\nej., tasa de “otras” opciones que se clasifican correctamente\nTasa de falsos positivos: \\(\\scriptsize TFP = 1 - TVN = 1 - ESPECIF\\)"
+  },
+  {
+    "objectID": "docs/Tema06.html#métricas-con-la-matriz-de-confusión-y-3",
+    "href": "docs/Tema06.html#métricas-con-la-matriz-de-confusión-y-3",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Métricas con la matriz de confusión (y 3)",
+    "text": "Métricas con la matriz de confusión (y 3)\n\nLa exactitud equilibrada (Balanced Accuracy) es una media de la sensibilidad y de la especificidad\n\n\nLa precisión o valor de predicción positivo es la cantidad de verdaderos positivos sobre el total de positivos predichos\n\n\\[\n\\scriptsize PREC=\\frac{VP}{VP+FP}\n\\]\n\nLa familia de medidas \\(\\small F_{\\beta}\\) es una ratio de la importancia ponderada de la sensibilidad y de la precisión: \\(\\scriptsize F_{\\beta}=\\frac{(1+\\beta)^2 \\times SENSIT \\times PREC}{\\beta^2 \\times SENSIT + PREC}\\)\n\nPara \\(\\scriptsize \\beta&lt;1\\), se da menos importancia a la sensibilidad: los falsos positivos se consideran más costosos\nPara \\(\\scriptsize \\beta&gt;1\\), los falsos negativos son más costosos y para \\(\\scriptsize \\beta=1\\) son igualmente costosos"
+  },
+  {
+    "objectID": "docs/Tema06.html#curva-roc-receiver-operating-characteristic",
+    "href": "docs/Tema06.html#curva-roc-receiver-operating-characteristic",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Curva ROC (“Receiver Operating Characteristic”)",
+    "text": "Curva ROC (“Receiver Operating Characteristic”)\n\n\nRepresenta TVP (eje y) frente a TFP (eje x) en diferentes umbrales : reducir el umbral clasifica más elementos como positivos (verdaderos y falsos)\n\n\n\n\n\nLa curva ROC informa del grado de separabilidad: dado un nivel de TFP, el clasificador es mejor cuanto mayor sea TVP"
+  },
+  {
+    "objectID": "docs/Tema06.html#auc-area-under-the-curve",
+    "href": "docs/Tema06.html#auc-area-under-the-curve",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "AUC (“area under the curve”)",
+    "text": "AUC (“area under the curve”)\n\nLa AUC es el área bajo la curva ROC: ofrece una medida agregada de rendimiento entre 0 (todas las clasificaciones incorrectas) y 1 (todas correctas)\n\n\nResume la curva ROC y permite comparar curvas que se cruzan"
+  },
+  {
+    "objectID": "docs/Tema06.html#extensiones.-métricas-adicionales",
+    "href": "docs/Tema06.html#extensiones.-métricas-adicionales",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Extensiones. Métricas adicionales",
+    "text": "Extensiones. Métricas adicionales\n\nCon más de dos clases, se realiza un análisis AUC-ROC para cada categoría (frente a las demás) y se promedian (ej., ponderando por casos en cada clase) \n\n\nCon clases desequilibradas, se puede preferir en lugar de la ROC un gráfico de precisión frente sensibilidad (precision-recall) y su correspondiente AUC (PR-AUC)\n\n\nExisten múltiples funciones de pérdida (o coste de clasificación) posibles.\n\nLas relacionadas con la curva de ganancia consideran el coste de alcanzar un cierto nivel de sensibilidad\nOtras se basan en la función de verosimilud o la entropía como medidas de pérdida (ej. mean log loss)"
+  },
+  {
+    "objectID": "docs/Tema06.html#evaluación-de-modelos-entrenamiento-y-prueba",
+    "href": "docs/Tema06.html#evaluación-de-modelos-entrenamiento-y-prueba",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Evaluación de Modelos: entrenamiento y prueba",
+    "text": "Evaluación de Modelos: entrenamiento y prueba\n\nPara minimizar problemas de underfit y, sobre todo, de overfit, DEBEMOS dividir aleatoriamente el conjunto de datos en dos partes:\n\n\n\n\n\n\n\n\n\nEntrenamiento (80-90%): datos sobre los que se construye/estima el modelo\nPrueba(20-10%): se usa el modelo construido para predecir y se evalúa con datos no vistos antes\n\n\n\n\n¿Por qué renunciar a parte de los datos si sabemos que un tamaño muestral grande es importante? Evaluar correctamente un modelo lo es mucho más\nLa estimación del error en prueba puede ser volátil dependiendo de las observaciones incluidas en cada grupo"
+  },
+  {
+    "objectID": "docs/Tema06.html#evaluación-de-modelos-validación-cruzada",
+    "href": "docs/Tema06.html#evaluación-de-modelos-validación-cruzada",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Evaluación de Modelos: Validación cruzada",
+    "text": "Evaluación de Modelos: Validación cruzada\n\nPara evitar que los datos sean sensibles a una partición concreta, se usa validación cruzada (cross-validation o rotation estimation)\nSe repite varias veces y de forma ordenada el proceso de remuestreo para la partición en grupos de entrenamiento y prueba (similar a bootstrap)\nPermite utilizar todas las observaciones de la muestra, tanto para estimar como para evaluar el modelo (aunque no a la vez)"
+  },
+  {
+    "objectID": "docs/Tema06.html#validación-cruzada-de-k-bloques",
+    "href": "docs/Tema06.html#validación-cruzada-de-k-bloques",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Validación cruzada de K bloques",
+    "text": "Validación cruzada de K bloques\n\nSe divide, aleatoriamente y ex-ante, la muestra en K subconjuntos (normalmente, 5 o 10)\n\n\n\n\n\n\n\n\nUn subconjunto se usa como prueba y el K-1 restantes como entrenamiento\nSe repite el proceso durante k iteraciones, con cada posible subconjunto de datos de prueba.\n\n\n\nSe obtiene una métrica de error en cada iteración; se promedian para obtener un único resultado de evaluación\nEs el tipo más habitual de validación cruzada"
+  },
+  {
+    "objectID": "docs/Tema06.html#validación-cruzada-aleatoria-rcv-y-loocv",
+    "href": "docs/Tema06.html#validación-cruzada-aleatoria-rcv-y-loocv",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Validación cruzada aleatoria (RCV) y LOOCV",
+    "text": "Validación cruzada aleatoria (RCV) y LOOCV\n\n\n\n\n\n\n\nRCV: en cada iteración se realiza la particion aleatoria (con reemplazamiento) entre entrenamiento y prueba\nLas observaciones pueden “repetir” como prueba\n\n\n\n\n\n\n\n\n\nLOOCV (leave one out CV): solo una observación se usa como prueba en cada iteración y el resto como entrenamiento\nSe realizan \\(n\\) iteraciones; se calcula una media sobre \\(n\\) resultados"
   },
   {
     "objectID": "docs/Tema05.html#de-los-datos-en-bruto-a-la-información",
