@@ -1649,6 +1649,16 @@
       ],
       "Hash": "b4b1ed61d9bfdc897a5a163a5db4b779"
     },
+    "mosaicData": {
+      "Package": "mosaicData",
+      "Version": "0.20.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "a3119fa171b29024fca33dce6c70bad9"
+    },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.1",
