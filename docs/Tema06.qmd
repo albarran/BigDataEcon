@@ -1359,14 +1359,12 @@ lm(data = datos, sales ~ discount + income) %>% summary()
 
 * La interpretación del cambio de un regresor sobre $\small Y$ es diferente
 ```{r}
-library(ISLR)
-data(Carseats)
-lm(data=Carseats %>% filter(Sales != 0), log(Sales) ~ poly(Advertising,2))
+lm(data=descuento, log(ventas) ~ renta + I(renta^2) + descuento) %>% summary()
 ```
 * Otra forma de permitir no linealidades es discretizando variables continuas: permite efectos "escalón" diferentes para distintos valores
 
 ```{r}
-lm(data=Carseats , Sales ~ cut_width(Advertising, 10)) %>% summary()
+lm(data=descuento , ventas ~ cut_width(renta, 500) + descuento) %>% summary()
 ```
 
 * Se incluyen indicadores binarios para cada clase excepto uno
@@ -1471,20 +1469,21 @@ confint(res)
 * También podemos incluir interacciones entre variables: el efecto de un regresor dependerá de otro regresor
 
 ```{r}
-lm(data=Carseats , Sales ~ Advertising*Income)
+lm(data=descuento, ventas ~ renta*descuento)  %>% summary()
 ```
 
-* Principio jerárquico: al incluir una interacción *siempre* deben incluirse los factores principales (NO sólo `Advertising:Income`)
+* Principio jerárquico: al incluir una interacción *siempre* deben incluirse los factores principales (NO sólo `renta:descuento`)
 
 * Cuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo
 
 ```{r}
-lm(data=Carseats , Sales ~ (Income + Advertising)*Urban)
+lm(data=descuento , ventas ~ (renta + zona)*descuento) %>% summary()
 ```
 
-* La interacción de dos variables binarias tiene una interpretación similar <!--, para el efecto esperado de $\small Y$-->
+<!-- * La interacción de dos variables binarias tiene una interpretación similar <!--, para el efecto esperado de $\small Y$--> -->
 
 ```{r}
+#| echo: false
 lm(data=Carseats , Sales ~ ShelveLoc*Urban)
 ```
 
@@ -1571,8 +1570,13 @@ aunque genera predicciones fuera del rango $\small [0,1]$
 ::: 
 
 ::: {}
-```{r, echo=FALSE, fig.show='asis', fig.height=3}
+```{r}
+#| echo: false
+#| eval: true
+#| fig.show: 'asis'
+#| fig.height: 3
 #install.packages("latex2exp")
+library(tidyverse)
 library(latex2exp)
 Logistic <- function(x) {exp(x)/(1+exp(x))}
 ggplot(data = data.frame(x = 0), mapping = aes(x = x)) +
