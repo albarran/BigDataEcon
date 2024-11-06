@@ -13,35 +13,35 @@ institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alican
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
-  beamer:
-    handout: false
-    logo: figure/by-nc-sa2.png
-    titlegraphic: figure/by-nc-sa.png
-    theme:  Boadilla # Copenhagen # CambridgeUS #
-    outertheme: miniframes
-    colortheme: crane
-    section-titles: false
-    fontsize: 10pt
-    header-includes: |
-        \setbeamertemplate{footline}
-        {
-        \leavevmode%
-        \hbox{%
-        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-        \usebeamerfont{author in head/foot}\insertshortauthor%
-        \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-        \usebeamerfont{title in head/foot}\insertshorttitle%
-        \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
-        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
-        \end{beamercolorbox}}%
-        }
-       # - \setbeamertemplate{navigation symbols}{}
-       # - \setbeamertemplate{caption}[numbered]
-       # - \setbeamertemplate{headline}[page number]
-       # - \setbeameroption{show notes}
-       # - \setbeameroption{show notes on second screen}
+  # beamer:
+  #   handout: false
+  #   logo: figure/by-nc-sa2.png
+  #   titlegraphic: figure/by-nc-sa.png
+  #   theme:  Boadilla # Copenhagen # CambridgeUS #
+  #   outertheme: miniframes
+  #   colortheme: crane
+  #   section-titles: false
+  #   fontsize: 10pt
+  #   header-includes: |
+  #       \setbeamertemplate{footline}
+  #       {
+  #       \leavevmode%
+  #       \hbox{%
+  #       \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+  #       \usebeamerfont{author in head/foot}\insertshortauthor%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  #       \usebeamerfont{title in head/foot}\insertshorttitle%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+  #       \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+  #       \end{beamercolorbox}}%
+  #       }
+  #      # - \setbeamertemplate{navigation symbols}{}
+  #      # - \setbeamertemplate{caption}[numbered]
+  #      # - \setbeamertemplate{headline}[page number]
+  #      # - \setbeameroption{show notes}
+  #      # - \setbeameroption{show notes on second screen}
   revealjs:
     logo: figure/by-nc-sa2.png
     titlegraphic: figure/by-nc-sa.png
