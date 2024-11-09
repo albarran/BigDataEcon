@@ -44,10 +44,12 @@ strip-comments: true
 
 -->
 
+
 <!-- *********************************************************************  -->
 
 ## Semana 10
 (11-Nov. a 17-Nov.)
+
   * [Tema 06 - Ejercicio 1](docs/Tema06ej1.qmd)
 
 ## Semana 9

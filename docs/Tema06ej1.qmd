@@ -414,7 +414,7 @@ sum.modelo1$r.squared
 -->
 
 
-### Apartado 2
+## Apartado 2
 
 Realizamos un análsis exploratorio de los datos y encontramos la siguiente forma para la relación *no lineal* entre el número de visitantes y la temperatura.
 ```{r}
@@ -484,7 +484,7 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
 $$
 
 ```{r}
-#| results: hide
+#| results: markup
 #| eval: true
 library(modelsummary)
 modelo2 <- lm(volume ~ hightemp + cloudcover + weekday + precip
@@ -496,7 +496,7 @@ modelsummary(list("Modelo 1" = modelo1, "Modelo 2" = modelo2),
 ```
 
 
-### Apartado 3
+## Apartado 3
 
 Realizamos un nuevo análisis exploratorio para la relación entre el número de visitas y la nubosidad (como porcentaje de cielo cubierto por nubes, en una escala continua de 0 a 10).
 
@@ -569,7 +569,7 @@ lm(volume ~  hightemp  + cloudcover + weekday + I(precip>0 & precip<=0.5) + I(pr
 ```
 
 
-### Apartado 4
+## Apartado 4
 
 Finalmente, vamos a considerar otra variante de la ecuación @eq-model1  donde los efectos de la temperatura (`hightemp`) y de la nubosidad (`cloudcover`) no son constantes, sino que su efecto es heterogéneo en función de otros factores, en este caso si es un día laborable (`weekday`). Estimaremos el siguiente modelo
 
@@ -606,7 +606,7 @@ Comentar **brevemente** si tiene sentido considerar efectos no lineales y hetero
 
 -->
 
-### Entrega
+## Entrega
 
 Rellenad este 
 [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSds_Q4-s7gcn0LKvBuUqQF0fzq1OF1NUTI4u1VKV25ic_BM7w/viewform) con vuestros datos y subid 
