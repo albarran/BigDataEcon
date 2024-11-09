@@ -113,6 +113,8 @@ library(kableExtra)
 library(rmarkdown)
 #render("filename.Rmd")     
 #browseURL("filename.html")
+
+options(scipen=999)  # no usar notación científica
 ```
 
 # Métodos Estadísticos
@@ -1113,10 +1115,89 @@ $$
 * Esto equivale a las condiciones derivadas de suponer $\small E(\varepsilon|X)=0$
 
 :::
+
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+# Evitar notación científica
+options(scipen = 999)
+
+# Configuración inicial
+rm(list = ls())
+set.seed(404)
+
+# Número de observaciones
+n <- 404
+
+# Generación de variables
+edad <- runif(n, min = 20, max = 60) |> round(0) 
+
+renta <- runif(n, min = 500, max = 3000) |> round(0) 
+
+descuento <- plogis(rnorm(n, 0, .2)-.75*(renta-500)/2500)
+descuento <- as.integer(descuento > quantile(descuento, 0.75))
+
+zona <- sample(c("pueblo", "ciudad", "capital"), size = n, replace = TRUE, prob = c(0.2, 0.5, 0.3))
+
+mujer <- (runif(n,0,1)>.5) |> as.integer()
+
+# educ <- (runif(n,8,18)) |> as.integer()
+educ <- plogis(rnorm(n, 0, .2)-.75*(renta-500)/2500) %>% ntile(100)
+educ <- ifelse(educ<=10, 8,
+               ifelse(educ<=40, 12,
+                      ifelse(educ<=60, 14,
+                             ifelse(educ<=95,18,20))))
+
+ventas <- 00 + 40 * (edad-25) - 5* (edad-25)^2 + 
+  + 1*(renta-500) + 200*mujer + 1.5*mujer*renta +
+  800 * descuento +
+  200 * (zona == "ciudad") + 500 * (zona=="capital") +
+  rnorm(n, mean = 0, sd = 50) |> round(0) 
+
+# Crear data frame
+datos <- data.frame(ventas, renta, descuento, zona, edad, mujer, educ) %>%  mutate(mujer = as.factor(mujer),
+                                                                             zona = as.factor(zona))
+
+datos %>% ggplot(aes(x=edad, y=ventas)) + geom_point() + 
+                   geom_smooth(method = "lm", formula = y ~ x + I(x^2),
+                               se = FALSE)
+
+
+datos %>% ggplot(aes(x=renta, y=ventas, color = mujer)) + geom_point() + 
+                   geom_smooth(method = "lm", formula = y ~ x,
+                               se = FALSE)
+
+# Exportar el data frame a un archivo CSV
+write.csv(datos, "data/descuento.csv", row.names = FALSE)
+
+# Regresiones
+modelo1 <- lm(ventas ~ edad + I(edad^2) + descuento + mujer*renta + zona , data = datos)
+summary(modelo1)
+
+
+modelo1b <- lm(ventas ~ edad + I(edad^2) + descuento , data = datos)
+summary(modelo1b)
+
+modelo2 <- lm(ventas ~ descuento, data = datos)
+summary(modelo2)
+
+modelo3 <- lm(ventas ~ descuento + renta, data = datos)
+summary(modelo3)
+
+```
+
    
 ## Regresión Lineal: Estimación (cont.)
 
-* Los parámetros del modelo $f(.)$ estimado, en este caso los $\small \beta_j$  son estadísticos con **variabilidad muestral**, medida por  su **error estándar** $\small se(\widehat{\beta}_j)$ <!--mide la precisión del coeficiente estimado -->
+::: {style="font-size: 92%;"} 
+
+* Los parámetros del modelo $f(.)$ estimado, en este caso los $\small \beta_j$, son estadísticos con **variabilidad muestral**, medida por  su **error estándar** $\small se(\widehat{\beta}_j)$ <!--mide la precisión del coeficiente estimado -->
+
+    * Estos se usan para construir intervalos de confianza y para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad ($\small \beta_1=0$) y signo
+
 
 <!--
 :::: {style="display: flex;"}
@@ -1146,29 +1227,43 @@ $$
 ::::
 -->
 
-* Se usan para construir intervalos de confianza y <!--estadísticos--> para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad ($\small \beta_1=0$)
+<!-- 
+* Se usan para construir intervalos de confianza y estadísticos para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad ($\small \beta_1=0$)
 
-<!--    
+   
     + individual: $\small H_0: \beta_1=0$ con un estadístico $\small t=\frac{\widehat{\beta}_1-0}{se(\widehat{\beta}_1)}$
     + conjunta: $\small H_0: \beta_1=\beta_2=\dots=\beta_k=0$ con un estadístico $\small F$
 -->
 
 <!-- * Medidas de la precisión del modelo: $\small MSE$ o $\small R^2=1-\frac{SCR}{SCT} = \frac{SCE}{SCT}$  -->
 
-* En R, usamos la función `lm()`
+* La función `lm()` con la notación de fórmula crea un objeto <!--de
+regresión: una -->lista con resultados <!--varios resultados almacenados-->
+
 
 ```{r}
 descuento <- read.csv("data/descuento.csv") %>% 
-              mutate(zona = parse_factor(zona))
+        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
 modelo <- lm(data = descuento, ventas ~ renta + descuento)
 summary(modelo)
+nobs(modelo)
 ```
 
 * La predicción $\widehat{y}$ también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas
 
 ```{r}
-ventas_pred <- predict(modelo, type = "response")
-cbind(descuento$ventas, ventas_pred) %>% head()
+pred <- predict(modelo, type = "response", 
+                se.fit = T, interval = "confidence")
+cbind(descuento$ventas, pred$fit, pred$se.fit) %>% head()
+```
+
+
+```{r}
+#| echo: false
+ventas_pred <- predict(modelo, type = "response", se.fit = T)
+
+(a <- predict(modelo, type = "response", interval = "confidence"))
+(b <- predict(modelo, type = "response", interval = "prediction"))
 ```
 
 <!--   
@@ -1266,51 +1361,6 @@ broom::tidy(mod2)
  ## "Confounding factor": Descuentos y ventas
 -->
 
-```{r}
-#| echo: false
-#| eval: false
-
-# Evitar notación científica
-options(scipen = 999)
-
-# Configuración inicial
-rm(list = ls())
-set.seed(404)
-
-# Número de observaciones
-n <- 404
-
-# Generación de variables
-renta <- runif(n, min = 500, max = 3000)  # Renta entre 500 y 25000
-descuento <- plogis(0-.75*(renta-500)/2500)
-descuento <- as.integer(descuento > quantile(descuento, 0.75))
-
-zona <- sample(c("pueblo", "ciudad", "capital"), size = n, replace = TRUE, prob = c(0.2, 0.5, 0.3))
-
-
-# Creación de la variable de ventas que depende de renta y descuento
-ventas <- -500 + 0.95 * renta -0.0002 * renta^2 + 100 * descuento + 
-  100 * descuento * (renta < 2500) + 150 * descuento * (renta < 1000) +
-  100 * (zona == "ciudad") + 500 * (zona=="capital") + 
-  rnorm(n, mean = 0, sd = 200)
-
-# Crear data frame
-datos <- data.frame(ventas, renta, descuento, zona)
-
-# Exportar el data frame a un archivo CSV
-write.csv(datos, "data/descuento.csv", row.names = FALSE)
-
-# Regresiones
-modelo1 <- lm(ventas ~ renta + I(renta^2) + descuento + descuento:renta  + zona , data = datos)
-summary(modelo1)
-
-modelo2 <- lm(ventas ~ descuento, data = datos)
-summary(modelo2)
-
-modelo2 <- lm(ventas ~ descuento + renta, data = datos)
-summary(modelo2)
-
-```
 
 <!--
 
@@ -1351,45 +1401,65 @@ lm(data = datos, sales ~ discount + income) %>% summary()
 ```
 -->
 
+:::
+
+## Ampliando el Modelo de Regresión Lineal
+
+* Para incorporar información **cualitativa** en el modelo, se debe incluir una variable binaria para cada categoría, excepto una (grupo de referencia)
+
+    * Los coeficientes de cada variable binaria son el efecto diferencial de ese grupo respecto al grupo de referencia
+    
+    * Al incluir un **factor**, se crean automáticamente las variables binarias
+
+::: {style="font-size: 90%;"} 
+```{r}
+lm(data = descuento, ventas ~ zona) %>% summary()
+lm(data = descuento, ventas ~ renta + descuento + zona) %>% summary()
+```
+:::
+
+. . .
+
+* Podemos modelizar relaciones **no lineales** entre la variable dependiente y las explicativas incluyendo **transformaciones** de variables como logaritmos, polinomios, interacciones, etc.
+
+* PERO la interpretación del cambio de un regresor sobre $\small Y$ es diferente
+
 ## Regresión Lineal: superando la linealidad
 
-* Se pueden incluir transformaciones no lineales de las variables del modelo 
+::: {style="font-size: 90%;"} 
+* Usando logaritmos, modelizamos cambios porcentuales en las variables
 
-<!--, como logaritmos o incluir términos polinomiales-->
-
-* La interpretación del cambio de un regresor sobre $\small Y$ es diferente
 ```{r}
-lm(data=descuento, log(ventas) ~ renta + I(renta^2) + descuento) %>% summary()
+lm(data=descuento, log(ventas) ~ log(renta) + descuento) %>% summary()
+lm(data=descuento, log(ventas) ~ renta + descuento) %>% summary()
 ```
+
+* Usando polinomios en los regresores, modelizamos efectos no lineales; esto implica que el efecto de $\small X$ sobre $\small Y$ depende de $\small X$
+
+
+```{r}
+lm(data=descuento, ventas ~ edad + I(edad^2) ) %>% summary()
+ggplot(descuento, aes(x=edad, y=ventas)) + geom_point() + 
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2))
+```
+
+
 * Otra forma de permitir no linealidades es discretizando variables continuas: permite efectos "escalón" diferentes para distintos valores
 
 ```{r}
-lm(data=descuento , ventas ~ cut_width(renta, 500) + descuento) %>% summary()
+lm(data=descuento, ventas ~ 
+     cut(edad, seq(20, 60, 5), include.lowest = T)) %>% summary()
+ggplot(descuento, aes(x=edad, y=ventas)) + geom_point() + 
+  geom_smooth(method = "lm", 
+              formula = y ~ cut(x, seq(20, 60, 5), include.lowest = T))
 ```
+
+<!--
 
 * Se incluyen indicadores binarios para cada clase excepto uno
   + la constante recoge el valor medio de $\small Y$ para ese grupo de referencia
   + cada coeficiente recoge el efecto adicional de su grupo sobre $\small Y$ 
-
-
-```{r}
-#| echo: false
-#| eval: false
-datos <- read_csv("data/discount.csv")
-datos %>% mutate(renta_baja = income < 7500) %>%  
-  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm") +
-  facet_wrap(~renta_baja)
-datos2 <- datos %>% mutate(renta_baja = income < 7500)
-
-lm(data=datos2, sales ~ discount + renta_baja) %>% summary()
-
-lm(data=datos2, sales ~ discount + renta_baja + discount:renta_baja) %>% summary()
-
-lm(data=datos2, sales ~ discount * renta_baja ) %>% summary()
-
-
-lm(data=datos2, sales ~ discount:renta_baja) %>% summary()
-```
+-->
 
 <!--
 ## Regresión Lineal: Variables cualitativas
@@ -1442,70 +1512,121 @@ lm(data=Carseats , Sales ~ cut_width(Advertising, 10)) %>% summary()
 ```
 -->
 
+:::
+
 ## Regresión Lineal: superando la linealidad (cont.)
 
 <!--
 https://www.econometrics-with-r.org/8-3-interactions-between-independent-variables.html
 -->
 
-```{r}
-#| echo: false
-datos <- read_csv("data/discount.csv")
-datos2 <- datos %>% mutate(renta_baja = income < 7500)
-datos2 %>%  
-  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm") +
-  facet_wrap(~renta_baja)
-lm(data = datos2, sales ~ discount * renta_baja) %>% summary()
+* Incluyendo interacciones entre variables, el efecto de un regresor dependerá de otro regresor: la "pendiente" cambia con el valor de la otra variable
 
-datos3 <- datos %>% mutate(grupos_renta = if_else(income < 5000, 1, 
-                                                  if_else(income < 12000,2, 3)))
-table(datos3$grupos_renta)
-lm(data = datos3, sales ~ discount * as.factor(grupos_renta)) %>% summary()
-res <- lm(data = datos3, sales ~ discount * as.factor(grupos_renta)) 
-confint(res)
+  * <!--Principio jerárquico: al--> Al incluir una interacción *siempre* deben incluirse los factores principales (NO sólo `edad:renta`)
+
+```{r}
+lm(data=descuento, ventas ~ edad*renta)  %>% summary()
+lm(data=descuento, ventas ~ renta*mujer) %>% summary()
+
+ggplot(descuento, aes(x=renta, y=ventas, color = mujer)) + 
+  geom_point() + geom_smooth(method = "lm", formula = y ~ x,
+                               se = FALSE)
 ```
 
 
-* También podemos incluir interacciones entre variables: el efecto de un regresor dependerá de otro regresor
-
-```{r}
-lm(data=descuento, ventas ~ renta*descuento)  %>% summary()
-```
-
-* Principio jerárquico: al incluir una interacción *siempre* deben incluirse los factores principales (NO sólo `renta:descuento`)
-
+<!--
 * Cuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo
 
 ```{r}
 lm(data=descuento , ventas ~ (renta + zona)*descuento) %>% summary()
 ```
 
-<!-- * La interacción de dos variables binarias tiene una interpretación similar <!--, para el efecto esperado de $\small Y$--> -->
+ * La interacción de dos variables binarias tiene una interpretación similar, para el efecto esperado de $\small Y$
 
 ```{r}
 #| echo: false
 lm(data=Carseats , Sales ~ ShelveLoc*Urban)
 ```
+-->
 
+
+## Regresión Lineal: comentarios finales
+
+::: {style="font-size: 90%;"} 
+
+* Los resultados de (todos) estos modelos informan de la relación entre los regresores y la variables dependiente
+
+* **"Correlación no implica causalidad"**, salvo en [ensayos científicos aleatorios](https://es.wikipedia.org/wiki/Prueba_controlada_aleatorizada) controlados, también llamados [pruebas A/B](https://es.wikipedia.org/wiki/Prueba_A/B)
+
+   <!-- + en otros campos como marketing digital o analítica de web se denominan [pruebas A/B](https://es.wikipedia.org/wiki/Prueba_A/B) (ej. dos versiones de una misma web)  -->
+
+:::
+
+. . .
+
+::: {style="font-size: 90%;"} 
+
+* La selección de variables es importante: evita sesgos o aumentar la variabilidad
+
+```{r}
+lm(data = descuento, ventas ~ descuento) %>% summary()
+lm(data = descuento, ventas ~ descuento + renta) %>% summary()
+lm(data = descuento, ventas ~ renta) %>% summary()
+lm(data = descuento, ventas ~ renta + educ) %>% summary()
+```
+
+
+:::
+
+. . .
+
+::: {style="font-size: 90%;"} 
+
+* Algunos sugieren "pruebas" para los problemas en el modelo lineal; eso es erróneo:
+
+  * No linealidad: hemos visto que modeliza relaciones no lineales
+  
+  * No normalidad: innecesaria, con TCL o bootstrap.
+  
+  * Colinearidad: simplemente elimina la variable colineal.
+  
+  * Heterocedasticidad y autocorrelación: solo necesitamos errores estándar robustos
+  
+  <!-- * Outliers: pueden manejarse sin afectar la validez del modelo. -->
+
+<!--
+* Algunos mencionan "pruebas" para detectar los supuestos problemas del modelo lineal: no linealidad, heterocedasticidad (y autocorrelación), no normalidad, colinearidad, outliers, ...
+
+* Este enfoque es mayormente erróneo como hemos visto: el modelo lineal permite no linealidades, no necesita normalidad (TCL, boostrap), eliminar la variable colineal soluciona el "problema", solo necesitamos usar errores estándar robustos, etc.
+-->
+
+:::
+
+
+
+
+<!--
 ## "Problemas" del Modelo de Regresión Lineal
 
-* *No linealidad*: incluir transformaciones no lineales <!--de los regresores o la variable dependiente-->
+* *No linealidad*: incluir transformaciones no lineales de los regresores o la variable dependiente
 
 * *Correlación de los errores*: afecta a los errores estándar, no la estimación
   + usar errores estándar robustos o modelizar la dinámica
   
-* *Heterocedasticidad*: ídem, usar errores estándar robustos <!-- o pesos -->
+* *Heterocedasticidad*: ídem, usar errores estándar robustos o pesos
   + los gráficos de los residuos frente a un regresor o valores predichos: ¿heterocedasticidad o no linealidad? 
-  <!--logaritmos o raíz cuadrada cuando hay una amplifiación de los residuos -->
+  logaritmos o raíz cuadrada cuando hay una amplifiación de los residuos 
   
 * *Outliers* en la variable de respuesta o en los regresores
-<!--: se puede intentar detectar con algunos criterios ("arbitrarios": ej. $\small \left|\frac{\hat{e}_i}{se(\hat{e}_i)}\right|>3$)-->
+ se puede intentar detectar con algunos criterios ("arbitrarios": ej. $\small \left|\frac{\hat{e}_i}{se(\hat{e}_i)}\right|>3$)
 
 * *Colinearidad*: indica que no es posible separar el efecto de cada regresor: eliminar alguno o recombinarlos
 
 * *No normalidad*: TCL, Bootstrap,...
 
 * El único supuesto realmente importante es $\small E[\varepsilon|X]=0$
+
+--->
 
 <!--
     afecta a la varianza del estimador de un coeficiente, pero NO a significatividad conjunta
@@ -1546,30 +1667,35 @@ lm(data=Carseats , Sales ~ ShelveLoc*Urban)
 
 ## Regresión Logística
 
-* La regresión lineal puede usarse respuestas binarias (no más de dos categorías),
 <!--
+* La regresión lineal puede usarse respuestas binarias (no más de dos categorías),
+
 $$
 \small
 \Pr(Y=1|X)=\beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k = z
 $$
--->
 aunque genera predicciones fuera del rango $\small [0,1]$
+-->
 
 <!--
 * Además, no es adecuado con más de dos categorías
 -->
   
-* Solución: aplicar al índice lineal una transformación $\small F(z)\in[0,1]$
+<!-- * Solución: aplicar al índice lineal una transformación $\small F(z)\in[0,1]$ -->
+
+* Un modelo de regresión lineal para respuestas binarias no es adecuado porque genera predicciones fuera del rango  $\small [0,1]$
 
 
-:::: {style="display: flex;"} 
+:::: {.columns} 
 
-::: {}
+::: {.column width="50%"}
 
-*  La función logística: $\small \Lambda (z)=\frac{e^z}{1+e^z}$
+* Solución: aplicar al índice lineal una transformación, la función logística $\small \Lambda (z)=\frac{e^z}{1+e^z}$:
+
+
 ::: 
 
-::: {}
+::: {.column width="50%"}
 ```{r}
 #| echo: false
 #| eval: true
@@ -1588,14 +1714,20 @@ ggplot(data = data.frame(x = 0), mapping = aes(x = x)) +
 :::
 
 ::::
-* De manera que $\small \Pr(Y=1|X)= p(x)= \Lambda( \beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k)$
 
 
-## Regresión Logística (cont.)
+* De manera que $\small \Pr(Y=1|X)= f(x)= \color{blue}{\Lambda( \beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k)} \in [0,1]$
 
+. . .
+
+<!-- 
 * Los coeficientes NO se interpretan como cambios en la probabilidad ante cambios unitarios en un regresor (efecto marginal sobre la probabilidad)
 
-* PERO su signo (y significatividad) son los mismos que los del efecto marginal 
+* PERO su signo (y significatividad) son los mismos que los del efecto marginal  
+-->
+
+* Como el modelo siempre es no lineal, el coeficiente NO coincide con la magnitud del efecto de un cambio en los regresores sobre la probabilidad. PERO sí coinciden en su signo (y significatividad)
+
 
 <!--
 * En esta especificación, la probabilidad relativa ("odd") es 
@@ -1609,7 +1741,7 @@ $$
 ## Regresión Logística: estimación 
 -->
 
-* Como NO tiene sentido minimizar la SCR, el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos
+* NO se puede minimizar la SCR;  el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos
 
 <!--
 $$
@@ -1618,26 +1750,32 @@ $$
 $$
 -->
 
-* La regresión logística pertenece a la familia de modelos lineales generalizados (GLM, en inglés) 
+## Regresión Logística (cont.)
 
-<!--
-* En R, la regresión logística se puede estimar con la función `glm()`
--->
-
-* Se pueden incluir como variables explicativas tanto variables cuantitativas como cualitativas, e incurrir en sesgo por omisión de variables
+* La regresión logística se puede estimar en R con la función `glm()`, de forma similar a `lm()`; podemos incluir variables explicativas tanto cuantitativas como cualitativas, interacciones, etc.
 
 ```{r}
-glm(data = Default, default ~ student, family = "binomial" ) %>% summary()
-glm(data = Default, default ~ student + balance, family = "binomial" ) %>% summary()
+#| echo: false
+#| eval: false
+censo <- read_csv("data/census.csv") %>%
+  mutate(across(where(is.character), ~parse_factor(.x)))
+
+logit <- glm(data = censo, income ~  race + age + I(age^2) + log(hours_per_week)*sex + 
+      education_1  + capital_gain + capital_loss, 
+         family = "binomial") 
+logit %>%  summary()
 ```
 
-## Regresión Logística: Predicciones
-
-* El objeto de R de `glm()` contiene valores predichos, que son probabilidades de $\small Y=1$
+* Como en el modelo lineal, podemos calcular predicciones de la probabilidad tanto en los mismos datos como en unos nuevos 
 
 ```{r}
-logit <- glm(data = Default, default ~ balance*student, family = "binomial" ) 
-cbind(Default$default, logit$fitted)
+predict(logit, type="response")
+
+logit2 <- logit <- glm(data = censo, income ~  age + education_1, 
+         family = "binomial")
+summary(logit2)
+predict(logit2, type="response",
+        newdata = tibble(age=c(20,60), education_1=c(9,16)))
 ```
 
 <!--
@@ -1652,13 +1790,15 @@ cbind(Default$default, logit$fitted, predict(logit), predict(logit, type="respon
 ```
 -->
 
+<!--
 * También se puede predecir usando una muestra distinta de la usada para estimar o con valores concretos de los regresores
 
 ```{r}
+#| echo: false
 logit <- glm(data = Default, default ~ balance, family = "binomial" )
 predict(logit, newdata = tibble(balance=c(0,100)), type="response")
 ```
-
+-->
 
 <!--
 ## Variables explicativas
@@ -1681,7 +1821,8 @@ glm(data = Default, default ~ student + balance, family = "binomial" ) %>% summa
 ```
 -->
 
-## Regresión logística con más de dos clases
+## Regresión Logística con más de dos clases
+
 
 * La regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase
 $$
@@ -1694,9 +1835,12 @@ $$
 ::: {style="font-size: 90%;"} 
 
 ```{r}
+health <- read_csv("data/health_insurance.csv") %>% 
+  mutate(across(where(is.character), ~parse_factor(.x)))
+
 library(glmnet)
-x <- model.matrix(Species ~ Sepal.Length + Sepal.Width, data = iris)
-mod.glmnet <- glmnet(x = x, y = iris$Species, family = "multinomial", 
+x <- model.matrix(product ~ age + gender, data = health)
+mod.glmnet <- glmnet(x = x, y = health$product, family = "multinomial", 
                      lambda = 0, type.multinomial = "grouped")
 coef(mod.glmnet) 
 predict(mod.glmnet, newx=x, type = "response")  # probabilidad de cada clase

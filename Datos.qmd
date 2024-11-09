@@ -52,6 +52,8 @@ strip-comments: true
 
   + [census.csv](https://raw.githubusercontent.com/albarran/00datos/main/census.csv)
 
+  + [health_insurance.csv](https://raw.githubusercontent.com/albarran/00datos/main/health_insurance.csv)
+
 <!--
 * Tema 14:
 
