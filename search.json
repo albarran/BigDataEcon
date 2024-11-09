@@ -4,7 +4,7 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nVentasTabla\nEmpleados\n\nTema 3:\n\nDosTablas\n\nTema 5:\n\nBankMarketing.csv\nBostonHousing.csv\n\nTema 6:\n\ndescuento.csv\ncensus.csv"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo.\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nVentasTabla\nEmpleados\n\nTema 3:\n\nDosTablas\n\nTema 5:\n\nBankMarketing.csv\nBostonHousing.csv\n\nTema 6:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv"
   },
   {
     "objectID": "Evaluacion.html",
@@ -445,56 +445,56 @@
     "href": "docs/Tema06.html#regresión-lineal-estimación-cont.",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Lineal: Estimación (cont.)",
-    "text": "Regresión Lineal: Estimación (cont.)\n\nLos parámetros del modelo \\(f(.)\\) estimado, en este caso los \\(\\small \\beta_j\\) son estadísticos con variabilidad muestral, medida por su error estándar \\(\\small se(\\widehat{\\beta}_j)\\) \n\n\nSe usan para construir intervalos de confianza y para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad (\\(\\small \\beta_1=0\\))\n\n\nEn R, usamos la función lm()\n\n\ndescuento &lt;- read.csv(\"data/descuento.csv\") %&gt;% \n              mutate(zona = parse_factor(zona))\nmodelo &lt;- lm(data = descuento, ventas ~ renta + descuento)\nsummary(modelo)\n\n\nLa predicción \\(\\widehat{y}\\) también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas\n\n\nventas_pred &lt;- predict(modelo, type = \"response\")\ncbind(descuento$ventas, ventas_pred) %&gt;% head()"
+    "text": "Regresión Lineal: Estimación (cont.)\n\n\nLos parámetros del modelo \\(f(.)\\) estimado, en este caso los \\(\\small \\beta_j\\), son estadísticos con variabilidad muestral, medida por su error estándar \\(\\small se(\\widehat{\\beta}_j)\\) \n\nEstos se usan para construir intervalos de confianza y para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad (\\(\\small \\beta_1=0\\)) y signo\n\n\n\nLa función lm() con la notación de fórmula crea un objeto lista con resultados \n\n\ndescuento &lt;- read.csv(\"data/descuento.csv\") %&gt;% \n        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))\nmodelo &lt;- lm(data = descuento, ventas ~ renta + descuento)\nsummary(modelo)\nnobs(modelo)\n\n\nLa predicción \\(\\widehat{y}\\) también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas\n\n\npred &lt;- predict(modelo, type = \"response\", \n                se.fit = T, interval = \"confidence\")\ncbind(descuento$ventas, pred$fit, pred$se.fit) %&gt;% head()"
+  },
+  {
+    "objectID": "docs/Tema06.html#ampliando-el-modelo-de-regresión-lineal",
+    "href": "docs/Tema06.html#ampliando-el-modelo-de-regresión-lineal",
+    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
+    "section": "Ampliando el Modelo de Regresión Lineal",
+    "text": "Ampliando el Modelo de Regresión Lineal\n\nPara incorporar información cualitativa en el modelo, se debe incluir una variable binaria para cada categoría, excepto una (grupo de referencia)\n\nLos coeficientes de cada variable binaria son el efecto diferencial de ese grupo respecto al grupo de referencia\nAl incluir un factor, se crean automáticamente las variables binarias\n\n\n\n\nlm(data = descuento, ventas ~ zona) %&gt;% summary()\nlm(data = descuento, ventas ~ renta + descuento + zona) %&gt;% summary()\n\n\n\n\nPodemos modelizar relaciones no lineales entre la variable dependiente y las explicativas incluyendo transformaciones de variables como logaritmos, polinomios, interacciones, etc.\nPERO la interpretación del cambio de un regresor sobre \\(\\small Y\\) es diferente"
   },
   {
     "objectID": "docs/Tema06.html#regresión-lineal-superando-la-linealidad",
     "href": "docs/Tema06.html#regresión-lineal-superando-la-linealidad",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Lineal: superando la linealidad",
-    "text": "Regresión Lineal: superando la linealidad\n\nSe pueden incluir transformaciones no lineales de las variables del modelo\n\n\nLa interpretación del cambio de un regresor sobre \\(\\small Y\\) es diferente\n\n\nlm(data=descuento, log(ventas) ~ renta + I(renta^2) + descuento) %&gt;% summary()\n\n\nOtra forma de permitir no linealidades es discretizando variables continuas: permite efectos “escalón” diferentes para distintos valores\n\n\nlm(data=descuento , ventas ~ cut_width(renta, 500) + descuento) %&gt;% summary()\n\n\nSe incluyen indicadores binarios para cada clase excepto uno\n\nla constante recoge el valor medio de \\(\\small Y\\) para ese grupo de referencia\ncada coeficiente recoge el efecto adicional de su grupo sobre \\(\\small Y\\)"
+    "text": "Regresión Lineal: superando la linealidad\n\n\nUsando logaritmos, modelizamos cambios porcentuales en las variables\n\n\nlm(data=descuento, log(ventas) ~ log(renta) + descuento) %&gt;% summary()\nlm(data=descuento, log(ventas) ~ renta + descuento) %&gt;% summary()\n\n\nUsando polinomios en los regresores, modelizamos efectos no lineales; esto implica que el efecto de \\(\\small X\\) sobre \\(\\small Y\\) depende de \\(\\small X\\)\n\n\nlm(data=descuento, ventas ~ edad + I(edad^2) ) %&gt;% summary()\nggplot(descuento, aes(x=edad, y=ventas)) + geom_point() + \n  geom_smooth(method = \"lm\", formula = y ~ x + I(x^2))\n\n\nOtra forma de permitir no linealidades es discretizando variables continuas: permite efectos “escalón” diferentes para distintos valores\n\n\nlm(data=descuento, ventas ~ \n     cut(edad, seq(20, 60, 5), include.lowest = T)) %&gt;% summary()\nggplot(descuento, aes(x=edad, y=ventas)) + geom_point() + \n  geom_smooth(method = \"lm\", \n              formula = y ~ cut(x, seq(20, 60, 5), include.lowest = T))"
   },
   {
     "objectID": "docs/Tema06.html#regresión-lineal-superando-la-linealidad-cont.",
     "href": "docs/Tema06.html#regresión-lineal-superando-la-linealidad-cont.",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Lineal: superando la linealidad (cont.)",
-    "text": "Regresión Lineal: superando la linealidad (cont.)\n\nTambién podemos incluir interacciones entre variables: el efecto de un regresor dependerá de otro regresor\n\n\nlm(data=descuento, ventas ~ renta*descuento)  %&gt;% summary()\n\n\nPrincipio jerárquico: al incluir una interacción siempre deben incluirse los factores principales (NO sólo renta:descuento)\nCuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo\n\n\nlm(data=descuento , ventas ~ (renta + zona)*descuento) %&gt;% summary()\n\n–&gt;"
+    "text": "Regresión Lineal: superando la linealidad (cont.)\n\nIncluyendo interacciones entre variables, el efecto de un regresor dependerá de otro regresor: la “pendiente” cambia con el valor de la otra variable\n\nAl incluir una interacción siempre deben incluirse los factores principales (NO sólo edad:renta)\n\n\n\nlm(data=descuento, ventas ~ edad*renta)  %&gt;% summary()\nlm(data=descuento, ventas ~ renta*mujer) %&gt;% summary()\n\nggplot(descuento, aes(x=renta, y=ventas, color = mujer)) + \n  geom_point() + geom_smooth(method = \"lm\", formula = y ~ x,\n                               se = FALSE)"
   },
   {
-    "objectID": "docs/Tema06.html#problemas-del-modelo-de-regresión-lineal",
-    "href": "docs/Tema06.html#problemas-del-modelo-de-regresión-lineal",
+    "objectID": "docs/Tema06.html#regresión-lineal-comentarios-finales",
+    "href": "docs/Tema06.html#regresión-lineal-comentarios-finales",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
-    "section": "“Problemas” del Modelo de Regresión Lineal",
-    "text": "“Problemas” del Modelo de Regresión Lineal\n\nNo linealidad: incluir transformaciones no lineales \nCorrelación de los errores: afecta a los errores estándar, no la estimación\n\nusar errores estándar robustos o modelizar la dinámica\n\nHeterocedasticidad: ídem, usar errores estándar robustos \n\nlos gráficos de los residuos frente a un regresor o valores predichos: ¿heterocedasticidad o no linealidad? \n\nOutliers en la variable de respuesta o en los regresores \nColinearidad: indica que no es posible separar el efecto de cada regresor: eliminar alguno o recombinarlos\nNo normalidad: TCL, Bootstrap,…\nEl único supuesto realmente importante es \\(\\small E[\\varepsilon|X]=0\\)"
+    "section": "Regresión Lineal: comentarios finales",
+    "text": "Regresión Lineal: comentarios finales\n\n\nLos resultados de (todos) estos modelos informan de la relación entre los regresores y la variables dependiente\n“Correlación no implica causalidad”, salvo en ensayos científicos aleatorios controlados, también llamados pruebas A/B\n\n\n\n\n\n\nLa selección de variables es importante: evita sesgos o aumentar la variabilidad\n\n\nlm(data = descuento, ventas ~ descuento) %&gt;% summary()\nlm(data = descuento, ventas ~ descuento + renta) %&gt;% summary()\nlm(data = descuento, ventas ~ renta) %&gt;% summary()\nlm(data = descuento, ventas ~ renta + educ) %&gt;% summary()\n\n\n\n\n\n\nAlgunos sugieren “pruebas” para los problemas en el modelo lineal; eso es erróneo:\n\nNo linealidad: hemos visto que modeliza relaciones no lineales\nNo normalidad: innecesaria, con TCL o bootstrap.\nColinearidad: simplemente elimina la variable colineal.\nHeterocedasticidad y autocorrelación: solo necesitamos errores estándar robustos"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística",
     "href": "docs/Tema06.html#regresión-logística",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Logística",
-    "text": "Regresión Logística\n\nLa regresión lineal puede usarse respuestas binarias (no más de dos categorías), aunque genera predicciones fuera del rango \\(\\small [0,1]\\)\n\n\nSolución: aplicar al índice lineal una transformación \\(\\small F(z)\\in[0,1]\\)\n\n\n\n\nLa función logística: \\(\\small \\Lambda (z)=\\frac{e^z}{1+e^z}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDe manera que \\(\\small \\Pr(Y=1|X)= p(x)= \\Lambda( \\beta_0 + \\beta_1 x_1 + \\ldots + \\beta_k x_k)\\)"
+    "text": "Regresión Logística\n\nUn modelo de regresión lineal para respuestas binarias no es adecuado porque genera predicciones fuera del rango \\(\\small [0,1]\\)\n\n\n\n\nSolución: aplicar al índice lineal una transformación, la función logística \\(\\small \\Lambda (z)=\\frac{e^z}{1+e^z}\\):\n\n\n\n\n\n\n\n\n\n\n\n\n\nDe manera que \\(\\small \\Pr(Y=1|X)= f(x)= \\color{blue}{\\Lambda( \\beta_0 + \\beta_1 x_1 + \\ldots + \\beta_k x_k)} \\in [0,1]\\)\n\n\n\nComo el modelo siempre es no lineal, el coeficiente NO coincide con la magnitud del efecto de un cambio en los regresores sobre la probabilidad. PERO sí coinciden en su signo (y significatividad)\n\n\nNO se puede minimizar la SCR; el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística-cont.",
     "href": "docs/Tema06.html#regresión-logística-cont.",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
     "section": "Regresión Logística (cont.)",
-    "text": "Regresión Logística (cont.)\n\nLos coeficientes NO se interpretan como cambios en la probabilidad ante cambios unitarios en un regresor (efecto marginal sobre la probabilidad)\nPERO su signo (y significatividad) son los mismos que los del efecto marginal\n\n\nComo NO tiene sentido minimizar la SCR, el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos\n\n\nLa regresión logística pertenece a la familia de modelos lineales generalizados (GLM, en inglés)\n\n\nSe pueden incluir como variables explicativas tanto variables cuantitativas como cualitativas, e incurrir en sesgo por omisión de variables\n\n\nglm(data = Default, default ~ student, family = \"binomial\" ) %&gt;% summary()\nglm(data = Default, default ~ student + balance, family = \"binomial\" ) %&gt;% summary()"
-  },
-  {
-    "objectID": "docs/Tema06.html#regresión-logística-predicciones",
-    "href": "docs/Tema06.html#regresión-logística-predicciones",
-    "title": "Tema 06 - Modelización. Aprendizaje estadístico",
-    "section": "Regresión Logística: Predicciones",
-    "text": "Regresión Logística: Predicciones\n\nEl objeto de R de glm() contiene valores predichos, que son probabilidades de \\(\\small Y=1\\)\n\n\nlogit &lt;- glm(data = Default, default ~ balance*student, family = \"binomial\" ) \ncbind(Default$default, logit$fitted)\n\n\nTambién se puede predecir usando una muestra distinta de la usada para estimar o con valores concretos de los regresores\n\n\nlogit &lt;- glm(data = Default, default ~ balance, family = \"binomial\" )\npredict(logit, newdata = tibble(balance=c(0,100)), type=\"response\")"
+    "text": "Regresión Logística (cont.)\n\nLa regresión logística se puede estimar en R con la función glm(), de forma similar a lm(); podemos incluir variables explicativas tanto cuantitativas como cualitativas, interacciones, etc.\n\n\nComo en el modelo lineal, podemos calcular predicciones de la probabilidad tanto en los mismos datos como en unos nuevos\n\n\npredict(logit, type=\"response\")\n\nlogit2 &lt;- logit &lt;- glm(data = censo, income ~  age + education_1, \n         family = \"binomial\")\nsummary(logit2)\npredict(logit2, type=\"response\",\n        newdata = tibble(age=c(20,60), education_1=c(9,16)))"
   },
   {
     "objectID": "docs/Tema06.html#regresión-logística-con-más-de-dos-clases",
     "href": "docs/Tema06.html#regresión-logística-con-más-de-dos-clases",
     "title": "Tema 06 - Modelización. Aprendizaje estadístico",
-    "section": "Regresión logística con más de dos clases",
-    "text": "Regresión logística con más de dos clases\n\nLa regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase \\[\n\\small\n\\Pr(Y=c|X)=\\frac{e^{\\beta_{0c}+\\beta_{1c}X_1+\\dots+\\beta_{kc}X_k}}{\\sum_{l=1}^{C}e^{\\beta_{0l}+\\beta_{1l}X_1+\\dots+\\beta_{kl}X_k}}\n\\]\nLa librería glmnet() permite la estimación de estos modelos\n\n\n\nlibrary(glmnet)\nx &lt;- model.matrix(Species ~ Sepal.Length + Sepal.Width, data = iris)\nmod.glmnet &lt;- glmnet(x = x, y = iris$Species, family = \"multinomial\", \n                     lambda = 0, type.multinomial = \"grouped\")\ncoef(mod.glmnet) \npredict(mod.glmnet, newx=x, type = \"response\")  # probabilidad de cada clase\npredict(mod.glmnet, newx=x, type = \"class\")     # clase"
+    "section": "Regresión Logística con más de dos clases",
+    "text": "Regresión Logística con más de dos clases\n\nLa regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase \\[\n\\small\n\\Pr(Y=c|X)=\\frac{e^{\\beta_{0c}+\\beta_{1c}X_1+\\dots+\\beta_{kc}X_k}}{\\sum_{l=1}^{C}e^{\\beta_{0l}+\\beta_{1l}X_1+\\dots+\\beta_{kl}X_k}}\n\\]\nLa librería glmnet() permite la estimación de estos modelos\n\n\n\nhealth &lt;- read_csv(\"data/health_insurance.csv\") %&gt;% \n  mutate(across(where(is.character), ~parse_factor(.x)))\n\nlibrary(glmnet)\nx &lt;- model.matrix(product ~ age + gender, data = health)\nmod.glmnet &lt;- glmnet(x = x, y = health$product, family = \"multinomial\", \n                     lambda = 0, type.multinomial = \"grouped\")\ncoef(mod.glmnet) \npredict(mod.glmnet, newx=x, type = \"response\")  # probabilidad de cada clase\npredict(mod.glmnet, newx=x, type = \"class\")     # clase"
   },
   {
     "objectID": "docs/Tema06.html#error-de-predicción",
