@@ -4970,13 +4970,11 @@ font-size: 80% !important;
    
   <ul>
   <li><a href="#datos" id="toc-datos" class="nav-link active" data-scroll-target="#datos">Datos</a></li>
-  <li><a href="#apartado-1" id="toc-apartado-1" class="nav-link" data-scroll-target="#apartado-1">Apartado 1</a>
-  <ul class="collapse">
+  <li><a href="#apartado-1" id="toc-apartado-1" class="nav-link" data-scroll-target="#apartado-1">Apartado 1</a></li>
   <li><a href="#apartado-2" id="toc-apartado-2" class="nav-link" data-scroll-target="#apartado-2">Apartado 2</a></li>
   <li><a href="#apartado-3" id="toc-apartado-3" class="nav-link" data-scroll-target="#apartado-3">Apartado 3</a></li>
   <li><a href="#apartado-4" id="toc-apartado-4" class="nav-link" data-scroll-target="#apartado-4">Apartado 4</a></li>
   <li><a href="#entrega" id="toc-entrega" class="nav-link" data-scroll-target="#entrega">Entrega</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -5067,8 +5065,9 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
 <li><p>En R, los valores críticos se obtienen con <code>qnorm()</code> y <code>qchisq()</code> (mirad la ayuda).</p></li>
 </ul>
 </section>
-<section id="apartado-2" class="level3">
-<h3 class="anchored" data-anchor-id="apartado-2">Apartado 2</h3>
+</section>
+<section id="apartado-2" class="level2">
+<h2 class="anchored" data-anchor-id="apartado-2">Apartado 2</h2>
 <p>Realizamos un análsis exploratorio de los datos y encontramos la siguiente forma para la relación <em>no lineal</em> entre el número de visitantes y la temperatura.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -5110,11 +5109,240 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;Modelo 1&quot;</span> <span class="ot">=</span> modelo1, <span class="st">&quot;Modelo 2&quot;</span> <span class="ot">=</span> modelo2), </span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">&quot;nobs&quot;</span>, <span class="st">&quot;r.squared&quot;</span>, <span class="st">&quot;adj.r.squared&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;rmse&quot;</span>) ,</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">stars =</span> T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script>
+      function styleCell_odek2gf1o2nd0kbi99pz(i, j, css_id) {
+        var table = document.getElementById("tinytable_odek2gf1o2nd0kbi99pz");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_odek2gf1o2nd0kbi99pz');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_odek2gf1o2nd0kbi99pz(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_odek2gf1o2nd0kbi99pz");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(0, 0, 'tinytable_css_id3mrs2l3lzlufse8cvs3f') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(0, 1, 'tinytable_css_idh3fosh17j5m7u21i8xtz') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(0, 2, 'tinytable_css_idh3fosh17j5m7u21i8xtz') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(1, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(1, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(1, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(2, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(2, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(2, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(3, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(3, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(3, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(4, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(4, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(4, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(5, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(5, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(5, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(6, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(6, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(6, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(7, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(7, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(7, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(8, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(8, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(8, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(9, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(9, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(9, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(10, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(10, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(10, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(11, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(11, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(11, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(12, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(12, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(12, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(13, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(13, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(13, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(14, 0, 'tinytable_css_idxslw9grta80zbedjp71u') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(14, 1, 'tinytable_css_idi78xrcfgfdlmqzyu3qiz') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(14, 2, 'tinytable_css_idi78xrcfgfdlmqzyu3qiz') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(15, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(15, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(15, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(16, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(16, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(16, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(17, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(17, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(17, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(18, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(18, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(18, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(19, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(19, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(19, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(20, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(20, 1, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(20, 2, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+    </script>
+
+    <style>
+.table td.tinytable_css_id3mrs2l3lzlufse8cvs3f, .table th.tinytable_css_id3mrs2l3lzlufse8cvs3f { text-align: left; border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_idh3fosh17j5m7u21i8xtz, .table th.tinytable_css_idh3fosh17j5m7u21i8xtz { text-align: center; border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_idotn4hzb7jubmfbnmyr5p, .table th.tinytable_css_idotn4hzb7jubmfbnmyr5p { text-align: left; }
+.table td.tinytable_css_idknj6zyq6hu7ns1wxkiiw, .table th.tinytable_css_idknj6zyq6hu7ns1wxkiiw { text-align: center; }
+.table td.tinytable_css_idxslw9grta80zbedjp71u, .table th.tinytable_css_idxslw9grta80zbedjp71u { border-bottom: solid 0.05em black; text-align: left; }
+.table td.tinytable_css_idi78xrcfgfdlmqzyu3qiz, .table th.tinytable_css_idi78xrcfgfdlmqzyu3qiz { border-bottom: solid 0.05em black; text-align: center; }
+</style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_odek2gf1o2nd0kbi99pz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">Modelo 1</th>
+                <th scope="col">Modelo 2</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td>(Intercept)</td>
+                  <td>76.826   </td>
+                  <td>45.483  </td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>(62.710) </td>
+                  <td>(79.724)</td>
+                </tr>
+                <tr>
+                  <td>hightemp   </td>
+                  <td>5.549*** </td>
+                  <td>5.696***</td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>(0.781)  </td>
+                  <td>(1.164) </td>
+                </tr>
+                <tr>
+                  <td>cloudcover </td>
+                  <td>-8.503*  </td>
+                  <td>-8.353* </td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>(3.339)  </td>
+                  <td>(3.435) </td>
+                </tr>
+                <tr>
+                  <td>weekdayTRUE</td>
+                  <td>-35.045  </td>
+                  <td>-37.062+</td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>(21.752) </td>
+                  <td>(22.280)</td>
+                </tr>
+                <tr>
+                  <td>precip     </td>
+                  <td>-106.483*</td>
+                  <td>-98.904*</td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>(40.720) </td>
+                  <td>(42.137)</td>
+                </tr>
+                <tr>
+                  <td>spring     </td>
+                  <td>         </td>
+                  <td>31.239  </td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>         </td>
+                  <td>(32.082)</td>
+                </tr>
+                <tr>
+                  <td>summer     </td>
+                  <td>         </td>
+                  <td>9.424   </td>
+                </tr>
+                <tr>
+                  <td>           </td>
+                  <td>         </td>
+                  <td>(47.504)</td>
+                </tr>
+                <tr>
+                  <td>Num.Obs.   </td>
+                  <td>90       </td>
+                  <td>90      </td>
+                </tr>
+                <tr>
+                  <td>R2         </td>
+                  <td>0.500    </td>
+                  <td>0.509   </td>
+                </tr>
+                <tr>
+                  <td>R2 Adj.    </td>
+                  <td>0.476    </td>
+                  <td>0.473   </td>
+                </tr>
+                <tr>
+                  <td>F          </td>
+                  <td>21.208   </td>
+                  <td>14.322  </td>
+                </tr>
+                <tr>
+                  <td>RMSE       </td>
+                  <td>89.67    </td>
+                  <td>88.85   </td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
 </div>
 </section>
 </section>
-<section id="apartado-3" class="level3">
-<h3 class="anchored" data-anchor-id="apartado-3">Apartado 3</h3>
+<section id="apartado-3" class="level2">
+<h2 class="anchored" data-anchor-id="apartado-3">Apartado 3</h2>
 <p>Realizamos un nuevo análisis exploratorio para la relación entre el número de visitas y la nubosidad (como porcentaje de cielo cubierto por nubes, en una escala continua de 0 a 10).</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -5134,8 +5362,8 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
 </ul>
 </section>
 </section>
-<section id="apartado-4" class="level3">
-<h3 class="anchored" data-anchor-id="apartado-4">Apartado 4</h3>
+<section id="apartado-4" class="level2">
+<h2 class="anchored" data-anchor-id="apartado-4">Apartado 4</h2>
 <p>Finalmente, vamos a considerar otra variante de la ecuación <a href="#eq-model1" class="quarto-xref">Ecuación 1</a> donde los efectos de la temperatura (<code>hightemp</code>) y de la nubosidad (<code>cloudcover</code>) no son constantes, sino que su efecto es heterogéneo en función de otros factores, en este caso si es un día laborable (<code>weekday</code>). Estimaremos el siguiente modelo</p>
 <p><span id="eq-model1H"><span class="math display">\[
 \begin{aligned}
@@ -5149,8 +5377,8 @@ volume &amp;= \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \bet
 </div>
 <p>Presentar en una tabla los resultado de estimar la ecuación <a href="#eq-model1" class="quarto-xref">Ecuación 1</a> y de la ecuación <a href="#eq-model1H" class="quarto-xref">Ecuación 2</a>. Discutir si evidencia de que la temperatura y la nubosidad afectan de manera diferente a las visitas en función de otros factores. ¿Qué modelo preferiría?</p>
 </section>
-<section id="entrega" class="level3">
-<h3 class="anchored" data-anchor-id="entrega">Entrega</h3>
+<section id="entrega" class="level2">
+<h2 class="anchored" data-anchor-id="entrega">Entrega</h2>
 <p>Rellenad este <a href="https://docs.google.com/forms/d/e/1FAIpQLSds_Q4-s7gcn0LKvBuUqQF0fzq1OF1NUTI4u1VKV25ic_BM7w/viewform">FORMULARIO</a> con vuestros datos y subid</p>
 <ul>
 <li><p>vuestro archivo de .qmd</p></li>
@@ -5163,7 +5391,6 @@ volume &amp;= \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \bet
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
