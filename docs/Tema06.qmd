@@ -860,7 +860,7 @@ $$
 #| echo: false
 #| eval: false
 library(mosaicData)
-mod <- lm(volume ~ poly(hightemp,3), data = RailTrail)
+mod <- lm(data = RailTrail, volume ~ poly(hightemp,3))
 cbind(RailTrail$volume, mod$fitted, RailTrail$hightemp) %>% head()
 ```
     
@@ -870,7 +870,7 @@ cbind(RailTrail$volume, mod$fitted, RailTrail$hightemp) %>% head()
 #| eval: false
 censo <- read_csv("data/census.csv") %>%
   mutate(income = as.integer(factor(income))-1)
-logit <- glm(income ~ capital_gain, data = censo, family = "binomial")
+logit <- glm(data = censo, income ~ capital_gain, family = "binomial")
 cbind(censo$income, predict(logit, type = "response")) %>% head()
 ```
 
@@ -900,7 +900,7 @@ RailTrail %>% ggplot(aes(x = hightemp, y = volume)) +
 ```{r}
 RailTrail.fit <- RailTrail %>% 
   mutate(
-    lm.fit = lm(volume ~ poly(hightemp,3), data = .)$fitted) 
+    lm.fit = lm(data = ., volume ~ poly(hightemp,3))$fitted) 
 head(select(RailTrail.fit, volume, lm.fit, hightemp))
 ```
 
@@ -966,7 +966,7 @@ censo <- read_csv("data/census.csv") %>%
 
 * Ajustamos un modelo logístico (logit) simple
 ```{r}
-modelo_logistico <- glm(income ~ capital_gain, data = censo, family = "binomial")
+modelo_logistico <- glm(ata = censo, income ~ capital_gain, dfamily = "binomial")
 summary(modelo_logistico)
 cbind(censo$income, predict(modelo_logistico, type = "response")) %>% head()
 ```
@@ -977,8 +977,8 @@ cbind(censo$income, predict(modelo_logistico, type = "response")) %>% head()
 
 <!--
 ```{r, eval=FALSE, echo=FALSE}
-modelo_logistico2 <- glm(income ~ capital_gain + age + education + sex, 
-                         data = censo, family = "binomial")
+modelo_logistico2 <- glm(data = censo, income ~ capital_gain + age + education + sex, 
+                         family = "binomial")
 summary(modelo_logistico2)
 cbind(censo$income, predict(modelo_logistico2, type = "response")) %>% head()
 ```
@@ -1174,17 +1174,17 @@ datos %>% ggplot(aes(x=renta, y=ventas, color = mujer)) + geom_point() +
 write.csv(datos, "data/descuento.csv", row.names = FALSE)
 
 # Regresiones
-modelo1 <- lm(ventas ~ edad + I(edad^2) + descuento + mujer*renta + zona , data = datos)
+modelo1 <- lm(data = datos, ventas ~ edad + I(edad^2) + descuento + mujer*renta + zona)
 summary(modelo1)
 
 
-modelo1b <- lm(ventas ~ edad + I(edad^2) + descuento , data = datos)
+modelo1b <- lm(data = datos, ventas ~ edad + I(edad^2) + descuento)
 summary(modelo1b)
 
-modelo2 <- lm(ventas ~ descuento, data = datos)
+modelo2 <- lm(data = datos, ventas ~ descuento)
 summary(modelo2)
 
-modelo3 <- lm(ventas ~ descuento + renta, data = datos)
+modelo3 <- lm(data = datos, ventas ~ descuento + renta)
 summary(modelo3)
 
 ```
@@ -1301,7 +1301,7 @@ SF %>%
   geom_boxplot(aes(group = hour)) + geom_smooth(method = "lm")  +
   coord_cartesian(ylim = c(-30, 120))
 
-mod1 <- lm(arr_delay ~ hour, data = SF)
+mod1 <- lm(data = SF, arr_delay ~ hour)
 broom::tidy(mod1)
 ```
 
@@ -1330,7 +1330,7 @@ SF2 <- SF %>%
     estaci = ifelse(month %in% 6:7, "verano", "otros meses")
   )
 
-mod2 <- lm(arr_delay ~ hour + origin + carrier + as.factor(month) + dow, data = SF2)
+mod2 <- lm(data = SF2, arr_delay ~ hour + origin + carrier + as.factor(month) + dow)
 broom::tidy(mod2)
 ```
 
@@ -2153,7 +2153,7 @@ SESGO-VARIANZA VISTO EN ECONOMETRIA I: omitir variable relevante (modelos menos 
 ```{r}
 censo <- read_csv("data/census.csv") %>%
   mutate(income = parse_factor(income))
-logit <- glm(income ~ capital_gain, data = censo, 
+logit <- glm(data = censo, income ~ capital_gain,  
              family = "binomial")
 prob.predict <- predict(logit, type = "response")
 

@@ -101,8 +101,8 @@ $$ {#eq-model1}
 
 ```{r}
 #| eval: true
-modelo1 <- lm(volume ~ hightemp + cloudcover + weekday + precip, 
-             data = RailTrail)
+modelo1 <- lm(data = RailTrail,
+              volume ~ hightemp + cloudcover + weekday + precip)
 ```
 
 
@@ -153,8 +153,8 @@ $$
 #| results: hide
 #| eval: true
 library(modelsummary)
-modelo2 <- lm(volume ~ hightemp + cloudcover + weekday + precip
-              + spring + summer, data = RailTrail)
+modelo2 <- lm(data = RailTrail,  volume ~ hightemp + cloudcover + weekday + precip
+              + spring + summer,)
 
 modelsummary(list("Modelo 1" = modelo1, "Modelo 2" = modelo2), 
              gof_map = c("nobs", "r.squared", "adj.r.squared", "F", "rmse") )
@@ -429,14 +429,16 @@ Presentar en una tabla los resultados de estimar la @eq-model1 y añadir primero
 
 ```{r}
 #| echo: false
-modelo1.2 <- lm(volume ~  hightemp + I(hightemp^2) + cloudcover + weekday + precip, 
-             data = RailTrail)
-modelo1.3 <- lm(volume ~  hightemp + I(hightemp^2) +  I(hightemp^3) + cloudcover + weekday + precip, 
-             data = RailTrail)
-modelo1.4 <- lm(volume ~ hightemp + I(hightemp^2) +  I(hightemp^3) +  I(hightemp^4) + cloudcover + weekday + precip, 
-             data = RailTrail)
-modelo1.5 <- lm(volume ~ hightemp + I(hightemp^2) +  I(hightemp^3) +  I(hightemp^4) + I(hightemp^5) + cloudcover + weekday + precip, 
-             data = RailTrail)
+modelo1.2 <- lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) + cloudcover + weekday + precip)
+modelo1.3 <- lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +  I(hightemp^3) + cloudcover + weekday + precip)
+
+modelo1.4 <-  lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +  I(hightemp^3) + I(hightemp^4) + cloudcover + weekday + precip)
+
+modelo1.5 <- lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +  I(hightemp^3) + I(hightemp^4) + I(hightemp^5) + cloudcover + weekday + precip)
 
 modelsummary(list("Modelo 2" = modelo1, "Pol. grado 2" = modelo1.2, 
                   "Pol. grado 3" = modelo1.3, "Pol. grado 4" = modelo1.4),
@@ -487,8 +489,9 @@ $$
 #| results: markup
 #| eval: true
 library(modelsummary)
-modelo2 <- lm(volume ~ hightemp + cloudcover + weekday + precip
-              + spring + summer, data = RailTrail)
+modelo2 <- lm(data = RailTrail,
+                volume ~ hightemp + cloudcover + weekday + precip + 
+                          spring + summer)
 
 modelsummary(list("Modelo 1" = modelo1, "Modelo 2" = modelo2), 
              gof_map = c("nobs", "r.squared", "adj.r.squared", "F", "rmse") ,
@@ -521,28 +524,24 @@ Dado lo que observamos en el gráfico, vamos a discretizar `cloudcover`. Primero
 
 ```{r}
 #| echo: false
-modelo1.C2 <- lm(volume ~  hightemp  + (cloudcover>7.5) + 
-                  weekday + precip, 
-             data = RailTrail) 
+modelo1.C2 <- lm(data = RailTrail, 
+                 volume ~  hightemp  + (cloudcover>7.5) + 
+                  weekday + precip) 
 
-modelo1.C3 <- lm(volume ~  hightemp  + (cloudcover>5 & cloudcover<=7.5) + (cloudcover>7.5) + 
-                  weekday + precip , 
-             data = RailTrail) 
+modelo1.C3 <- lm(data = RailTrail, 
+                  volume ~  hightemp  + (cloudcover>5 & cloudcover<=7.5) + (cloudcover>7.5) + weekday + precip) 
 
-modelo1.C4 <- lm(volume ~  hightemp  + (cloudcover>2.5 & cloudcover<=5) + 
+modelo1.C4 <- lm(data = RailTrail, 
+                  volume ~  hightemp  + (cloudcover>2.5 & cloudcover<=5) + 
                   (cloudcover>5 & cloudcover<=7.5) + (cloudcover>7.5) +
-                  weekday + precip, 
-             data = RailTrail) 
+                  weekday + precip) 
   
-modelo1.C2 <- lm(volume ~  hightemp  + cut(cloudcover, c(0,7.5,10), include.lowest = T) + 
-                  weekday + precip, 
-             data = RailTrail) 
-modelo1.C3 <- lm(volume ~  hightemp  + cut(cloudcover, c(0, 5, 7.5,10), include.lowest = T) + 
-                  weekday + precip, 
-             data = RailTrail) 
-modelo1.C4 <- lm(volume ~  hightemp  + cut(cloudcover, c(0,2.5, 5, 7.5,10), include.lowest = T) + 
-                  weekday + precip, 
-             data = RailTrail) 
+modelo1.C2 <- lm(data = RailTrail,   hightemp  + cut(cloudcover, c(0,7.5,10), include.lowest = T) + 
+                  weekday + precip) 
+modelo1.C3 <- lm(data = RailTrail,   hightemp  + cut(cloudcover, c(0, 5, 7.5,10), include.lowest = T) + 
+                  weekday + precip) 
+modelo1.C4 <- lm(data = RailTrail,   hightemp  + cut(cloudcover, c(0,2.5, 5, 7.5,10), include.lowest = T) + 
+                  weekday + precip) 
 
 modelsummary(list("Modelo 1" = modelo1, "Dos Rangos" = modelo1.C2, "
                   Tres Rangos" = modelo1.C3, "Cuatro Rangos" = modelo1.C4), 
@@ -555,17 +554,14 @@ modelsummary(list("Modelo 1" = modelo1, "Dos Rangos" = modelo1.C2, "
 #| eval: false
 RailTrail %>% ggplot(aes(y=volume, x=precip))+geom_point()+geom_smooth()
 
-lm(volume ~  hightemp  + cloudcover + weekday + I(precip>0)  + 
-     spring + summer, 
-             data = RailTrail) %>% summary()
+lm(data = RailTrail,  volume ~  hightemp  + cloudcover + weekday + I(precip>0)  + 
+     spring + summer) %>% summary()
 
-lm(volume ~  hightemp  + cloudcover + weekday + I(precip>0 & precip<=0.5)  + I(precip>0.5)  + 
-     spring + summer, 
-             data = RailTrail) %>% summary()
+lm(data = RailTrail, volume ~   hightemp  + cloudcover + weekday + I(precip>0 & precip<=0.5)  + I(precip>0.5)  + 
+     spring + summer) %>% summary()
 
-lm(volume ~  hightemp  + cloudcover + weekday + I(precip>0 & precip<=0.5) + I(precip>0.5 & precip<=1)  + I(precip>1)  + 
-     spring + summer, 
-             data = RailTrail) %>% summary()
+lm(data = RailTrail,  volume ~  hightemp  + cloudcover + weekday + I(precip>0 & precip<=0.5) + I(precip>0.5 & precip<=1)  + I(precip>1)  + 
+     spring + summer) %>% summary()
 ```
 
 
@@ -583,8 +579,7 @@ $$ {#eq-model1H}
 ```{r}
 #| echo: true
 #| eval: true
-modelo1.H <- lm(volume ~  (hightemp + cloudcover)*weekday + precip, 
-             data = RailTrail)
+modelo1.H <- lm(data = RailTrail, volume ~ (hightemp + cloudcover)*weekday + precip)
 ```
 
 
