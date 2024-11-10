@@ -5019,8 +5019,8 @@ font-size: 80% !important;
 volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip + \varepsilon  
 \tag{1}\]</span></span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume <span class="sc">~</span> hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> weekday <span class="sc">+</span> precip, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> RailTrail)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> RailTrail,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>              volume <span class="sc">~</span> hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> weekday <span class="sc">+</span> precip)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="apartado-1" class="level2">
@@ -5103,22 +5103,23 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
 \]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume <span class="sc">~</span> hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> weekday <span class="sc">+</span> precip</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="sc">+</span> spring <span class="sc">+</span> summer, <span class="at">data =</span> RailTrail)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;Modelo 1&quot;</span> <span class="ot">=</span> modelo1, <span class="st">&quot;Modelo 2&quot;</span> <span class="ot">=</span> modelo2), </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">&quot;nobs&quot;</span>, <span class="st">&quot;r.squared&quot;</span>, <span class="st">&quot;adj.r.squared&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;rmse&quot;</span>) ,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">stars =</span> T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> RailTrail,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                volume <span class="sc">~</span> hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> weekday <span class="sc">+</span> precip <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                          spring <span class="sc">+</span> summer)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;Modelo 1&quot;</span> <span class="ot">=</span> modelo1, <span class="st">&quot;Modelo 2&quot;</span> <span class="ot">=</span> modelo2), </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">&quot;nobs&quot;</span>, <span class="st">&quot;r.squared&quot;</span>, <span class="st">&quot;adj.r.squared&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;rmse&quot;</span>) ,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">stars =</span> T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
-      function styleCell_odek2gf1o2nd0kbi99pz(i, j, css_id) {
-        var table = document.getElementById("tinytable_odek2gf1o2nd0kbi99pz");
+      function styleCell_flrcpqh2amsr0i1uviat(i, j, css_id) {
+        var table = document.getElementById("tinytable_flrcpqh2amsr0i1uviat");
         table.rows[i].cells[j].classList.add(css_id);
       }
       function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_odek2gf1o2nd0kbi99pz');
+        var table = document.getElementById('tinytable_flrcpqh2amsr0i1uviat');
         var newRow = table.insertRow(i);
         var newCell = newRow.insertCell(0);
         newCell.setAttribute("colspan", colspan);
@@ -5126,8 +5127,8 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
         // this may be unsafe, but innerText does not interpret <br>
         newCell.innerHTML = content;
       }
-      function spanCell_odek2gf1o2nd0kbi99pz(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_odek2gf1o2nd0kbi99pz");
+      function spanCell_flrcpqh2amsr0i1uviat(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_flrcpqh2amsr0i1uviat");
         const targetRow = table.rows[i];
         const targetCell = targetRow.cells[j];
         for (let r = 0; r < rowspan; r++) {
@@ -5153,81 +5154,81 @@ volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \
         targetCell.rowSpan = rowspan;
         targetCell.colSpan = colspan;
       }
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(0, 0, 'tinytable_css_id3mrs2l3lzlufse8cvs3f') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(0, 1, 'tinytable_css_idh3fosh17j5m7u21i8xtz') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(0, 2, 'tinytable_css_idh3fosh17j5m7u21i8xtz') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(1, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(1, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(1, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(2, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(2, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(2, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(3, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(3, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(3, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(4, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(4, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(4, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(5, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(5, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(5, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(6, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(6, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(6, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(7, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(7, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(7, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(8, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(8, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(8, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(9, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(9, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(9, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(10, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(10, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(10, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(11, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(11, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(11, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(12, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(12, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(12, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(13, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(13, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(13, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(14, 0, 'tinytable_css_idxslw9grta80zbedjp71u') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(14, 1, 'tinytable_css_idi78xrcfgfdlmqzyu3qiz') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(14, 2, 'tinytable_css_idi78xrcfgfdlmqzyu3qiz') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(15, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(15, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(15, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(16, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(16, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(16, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(17, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(17, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(17, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(18, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(18, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(18, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(19, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(19, 1, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(19, 2, 'tinytable_css_idknj6zyq6hu7ns1wxkiiw') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(20, 0, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(20, 1, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
-window.addEventListener('load', function () { styleCell_odek2gf1o2nd0kbi99pz(20, 2, 'tinytable_css_idotn4hzb7jubmfbnmyr5p') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(0, 0, 'tinytable_css_idakq6agkessalyh4zjlmg') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(0, 1, 'tinytable_css_idqy3k0d3x3vl1bkurdvws') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(0, 2, 'tinytable_css_idqy3k0d3x3vl1bkurdvws') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(1, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(1, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(1, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(2, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(2, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(2, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(3, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(3, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(3, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(4, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(4, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(4, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(5, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(5, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(5, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(6, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(6, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(6, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(7, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(7, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(7, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(8, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(8, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(8, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(9, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(9, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(9, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(10, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(10, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(10, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(11, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(11, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(11, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(12, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(12, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(12, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(13, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(13, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(13, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(14, 0, 'tinytable_css_idc47mtcyuycpo9qqg7ioe') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(14, 1, 'tinytable_css_idzf3mmi16k5guqbqa6yzg') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(14, 2, 'tinytable_css_idzf3mmi16k5guqbqa6yzg') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(15, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(15, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(15, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(16, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(16, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(16, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(17, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(17, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(17, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(18, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(18, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(18, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(19, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(19, 1, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(19, 2, 'tinytable_css_idufkwvc0vb30w8uyfjiig') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(20, 0, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(20, 1, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
+window.addEventListener('load', function () { styleCell_flrcpqh2amsr0i1uviat(20, 2, 'tinytable_css_id7o0zfqocuv1do3qh3btm') })
     </script>
 
     <style>
-.table td.tinytable_css_id3mrs2l3lzlufse8cvs3f, .table th.tinytable_css_id3mrs2l3lzlufse8cvs3f { text-align: left; border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_idh3fosh17j5m7u21i8xtz, .table th.tinytable_css_idh3fosh17j5m7u21i8xtz { text-align: center; border-bottom: solid 0.1em #d3d8dc; }
-.table td.tinytable_css_idotn4hzb7jubmfbnmyr5p, .table th.tinytable_css_idotn4hzb7jubmfbnmyr5p { text-align: left; }
-.table td.tinytable_css_idknj6zyq6hu7ns1wxkiiw, .table th.tinytable_css_idknj6zyq6hu7ns1wxkiiw { text-align: center; }
-.table td.tinytable_css_idxslw9grta80zbedjp71u, .table th.tinytable_css_idxslw9grta80zbedjp71u { border-bottom: solid 0.05em black; text-align: left; }
-.table td.tinytable_css_idi78xrcfgfdlmqzyu3qiz, .table th.tinytable_css_idi78xrcfgfdlmqzyu3qiz { border-bottom: solid 0.05em black; text-align: center; }
+.table td.tinytable_css_idakq6agkessalyh4zjlmg, .table th.tinytable_css_idakq6agkessalyh4zjlmg { text-align: left; border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_idqy3k0d3x3vl1bkurdvws, .table th.tinytable_css_idqy3k0d3x3vl1bkurdvws { text-align: center; border-bottom: solid 0.1em #d3d8dc; }
+.table td.tinytable_css_id7o0zfqocuv1do3qh3btm, .table th.tinytable_css_id7o0zfqocuv1do3qh3btm { text-align: left; }
+.table td.tinytable_css_idufkwvc0vb30w8uyfjiig, .table th.tinytable_css_idufkwvc0vb30w8uyfjiig { text-align: center; }
+.table td.tinytable_css_idc47mtcyuycpo9qqg7ioe, .table th.tinytable_css_idc47mtcyuycpo9qqg7ioe { border-bottom: solid 0.05em black; text-align: left; }
+.table td.tinytable_css_idzf3mmi16k5guqbqa6yzg, .table th.tinytable_css_idzf3mmi16k5guqbqa6yzg { border-bottom: solid 0.05em black; text-align: center; }
 </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_odek2gf1o2nd0kbi99pz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_flrcpqh2amsr0i1uviat" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -5372,8 +5373,7 @@ volume &amp;= \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \bet
 \end{aligned}
 \tag{2}\]</span></span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>modelo1.H <span class="ot">&lt;-</span> <span class="fu">lm</span>(volume <span class="sc">~</span>  (hightemp <span class="sc">+</span> cloudcover)<span class="sc">*</span>weekday <span class="sc">+</span> precip, </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> RailTrail)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>modelo1.H <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> RailTrail, volume <span class="sc">~</span> (hightemp <span class="sc">+</span> cloudcover)<span class="sc">*</span>weekday <span class="sc">+</span> precip)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Presentar en una tabla los resultado de estimar la ecuación <a href="#eq-model1" class="quarto-xref">Ecuación 1</a> y de la ecuación <a href="#eq-model1H" class="quarto-xref">Ecuación 2</a>. Discutir si evidencia de que la temperatura y la nubosidad afectan de manera diferente a las visitas en función de otros factores. ¿Qué modelo preferiría?</p>
 </section>
