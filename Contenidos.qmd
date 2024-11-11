@@ -33,15 +33,6 @@ strip-comments: true
   * [Tema 09 - Selección y Regularización](docs/Tema09.qmd)
   * [Tema 10 - Modelización con `tidymodels`](docs/Tema10.qmd)
 
-## Semana 10
-(11-Nov. a 17-Nov.)
-
-  * [Tema 08 - Aprendizaje Estadístico](docs/Tema08.qmd)
-
-
-  * [Tema 07 - Ejercicio](docs/Tema07ej.qmd)
-    - Fecha:  mie. 29-Nov. 23:59h 
-
 -->
 
 
