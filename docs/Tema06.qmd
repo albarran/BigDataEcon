@@ -1151,7 +1151,7 @@ educ <- ifelse(educ<=10, 8,
                       ifelse(educ<=60, 14,
                              ifelse(educ<=95,18,20))))
 
-ventas <- 00 + 40 * (edad-25) - 5* (edad-25)^2 + 
+ventas <- 3300 + 40 * (edad-25) - 5* (edad-25)^2 + 
   + 1*(renta-500) + 200*mujer + 1.5*mujer*renta +
   800 * descuento +
   200 * (zona == "ciudad") + 500 * (zona=="capital") +
@@ -1245,7 +1245,7 @@ regresión: una -->lista con resultados <!--varios resultados almacenados-->
 descuento <- read.csv("data/descuento.csv") %>% 
         mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
 modelo <- lm(data = descuento, ventas ~ renta + descuento)
-summary(modelo)
+(sum.modelo <- summary(modelo))
 nobs(modelo)
 ```
 
@@ -1367,7 +1367,7 @@ broom::tidy(mod2)
 ```{r}
 #| echo: false
 #| eval: false
-datos <- read_csv("data/discount.csv")SA
+datos <- read_csv("data/discount.csv")
 ```
 
 * El porcentaje medio de descuentos afecta negativamente a las ventas 
@@ -1566,7 +1566,7 @@ lm(data=Carseats , Sales ~ ShelveLoc*Urban)
 
 ::: {style="font-size: 90%;"} 
 
-* La selección de variables es importante: evita sesgos o aumentar la variabilidad
+* La selección de variables es importante: evita sesgos o aumenta la variabilidad
 
 ```{r}
 lm(data = descuento, ventas ~ descuento) %>% summary()
@@ -1755,7 +1755,7 @@ $$
 * La regresión logística se puede estimar en R con la función `glm()`, de forma similar a `lm()`; podemos incluir variables explicativas tanto cuantitativas como cualitativas, interacciones, etc.
 
 ```{r}
-#| echo: false
+#| echo: true
 #| eval: false
 censo <- read_csv("data/census.csv") %>%
   mutate(across(where(is.character), ~parse_factor(.x)))
@@ -1919,7 +1919,7 @@ curve(0.25 * (x> 0 & x<0.5) + 0.75 * (x>0.5) + 0.75 * (x>1.5) + 0.25 * (x < -1),
 
     + penaliza grandes desviaciones
 
-    + $\small R^2$ y $\small R^2$-ajustado son variantes del MSE, y solo sirven para comparar modelos con la *misma variable dependiente*.
+    + $\small R^2$ y $\small R^2$-ajustado son variantes del MSE, pero solo sirven para comparar modelos con la *misma variable dependiente*.
     
   <!-- $R^2$-ajustado penaliza por número de variables -->
 
