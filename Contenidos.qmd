@@ -38,6 +38,11 @@ strip-comments: true
 
 <!-- *********************************************************************  -->
 
+## Semana 11
+(18-Nov. a 24-Nov.)
+
+  * [Tema 07 - Selección y Regularización](docs/Tema07.qmd)
+
 ## Semana 10
 (11-Nov. a 17-Nov.)
 
