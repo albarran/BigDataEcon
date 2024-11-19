@@ -35,6 +35,132 @@
     "text": "About this site"
   },
   {
+    "objectID": "docs/Tema08.html#proceso-de-modelización",
+    "href": "docs/Tema08.html#proceso-de-modelización",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Proceso de modelización",
+    "text": "Proceso de modelización\n\ntidymodels es una colección de paquetes para el proceso de modelización (NO implementa modelos) con los principios de tidyverse\n\n\nlibrary(tidymodels)\n\n\n\n\n\nOtros paquetes “similares”: mlr3, caret, H2O\ntidymodels se llama vetiver en python"
+  },
+  {
+    "objectID": "docs/Tema08.html#partición-inicial",
+    "href": "docs/Tema08.html#partición-inicial",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Partición inicial",
+    "text": "Partición inicial\n\nNO usamos todos los datos para estimar\ninitial_split(): particionar los datos en prueba y entrenamiento.\n\nprimer argumento: datos (se pasa por tubería %&gt;%)\nsegundo argumento: proporción de datos dedicados a entrenamiento\n\n\n\ntidymodels crea objetos (listas) con toda la información y ofrece funciones para acceder a ella\nLas funciones training() y testing() acceden a cada submuestra"
+  },
+  {
+    "objectID": "docs/Tema08.html#recetas-de-transformación",
+    "href": "docs/Tema08.html#recetas-de-transformación",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Recetas de transformación",
+    "text": "Recetas de transformación\n\nAunque ya hemos limpiado los datos de forma general, podemos considerar transformaciones específicas para algunas estimaciones\n\nAlgunos modelos necesitan que las variables sean transformadas de una forma concreta (ej., estandarizar)\nIncluso para un mismo modelo, podemos considerar diferentes especificaciones diferentes: sin usar NA o imputándolos, usando distintas variables (ej., con o sin interacciones)\n\n\n\n\nLas recetas, recipe(), definen las transformaciones a aplicar:\n\nSu principal argumento es una fórmula, que define el rol de las variables: variable dependiente y predictores\nSe encadenan (con %&gt;%) pasos con step_* para las transformaciones\n\nUna referencia completa aquí y aquí"
+  },
+  {
+    "objectID": "docs/Tema08.html#algunos-pasos-habituales",
+    "href": "docs/Tema08.html#algunos-pasos-habituales",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Algunos pasos habituales",
+    "text": "Algunos pasos habituales\n\nPara un modelo concreto, podemos realizar cambios (como en tidyverse): step_select(), step_filter(), step_mutate(), …\n\nTambién transformaciones directas: step_log()\n\n\n\n¿Cómo tratar los valores ausentes en este modelo?\n\nelimina las observaciones con valores ausentes: step_naomit()\nimputar los valores ausentes de los predictores: step_impute_mean(), step_impute_linear(), step_impute_knn(), etc..\n\n\n\n\nEstandarizar variables para que tengan media cero, step_center(), varianza uno, step_scale(), o ambas step_normalize()\n\n\nCrear polinomios, step_poly(), y discretizar, step_cut()"
+  },
+  {
+    "objectID": "docs/Tema08.html#algunos-pasos-habituales-cont.",
+    "href": "docs/Tema08.html#algunos-pasos-habituales-cont.",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Algunos pasos habituales (cont.)",
+    "text": "Algunos pasos habituales (cont.)\n\nPara variables cualitativas, podemos agrupar categorías poco frecuentes: step_other()\nEn general, tidymodels exige crear explícitamente variables binarias (dummy) para las categorías de las variables cualitativas: step_dummy()\n\nalgunos modelos necesitan dummies para todas las categorías: se añade la opcion one_hot = TRUE\n\n\n\n\nNOTA: algunas fuentes (ej., chatGPT) sugieren eliminar variables con poca variabilidad, step_zv() y step_nzv(), o con alta correlación, step_corr(). Esto NO es estrictamente necesario para ningún modelo\n\nEsto lo debemos haber detectado en el AED."
+  },
+  {
+    "objectID": "docs/Tema08.html#algunos-pasos-habituales-y-3",
+    "href": "docs/Tema08.html#algunos-pasos-habituales-y-3",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Algunos pasos habituales (y 3)",
+    "text": "Algunos pasos habituales (y 3)\n\nLas interacciones también funcionan de forma diferente en tidymodels\nPara variables cuantitativas, x1 y x2, step_interact(~ x2*x1) añade solo una nueva variable: la inteacción x2:x1\n\ncon step_interact(~ (x2 + x3)*x1) creamos múltiples interacciones\n\nPara variables binarias, step_interact(~ d1:d2) añade la interacción\nPara variables cualitativas, hemos debido crear antes las dummies. Para evitar escribir manualmente cada combinación podemos usar start_with():\n\nstep_interact(~ starts_with(\"F1\"):x1) para una variable categórica F1 y una continua x1\nstep_interact(~ starts_with(\"F1_\"):starts_with(\"F2_\")) para dos variables categóricas F1 y F2"
+  },
+  {
+    "objectID": "docs/Tema08.html#preparando-la-receta",
+    "href": "docs/Tema08.html#preparando-la-receta",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Preparando la receta",
+    "text": "Preparando la receta\n\n\nTODOS los pasos se pueden aplicar a una variable o varias con all_outcomes(), all_predictors(), all_numeric(), all_nominal(), contains(), etc.\n\n\n\nSe crea un objeto de receta para usarlo después con otras partes del proceso\n\n\nlibrary(mosaicData)\nlibrary(tidyverse)\nset.seed(101)\nrailtrailPart &lt;- RailTrail %&gt;% \n                    mutate(dayType = parse_factor(dayType)) %&gt;% \n                    initial_split(prop = .8)\nreceta1 &lt;-railtrailPart %&gt;% training() %&gt;%             \n  recipe(volume ~ cloudcover + precip + hightemp + dayType) %&gt;%\n  step_normalize(all_predictors(), -all_nominal()) %&gt;%\n# step_normalize(all_numeric(), -all_outcomes()) %&gt;% \n  step_dummy(dayType) %&gt;% \n  step_poly(hightemp, degree = 6)  \n\n\nPodría prep()ararse y aplicar las transformaciones con juice() o bake() (veremos otra alternativa más general)"
+  },
+  {
+    "objectID": "docs/Tema08.html#definir-el-modelo",
+    "href": "docs/Tema08.html#definir-el-modelo",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Definir el modelo",
+    "text": "Definir el modelo\n\ntidymodels define un modelo de un tipo con una interfaz unificada para distintas bibliotecas \n\n\nUna función que define el tipo de modelo, con argumentos específicos de ese modelo (la lista de funciones/modelos aquí)\nSe fija el tipo de problema (mode): regresión o clasificación\nSe establece la biblioteca (engine) con la que se implementará\n\n\nmodelo_lm1  &lt;- linear_reg(mode= \"regression\", engine = \"lm\", \n                             penalty = 0)\n\nmodelo_glm1 &lt;- linear_reg(mode= \"regression\", engine = \"glmnet\", \n                             penalty = 0)\n\n\nSe puede estimar (entrenar) el modelo con fit()"
+  },
+  {
+    "objectID": "docs/Tema08.html#flujos-de-trabajo-workflow",
+    "href": "docs/Tema08.html#flujos-de-trabajo-workflow",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Flujos de trabajo: workflow()",
+    "text": "Flujos de trabajo: workflow()\n\nUn flujo de trabajo combina la receta de preprocesado y la definición del modelo en un único objeto para su uso posterior\n\n\nflujo_lm1 &lt;- workflow() %&gt;%\n  add_recipe(receta1) %&gt;%      \n  add_model(modelo_lm1)\n\n\nPodríamos modificar un flujo existente con update_recipe() , update_model(), etc.\n\n\n\nUsando la función fit() con unos datos y un flujo de trabajo,\n\nla receta aplica el preprocesado a los datos definidos aquí\nse estima el modelo definido con los datos procesados\n\n\n\nflujo_lm1_est &lt;- flujo_lm1 %&gt;% \n                   fit(data = railtrailPart %&gt;% training())"
+  },
+  {
+    "objectID": "docs/Tema08.html#flujo-de-trabajo-estimado",
+    "href": "docs/Tema08.html#flujo-de-trabajo-estimado",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Flujo de trabajo estimado",
+    "text": "Flujo de trabajo estimado\n\nEl objeto del flujo estimado almacena información previa (receta, modelo, datos), resultados (estimaciones, predicciones) para usar de varias formas\n\n\nExtraer la receta y aplicar la transformación a unos datos\n\n\nreceta_extr &lt;- flujo_lm1_est %&gt;% extract_recipe() \n\nreceta_extr %&gt;% bake(railtrailPart %&gt;% training()) \nreceta_extr %&gt;% bake(railtrailPart %&gt;% testing())\n\n\nExtraer los resultados de la estimación; pueden convertirse a conjunto de datos (y mostrar en tablas con kable())\n\n\nestim_extraida &lt;- flujo_lm1_est %&gt;% extract_fit_parsnip() \n\nestim_extraida %&gt;% tidy()      # resultados de la estimación\nestim_extraida %&gt;% glance()    # otros detalles de la estimación"
+  },
+  {
+    "objectID": "docs/Tema08.html#flujo-de-trabajo-estimado-cont.",
+    "href": "docs/Tema08.html#flujo-de-trabajo-estimado-cont.",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Flujo de trabajo estimado (cont.)",
+    "text": "Flujo de trabajo estimado (cont.)\n\n\nEl proceso es igual para problemas de clasificación.\n\n\ncenso &lt;- read_csv(\"data/census.csv\") %&gt;% select(-1) %&gt;% \n  mutate(across(where(is.character),~as.factor(.x)))\nset.seed(8697)\ncensoPart &lt;- censo %&gt;% initial_split(prop = .8)\n\nreceta_log1 &lt;- training(censoPart) %&gt;%\n  recipe(income ~ age + education_1 + capital_gain)\nmodelo_log1 &lt;- logistic_reg(mode= \"classification\", engine = \"glm\", \n                             penalty = 0)\n\nflujo_log1 &lt;- workflow() %&gt;%\n  add_recipe(receta_log1) %&gt;%      \n  add_model(modelo_log1)\n\nflujo_log1_est &lt;- flujo_log1 %&gt;% \n                   fit(data = censoPart %&gt;% training()) \n\n\nestim_extraida_log &lt;- flujo_log1_est %&gt;% extract_fit_parsnip() \n\nestim_extraida_log %&gt;% tidy() \nestim_extraida_log %&gt;% glance()"
+  },
+  {
+    "objectID": "docs/Tema08.html#predicción",
+    "href": "docs/Tema08.html#predicción",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Predicción",
+    "text": "Predicción\n\n\nLa función predict() (de parsnip) tiene dos argumentos principales: un flujo de trabajo estimado y un conjunto de datos (nuevo como los datos de prueba u otros valores)\n\nEl flujo estimado almacena la receta para transformar los datos\nTambién contiene los resultados de la estimación (“parámetros” del modelo) que se aplican a los datos transformados para predecir\n\n\n\nflujo_lm1_est %&gt;% \n  predict(new_data = railtrailPart %&gt;% testing())\n\n\nDevuelve un conjunto de datos (tibble) con predicciones:\n\npara problemas de regresión: valores numéricos (type = \"numeric\", por defecto), intervalos de confianza (type = \"conf_int\"), etc.\npara problemas de clasificación: clases/categorías (type = \"class\", por defecto), las probabilidades de cada categoría (type = \"prob\")"
+  },
+  {
+    "objectID": "docs/Tema08.html#métricas-de-error",
+    "href": "docs/Tema08.html#métricas-de-error",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Métricas de error",
+    "text": "Métricas de error\n\n\nLa función last_fit() ajusta el flujo en los datos de entrenamiento y obtiene predicciones en los de prueba, para calcular las métricas (ver listado):\n\n\nflujo_lm1_finalfit &lt;- flujo_lm1 %&gt;% \n                    last_fit(split = railtrailPart,\n                             metrics = metric_set(rmse, mae)) \nflujo_lm1_finalfit %&gt;% collect_metrics()\n\nflujo_log1_finalfit &lt;- flujo_log1 %&gt;% \n                      last_fit(split = censoPart,\n                             metrics = metric_set(accuracy, roc_auc))\nflujo_log1_finalfit %&gt;% collect_metrics()\n\n\nTambién podemos trabajar con las predicciones en la muestra de prueba:\n\n\npredic_log1 &lt;- flujo_log1_finalfit %&gt;% collect_predictions() \npredic_log1 %&gt;% roc_auc(income, `.pred_&lt;=50K`) \npredic_log1 %&gt;% roc_curve(income, `.pred_&lt;=50K`) %&gt;% autoplot()\n\n\nNOTA: con más de dos clases, la matriz de confusión tiene dimensión \\(\\small k \\times k\\) y se calcula una ROC-AUC para cada clase frente a las demás"
+  },
+  {
+    "objectID": "docs/Tema08.html#validación-cruzada",
+    "href": "docs/Tema08.html#validación-cruzada",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Validación cruzada",
+    "text": "Validación cruzada\n\nEn lugar de initial_split(), podemos usar vfold_cv() para crear particiones\n\n\nset.seed(101)\nrailtrailPartCV &lt;- RailTrail %&gt;% \n                    mutate(dayType = parse_factor(dayType)) %&gt;% \n                    vfold_cv(v=10) \n\n\nPodemos acceder a la información de cada bloque (splits)\n\n\nEl flujo de trabajo puede ser el mismo que ya hemos visto \nLa estimación del modelo se realiza usando fit_resamples() \n\n\nflujo_lm1_CVest &lt;- flujo_lm1  %&gt;% fit_resamples(\n                      resamples = railtrailPartCV, \n                      metrics   = metric_set(rmse, mae) )\n\n\n… y el objeto creado contiene los valores de las métricas\n\n\nflujo_lm1_CVest %&gt;% collect_metrics()      # promedio"
+  },
+  {
+    "objectID": "docs/Tema08.html#selección-de-hiperparámetros-tuning",
+    "href": "docs/Tema08.html#selección-de-hiperparámetros-tuning",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Selección de hiperparámetros: tuning",
+    "text": "Selección de hiperparámetros: tuning\n\nAlgunos parámetros, denominados hiperparámetros, no se aprenden junto con el resto de parámetros del modelo (ej., \\(\\small \\lambda\\) en LASSO)\n\n\n\n\nProceso de ajuste (tuning):\n\nen una parte de la muestra de entrenamiento, se estiman los parámetros dado un valor del hiper-parámetro\nen la otra parte, se mide el error asociado a ese hiper-parámetro para validar el mejor valor\nse elige el valor con mejor métrica de error en validación\n\n\n\n\n\n\\(\\Downarrow\\)\n\n\n\\(\\hspace{0.1cm}\\)"
+  },
+  {
+    "objectID": "docs/Tema08.html#proceso-de-tuning",
+    "href": "docs/Tema08.html#proceso-de-tuning",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Proceso de tuning",
+    "text": "Proceso de tuning\n\nUsamos una partición de initial_split() y la misma receta anterior (aunque no era necesario antes, el pre-procesado ya estandarizaba los regresores)\nEn la definición del modelo debemos identificar los hiperparámetros a ajustar\n\n\nmodelo_LASSO &lt;- linear_reg(mode= \"regression\", engine = \"glmnet\",\n                           penalty = tune(), mixture = 1 ) \n\nflujo_LASSO &lt;- workflow() %&gt;%\n  add_recipe(receta1) %&gt;% \n  add_model(modelo_LASSO)\n\nflujo_LASSO %&gt;% extract_parameter_set_dials()\n\n\nDefinimos un conjunto de valores a probar (grid); p.e., con grid_regular() buscamos en un intervalo un número de valores (otras opciones aquí)\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 15), trans = NULL), \n                                   levels = 51)"
+  },
+  {
+    "objectID": "docs/Tema08.html#proceso-de-tuning-cont.",
+    "href": "docs/Tema08.html#proceso-de-tuning-cont.",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Proceso de tuning (cont.)",
+    "text": "Proceso de tuning (cont.)\n\nSe usa tune_grid() de forma a similar a fit_resamples(), usando una sub-partición de la muestra de entrenamiento por validación cruzada\n\n\nset.seed(9753)\nrailtrail_entrenCV &lt;- railtrailPart %&gt;% training() %&gt;% \n                          vfold_cv(v=10)\nflujo_LASSO_ajust &lt;- flujo_LASSO %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\n\nPodemos visualizar el ajuste y obtener los mejores valores (por la variabilidad, varios son igualmente aceptables)\n\n\nflujo_LASSO_ajust %&gt;% autoplot()\nflujo_LASSO_ajust %&gt;% show_best(metric = \"mae\")\nmejor_lambda &lt;- flujo_LASSO_ajust %&gt;% select_best(metric = \"rmse\")\n\n\nNOTA: debemos probar manualmente varios rangos y valores buscando la U"
+  },
+  {
+    "objectID": "docs/Tema08.html#finalizando-y-evaluando-el-modelo",
+    "href": "docs/Tema08.html#finalizando-y-evaluando-el-modelo",
+    "title": "Tema 08 - Modelización con tidymodels",
+    "section": "Finalizando y evaluando el modelo",
+    "text": "Finalizando y evaluando el modelo\n\n\nActualizamos el flujo de trabajo para dar un valor a los hiperparámetros\n\n\nflujo_LASSO_final &lt;- flujo_LASSO %&gt;% \n        finalize_workflow(mejor_lambda)  \n        # finalize_workflow(parameters = list(penalty=8.5))\n\n\nDebemos estimar el modelo en los datos completos de entrenamiento, para mostrar resultados de estimación o predecir\n\n\nflujo_LASSO_final_est &lt;-  flujo_LASSO_final %&gt;%  \n              fit(data = railtrailPart %&gt;% training())\nflujo_LASSO_final_est %&gt;%  extract_fit_parsnip() %&gt;% tidy()\n\n\nPara obtener las métricas, usamos last_fit()\n\n\nLASSO_final_fit &lt;- flujo_LASSO_final %&gt;% \n                    last_fit(split = railtrailPart,\n                             metrics = metric_set(rmse, mae)) \nLASSO_final_fit %&gt;% collect_metrics()"
+  },
+  {
     "objectID": "docs/Tema02.html#limpieza-y-doma-de-datos",
     "href": "docs/Tema02.html#limpieza-y-doma-de-datos",
     "title": "Tema 02 - Tratamiento de datos (una tabla)",
@@ -1407,18 +1533,81 @@
     "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nApartado 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nApartado 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioNac\nPrecioInt\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\n\nApartado 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
   },
   {
+    "objectID": "docs/Tema08ej1.html",
+    "href": "docs/Tema08ej1.html",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "",
+    "text": "Usaremos el conjunto de datos RailTrail, que ya usamos previamente, sobre el volumen de usuarios de un camino ciclista (“via verde”).\n\nlibrary(tidyverse)\nlibrary(mosaicData)\nlibrary(kableExtra)\ndata(\"RailTrail\")"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#datos",
+    "href": "docs/Tema08ej1.html#datos",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "",
+    "text": "Usaremos el conjunto de datos RailTrail, que ya usamos previamente, sobre el volumen de usuarios de un camino ciclista (“via verde”).\n\nlibrary(tidyverse)\nlibrary(mosaicData)\nlibrary(kableExtra)\ndata(\"RailTrail\")"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-0-partición-en-entrenamiento-y-prueba",
+    "href": "docs/Tema08ej1.html#paso-0-partición-en-entrenamiento-y-prueba",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 0: Partición en Entrenamiento y Prueba",
+    "text": "Paso 0: Partición en Entrenamiento y Prueba\nPartición en Entrenamiento y Prueba\n\nUsamos initial_split()para generar el objeto que almacena las dos particiones\n\n\nlibrary(tidymodels)\nset.seed(9753)\nrailtrailPart &lt;- railtrail %&gt;% \n                    initial_split(prop = .8)\n\n\nExtraemos los data frame con cada conjunto de datos, de entrenamiento y de prueba:\n\n\nrailtrailEntren  &lt;- railtrailPart %&gt;% training()\nrailtrailPrueba  &lt;- railtrailPart %&gt;% testing()"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-1-preparar-los-datos-y-especificación",
+    "href": "docs/Tema08ej1.html#paso-1-preparar-los-datos-y-especificación",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\nEn principio, consideraremos la siguiente especificación, es decir, variables incluidas en el modelo. Dado lo que hemos discutido anteriormente (que habríamos visto en el análisis exploratorio de datos), incluimos un polinomio para temperatura, una relación no lineal con la nubosidad e interacciones entre todas las variables continuas y el tipo de día de la semana.\n\\[\n\\begin{aligned}\nvolumen &= \\beta_0 + \\beta_1 hightemp + \\beta_2 hightemp^2 + \\dots + \\beta_{21} hightemp^{21}  \\\\\n        & + \\beta_{22} D_{cloudclover \\in (2.5,5]}+\\beta_{23} D_{cloudclover \\in (5,7.5]}+\\beta_{24} D_{cloudclover \\in (7.5,10]} \\\\\n        &+ \\beta_{25} precip + \\beta_{26} dayType + \\beta_{27} precip \\times dayType + u\n\\end{aligned}\n\\]\nEsta especificación se corresponde con la siguiente receta:\n\nreceta1 &lt;-railtrailPart %&gt;% training() %&gt;%             \n  recipe(volume ~  hightemp + cloudcover + precip +  dayType) %&gt;%\n  step_dummy(dayType) %&gt;% \n  step_poly(hightemp, degree = 21) %&gt;%   \n  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), \n           include_outside_range = T)  %&gt;% \n  step_dummy(cloudcover) %&gt;% \n  step_interact(~precip:starts_with(\"dayType_\"))\n\nPodemos ver cómo quedan los datos preprocesados para usarlos luego en el modelo de esta forma:\n\ndatosPrep &lt;- receta1 %&gt;%  prep() %&gt;% bake(railtrailEntren)\ndatosPrep %&gt;% slice_head() %&gt;% kbl() %&gt;% kable_paper()\n\n\n\n\nprecip\nvolume\ndayType_weekend\nhightemp_poly_1\nhightemp_poly_2\nhightemp_poly_3\nhightemp_poly_4\nhightemp_poly_5\nhightemp_poly_6\nhightemp_poly_7\nhightemp_poly_8\nhightemp_poly_9\nhightemp_poly_10\nhightemp_poly_11\nhightemp_poly_12\nhightemp_poly_13\nhightemp_poly_14\nhightemp_poly_15\nhightemp_poly_16\nhightemp_poly_17\nhightemp_poly_18\nhightemp_poly_19\nhightemp_poly_20\nhightemp_poly_21\ncloudcover_X.2.5.5.\ncloudcover_X.5.7.5.\ncloudcover_X.7.5.max.\nprecip_x_dayType_weekend\n\n\n\n\n0\n287\n0\n-0.2453388\n0.3215624\n-0.2978088\n0.2259474\n-0.1921686\n0.1818106\n-0.1878811\n0.1623743\n-0.1188715\n0.0997763\n-0.1085769\n0.096653\n-0.0650102\n0.0357273\n-0.0184597\n0.0074644\n-0.0030106\n0.0012088\n-0.0005804\n0.0002402\n-9.98e-05\n0\n0\n0\n0"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-2-entrenamiento",
+    "href": "docs/Tema08ej1.html#paso-2-entrenamiento",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 2: Entrenamiento",
+    "text": "Paso 2: Entrenamiento\n\nPaso 2.A: Definición del modelo\nDefinimos un modelo lineal\n\nmodelo_lm1  &lt;- linear_reg(mode= \"regression\", engine = \"lm\", \n                             penalty = 0)\n\n\n\nPaso 2.B: Creación del flujo de trabajo\nCreamos el flujo de trabajo combinando la receta y modelo\n\nflujo_lm1 &lt;- workflow() %&gt;%\n  add_recipe(receta1) %&gt;%      \n  add_model(modelo_lm1)\n\n\n\nPaso 2.C: Estimación del flujo\n\nEstimamos el flujo\n\n\nflujo_lm1_est &lt;- flujo_lm1 %&gt;% \n                   fit(data = railtrailPart %&gt;% training()) \n\n\nLos resultados de esta estimación son:\n\n\nflujo_lm1_est %&gt;% extract_fit_parsnip() %&gt;% \n  tidy() %&gt;% kbl() %&gt;% kable_paper()\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n398.3618778\n30.45639\n13.0797462\n0.0000000\n\n\nprecip\n-101.8519213\n44.22143\n-2.3032256\n0.0260516\n\n\ndayType_weekend\n69.0130077\n30.19285\n2.2857404\n0.0271425\n\n\nhightemp_poly_1\n620.0779680\n100.48002\n6.1711570\n0.0000002\n\n\nhightemp_poly_2\n-231.1870251\n102.56389\n-2.2540781\n0.0292222\n\n\nhightemp_poly_3\n-319.5934391\n112.86361\n-2.8316785\n0.0069576\n\n\nhightemp_poly_4\n30.6658218\n104.43119\n0.2936462\n0.7704090\n\n\nhightemp_poly_5\n43.9761289\n98.81637\n0.4450288\n0.6584807\n\n\nhightemp_poly_6\n120.6375158\n105.39037\n1.1446730\n0.2585333\n\n\nhightemp_poly_7\n89.9817670\n110.15218\n0.8168860\n0.4183947\n\n\nhightemp_poly_8\n26.7967468\n112.40311\n0.2383986\n0.8126787\n\n\nhightemp_poly_9\n19.8361352\n102.83515\n0.1928926\n0.8479307\n\n\nhightemp_poly_10\n-50.3726593\n97.43376\n-0.5169939\n0.6077496\n\n\nhightemp_poly_11\n50.1886586\n89.13451\n0.5630665\n0.5762478\n\n\nhightemp_poly_12\n95.8849122\n89.00669\n1.0772775\n0.2872274\n\n\nhightemp_poly_13\n10.3773965\n94.83236\n0.1094289\n0.9133599\n\n\nhightemp_poly_14\n55.7038090\n89.93601\n0.6193716\n0.5388657\n\n\nhightemp_poly_15\n37.2235990\n90.04709\n0.4133793\n0.6813366\n\n\nhightemp_poly_16\n64.4296348\n92.57077\n0.6960041\n0.4900866\n\n\nhightemp_poly_17\n-11.1127383\n92.51757\n-0.1201149\n0.9049389\n\n\nhightemp_poly_18\n-91.7282722\n89.76033\n-1.0219244\n0.3124027\n\n\nhightemp_poly_19\n-184.3159907\n91.55332\n-2.0132092\n0.0502353\n\n\nhightemp_poly_20\n43.2073141\n90.75385\n0.4760934\n0.6363634\n\n\nhightemp_poly_21\n-66.3777436\n91.75642\n-0.7234125\n0.4732550\n\n\ncloudcover_X.2.5.5.\n0.5148961\n43.76892\n0.0117640\n0.9906671\n\n\ncloudcover_X.5.7.5.\n-42.2736984\n37.12645\n-1.1386411\n0.2610146\n\n\ncloudcover_X.7.5.max.\n-61.9777168\n35.36681\n-1.7524261\n0.0866671\n\n\nprecip_x_dayType_weekend\n-110.0796100\n243.06658\n-0.4528784\n0.6528616\n\n\n\n\n\n\n\n\n\nPredicción\n¿Cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?\n\nvalores &lt;- tibble(hightemp = 80, cloudcover = 8.5, \n                  precip = 0.02, dayType = \"weekend\")\npred &lt;- flujo_lm1_est %&gt;% predict(new_data = valores)\nCI   &lt;- flujo_lm1_est %&gt;% predict(new_data = valores, type = \"conf_int\")\n\npred %&gt;% bind_cols(CI) %&gt;% kbl() %&gt;% kable_classic()\n\n\n\n\n.pred\n.pred_lower\n.pred_upper\n\n\n\n\n518.8108\n420.7957\n616.8258"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-1-preparar-los-datos-y-especificación-1",
+    "href": "docs/Tema08ej1.html#paso-1-preparar-los-datos-y-especificación-1",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\nDefinimos la nueva receta:\n\nreceta2 &lt;-receta1 %&gt;%\n  step_log(volume) \n\nPodemos ver que efectivamente los nuevos datos incluyen la transformación en logaritmos:\n\ndatosPrep2 &lt;- receta2 %&gt;%  prep() %&gt;% bake(railtrailEntren)\ndatosPrep2 %&gt;% slice_head() %&gt;% kbl() %&gt;% kable_paper()\n\n\n\n\nprecip\nvolume\ndayType_weekend\nhightemp_poly_1\nhightemp_poly_2\nhightemp_poly_3\nhightemp_poly_4\nhightemp_poly_5\nhightemp_poly_6\nhightemp_poly_7\nhightemp_poly_8\nhightemp_poly_9\nhightemp_poly_10\nhightemp_poly_11\nhightemp_poly_12\nhightemp_poly_13\nhightemp_poly_14\nhightemp_poly_15\nhightemp_poly_16\nhightemp_poly_17\nhightemp_poly_18\nhightemp_poly_19\nhightemp_poly_20\nhightemp_poly_21\ncloudcover_X.2.5.5.\ncloudcover_X.5.7.5.\ncloudcover_X.7.5.max.\nprecip_x_dayType_weekend\n\n\n\n\n0\n5.659482\n0\n-0.2453388\n0.3215624\n-0.2978088\n0.2259474\n-0.1921686\n0.1818106\n-0.1878811\n0.1623743\n-0.1188715\n0.0997763\n-0.1085769\n0.096653\n-0.0650102\n0.0357273\n-0.0184597\n0.0074644\n-0.0030106\n0.0012088\n-0.0005804\n0.0002402\n-9.98e-05\n0\n0\n0\n0"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-2-entrenamiento-1",
+    "href": "docs/Tema08ej1.html#paso-2-entrenamiento-1",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 2: Entrenamiento",
+    "text": "Paso 2: Entrenamiento\n\nPaso 2.A: Definición del modelo\n\nVamos a usar el mismo modelo anterior\n\n\n\nPaso 2.B: Creación del flujo de trabajo\n\nActualizamos el flujo de trabajo con la nueva receta, bien añadiendo cada paso o bien actualizando la receta\n\n\nflujo_lm2 &lt;- workflow() %&gt;%\n  add_recipe(receta2) %&gt;%      \n  add_model(modelo_lm1)\n\nflujo_lm2 &lt;- flujo_lm1 %&gt;% \n  update_recipe(receta2) \n\n\n\nPaso 2.C: Estimación del flujo\n\nEstimamos el nuevo flujo\n\n\nflujo_lm2_est &lt;- flujo_lm2 %&gt;% \n                   fit(data = railtrailPart %&gt;% training()) \n\n\nLos resultados de esta estimación son:\n\n\nflujo_lm2_est %&gt;% extract_fit_parsnip() %&gt;% \n  tidy() %&gt;% kbl() %&gt;% kable_paper()\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n5.9435257\n0.0915221\n64.9408675\n0.0000000\n\n\nprecip\n-0.3120388\n0.1328863\n-2.3481628\n0.0234256\n\n\ndayType_weekend\n0.1668725\n0.0907302\n1.8392180\n0.0726370\n\n\nhightemp_poly_1\n1.9187719\n0.3019446\n6.3547143\n0.0000001\n\n\nhightemp_poly_2\n-0.7643930\n0.3082067\n-2.4801310\n0.0170322\n\n\nhightemp_poly_3\n-0.8602522\n0.3391576\n-2.5364380\n0.0148224\n\n\nhightemp_poly_4\n0.1559080\n0.3138180\n0.4968103\n0.6217961\n\n\nhightemp_poly_5\n-0.0950682\n0.2969453\n-0.3201539\n0.7503671\n\n\nhightemp_poly_6\n0.2940672\n0.3167004\n0.9285345\n0.3581964\n\n\nhightemp_poly_7\n0.1377186\n0.3310097\n0.4160560\n0.6793915\n\n\nhightemp_poly_8\n0.0218299\n0.3377738\n0.0646288\n0.9487623\n\n\nhightemp_poly_9\n0.0465628\n0.3090218\n0.1506780\n0.8809184\n\n\nhightemp_poly_10\n-0.3319480\n0.2927906\n-1.1337387\n0.2630437\n\n\nhightemp_poly_11\n0.0742108\n0.2678511\n0.2770599\n0.7830316\n\n\nhightemp_poly_12\n0.3632786\n0.2674670\n1.3582182\n0.1813183\n\n\nhightemp_poly_13\n0.0692958\n0.2849733\n0.2431658\n0.8090070\n\n\nhightemp_poly_14\n0.2291434\n0.2702597\n0.8478640\n0.4011025\n\n\nhightemp_poly_15\n-0.0870908\n0.2705935\n-0.3218511\n0.7490896\n\n\nhightemp_poly_16\n0.1971445\n0.2781772\n0.7087013\n0.4822480\n\n\nhightemp_poly_17\n-0.0064423\n0.2780173\n-0.0231723\n0.9816176\n\n\nhightemp_poly_18\n-0.2404118\n0.2697317\n-0.8912998\n0.3776166\n\n\nhightemp_poly_19\n-0.6493733\n0.2751197\n-2.3603300\n0.0227567\n\n\nhightemp_poly_20\n0.2433132\n0.2727173\n0.8921809\n0.3771494\n\n\nhightemp_poly_21\n-0.3602797\n0.2757300\n-1.3066393\n0.1981239\n\n\ncloudcover_X.2.5.5.\n-0.0377363\n0.1315265\n-0.2869102\n0.7755279\n\n\ncloudcover_X.5.7.5.\n-0.1314990\n0.1115658\n-1.1786675\n0.2448655\n\n\ncloudcover_X.7.5.max.\n-0.1947940\n0.1062780\n-1.8328715\n0.0735935\n\n\nprecip_x_dayType_weekend\n0.0459736\n0.7304203\n0.0629413\n0.9500983"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-1-preparar-los-datos-y-especificación-2",
+    "href": "docs/Tema08ej1.html#paso-1-preparar-los-datos-y-especificación-2",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\nDebemos estandarizar las variables y debe ser antes de transformaciones no lineales de los regresores, como polinomios o interacciones. Por tanto, NO podemos simplemente añadir un paso de estandarización a la receta anterior.\n\nreceta1LASSO &lt;- railtrailPart %&gt;% training() %&gt;%             \n  recipe(volume ~  hightemp + cloudcover + precip +  dayType) %&gt;%\n  step_normalize(all_predictors(), -all_nominal()) %&gt;%\n  step_poly(hightemp, degree = 21) %&gt;%   \n  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), \n           include_outside_range = T)  %&gt;% \n  step_dummy(cloudcover) %&gt;% \n  step_dummy(dayType) %&gt;% \n  step_interact(~precip:starts_with(\"dayType_\"))\n\nreceta2LASSO &lt;- receta1LASSO %&gt;% \n  step_log(volume)"
+  },
+  {
+    "objectID": "docs/Tema08ej1.html#paso-2-entrenamiento-2",
+    "href": "docs/Tema08ej1.html#paso-2-entrenamiento-2",
+    "title": "Tema 08. Ejemplo 1",
+    "section": "Paso 2: Entrenamiento",
+    "text": "Paso 2: Entrenamiento\n\nPaso 2.A: Definición del modelo\n\nDefinimos el modelo con el hiperparámetro para ajustar:\n\n\nmodelo_LASSO  &lt;- linear_reg(mode= \"regression\", engine = \"glmnet\", \n                             penalty = tune(), mixture = 1)\n\n\n\nPaso 2.B: Creación del flujo de trabajo\n\nCreamos los flujos de trabajo combinando las recetas y el modelo\n\n\nflujo_LASSO1 &lt;- workflow() %&gt;%\n  add_recipe(receta1LASSO) %&gt;%      \n  add_model(modelo_LASSO)\n\nflujo_LASSO2 &lt;- flujo_LASSO1  %&gt;%\n  update_recipe(receta2LASSO)\n\n\n\nPaso 2.C: Estimación del flujo\n\nPaso 2.C.1: Ajuste del hiperparámetros\n\nEn este caso, la estimación del flujo requiere más pasos, ya que debemos ajustar el hiperparámetro del modelo LASSO.\nDefinimos las particiones de validación cruzada en la muestra de entrenamiento que vamos a utilizar, para ambos casos:\n\n\nset.seed(9753)\nrailtrail_entrenCV &lt;- railtrailPart %&gt;% training() %&gt;% \n                          vfold_cv(v=10)\n\n\n\nProceso de ajuste del primer modelo\n\nDefinimos un primer rango y valores de búsqueda del hiperparámetro:\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 20), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO1_ajust &lt;- flujo_LASSO1 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO1_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\nDado que lo que observamos, ampliamos el rango por la derecha probando muchos valores:\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(18, 68), trans = NULL), \n                                   levels = 51)\n\n\nflujo_LASSO1_ajust &lt;- flujo_LASSO1 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO1_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\nNos centramos en un rango plausible probando más valores:\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(24, 29), trans = NULL), \n                                   levels = 51)\n\n\nflujo_LASSO1_ajust &lt;- flujo_LASSO1 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO1_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\nNotad que hay varios valores con métricas muy similares. Nos quedamos con el mejor, pero serían igualmente válidos:\n\n\nflujo_LASSO1_ajust %&gt;% show_best(metric = \"rmse\")\nmejor_lambda1 &lt;- flujo_LASSO1_ajust %&gt;% select_best(metric = \"rmse\")\n\n\n\nProceso de ajuste del segundo modelo\n\nProbamos un primer rango\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 5), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\nVemos un cambio fuerte entorno a 0.2 miramos que pasa a su izquierda\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 0.2), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\n… y a su derecha\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0.1, 1.1), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\nFocalizamos más en la parte a la izquierda de 0.3 (porque a la derecha, la métrica no varía: la penalización no hace cambiar el modelo)\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0.09, 0.11), trans = NULL), \n                                   levels = 51)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 %&gt;% \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust %&gt;% autoplot()\n\n\n\n\n\n\n\n\n\nNos quedamos con el mejor\n\n\nmejor_lambda2 &lt;- flujo_LASSO2_ajust %&gt;% select_best(metric = \"rmse\")\n\n\n\nPaso 2.C.2: Finalizando y estimando\n\nPara el primer modelo\n\n\nflujo_LASSO_final1 &lt;- flujo_LASSO1 %&gt;% \n        finalize_workflow(mejor_lambda1)  \n\n\nflujo_LASSO_final1_est &lt;-  flujo_LASSO_final1 %&gt;%  \n              fit(data = railtrailPart %&gt;% training())\nflujo_LASSO_final1_est %&gt;%  extract_fit_parsnip() %&gt;% tidy() %&gt;% \n  kbl() %&gt;% kable_styling()\n\n\n\n\nterm\nestimate\npenalty\n\n\n\n\n(Intercept)\n387.120382\n25.2\n\n\nprecip\n-6.487663\n25.2\n\n\nhightemp_poly_1\n435.595004\n25.2\n\n\nhightemp_poly_2\n-46.959490\n25.2\n\n\nhightemp_poly_3\n-76.195095\n25.2\n\n\nhightemp_poly_4\n0.000000\n25.2\n\n\nhightemp_poly_5\n0.000000\n25.2\n\n\nhightemp_poly_6\n0.000000\n25.2\n\n\nhightemp_poly_7\n0.000000\n25.2\n\n\nhightemp_poly_8\n0.000000\n25.2\n\n\nhightemp_poly_9\n0.000000\n25.2\n\n\nhightemp_poly_10\n0.000000\n25.2\n\n\nhightemp_poly_11\n0.000000\n25.2\n\n\nhightemp_poly_12\n0.000000\n25.2\n\n\nhightemp_poly_13\n0.000000\n25.2\n\n\nhightemp_poly_14\n0.000000\n25.2\n\n\nhightemp_poly_15\n0.000000\n25.2\n\n\nhightemp_poly_16\n0.000000\n25.2\n\n\nhightemp_poly_17\n0.000000\n25.2\n\n\nhightemp_poly_18\n0.000000\n25.2\n\n\nhightemp_poly_19\n0.000000\n25.2\n\n\nhightemp_poly_20\n0.000000\n25.2\n\n\nhightemp_poly_21\n0.000000\n25.2\n\n\ncloudcover_X.0.2.5.\n-25.453993\n25.2\n\n\ncloudcover_X.2.5.5.\n0.000000\n25.2\n\n\ncloudcover_X.5.7.5.\n0.000000\n25.2\n\n\ncloudcover_X.7.5.max.\n0.000000\n25.2\n\n\ndayType_weekend\n1.840582\n25.2\n\n\nprecip_x_dayType_weekend\n-7.807370\n25.2\n\n\n\n\n\n\n\n\nPara el segundo modelo\n\n\nflujo_LASSO_final2 &lt;- flujo_LASSO2 %&gt;% \n        finalize_workflow(mejor_lambda2)  \n\n\nflujo_LASSO_final2_est &lt;-  flujo_LASSO_final2 %&gt;%  \n              fit(data = railtrailPart %&gt;% training())\nflujo_LASSO_final2_est %&gt;%  extract_fit_parsnip() %&gt;% tidy() %&gt;% \n  kbl() %&gt;% kable_styling()\n\n\n\n\nterm\nestimate\npenalty\n\n\n\n\n(Intercept)\n5.8711374\n0.0928\n\n\nprecip\n-0.0086357\n0.0928\n\n\nhightemp_poly_1\n1.2107059\n0.0928\n\n\nhightemp_poly_2\n-0.0215642\n0.0928\n\n\nhightemp_poly_3\n0.0000000\n0.0928\n\n\nhightemp_poly_4\n0.0000000\n0.0928\n\n\nhightemp_poly_5\n0.0000000\n0.0928\n\n\nhightemp_poly_6\n0.0000000\n0.0928\n\n\nhightemp_poly_7\n0.0000000\n0.0928\n\n\nhightemp_poly_8\n0.0000000\n0.0928\n\n\nhightemp_poly_9\n0.0000000\n0.0928\n\n\nhightemp_poly_10\n0.0000000\n0.0928\n\n\nhightemp_poly_11\n0.0000000\n0.0928\n\n\nhightemp_poly_12\n0.0000000\n0.0928\n\n\nhightemp_poly_13\n0.0000000\n0.0928\n\n\nhightemp_poly_14\n0.0000000\n0.0928\n\n\nhightemp_poly_15\n0.0000000\n0.0928\n\n\nhightemp_poly_16\n0.0000000\n0.0928\n\n\nhightemp_poly_17\n0.0000000\n0.0928\n\n\nhightemp_poly_18\n0.0000000\n0.0928\n\n\nhightemp_poly_19\n0.0000000\n0.0928\n\n\nhightemp_poly_20\n0.0000000\n0.0928\n\n\nhightemp_poly_21\n0.0000000\n0.0928\n\n\ncloudcover_X.0.2.5.\n-0.0324999\n0.0928\n\n\ncloudcover_X.2.5.5.\n0.0000000\n0.0928\n\n\ncloudcover_X.5.7.5.\n0.0000000\n0.0928\n\n\ncloudcover_X.7.5.max.\n0.0000000\n0.0928\n\n\ndayType_weekend\n0.0000000\n0.0928\n\n\nprecip_x_dayType_weekend\n0.0000000\n0.0928\n\n\n\n\n\n\n\n\nNota: también podríamos poner los dos modelos juntos en la misma tabla, en columnas diferentes."
+  },
+  {
     "objectID": "Contenidos.html",
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(18-Nov. a 24-Nov.)\n\nTema 07 - Selección y Regularización"
+    "text": "(18-Nov. a 24-Nov.)\n\nTema 07 - Selección y Regularización\nTema 08 - Modelización con tidymodels\nTema 08 - Ejemplo 1"
   },
   {
     "objectID": "Contenidos.html#semana-11",
     "href": "Contenidos.html#semana-11",
     "title": "Contenidos",
     "section": "",
-    "text": "(18-Nov. a 24-Nov.)\n\nTema 07 - Selección y Regularización"
+    "text": "(18-Nov. a 24-Nov.)\n\nTema 07 - Selección y Regularización\nTema 08 - Modelización con tidymodels\nTema 08 - Ejemplo 1"
   },
   {
     "objectID": "Contenidos.html#semana-10",
