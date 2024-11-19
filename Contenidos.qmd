@@ -42,6 +42,8 @@ strip-comments: true
 (18-Nov. a 24-Nov.)
 
   * [Tema 07 - Selección y Regularización](docs/Tema07.qmd)
+  * [Tema 08 - Modelización con `tidymodels`](docs/Tema08.qmd)
+  * [Tema 08 - Ejemplo 1](docs/Tema08ej1.qmd)
 
 ## Semana 10
 (11-Nov. a 17-Nov.)
