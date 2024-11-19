@@ -266,7 +266,7 @@ receta2LASSO <- receta1LASSO %>%
 
 ```{r}
 modelo_LASSO  <- linear_reg(mode= "regression", engine = "glmnet", 
-                             penalty = tune())
+                             penalty = tune(), mixture = 1)
 ```
 
 

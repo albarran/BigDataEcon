@@ -828,7 +828,7 @@ $\hspace{0.1cm}$
 ```{r}
 #| eval: false
 modelo_LASSO <- linear_reg(mode= "regression", engine = "glmnet",
-                           penalty = tune() ) 
+                           penalty = tune(), mixture = 1 ) 
 
 flujo_LASSO <- workflow() %>%
   add_recipe(receta1) %>% 
