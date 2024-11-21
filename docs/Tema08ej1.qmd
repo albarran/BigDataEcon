@@ -66,7 +66,7 @@ rm(RailTrail)
 ## Paso 0: Partición en Entrenamiento y Prueba
 Partición en Entrenamiento y Prueba
 
-* Usamos `initial_split()`para generar el objeto que almacena las dos particiones
+* Usamos `initial_split()` para generar el objeto que almacena las dos particiones
 
 ```{r}
 library(tidymodels)

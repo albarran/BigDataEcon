@@ -39,10 +39,16 @@ params:
 Usamos datos del Censo de EE.UU. con la siguiente información 
 
 ```{r}
+#| eval: false
 library(tidyverse)
 censo <- read_csv("data/census.csv") %>% select(-1) 
 ```
 
+```{r}
+#| echo: false
+library(tidyverse)
+censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") %>% select(-1) 
+```
 
 <!--
 https://medium.com/analytics-vidhya/machine-learning-application-census-income-prediction-868227debf12
@@ -90,7 +96,7 @@ Notad que prodríamos agrupar algunas categorías aquí o hacerlo luego para con
 
 ## Paso 0: Partición en Entrenamiento y Prueba
 
-* Usamos `initial_split()`para generar el objeto que almacena las dos particiones
+* Usamos `initial_split()` para generar el objeto que almacena las dos particiones
 
 ```{r}
 library(tidymodels)

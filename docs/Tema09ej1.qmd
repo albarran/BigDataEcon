@@ -1,0 +1,434 @@
+---
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
+# subtitle: "Muestreo y Análisis de Datos"
+# subtitle: "Técnicas para 'Big descuento' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 09. Ejemplo 1"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+# institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html: 
+    embed-resources: true
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: true        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+css: styles.css
+params:
+  soln: false
+---
+
+
+# Introducción
+
+En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos información de las ventas realizadas a un clientes y algunas de sus características.
+
+## Carga de datos
+
+* Cargamos los datos y les damos el tipo de variable adecuado
+
+```{r}
+#| eval: false
+library(tidyverse)
+descuento <- read.csv("data/descuento.csv") %>% 
+        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+```
+
+```{r}
+#| echo: false
+library(tidyverse)
+descuento <- read.csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/BostonHousing.csv") %>% 
+        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+```
+
+# Modelización I: Árboles de Decisión
+
+## Paso 0: Partición en Entrenamiento y Prueba
+
+* Usamos `initial_split()` para generar el objeto que almacena las dos particiones
+
+```{r}
+library(tidymodels)
+
+set.seed(123)
+descuentoPart <- initial_split(descuento, prop = 0.8)
+```
+
+
+## Paso 1: Preparar los datos y Especificación
+
+Con árboles no necesitamos estandarizar ni incluir transformaciones no lineales ni discretizar (puesto que el procedimiento ya discretiza variables continuas y, por tanto, tiene en cuenta relaciones no lineales) ni crear dummies.
+
+Vamos a estimar dos modelos de árboles: con la variable dependiente en niveles y en logaritmos
+
+```{r}
+receta1 <- descuentoPart %>% training() %>% 
+  recipe(ventas ~ renta + descuento + zona + edad + mujer + educ)
+
+receta2 <- receta1 %>% 
+  step_log(ventas)
+```
+
+## Paso 2: Entrenamiento
+
+### Paso 2.A: Definición del modelo
+
+Definimos un modelo de árboles de decisión, preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
+
+```{r}
+modelo_arbol  <- decision_tree(mode= "regression", engine = "rpart", 
+                             cost_complexity = tune())
+```
+
+### Paso 2.B: Creación del flujo de trabajo
+
+Creamos los flujos de trabajo combinando la receta y modelo
+
+```{r}
+flujo_arbol1 <- workflow() %>%
+  add_recipe(receta1) %>%      
+  add_model(modelo_arbol)
+```
+
+
+```{r}
+flujo_arbol2 <- workflow() %>%
+  add_recipe(receta2) %>%      
+  add_model(modelo_arbol)
+```
+
+### Paso 2.C: Estimación del flujo
+
+#### Paso 2.C.1: Ajuste del hiperparámetros
+
+* Definimos las particiones de validación cruzada en la muestra de entrenamiento que vamos a utilizar, para ambos casos:
+
+```{r}
+set.seed(9753)
+descuento_entrenCV <- descuentoPart %>% training() %>% 
+                          vfold_cv(v=10)
+```
+
+#### Proceso de ajuste para la especificación en niveles
+
+* Deberíamos realizar una búsqueda probando varios rangos y valores para el hiperparámetro. 
+
+```{r}
+arbol_grid1 <- grid_regular(cost_complexity(range = c(0, 0.0005), trans = NULL), 
+                                   levels = 21)
+```
+
+```{r}
+#| fig-show: asis
+flujo_arbol1_ajust <- flujo_arbol1 %>% 
+                        tune_grid(resamples = descuento_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = arbol_grid1            )
+
+flujo_arbol1_ajust %>% autoplot()
+```
+
+
+* A veces, encontramos este tipo de situaciones "raras". Como este modelo es poco complejo (pocas variables), el coste de complejidad es bajo; de hecho, el óptimo puede ser cero. Se podría probar fijar este a cero e intentar ajustar otro de los hiperparámetros. Recordad que en nuestro caso (por la poca potencia de nuestros ordenadores) no conviene intentar ajustar más de un hiperparámetro a la vez.
+
+```{r}
+flujo_arbol1_ajust %>% show_best(metric = "rmse")
+mejor_cc1 <- flujo_arbol1_ajust %>% select_best(metric = "rmse")
+```
+
+#### Proceso de ajuste para la especificación en logaritmos
+
+```{r}
+arbol_grid2 <- grid_regular(cost_complexity(range = c(0, 0.0005), trans = NULL), 
+                                   levels = 21)
+```
+
+```{r}
+#| fig-show: asis
+flujo_arbol2_ajust <- flujo_arbol2 %>% 
+                        tune_grid(resamples = descuento_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = arbol_grid2            )
+
+flujo_arbol2_ajust %>% autoplot()
+```
+
+```{r}
+flujo_arbol2_ajust %>% show_best(metric = "rmse")
+mejor_cc2 <- flujo_arbol2_ajust %>% select_best(metric = "rmse")
+```
+
+#### Paso 2.C.2: Finalizando y estimando
+
+##### Modelo en niveles
+
+* Finalizamos el flujo para estimar con todos los datos
+
+```{r}
+flujo_arbol1_final <- flujo_arbol1 %>% 
+        finalize_workflow(mejor_cc1)  
+```
+
+
+```{r}
+flujo_arbol1_final_est <-  flujo_arbol1_final %>%  
+              fit(data = descuentoPart %>% training())
+```
+
+* En este caso, NO tenemos coeficientes estimados que mostrar. En su lugar podemos, mostrar un gráfico del árbol 
+
+```{r}
+#| fig-show: asis
+library(rpart.plot)
+arbol1 <- flujo_arbol1_final_est %>% extract_fit_parsnip() 
+rpart.plot(arbol1$fit)  
+```
+
+y mostrar la importancia de cada variable según el modelo:
+```{r}
+#| fig-show: asis
+#| results: asis
+library(vip)
+arbol1 %>% vip()
+arbol1$fit$variable.importance
+```
+
+##### Modelo en logaritmos
+
+
+```{r}
+flujo_arbol2_final <- flujo_arbol2 %>% 
+        finalize_workflow(mejor_cc2)  
+```
+
+
+```{r}
+flujo_arbol2_final_est <-  flujo_arbol2_final %>%  
+              fit(data = descuentoPart %>% training())
+```
+
+
+
+```{r}
+#| fig-show: asis
+library(rpart.plot)
+arbol2 <- flujo_arbol2_final_est %>% extract_fit_parsnip() 
+rpart.plot(arbol2$fit)  
+```
+
+
+```{r}
+#| fig-show: asis
+#| results: asis
+library(vip)
+arbol2 %>% vip()
+arbol2$fit$variable.importance
+```
+
+##### NOTA
+
+En los modelos de regresión lineal y regresión logística y en sus versiones de regresión regularizada también podemos calcular la medida de importancia de cada variable.
+
+
+# Modelización II: "Random Forests"
+
+## Paso 0: Partición en Entrenamiento y Prueba
+
+* Usamos la misma partición de antes
+
+## Paso 1: Preparar los datos y Especificación
+
+* Usamos las mismas recetas
+
+## Paso 2: Entrenamiento
+
+### Paso 2.A: Definición del modelo
+
+Definimos un modelo de "random forests", preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
+
+```{r}
+modelo_RF  <- rand_forest(mode = "regression", 
+                          trees = 100,
+                          mtry = tune()) %>% 
+                set_engine("ranger", importance = "permutation")
+```
+
+### Paso 2.B: Creación del flujo de trabajo
+
+Creamos los flujos de trabajo combinando la receta y modelo
+
+```{r}
+flujo_RF1 <- workflow() %>%
+  add_recipe(receta1) %>%      
+  add_model(modelo_RF)
+```
+
+```{r}
+flujo_RF2 <- workflow() %>%
+  add_recipe(receta2) %>%      
+  add_model(modelo_RF)
+```
+
+### Paso 2.C: Estimación del flujo
+
+#### Paso 2.C.1: Ajuste del hiperparámetros
+
+* Usamos las particiones de validación cruzada anteriores.
+
+#### Proceso de ajuste para la especificación en niveles
+
+* Deberíamos realizar una búsqueda probando varios rangos y valores para el hiperparámetro. 
+
+```{r}
+RF_grid1 <- grid_regular(mtry(range = c(1, 5), trans = NULL), 
+                                   levels = 5)
+```
+
+```{r}
+#| fig-show: asis
+flujo_RF1_ajust <- flujo_RF1 %>% 
+                        tune_grid(resamples = descuento_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = RF_grid1            )
+
+flujo_RF1_ajust %>% autoplot()
+```
+
+
+```{r}
+flujo_RF1_ajust %>% show_best(metric = "rmse")
+mejor_m1 <- flujo_RF1_ajust %>% select_best(metric = "rmse")
+```
+
+#### Proceso de ajuste para la especificación en logaritmos
+
+```{r}
+RF_grid2 <- grid_regular(mtry(range = c(1, 5), trans = NULL), 
+                                   levels = 5)
+```
+
+```{r}
+#| fig-show: asis
+flujo_RF2_ajust <- flujo_RF2 %>% 
+                        tune_grid(resamples = descuento_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = RF_grid2            )
+
+flujo_RF2_ajust %>% autoplot()
+```
+
+```{r}
+flujo_RF2_ajust %>% show_best(metric = "rmse")
+mejor_m2 <- flujo_RF2_ajust %>% select_best(metric = "rmse")
+```
+
+#### Paso 2.C.2: Finalizando y estimando
+
+##### Modelo en niveles
+
+* Finalizamos el flujo para estimar con todos los datos
+
+```{r}
+flujo_RF1_final <- flujo_RF1 %>% 
+        finalize_workflow(mejor_m1)  
+```
+
+
+```{r}
+flujo_RF1_final_est <-  flujo_RF1_final %>%  
+              fit(data = descuentoPart %>% training())
+```
+
+* En este caso, NO tenemos coeficientes estimados ni tampoco un único gráfico que mostrar. Podemos mostrar la importancia de cada variable según el modelo:
+```{r}
+#| fig-show: asis
+#| results: asis
+RF1 <- flujo_RF1_final_est %>% extract_fit_parsnip() 
+library(vip)
+RF1 %>% vip()
+RF1$fit$variable.importance
+```
+
+##### Modelo en logaritmos
+
+
+```{r}
+flujo_RF2_final <- flujo_RF2 %>% 
+        finalize_workflow(mejor_m2)  
+```
+
+
+```{r}
+flujo_RF2_final_est <-  flujo_RF2_final %>%  
+              fit(data = descuentoPart %>% training())
+```
+
+```{r}
+#| fig-show: asis
+#| results: asis
+RF2 <- flujo_RF2_final_est %>% extract_fit_parsnip() 
+library(vip)
+RF2 %>% vip()
+RF2$fit$variable.importance
+```
+
+
+# Evaluación de modelos
+
+* Usamos `final_fit()` en cada modelo para calcular las métricas de error:
+
+```{r}
+arbol1_final_fit <- flujo_arbol1_final %>%
+                    last_fit(split = descuentoPart,
+                             metrics = metric_set(rmse, mae)) 
+
+arbol2_final_fit <- flujo_arbol2_final %>% 
+                    last_fit(split = descuentoPart,
+                             metrics = metric_set(rmse, mae))  
+
+RF1_final_fit <- flujo_RF1_final %>% 
+                    last_fit(split = descuentoPart,
+                             metrics = metric_set(rmse, mae)) 
+
+RF2_final_fit <- flujo_RF2_final %>% 
+                    last_fit(split = descuentoPart,
+                             metrics = metric_set(rmse, mae)) 
+
+```
+
+* Recopilamos las métricas y las presentamos en una tabla
+
+```{r}
+#| results: markup
+library(kableExtra)
+arbol1 <- arbol1_final_fit %>% collect_metrics() %>% 
+              select(.metric, .estimate) %>% rename(arbol1 = .estimate)
+arbol2 <- arbol2_final_fit %>% collect_metrics() %>% 
+              select(.metric, .estimate) %>% rename(arbol2 = .estimate)
+RF1 <- RF1_final_fit %>% collect_metrics() %>% 
+              select(.metric, .estimate) %>% rename(RF1 = .estimate)
+RF2 <- RF2_final_fit %>% collect_metrics() %>% 
+              select(.metric, .estimate) %>% rename(RF2 = .estimate)
+
+arbol1 %>% inner_join(arbol2) %>% 
+  inner_join(RF1) %>% inner_join(RF2) %>% 
+  kbl() %>% kable_classic()
+```
+
+# Conclusiones
+
+Los resultados de las métricas indican que 

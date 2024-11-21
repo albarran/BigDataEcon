@@ -96,17 +96,27 @@ library(rmarkdown)
 
 <!-- * Ejemplo: relación no lineal en los datos de viviendas de Boston -->
 
-* Ejemplo: relación no lineal entre las ventas y la edad
-
 ```{r}
 #| echo: false
-Boston <- read_csv("data/BostonHousing.csv")
+#| eval: false
+# en local
+# Boston <- read_csv("data/BostonHousing.csv")
+
+# para .qmd en la nube
+Boston <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/BostonHousing.csv")
 ```
 
 
+* Ejemplo: relación no lineal entre las ventas y la edad
+
+
 ```{r}
 #| echo: false
-descuento <- read.csv("data/descuento.csv") 
+# en local
+# descuento <- read.csv("data/descuento.csv") 
+
+# para .qmd en la nube
+descuento <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv")
 ```
 
 
@@ -575,11 +585,10 @@ predictions from those trees that did not use the given out-of-bag prediction, t
 
 ```{r}
 #| eval: false
-modelo_RF  <- rand_forest(mode = "regression", engine = "ranger", 
-                          importance = "permutation", 
-                          # "impurity" en clasificación
-                          trees = 100,
-                          mtry = 3)
+modelo_RF  <- rand_forest(mode = "regression", trees = 100,
+                          mtry = 3) %>% 
+              set_engine("ranger", importance = "permutation")
+              # importance = "impurity" en clasificación
 
 RF <- flujo_RF_est %>% extract_fit_parsnip()
 RF$fit$variable.importance
