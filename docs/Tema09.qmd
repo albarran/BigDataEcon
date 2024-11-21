@@ -585,6 +585,7 @@ predictions from those trees that did not use the given out-of-bag prediction, t
 
 ```{r}
 #| eval: false
+library(ranger)
 modelo_RF  <- rand_forest(mode = "regression", trees = 100,
                           mtry = 3) %>% 
               set_engine("ranger", importance = "permutation")

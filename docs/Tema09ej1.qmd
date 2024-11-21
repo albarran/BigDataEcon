@@ -261,6 +261,7 @@ En los modelos de regresión lineal y regresión logística y en sus versiones d
 Definimos un modelo de "random forests", preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
 
 ```{r}
+library(ranger)
 modelo_RF  <- rand_forest(mode = "regression", 
                           trees = 100,
                           mtry = tune()) %>% 
