@@ -246,7 +246,7 @@ Debemos estandarizar las variables y debe ser **antes** de transformaciones no l
 ```{r}
 receta1LASSO <- railtrailPart %>% training() %>%             
   recipe(volume ~  hightemp + cloudcover + precip +  dayType) %>%
-  step_normalize(all_predictors(), -all_nominal()) %>%
+  step_scale(all_predictors(), -all_nominal()) %>%
   step_poly(hightemp, degree = 21) %>%   
   step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
            include_outside_range = T)  %>% 

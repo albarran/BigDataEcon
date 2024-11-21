@@ -129,6 +129,17 @@ library(tidymodels)
 * `tidymodels` crea objetos (listas) con toda la información 
      y ofrece funciones para acceder a ella
 
+```{r}
+#| eval: false
+library(mosaicData)
+library(tidyverse)
+set.seed(101)
+railtrailPart <- RailTrail %>% 
+                    mutate(dayType = parse_factor(dayType)) %>% 
+                    initial_split(prop = .8)
+```
+
+
 * Las funciones `training()` y `testing()` acceden a cada submuestra
 
 
@@ -236,7 +247,7 @@ library(tidymodels)
 
 ## Preparando la receta
 
-::: {style="font-size: 90%;"}
+::: {style="font-size: 95%;"}
 
 * **TODOS** los pasos se pueden aplicar a una variable o varias con `all_outcomes()`, `all_predictors()`, `all_numeric()`, `all_nominal()`, `contains()`, etc.
 
@@ -251,16 +262,10 @@ library(tidymodels)
 
 ```{r}
 #| eval: false
-library(mosaicData)
-library(tidyverse)
-set.seed(101)
-railtrailPart <- RailTrail %>% 
-                    mutate(dayType = parse_factor(dayType)) %>% 
-                    initial_split(prop = .8)
 receta1 <-railtrailPart %>% training() %>%             
   recipe(volume ~ cloudcover + precip + hightemp + dayType) %>%
-  step_normalize(all_predictors(), -all_nominal()) %>%
-# step_normalize(all_numeric(), -all_outcomes()) %>% 
+  step_scale(all_predictors(), -all_nominal()) %>%
+# step_scale(all_numeric(), -all_outcomes()) %>% 
   step_dummy(dayType) %>% 
   step_poly(hightemp, degree = 6)  
 ```
