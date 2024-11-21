@@ -44,14 +44,14 @@ En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos inform
 ```{r}
 #| eval: false
 library(tidyverse)
-descuento <- read.csv("data/descuento.csv") %>% 
+descuento <- read_csv("data/descuento.csv") %>% 
         mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
 ```
 
 ```{r}
 #| echo: false
 library(tidyverse)
-descuento <- read.csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/BostonHousing.csv") %>% 
+descuento <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv") %>% 
         mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
 ```
 
