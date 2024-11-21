@@ -148,6 +148,12 @@ g0 +  geom_smooth(method = lm, se = FALSE,
   formula = y ~ cut(x,c(0, 5, 15, 25, 100), include.lowest = T ))
 ```
 
+```{r}
+#| echo: false
+#| eval: true
+library(gifski)
+```
+
 
 ```{r}
 #| eval: true
