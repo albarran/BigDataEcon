@@ -267,7 +267,7 @@ flujo_logLASSO_final_est <-  flujo_logLASSO_final %>%
 ```{r}
 #| echo: false
 #| eval: true
-
+library(kableExtra)
 logist_est <- flujo_log_est %>% extract_fit_parsnip() %>% 
                   tidy() %>% select(term:estimate)
 LASSO_est  <- flujo_logLASSO_final_est %>%  extract_fit_parsnip() %>% 
