@@ -305,7 +305,7 @@
     "href": "docs/Tema04.html#el-sistema-de-publicaciones-quarto",
     "title": "Tema 04 - Introducción a Quarto",
     "section": "El sistema de publicaciones Quarto",
-    "text": "El sistema de publicaciones Quarto\n\n\n\nOrientado al análisis de datos reproducible: combina código, resultados y comentarios\nÚtil como cuaderno de trabajo del código y para comunicar resultados en un documento final para tomar decisiones\n\n\n\n\n  \n    \n      \n        image/svg+xml\n        \n        \n      \n    \n  \n  \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n  \n  \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n    \n    \n    \n  \n\n\n\n\nInstalar Quarto para vuestro sistema operativo desde aquí\nLa guía y referencia completa de Quarto están en su Web\nUn documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc."
+    "text": "El sistema de publicaciones Quarto\n\n\n\nOrientado al análisis de datos reproducible: combina código, resultados y comentarios\nÚtil como cuaderno de trabajo del código y para comunicar resultados en un documento final para tomar decisiones\n\n\n\n\n\n\n\nInstalar Quarto para vuestro sistema operativo desde aquí\nLa guía y referencia completa de Quarto están en su Web\nUn documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc."
   },
   {
     "objectID": "docs/Tema04.html#documentos-de-quarto-crear-y-guardar",
@@ -522,7 +522,7 @@
     "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
     "title": "Introducción",
     "section": "Ciclo de Vida del Análisis de Datos",
-    "text": "Ciclo de Vida del Análisis de Datos\n\n  \n    \n      \n        image/svg+xml"
+    "text": "Ciclo de Vida del Análisis de Datos"
   },
   {
     "objectID": "docs/Tema01ej.html",
@@ -844,7 +844,7 @@
     "href": "docs/Tema05.html#de-los-datos-en-bruto-a-la-información",
     "title": "Tema 05 - Análisis Exploratorio de Datos (AED)",
     "section": "De los datos en bruto a la información",
-    "text": "De los datos en bruto a la información\n\n\n  \n    \n      \n        image/svg+xml\n        \n        \n      \n    \n  \n  \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n    \n      \n    \n  \n  \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n      \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n    \n    \n    \n  \n\n\n\n\nAED es una fase inicial importante, con dos objetivos:\n\nConocer nuestros datos e identificar problemas \\(\\Longrightarrow\\) Preprocesamiento\n\nqué variables, tipo de información, calidad (información faltante, inconsistencias, problemas en combinación de datos.)\n\nAnálisis descriptivo: identificar patrones y encontrar escenarios de análisis\n\n\n\nNO hay una “receta”: el proceso es diferente con distintos datos o con los mismos datos para diferentes objetivos\nEs un proceso iterativo para descubrir información"
+    "text": "De los datos en bruto a la información\n\n\n\n\n\nAED es una fase inicial importante, con dos objetivos:\n\nConocer nuestros datos e identificar problemas \\(\\Longrightarrow\\) Preprocesamiento\n\nqué variables, tipo de información, calidad (información faltante, inconsistencias, problemas en combinación de datos.)\n\nAnálisis descriptivo: identificar patrones y encontrar escenarios de análisis\n\n\n\nNO hay una “receta”: el proceso es diferente con distintos datos o con los mismos datos para diferentes objetivos\nEs un proceso iterativo para descubrir información"
   },
   {
     "objectID": "docs/Tema05.html#primera-aproximación-a-los-datos",
@@ -1761,14 +1761,14 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(25-Nov. a 01-Dic.)\n\nTema 08 - Ejemplo 1\nTema 08 - Ejercicio 2"
+    "text": "(25-Nov. a 01-Dic.)\n\nTema 08 - Ejemplo 1\nTema 08 - Ejercicio 2\nTema 09 - Métodos basados en árboles"
   },
   {
     "objectID": "Contenidos.html#semana-12",
     "href": "Contenidos.html#semana-12",
     "title": "Contenidos",
     "section": "",
-    "text": "(25-Nov. a 01-Dic.)\n\nTema 08 - Ejemplo 1\nTema 08 - Ejercicio 2"
+    "text": "(25-Nov. a 01-Dic.)\n\nTema 08 - Ejemplo 1\nTema 08 - Ejercicio 2\nTema 09 - Métodos basados en árboles"
   },
   {
     "objectID": "Contenidos.html#semana-11",
