@@ -233,9 +233,9 @@ railtrailPart <- RailTrail %>%
 
 * Las interacciones también funcionan de forma diferente en `tidymodels`
 
-* Para variables cuantitativas, *x1* y *x2*, `step_interact(~ x2*x1)` añade **solo** una nueva variable: la inteacción *x2:x1*
+* Para variables cuantitativas, *x1* y *x2*, `step_interact(~ x2:x1)` añade **solo** una nueva variable: la inteacción *x2:x1*
   
-    + con `step_interact(~ (x2 + x3)*x1)` creamos múltiples interacciones
+    + con `step_interact(~ (x2 + x3):x1)` creamos múltiples interacciones
 
 * Para variables binarias, `step_interact(~ d1:d2)` añade la interacción
 
@@ -249,9 +249,9 @@ railtrailPart <- RailTrail %>%
 
 ::: {style="font-size: 95%;"}
 
-* **TODOS** los pasos se pueden aplicar a una variable o varias con `all_outcomes()`, `all_predictors()`, `all_numeric()`, `all_nominal()`, `contains()`, etc.
+* **TODOS** los pasos se pueden aplicar a una variable o varias con `all_outcomes()`, `all_predictors()`, `all_numeric()`, `all_nominal()`, `all_nominal_predictors()`, `all_numeric_predictors()`, `all_of(c("var1", "var2")`,  `contains()`,  etc.
 
-    <!-- + `step_dummy(all_predictors(), -all_numeric())` -->
+    <!--  matches("edad|renta") -->
 
 <!--
 * También hay pasos de control como `check_missing()`
@@ -781,19 +781,43 @@ flujo_lm1_CVest$.metrics %>% bind_rows()   # valores en cada iteración
 
 ## Selección de hiperparámetros: *tuning*
 
-* Algunos parámetros, denominados **hiperparámetros**, no se aprenden junto con el resto de parámetros del modelo (ej., $\small \lambda$ en LASSO)
+<!--
+* Algunos parámetros, denominados **hiperparámetros**, no se aprenden (estima) junto con el resto de parámetros del modelo (ej., $\small \lambda$ en LASSO)
+-->
+
+* Los hiperparámetros (ej., $\small \lambda$ en LASSO) no se aprenden junto con el resto de parámetos sino mediante un proceso de **ajuste** (*tuning*), dividiendo la muestra de **entrenamiento** en dos
+
+<!--
+* Estimamos el hiperparámetro con los datos de **entrenamiento**, pero la subdividimos en dos
+-->
+
+<!-- 
+
+NOTA IMPORTANTE: el ajuste es ENTRENAMIENTO
+
+Si eligieramos usando la muestra de prueba, habríamos "aprendido" el hiperparámetro usandola ya, y no sería válido para generalizar por overfitting
+
+-->
 
 :::: {.columns}
 
 ::: {.column width="50%"}
-
+<!--
 * Proceso de **ajuste** (*tuning*): 
+
 
   - en una parte de la muestra de entrenamiento, se estiman los parámetros dado un valor del hiper-parámetro 
 
   - en la otra parte, se mide el error asociado a ese hiper-parámetro para validar el mejor valor
   
   - se elige el valor con mejor métrica de error en validación
+  
+-->
+
+  1. En una se ajusta el modelo dado un valor del hiperparámetro
+  
+  2. En la otra se mide el error asociado a cada valor para elegir el hiperparámetro con mejor métrica
+
 :::
 
 ::: {.column width="50%"}
@@ -806,12 +830,13 @@ $\Downarrow$
 ![](figure/train_validate.png){width=90%}
 </center>
 
+<!--
 $\hspace{0.1cm}$
 
 <center>
 ![](figure/train_cross_validate.png){width=90%}
 </center>
-
+-->
 ::: 
 ::::
 
@@ -823,6 +848,12 @@ $\hspace{0.1cm}$
 </center>
 
 -->
+
+* En la muestra de entrenamiento usaremos validación cruzada:
+<center>
+![](figure/train_cross_validate.png){width=45%}
+</center>
+
 
 ## Proceso de *tuning* 
 

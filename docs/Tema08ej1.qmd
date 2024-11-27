@@ -75,7 +75,7 @@ railtrailPart <- railtrail %>%
                     initial_split(prop = .8)
 ```
 
-* Extraemos los *data frame* con cada conjunto de datos, de entrenamiento y de prueba:
+* Podríamos extraer los *data frame* con cada conjunto de datos, de entrenamiento y de prueba. Pero esto no es necesario porque siempre podemos llamar a las funciones `training()` y `testing()`. 
 
 ```{r}
 railtrailEntren  <- railtrailPart %>% training()
@@ -281,6 +281,12 @@ flujo_LASSO1 <- workflow() %>%
 
 flujo_LASSO2 <- flujo_LASSO1  %>%
   update_recipe(receta2LASSO)
+```
+
+* Podemos comprobar que el flujo depende un parámetro a ajustar:
+
+```{r}
+flujo_LASSO1 %>% extract_parameter_set_dials()
 ```
 
 
