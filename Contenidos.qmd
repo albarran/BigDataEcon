@@ -34,6 +34,8 @@ strip-comments: true
   
   * [Tema 09 - Métodos basados en árboles](docs/Tema09.qmd)
 
+  * [Tema 09 - Ejemplo 1](docs/Tema09ej1.qmd)
+
 ## Semana 12
 (25-Nov. a 01-Dic.)
 
