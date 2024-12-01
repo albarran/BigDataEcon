@@ -35,7 +35,17 @@ params:
 
 # Introducción
 
-En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos información de las ventas realizadas a un clientes y algunas de sus características.
+En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos información de las ventas realizadas a un cliente y algunas características de éste:
+
+| Variable  | Tipo       | Descripción                                        |
+|-----------|------------|----------------------------------------------------|
+| ventas    | Numérica   | Ventas registradas (en euros).                     |
+| renta     | Numérica   | Renta disponible del cliente (en euros).           |
+| descuento | Categórica | ¿Ha recibido descuento? (1 = sí, 0 = no).          |
+| zona      | Categórica | Zona de residencia: "ciudad", "capital" o "pueblo".|
+| edad      | Numérica   | Edad del cliente (en años).                        |
+| mujer     | Categórica | Género del cliente (1 = mujer, 0 = hombre).        |
+| educ      | Numérica   | Nivel educativo del cliente (en años).             |
 
 ## Carga de datos
 
@@ -87,7 +97,9 @@ receta2 <- receta1 %>%
 
 ### Paso 2.A: Definición del modelo
 
-Definimos un modelo de árboles de decisión, preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
+* Definimos un modelo de árboles de decisión, preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
+
+* Con la biblioteca `rpart`, podemos ajustar varios hiperparámetros. En este ejemplo, consideraremos **solo** el coste de complejidad. Los otros dos hiperparámetros (mínimo de observaciones en un nodo final y profundidad del árbol) son parcialmente sustitutivos del coste de complejidad: mayor complejidad equivale a árboles con más observaciones en el nodo final y/o mayor profundidad. Los valores de esto dos hiperparámetros no especificados se fijan en sus valores por defectos: `min_n = 2` y `tree_depth = 20`.
 
 ```{r}
 modelo_arbol  <- decision_tree(mode= "regression", engine = "rpart", 
@@ -260,6 +272,8 @@ En los modelos de regresión lineal y regresión logística y en sus versiones d
 
 Definimos un modelo de "random forests", preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
 
+* Con la biblioteca `ranger`, tenemos dos posibles hiperparámetros: número de regresores que se usan aleatoriamente en cada árbols, `mtry`, y mínmo número de observaciones en un nodo final, `min_n`. Si no los ajustamos ni fijamos su valor, se usan los valores por defecto: `mtry`$\sqrt{k}$, donde $k$ es el número de regresores  y `min_n = 5` para regresión o `10` para clasificación.
+
 ```{r}
 library(ranger)
 modelo_RF  <- rand_forest(mode = "regression", 
@@ -295,7 +309,7 @@ flujo_RF2 <- workflow() %>%
 * Deberíamos realizar una búsqueda probando varios rangos y valores para el hiperparámetro. 
 
 ```{r}
-RF_grid1 <- grid_regular(mtry(range = c(1, 5), trans = NULL), 
+RF_grid1 <- grid_regular(mtry(range = c(2, 6), trans = NULL), 
                                    levels = 5)
 ```
 
@@ -318,7 +332,7 @@ mejor_m1 <- flujo_RF1_ajust %>% select_best(metric = "rmse")
 #### Proceso de ajuste para la especificación en logaritmos
 
 ```{r}
-RF_grid2 <- grid_regular(mtry(range = c(1, 5), trans = NULL), 
+RF_grid2 <- grid_regular(mtry(range = c(2, 6), trans = NULL), 
                                    levels = 5)
 ```
 
@@ -432,4 +446,8 @@ arbol1 %>% inner_join(arbol2) %>%
 
 # Conclusiones
 
-Los resultados de las métricas indican que 
+Los resultados de las métricas indican que los modelos en logaritmos son mejor que en niveles para ambos modelos y que los modelos de Random Forests son mejores que los de árboles. Por tanto, el mejor modelo para predicción será el de Random Forest con la variable en logaritmos. 
+
+Si quisieran interpretar resultados en lugar de solo predecir, además podemos usar lo que aprendemos de la importancia en el mejor modelo. Por ejemplo, podemos utilizar un modelo de árboles solo con las variables más importantes y fijar una penalización baja o ninguna (es decir, no podar el árbol mucho) para que nos muestre una estructura donde podamos aprender sobre las interacciones y las relaciones no lineales (a través de la discretización de variables continuas). También podemos estimar un modelo de regresión lineal (y/o LASSO) solo con las variables más importantes y permitir relaciones altamente no lineales e interacciones entre las variables.
+
+
