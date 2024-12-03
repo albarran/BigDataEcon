@@ -677,7 +677,7 @@ graf_base + geom_point() +
 ``` {r}
 #| echo: false
 #| eval: false
-data = subset(hp2001Q1, State %in% c("NY","NJ","KY")),
+data = subset(hp2001Q1, State %in% c("NY","NJ","KY"))
 data = hp2001Q1[hp2001Q1$State=="NY" | hp2001Q1$State=="NJ"| hp2001Q1$State=="KY",]
 ```
   
