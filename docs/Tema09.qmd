@@ -316,6 +316,8 @@ donde $\small R_m$ es la región de $\small m$-nodo terminal
 
 *  $\small \alpha$ es el hiperparámetro de **coste de complejidad** de la poda, elegido por validación cruzada
 
+* Disyuntiva entre más o menos nodos finales: mejor ajuste (menor SCR) frente a mayor penalización por complejidad
+
 <!---
 
    ------------------

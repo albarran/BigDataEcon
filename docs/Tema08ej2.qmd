@@ -29,7 +29,7 @@ strip-comments: true
 toc: true
 css: styles.css
 params:
-  soln: true
+  soln: false
 ---
 
 # Introducción
@@ -115,10 +115,9 @@ censoPrueba  <- censoPart %>% testing()
 
 ## Paso 1: Preparar los datos y Especificación
 
-En este ejercicio, vamos a considerar tres modelos, regresión logística y regresión logística regularizada mediante LASSO<!-- y mediante "Ridge regression"-->. Usaremos la misma especificación inicial en todos los casos: la categoría de renta va a depender de la raza, la  edad (un polinomio de grado 6), horas de trabajo (un polinomio de grado 6), el género, la educación (*education_1*), ganancias de capital, pérdidas de capital, ocupación y estado civil; además, incluiremos interacciones de la raza y el género entre ellas y con el resto de variables.
+En este ejercicio, vamos a considerar modelos de regresión logística y de regresión logística regularizada mediante LASSO<!-- y mediante "Ridge regression"-->. Usaremos la misma especificación inicial en todos los casos: la categoría de renta va a depender de la raza, la  edad (un polinomio de grado 6), horas de trabajo (un polinomio de grado 6), el género, la educación (*education_1*), ganancias de capital, pérdidas de capital, ocupación y estado civil; además, incluiremos interacciones de la raza y el género entre ellas y con el resto de variables.
 
 En general, debería justificarse las variables incluidas (p.e., por los resultados del análisis exploratorio) y considerar variantes de las especificaciones (variables incluidas) para el caso de la regresión logística al menos. En el caso de LASSO, esto no es importante porque siempre podemos incluir la especificación más general y el propio algoritmo selecciona las variables a incluir. 
-
 
 Preparamos las recetas con la especificación para estos modelos. Nota: agrupamos las categorías minoritarias de estado civil, raza y ocupación en una categoría de "Otros" con un umbral (*threshold*) del 6%.
 
@@ -171,6 +170,15 @@ receta %>% prep() %>% bake(censoPart %>% training()) %>% dim()
 # Vuestro ejercicio
 
 a) Definir los modelos y estimarlos, eligiendo adecuadamente los hiperparámetros en el caso de los modelos regularizados. Presentar los resultados de todos los modelos en una tabla. Nota: usad el ROC-AUC como para elegir los hiperparámetros.
+
+
+
+`r if(!params$soln) {"<!--"}`
+
+### Respuesta
+
+
+```{r echo=params$soln, eval=FALSE}
 
 ```{r}
 #| echo: false
@@ -277,9 +285,16 @@ logist_est %>% full_join(LASSO_est, by = "term") %>% kbl() %>% kable_styling()
 
 ```
 
+`r if(!params$soln) {"-->"}`
 
 
 b) Evaluar los modelos y compararlos, considerando las métricas adecuadas ("accuracy", ROC-AUC, "recall" y "specificity").
+
+`r if(!params$soln) {"<!--"}`
+
+### Respuesta
+
+```{r echo=params$soln, eval=FALSE}
 
 ```{r}
 #| echo: false
@@ -299,7 +314,15 @@ log_final_fit %>% collect_metrics()
 logLASSO_final_fit %>% collect_metrics()
 ```
 
+`r if(!params$soln) {"-->"}`
+
 c) Usando todos los modelos, determinar si un individuo puede clasificarse como de renta alta (>50K) si es de raza blanca, tiene 49 años, trabaja 40 horas, es hombre, tiene 16 años de educación, no tiene ganancias ni pérdidas de capital, trabaja en ventas ("Sales") y está separado. ¿Y si fuera una mujer de 32 años con el resto de características iguales?  En ambos casos, ofrecer tanto la predicción de la clase como de la probabilidad de ser de renta alta. Comentar brevemente.
+
+`r if(!params$soln) {"<!--"}`
+
+### Respuesta
+
+```{r echo=params$soln, eval=FALSE}
 
 ```{r}
 #| echo: false
@@ -334,6 +357,7 @@ predP1
 predP2
 ```
 
+`r if(!params$soln) {"-->"}`
 
 <!--
 d) ¿Qué variables (incluyendo transformaciones y/o interacciones) son importantes para explicar la categoría de renta de un individuo? Discutir brevemente el signo de las principales variables y qué modelo utilizaría. 

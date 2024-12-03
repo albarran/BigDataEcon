@@ -1,0 +1,622 @@
+---
+# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
+# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
+title    :  "Tema 10 - Más algoritmos de aprendizaje supervisado"
+author:  
+    - "Pedro Albarrán"
+#    - "Teresa Molina"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+   
+# institute: 
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  # beamer:
+  #   handout: false
+  #   logo: figure/by-nc-sa2.png
+  #   titlegraphic: figure/by-nc-sa.png
+  #   theme:  Boadilla # Copenhagen # CambridgeUS #
+  #   outertheme: miniframes
+  #   colortheme: crane
+  #   section-titles: false
+  #   fontsize: 10pt
+  #   header-includes: |
+  #       \setbeamertemplate{footline}
+  #       {
+  #       \leavevmode%
+  #       \hbox{%
+  #       \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+  #       \usebeamerfont{author in head/foot}\insertshortauthor%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  #       \usebeamerfont{title in head/foot}\insertshorttitle%
+  #       \end{beamercolorbox}%
+  #       \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+  #       \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+  #       \end{beamercolorbox}}%
+  #       }
+  #      # - \setbeamertemplate{navigation symbols}{}
+  #      # - \setbeamertemplate{caption}[numbered]
+  #      # - \setbeamertemplate{headline}[page number]
+  #      # - \setbeameroption{show notes}
+  #      # - \setbeameroption{show notes on second screen}
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige # sky # serif # simple # default # moon #  
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide # concave # 
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    # width: 3000
+    # height: 2000
+    # margin: 0.05
+execute:
+  enabled: true      # (no) ejecutar code chunks
+  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  echo: true
+  warning: false    # pero no los mensajes ni warnings
+  message: false
+knitr:
+  opts_chunk:
+    results: hide     # ni muestra resultados ni figuras
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+
+```{r setup, include=FALSE}
+#```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
+# include=F es suficiente para no incluir mensajes, etc.
+
+# Opciones por defecto para los fragmentos de código
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+                      warning = FALSE, message = FALSE,
+                      results = "hide", fig.show="hide")
+# se muestra y evalúa el código,
+# no se muestran mensajes, ni avisos (warnings)
+# no se muestran los resultados de código (tampoco gráficos)
+#     en los códigos que considere necesarios los mostraré
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())       
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+# library(tidymodels)
+# library(printr)
+# library(skimr)
+# library(dlookr)
+# library(broom)
+library(kableExtra)
+# library(rpart.plot)
+# library(vip)
+
+#fijo el directorio de trabajo
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(rmarkdown)
+#render("filename.Rmd")     
+#browseURL("filename.html")
+```
+
+# k-NN ('k-nearest neighbors')
+
+## k-NN
+ 
+ * Métodos paramétricos = supuesto funcional para la **esperanza condicional** 
+ 
+    + variable numérica: $E[y|\mathbf{X}=x_0]=f(x_0)=\beta_0+\beta_1 x_0$
+    
+    + variable categórica: $\Pr(y=j|\mathbf{X}=x_0) =f_j(x_0)=\Lambda(\beta_{0j}+\beta_{1j} x_0)$
+
+
+<!--
+   + variable binaria: $E[y|\mathbf{X}=x_0]=\Pr(y=1|\mathbf{X}=x_0) =f(x_0)=\Lambda(\beta_{0}+\beta_{1} x_0)$
+
+-->
+ 
+ * k-NN estima la esperanza condicional de forma no parámetrica <!--(predice sin construir un modelo)-->
+ 
+ * Idea: el valor esperado de $y$ para una observación debe ser "similar" al de otras observaciones "cercanas" (por su valor en  $\mathbf{X}$)
+
+    + mismo valor de $x_0 \Rightarrow\ $  mismo valor esperado de $y$
+    
+    + $f(\mathbf{X})\ $  no se supone conocida y fija
+
+<!--    
+## Algoritmo k-NN
+
+* Datos unos datos de entrenamiento $\small\{\mathbf{X}_{n\times p}, y_{n\times 1} \}$ y un parámetro $k>0$ entero
+    
+* Para una nueva observación $\mathbf{x^*}$ (prueba)
+
+
+1. Identificar $D(\mathbf{x^*})$: las $k$ observaciones en los datos de entrenamiento más cercanas, según una medida de distancia (típicamente la norma $||x^*-x_i||_2$ 
+
+2. Estimar la esperanza/probabilidad condicional de $y$ con las observaciones de $D(\mathbf{x^*})$ y obtener
+
+    * la media para $y$ numérica: $E[y|\mathbf{X}=x^*] \approx \frac{1}{k}\sum_{i\in D(\mathbf{x^*})} y_i$
+
+    * la clase mayoritaria para categórica: $\Pr[y=j|\mathbf{X}=x^*] \approx \frac{1}{k}\sum_{i\in D(\mathbf{x^*})} I(y_i = j)$
+
+3. Asignárselo como valor predicho a $\mathbf{x^*}$
+
+-->
+
+## Algoritmo k-NN 
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+* Dada una muestra de entrenamiento y una nueva observación $\mathbf{x^*}$
+
+1. Identificar $k>0\quad$ observaciones cercanas según una norma, ej., $||x^*-x_i||_2$ 
+
+2. Se asigna a $y^*$ la media o la clase mayoritaria de las observaciones cercanas
+
+:::
+
+
+::: {}
+
+<center>
+![](figure/knn_cropped-1.png){width=80%}
+</center>
+
+:::
+
+::::
+
+<!--
+* No necesita un proceso de entrenamiento previo: lo hace sobre la marcha.
+
+* Simple y fácil de entender 
+
+* Puede tardar en calcular predicciones (procesa en el momento)
+-->
+
+* El valor "óptimo" de $k$ se elige mediante validación cruzada.
+
+    * $k$ bajo (= algoritmo demasiado flexible): alta varianza y sesgo bajo
+
+    * Al aumentar $k$ (menos flexible), menor varianza, pero mayor sesgo
+
+## Algoritmo k-NN: comentarios
+
+
+* Su utilidad depende de la geometría de los datos
+
+  + conviene centrar y reescalar los datos 
+  + probar varias medidas de distancia: valor absoluto $|x^*-x_i|\quad$ o norma <!--(`dist_power`)-->
+
+<!--`step_scale(all_numeric(), -all_outcomes())`-->
+
+<!--     
+     + si una variable tiene una escala ancha puede perjudicar todo el proceso.
+-->
+
+
+* La distancia solo se puede calcular para variables continuas: convertir factores en dummies (una para cada categoría) <!--: `step_dummy_multi_choice()`)-->
+ 
+* NO es necesario incluir transformaciones no lineales de los regresores (ej., polinomios, interacción, etc.)  en la receta 
+
+<!-- el algoritmo no-paramétrico se encarga de la no-linealidad -->
+
+* LASSO (modelo lineal) puede no ser informativo sobre la elección de variables para este algoritmo
+
+<!--
+diferentes variables vs supuestos vs flexibilidad
+-->
+
+
+
+
+* Implementación en R con bibliotecas `class` y `kknn`<!--, con interfaz único en `tidymodels` para regresión y clasificación-->
+
+
+```{r,}
+#| echo: false
+#| eval: false
+install.packages("class")
+install.packages("kknn")
+```
+
+   
+```{r}
+#| echo: false
+#| eval: false
+modelo_knnR1  <- nearest_neighbor(mode = "regression",neighbors = 5, dist_power = 2) %>% 
+                          set_engine("class")
+modelo_knnC1  <- nearest_neighbor(mode = "classification", neighbors = tune(), dist_power = 2) %>% 
+                          set_engine("kknn")
+```
+
+<!--
+
+## k-NN con `tidymodels`
+
+```{r}
+#| eval: false
+#| echo: false
+library(tidymodels)
+censo <- read_csv("data/census.csv") %>% mutate(income = factor(income))
+set.seed(7482)
+censo_part <- censo %>% initial_split(prop = .8)
+
+censo_receta_knn1 <- training(censo_part) %>%
+  recipe(income ~ age + education_1 +  capital_gain + hours_per_week + sex + race) %>% 
+  step_dummy_multi_choice(all_nominal(), -all_outcomes()) %>% 
+  step_scale(all_numeric(), -all_outcomes()) %>% step_center(all_numeric(), -all_outcomes()) 
+
+censo_modelo_knn1  <- nearest_neighbor(mode = "classification", neighbors = 5, 
+                                       dist_power = 2) %>% set_engine("kknn")
+
+censo_flujo_knn1_est  <- workflow() %>% add_recipe(censo_receta_knn1) %>% 
+                      add_model(censo_modelo_knn1) %>% fit(data = training(censo_part)) 
+
+censo_flujo_knn1_est %>% predict(testing(censo_part)) %>% 
+  bind_cols(testing(censo_part)) %>% accuracy(income, .pred_class) 
+```
+
+<!--
+## k-NN con `tidymodels` (cont.)
+-->
+
+```{r}
+#| echo: false
+#| eval: false
+library(mosaicData)
+set.seed(9753)
+RailTrail_part <- RailTrail %>% initial_split(prop = .8)
+
+RailTrail_receta_knn1 <- training(RailTrail_part) %>%
+  recipe(volume ~ cloudcover + precip + avgtemp) %>% 
+  step_scale(all_numeric(), -all_outcomes())
+
+RailTrail_modelo_knn1  <- nearest_neighbor(mode = "regression",
+                                       neighbors = 5, dist_power = 2) %>% 
+                          set_engine("kknn")
+
+RailTrail_flujo_knn1 <- workflow() %>% add_recipe(RailTrail_receta_knn1) %>% 
+                      add_model(RailTrail_modelo_knn1)
+
+RailTrail_flujo_knn1_est  <- RailTrail_flujo_knn1 %>% fit(training(RailTrail_part)) 
+
+RailTrail_flujo_knn1_est %>% predict(testing(RailTrail_part)) %>% 
+  bind_cols(testing(RailTrail_part)) %>% metrics(volume, .pred) 
+```
+
+<!--
+```{r eval=FALSE}
+set.seed(9753)
+RailTrail_cv <- RailTrail_entren %>% vfold_cv(v=10)
+
+RailTrail_modelo_knn1  <- nearest_neighbor(mode = "regression",
+                                           neighbors = tune(), dist_power = 2) %>% 
+  set_engine("kknn")
+
+RailTrail_flujo_knn1 <- workflow() %>% add_recipe(RailTrail_receta_knn1) %>% 
+  add_model(RailTrail_modelo_knn1)
+
+
+vecinos_grid <- grid_regular(neighbors(range = c(1, 15), trans = NULL),     # rango
+                           levels = 15)          
+
+vecinos_tuned <- RailTrail_flujo_knn1 %>% 
+  tune_grid(
+    resamples = RailTrail_cv, 
+    metrics   = metric_set(rmse),
+    grid      = vecinos_grid
+  )
+
+vecinos_tuned %>% show_best()
+```
+-->
+
+# 'Naive Bayes'
+
+## 'Naive Bayes'
+
+<!-- https://parsnip.tidymodels.org/reference/details_naive_Bayes_naivebayes.html -->
+
+
+* En un problema de clasificacón para una variable categórica $y$, tenemos que estimar $\Pr(y=c|\mathbf{x})$
+
+  + Dada una observación nueva $\mathbf{x^*}$, podemos calcular la probabilidad de cada clase
+  
+  + Clasificamos esta observación en la clase con mayor probabilidad
+
+* En regresión logística, usamos un modelo paramétrico para la probabilidad $\Pr(y=c|\mathbf{x}) = \Lambda(\beta_0 + \beta_1 \mathbf{x})$
+
+* ¿Y si usamos el Teorema de Bayes?
+$$ \Pr(y|\mathbf{x}) = \dfrac{\Pr(y,\mathbf{x})}{\Pr(\mathbf{x})} = \dfrac{\Pr(\mathbf{x}|y)\Pr(y)}{\Pr(\mathbf{x})} $$
+
+## Ejemplo con una sola variable explicativa
+
+* En lo datos de ingresos en el Censo EE.UU., ¿cuál es la probabilidad de ser de renta alta (> 50 mil dólares) si el individuo es blanco?
+
+$$\Pr(>50K|white) = \dfrac{\Pr(white|>50K)\Pr(>50K)}{\Pr(white)}$$
+
+* De los datos obtenemos estas probalidades para predecir en datos nuevos
+
+```{r}
+#| eval: true
+#| echo: false
+library(tidyverse)
+censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/main/census.csv") %>% mutate(income = factor(income))
+prop.table(table(censo$income,censo$race), margin = 1)
+prop.table(table(censo$income))
+prop.table(table(censo$race))
+```
+
+<!--
+* Luego, $\Pr(>50K|white) =$ `r prop.table(table(censo$income,censo$race), margin = 1)[2,5]` $\times$ `r prop.table(table(censo$income))[2]` / `r prop.table(table(censo$race))[5]` = `r prop.table(table(censo$race))[5] * prop.table(table(censo$income))[2] / prop.table(table(censo$race))[5]`
+-->
+
+## 'Naive Bayes': caso general
+
++  **Supuesto simplificador** con varias variables explicativas: estas 
+son condicionalmente independientes (poco realista=naive)
+$$ \Pr(\mathbf{x}|y)=\prod_{j=1}^p \Pr(x_j|y)$$ 
+
+* Se puede mejorar la estimación de las probabilidades condicionales $\Pr(x_j|y)$ usando estimadores no-paramétricos de la densidad ("kernels")
+
+* En `tidymodels` se usa el motor `naivebayes` de la biblioteca `discrim`
+
+* NO necesita preprocesado de los datos salvo que las variables explicativas categóricas deben incluirse como factores
+
+* Tenemos dos hiper-parámetros relacionados con la estimación de la densidad: `smoothness` (suavizado del "kernel") y corrección de `Laplace`
+
+<!--
+* En R, tenemos el motor `naiveBayes()` de la biblioteca `discrim` <!--`e1071`-->
+
+```{r}
+#| echo: false
+#| eval: false
+#install.packages("e1071")
+library(e1071)
+mod_nb <- naiveBayes(income ~ education + race + sex, data = censo)
+censo$income_nb <- predict(mod_nb, newdata = censo)
+
+censo %>% select(income_nb, income) %>% table()
+```
+
+<!--
+https://parsnip.tidymodels.org/reference/details_naive_Bayes_naivebayes.html
+
+-->
+
+# 'Support Vector Machine' (SVM)
+
+## SVM
+
+* Para un problema de clasificación, SVM encuentra el hiperplano que mejor separa los datos por su clase 
+
+
+* Con dos variables explicativas, se puede visualizar en un gráfico 
+en 2D 
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+<center>
+![](./figure/SVM_hiper.png){width="70%"}
+</center>
+
+:::
+
+::: {}
+<center>
+![](./figure/SVM_margin.png){width="70%"}
+</center>
+
+:::
+::::
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+
+* El hiperplano es una línea cuyos coeficientes debemos encontrar: $\beta_0 + \beta_1 X_1 + \beta_2 X_2 = 0$
+
+
+
+:::
+
+::: {}
+
+* El hiperplano óptimo tiene mayor margen = distancia a los datos más cercanos (llamados vectores de soporte)
+
+:::
+::::
+
+
+
+## SVM (cont.)
+
+* Los datos no suelen ser linealmente separables: se usa una función $\phi(z)$, denominada kernel, para transformar los datos a un nuevo espacio de mayor dimensión
+
+<!-- similar a la idea de la función $\Lambda(z)$ en regresión logística -->
+
+<center>
+![](./figure/SVM_nonlinear.png){width="60%"}
+</center>
+
+
+* Para regresión SVM usa el "truco del kernel"  para realizar un análisis de regresión lineal en el espacio de mayor dimensionalidad
+
+
+## SVM (y 3)
+
+<!--
+https://parsnip.tidymodels.org/reference/details_svm_linear_LiblineaR.html
+https://parsnip.tidymodels.org/reference/details_svm_rbf_kernlab.html
+-->
+
+* Las variables numéricas deben ser estandarizadas y centradas; las variables categóricas deben ser convertidas a variables dummies
+
+* En `tidymodels` se pueden usar 
+
+  + kernels: lineal con `svm_linear()`, radial con `svm_rbf()` y polinomial con `svm_poly()`
+  
+  + mediante las bibliotecas `LiblineaR` (solo kernel lineal) y `kernlab`
+
+* Todos tienen un hiperparámetro de coste, `cost`, de predecir en el lado incorrecto del margen
+
+* Existen hiperparámetros adicionales para kernel radial (`rbf_sigma`) y   polinomial (`degree`, `scale_factor`)
+
+* En problemas de regresión existe otro hiperparámetro más, `margin`
+
+<!--
+library(e1071)
+mod_svm <- svm(form, data = train, kernel ="radial")
+train$income_svm <- predict(mod_svm, newdata = train)
+
+train %>% select(income_svm, income) %>% table()
+# este tiene tien otro kernel: sigmoid
+-->
+
+# Redes Neuronales. "Deep learning"
+
+## Redes Neuronales (artificiales)
+ 
+* Una red neuronal es una implementación matemática de modelos de estudio del cerebro humano: un grafo dirigido en varias fases.
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+#| eval: true
+#| echo: false
+#| out-width: 35%
+#| fig-align: center
+#| fig-show: asis
+#| results: asis
+#knitr::include_graphics("./figure/Redes.png") 
+```
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-show: asis
+#| results: asis
+
+knitr::include_graphics("./figure/Redes_nodosControl.png")
+```
+
+:::
+
+::: {.column width="50%"}
+
+1. Un nodo para cada variable de entrada
+
+2. Nodos especificados como capas ocultas
+
+3. Cada nodo oculto se conecta a nuevas variables de salida
+
+* Dos nodos adicionales de control: uno conectado a los nodos ocultos y otro al de salida
+
+<!--
+*  Para $k$ nodos ocultos, el número total es $pk+k+k+1$ -->
+:::
+::::
+
+
+## Redes Neuronales: nodos-percertrones
+
+* En cada nodo oculto se procesa, combinan, agrega 
+la información de los nodos precedentes mediante unos pesos
+
+```{r}
+#| eval: true
+#| echo: false
+#| out-width: 35%
+#| fig-align: center
+#| fig-show: asis
+#| results: asis
+knitr::include_graphics("./figure/perceptron_node.png")
+```
+
+* Esto es "similar" a  una regresión logística
+
+```{r}
+#| eval: true
+#| echo: false
+#| out-width: 30%
+#| fig-align: center
+#| fig-show: asis
+#| results: asis
+knitr::include_graphics("./figure/Red_logistic.png")
+```
+
+
+## Redes Neuronales: procedimiento
+
+* El algoritmo busca iterativamente el conjunto óptimo de pesos ("coeficientes") para cada nodo. 
+
+* Entonces, la red neuronal puede hacer predicciones para nuevas entradas ejecutando estos valores a través de la red.
+
+<!--
+library(nnet)
+mod_nnet <- nnet(form, data = train, size =5)
+train$income_nnet <- predict(mod_nnet, newdata = train)
+
+train %>% select(income_nnet, income) %>% table()
+-->
+
+## 'Deep Learning'
+
+```{r}
+#| eval: true
+#| echo: false
+#| out-width: 60%
+#| fig-align: center
+#| fig-show: asis
+#| results: asis
+knitr::include_graphics("./figure/DeepLearn.png")
+```
+
+<!--
+http://www.mpia.de/homes/dgoulier/MLClasses/Course%20-%20Supervised%20Learning%20for%20Classification%20with%20R.html#chapter_4:_classification_trees
+
+https://builtin.com/data-science/tour-top-10-algorithms-machine-learning-newbies
+-->
+
+# 'Ensembling'. 'Boosting'
+
+
+## 'Ensembling'. 'Boosting'
+
+* Los métodos de *ensembling* ("juntar") usan varios algoritmos para obtener una mejor predicción que la de cada algoritmo por separado
+
+    * Ya hablamos de *Boostrap aggregation* o *bagging*: es un caso particular de *model averaging*, a su vez un tipo de *ensembling* 
+
+    * Otros tipos incluyen: clasificador óptimo bayesiano, *Bayesian model averaging*, *Bayesian model combination*, *bucket of models*, *stacking*, etc.
+    
+* *Boosting* es un tipo muy popular de *ensembling* donde cada nuevo modelo se entrena dando más peso a las observaciones que se predijeron peor en el anterior
+
+    * Suele funcionar mejor que *bagging*, pero tiene una mayor tendencia al sobreajuste
+    
+    * La implementación más común es *Adaboost* (aunque nueva variantes parecen mejorarlo)  

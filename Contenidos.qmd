@@ -7,31 +7,30 @@ strip-comments: true
 
 <!--
 ## Semana 15
-(16-Dic. a 22-Dic.)
+(18-Dic. a 24-Dic.)
 
 ## Semana 14
-(09-Dic. a 15-Dic.)
+(11-Dic. a 17-Dic.)
 
-  * [Tema 13 - Otros algoritmos de Aprendizaje Supervisado](docs/Tema13.qmd)
   * [Tema 14 - Aprendizaje No Supervisado](docs/Tema14.qmd)
-
-## Semana 13
-(02-Dic. a 08-Dic.)
-
-  * [Tema 10 - Ejercicio](docs/Tema10ej.qmd)
-  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
-  * [Tema 11 - kNN](docs/Tema11.qmd)
-  * [Tema 12 - Métodos basados en árboles](docs/Tema12.qmd)
 
 -->
 
 <!-- *********************************************************************  -->
 
+## Semana 14
+(09-Dic. a 15-Dic.)
+
+  * [Tema 10 - Más algoritmos de aprendizaje supervisado](docs/Tema10.qmd)
+
+  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
+
 ## Semana 13
 (02-Dic. a 08-Dic.)
 
   * [Tema 08 - Ejercicio 2](docs/Tema08ej2.qmd)
-  
+    - Fecha límite de entrega: **dom., 15-dic., 23:59h**
+
   * [Tema 09 - Métodos basados en árboles](docs/Tema09.qmd)
 
   * [Tema 09 - Ejemplo 1](docs/Tema09ej1.qmd)

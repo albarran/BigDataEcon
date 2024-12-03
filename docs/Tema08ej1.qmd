@@ -243,17 +243,17 @@ Vamos a estimar mediante LASSO los dos modelos anteriores.
 
 * Debemos estandarizar las variables y debe ser **antes** de transformaciones no lineales de los regresores, como  polinomios o interacciones. Por tanto, NO podemos simplemente añadir un paso de estandarización a la receta anterior.
 
-* Además debemos tener cuidado con el orden de los pasos. La estandariación debe ser antes de la transformación en polinomios. Si se discretiza una variable continua, debemos hacer la discretización antes de la estandarización (o bien estandarizamos los puntos de corte).
+* Además debemos tener cuidado con el orden de los pasos. Si se discretiza una variable continua, debemos hacerlo antes de estandarizar (o bien los puntos de corte deben ser con los nuevos valores, estandarizados). La estandarización debe ser antes de la transformación en polinomios. 
 
 ```{r}
 receta1LASSO <- railtrailPart %>% training() %>%             
   recipe(volume ~  hightemp + cloudcover + precip +  dayType) %>%
   step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
            include_outside_range = T)  %>% 
-  step_dummy(cloudcover) %>% 
-  step_dummy(dayType) %>% 
   step_scale(all_predictors(), -all_nominal()) %>%
   step_poly(hightemp, degree = 21) %>%   
+  step_dummy(cloudcover) %>% 
+  step_dummy(dayType) %>% 
   step_interact(~precip:starts_with("dayType_"))
 
 receta2LASSO <- receta1LASSO %>% 
