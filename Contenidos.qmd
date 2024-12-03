@@ -23,6 +23,8 @@ strip-comments: true
 
   * [Tema 10 - Más algoritmos de aprendizaje supervisado](docs/Tema10.qmd)
 
+  * [Tema 10 - Ejemplo 1](docs/Tema10ej1.qmd)
+
   * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 ## Semana 13
