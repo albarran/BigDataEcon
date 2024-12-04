@@ -429,6 +429,7 @@ rpart.plot(arbol$fit)
 
 ## Algoritmos para árboles e hiperparámetros
 
+
 * <!--Bibliotecas ("motores") que implementan --> Motores para árboles: `rpart` (defecto), `spark` y `C5.0` (solo clasificación)
 
 * Depende de varios hiperparámetros elegidos por *tuning*
@@ -454,19 +455,52 @@ arbol <- flujo_arbol_est %>% extract_fit_parsnip()
 rpart.plot(arbol$fit)  
 ```
 
-
-
 ## Comentarios
 
-* Predicción: media o clase mayoritaria de las observaciones de entrenamiento en el nodo que corresponde a una observación nueva
+:::{style="font-size: 95%;"}
 
-* Importancia de las variables: reducción total de la SCR o Gini debida a las particiones de una variable
+* Predicción: media o clase mayoritaria de las observaciones de entrenamiento en el nodo terminal que corresponde a una observación nueva
+
+* **Importancia** de las variables: la [biblioteca `vip`](https://koalaverse.github.io/vip/index.html) proporciona métricas sobre la influencia de cada predictor en las predicciones del modelo
+  
+  + algunas son específicas de un modelo: en árboles, la reducción total de la SCR o Gini debida a las particiones que usan una variable
+
+  + otras generales: basadas en permutaciones, <!-- varianza o "flatness" en Partial Depence Plot de Friedman--> o en medidas de *Shapley*
+
+<!---
   + variables usadas en nodos iniciales o más veces son más importantes
 
-* Ventajas: 
-    + ajusta (no paramétricamente) relaciones no lineales/complejeas
-    + fáciles de explicar (más que la regresión lineal) y visualizar
-    + no requieren dummies (ni transformaciones no lineales de variables continuas)
+  + pero OJO porque no solo se considera la partición que finalmente aparece en el árbol sino algunas surrogadas:
+  
+    + lo menciona en el pdf de rpart en la sección de variable importance
+          https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf
+    + aquí lo explica con ejemplos
+          https://freakonometrics.hypotheses.org/52776
+
+-->
+
+
+<!--
+
+* Más detalles en  https://cran.r-project.org/web/packages/vip/vip.pdf
+
+* sorbre partial dependence plots (PDP), Friedman’s H statistics: para INTERACCIONES
+
+https://lorentzen.ch/index.php/2024/01/07/explain-that-tidymodels-blackbox/
+https://lorentzen.ch/index.php/2023/08/01/its-the-interactions/
+
+* varias formas de explicación de modelos: vip, lime, DALEX
+
+https://www.tmwr.org/explain
+
+-->
+
+
+* Ventajas de los árboles de decisión: 
+    + ajusta (no paramétricamente) relaciones no lineales/complejas
+    + no requieren dummies ni transformaciones no lineales <!--de variables continuas-->
+    + fáciles de explicar <!--(más que la regresión lineal)--> y visualizar
+
 
 <!--
 
@@ -498,6 +532,8 @@ y = g0 + g1*educ +g2*female + g3*educ^2
 <!--
 * PERO **agregar** muchos árboles de decisión mejorar el rendimiento predictivo y mitigar algunas desventajas
 -->
+
+:::
 
 ## *Bagging*
 
@@ -554,11 +590,13 @@ predictions from those trees that did not use the given out-of-bag prediction, t
 
 ## "Random forest"
 
+:::{style="font-size: 95%;"}
+
 * Es un algoritmo específico de agregación de árboles que introduce aleatorización para **eliminar correlación** entre los árboles.
 
     * Se construyen varios árboles en muestras de entrenamiento de bootstrap
 
-    * En cada partición de un árbol, se seleccionan aleatoriamente  $\small m \approx \sqrt{k}$ regresores del total 
+    * En cada partición de un árbol, se seleccionan aleatoriamente  $\small m \approx \sqrt{k}\quad$ regresores del total 
 
     * Se mitiga la influencia de regresores fuertes, permitiendo una mayor diversidad en los árboles agregados
 
@@ -567,13 +605,21 @@ predictions from those trees that did not use the given out-of-bag prediction, t
 -->
 
 
-* Mejor predicción a expensas de la interpretación $\Rightarrow$ medidas de importancia variable: reducción promedio en SCR / Gini para un regresor en los $\small B$  árboles
+* Mejor predicción a costa de la interpretación $\Longrightarrow$ métodos de interpretabilidad ex-post para aprendizaje automático: importancia, *Shapley values*,  partial dependence plots (PDP)
+
+  + La importancia se puede calcular como una media en los distintos árboles.
+
+* De manera similar a los p-valores o LASSO, la importacia destaca qué variables considerar en modelos más interpretables, como regresión o árboles
+
+<!--  
+* La importancia de las variables ayuda a generar hipótesis: de manera análoga a los p-valores (sin una inferencia estadística formal) o LASSO destaca qué variables considerar en modelos más simples y interpretables, como regresión o árboles.
+-->
 
 <!--
 + Con la noción de **importancia**, se determina qué variables parecen ser las más influyentes de manera consistente en los distintos árboles
 -->
 
-* La importancia tiene un papel análogo al de los p-valores (sin una inferencia estadística formal), para ayudar a generar hipótesis.
+:::
 
 
 ## Algoritmos para RF e hiperparámetros

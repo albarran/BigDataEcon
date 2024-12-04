@@ -210,13 +210,31 @@ arbol1 <- flujo_arbol1_final_est %>% extract_fit_parsnip()
 rpart.plot(arbol1$fit)  
 ```
 
-y mostrar la importancia de cada variable según el modelo:
+También podemos calcular y  mostrar la importancia de cada variable según este modelo:
 ```{r}
+#| echo: false
+#| eval: false
 #| fig-show: asis
 #| results: asis
 library(vip)
 arbol1 %>% vip()
 arbol1$fit$variable.importance
+```
+
+```{r}
+#| echo: false
+#| eval: true
+library(printr)
+library(kableExtra)
+```
+
+
+```{r}
+#| fig-show: asis
+#| results: asis
+library(vip)
+arbol1 %>% vi() %>% kbl() %>% kable_styling()
+arbol1 %>% vip()
 ```
 
 ##### Modelo en logaritmos
@@ -247,14 +265,28 @@ rpart.plot(arbol2$fit)
 #| fig-show: asis
 #| results: asis
 library(vip)
+arbol2 %>% vi() %>% kbl() %>% kable_styling()
 arbol2 %>% vip()
-arbol2$fit$variable.importance
 ```
 
-##### NOTA
+##### NOTA 1
 
-En los modelos de regresión lineal y regresión logística y en sus versiones de regresión regularizada también podemos calcular la medida de importancia de cada variable.
+En los modelos de regresión lineal y regresión logística y en sus versiones de regresión regularizada también podemos calcular la medida de importancia de cada variable. Se obtiene como el valor absoluto del coeficiente (siempre que todas las variables hayan sido estandarizadas) o el valor absoluto del estadístico $t$.
 
+##### NOTA 2
+
+¿Qué árbol obtendríamos si fijamos manualmente el valor del coste de complejidad?
+```{r}
+flujo_arbol1_final2 <- flujo_arbol1 %>% 
+        finalize_workflow(list(cost_complexity=0.05))
+flujo_arbol1_final2_est <-  flujo_arbol1_final2 %>%  
+              fit(data = descuentoPart %>% training())
+arbol1.2 <- flujo_arbol1_final2_est %>% extract_fit_parsnip() 
+
+rpart.plot(arbol1.2$fit) 
+```
+
+Notad que aumentar el coste de complejidad implica un árbol más sencillo; en particular, se utilizan menos variables, como sucede al aumentar la penalización en LASSO. Incluso el árbol más completo (con coste de complejidad cero) no utiliza todas las variables, porque algunas nunca son relevantes para realizar la partición en un nodo.
 
 # Modelización II: "Random Forests"
 
@@ -374,8 +406,8 @@ flujo_RF1_final_est <-  flujo_RF1_final %>%
 #| results: asis
 RF1 <- flujo_RF1_final_est %>% extract_fit_parsnip() 
 library(vip)
+RF1 %>% vi() %>% kbl() %>% kable_styling()
 RF1 %>% vip()
-RF1$fit$variable.importance
 ```
 
 ##### Modelo en logaritmos
@@ -397,8 +429,8 @@ flujo_RF2_final_est <-  flujo_RF2_final %>%
 #| results: asis
 RF2 <- flujo_RF2_final_est %>% extract_fit_parsnip() 
 library(vip)
+RF2 %>% vi() %>% kbl() %>% kable_styling()
 RF2 %>% vip()
-RF2$fit$variable.importance
 ```
 
 
@@ -448,6 +480,6 @@ arbol1 %>% inner_join(arbol2) %>%
 
 Los resultados de las métricas indican que los modelos en logaritmos son mejor que en niveles para ambos modelos y que los modelos de Random Forests son mejores que los de árboles. Por tanto, el mejor modelo para predicción será el de Random Forest con la variable en logaritmos. 
 
-Si quisieran interpretar resultados en lugar de solo predecir, además podemos usar lo que aprendemos de la importancia en el mejor modelo. Por ejemplo, podemos utilizar un modelo de árboles solo con las variables más importantes y fijar una penalización baja o ninguna (es decir, no podar el árbol mucho) para que nos muestre una estructura donde podamos aprender sobre las interacciones y las relaciones no lineales (a través de la discretización de variables continuas). También podemos estimar un modelo de regresión lineal (y/o LASSO) solo con las variables más importantes y permitir relaciones altamente no lineales e interacciones entre las variables.
+Si quisieran interpretar resultados en lugar de solo predecir, además podemos usar lo que aprendemos de la importancia en el mejor modelo. Por ejemplo, podemos utilizar un modelo de árboles solo con las variables más importantes (usando la penalización óptima o fijando un valor bajo o ninguna, es decir, no podar el árbol mucho) para que nos muestre una estructura donde podamos aprender sobre las interacciones y las relaciones no lineales (a través de la discretización de variables continuas). También podemos estimar un modelo de regresión lineal (y/o LASSO) solo con las variables más importantes y permitir relaciones altamente no lineales e interacciones entre las variables.
 
 
