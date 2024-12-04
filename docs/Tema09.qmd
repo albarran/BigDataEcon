@@ -646,9 +646,15 @@ modelo_RF  <- rand_forest(mode = "regression", trees = 100,
               # importance = "impurity" en clasificación
 
 RF <- flujo_RF_est %>% extract_fit_parsnip()
-RF$fit$variable.importance
 library(vip)
+RF %>% vi()
 RF %>% vip()
+```
+
+```{r}
+#| echo: false
+#| eval: false
+RF$fit$variable.importance
 ```
 
 
