@@ -125,6 +125,16 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#objetivos" id="toc-objetivos" class="nav-link active" data-scroll-target="#objetivos">Objetivos</a></li>
+  <li><a href="#resultado-final" id="toc-resultado-final" class="nav-link" data-scroll-target="#resultado-final">Resultado final</a></li>
+  <li><a href="#plazos" id="toc-plazos" class="nav-link" data-scroll-target="#plazos">Plazos</a>
+  <ul class="collapse">
+  <li><a href="#elección-de-tema" id="toc-elección-de-tema" class="nav-link" data-scroll-target="#elección-de-tema">Elección de Tema</a></li>
+  <li><a href="#entrega-final" id="toc-entrega-final" class="nav-link" data-scroll-target="#entrega-final">Entrega Final</a></li>
+  </ul></li>
+  <li><a href="#evaluación" id="toc-evaluación" class="nav-link" data-scroll-target="#evaluación">Evaluación</a>
+  <ul class="collapse">
+  <li><a href="#importante-plagio." id="toc-importante-plagio." class="nav-link" data-scroll-target="#importante-plagio.">IMPORTANTE: PLAGIO.</a></li>
+  </ul></li>
   <li><a href="#algunas-propuestas-de-temas-y-fuentes-de-datos" id="toc-algunas-propuestas-de-temas-y-fuentes-de-datos" class="nav-link" data-scroll-target="#algunas-propuestas-de-temas-y-fuentes-de-datos">Algunas propuestas de temas y fuentes de datos</a></li>
   </ul>
 </nav>
@@ -156,18 +166,61 @@ ul.task-list li input[type="checkbox"] {
 <p>Para realizar este proyecto final, debéis proponer un <em>tema</em> de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.</p>
 <p>El resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (<strong>“business analytics”</strong>). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:</p>
 <center>
-<img src="docs/figure/data-science-model.svg" class="img-fluid">
+<img src="docs/figure/data-science-model.png" class="img-fluid">
 </center>
 <p>Por tanto, debe explicarse claramente:</p>
 <ol type="1">
-<li><p>Objetivo del análisis: qué cuestión se analiza y su importancia</p></li>
+<li><p><strong>Objetivo</strong> del análisis: qué cuestión se analiza y su importancia</p></li>
 <li><p>Datos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis</p></li>
 <li><p>Procesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis</p></li>
 <li><p>Análisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos</p></li>
 <li><p>Proceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final</p></li>
 <li><p>Comunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.</p></li>
 </ol>
-<p><strong>LA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO</strong></p>
+</section>
+<section id="resultado-final" class="level1">
+<h1>Resultado final</h1>
+<p>Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, …) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea <strong>mínimamente presentable</strong> y profesional. No se trata de “amontonar” resultados, sino de presentar una historia que los datos cuentan usando vuestros conocimientos como <em>universitarios</em>.</p>
+<p>Como es habitual, deberéis entregar un archivo .qmd y el resultado de renderizarlo (un archivo .html, .pdf o .docx). También se adjuntarán otros archivos que fueran necesarios para <strong>reproducir</strong> totalmente el documento o archivos complementarios que consideréis importantes (ej., archivos de datos, archivos de código R complementario, etc.).</p>
+<p>Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye vuestro número de DNI: ej.,</p>
+<ul>
+<li><p>Final_123456789.qmd</p></li>
+<li><p>Final_123456789.html</p></li>
+<li><p>Final_123456789.zip</p></li>
+</ul>
+</section>
+<section id="plazos" class="level1">
+<h1>Plazos</h1>
+<section id="elección-de-tema" class="level2">
+<h2 class="anchored" data-anchor-id="elección-de-tema">Elección de Tema</h2>
+<ul>
+<li><p>Por favor, cumplimentad este <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXKdPGtTpsXfSh3XZXn3JKN1Q8bx_qMy-Z4w9DQ0IrIPLHHA/viewform">FORMULARIO</a> con vuestra <strong>propuesta de tema</strong> para el proyecto.</p></li>
+<li><p>Deben queda claro los <strong>objetivos/utilidad</strong> de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)</p></li>
+<li><p>Os recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.</p></li>
+<li><p>Debéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)</p></li>
+</ul>
+<ul>
+<li>En cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.</li>
+</ul>
+</section>
+<section id="entrega-final" class="level2">
+<h2 class="anchored" data-anchor-id="entrega-final">Entrega Final</h2>
+<ul>
+<li>El trabajo en su formato final deberá entregarse antes del <strong>sábado, 1 de febrero de 2025</strong> (hora límite 23:55h de la noche) por medio de este <a href="https://docs.google.com/forms/d/e/1FAIpQLSdYMg3LtT4SaxIIMhVt2BDOyZfO2oeY578RPcWO8XYWvCiBIQ/viewform">FORMULARIO</a></li>
+</ul>
+</section>
+</section>
+<section id="evaluación" class="level1">
+<h1>Evaluación</h1>
+<p>En la nota de trabajo se valorará la complejidad de <strong>todo el proceso</strong> del análisis. No es lo mismo usar unos datos ya preparados u otros que requieran mucha limpieza, necesitar combinar varias fuentes de datos, etc. Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación se tendrá en cuenta; hacer los más básico visto en clase con unos datos similares a los de clase es válido, pero incluso estando perfecto no podéis esperar la máxima nota.</p>
+<p>Notad que es MUY IMPORTANTE que el trabajo incluya comentarios adecuados. Por un lado, esto implica NO meramente describir lo obvio que se ve en una tabla o gráfico, sino explicar por qué es importante, qué implica, qué se puede inferir, etc. Por otro lado, todos los comentarios deben ser coherentes con el objetivo del análisis y con el contexto de los datos.</p>
+<section id="importante-plagio." class="level2">
+<h2 class="anchored" data-anchor-id="importante-plagio.">IMPORTANTE: PLAGIO.</h2>
+<ul>
+<li><p>Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. <em>Yo también</em>.</p></li>
+<li><p>La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la <strong>apertura de un expediente</strong>.</p></li>
+</ul>
+</section>
 </section>
 <section id="algunas-propuestas-de-temas-y-fuentes-de-datos" class="level1">
 <h1>Algunas propuestas de temas y fuentes de datos</h1>
