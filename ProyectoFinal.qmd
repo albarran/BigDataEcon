@@ -12,12 +12,12 @@ Para realizar este proyecto final, debéis proponer un *tema* de estudio usando 
 El resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (**"business analytics"**). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:
 
 <center>
-![](docs/figure/data-science-model.svg)
+![](docs/figure/data-science-model.png)
 </center>
 
 Por tanto, debe explicarse claramente:
 
-1. Objetivo del análisis: qué cuestión se analiza y su importancia
+1. **Objetivo** del análisis: qué cuestión se analiza y su importancia
 
 2. Datos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis
 
@@ -29,17 +29,17 @@ Por tanto, debe explicarse claramente:
 
 6. Comunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.
 
+<!--
 **LA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO**
 
-<!--
 --------------------------------------------------------------------------------
+-->
+
 # Resultado final
 
-Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea **mínimamente presentable** y profesional; estos años en la Universidad os deben haber proporcionado las capacidades y las herramientas para que vuestro trabajo sea un mini-informe que presentaríais si estuvieseis trabajando. Sin perder excesivo tiempo en una forma perfecta de presentación, no produzcáis un documento con tablas y gráficos difíciles de leer o poco informativos, con una estructura inconexa, etc. No se trata de “amontonar” resultados, sino de presentar una historia que los datos nos cuentas.
+Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea **mínimamente presentable** y profesional. No se trata de “amontonar” resultados, sino de presentar una historia que los datos cuentan usando vuestros conocimientos como *universitarios*.
 
-Durante el curso aprenderemos herramientas para realizar el informe.
-
-Como es habitual, deberéis entregar un archivo .qmd y el resultado de renderizarlo (un archivo .html, .pdf o .docx). También se adjuntarán otros archivos que fueran necesarios para **reproducir** totalmente el documento o archivos complementarios que consideréis importantes (tanto la carpeta asociada al .html como archivos de datos, archivos de código R complementario, etc.).
+Como es habitual, deberéis entregar un archivo .qmd y el resultado de renderizarlo (un archivo .html, .pdf o .docx). También se adjuntarán otros archivos que fueran necesarios para **reproducir** totalmente el documento o archivos complementarios que consideréis importantes (ej., archivos de datos, archivos de código R complementario, etc.).
 
 Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye vuestro número de DNI: ej.,
 
@@ -55,9 +55,20 @@ Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye 
 
 * Por favor, cumplimentad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSeXKdPGtTpsXfSh3XZXn3JKN1Q8bx_qMy-Z4w9DQ0IrIPLHHA/viewform) con vuestra **propuesta de tema** para el proyecto. 
 
-* Deben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)
+* Deben queda claro los **objetivos/utilidad** de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)
 
-* Aunque no pondré plazo formal, os recomiendo hacer esto cuanto antes y, como fecha orientativa, del **jueves, 28 de diciembre de 2023**.
+* Os recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase. 
+
+* Debéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
+
+<!--
+--------------------------------------------------------------------------------
+-->
+
+<!--
+
+QUIZÁS
+* Aunque no pondré plazo formal, os recomiendo hacer esto cuanto antes y, como fecha orientativa, del **viernes, 27 de diciembre de 2024**.
 
     + Cuanto antes lo hagáis, antes podéis empezar a organizaros y trabajar
 
@@ -80,24 +91,29 @@ QUIZÁS
 
 <!--
 --------------------------------------------------------------------------------
+-->
+
 * En cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.
 
 ## Entrega Final
 
 
-* El trabajo en su formato final deberá entregarse antes del **jueves, 1 de febrero de 2024** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSdYMg3LtT4SaxIIMhVt2BDOyZfO2oeY578RPcWO8XYWvCiBIQ/viewform)
+* El trabajo en su formato final deberá entregarse antes del **sábado, 1 de febrero de 2025** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSdYMg3LtT4SaxIIMhVt2BDOyZfO2oeY578RPcWO8XYWvCiBIQ/viewform)
 
 # Evaluación
 
-En la nota de trabajo se valorará la complejidad de todo el proceso del análisis. No es lo mismo usar unos datos sencillos y ya preparados que  necesitar varias fuentes de datos y combinarlas, usar datos que requieran mucha limpieza o complejos de analizar por el número de observaciones o variables, etc. Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación se tendrá en cuenta; hacer los más básico visto en clase con unos datos similares a los de clase es válido, pero incluso estando perfecto no podéis esperar la máxima nota.
+En la nota de trabajo se valorará la complejidad de **todo el proceso** del análisis. No es lo mismo usar unos datos ya preparados u otros que requieran mucha limpieza, necesitar combinar varias fuentes de datos, etc.  Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación se tendrá en cuenta; hacer los más básico visto en clase con unos datos similares a los de clase es válido, pero incluso estando perfecto no podéis esperar la máxima nota.
 
+Notad que es MUY IMPORTANTE que el trabajo incluya comentarios adecuados. Por un lado, esto implica NO meramente describir lo obvio que se ve en una tabla o gráfico, sino explicar por qué es importante, qué implica, qué se puede inferir, etc. Por otro lado, todos los comentarios deben ser coherentes con el objetivo del análisis y con el contexto de los datos.
 
 ## IMPORTANTE: PLAGIO. 
 
 
-  * Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también. 
+  * Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. *Yo también*. 
   
   * La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la **apertura de un expediente**.
+
+<!--
 
 No es la primera vez que estos datos u otros que me propongáis vosotros se han utilizado. Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. **Yo también**. 
 
