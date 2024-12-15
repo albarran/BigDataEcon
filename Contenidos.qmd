@@ -6,17 +6,22 @@ strip-comments: true
 ---
 
 <!--
-## Semana 15
-(18-Dic. a 24-Dic.)
 
-## Semana 14
-(11-Dic. a 17-Dic.)
+  * [Tema 11 - Aprendizaje No Supervisado](docs/Tema11.qmd)
 
-  * [Tema 14 - Aprendizaje No Supervisado](docs/Tema14.qmd)
+  * [Tema 11 - Ejemplo 1](docs/Tema11ej1.qmd) 
+
+  * [Tema 12 - Análisis de Texto](docs/Tema12.qmd) 
+
 
 -->
 
 <!-- *********************************************************************  -->
+
+## Semana 14
+(16-Dic. a 22-Dic.)
+
+  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 ## Semana 14
 (09-Dic. a 15-Dic.)
@@ -24,8 +29,6 @@ strip-comments: true
   * [Tema 10 - Más algoritmos de aprendizaje supervisado](docs/Tema10.qmd)
 
   * [Tema 10 - Ejemplo 1](docs/Tema10ej1.qmd)
-
-  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 ## Semana 13
 (02-Dic. a 08-Dic.)
