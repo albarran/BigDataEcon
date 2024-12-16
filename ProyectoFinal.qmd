@@ -137,6 +137,15 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 <!-- PASAR el de loans a ejercicio de ejemplo y buscar otros de loans ------->
 
 
+<!--
+
+FUENTE DE DATOS
+
+https://crd150.github.io/bigopendata.html
+-->
+
+
+
 1. **Ventas de "Big Mart"**.  Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana "Big Mart". Además, se han definido determinados atributos de cada producto y tienda.  El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están [aquí](https://drive.google.com/file/d/1Tcr85g-zl_i1XdgAmljcvrB3Dq3_L9d4/view?usp=sharing)
 <!--
    (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
@@ -177,6 +186,16 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 -->
 
 5. **Servicio de bicicletas**. La empresa "Capital BikeShare" ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana  se realizan más viajes. Información [aquí](https://www.capitalbikeshare.com/system-data)
+
+<!--
+    b. Otras fuentes de datos de servicios de bicicletas compartidas son: 
+
+      -   [San Francisco](https://www.lyft.com/bikes/bay-wheels/system-data)  
+      -   [New York City](https://www.citibikenyc.com/system-data)
+      -   [Chicago](https://www.divvybikes.com/system-data)
+      -   [Washington D.C.](https://www.capitalbikeshare.com/system-data)
+-->
+
 <!--
    (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
 
@@ -212,6 +231,8 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 -->
 
     c. Datos se han extraído de los resultados públicos publicados cada semana en <http://domain.com.au> con información sobre precios de las casa en **Melbourne, Australia**. Datos e información [aquí](https://drive.google.com/file/d/1zz8kjIhEGSfKOS6YQOnSOEAoDKivQl0m/view?usp=sharing)
+
+    d. Datos de [**Zillow**](https://www.zillow.com/research/data/) sobre precios de las casas en **EE.UU.** a diferentes niveles de desagregación. También existe el paquete de R, *ZillowR*, para descargar estos datos directamente. <!--https://cran.r-project.org/web/packages/ZillowR/index.html-->
     
 7. **Delitos**. 
 
@@ -244,10 +265,27 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 -->
 
 
-9. **Airbnb**. En este [enlace](http://tomslee.net/airbnb-data-collection-get-the-data) están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades (Alicante no está incluida, pero podéis hacer el "web scraping" si queréis...). Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos "demasiado" similares) como porque, como con otros datos, se pueden analizar más de una cosa.
+9. **Airbnb**. En este [enlace](https://insideairbnb.com/get-the-data/) están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades<!-- (Alicante no está incluida, pero podéis hacer el "web scraping" si queréis...)-->. Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. También se pueden encontrar datos de Airbnb en [Kaggle](https://www.kaggle.com/datasets).
+
+    Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos "demasiado" similares) como porque, como con otros datos, se pueden analizar más de una cosa.
+
 <!--
+
+[enlace](http://tomslee.net/airbnb-data-collection-get-the-data)
+https://github.com/tomslee/airbnb-data-collection
+
   [//]: # (https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
 -->
+
+<!--
+
+Datos de Yelp: is a subset of our businesses, reviews, and user data for use in connection with academic research. Available as JSON files, use it to teach students about databases, to learn NLP, or for sample production data while you learn how to make mobile apps.
+
+[Yelp](https://www.yelp.com/dataset). A public use dataset put together by Yelp specifically for personal and educational purposes, but has been used in academic and applied research. You can use the Yelp API, and here is a [tutorial](https://billpetti.github.io/2017-12-23-use-yelp-api-r-rstats/), and [another](https://www.youtube.com/watch?v=qyGYItbMKkM), but there are some restrictions, specifically getting an access ID and creating your own app. Here is another [tutorial](https://github.com/richierocks/yelp) for a specific R package that uses the Yelp API.
+
+
+-->
+
 
 10. **Precio de las acciones**. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar [estos datos](http://www.usfundamentals.com/download/) o buscar vuestros propios datos de otras empresas (por ejemplo, españolas).
 <!--
@@ -282,6 +320,12 @@ Se pueden encontrar otras fuentes con información sobre datos en Internet. Por 
 -->
 
 
+<!--
+
+[Twitter](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets). Twitter provides access to a sample of their tweets. You’ll need to register for an API. Here are some guides to collect and manage tweets in R: [here](https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/), [here](https://info5940.infosci.cornell.edu/notes/webdata/twitter-api-practice/), and [here](https://cran.r-hub.io/web/packages/rtweet/vignettes/intro.html).
+
+-->
+
 Otras fuentes generales son:
 
   * https://www.kaggle.com/datasets
@@ -292,8 +336,6 @@ Otras fuentes generales son:
   
   * https://github.com/rfordatascience/tidytuesday
   
-  * https://www.data.gov/
-  
   * https://data.worldbank.org/
   
   * https://github.com/fivethirtyeight/data
@@ -303,6 +345,26 @@ Otras fuentes generales son:
   * https://cloud.google.com/bigquery/public-data/
   
   * https://www.quandl.com/
+
+
+<!--
+-   Esri provides a repository that many of its members use to store various big and open data all in shapefile format. Check out what’s available [here](http://hub.arcgis.com/pages/open-data).
+    
+-   [Awesome Public Datasets](https://github.com/awesomedata/awesome-public-datasets)
+    
+-   [Amazon AWS Public Data Sets](https://registry.opendata.aws/)
+-->
+
+Directorios de portables de datos abiertos:
+
+  -   [Data.gov](https://www.data.gov/open-gov/)
+    
+  -   [Open Data Inception](https://opendatainception.io/)
+    
+  -   [Open Knowledge Foundation](https://dataportals.org/)
+
+
+Muchos gobiernos locales, regionales y nacionales también tienen portales de datos abiertos. 
 
 <!--
   * https://www.gapminder.org/data/  
