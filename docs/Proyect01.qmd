@@ -106,8 +106,14 @@ Boston <- read_csv("https://raw.githubusercontent.com/albarran/00datos/main/Bost
 ```
 
 ```{r datos}
-#| eval: true
+#| eval: false
 Boston <- read_csv("data/BostonHousing.csv")
+```
+
+```{r datos1}
+#| eval: true
+#| echo: false
+Boston <- read_csv("https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv")
 ```
 
 Los datos tienen `r dim(Boston)[1]` observaciones y `r dim(Boston)[2]` variables. (NOTA: <!--esta información se ha incluido usando el código de R en línea "r dim(Boston)[1]" y "r dim(Boston)[2]") y también se puede obtener con el siguiente código; --> NO está claro que queráis mostrar este código.)
