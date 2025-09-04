@@ -1,6 +1,6 @@
 ---
 # title: "Técnicas para 'Big Data' en Economía"
-subtitle: "Universidad de Alicante, Curso 2024-2025 (Primer cuatrimestre)"
+subtitle: "Universidad de Alicante, Curso 2025-2026 (Primer cuatrimestre)"
 lang: es
 strip-comments: true
 ---
@@ -18,11 +18,11 @@ strip-comments: true
 
 * Tutorias:
 
-    + Lunes de 11h a 12:45h 
+    + Lunes de 11h a 12:50h 
   
-    + Miércoles de 11h a 12:45h 
+    + Miércoles de 11h a 12:50h 
 
-    + Viernes de 11 a 12:45h
+    + Viernes de 11 a 12:50h
 
 
     (solicitada previamente con al menos 24 horas de antelación, por UACloud o email)
