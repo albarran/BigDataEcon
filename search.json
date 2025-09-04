@@ -2027,118 +2027,20 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(16-Dic. a 22-Dic.)\n\nEjemplo de Proyecto Final"
-  },
-  {
-    "objectID": "Contenidos.html#semana-14",
-    "href": "Contenidos.html#semana-14",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(16-Dic. a 22-Dic.)\n\nEjemplo de Proyecto Final"
-  },
-  {
-    "objectID": "Contenidos.html#semana-14-1",
-    "href": "Contenidos.html#semana-14-1",
-    "title": "Contenidos",
-    "section": "Semana 14",
-    "text": "Semana 14\n(09-Dic. a 15-Dic.)\n\nTema 10 - Más algoritmos de aprendizaje supervisado\nTema 10 - Ejemplo 1"
-  },
-  {
-    "objectID": "Contenidos.html#semana-13",
-    "href": "Contenidos.html#semana-13",
-    "title": "Contenidos",
-    "section": "Semana 13",
-    "text": "Semana 13\n(02-Dic. a 08-Dic.)\n\nTema 08 - Ejercicio 2\n\nFecha límite de entrega: dom., 15-dic., 23:59h\n\nTema 09 - Métodos basados en árboles\nTema 09 - Ejemplo 1"
-  },
-  {
-    "objectID": "Contenidos.html#semana-12",
-    "href": "Contenidos.html#semana-12",
-    "title": "Contenidos",
-    "section": "Semana 12",
-    "text": "Semana 12\n(25-Nov. a 01-Dic.)\n\nTema 08 - Ejemplo 1"
-  },
-  {
-    "objectID": "Contenidos.html#semana-11",
-    "href": "Contenidos.html#semana-11",
-    "title": "Contenidos",
-    "section": "Semana 11",
-    "text": "Semana 11\n(18-Nov. a 24-Nov.)\n\nTema 07 - Selección y Regularización\nTema 08 - Modelización con tidymodels"
-  },
-  {
-    "objectID": "Contenidos.html#semana-10",
-    "href": "Contenidos.html#semana-10",
-    "title": "Contenidos",
-    "section": "Semana 10",
-    "text": "Semana 10\n(11-Nov. a 17-Nov.)\n\nTema 06 - Ejercicio 1\n\nFecha límite de entrega: dom., 08-dic., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-9",
-    "href": "Contenidos.html#semana-9",
-    "title": "Contenidos",
-    "section": "Semana 9",
-    "text": "Semana 9\n(4-Nov. a 10-Nov.)\n\nTema 05 - Ejercicio\n\nFecha límite de entrega: dom., 17-nov., 23:59h\n\nTema 06 - Modelización: métodos estadísticos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-8",
-    "href": "Contenidos.html#semana-8",
-    "title": "Contenidos",
-    "section": "Semana 8",
-    "text": "Semana 8\n(28-Oct. a 3-Nov.)\n\nTema 05 - Análisis Exploratorio de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-7",
-    "href": "Contenidos.html#semana-7",
-    "title": "Contenidos",
-    "section": "Semana 7",
-    "text": "Semana 7\n(21-Oct. a 27-Oct.)\n\nTema 03 - Ejercicio\nTema 04 - Introducción a Quarto\nTema 04 - Ejercicio\n\nFecha límite de entrega: dom., 03-nov., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-6",
-    "href": "Contenidos.html#semana-6",
-    "title": "Contenidos",
-    "section": "Semana 6",
-    "text": "Semana 6\n(14-Oct. a 20-Oct.)\n\nTema 03 - Datos relacionales"
-  },
-  {
-    "objectID": "Contenidos.html#semana-5",
-    "href": "Contenidos.html#semana-5",
-    "title": "Contenidos",
-    "section": "Semana 5",
-    "text": "Semana 5\n(07-Oct. a 13-Oct.)\n\nTema 02 - Ejercicio 1"
-  },
-  {
-    "objectID": "Contenidos.html#semana-4",
-    "href": "Contenidos.html#semana-4",
-    "title": "Contenidos",
-    "section": "Semana 4",
-    "text": "Semana 4\n(30-Sept. a 6-Oct.)\n\nTema 02 - Tratamiento de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "Semana 3",
-    "text": "Semana 3\n(23-Sept. a 29-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 06-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(16-Sept. a 22-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: vie., 04-oct., 23:59h"
+    "text": "(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
   },
   {
     "objectID": "Contenidos.html#semana-1",
     "href": "Contenidos.html#semana-1",
     "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(09-Sept. a 15-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+    "section": "",
+    "text": "(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
   },
   {
     "objectID": "Datos.html",
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv\n\nTema 2:\n\nVentasTabla\nEmpleados\n\nTema 3:\n\nDosTablas\n\nTema 5:\n\nBankMarketing.csv\nBostonHousing.csv\n\nTema 6:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData"
   }
 ]
