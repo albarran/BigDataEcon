@@ -16,7 +16,7 @@ strip-comments: true
 
 -->
 
-<!-- *********************************************************************  -->
+<!--
 
 ## Semana 14
 (16-Dic. a 22-Dic.)
@@ -107,8 +107,13 @@ strip-comments: true
 
     - Fecha límite de entrega: **vie., 04-oct., 23:59h**
 
+
+*********************************************************************  
+
+-->
+
 ## Semana 1
-(09-Sept. a 15-Sept.)
+(08-Sept. a 14-Sept.)
 
   * [Introducción](docs/0Intro.qmd)
   * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
