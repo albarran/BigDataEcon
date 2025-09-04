@@ -64,7 +64,7 @@ strip-comments: true
 
 -   Más detalles a lo largo del curso y en 
 <!-- para **Economía** -->
-[la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2023-24)
+[la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2025-26)
 
 
 ***
@@ -93,8 +93,8 @@ strip-comments: true
 
 *  Podéis descargar R desde [https://cran.r-project.org/](https://cran.r-project.org/) siguiendo las instrucciones para vuestro sistema operativo.
 
-	-   para Windows, entrad en "Download R for Windows", luego en "base" y allí encontraréis la versión actual "Download R-4.4.1 for Windows".
-	-   para MacOS, entrad en "Download R for (Mac) OS X", y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS "R-4.4.1-x86_64.pkg" o "R-4.4.1-arm64.pkg", según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.
+	-   para Windows, entrad en "Download R for Windows", luego en "base" y allí encontraréis la versión actual "Download R-4.5.1 for Windows".
+	-   para MacOS, entrad en "Download R for (Mac) OS X", y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS "R-4.5.1-x86_64.pkg" o "R-4.5.1-arm64.pkg", según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.
 	-   para Linux, seguid las instrucciones (típicamente a través de vuestro sistema de instalación).
 
 *  Podéis descargar RStudio desde [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
@@ -106,7 +106,7 @@ strip-comments: true
 
 -   NOTA: existe la posibilidad de usar R y RStudio de forma online, sin instalar nada en el ordenador (o incluso usando una tablet). Se puede encontrar en [https://posit.cloud/](https://posit.cloud/) . Sin embargo, no la recomendamos para su uso habitual; en particular, algunas cosas son ligeramente diferentes, es más lenta, depende de conexión a internet y, aunque es gratuita, requiere registrarse.
 
--   Más adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional: PowerBI, Tableau, Python, etc.
+-   Más adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional <!-- : PowerBI, Tableau, Python, etc.
 
    <!-- +   Instrucciones en anuncio UACloud  -->
     
