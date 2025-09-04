@@ -119,7 +119,6 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 --------------------------------------------------------------------------------
 -->
 
-<!--Probablemente sabéis que la Universidad para una (carísima) licencia para que podamos usar la mejor aplicación de detección de plagio. Yo utilizo adicionalmente otras aplicaciones y algoritmos propios, por ser específicos para detectar variantes de código o porque implementan formas de detección diferentes a las de la aplicación comercial. Por supuesto podéis “colármela” dado que ningún sistema es perfecto (ya sabéis, Falsos Positivos y Falsos Negativos). Evaluad bien las probabilidades y realizad el análisis coste-beneficio con toda la información disponible. Si lo conseguís, enhorabuena. Sabed que la detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.-->
 
 
 # Algunas propuestas de temas y fuentes de datos
