@@ -1,5 +1,5 @@
 ---
-# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2025/26  \n\n Universidad de Alicante"
+subtitle: "Técnicas para 'Big Data' en Economía - Curso 2025/26  \n\n Universidad de Alicante"
 # subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
 # subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
 # subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
