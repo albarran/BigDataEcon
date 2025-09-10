@@ -1,5 +1,5 @@
 ---
-subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
+# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2025/26 \n\n Universidad de Alicante"
 # subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
 # subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
 # subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
@@ -64,7 +64,9 @@ library(knitr)
 ```
 
 
-* En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](https://raw.githubusercontent.com/albarran/BigDataEcon/main/docs/Tema00ej1_12345678.R)
+* En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](Tema00ej1_12345678.R)
+
+
 
 ```{r}
 #| echo: false
@@ -86,6 +88,7 @@ library(knitr)
 
 ```{r datos1}
 #| echo: false
+#| eval: false
 ###---------- Datos1 ----------------------------------------------------
 
 # Ventas de la Tienda A de Lunes a Viernes
@@ -102,8 +105,8 @@ datos1 <- t(cbind(A, B)) |> as.data.frame()
 colnames(datos1) <- vector_dias
 datos1 <- rownames_to_column(datos1, var = "Tienda")
 
-# export(datos1, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas1.xlsx", overwrite = TRUE)
-export(datos1, "Ventas1.xlsx", overwrite = TRUE)
+export(datos1, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas1.xlsx", overwrite = TRUE)
+export(datos1, "datos/Ventas1.xlsx", overwrite = TRUE)
 ```
 
 El archivo [`Ventas1.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas1.xlsx) contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.
@@ -112,6 +115,7 @@ El archivo [`Ventas1.xlsx`](https://raw.githubusercontent.com/albarran/00datos/m
 
 ```{r ej1}
 #| echo: false
+#| eval: false
 ###---------- Apartado 1) ----------------------------------------------------
 
 library(rio)
@@ -119,21 +123,14 @@ datos <- import("Ventas1.xlsx")
 
 # Extraer ventas de cada tienda
 # OJO: datos es un data.frame, no un vector...
-Ventas_A <- datos[1, 2:6]
+Ventas_A <- datos[1, 2:6]  # ncol(datos)  #dim(datos)[2]
 Ventas_B <- datos[2, 2:6]
 
-# si no sabemos, el número de columnas
-# una *buena* pregunta 
-# *entendiendo* las respuestas: ncol(Ventas_A) o dim(Ventas_A)[2]
 
-# otras formas: datos[datos %in% "A", 2:ncol(Ventas_A)]
 
 # Ventas totales por día
 # aun así, podemos hacer algunas operaciones
 Ventas_totales_diarias <-  Ventas_A + Ventas_B
-
-# En Excel, mismo pasos algorítmicos, misma lógica
-# implementación propia
 
 Ventas_totales_diarias
 
@@ -148,7 +145,6 @@ Ventas_totales_semana
 
 # Ventas medias de la semana en A
 # solo podemos calcular media convertido a vector con as.numeric() o as.numeric()
-# chatGPT nos puede ayudar: si pregutamos bien y ENTENDEMOS conceptos de R (tipos de objetos)
 Ventas_media_A <- mean(as.numeric(Ventas_A))
 
 Ventas_media_A
@@ -158,6 +154,7 @@ Ventas_media_A
 
 ```{r datos2}
 #| echo: false
+#| eval: false
 
 ################################################################################
 
@@ -183,8 +180,8 @@ rownames(mVentas) <- nombres
 mVentas <- as.data.frame(mVentas)
 mVentas <- rownames_to_column(mVentas, var = "Producto")
 
-# export(mVentas, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2a.xlsx", overwrite = TRUE)
-export(mVentas, "Ventas2a.xlsx", overwrite = TRUE)
+export(mVentas, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2a.xlsx", overwrite = TRUE)
+export(mVentas, "datos/Ventas2a.xlsx", overwrite = TRUE)
 
 ################################################################################
 
@@ -202,8 +199,8 @@ rownames(mVentas2) <- nombres2
 mVentas2 <- as.data.frame(mVentas2)
 mVentas2 <- rownames_to_column(mVentas2, var = "Producto")
 
-# export(mVentas2, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2b.xlsx", overwrite = TRUE)
-export(mVentas2, "Ventas2b.xlsx", overwrite = TRUE)
+export(mVentas2, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2b.xlsx", overwrite = TRUE)
+export(mVentas2, "datos/Ventas2b.xlsx", overwrite = TRUE)
 
 ```
 
@@ -213,6 +210,7 @@ a) Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00d
 
 ```{r ej.2b}
 #| echo: false
+#| eval: false
 ###---------- Apartado 2.a) ----------------------------------------------------
 
 datos2a <- import("Ventas2a.xlsx")
@@ -229,6 +227,7 @@ b) Añadir una columna con el valor total de las ventas (nacionales más interna
 
 ```{r ej2.b}
 #| echo: false
+#| eval: false
 ###---------- Apartado 2.b) ----------------------------------------------------
 
 # Calcular total ventas
@@ -278,9 +277,10 @@ c) Se quiere conocer el número de compradores de los productos a partir del val
 # Estimar número de compradores
 
 # Data Frame de precios
-precios <- data.frame("PrecioNac" = c(5.2, 4.7, 5.7, 6.1, 7, 6.7),
-                      "PrecioInt" = c(4.2, 4.3, 4.2, 4.5, 4.9, 4.8),
+precios <- data.frame("PrecioN" = c(5.2, 4.7, 5.7, 6.1, 7, 6.7),
+                      "PrecioI" = c(4.2, 4.3, 4.2, 4.5, 4.9, 4.8),
                       row.names = c("X", "Y", "Z", "R", "S", "T"))
+                      # Producto = c("X", "Y", "Z", "R", "S", "T"))
   
 ########################################################################
 precios |> kbl(format = "html")|> kable_paper("hover")
@@ -289,6 +289,7 @@ precios |> kbl(format = "html")|> kable_paper("hover")
 
 ```{r ej2.d2}
 #| echo: false
+#| eval: false
 
 # Añadir precios a datos2
 datos2 <- cbind(datos2, precios)
