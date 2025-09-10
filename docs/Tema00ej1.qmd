@@ -241,6 +241,7 @@ c) Calcular la media del valor de las ventas internacionales (media sobre todos 
 
 ```{r ej2.c}
 #| echo: false
+#| eval: false
 ###---------- Apartado 2.c) ----------------------------------------------------
 
 # media del valor de las ventas internacionales
