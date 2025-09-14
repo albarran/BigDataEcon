@@ -108,7 +108,7 @@ strip-comments: true
 
   * [Tema 0 - Ejercicio 1](docs/Tema00ej1.qmd)
 
-    - Fecha límite de entrega: **vie., 03-oct., 23:59h**
+    - Fecha límite de entrega: **dom., 21-sep., 23:59h**
 
 
 
