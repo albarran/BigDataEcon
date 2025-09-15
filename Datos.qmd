@@ -15,12 +15,11 @@ strip-comments: true
   + [earn.RData](https://raw.githubusercontent.com/albarran/00datos/main/earn.RData)
 
 
-<!--
-
 * Tema 1:
 
   + [landdata-states.csv](https://raw.githubusercontent.com/albarran/00datos/main/landdata-states.csv)
 
+<!--
 
 * Tema 2:
 
