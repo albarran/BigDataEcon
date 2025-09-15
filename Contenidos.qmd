@@ -96,7 +96,7 @@ strip-comments: true
 ## Semana 3
 (23-Sept. a 29-Sept.)
 
-  * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
+
   * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
     - Fecha límite de entrega: **dom., 06-oct., 23:59h**
 *********************************************************************  
@@ -110,7 +110,7 @@ strip-comments: true
 
     - Fecha límite de entrega: **dom., 21-sep., 23:59h**
 
-
+  * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
 
 
 ## Semana 1
