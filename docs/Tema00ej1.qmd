@@ -1,8 +1,4 @@
 ---
-subtitle: "Técnicas para 'Big Data' en Economía - Curso 2025/26  \n\n Universidad de Alicante"
-# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
-# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
-# subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
 title    :  "Tema 0. Introducción a R. Ejercicio 1"
 author:  
     - "Pedro Albarrán"
@@ -62,7 +58,7 @@ library(rio)
 library(knitr)
 ```
 
--   En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](Tema00ej1_123456789.R)
+- En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](Tema00ej1_123456789.R)
 
 ```{r}
 #| echo: false
@@ -199,7 +195,7 @@ export(mVentas2, "datos/Ventas2b.xlsx", overwrite = TRUE)
 
 ```
 
-a)  Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx) y [`Ventas2b.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx) contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.
+a) Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx) y [`Ventas2b.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx) contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.
 
 ```{r ej.2b}
 #| echo: false
@@ -215,7 +211,7 @@ datos2 <- rbind(datos2a, datos2b)
 datos2
 ```
 
-b)  Añadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.
+b) Añadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.
 
 ```{r ej2.b}
 #| echo: false
@@ -229,7 +225,7 @@ datos2$Total
 
 ```
 
-c)  Calcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.
+c) Calcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.
 
 ```{r ej2.c}
 #| echo: false
@@ -260,7 +256,7 @@ seleccion <- datos2$Producto %in% c("X", "Y", "R")
 
 ```
 
-c)  Se quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:
+c) Se quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:
 
 ```{r ej2.d}
 #| echo: false
@@ -356,11 +352,11 @@ class(comparar_clientes)
 
 # Apartado 3
 
-a)  El conjunto de datos `mtcars` está incluido en R por defecto; buscar en la ayuda de RStudio `mtcars` para conocer las variables que incluye. Comprobar la estructura con `str()` y visualizar las primeras observaciones con `head()`.
+a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar en la ayuda de RStudio `mtcars` para conocer las variables que incluye. Comprobar la estructura con `str()` y visualizar las primeras observaciones con `head()`.
 
-    -   Generar la variable (escalar) `Datsun710_CV` con los caballos de potencia del coche modelo Datsun 710.
+    * Generar la variable (escalar) `Datsun710_CV` con los caballos de potencia del coche modelo Datsun 710.
 
-    -   Generar el vector `Valiant_vector` con toda la información (esto es, variables) disponibles sobre el coche modelo `Valiant`.
+    * Generar el vector `Valiant_vector` con toda la información (esto es, variables) disponibles sobre el coche modelo `Valiant`.
 
 ```{r ej.4a}
 #| echo: false
@@ -387,7 +383,7 @@ Valiant_vector <- mtcars["Valiant",]
 Valiant_vector
 ```
 
-b)  Generar el vector `cilindros` con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector `cambio_vector` con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.
+b) Generar el vector `cilindros` con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector `cambio_vector` con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.
 
 ```{r ej.4b}
 #| echo: false
@@ -411,7 +407,7 @@ cambio_vector <- mtcars$am[rownames(mtcars) %in%  c("Mazda RX4", "Mazda RX4 Wag"
 cambio_vector
 ```
 
-c)  Generar `media_consumo_autom` con el consumo medio de los coches con cambio automático. Generar `media_consumo_autom_cyl4` con el consumo medio de los coches con cambio automático y cuatro cilindros.
+c) Generar `media_consumo_autom` con el consumo medio de los coches con cambio automático. Generar `media_consumo_autom_cyl4` con el consumo medio de los coches con cambio automático y cuatro cilindros.
 
 ```{r ej.4c}
 #| echo: false

@@ -1,17 +1,10 @@
 ---
-#subtitle: "Técnicas para 'Big Data' en Economía - Curso 2024/25 \n\n Universidad de Alicante"
-# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2024/25 \n\n Universidad de Alicante"
-# subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
-# subtitle: "Econometría II - Curso 2024/25 \n\n Universidad de Alicante"
 title    :  "Tema 0: Introducción a R y RStudio (Posit)"
 author:  
     - "Pedro Albarrán"
-    # - "Teresa Molina"
+
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-   
-# institute: 
-#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+
 format:
   revealjs:
     logo: figure/by-nc-sa2.png
