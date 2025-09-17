@@ -62,7 +62,7 @@ library(rio)
 library(knitr)
 ```
 
--   En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](docs/Tema00ej1_123456789.R)
+-   En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla [aquí](Tema00ej1_123456789.R)
 
 ```{r}
 #| echo: false

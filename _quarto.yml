@@ -1,6 +1,8 @@
 project:
   type: website
-  resources: data
+  #resources: data
+  resources:
+    - "docs/*.R"
 
 website:
   title: "'Big Data' para Economía (UA)"
