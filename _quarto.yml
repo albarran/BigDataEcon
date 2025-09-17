@@ -3,6 +3,7 @@ project:
   #resources: data
   resources:
     - "docs/*.R"
+    - "data/*.*"
 
 website:
   title: "'Big Data' para Economía (UA)"
