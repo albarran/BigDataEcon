@@ -23,7 +23,7 @@ strip-comments: true
 
   * Trabajo empírico final (65%)
 
-  * Examen final (35%)
+  * Ejercicios teórico-prácticos (35%)
 
 
 ***

@@ -44,7 +44,6 @@ strip-comments: true
 
 * También podéis usar la herramienta de tutorías de UACloud
 
-
 ***
 
 # Objetivos

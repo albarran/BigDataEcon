@@ -9,7 +9,6 @@ strip-comments: true
 
 * Tema 0:
   + [renta.txt](https://raw.githubusercontent.com/albarran/00datos/main/renta.txt)
-  + [renta2.txt](data/renta.txt)
   + [sex_data.csv](https://raw.githubusercontent.com/albarran/00datos/main/sex_data.csv)
   + [beauty.xls](https://raw.githubusercontent.com/albarran/00datos/main/beauty.xls)
   + [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)

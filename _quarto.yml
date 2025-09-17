@@ -6,8 +6,6 @@ project:
     - "data/*.*"
 
 website:
-  title: "'Big Data' para Economía (UA)"
-  # "Técnicas para 'Big Data' en Economía"
   navbar:
     left:
       #      - href: index.qmd
