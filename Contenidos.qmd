@@ -112,6 +112,7 @@ strip-comments: true
 
   * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
 
+  * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
 
 ## Semana 1
 (08-Sept. a 14-Sept.)
