@@ -1,6 +1,4 @@
 ---
-# title: "Técnicas para 'Big Data' en Economía"
-subtitle: "Universidad de Alicante, Curso 2025-2026 (Primer cuatrimestre)"
 lang: es
 strip-comments: true
 ---
