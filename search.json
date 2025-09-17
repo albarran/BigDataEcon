@@ -4,7 +4,7 @@
     "href": "Evaluacion.html",
     "title": "Evaluación",
     "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nExamen final (35%)"
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
   },
   {
     "objectID": "Evaluacion.html#evaluación-continua",
@@ -18,7 +18,7 @@
     "href": "Evaluacion.html#evaluación-no-continua",
     "title": "Evaluación",
     "section": "",
-    "text": "Trabajo empírico final (65%)\nExamen final (35%)"
+    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
   },
   {
     "objectID": "index.html",
@@ -2027,14 +2027,14 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio"
+    "text": "(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h\n\nTema 01 - Visualización de Datos"
   },
   {
     "objectID": "Contenidos.html#semana-2",
     "href": "Contenidos.html#semana-2",
     "title": "Contenidos",
     "section": "",
-    "text": "(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio"
+    "text": "(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h\n\nTema 01 - Visualización de Datos"
   },
   {
     "objectID": "Contenidos.html#semana-1",
@@ -2048,6 +2048,6 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nrenta2.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv"
   }
 ]
