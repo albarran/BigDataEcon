@@ -3,8 +3,7 @@ title    :  "Tema 0. Introducción a R. Ejercicio 1"
 author:  
     - "Pedro Albarrán"
 #    - "Teresa Molina"
-# institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-   
+ 
 # institute: 
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 #     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"

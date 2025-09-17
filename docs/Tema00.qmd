@@ -1,9 +1,13 @@
 ---
 title    :  "Tema 0: Introducción a R y RStudio (Posit)"
+
 author:  
     - "Pedro Albarrán"
-
-institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#    - "Teresa Molina"
+ 
+institute: 
+     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 
 format:
   revealjs:
