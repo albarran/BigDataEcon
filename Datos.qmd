@@ -17,7 +17,7 @@ strip-comments: true
 
 * Tema 1:
 
-  + [landdata-states.csv](https://raw.githubusercontent.com/albarran/00datos/main/landdata-states.csv)
+	+ [datosVisualizacion.RData](https://raw.githubusercontent.com/albarran/00datos/main/datosVisualizacion.RData)
 
 <!--
 
