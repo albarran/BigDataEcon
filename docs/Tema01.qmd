@@ -1,966 +1,701 @@
 ---
-title    :  "Tema 01 - Visualización de datos"
-
+title: "Tema 01 - Visualización de datos"
+subtitle: "La Gramática de Gráficos para Análisis Económico"
 author:  
     - "Pedro Albarrán"
     - "Alberto Pérez"
- 
-institute: 
-     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
-  # beamer:
-  #   handout: false
-  #   logo: figure/by-nc-sa2.png
-  #   titlegraphic: figure/by-nc-sa.png
-  #   theme:  Boadilla # Copenhagen # CambridgeUS #
-  #   outertheme: miniframes
-  #   colortheme: crane
-  #   section-titles: false
-  #   fontsize: 10pt
-  #   header-includes: |
-  #       \setbeamertemplate{footline}
-  #       {
-  #       \leavevmode%
-  #       \hbox{%
-  #       \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-  #       \usebeamerfont{author in head/foot}\insertshortauthor%
-  #       \end{beamercolorbox}%
-  #       \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-  #       \usebeamerfont{title in head/foot}\insertshorttitle%
-  #       \end{beamercolorbox}%
-  #       \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
-  #       \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
-  #       \end{beamercolorbox}}%
-  #       }
-  #      # - \setbeamertemplate{navigation symbols}{}
-  #      # - \setbeamertemplate{caption}[numbered]
-  #      # - \setbeamertemplate{headline}[page number]
-  #      # - \setbeameroption{show notes}
-  #      # - \setbeameroption{show notes on second screen}
   revealjs:
     logo: figure/by-nc-sa2.png
     titlegraphic: figure/by-nc-sa.png
     theme:  
-        - beige # sky # serif # simple # default # moon #  
+        - beige
         - custom.scss
     smaller: true
     scrollable: true
     embed-resources: true
     slide-number: true
     show-slide-number: all
-    transition: slide # concave # 
+    transition: slide
     background-transition: fade
     progress: true
     height: 800
     width: 1200
-    # width: 3000
-    # height: 2000
-    # margin: 0.05
+    show-notes: false  # Las notas no se muestran por defecto
+    notes-format: html # Formato de las notas
 execute:
-  enabled: true      # (no) ejecutar code chunks
-  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  enabled: true
+  eval: true
   echo: true
-  warning: false    # pero no los mensajes ni warnings
+  warning: false
   message: false
 knitr:
   opts_chunk:
-    results: hide     # ni muestra resultados ni figuras
+    results: hide
     fig.show: hide
 lang: es
 strip-comments: true
-toc: true
-toc-depth: 1
+toc: false
+toc-depth: 2
 toc-expand: false
 toc-title: "Contenidos"
 css: styles.css
 ---
 
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
-# Opciones por defecto para los fragmentos de código
 knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
                       warning = FALSE, message = FALSE,
                       results = "hide", fig.show="hide")
-# se muestra y evalúa el código,
-# no se muestran mensajes, ni avisos (warnings)
-# no se muestran los resultados de código (tampoco gráficos)
-#     en los códigos que considere necesarios los mostraré
-
-# Elimino todo del Entorno (del documento)
 rm(list = ls())       
-
-# Cargo todas las bibliotecas necesarias
-# (se podría hacer cuando cada una sea necesaria)
 library(tidyverse)
 library(rio)
-# library(tidymodels)
-# library(printr)
-# library(skimr)
-# library(dlookr)
-# library(broom)
 library(kableExtra)
-# library(rpart.plot)
-# library(vip)
-
-#fijo el directorio de trabajo
-#setwd("/home/albarran/Dropbox/MAD/00.TEC")
 library(rmarkdown)
-#render("filename.Rmd")     
-#browseURL("filename.html")
+```
+
+```{r generar-datos}
+#| eval: false
+#| echo: false
+
+library(tidyverse)
+
+# Crear directorio para datos si no existe
+if (!dir.exists("data")) dir.create("data")
+
+set.seed(123)
+
+# ========================================
+# DATASET 1: VENTAS EMPRESARIALES
+# ========================================
+# Variables:
+# - region: Norte, Sur, Este, Oeste (factor geográfico)
+# - producto: Electrónicos, Ropa, Hogar, Deporte (líneas de producto) 
+# - ventas: Ventas en miles de euros (variable continua)
+# - marketing: Inversión en marketing en miles de euros
+# - satisfaccion: Satisfacción del cliente (escala 1-5)
+# - trimestre: Q1, Q2, Q3, Q4 (factor temporal)
+
+ventas <- data.frame(
+  region = rep(c("Norte", "Sur", "Este", "Oeste"), times = c(150, 75, 110, 65)),
+  producto = rep(c("Electrónicos", "Ropa", "Hogar", "Deporte"), times = c(120, 60, 140, 80)),
+  ventas = rnorm(400, mean = 50, sd = 15) ,
+  marketing = rnorm(400, mean = 8, sd = 3),
+    trimestre = sample(c("Q1", "Q2", "Q3", "Q4"), 400, replace = TRUE)
+) %>%
+  mutate(
+    ventas = ventas + 
+           ifelse(region == "Norte", 20, ifelse(region == "Oeste", 40, 0)) +
+           ifelse(producto == "Electrónicos", 20, ifelse(producto == "Deporte", 10, 0)),
+    ventas = pmax(ventas, 10), # evitar valores negativos
+    marketing = pmax(marketing, 1),
+    satisfaccion = sample(1:5, 400, replace = TRUE), # entre 1-5
+    # Añadir correlación realista entre marketing y ventas
+    ventas = ventas + 2 * marketing + rnorm(400, 0, 5)
+  ) %>%
+  mutate(across(c(region, producto, trimestre), as.factor))
+
+# ========================================
+# DATASET 2: INDICADORES MACROECONÓMICOS
+# ========================================
+# Variables:
+# - pais: Nombre del país
+# - pib: PIB per cápita en euros
+# - desempleo: Tasa de desempleo en porcentaje
+# - inflacion: Tasa de inflación anual en porcentaje  
+# - deuda: Deuda pública como % del PIB
+# - norte: Si pertenece al Norte de Europa (Sí/No)
+# - tipo: Clasificación económica (Desarrollada)
+
+macro <- data.frame(
+  pais = c("España", "Francia", "Alemania", "Italia", "Portugal", "Grecia", 
+           "Países Bajos", "Bélgica", "Austria", "Finlandia", "Irlanda", "Luxemburgo"),
+  pib = c(27500, 49500, 66200, 32400, 23400, 17700, 
+          58900, 52500, 55400, 54300, 79000, 120600),
+  desempleo = c(13.8, 8.1, 3.6, 10.2, 6.6, 17.9, 4.9, 6.2, 4.8, 7.4, 5.1, 5.6),
+  inflacion = c(3.1, 2.8, 3.2, 1.9, 1.3, 2.1, 2.9, 3.3, 3.0, 2.1, 2.4, 3.1),
+  deuda = c(118, 112, 69, 150, 127, 193, 52, 108, 83, 73, 59, 24),
+  norte = c("No", "Sí", "Sí", "No", "No", "No", 
+            "Sí", "Sí", "Sí", "Sí", "Sí", "Sí"),
+  tipo = c(rep("Desarrollada", 12))
+) %>%
+  mutate(across(c(norte, tipo), as.factor))
+
+# ========================================
+# DATASET 3: COMPORTAMIENTO DEL CONSUMIDOR
+# ========================================
+# Variables:
+# - edad: Edad en años
+# - genero: Hombre, Mujer, Otro
+# - ingresos: Ingresos anuales brutos en euros
+# - gasto: Gasto anual en productos/servicios en euros
+# - canal: Online, Tienda_fisica, Ambos (canal preferido)
+# - segmento: Premium, Estándar, Económico (segmento de cliente)
+# - frecuencia: Semanal, Mensual, Trimestral, Anual (frecuencia de compra)
+# - ciudad: Grande, Mediana, Pequeña (tamaño de ciudad)
+
+clientes <- data.frame(
+  edad = sample(18:70, 300, replace = TRUE),
+  genero = sample(c("Hombre", "Mujer", "Otro"), 300, replace = TRUE, prob = c(0.48, 0.48, 0.04)),
+  ingresos = rnorm(300, mean = 35000, sd = 12000),
+  canal = sample(c("Online", "Tienda_fisica", "Ambos"), 300, replace = TRUE, 
+                 prob = c(0.45, 0.35, 0.20)),
+  segmento = sample(c("Premium", "Estándar", "Económico"), 300, replace = TRUE, 
+                    prob = c(0.2, 0.5, 0.3)),
+  frecuencia = sample(c("Semanal", "Mensual", "Trimestral", "Anual"), 300, replace = TRUE,
+                      prob = c(0.1, 0.4, 0.3, 0.2)),
+  ciudad = sample(c("Grande", "Mediana", "Pequeña"), 300, replace = TRUE,
+                  prob = c(0.4, 0.35, 0.25))
+) %>%
+  mutate(
+    ingresos = pmax(ingresos, 15000), # salario mínimo
+    # Gasto correlacionado con ingresos y segmento
+    gasto = case_when(
+      segmento == "Premium" ~ ingresos * 0.15 + rnorm(300, 0, 500),
+      segmento == "Estándar" ~ ingresos * 0.08 + rnorm(300, 0, 300),
+      segmento == "Económico" ~ ingresos * 0.05 + rnorm(300, 0, 200)
+    ),
+    gasto = pmax(gasto, 500) # gasto mínimo
+  ) %>%
+  mutate(across(c(genero, canal, segmento, frecuencia, ciudad), as.factor))
+
+# ========================================
+# DATASET 4: SERIES TEMPORALES DE VENTAS
+# ========================================
+# Variables:
+# - fecha: Fecha (mensual, desde 2020-01 hasta 2023-12)
+# - region: Norte, Sur, Este, Oeste
+# - ventas: Ventas mensuales en euros
+# - estacion: Invierno, Primavera, Verano, Otoño (factor estacional)
+
+fechas <- seq(as.Date("2020-01-01"), as.Date("2023-12-01"), by = "month")
+ventas_tiempo <- expand.grid(
+  fecha = fechas,
+  region = c("Norte", "Sur", "Este", "Oeste")
+) %>%
+  mutate(
+    mes = as.numeric(format(fecha, "%m")),
+    año = as.numeric(format(fecha, "%Y")),
+    # Tendencia creciente + estacionalidad + ruido
+    ventas = 50000 + 
+             1000 * (año - 2020) + # tendencia
+             5000 * sin(2 * pi * mes / 12) + # estacionalidad
+             rnorm(nrow(.), 0, 3000), # ruido
+    estacion = case_when(
+      mes %in% c(12, 1, 2) ~ "Invierno",
+      mes %in% c(3, 4, 5) ~ "Primavera", 
+      mes %in% c(6, 7, 8) ~ "Verano",
+      mes %in% c(9, 10, 11) ~ "Otoño"
+    )
+  ) %>%
+  mutate(ventas = pmax(ventas, 20000)) %>%
+  mutate(across(c(region, estacion), as.factor)) %>%
+  select(fecha, region, ventas, estacion) # mantener solo las variables principales
+
+# ========================================
+# GUARDAR ARCHIVOS
+# ========================================
+
+# ========================================
+# INFORMACIÓN DE VARIABLES (DATAFRAMES)
+# ========================================
+
+ventas_info <- data.frame(
+  variable = c("region", "producto", "ventas", "marketing", "satisfaccion", "trimestre"),
+  descripcion = c(
+    "Región geográfica (Norte, Sur, Este, Oeste)",
+    "Línea de producto (Electrónicos, Ropa, Hogar, Deporte)",
+    "Ventas en miles de euros",
+    "Inversión en marketing en miles de euros",
+    "Puntuación de satisfacción del cliente (escala 1-5)",
+    "Trimestre del año (Q1, Q2, Q3, Q4)"
+  ),
+  tipo = c("Factor", "Factor", "Numérica", "Numérica", "Numérica", "Factor")
+)
+
+macro_info <- data.frame(
+  variable = c("pais", "pib", "desempleo", "inflacion", "deuda", "norte", "tipo"),
+  descripcion = c(
+    "Nombre del país",
+    "PIB per cápita en euros",
+    "Tasa de desempleo en porcentaje",
+    "Tasa de inflación anual en porcentaje",
+    "Deuda pública como % del PIB",
+    "Norte de Europa (Sí/No)",
+    "Clasificación económica del país"
+  ),
+  tipo = c("Carácter", "Numérica", "Numérica", "Numérica", "Numérica", "Factor", "Factor")
+)
+
+clientes_info <- data.frame(
+  variable = c("edad", "genero", "ingresos", "gasto", "canal", "segmento", "frecuencia", "ciudad"),
+  descripcion = c(
+    "Edad en años",
+    "Género (Hombre, Mujer, Otro)",
+    "Ingresos anuales brutos en euros",
+    "Gasto anual en productos/servicios en euros",
+    "Canal de compra preferido (Online, Tienda_fisica, Ambos)",
+    "Segmento de cliente (Premium, Estándar, Económico)",
+    "Frecuencia de compra (Semanal, Mensual, Trimestral, Anual)",
+    "Tamaño de ciudad de residencia (Grande, Mediana, Pequeña)"
+  ),
+  tipo = c("Numérica", "Factor", "Numérica", "Numérica", "Factor", "Factor", "Factor", "Factor")
+)
+
+ventas_tiempo_info <- data.frame(
+  variable = c("fecha", "region", "ventas", "estacion"),
+  descripcion = c(
+    "Fecha mensual (2020-01 a 2023-12)",
+    "Región geográfica (Norte, Sur, Este, Oeste)",
+    "Ventas mensuales en euros",
+    "Estación del año (Invierno, Primavera, Verano, Otoño)"
+  ),
+  tipo = c("Fecha", "Factor", "Numérica", "Factor")
+)
+
+# Guardar todos los datasets e información en un solo archivo RData
+save(ventas, macro, clientes, ventas_tiempo, 
+     ventas_info, macro_info, clientes_info, ventas_tiempo_info, 
+     file = "data/datosVisualizacion.RData")
 ```
 
 
-## Introducción
+## ¿Por qué visualizar datos?
 
+<!-- ## ------------------------------------------------------------------- -->
+:::: {.notes}
 
-<!-- * La visualización es una forma de **obtener información** que no se vería en los datos en bruto (en una hoja de cálculo) -->
+**Objetivos de Aprendizaje**
 
-<!--     - posición central, dispersión, valores extremos  -->
-<!--     - identificar patrones -->
+Al finalizar este tema, serás capaz de:
 
-* La representación visual permite resumir **información** e identificar patrones que no se verían en los datos en bruto (en una hoja de cálculo).
-
-* En un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin *abrumar* con muchos hallazgos
-
-<!--
-    - NO abrumar con muchos hallazgos interesantes
--->
-
-* Usaremos la biblioteca `ggplot2`, <!-- (de `tidyverse`)--> basada en la <!--teoría de visualización conocida como--> *Gramática de Gráficos* (Wilkinson, 2005)
-
-  - algunos gráficos simples requieren más opciones que en R base
-  
-  - PERO ofrece facilidades para gráficos complejos y profesionales
-
-
-<!--
-```{r, echo=F, eval=F}
-hist(housing$Home.Value)
-```
-
-```{r, echo=F, eval=F, warning=FALSE, message=FALSE}
-library(tidyverse)      # incluye  library(ggplot2)
-ggplot(housing, aes(x = Home.Value)) +
-  geom_histogram()
-```
-
-```{r, echo=F, eval=F}
-plot(Home.Value ~ Date,
-     data=subset(housing, State == "MA"))
-points(Home.Value ~ Date, col="red",
-       data=subset(housing, State == "TX"))
-legend(1975, 400000,
-       c("MA", "TX"), title="State",
-       col=c("black", "red"),
-       pch=c(1, 1))
-```
-
-```{r, echo=F, eval=F}
-ggplot(subset(housing, State %in% c("MA", "TX")),
-       aes(x=Date,
-           y=Home.Value,
-           color=State))+
-  geom_point()
-```
--->
-
-<!--
-<center>
-![](figure/Economist1.jpg)
-</center>
--->
-
-* Otras bibliotecas: `rgl` (gráfics 3D), `ggvis` (interactivos), `plotly`
-
-<!--  * Gráficos de teoría de grafos (diseño de nodos / bordes, ver el paquete `igraph`) -->
-  
-
-## Elementos básicos de un gráfico de datos
-
-1. **Señales visuales**: posición, longitud, área, etc.
-      
-2. **Sistema de coordenadas**: ¿cómo se organizan los puntos de datos?
-
-    - cartesiano, polar, geográfico
-      
-3. **Escala**: ¿cómo se traduce la distancia en algo con significado?
-
-    - numérica lineal, numérica logarítmica, categórica, de tiempo
-    
-4. **Contexto**: ¿en relación con qué? 
-
-    - títulos, leyendas, etiquetas de ejes, puntos/líneas de referencia
-      
-5. Otros: facetas/pequeños múltiplos, capas, animaciones, etc.
-
-* **"Por encima de todo, mostrar los datos"**
-
-<!--
-<center>
-![](figure/taxonomy00b.jpg){width=55%}
-</center>
-
--->
-
-
-<!--
-## Señales visuales
-
-<center>
-![](figure/taxonomy01B.png){width=50%}
-</center>
--->
-
-<!--
-## Señales Visuales (cont.)
-
-:::: {style="display: flex;"}
-
-::: {}
-
-* Dependen del tipo de información (numérica o categórica)
-
-  - Posición, longitud, dirección, ángulo, área o volumen para numérica
-  
-  - forma para categórica
-  
-  - sombra/matiz y color pueden usarse para ambos
-
-* Puede usarse una combinación de ellas para distinta información
-
-:::
-
-::: {}
-
-<center>
-![](figure/taxonomy07.png){width=105%}
-</center>
-
-:::
+- Comprender los **principios fundamentales** de la visualización de datos
+- Usar la **gramática de gráficos** implementada en ggplot2
+- Crear **visualizaciones efectivas** para análisis exploratorio
+- Aplicar **buenas prácticas** en la comunicación visual de datos
 
 ::::
 
--->
+<!-- ## ------------------------------------------------------------------- -->
 
 
-## Señales Visuales
+- **Resumir información** <!--de manera intuitiva--> que no se vería en los datos en bruto (hoja de cálculo)
 
-<!--
-##  ¿Qué señales visuales son más efectivas?
--->
+- **Identificar patrones** y relaciones entre variables
+
+- **Comunicar hallazgos** de forma efectiva a diferentes audiencias  
+
+. . .
+
+- La visualización es esencial en:
+
+  - *Bancos Centrales*: dashboard de indicadores macroeconómicos
+  - *Consultoras*: presentaciones ejecutivas con insights de datos
+  - *Investigación*: trabajos con gráficos que demuestran hipótesis
+  - *Medios*: The Economist, Financial Times - visualización como marca
+  - *Empresas*: dashboards de KPIs, segmentación de clientes
+
+- En un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin *abrumar* con muchos hallazgos
+
+## `ggplot2` y la Gramática de Gráficos
+
+- Componentes básicos:
+
+  - *Datos*
+
+  - *Estéticas (aes)*: asocia variables a propiedades visuales (posición, longitud, área, color)
+
+  - *Geometrías (geom)*: objetos para representar datos (líneas, círculos, barras)
+
+  - *Escalas*, *Sistemas de coordenadas*, *Facetas* (subgráficos), *Contexto* (títulos, leyendas), etc.
+
+- Construir gráficos como frases gramaticales
+
+  - sujeto + verbo + objeto = oración
+
+  - datos +  geometría + estética = gráfico de `ggplot2`
+
+<!-- ## ------------------------------------------------------------------- -->
+
+:::: {.notes}
+
+**Elementos Básicos de un Gráfico**
+
+1. Señales Visuales (Aesthetics)
+
+  - **Posición**: ubicación en ejes x, y
+  - **Color**: matiz para distinguir categorías o magnitudes
+  - **Tamaño**: área/radio para representar magnitudes
+  - **Forma**: símbolos diferentes para categorías
+  - **Transparencia**: nivel alpha para densidad o solapamiento
+
+2. Sistema de Coordenadas
+
+  - Cartesiano (por defecto)
+  - Polar: `coord_polar()`  
+  - Geográfico: `coord_map()`
+
+3. Escala
+
+  - Numérica lineal, logarítmica
+  - Categórica, temporal
+  - ¿Cómo se traduce la distancia en algo con significado?
+
+4. Contexto
+
+- Títulos, leyendas, puntos/líneas de referencia
+
+::::
+
+<!-- ## ------------------------------------------------------------------- -->
 
 
-<center>
-![](figure/taxonomy01.F.1.png){width=105%}
-</center>
+**"Por encima de todo, mostrar los datos"**
 
-<!--
-El ser humano percibe mejor diferencias en posición que en ángulo: por eso, mucha gente prefiere gráficos de barras a gráficos de tarta. Nuestra relativamente pobre percepción de diferencias en colores explica que se utilicen poco los mapas de calor.
-
--->
-
-<!--
-
-## Sistema de coordenadas
-
-<center>
-![](figure/taxonomy06.png)
-</center>
-
--->
-
-<!--
-
-## Escala
-
-<center>
-![](figure/taxonomy03.0.png){width=70%}
-</center>
-
--->
-
-<!--
-
-Escala logaritmitca comprime valores
-
-Como respresentar en rango 0-100 frente a rango 80-90
-
--->
-
-<!--
-### Poniéndolo todo junto
-
-![](figure/taxonomy06.png)
--->
-
-## La "Gramática de Gráficos"
-
-<!--
-* El paquete `ggplot2` se basa en la denominada "Gramática de Gráficos", un marco desarrollado por Wilkinson (2005) para especificar los componentes de un **gráfico estadístico** de manera similar a la forma en que se construyen las frases en cualquier idioma mediante el uso de una gramática lingüística (nombres, verbos, temas, objetos, etc.).
-
-* La idea básica es especificar de forma *independiente* bloques de construcción del gráfico y combinarlos para crear prácticamente cualquier tipo de visualización gráfica que se desee.
-
-* Los cuatro elementos de gráficos discutidos anteriores (señales visuales, sistema de coordenadas, escala y contexto) también se encuentran en la gramática de los gráficos, aunque con diferentes términos. Por lo tanto, es esencial para entender la taxonomía de los gráficos con el fin de utilizar `ggplot2`.
--->
-
-* Especificar bloques *independientes* y combinarlos para crear cualquier visualización gráfica, como las frases a partir de nombres, verbos, objetos, etc.
-
-* Bloques de construcción de un gráfico
-
-  - Datos:  `data`
-
-  - Objeto geométrico (qué dibujamos: líneas, puntos, barras, etc.): `geom_*()`
-
-  - Atributos estéticos (del objeto geométrico, como posición, color, forma, tamaño) que transmiten información de una variable: `aes()`
-
-  - Escalas (rango of valores, colores, etc.): `scale_*()`
-
-  - Sistema de Coordenadas
-  
-  - Facetas (pequeños múltiplos): `facet_wrap()`, `facet_grid()`
-
-<!--  
-* Transformaciones estadísticas
-
-* Ajustes de posición
--->
-
-<!--
-## Ejemplo básico con `ggplot2::mpg`
-
-La base de datos `mpg` contiene observaciones recopiladas por la Agencia de Protección Ambiental de EE.UU. para 38 modelos de automóviles.
-
-```{r, echo=TRUE, eval=FALSE}
-class(mpg)
-head(mpg)
-```
-
-Vemos que `mpg` es un objeto de tipo "tibble"", que es un "data.frame" simplificado y adaptado para manejar mejor datos grandes. Entre las variables en `mpg` se encuentran:
-
-  * `displ`, el tamaño del motor de un coche, en litros.
-
-  * `hwy`, la eficiencia de un coche en carretera, en millas por galón (mpg). Un coche con bajo eficiencia consume más combustible que uno con alta eficiencia de combustible cuando recorren la misma distancia.
-
-[Más información sobre `mpg`, ejecutando `?mpg`.]
--->
 
 ## Creando un "ggplot"
 
-```{r}
-ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+```{r cargar}
+#| eval: false
+library(ggplot2)
+load("data/datosVisualizacion.RData")
+```
+
+. . .
+
+- Solo `ggplot()`  crea un gráfico vacío
+
+```{r ejemplo-basico0}
+#| eval: false
+ggplot(data = ventas)
+```
+
+- `aes()` define **cómo las variables se asignan a propiedades visuales**
+
+```{r ejemplo-basico1}
+#| eval: false
+
+ggplot(data = ventas, aes(x = marketing, y = ventas))
+```
+
+- Añadir capas con `+`: objeto geométrico `geom_point()`
+
+```{r ejemplo-basico2}
+#| eval: false
+ggplot(data = ventas, aes(x = marketing, y = ventas)) + 
   geom_point()
 ```
 
-```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy))
+. . .
+
+- **NOTAR**: datos y estética para *todas* las capas o solo para una
+
+```{r ejemplo-alternativo}
+#| eval: false
+
+ggplot(data = ventas) + 
+  geom_point(aes(x = marketing, y = ventas))
 ```
 
-* `ggplot(data = mpg)` = gráfico vacío (coordenadas cartesianas, por defecto)
-
-* Añadir capas con  `+`: ej., objeto geométrico del tipo puntos =  `geom_point()` 
-
-*  El argumento `mapping`, asociado a `aes()`, define **cómo las variables son asignadas a propiedades visuales**
-
-    + `x` e `y` especifican qué variables asignar a cada eje
-
-<!--aunque producen el mismo gráfico-->
-
-* NOTA: el primer código define datos y estética para *todas* las capas que siguen; el segundo solo para el objeto geométrico de puntos.
-
-
-## Objetos geométricos
-
-* Cada `geom_*()` agrega un tipo diferente de capa/marcas en el gráfico <!--tipo de gráfico--> 
-
-  - puntos (`geom_point`, para diagramas de dispersión, de puntos, etc.)
-  - líneas (`geom_line`, para series de tiempo, líneas de tendencia, etc.)
-  
-  - diagrama de caja (`geom_boxplot`)
-  
-  - etc.
-
-
-<!--
-Un gráfico debe tener al menos un `geom`, pero no hay un límite superior.
--->
-
-* Para una lista de objetos geométricos disponibles, buscar las funciones que comienzan con `geom_` en la Ayuda
-
-<!--
-```{r, echo=FALSE, eval=FALSE}
-help.search ("geom_", package = "ggplot2")
+```{r ejemplo-alternativo2}
+#| eval: false
+#| echo: false
+ggplot(data = ventas) + 
+  geom_point(mapping = aes(x = marketing, y = ventas))
 ```
 
-o simplemente escribien `geom_<tab>` en RStudio para ver una lista de funciones que.
--->
+
+## Objetos Geométricos
+
+Cada `geom_*()` agrega un tipo diferente de capa: 
+
+
+| Tipo | Función | Uso Principal |
+|------|---------|---------------|
+| **Puntos** | `geom_point()` | Dispersión, correlaciones |
+| **Líneas** | `geom_line()` | Series temporales |
+| **Barras** | `geom_bar()` | Frecuencias categóricas |
+| **Histograma** | `geom_histogram()` | Distribución continua |
+| **Cajas** | `geom_boxplot()` | Estadísticos descriptivos |
+| **Suavizado** | `geom_smooth()` | Tendencias, regresión |
+| **Texto** | `geom_text()` | Etiquetas, anotaciones |
+
+Para lista completa: buscar funciones que comienzan con `geom_` en Ayuda
 
 ## Elementos Estéticos con `aes()`
 
-* Elementos estéticos son "algo que se puede ver" (información)
+:::: {.notes}
 
-* Cada elemento estético con `aes()` es un asociación ("mapping") entre una señal visual y una **variable**
+Elementos estéticos son "algo que se puede ver" (información)
 
-  * posición (p.e., en los ejes x e y)
-  * color (color "exterior")
-  * relleno (color "interior"), `fill`
-  * forma (de los puntos), `shape`
-  * tipo de línea, 
-  * tamaño, `size`
+::::
 
-* Cada `geom` acepta solo un subconjunto de todos los elementos estéticos. 
-  - En la ayuda de cada `geom` se puede ver qué asignaciones acepta en `aes()`.
-  
-<!-- y cuales obligatorias y cuales opcionales-->
+- Cada `aes()` es una asociación entre una **señal visual** y una **variable**:
+
+  - **posición**: `x`, `y`  
+  - **color**: color exterior
+  - **relleno**: `fill` (color interior)
+  - **forma**: `shape` (de los puntos)
+  - **tipo de línea**: `linetype`
+  - **tamaño**: `size`
+
+- **Regla de oro**: Si quieres que algo varíe con los datos, ponlo en `aes()`
+
+```{r ejemplo-esteticas}
+#| eval: false
+ggplot(ventas, aes(x = marketing, y = ventas)) +
+  geom_point(aes(color = region, size = satisfaccion))
+```
+
+- Cada `geom` acepta solo un subconjunto de estéticas (ver ayuda) 
 
 
-## `esquisse`: una interfaz gráfica <!--para `ggplot2`-->
+<!-- ## ------------------------------------------------------------------- -->
 
-<!-- 
-https://www.r-bloggers.com/2023/08/r-esquisse-how-to-explore-data-in-r-through-a-tableau-like-drag-and-drop-interface/
--->
+:::: {.notes}
 
-* `esquisse` implementa de forma visual ("arrastrar y soltar") la lógica de composición de gráficos de `ggplot2`
-  + Similar a otras herramientas como [Tableau](https://www.tableau.com/) o [PowerBI](https://powerbi.microsoft.com/) o [Gapminder](https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1) 
+**`esquisse`: Interfaz Gráfica**
 
-* Ejecutamos `esquisser()` para crear el gráfico, eligiendo datos <!--(en el entorno de trabajo o desde archivo)--> <!--o pasándolos como argumento-->
+`esquisse` implementa visualmente la lógica de `ggplot2`:
 
-```{r}
+- Similar a Tableau, PowerBI, Gapminder
+- "Arrastrar y soltar" variables a estéticas
+
+```{r esquisse-demo}
 #| eval: false
 #install.packages("esquisse")
 library(esquisse)
 esquisser()                         
 data("mpg")
-esquisser(mpg, viewer = "browser")   # lanzar visor externo   
+esquisser(mpg, viewer = "browser")   
 ```
 
-<!-- 
-sin visor externo, puede verse mal
--->
+**Características:**
+- Elegir tipo de gráfico, estéticas, títulos, apariencia
+- Genera código R para crear el gráfico  
+- Descargar gráfico creado
+- Ayuda para aprender cómo hacer las cosas
+
+::::
+
+<!-- ## ------------------------------------------------------------------- -->
 
 
-* Se pueden elegir muchos (no todos) aspectos del gráfico que veremos en este tema: tipo de gráfico, asignaciones estéticas, títulos, apariencia, etc.
+## Asociación Estética vs. Opción Fija
 
-  <!-- * también usar un subconjunto de datos (de una forma no vista aún) -->
-    
-* Genera un posible código de R para crea el gráfico
+- Con `aes()`, se visualiza una **variable** con una señal visual
 
-<!--
-El código es diferente (muchas formas de hacer lo mismo):
-+ aes() añadido como capa
-+ xlab() en lugar de labs(x=)
--->
-
-* También se puede descargar el gráfico creado
-
-<!-- Ayuda para saber cómo hacer cosas -->
-
-
-
-## Gráficos como objetos de R
-
-<!--
-* La salida de la función `ggplot()` es un objeto de R. 
--->
-
-```{r}
+```{r mapeo-estetico}
 #| eval: false
-housing   <- rio::import("data/landdata-states.csv")
-hp2001Q1  <- housing[housing$Date == 2001.00,] 
-graf_base <- ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +
+ggplot(macro, aes(y = desempleo, x = pib)) +
+  geom_point(aes(shape = norte, color = deuda))
+```
+
+- Fuera de `aes()`, se establece un **valor fijo** de la señal visual
+
+```{r opcion-fija}
+#| eval: false
+ggplot(macro, aes(y = desempleo, x = pib)) +
+  geom_point(shape = "diamond", color = "blue", size = 3)
+```
+
+
+:::: {.notes}
+**Nota**: `norte` (carácter) se convierte automáticamente a factor: → escala categórica
+::::
+
+## Gráficos como Objetos
+
+- Un gráfico también es un objeto de R
+
+```{r objetos-graficos}
+#| eval: false
+#| echo: true
+graf_base <- ggplot(macro, aes(y = desempleo, x = pib)) +
                 geom_point()
 ```
 
-```{r}
-#| echo: false
+- Se pueden agregar capas a este objeto:
+
+```{r capas-objetos}
 #| eval: false
-# str(graf_base)
+#| echo: true
+graf_base + geom_line()
+graf_base + geom_point(aes(shape = norte)) 
+graf_base + geom_point(aes(size = inflacion, color = deuda))
 ```
 
+- **Principio**: Añadir señal visual para representar información adicional, NO para "embellecer"
 
-<!--
-* No se muestra hasta que no se muestra el objeto: la asignación NO imprime
-
-```{r}
-glimpse(graf_base)  # objeto tipo lista con 9 elementos
-graf_base
-```
--->
-
-* Se pueden agregar capas a este objeto gráfico y mostrarlo
-
-```{r}
-graf_base + geom_line()        # ¿tiene sentido este gráfico?
-graf_base + geom_point(aes(shape = region)) 
-```
-
-* Añadimos una señal visual de formas (o color, etc.), NO para "embellecer" sino para representar la información de una variable adicional
+- NO saturar el gráfico con estéticas fijas o información innecesaria
 
 
-* NO saturar el gráfico con estéticas fijas o información innecesaria
+## Datos (y estéticas) específicas por capa
 
-```  {r}
-graf_base + geom_point(aes(size = Home.Price.Index,   
-          color=Home.Value))    # ¿qué aportan estas variables?
+:::: {.notes}
+- Recordad: cada capa puede usar **datos** o **estéticas** distintas
+::::
+
+#### Ejemplo práctico:
+
+- `geom_text()`: acepta estéticas de etiquetas (variables con texto):
+```{r texto}
+#| eval: false
+graf_base + geom_text(aes(label = pais), size = 3)
+
+library(ggrepel)  # Evita solapamiento
+graf_base + geom_text_repel(aes(label = pais), size = 3)
 ```
 
-
-<!--
-## Asociación ("mapping") estética y Asignación de opción fija.
--->
-
-## Asociación estética y Asignación de opción fija
- 
-* Una asociación ("mapping") estética, con `aes()`, visualiza una variable 
-
-<!--con una señal visual-->
-
-* Una opción estética establece, fuera de `aes()`, un valor fijo de la señal visual
-
-
-<!--
-OJO: graf_base ya tiene point() y luego sobreponemos otrs
-```  {r}
-graf_base +
-  geom_point(shape = "cross",  color="red")   
-
+- Ahora con datos específicos por capa si solo queremos señalar algunos puntos
+```{r subconjuntos}
+#| eval: false
+graf_base + 
+  geom_text_repel(
+    data = subset(macro, 
+                  pais %in% c("España","Francia","Alemania")), 
+    aes(label = pais), size = 3)
 ```
 
--->
+- Esta idea se puede **generalizar**: usar distintos datos o estéticas en cada capa según las necesidades del gráfico
 
-```  {r}
-ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +
-  geom_point(shape = "cross",  color="red")   
+## Gráficos que muestran datos transformados
+
+- Algunos gráficos (ej., *dispersión*) muestran los datos originales directamente
+
+```{r transformaciones-originales}
+#| eval: false
+#| echo: false
+ggplot(clientes, aes(x = ingresos/1000, y = gasto/1000)) + 
+      geom_point()
 ```
 
-```  {r}
-ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +
-  geom_point(aes(shape = region, color=Home.Value))
-
-ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +
-  geom_point(aes(shape = region, color=Home.Value),
-             size = 3)
+```{r transformaciones-originales2}
+#| eval: false
+ggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point()
 ```
 
-* Nota: `region`, carácter convertido a factor, se representa en escala categórica
+- Pero otros gráficos representan estadísticas calculadas a partir de los datos
 
-<!-- información cualitativa vs. cuantitativa -->
-
-
-## Más `geoms`: "Smoothers" y Texto 
-
-* No todos los `geom`s son formas simples: aquí, por defecto, una línea (función no lineal estimada) y un área (intervalo de confianza de la predicción)
-
-```{r, echo=TRUE,eval=FALSE}
-graf_base + geom_smooth()
+- `geom_smooth()`: regresión → predicciones
+```{r smoothers}
+#| eval: false
+graf_base + geom_smooth()           # con intervalos de confianza
 graf_base + geom_smooth(method = lm, se = FALSE)  
 ```
 
-<!--
+
+:::: {.notes}
 
 * Podríamos agregar la línea de regresión "manualmente"
 
-```{r, echo=TRUE,eval=FALSE}
-res <- lm(Structure.Cost ~ Land.Value, data = hp2001Q1)
-hp2001Q1$pred.SC <- res[["fitted.values"]]
-graf_base +  geom_line(aes(y = pred.SC))  # ERROR: pred.SC no estaba en graf_base
+```{r}
+#| echo: true
+#| eval: false
+res <- lm(gasto ~ ingreso, data = clientes)
+clientes$ingreso_pred <- res[["fitted.values"]]
+# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base
 
-graf_base <- ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) + geom_point()
-graf_base + geom_line(aes(y = pred.SC))
+graf_base <- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()
+graf_base + geom_line(aes(y = ingreso_pred))
 ```
 
 * NO necesitamos repetir la estetica de posición `x` para `geom_line()` porque ya está definida en `graf_base`
 
-* Igual que 
+::::
 
-x <- 2
-y <- x + 3
-x <- 10
-# y es 5
--->
+- `geom_boxplot()`: datos → cuartiles, mediana
 
+:::: {.columns}
 
-* Cada `geom` acepta un conjunto particular de asignaciones:  `geom_text()` acepta etiquetas 
+::: {.column}
 
-``` {r, echo=T,eval=FALSE}
-graf_base + geom_text(aes(label=State), size = 3)
-```
-
-
-* Si queremos el punto **y** la etiqueta de texto 
-
-``` {r}
-#install.packages("ggrepel") 
-library(ggrepel)
-graf_base + geom_text_repel(aes(label=State), size = 3)
-```
-<!--
--->
-
-<!--
-* Podemos modificar opciones para mejorar la visualización
-
-``` {r}
-#| echo: false
+```{r boxplot-ejemplo}
 #| eval: false
-graf_base + geom_text(aes(label=State), size = 3, 
-                      hjust = -0.5, vjust = -0.5 )
-```
--->
-
-## Comentario
-
-* Cada objeto geométrico puede tener características propias
-
-    - usar datos distintos para diferentes objetos, 
-    - utilizar diferentes estéticas en distintos objetos, etc.. 
-    
-* Por ejemplo, usamos solo un subconjunto de los datos para el objeto geométrico de texto
-
-<!--
-
-* solo mostrar un subconjunto para TODO el gráfico
-
-ggplot(hp2001Q1[hp2001Q1$State %in% c("NY", "NJ", "CA", "KY"),], 
-       aes(y = Structure.Cost, x = Land.Value)) + 
-  geom_point() + geom_text_repel(aes(label=State), size = 3)
-
-* frente a subconjunto para una capa
--->
-
-``` {r}
-#| echo: false
-#| eval: false
-graf_base + geom_point() + 
-  geom_text_repel(
-    data=hp2001Q1[hp2001Q1$State %in% c("NY","NJ","KY"),],
-    mapping=aes(label=State), size = 3)
-```
-
-``` {r}
-#| echo: false
-#| eval: false
-graf_base + geom_point() + 
-  geom_text(
-    data = hp2001Q1 %>% filter(State %in% c("NY","NJ","KY")), 
-    mapping = aes(label=State), size = 3, 
-                      hjust = -0.5, vjust = -0.5 )
-```
-
-
-``` {r}
-#| echo: false
-#| eval: false
-graf_base + geom_point() + 
-  geom_text_repel(
-    data = hp2001Q1 %>% filter(State %in% c("NY","NJ","KY")), 
-    mapping = aes(label=State), size = 3)
-```
-
-``` {r}
-#| echo: true
-#| eval: false
-graf_base + geom_point() + 
-  geom_text_repel(
-    data = subset(hp2001Q1, State %in% c("NY","NJ","KY")), 
-    mapping = aes(label=State), size = 3)
-```
-
-
-<!--
-  - La selección también puede hacerse
-
-``` {r}
-#| echo: false
-#| eval: false
-data = subset(hp2001Q1, State %in% c("NY","NJ","KY"))
-data = hp2001Q1[hp2001Q1$State=="NY" | hp2001Q1$State=="NJ"| hp2001Q1$State=="KY",]
-```
-  
---> 
-
-
-## Transformaciones Estadísticas
-
-* En algunos gráficos, como el de dispersión, cada punto grafica unas coordenadas (x e y) iguales al valor original de las variables a representar (aunque podemos transformarlas)
-```{r}
-ggplot(hp2001Q1, aes(x = log(Land.Value), y = Structure.Cost)) + 
-      geom_point()
-```
-
-
-<!--
-* Otros gráficos, como diagramas de cajas, histogramas, líneas de predicción, etc., no  representan las variables originales, sino una transformación: p.e., "smoother" obtiente coeficientes y predice
--->
-
-* Otros gráficos representan estadísticas obtenidas a partir de las variables (no las variables directamente)
-
-:::: {style="display: flex"}
-::: {}
-
-* Para "smoother", se calcula una regresión
-
-* Para un gráfico de caja, se calculan estadísticos descriptivos
-  
-```{r, echo=T, eval=F}
-ggplot(hp2001Q1, 
-       aes(y = Home.Value/1000)) +  
+ggplot(clientes, 
+       aes(y = gasto/1000)) +  
   geom_boxplot()
 ```
 
 :::
-::: {}
+
+::: {.column}
 
 <center>
-![](figure/boxplot.png){width=100%}
+![](figure/boxplot_spanish.svg){width=60%}
 </center>
+
 :::
+
 ::::
 
-<!--
-* La estadística predeterminada de cada `geom` puede cambiarse 
 
+## Gráficos que muestran datos transformados (cont.)
 
-(ej., para `geom_bar` es `stat_count`)
+- `geom_bar()` y `geom_histogram()`: datos → frecuencias por intervalo
 
-```{r}
-  args(geom_histogram)
-  args(stat_bin)
-```
--->
+- La estadística predeterminada en `geom_bar()` es contar casos (`stat_count`)
 
+  - Notad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)
 
-## Modificar las Transformaciones Estadísticas
-
-<!--
-Los argumentos a las funciones `stat_` pueden pasarse a través de las funciones` geom_`. Esto puede ser un poco molesto porque para cambiarlo primero debe determinar qué estadística usa el geom, luego determinar los argumentos para esa estadística.
-
-* También podemos cambiar argumentos de la transformación estadística.
-
-```{r, echo=F, eval=F}
-graf <- ggplot(housing, aes(x = Home.Value))
-graf + geom_histogram()
-```
--->
-
-<!-- * En `geoms` que representan estadísticas, podemos cambiar qué calcular o cuáles representar -->
-
-* Podemos cambiar qué estadísticas calcular o representar en `geoms` que representan estadísticas
-
-* Un histograma (variables continuas) depende de qué intervalos definamos para calcular las frecuencias: podemos cambiar el número de grupos (`bins`) o su ancho (`binwidth`) <!-- a la función `stat_bin`: --> o fijar los rangos (`breaks`)
-```{r}
-#| echo: true
+```{r barras}
 #| eval: false
-graf <- ggplot(housing, aes(x = Home.Value))
-graf + geom_histogram(stat = "bin", binwidth=4000)
-graf + geom_histogram(stat = "bin", bins=40)
+ggplot(ventas, aes(x = region)) + geom_bar()
 ```
-  +  Podemos representar la densidad, en lugar de  frecuencias absolutas
-```{r}
+
+:::: {.notes}
+
+- Con datos ya transformados, usar `stat = "identity"`:
+
+```{r barras-identity}
+#| eval: false
+# Frecuencias automáticas
+ggplot(ventas, aes(x = region)) + geom_bar()
+
+# Valores ya calculados - ventas promedio por región
+ventas_promedio <- ventas %>% 
+  group_by(region) %>% 
+  summarise(venta_media_miles = mean(ventas))
+
+ggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + 
+  geom_bar(stat = "identity")
+```
+
+::::
+
+
+- Para variables continuas, no existen categorías "naturales" para calcular las frecuencias
+
+  - Se tienen que definir "arbitrariamente" los intervalos
+  
+  - Distintas elecciones pueden revelar distinta información
+
+```{r histograma-parametros}
+#| eval: false
+graf <- ggplot(clientes, aes(x = ingresos/1000))
+graf + geom_histogram(bins = 20)              # Número de grupos
+graf + geom_histogram(binwidth = 3)           # Ancho de grupos
+graf + geom_histogram(breaks = seq(10,90,5))  # Rangos
+```
+
+```{r histograma-densidad}
 #| echo: false
 #| eval: false
-graf + geom_histogram(stat = "density" )  
-graf + geom_histogram(aes(y=..density..)) + geom_density() # o ambas
-```
-
-```{r}
-#| echo: true
-#| eval: false
-graf + geom_histogram(stat = "density" )  
-```
-
-
-<!-- 
-
+graf + geom_histogram(aes(y = after_stat(density))) # Densidad vs. frecuencia
 graf + geom_density()
-
-graf + geom_histogram(bins = 50)
-
-graf + geom_histogram() + geom_density()  # no se ve densidad
-cambiar si representa frecuencia absoluta (contar) o relativa
-
-graf + geom_freqpoly()
--->
-
-
-<!--
-
-## Usar una transformación estadística diferente
-
-¿Cuál es el problema con el gráfico anterior? Básicamente tomamos datos agrupados y resumidos y pedimos a `ggplot` que los agrupes (en "bins") para la posición `x` y los resuma nuevamente (`geom_bar` tiene un valor predeterminado para `stat = stat_count`). Obviamente, esto no funcionará. Podemos arreglarlo diciendo a `geom_bar` que use una función de transformación estadística diferente:
-
--->
-
-<!--
-* La estadística predeterminada para `geom_bar` es `stat_count` (contar) <!-- el número de casos--><!--, pero puede no ser lo deseado con datos ya transformados: usar OTRA estadística
--->
-
-* En un gráfico de barras (variables discretas), se calculan por defecto frecuencias de una variable, pero podemos representar <!--el valor de--> otra variable, con `identity`
-
-
-<!--
-* Pero esto puede no ser lo deseado; p.e., con datos previamente transformados: NO puede volver a resumir
-
-* así se haría en excel
-
-* identity = no transformar como en gráfico de dispersión
--->
-
-```{r, echo=F, eval=F}
-ggplot(housing, aes(x = region)) + geom_bar()
-housing %>% count(region) %>% mutate(prop = n/sum(n)) %>% 
-  ggplot(aes(x = region, y = prop)) + geom_bar(stat = "identity")
-```
-
-```{r, echo=F, eval=F}
-ggplot(housing, aes(x = region)) + geom_bar()
-housingReg <- as.data.frame(,col.names=c("Region", "Freq", prop.table(table(housing$region)))
-ggplot(houseingReg, aes(x = names(.), y = .)) + geom_bar(stat = "identity")
-# housing %>% count(region) %>% mutate(prop = n/sum(n)) %>% 
-#   ggplot(aes(x = region, y = prop)) + geom_bar(stat = "identity")
 ```
 
 
-<!--
+## Escalas: Control de Asociación Estética
 
-ggplot(housing, aes(x = region, y = ..count../sum(..count..))) + geom_bar()
+- `aes()` establece **qué** variable asignar, la escala **cómo** representarla
 
-Region <- table(housing$region)
-Region_df <- tibble(nombre = names(Region), casos = Region)
-
-ggplot(Region_df, aes(x=nombre, y=casos)) + geom_bar()
-ggplot(Region_df, aes(x=nombre, y=casos)) + geom_bar(stat="identity")  # NO transformar
-
--->
-
-<!--
-Nota: se pueden representar columnas horizontales con `geom_col`.
-
-o cambiando x e y
-
-ggplot(Region_df, aes(y=nombre, x=casos)) + geom_bar(stat="identity")  # NO transformar
-
--->
+- Funciones de escala: `scale_<estética>_<tipo>`. Ejemplos,
 
 
-## Escalas: control de la asociación estética
-
-<!--
-La asociación estética (es decir, con `aes()`) solo dice que una variable debe ser asignada a una estética. No dice *cómo* eso debería suceder. 
-
-Por ejemplo, cuando se asocia una variable con la *forma* con `aes(shape=x)` no se dice *qué* formas se deben usar. Del mismo modo, `aes(color=z)` no dice *qué* colores deben usarse. 
-
-Describir qué colores/formas/tamaños etc. usar se realiza modificando la *escala* correspondiente. En las escalas `ggplot2` se incluyen
-
-- posición
-- color y relleno
-- tamaño
-- forma
-- tipo de línea
--->
-
-*  `aes()` establece la variable asignada, no **cómo** se representa
-
-    - `aes(shape = region)`: qué forma para cada región
-    - `aes(color = Home.Value)`: qué color para cada valor
-
-* Las funciones para modificar la escala siguen el esquema `scale_<estética>_<tipo>`
-
-<!--
-Escribir `scale_<tab>` para ver una lista de funciones de modificación de escala.
--->
-
-* Argumentos habituales para la escala:
-
-    * `name`: título de la escala (en eje o leyenda)
-    * `limits`: el mínimo y el máximo de la escala
-    * `breaks`: valores donde deberían aparecer las etiquetas
-    * `labels`: las etiquetas que aparecen en cada `break`
-
-* Funciones específicas de escala  pueden tener argumentos adicionales
-
-<!--
-; por ejemplo, la función `scale_color_continuous` tiene argumentos `low` y `high` para configurar los colores en el extremo alto y bajo de la escala.
--->
-
-## Ejemplos de modificación de escala
-
-<!--
-```{r, echo=F, eval=F}
-g2 <- ggplot(housing, aes(y = State, x = Home.Price.Index)) + 
-           geom_point(aes(color = Date),
-                         alpha = 0.5,
-                         size = 1.5,
-                         position = position_jitter(width = 0.25, height = 0))
-g2
-```
--->
-
-```{r, echo=T, eval=F}
-g2 <- ggplot(housing, aes(y = State, x = Home.Price.Index)) + 
-  geom_point(aes(color = Date))
-```
-
-<!--
-* Cambiamos las etiquetas para el eje vertical
-
-```{r, echo=F, eval=F}
-g2 <- g2 + scale_y_discrete(name="Abrev. Estado")
-```
--->
-
-<!--
-g2 + scale_x_continuous(name = "Índice de Precio de casas")
-g2 + scale_color_continuous(name = "Año")
--->
-
-* Modificamos `breaks`, etiquetas y colores de la escala de color
-
-<!--
-```{r, echo=T, eval=F}
-g2 + scale_color_continuous(breaks = c(1981, 1992, 1999, 2007))
-
-g2 + scale_color_continuous(breaks = c(1981, 1992, 1999, 2007),
-                            labels = c("Año inicional", "olimpiadas", "fin de siglo", 2007))+
-  scale_x_continuous(breaks = seq(from=0, to = 3.5, by = 0.5))
-
-```
-
--->
-
-```{r, echo=T, eval=F}
-g2 + scale_color_continuous(breaks = c(1975.00, 1994.00, 2013.00),
-            labels = c(1975, 1994, 2013), low = "blue", high = "red")
-```
-
-<!--
-## Usando diferentes escalas de color
-
-En `ggplot2` tenemos una amplia variedad de escalas de color; aquí, por ejemplo, usamos `scale_color_gradient2` para interpolar entre tres colores diferentes.
--->
-
-* Una escala diferente para color, interpolando entre tres colores 
-
-```{r, echo=T, eval=F}
-g2 + scale_color_gradient2(breaks = c(1975.00, 1994.00, 2013.00),
-                           labels = c(1975, 1994, 2013),
-                        low = "blue", high = "red", mid = "gray60", 
-                        midpoint = 1994.00)
-```
-
-<!--
-Color, punto intermedio, etc. deben ofrecer INFORMACIÓN
--->
-
-## Listado (parcial) de escalas disponibles 
-
-<!--
-Aquí tenéis una matriz de combinaciones de escalas disponibles
--->
 
 <center>
-![](figure/escalas.png){width="60%"}
+![](figure/escalas.png){width="50%"}
 </center>
 
 <!--
@@ -1011,204 +746,213 @@ PARA pdf y luego png
 
 -->
 
-<!--
-Notar que en RStudio se puede escribir `scale_` seguido de TAB para obtener una lista completa de las escalas disponibles.
--->
+## Escalas (cont.)
 
+- Algunos argumentos son habituales en casi todas las escalas (`name`, `breaks`, `labels`)
 
-## Facetas (pequeños múltiplos)
+- Otros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta
 
-<!--
-Otra forma de agregar variables adicionales (dif. de estetica), útil para las variables categóricas
+```{r escalas-ejemplos}
+#| eval: false
+ggplot(macro, aes(y = pais, x = pib)) + 
+  geom_point(aes(color = desempleo))  +
+  scale_color_continuous(breaks = c(5, 10, 15),
+                         labels = c("Bajo", "Medio", "Alto"), 
+                         low = "green", high = "red")
 
-* dividir el gráfico en facetas, subgráficos que muestran cada una un subconjunto de los datos.
+ggplot(macro, aes(y = desempleo, x = pib/1000)) + 
+  geom_point(aes(color = norte, size = deuda, shape = norte)) + 
+  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +
+  scale_shape_discrete(labels = c("Norte", "Sur"), 
+                       name = "Zona del País")
 
-     1. `facet_wrap()`: define los subconjuntos como los niveles de una sola variable de agrupación
-     2. `facet_grid()`: define subconjuntos como el cruce de dos variables de agrupación
-
-     
-Esto facilita la comparación entre gráficos, no solo de objetos geométricos dentro de un gráfico.
--->
-
-* Para facilitar la comparación de gráficos (no solo objetos geométricos), se divide en subgráficos para distintos subconjuntos de los datos
-
-
-<!--
-graf_estad + geom_line()
-
-no funciona por la estructura de panel: une puntos de estado en cada año
-
-Tenemos dos problemas aquí: 
-1. demasiados estados para distinguir cada uno por color
-2. las líneas se oscurecen entre sí.
--->
-
-```{r, echo=T, eval=F}
-graf_estad <- ggplot(housing, aes(x = Date, y = Home.Value))
-graf_estad +  geom_line(aes(color = State))        # gráfico confuso
 ```
 
-* `facet_wrap()` para facetas en función de variable discreta (usando "fórmula")
-
-```{r, echo=T, eval=F}
-graf_estad +  geom_line() + facet_wrap(~State, ncol = 10)
+```{r escalas-ejemplos2}
+#| eval: false
+#| echo: false
+g2 + scale_color_gradient2(breaks = c(5, 10, 15),
+                           labels = c("Bajo", "Medio", "Alto"), 
+                           low = "blue", high = "red", mid = "gray60", 
+                            midpoint = 10)
 ```
 
-* `facet_grid()` para facetas en dos dimensiones
+:::: {.notes}
+- Argumentos Habituales
+  - `limits`: mínimo y máximo
+  - `breaks`: valores donde aparecen etiquetas  
+  - `labels`: etiquetas en cada break
+  - `name`: título de la escala
+::::
 
-```{r, echo=T, eval=F}
-g3 <- ggplot(data = housing %>% filter(Year>2005)) + 
-               geom_histogram(aes(x=Home.Value))
-g3 +  facet_grid(region ~ Year)
+- Nota: es redundante asociar dos estéticas a una variable
 
-g3 + facet_grid(region ~ .)     # También solo por filas 
-g3 + facet_grid(. ~ region)     # o columnas
+## Escala Logarítmica
+
+- En muchos contextos, las variables tienen un **rango de valores amplio**
+  
+  - PIB (Malta €16B vs EE.UU. €26T), clientes (pyme 500 vs Inditex 200M)
+  
+  
+- Escala lineal vs logarítmica:
+
+  - Lineal: misma distancia visual = mismo aumento absoluto (€, clientes) → los valores pequeños quedan "aplastados" para mostrar los grandes
+
+  - Logarítmica: misma distancia visual = mismo incremento relativo (%)
+
+
+- Usar logaritmos cambia interpretación de diferencias absolutas a porcentuales
+
+  - Más relevante +10% <!--clientes--> o +500 clientes (mucho en pyme, nada en Inditex)
+
+-  Los logs NO solucionan problemas de atípicos ni su visualización
+
+. . .
+
+
+```{r escala-log}
+#| eval: false
+ggplot(macro, aes(y = desempleo, x = pib)) + 
+  scale_x_log10() + geom_point()
 ```
 
-<!--
-g3 + facet_wrap(~region)     # También solo por filas 
--->
+- ¿Qué diferencia hay con `x = log(pib)`?
 
-##  Contexto con `labs()`: título, ejes, leyendas
 
-::: {style="font-size: 95%;"} 
-```{r, echo=T, eval=F}
-ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +
- geom_point(aes(color = region)) + geom_smooth(method = "lm", se = FALSE) +
- labs(
-   title = "Relación entre coste de la construcción y valor del terreno",
-   subtitle = "Datos del Primer Trimestre de 2001",
-   caption = "Fuente: Elaboración propia")
-```
 
-* Es una buena idea que los nombres de ejes, leyendas, etc. sean descripciones claras de las variables (y sus unidades)
+## Facetas (sub-gráficos)
 
-```{r, echo=T, eval=F}
-ggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) + 
-  scale_x_log10() + 
-  geom_point(aes(color = region)) + geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Valor del terreno (miles de $), escala logarítmica",
-       y = "Valor de la construcción (miles de $)",
-       colour = "Región") +
-  scale_y_continuous(breaks=seq(80,200,40),labels=seq(80,200,40) )
-```    
+- Los sub-gráficos por variables *categóricas* son una alternativa a `aes()` para añadir variables
 
-* ¿Qué hace la escala logarítmica? ¿Y usar `x = log(Land.Value/1000)`?
+- Facilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)
 
-<!--
-
-* escala = cómo se presenta: 
-  - scale_x_log presenta para valores dispersos 
-  - sin escala logaritmica: presenta valores como son
-
-* log() implica relación no lineal
-
--->    
-:::
-
-## Otros elementos de contexto
-
-<!--
-* Además de título y de las leyendas asociadas a las variables, existen funciones para proporcionar anotaciones textuales específicas
--->
-
-::: {style="font-size: 95%;"} 
-* Ya vimos `geom_text()` para asociar una variable a un estética de etiqueta
-    
-* `annotate()` añade objetos geométricos no asociados a variables: "text", "rect", "segment", "pointrange" 
-
-```{r, echo=F, eval=F}
-summary(lm(data = hp2001Q1, Structure.Cost/1000 ~ log10(Land.Value/1000)))
+```{r facetas-problema}
+#| eval: false
+graf_tiempo <- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))
+graf_tiempo + geom_line(aes(color = region))
 ```
 
 
+- `facet_wrap()`: facetas por una variable (usando "fórmula" `~`)
 
-```{r, echo=T, eval=F}
-ggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) +
-  geom_point(aes(color = region)) + geom_smooth(method = "lm", se = FALSE) +
-  scale_x_log10()+
-  annotate("text", x = 140, y = 180, label = "casa cara") +
-  annotate("text", x = 110, y = 150, label = "R ^ 2 == 0.026", 
+```{r facet-wrap}
+#| eval: false
+graf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)
+```
+
+- `facet_grid()`: facetas en dos dimensiones
+
+```{r facet-grid}
+#| eval: false
+g3 <- ggplot(data = clientes) + geom_histogram(aes(x = gasto))
+g3 + facet_grid(segmento ~ canal)  # Filas y columnas
+g3 + facet_grid(segmento ~ .)      # Solo por filas 
+g3 + facet_grid(. ~ canal)         # Solo por columnas
+```
+
+## Contexto con `labs()`
+
+- Una **buena práctica** de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas
+
+  - Descripciones claras de variables y sus unidades
+
+```{r etiquetas-completas}
+#| eval: false
+ggplot(macro, aes(y = desempleo, x = pib/1000)) + 
+  geom_point(aes(color = norte, size = deuda)) + 
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Relación entre PIB per cápita y tasa de desempleo",
+    subtitle = "Países de la Unión Europea (2023)",
+    caption = "Fuente: Eurostat",
+    x = "PIB per cápita (miles de €)",
+    y = "Tasa de desempleo (%)",
+    color = "Norte",
+    size = "Deuda pública (% PIB)") +
+  scale_y_continuous(breaks = seq(0, 20, 5))
+```
+
+
+## Otros Elementos de Contexto
+
+- **`annotate()`**: añade objetos geométricos NO asociados a variables:
+
+```{r anotaciones}
+#| eval: false
+ggplot(macro, aes(y = desempleo, x = pib/1000)) +
+  geom_point(aes(color = norte)) + 
+  geom_smooth(method = "lm", se = FALSE) +
+  annotate("text", x = 60, y = 11, 
+           label = "La doble división Norte-Sur") +
+  annotate("text", x = 85, y = 6, label = "R ^ 2 == 0.45", 
            parse = TRUE)
 ```    
-<!--
 
-    annotate("text", x = 140, y = 180, label = "valor atípico") +
-    annotate("text", x = 110, y = 150, label = "italic(R) ^ 2 == 0.026",
-
-El contexto también lo proporcionan las guías (más comúnmente llamadas leyendas). Al asociar una variable discreta a una de las señales visuales de forma, color o tipo de línea, `ggplot2` de forma predeterminada crea una leyenda. Las funciones `geom_text()` y `geom_annotate()` también pueden usarse para proporcionar anotaciones textuales específicas en el gráfico.
--->
-
-* Se pueden añadir líneas de referencias verticales, horizontals o diagonales
-
-```{r, echo=T, eval=F}
-  g2 +
-    geom_vline(aes(xintercept = 1), linetype = 3, color = "black") 
+- **Líneas de Referencia**
+```{r lineas-referencia}
+#| eval: false
+ggplot(clientes, aes(x = canal, y = gasto/1000)) +
+  geom_boxplot() +
+  geom_hline(yintercept = 3.0, linetype = "dashed", 
+             color = "red") +
+  annotate("text", x = 3, y = 3.3, 
+           label = "Objetivo mínimo", color = "red")
 ```
 
-:::
+## Personalizar el aspecto general: Color
 
-## Cambiar colores
+:::: {.notes}
 
-<!--
-Existen dos formas principales de personalizar el aspecto general de la visualización del gráfico: los colores y, de forma, más general, los temas. 
+- Se puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas
 
-## Cambiar colores manualmente
+::::
 
-Los colores predeterminados que R selecciona están bien, pero quizás podamos hacerlo mejor. Intentemos usar colores eligiendo su código hexadecimal HTML, por ejemplo,  [aquí](https://html-color-codes.info/codigos-de-colores-hexadecimales/) o eligiendolo de una paleta de colores , por ejemplo, [esta](https://www.smith.edu/about-smith/interactive-style-guide/color-palette) es la paleta oficial de una Universidad en EE.UU.. Podemos especificar los valores de color que queremos usar `scale_fill_manual()`.
--->
+- Cambiamos colores manualmente usando nombres o [códigos hexadecimales](https://html-color-codes.info/codigos-de-colores-hexadecimales/) 
 
-* Se puede cambiar **manualmente** la combinación (paleta) de colores por defecto dando el nombre o el [código hexadecimal HTML](https://html-color-codes.info/codigos-de-colores-hexadecimales/) de color
-
-```{r, echo=F, eval=F}
-graf <- ggplot(hp2001Q1, aes(x = region, y = Home.Value, fill = region)) + geom_boxplot()
-graf + scale_fill_manual(values = c("red", "green", "blue", "yellow", "gray"))
-graf +
-  scale_fill_manual(values = c("#004f71", "#465a01", "#981d97", "#00FFFF", "#848484"))
-```
-
-```{r, echo=T, eval=F}
-graf <- ggplot(hp2001Q1, 
-            aes(x = region, y = Home.Value, fill = region)) + 
+```{r colores-manuales}
+#| eval: false
+graf <- ggplot(ventas, aes(x = region, y = ventas, 
+                           fill = region)) + 
           geom_boxplot()
 
-graf + scale_fill_manual(
-          values = c("red", "green", "blue", "yellow", "gray"))
+graf + scale_fill_manual(values = c("red", "green", "blue", "orange"))
+graf + scale_fill_manual(values = c("#1f77b4", "#ff7f0e", 
+                                    "#2ca02c", "#d62728"))
 ```
 
+::::{.notes}
 
-* De igual forma se podría cambiar la [forma](https://ggplot2.tidyverse.org/reference/scale_shape.html) con `scale_shape_manual()` 
+- **Precaución**: los elementos decorativos deben ayudar a nuestro objetivo de transmitir *información*
 
-```{r, echo=F, eval=F}
-graf <- ggplot(hp2001Q1, aes(x = Land.Value, y = Structure.Cost, shape = region)) + geom_point()
-graf + scale_shape_manual(values = c(0, 5, 10, 3, 4))
-```
+::::
 
+- Es preferible usar **paletas predefinidas** con criterios de diseño y visualización de información:
 
-* Es recomendable usar **paletas predefinidas**, con criterios de diseño y visualización de información, como [`RColorBrewer`](http://www.colorbrewer2.org) <!--de Cynthia Brewer--> o 
-[`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) <!--(replica `matplotlib` de Python)-->
-
-<!--
-Podríamos pasar una gran cantidad de tiempo haciendo pequeños retoques para colorear las paletas. Por suerte, existe una bibiloteca `RColorBrewer` donde la autora Cynthia Brewer ([ver aquí](http://www.colorbrewer2.org)) ha incorporado algunas muy buenas paletas, bien pensadas según estándares de diseño y visualización de la información, que podemos usar. 
--->
-
-```{r, echo=T, eval=F}
+```{r paletas-predefinidas}
+#| eval: false
 library(RColorBrewer)
 display.brewer.all()
-graf + scale_fill_brewer(palette = "Set3")
+graf + scale_fill_brewer(palette = "Set2")
 graf + scale_fill_brewer(palette = "Dark2")
 ```
 
+:::: {.notes}
 
-## Temas
+- [`RColorBrewer`](http://www.colorbrewer2.org) <!--de Cynthia Brewer--> o 
+[`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) <!--(replica `matplotlib` de Python)-->
+::::
 
-* Podemos definir el estilo general del gráfico<!-- (no solo la paleta de colores)-->: etiquetas de los ejes, fondo del gráfico, apariencia de las leyendas, etc. 
 
-<!--    - Fondo de las etiquetas en las facetas
-    - Aparicencia de las leyendas
--->
+- También se puede cambiar la [forma](https://ggplot2.tidyverse.org/reference/scale_shape.html) con `scale_shape_manual()` 
 
-```{r, echo=T, eval=F}
+
+## Personalizar el aspecto general: Temas
+
+- Se puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:
+
+```{r temas-predefinidos0}
+#| eval: false
+#| echo: false
 graf + theme_gray()       # predeterminado
 graf + theme_linedraw()
 graf + theme_light()
@@ -1217,84 +961,189 @@ graf + theme_dark()
 graf + theme_classic()
 ```
 
-* Ciertos elementos específicos del tema pueden ser cambiados con `theme()` y guardados para definir temas personalizados (para aplicarlos después)
-
-```{r, echo=F, eval=F}
-  graf + theme_minimal() + theme(text = element_text(color = "turquoise"))
+```{r temas-predefinidos}
+#| eval: false
+graf + theme_gray()       # predeterminado
+graf + theme_light()
+graf + theme_minimal()
+graf + theme_classic()
 ```
 
-<!--
-Todas las opciones sobre los temas están documentadas en `?theme`.
--->
-
-<!--
-* Y guardar los cambios en un objeto para crear un nuevo tema.
-
-```{r, echo=F, eval=F}
-tema_nuevo <- theme_minimal() + theme(text = element_text(color = "turquoise"))
-graf + tema_nuevo
-```
--->
-
-<!--
-```{r, echo=T, eval=F}
-  tema_nuevo <- theme_bw() +
-    theme(plot.background = element_rect(size = 1, color = "blue", fill = "black"),
-          text=element_text(size = 12, family = "Serif", color = "ivory"),
-          axis.text.y = element_text(colour = "purple"),
-          axis.text.x = element_text(colour = "red"),
-          panel.background = element_rect(fill = "pink"),
-          strip.background = element_rect(fill = "orange"))
-
-  graf + tema_nuevo
-```
--->
-
-* <!--Nuevamente es recomendable usar temas creados por expertos en diseño y comunicación :--> `ggthemes` ofrece temas creados por profesionales en diseño y comunicación
-
-
-```{r, echo=T, eval=F}
-#install.packages("ggthemes")
+- **Temas profesionales**
+```{r temas-profesionales}
+#| eval: false
 library(ggthemes)
-graf +  theme_economist() +  # diseño gráfico de "The Economist"   
-  scale_fill_economist()     
+graf + theme_economist() + scale_fill_economist()     
 ```
 
-<!--
-- Distintos colores de fondo, rediseño de ejes, cambio de posición de la leyenda
+- Nota: es posible, pero *no recomendable* personalizar elementos concretos del tema (o definir un tema nuevo propio) 
 
-
-Más sobre los `ggthemes` y `scales` en la ayuda del paquete, por ejemplo, [aquí](https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html).
--->
-## Comentarios finales
-
-* Guardar los gráficos: en la pestaña ![](figure/Plots.jpg), lista desplegable ![](figure/PlotExport.jpg) o comando `ggsave()`
-
-```{r, echo=T, eval=F}
-ggsave("my-plot.pdf")
+```{r personalizacion}
+#| eval: false
+tema_empresa <- theme_minimal() + 
+  theme(text = element_text(color = "darkblue", family = "Arial"))
+graf + tema_empresa
 ```
 
-*  Ayuda en RStudio, *Help > Cheatsheets > Data Visualization with ggplot2* 
 
-* Fuentes de información con chuletas de R y RStudio [aquí](https://www.rstudio.com/resources/cheatsheets/)
+<!-- ## ------------------------------------------------------------------- -->
+:::: {.notes}
+**Mejores Prácticas**
 
-    - existen versiones en castellano de algunas de ellas.
+- Principios de Diseño
+  - **Claridad** sobre ornamentación
+  - **Datos prominentes**, diseño sutil  
+  - **Proporciones adecuadas** (ratio de aspecto)
+  - **Colores accesibles** (daltonismo)
+
+- Elementos Contextuales
+  - **Títulos descriptivos** e informativos
+  - **Etiquetas de ejes** con unidades
+  - **Leyendas claras** y bien posicionadas
+  - **Fuentes de datos** y notas metodológicas
+
+- Errores Comunes a Evitar
+  - Ejes que no empiezan en cero (cuando corresponde)
+  - Demasiados colores o patrones
+  - Texto ilegible por tamaño o contraste  
+  - Gráficos 3D innecesarios
+  - Sobrecarga de información
+
+::::
+
+<!-- ## ------------------------------------------------------------------- -->
+
+## Ejemplos Aplicados
+
+1. Relación Gasto Marketing - Ventas
+```{r ejemplo-marketing}
+#| eval: false
+ggplot(ventas, aes(x = marketing, y = ventas)) +
+  geom_point(aes(color = region)) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "ROI del Gasto en Marketing por Región",
+       x = "Inversión en Marketing (miles €)",
+       y = "Ventas (miles €)",
+       color = "Región") +
+  theme_minimal()
+```
+
+2. Distribución de Satisfacción del Cliente
+```{r ejemplo-satisfaccion}
+#| eval: false
+ggplot(ventas, aes(x = satisfaccion)) +
+  geom_bar(fill = "steelblue") +
+  facet_wrap(~producto) +
+  labs(title = "Distribución de Satisfacción del Cliente por Producto",
+       x = "Puntuación de Satisfacción (1-5)",
+       y = "Número de Clientes") +
+  theme_light()
+```
+
+## Ejemplos Aplicados
+
+:::: {.notes}
+3. Comparación de Indicadores UE
+```{r ejemplo-macro}
+#| eval: false
+ggplot(macro, aes(x = pais, y = pib)) +
+  geom_col(aes(fill = norte)) +
+  labs(title = "PIB per cápita en países de la UE",
+       x = "País",
+       y = "PIB per cápita (miles €)",
+       fill = "Norte") +
+  theme_economist() +
+  scale_fill_economist()
+```
+
+::::
+
+3. Indicadores Macroeconómicos
+```{r ejemplo-triangulo}
+#| eval: false
+ggplot(macro, aes(x = desempleo, y = inflacion)) +
+  geom_point(aes(size = deuda, color = norte)) +
+  geom_text_repel(aes(label = pais), size = 3) +
+  labs(title = "Relación Desempleo-Inflación por País",
+       x = "Tasa de Desempleo (%)",
+       y = "Tasa de Inflación (%)",
+       size = "Deuda Pública (% PIB)",
+       color = "Norte de Europa")
+```
+
+- **Buenas prácticas**: visualizar no es decorar datos, es comunicar *insights*
+
+  - Una idea por gráfico
+  
+  - *Claridad* sobre ornamentación: cada elemento visual debe tener propósito
+  
+  - Títulos y leyendas *descriptivos* e informativos
+  
+  - Evitar demasiados colores o patrones y la sobrecarga de información
+  
+:::: {.notes}  
+  
+  - El *contexto económico* importa tanto como la técnica
+
+::::
 
 
-<!--
-¿Qué `geom` usarías para dibujar un gráfico lineal? ¿Un cuadro de caja? ¿Un histograma? ¿Un cuadro de área? ¿Qué estética puedes usar para cada geom?
--->
+
+<!-- ## ------------------------------------------------------------------- -->
+:::: {.notes}
+**Mejores Prácticas**
+
+- Principios de Diseño
+  - **Claridad** sobre ornamentación
+  - **Datos prominentes**, diseño sutil  
+  - **Proporciones adecuadas** (ratio de aspecto)
+  - **Colores accesibles** (daltonismo)
+
+- Elementos Contextuales
+  - **Títulos descriptivos** e informativos
+  - **Etiquetas de ejes** con unidades
+  - **Leyendas claras** y bien posicionadas
+  - **Fuentes de datos** y notas metodológicas
+
+- Errores Comunes a Evitar
+  - Ejes que no empiezan en cero (cuando corresponde)
+  - Demasiados colores o patrones
+  - Texto ilegible por tamaño o contraste  
+  - Gráficos 3D innecesarios
+  - Sobrecarga de información
+
+::::
+
+<!-- ## ------------------------------------------------------------------- -->
 
 
-<!-- ## Poniéndolo todo junto -->
+## Comentarios Finales
 
-<!-- <https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph> -->
+- **Guardar gráficos**: en la pestaña de *Plots* > *Export* o con el comando
+```{r guardar}
+#| eval: false
+ggsave("analisis-ventas.pdf")
+ggsave("dashboard-macro.png", width = 12, height = 8, dpi = 300)
+```
 
+. . .
 
-<!-- * Estamos en condiciones de recrear gráficos profesionales como [este](http://www.economist.com/node/21541178) de `The Economist` -->
+- **Recursos de Ayuda**
 
-<!-- <center> -->
-<!-- ![](figure/Economist1.png) -->
-<!-- </center> -->
+  - *Help > Cheatsheets > Data Visualization with ggplot2* 
 
+  - [Chuletas de R y RStudio](https://www.rstudio.com/resources/cheatsheets/)
 
+  - [R Graph Gallery](https://r-graph-gallery.com/)
+
+  - [ggplot2 book](https://ggplot2-book.org/)
+
+- **Otras bibliotecas de gráficos** en R
+
+  - `plotly`: gráficos interactivos para dashboards
+
+  - `gganimate`: animaciones para evolución temporal
+
+:::: {.notes}
+- `patchwork`: combinación de gráficos para reportes
+::::
