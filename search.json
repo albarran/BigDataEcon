@@ -1064,165 +1064,151 @@
     "text": "Entrega\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema06ej1_123456789.qmd\nTema06ej1_123456789.zip"
   },
   {
-    "objectID": "docs/Tema01.html#introducción",
-    "href": "docs/Tema01.html#introducción",
+    "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
+    "href": "docs/Tema01.html#por-qué-visualizar-datos",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Introducción",
-    "text": "Introducción\n\nLa representación visual permite resumir información e identificar patrones que no se verían en los datos en bruto (en una hoja de cálculo).\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos\n\n\nUsaremos la biblioteca ggplot2, basada en la Gramática de Gráficos (Wilkinson, 2005)\n\nalgunos gráficos simples requieren más opciones que en R base\nPERO ofrece facilidades para gráficos complejos y profesionales\n\n\n\nOtras bibliotecas: rgl (gráfics 3D), ggvis (interactivos), plotly"
+    "section": "¿Por qué visualizar datos?",
+    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nBancos Centrales: dashboard de indicadores macroeconómicos\nConsultoras: presentaciones ejecutivas con insights de datos\nInvestigación: trabajos con gráficos que demuestran hipótesis\nMedios: The Economist, Financial Times - visualización como marca\nEmpresas: dashboards de KPIs, segmentación de clientes\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
   },
   {
-    "objectID": "docs/Tema01.html#elementos-básicos-de-un-gráfico-de-datos",
-    "href": "docs/Tema01.html#elementos-básicos-de-un-gráfico-de-datos",
+    "objectID": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
+    "href": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Elementos básicos de un gráfico de datos",
-    "text": "Elementos básicos de un gráfico de datos\n\nSeñales visuales: posición, longitud, área, etc.\nSistema de coordenadas: ¿cómo se organizan los puntos de datos?\n\ncartesiano, polar, geográfico\n\nEscala: ¿cómo se traduce la distancia en algo con significado?\n\nnumérica lineal, numérica logarítmica, categórica, de tiempo\n\nContexto: ¿en relación con qué?\n\ntítulos, leyendas, etiquetas de ejes, puntos/líneas de referencia\n\nOtros: facetas/pequeños múltiplos, capas, animaciones, etc.\n\n\n“Por encima de todo, mostrar los datos”"
-  },
-  {
-    "objectID": "docs/Tema01.html#señales-visuales",
-    "href": "docs/Tema01.html#señales-visuales",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Señales Visuales",
-    "text": "Señales Visuales"
-  },
-  {
-    "objectID": "docs/Tema01.html#la-gramática-de-gráficos",
-    "href": "docs/Tema01.html#la-gramática-de-gráficos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "La “Gramática de Gráficos”",
-    "text": "La “Gramática de Gráficos”\n\nEspecificar bloques independientes y combinarlos para crear cualquier visualización gráfica, como las frases a partir de nombres, verbos, objetos, etc.\nBloques de construcción de un gráfico\n\nDatos: data\nObjeto geométrico (qué dibujamos: líneas, puntos, barras, etc.): geom_*()\nAtributos estéticos (del objeto geométrico, como posición, color, forma, tamaño) que transmiten información de una variable: aes()\nEscalas (rango of valores, colores, etc.): scale_*()\nSistema de Coordenadas\nFacetas (pequeños múltiplos): facet_wrap(), facet_grid()"
+    "section": "ggplot2 y la Gramática de Gráficos",
+    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
   },
   {
     "objectID": "docs/Tema01.html#creando-un-ggplot",
     "href": "docs/Tema01.html#creando-un-ggplot",
     "title": "Tema 01 - Visualización de datos",
     "section": "Creando un “ggplot”",
-    "text": "Creando un “ggplot”\n\nggplot(data = mpg, aes(x = displ, y = hwy)) + \n  geom_point()\n\n\nggplot(data = mpg) + \n  geom_point(mapping = aes(x = displ, y = hwy))\n\n\nggplot(data = mpg) = gráfico vacío (coordenadas cartesianas, por defecto)\nAñadir capas con +: ej., objeto geométrico del tipo puntos = geom_point()\nEl argumento mapping, asociado a aes(), define cómo las variables son asignadas a propiedades visuales\n\nx e y especifican qué variables asignar a cada eje\n\n\n\nNOTA: el primer código define datos y estética para todas las capas que siguen; el segundo solo para el objeto geométrico de puntos."
+    "text": "Creando un “ggplot”\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n\nSolo ggplot() crea un gráfico vacío\n\n\nggplot(data = ventas)\n\n\naes() define cómo las variables se asignan a propiedades visuales\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\nAñadir capas con +: objeto geométrico geom_point()\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\nNOTAR: datos y estética para todas las capas o solo para una\n\n\nggplot(data = ventas) + \n  geom_point(aes(x = marketing, y = ventas))"
   },
   {
     "objectID": "docs/Tema01.html#objetos-geométricos",
     "href": "docs/Tema01.html#objetos-geométricos",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Objetos geométricos",
-    "text": "Objetos geométricos\n\nCada geom_*() agrega un tipo diferente de capa/marcas en el gráfico \n\npuntos (geom_point, para diagramas de dispersión, de puntos, etc.)\nlíneas (geom_line, para series de tiempo, líneas de tendencia, etc.)\ndiagrama de caja (geom_boxplot)\netc.\n\n\n\nPara una lista de objetos geométricos disponibles, buscar las funciones que comienzan con geom_ en la Ayuda"
+    "section": "Objetos Geométricos",
+    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Principal\n\n\n\n\nPuntos\ngeom_point()\nDispersión, correlaciones\n\n\nLíneas\ngeom_line()\nSeries temporales\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias, regresión\n\n\nTexto\ngeom_text()\nEtiquetas, anotaciones\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
   },
   {
     "objectID": "docs/Tema01.html#elementos-estéticos-con-aes",
     "href": "docs/Tema01.html#elementos-estéticos-con-aes",
     "title": "Tema 01 - Visualización de datos",
     "section": "Elementos Estéticos con aes()",
-    "text": "Elementos Estéticos con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\nCada elemento estético con aes() es un asociación (“mapping”) entre una señal visual y una variable\n\nposición (p.e., en los ejes x e y)\ncolor (color “exterior”)\nrelleno (color “interior”), fill\nforma (de los puntos), shape\ntipo de línea,\ntamaño, size\n\nCada geom acepta solo un subconjunto de todos los elementos estéticos.\n\nEn la ayuda de cada geom se puede ver qué asignaciones acepta en aes()."
+    "text": "Elementos Estéticos con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region, size = satisfaccion))\n\n\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
   },
   {
-    "objectID": "docs/Tema01.html#esquisse-una-interfaz-gráfica",
-    "href": "docs/Tema01.html#esquisse-una-interfaz-gráfica",
+    "objectID": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
+    "href": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
     "title": "Tema 01 - Visualización de datos",
-    "section": "esquisse: una interfaz gráfica ",
-    "text": "esquisse: una interfaz gráfica \n\nesquisse implementa de forma visual (“arrastrar y soltar”) la lógica de composición de gráficos de ggplot2\n\nSimilar a otras herramientas como Tableau o PowerBI o Gapminder\n\nEjecutamos esquisser() para crear el gráfico, eligiendo datos \n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   # lanzar visor externo   \n\n\nSe pueden elegir muchos (no todos) aspectos del gráfico que veremos en este tema: tipo de gráfico, asignaciones estéticas, títulos, apariencia, etc.\nGenera un posible código de R para crea el gráfico\n\n\nTambién se puede descargar el gráfico creado"
+    "section": "Asociación Estética vs. Opción Fija",
+    "text": "Asociación Estética vs. Opción Fija\n\nCon aes(), se visualiza una variable con una señal visual\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(shape = norte, color = deuda))\n\n\nFuera de aes(), se establece un valor fijo de la señal visual\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(shape = \"diamond\", color = \"blue\", size = 3)\n\n\nNota: norte (carácter) se convierte automáticamente a factor: → escala categórica"
   },
   {
-    "objectID": "docs/Tema01.html#gráficos-como-objetos-de-r",
-    "href": "docs/Tema01.html#gráficos-como-objetos-de-r",
+    "objectID": "docs/Tema01.html#gráficos-como-objetos",
+    "href": "docs/Tema01.html#gráficos-como-objetos",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos como objetos de R",
-    "text": "Gráficos como objetos de R\n\nhousing   &lt;- rio::import(\"data/landdata-states.csv\")\nhp2001Q1  &lt;- housing[housing$Date == 2001.00,] \ngraf_base &lt;- ggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto gráfico y mostrarlo\n\n\ngraf_base + geom_line()        # ¿tiene sentido este gráfico?\ngraf_base + geom_point(aes(shape = region)) \n\n\nAñadimos una señal visual de formas (o color, etc.), NO para “embellecer” sino para representar la información de una variable adicional\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\ngraf_base + geom_point(aes(size = Home.Price.Index,   \n          color=Home.Value))    # ¿qué aportan estas variables?"
+    "section": "Gráficos como Objetos",
+    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))\n\n\nPrincipio: Añadir señal visual para representar información adicional, NO para “embellecer”\nNO saturar el gráfico con estéticas fijas o información innecesaria"
   },
   {
-    "objectID": "docs/Tema01.html#asociación-estética-y-asignación-de-opción-fija",
-    "href": "docs/Tema01.html#asociación-estética-y-asignación-de-opción-fija",
+    "objectID": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
+    "href": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Asociación estética y Asignación de opción fija",
-    "text": "Asociación estética y Asignación de opción fija\n\nUna asociación (“mapping”) estética, con aes(), visualiza una variable\n\n\nUna opción estética establece, fuera de aes(), un valor fijo de la señal visual\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(shape = \"cross\",  color=\"red\")   \n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(aes(shape = region, color=Home.Value))\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n  geom_point(aes(shape = region, color=Home.Value),\n             size = 3)\n\n\nNota: region, carácter convertido a factor, se representa en escala categórica"
+    "section": "Datos (y estéticas) específicas por capa",
+    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico"
   },
   {
-    "objectID": "docs/Tema01.html#más-geoms-smoothers-y-texto",
-    "href": "docs/Tema01.html#más-geoms-smoothers-y-texto",
+    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
+    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Más geoms: “Smoothers” y Texto",
-    "text": "Más geoms: “Smoothers” y Texto\n\nNo todos los geoms son formas simples: aquí, por defecto, una línea (función no lineal estimada) y un área (intervalo de confianza de la predicción)\n\n\ngraf_base + geom_smooth()\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\nCada geom acepta un conjunto particular de asignaciones: geom_text() acepta etiquetas\n\n\ngraf_base + geom_text(aes(label=State), size = 3)\n\n\nSi queremos el punto y la etiqueta de texto\n\n\n#install.packages(\"ggrepel\") \nlibrary(ggrepel)\ngraf_base + geom_text_repel(aes(label=State), size = 3)"
+    "section": "Gráficos que muestran datos transformados",
+    "text": "Gráficos que muestran datos transformados\n\nAlgunos gráficos (ej., dispersión) muestran los datos originales directamente\n\n\nggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point()\n\n\nPero otros gráficos representan estadísticas calculadas a partir de los datos\ngeom_smooth(): regresión → predicciones\n\n\ngraf_base + geom_smooth()           # con intervalos de confianza\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base\n\n\n\ngeom_boxplot(): datos → cuartiles, mediana\n\n\n\n\nggplot(clientes, \n       aes(y = gasto/1000)) +  \n  geom_boxplot()"
   },
   {
-    "objectID": "docs/Tema01.html#comentario",
-    "href": "docs/Tema01.html#comentario",
+    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
+    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Comentario",
-    "text": "Comentario\n\nCada objeto geométrico puede tener características propias\n\nusar datos distintos para diferentes objetos,\nutilizar diferentes estéticas en distintos objetos, etc..\n\nPor ejemplo, usamos solo un subconjunto de los datos para el objeto geométrico de texto\n\n\ngraf_base + geom_point() + \n  geom_text_repel(\n    data = subset(hp2001Q1, State %in% c(\"NY\",\"NJ\",\"KY\")), \n    mapping = aes(label=State), size = 3)"
+    "section": "Gráficos que muestran datos transformados (cont.)",
+    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram(): datos → frecuencias por intervalo\nLa estadística predeterminada en geom_bar() es contar casos (stat_count)\n\nNotad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)\n\n\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas %&gt;% \n  group_by(region) %&gt;% \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")\n\n\n\nPara variables continuas, no existen categorías “naturales” para calcular las frecuencias\n\nSe tienen que definir “arbitrariamente” los intervalos\nDistintas elecciones pueden revelar distinta información\n\n\n\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)              # Número de grupos\ngraf + geom_histogram(binwidth = 3)           # Ancho de grupos\ngraf + geom_histogram(breaks = seq(10,90,5))  # Rangos"
   },
   {
-    "objectID": "docs/Tema01.html#transformaciones-estadísticas",
-    "href": "docs/Tema01.html#transformaciones-estadísticas",
+    "objectID": "docs/Tema01.html#escalas-control-de-asociación-estética",
+    "href": "docs/Tema01.html#escalas-control-de-asociación-estética",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Transformaciones Estadísticas",
-    "text": "Transformaciones Estadísticas\n\nEn algunos gráficos, como el de dispersión, cada punto grafica unas coordenadas (x e y) iguales al valor original de las variables a representar (aunque podemos transformarlas)\n\n\nggplot(hp2001Q1, aes(x = log(Land.Value), y = Structure.Cost)) + \n      geom_point()\n\n\nOtros gráficos representan estadísticas obtenidas a partir de las variables (no las variables directamente)\n\n\n\n\nPara “smoother”, se calcula una regresión\nPara un gráfico de caja, se calculan estadísticos descriptivos\n\n\nggplot(hp2001Q1, \n       aes(y = Home.Value/1000)) +  \n  geom_boxplot()"
+    "section": "Escalas: Control de Asociación Estética",
+    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,"
   },
   {
-    "objectID": "docs/Tema01.html#modificar-las-transformaciones-estadísticas",
-    "href": "docs/Tema01.html#modificar-las-transformaciones-estadísticas",
+    "objectID": "docs/Tema01.html#escalas-cont.",
+    "href": "docs/Tema01.html#escalas-cont.",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Modificar las Transformaciones Estadísticas",
-    "text": "Modificar las Transformaciones Estadísticas\n\nPodemos cambiar qué estadísticas calcular o representar en geoms que representan estadísticas\nUn histograma (variables continuas) depende de qué intervalos definamos para calcular las frecuencias: podemos cambiar el número de grupos (bins) o su ancho (binwidth) o fijar los rangos (breaks)\n\n\ngraf &lt;- ggplot(housing, aes(x = Home.Value))\ngraf + geom_histogram(stat = \"bin\", binwidth=4000)\ngraf + geom_histogram(stat = \"bin\", bins=40)\n\n\nPodemos representar la densidad, en lugar de frecuencias absolutas\n\n\ngraf + geom_histogram(stat = \"density\" )  \n\n\nEn un gráfico de barras (variables discretas), se calculan por defecto frecuencias de una variable, pero podemos representar otra variable, con identity"
+    "section": "Escalas (cont.)",
+    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona del País\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: es redundante asociar dos estéticas a una variable"
   },
   {
-    "objectID": "docs/Tema01.html#escalas-control-de-la-asociación-estética",
-    "href": "docs/Tema01.html#escalas-control-de-la-asociación-estética",
+    "objectID": "docs/Tema01.html#escala-logarítmica",
+    "href": "docs/Tema01.html#escala-logarítmica",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Escalas: control de la asociación estética",
-    "text": "Escalas: control de la asociación estética\n\naes() establece la variable asignada, no cómo se representa\n\naes(shape = region): qué forma para cada región\naes(color = Home.Value): qué color para cada valor\n\nLas funciones para modificar la escala siguen el esquema scale_&lt;estética&gt;_&lt;tipo&gt;\n\n\nArgumentos habituales para la escala:\n\nname: título de la escala (en eje o leyenda)\nlimits: el mínimo y el máximo de la escala\nbreaks: valores donde deberían aparecer las etiquetas\nlabels: las etiquetas que aparecen en cada break\n\nFunciones específicas de escala pueden tener argumentos adicionales"
+    "section": "Escala Logarítmica",
+    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB (Malta €16B vs EE.UU. €26T), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto (€, clientes) → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\nUsar logaritmos cambia interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\n\nLos logs NO solucionan problemas de atípicos ni su visualización\n\n\n\nggplot(macro, aes(y = desempleo, x = pib)) + \n  scale_x_log10() + geom_point()\n\n\n¿Qué diferencia hay con x = log(pib)?"
   },
   {
-    "objectID": "docs/Tema01.html#ejemplos-de-modificación-de-escala",
-    "href": "docs/Tema01.html#ejemplos-de-modificación-de-escala",
+    "objectID": "docs/Tema01.html#facetas-sub-gráficos",
+    "href": "docs/Tema01.html#facetas-sub-gráficos",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Ejemplos de modificación de escala",
-    "text": "Ejemplos de modificación de escala\n\ng2 &lt;- ggplot(housing, aes(y = State, x = Home.Price.Index)) + \n  geom_point(aes(color = Date))\n\n\nModificamos breaks, etiquetas y colores de la escala de color\n\n\ng2 + scale_color_continuous(breaks = c(1975.00, 1994.00, 2013.00),\n            labels = c(1975, 1994, 2013), low = \"blue\", high = \"red\")\n\n\nUna escala diferente para color, interpolando entre tres colores\n\n\ng2 + scale_color_gradient2(breaks = c(1975.00, 1994.00, 2013.00),\n                           labels = c(1975, 1994, 2013),\n                        low = \"blue\", high = \"red\", mid = \"gray60\", \n                        midpoint = 1994.00)"
+    "section": "Facetas (sub-gráficos)",
+    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
   },
   {
-    "objectID": "docs/Tema01.html#listado-parcial-de-escalas-disponibles",
-    "href": "docs/Tema01.html#listado-parcial-de-escalas-disponibles",
+    "objectID": "docs/Tema01.html#contexto-con-labs",
+    "href": "docs/Tema01.html#contexto-con-labs",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Listado (parcial) de escalas disponibles",
-    "text": "Listado (parcial) de escalas disponibles"
-  },
-  {
-    "objectID": "docs/Tema01.html#facetas-pequeños-múltiplos",
-    "href": "docs/Tema01.html#facetas-pequeños-múltiplos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Facetas (pequeños múltiplos)",
-    "text": "Facetas (pequeños múltiplos)\n\nPara facilitar la comparación de gráficos (no solo objetos geométricos), se divide en subgráficos para distintos subconjuntos de los datos\n\n\ngraf_estad &lt;- ggplot(housing, aes(x = Date, y = Home.Value))\ngraf_estad +  geom_line(aes(color = State))        # gráfico confuso\n\n\nfacet_wrap() para facetas en función de variable discreta (usando “fórmula”)\n\n\ngraf_estad +  geom_line() + facet_wrap(~State, ncol = 10)\n\n\nfacet_grid() para facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = housing %&gt;% filter(Year&gt;2005)) + \n               geom_histogram(aes(x=Home.Value))\ng3 +  facet_grid(region ~ Year)\n\ng3 + facet_grid(region ~ .)     # También solo por filas \ng3 + facet_grid(. ~ region)     # o columnas"
-  },
-  {
-    "objectID": "docs/Tema01.html#contexto-con-labs-título-ejes-leyendas",
-    "href": "docs/Tema01.html#contexto-con-labs-título-ejes-leyendas",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Contexto con labs(): título, ejes, leyendas",
-    "text": "Contexto con labs(): título, ejes, leyendas\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost, x = Land.Value)) +\n geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n labs(\n   title = \"Relación entre coste de la construcción y valor del terreno\",\n   subtitle = \"Datos del Primer Trimestre de 2001\",\n   caption = \"Fuente: Elaboración propia\")\n\n\nEs una buena idea que los nombres de ejes, leyendas, etc. sean descripciones claras de las variables (y sus unidades)\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) + \n  scale_x_log10() + \n  geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n  labs(x = \"Valor del terreno (miles de $), escala logarítmica\",\n       y = \"Valor de la construcción (miles de $)\",\n       colour = \"Región\") +\n  scale_y_continuous(breaks=seq(80,200,40),labels=seq(80,200,40) )\n\n\n¿Qué hace la escala logarítmica? ¿Y usar x = log(Land.Value/1000)?"
+    "section": "Contexto con labs()",
+    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
   },
   {
     "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
     "href": "docs/Tema01.html#otros-elementos-de-contexto",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Otros elementos de contexto",
-    "text": "Otros elementos de contexto\n\n\nYa vimos geom_text() para asociar una variable a un estética de etiqueta\nannotate() añade objetos geométricos no asociados a variables: “text”, “rect”, “segment”, “pointrange”\n\n\nggplot(hp2001Q1, aes(y = Structure.Cost/1000, x = Land.Value/1000)) +\n  geom_point(aes(color = region)) + geom_smooth(method = \"lm\", se = FALSE) +\n  scale_x_log10()+\n  annotate(\"text\", x = 140, y = 180, label = \"casa cara\") +\n  annotate(\"text\", x = 110, y = 150, label = \"R ^ 2 == 0.026\", \n           parse = TRUE)\n\n\nSe pueden añadir líneas de referencias verticales, horizontals o diagonales\n\n\n  g2 +\n    geom_vline(aes(xintercept = 1), linetype = 3, color = \"black\")"
+    "section": "Otros Elementos de Contexto",
+    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
   },
   {
-    "objectID": "docs/Tema01.html#cambiar-colores",
-    "href": "docs/Tema01.html#cambiar-colores",
+    "objectID": "docs/Tema01.html#personalizar-el-aspecto-general-color",
+    "href": "docs/Tema01.html#personalizar-el-aspecto-general-color",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Cambiar colores",
-    "text": "Cambiar colores\n\nSe puede cambiar manualmente la combinación (paleta) de colores por defecto dando el nombre o el código hexadecimal HTML de color\n\n\ngraf &lt;- ggplot(hp2001Q1, \n            aes(x = region, y = Home.Value, fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(\n          values = c(\"red\", \"green\", \"blue\", \"yellow\", \"gray\"))\n\n\nDe igual forma se podría cambiar la forma con scale_shape_manual()\n\n\nEs recomendable usar paletas predefinidas, con criterios de diseño y visualización de información, como RColorBrewer o viridis \n\n\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set3\")\ngraf + scale_fill_brewer(palette = \"Dark2\")"
+    "section": "Personalizar el aspecto general: Color",
+    "text": "Personalizar el aspecto general: Color\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\n\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nEs preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\ngraf + scale_fill_brewer(palette = \"Dark2\")\n\n\n\nRColorBrewer o viridis \n\n\n\nTambién se puede cambiar la forma con scale_shape_manual()"
   },
   {
-    "objectID": "docs/Tema01.html#temas",
-    "href": "docs/Tema01.html#temas",
+    "objectID": "docs/Tema01.html#personalizar-el-aspecto-general-temas",
+    "href": "docs/Tema01.html#personalizar-el-aspecto-general-temas",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Temas",
-    "text": "Temas\n\nPodemos definir el estilo general del gráfico: etiquetas de los ejes, fondo del gráfico, apariencia de las leyendas, etc.\n\n\ngraf + theme_gray()       # predeterminado\ngraf + theme_linedraw()\ngraf + theme_light()\ngraf + theme_minimal()\ngraf + theme_dark()\ngraf + theme_classic()\n\n\nCiertos elementos específicos del tema pueden ser cambiados con theme() y guardados para definir temas personalizados (para aplicarlos después)\n\n\nggthemes ofrece temas creados por profesionales en diseño y comunicación\n\n\n#install.packages(\"ggthemes\")\nlibrary(ggthemes)\ngraf +  theme_economist() +  # diseño gráfico de \"The Economist\"   \n  scale_fill_economist()"
+    "section": "Personalizar el aspecto general: Temas",
+    "text": "Personalizar el aspecto general: Temas\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\ngraf + theme_gray()       # predeterminado\ngraf + theme_light()\ngraf + theme_minimal()\ngraf + theme_classic()\n\n\nTemas profesionales\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-aplicados",
+    "href": "docs/Tema01.html#ejemplos-aplicados",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos Aplicados",
+    "text": "Ejemplos Aplicados\n\nRelación Gasto Marketing - Ventas\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region)) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(title = \"ROI del Gasto en Marketing por Región\",\n       x = \"Inversión en Marketing (miles €)\",\n       y = \"Ventas (miles €)\",\n       color = \"Región\") +\n  theme_minimal()\n\n\nDistribución de Satisfacción del Cliente\n\n\nggplot(ventas, aes(x = satisfaccion)) +\n  geom_bar(fill = \"steelblue\") +\n  facet_wrap(~producto) +\n  labs(title = \"Distribución de Satisfacción del Cliente por Producto\",\n       x = \"Puntuación de Satisfacción (1-5)\",\n       y = \"Número de Clientes\") +\n  theme_light()"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-aplicados-1",
+    "href": "docs/Tema01.html#ejemplos-aplicados-1",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos Aplicados",
+    "text": "Ejemplos Aplicados\n\n\nComparación de Indicadores UE\n\n\nggplot(macro, aes(x = pais, y = pib)) +\n  geom_col(aes(fill = norte)) +\n  labs(title = \"PIB per cápita en países de la UE\",\n       x = \"País\",\n       y = \"PIB per cápita (miles €)\",\n       fill = \"Norte\") +\n  theme_economist() +\n  scale_fill_economist()\n\n\n\nIndicadores Macroeconómicos\n\n\nggplot(macro, aes(x = desempleo, y = inflacion)) +\n  geom_point(aes(size = deuda, color = norte)) +\n  geom_text_repel(aes(label = pais), size = 3) +\n  labs(title = \"Relación Desempleo-Inflación por País\",\n       x = \"Tasa de Desempleo (%)\",\n       y = \"Tasa de Inflación (%)\",\n       size = \"Deuda Pública (% PIB)\",\n       color = \"Norte de Europa\")\n\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
   },
   {
     "objectID": "docs/Tema01.html#comentarios-finales",
     "href": "docs/Tema01.html#comentarios-finales",
     "title": "Tema 01 - Visualización de datos",
-    "section": "Comentarios finales",
-    "text": "Comentarios finales\n\nGuardar los gráficos: en la pestaña , lista desplegable  o comando ggsave()\n\n\nggsave(\"my-plot.pdf\")\n\n\nAyuda en RStudio, Help &gt; Cheatsheets &gt; Data Visualization with ggplot2\nFuentes de información con chuletas de R y RStudio aquí\n\nexisten versiones en castellano de algunas de ellas."
+    "section": "Comentarios Finales",
+    "text": "Comentarios Finales\n\nGuardar gráficos: en la pestaña de Plots &gt; Export o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R y RStudio\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
   },
   {
     "objectID": "docs/Tema04.html#el-sistema-de-publicaciones-quarto",
@@ -2027,14 +2013,21 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h\n\nTema 01 - Visualización de Datos"
+    "text": "(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos"
   },
   {
     "objectID": "Contenidos.html#semana-2",
     "href": "Contenidos.html#semana-2",
     "title": "Contenidos",
-    "section": "",
-    "text": "(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h\n\nTema 01 - Visualización de Datos"
+    "section": "Semana 2",
+    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
   },
   {
     "objectID": "Contenidos.html#semana-1",
@@ -2048,6 +2041,6 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\nlanddata-states.csv"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData"
   }
 ]
