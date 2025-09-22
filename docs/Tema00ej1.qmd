@@ -74,7 +74,7 @@ library(knitr)
 ############################################################
 ```
 
-# Apartado 1
+# Problema 1
 
 ```{r datos1}
 #| echo: false
@@ -106,17 +106,24 @@ NOTA: se recomienda crear un proyecto de RStudio y guardar el archivo `Ventas1.x
 ```{r ej1}
 #| echo: false
 #| eval: false
-###---------- Apartado 1) ----------------------------------------------------
+###---------- Problema 1) ----------------------------------------------------
 
+###################################
+# Ventas totales por día
+
+## mismos pasos que en Excel
+
+## cargar datos
 library(rio)
 datos <- import("Ventas1.xlsx")
+# Ventas1Lunes <- Ventas1$Lunes
 
 # Extraer ventas de cada tienda
+# Elegir los "objetos"/celdas apropiados
+
 # OJO: datos es un data.frame, no un vector...
 Ventas_A <- datos[1, 2:6]  # ncol(datos)  #dim(datos)[2]
 Ventas_B <- datos[2, 2:6]
-
-
 
 # Ventas totales por día
 # aun así, podemos hacer algunas operaciones
@@ -140,7 +147,7 @@ Ventas_media_A <- mean(as.numeric(Ventas_A))
 Ventas_media_A
 ```
 
-# Apartado 2
+# Problema 2
 
 ```{r datos2}
 #| echo: false
@@ -199,7 +206,7 @@ a) Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00d
 ```{r ej.2b}
 #| echo: false
 #| eval: false
-###---------- Apartado 2.a) ----------------------------------------------------
+###---------- Problema 2.a) ----------------------------------------------------
 
 datos2a <- import("Ventas2a.xlsx")
 datos2b <- import("Ventas2b.xlsx")
@@ -215,7 +222,7 @@ b) Añadir una columna con el valor total de las ventas (nacionales más interna
 ```{r ej2.b}
 #| echo: false
 #| eval: false
-###---------- Apartado 2.b) ----------------------------------------------------
+###---------- Problema 2.b) ----------------------------------------------------
 
 # Calcular total ventas
 datos2$Total <- datos2$Nacional + datos2$Internacional
@@ -229,7 +236,7 @@ c) Calcular la media del valor de las ventas internacionales (media sobre todos 
 ```{r ej2.c}
 #| echo: false
 #| eval: false
-###---------- Apartado 2.c) ----------------------------------------------------
+###---------- Problema 2.c) ----------------------------------------------------
 
 # media del valor de las ventas internacionales
 media_internac <- mean(datos2$Internacional)
@@ -260,7 +267,7 @@ c) Se quiere conocer el número de compradores de los productos a partir del val
 ```{r ej2.d}
 #| echo: false
 #| results: 'asis'
-###---------- Apartado 2.c) ----------------------------------------------------
+###---------- Problema 2.c) ----------------------------------------------------
 
 # Estimar número de compradores
 
@@ -289,13 +296,13 @@ datos2$compradoresI <- datos2$Internacional / datos2[[6]]
 
 ````{=html}
 <!--
-# Apartado 3
+# Problema 3
 
 a) Se ha preguntado a cinco clientes sobre su satisfacción con los servicios de una empresa. Su contestación ha sido: "poco", "nada", "nada", "poco", "mucho". Generar un vector, `factor_satisf_vector`, adecuado para esta información.
 
 ```{r ej.3a}
 #| echo: false
-###---------- Apartado 3.a) ----------------------------------------------------
+###---------- Problema 3.a) ----------------------------------------------------
 
 # Vector de satisfacción
 satisf_vector <- c("poco", "nada", "nada", "poco", "mucho")
@@ -312,11 +319,11 @@ factor_satisf_vector <- factor(satisf_vector, ordered = TRUE,
 factor_satisf_vector
 ```
 
-b) Generar un vector, `sum_factor`, con las estadísticas descriptivas de la información del apartado anterior y muestra el resultado ("imprime" ese vector). 
+b) Generar un vector, `sum_factor`, con las estadísticas descriptivas de la información del Problema anterior y muestra el resultado ("imprime" ese vector). 
 
 ```{r ej.3b}
 #| echo: false
-###---------- Apartado 3.b) ----------------------------------------------------
+###---------- Problema 3.b) ----------------------------------------------------
 
 # Resumen del vector
 sum_vector <- summary(satisf_vector)
@@ -331,7 +338,7 @@ c) Crear el vector `comparar_clientes` que informe sobre si el cliente 2 está m
 
 ```{r ej.3c}
 #| echo: false
-###---------- Apartado 3.c) ----------------------------------------------------
+###---------- Problema 3.c) ----------------------------------------------------
 
 # Valor del factor para el segundo cliente
 cliente2 <- factor_satisf_vector[2]
@@ -349,7 +356,7 @@ class(comparar_clientes)
 -->
 ````
 
-# Apartado 3
+# Problema 3
 
 a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar en la ayuda de RStudio `mtcars` para conocer las variables que incluye. Comprobar la estructura con `str()` y visualizar las primeras observaciones con `head()`.
 
@@ -359,7 +366,7 @@ a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar en la a
 
 ```{r ej.4a}
 #| echo: false
-###---------- Apartado 4.a) ----------------------------------------------------
+###---------- Problema 4.a) ----------------------------------------------------
 
 # Mostrar la estructura del conjunto de datos
 str(mtcars)
@@ -386,7 +393,7 @@ b) Generar el vector `cilindros` con la información para todos los modelos de c
 
 ```{r ej.4b}
 #| echo: false
-###---------- Apartado 4.b) ----------------------------------------------------
+###---------- Problema 4.b) ----------------------------------------------------
 
 # Variable cilindros como vector usando $
 cilindros <- mtcars$cyl
@@ -410,7 +417,7 @@ c) Generar `media_consumo_autom` con el consumo medio de los coches con cambio a
 
 ```{r ej.4c}
 #| echo: false
-###---------- Apartado 4.c) ----------------------------------------------------
+###---------- Problema 4.c) ----------------------------------------------------
 
 # Seleccionar cambio automático 
 sel_cambio <- mtcars$am == 0
@@ -449,11 +456,11 @@ media_consumo_autom_cyl4
 
 ````{=html}
 <!--
-# Apartado 5
+# Problema 5
 
 ```{r ej.5a}
 #| echo: false
-###---------- Apartado 5.a) ----------------------------------------------------
+###---------- Problema 5.a) ----------------------------------------------------
 
 # Vector numérico de 1 a 10
 mi_vector <- 1:10 
@@ -476,7 +483,7 @@ mi_lista
 ```{r ej.5b}
 #| echo: false
 #| results: 'asis'
-###---------- Apartado 5.b) ----------------------------------------------------
+###---------- Problema 5.b) ----------------------------------------------------
 
 # media del vector de la lista
 media_vector <- mean(mi_lista$vector)

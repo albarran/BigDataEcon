@@ -9,9 +9,9 @@ strip-comments: true
 
   * [Tema 11 - Aprendizaje No Supervisado](docs/Tema11.qmd)
 
-  * [Tema 11 - Ejemplo 1](docs/Tema11ej1.qmd) 
+  * [Tema 11 - Ejemplo 1](docs/Tema11ej1.qmd)
 
-  * [Tema 12 - Análisis de Texto](docs/Tema12.qmd) 
+  * [Tema 12 - Análisis de Texto](docs/Tema12.qmd)
 
 
 -->
@@ -101,10 +101,11 @@ strip-comments: true
 
   * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
 
-<!--
+
   * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
+<!--
     - Fecha límite de entrega: **dom., 06-oct., 23:59h**
-*********************************************************************  
+*********************************************************************
 -->
 
 ## Semana 2
