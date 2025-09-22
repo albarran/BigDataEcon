@@ -1618,11 +1618,11 @@ display:block!important;
 <li><p>Lineal: misma distancia visual = mismo aumento absoluto (€, clientes) → los valores pequeños quedan “aplastados” para mostrar los grandes</p></li>
 <li><p>Logarítmica: misma distancia visual = mismo incremento relativo (%)</p></li>
 </ul></li>
-<li><p>Usar logaritmos cambia interpretación de diferencias absolutas a porcentuales</p>
+<li><p>Usar logaritmos <strong>cambia interpretación</strong> de diferencias absolutas a porcentuales</p>
 <ul>
-<li>Más relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)</li>
+<li><p>Más relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)</p></li>
+<li><p><strong>NO</strong> para “evitar” valores extremos, distribución asimétrica, no normal</p></li>
 </ul></li>
-<li><p>Los logs NO solucionan problemas de atípicos ni su visualización</p></li>
 </ul>
 <div class="fragment">
 <div class="cell">
@@ -1630,8 +1630,21 @@ display:block!important;
 <span id="cb22-2"><a></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>¿Qué diferencia hay con <code>x = log(pib)</code>?</li>
+<li>Mejor que <code>x = log(pib)</code> porque los ejes se muestran en unidades originales</li>
 </ul>
+<aside class="notes">
+<p>qué es un logaritmo de euros o de personas</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
 </div>
 </section>
 <section id="facetas-sub-gráficos" class="slide level2">
