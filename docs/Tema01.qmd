@@ -801,11 +801,11 @@ g2 + scale_color_gradient2(breaks = c(5, 10, 15),
   - Logarítmica: misma distancia visual = mismo incremento relativo (%)
 
 
-- Usar logaritmos cambia interpretación de diferencias absolutas a porcentuales
+- Usar logaritmos **cambia interpretación** de diferencias absolutas a porcentuales
 
   - Más relevante +10% <!--clientes--> o +500 clientes (mucho en pyme, nada en Inditex)
 
--  Los logs NO solucionan problemas de atípicos ni su visualización
+  - **NO** para "evitar" valores extremos, distribución asimétrica, no normal 
 
 . . .
 
@@ -816,8 +816,13 @@ ggplot(macro, aes(y = desempleo, x = pib)) +
   scale_x_log10() + geom_point()
 ```
 
-- ¿Qué diferencia hay con `x = log(pib)`?
+- Mejor que `x = log(pib)` porque los ejes se muestran en unidades originales
 
+:::: {.notes}
+
+qué es un logaritmo de euros o de personas
+
+::::
 
 
 ## Facetas (sub-gráficos)

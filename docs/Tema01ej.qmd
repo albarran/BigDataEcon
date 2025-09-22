@@ -1,93 +1,40 @@
 ---
-title    :  "Tema 01. Visualización de Datos. Ejercicio."
-
+title: "Tema 01 - Visualización de Datos"
+subtitle: "Ejercicio Práctico"
 author:  
     - "Pedro Albarrán"
     - "Alberto Pérez"
- 
-institute: 
-     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
-#   beamer:
-#     logo: figure/by-nc-sa2.png
-#     titlegraphic: figure/by-nc-sa.png
-#     theme: Boadilla # Copenhagen # CambridgeUS #
-#     outertheme: miniframes
-#     colortheme: crane
-#     section-titles: false
-#     fontsize: 10pt
-# #    header-includes:
-# #      - \setbeameroption{show notes}
-# #      # - \setbeameroption{show notes on second screen}
-  # revealjs:
-  #   logo: figure/by-nc-sa2.png
-  #   titlegraphic: figure/by-nc-sa.png
-  #   theme:
-  #     - serif # simple # default # moon # beige # sky #
-  #     - custom.scss
-  #   smaller: true # false #
-  #   scrollable: true
-  #   embed-resources: true
-  #   slide-number: true
-  #   show-slide-number: all
-  #   transition: slide # concave #
-  #   background-transition: fade
-  #   progress: true
   html: 
     embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
 execute:
-  enabled: true      # (no) ejecutar code chunks
-  eval: true        # por defecto, evalúa y muestra códido de code chunks
+  enabled: true
+  eval: false
   echo: true
-  warning: false    # pero no los mensajes ni warnings
+  warning: false
   message: false
-knitr:
-  opts_chunk:
-    results: hide     # ni muestra resultados ni figuras
-    fig.show: hide
 lang: es
 strip-comments: true
-toc: false
-css: styles.css
 ---
 
 ```{r setup}
 #| include: false
-# include=F es suficiente para no incluir mensajes, etc.
-
-# Opciones por defecto para los fragmentos de código
-knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
+knitr::opts_chunk$set(eval = FALSE, echo = TRUE, 
                       warning = FALSE, message = FALSE,
                       results = "hide", fig.show="hide")
-# se muestra y evalúa el código,
-# no se muestran mensajes, ni avisos (warnings)
-# no se muestran los resultados de código (tampoco gráficos)
-#     en los códigos que considere necesarios los mostraré
-
-# Elimino todo del Entorno (del documento)
 rm(list = ls())       
-
-# Cargo todas las bibliotecas necesarias
-# (se podría hacer cuando cada una sea necesaria)
 library(tidyverse)
-# library(tidymodels)
-# library(printr)
-# library(skimr)
-# library(dlookr)
-# library(broom)
+library(rio)
 library(kableExtra)
-# library(rpart.plot)
-# library(vip)
-
-#fijo el directorio de trabajo
-#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+library(ggrepel)
+library(scales)
 library(rmarkdown)
-#render("filename.Rmd")     
-#browseURL("filename.html")
 ```
-
 
 ```{r}
 #| echo: false
@@ -103,55 +50,113 @@ export(pwt, file = "data/pwt.csv")
 
 ```
 
+<!--
 
-### Apartado a)
+# Instrucciones Generales
 
-El fichero [pwt.csv](https://raw.githubusercontent.com/albarran/00datos/main/pwt.csv) contiene los datos de las Penn World Tables (una famosa fuente de datos macro-económicos). Instalad el paquete de R `pwt10`. En la ayuda de R, buscad `pwt10.01` para una descripción de las primeras 52 columnas; la última es el continente al que pertenece el país.
-  
-En este apartado, reproduciremos [este gráfico](http://www.economist.com/node/21541178) de `The Economist`, donde se relacionaba Corrupción y Desarrollo Humano
+Este ejercicio tiene como objetivo aplicar los conceptos de visualización de datos con `ggplot2` a casos reales de análisis económico y empresarial. 
+
+**Importante**: 
+- Crea un proyecto de RStudio para organizar tu trabajo
+- Todos los gráficos deben incluir títulos, etiquetas de ejes y leyendas apropiadas
+- Comenta brevemente la información que revela cada visualización
+- Guarda tu código en un archivo `.R` siguiendo el formato: `Tema01ej_TuDNI.R`
+
+---
+-->
+
+**NOTA**: todos los comentarios sobre los resultados se incluyen en el propio archivo de guión.
+
+## Ejercicio 1
+
+El fichero [pwt.csv](https://raw.githubusercontent.com/albarran/00datos/main/pwt.csv) contiene datos de las Penn World Tables (PWT) más una variable de continente. Las descripción de las variables de las PWT se puede encontrar [aquí](https://cran.r-project.org/web/packages/pwt10/pwt10.pdf)
+
+
+### Apartado 1.a)
+
+Usando otras **DOS variables económicas** que tengan sentido relacionar, debes reproducir aproximadamente [este gráfico](http://www.economist.com/node/21541178) de The Economist sobre Corrupción y Desarrollo Humano:
+
 <center>
 ![](figure/Economist1.png)
 </center>
 
-PERO usando otras **dos variables** que tenga *sentido* relacionar. 
+- Sugerencias de pares de variables:
 
-  +  Debéis elegir la información de solo **uno de los años** disponibles. 
+  - Capital humano (`hc`) vs Productividad (`rtfpna`)
   
-  +  La reproducción del gráfico es *aproximada*; p.e., no es necesario que el interior de los puntos esté vacio o colocar el $R^2$
+  - PIB per cápita (`rgdpna`) vs Esperanza de vida (`pop`)
   
+  - Formación de capital (`csh_i`) vs Crecimiento
+  
+- *Nota*: este es un **ejercicio individual**. Se recomienda evitar el uso de las mismas variables y/o ofrecer resultados y comentarios demasiado similares.
 
-Comentad **brevemente** la información que ofrece vuestro gráfico.
+- *Requisitos:*
 
-### Apartado b)
+  - Usa datos de **un solo año**
+  
+  - Incluye puntos coloreados por continente
+  
+  - Añade línea de tendencia
+  
+  - Etiqueta algunos países seleccionados
+  
+  - La reproducción es aproximada (no necesitas puntos vacíos o R²)
 
-La siguiente tabla con datos del PIB (constante a precios de 2015, en miles de millones de dólares) en 2020 para unos cuantos países:
+### Apartado 1.b)
 
-```{r apartado2.ejem}
+Comenta **brevemente** qué información revela tu gráfico. 
+
+
+
+---
+
+## Ejercicio 2
+
+Una consultora de inversiones quiere comparar el perfil de ingresos obtenidos entre startups tecnológicas y grandes corporaciones para una estrategia de inversión.
+
+```{r datos-ventas}
 #| echo: false
-#| results: 'asis'
 #| eval: true
+#| results: 'asis'
 
-library(WDI)  # World Development Indicators (Banco Mundial)
-library(countrycode)
-library(tidyverse)
+library(kableExtra)
 
-# Fetch real GDP data in constant USD for European and African countries
-gdp <- WDI(country = c("FRA", "DEU", "ESP", "GBR", "ITA", "ZAF", "NGA", "AGO", "GHA", "EGY"), 
-                indicator = "NY.GDP.MKTP.KD", start = 2020, end = 2020)
+# Datos de ingresos: Startups vs Corporaciones
+empresas_inversion <- data.frame(
+  empresa = c("Google", "Microsoft", "Apple", "Amazon", "Meta",
+              "TechStart", "InnovateLab", "DataFlow", "CloudVision", "AI-Solutions"),
+  tipo = c("Corporación", "Corporación", "Corporación", "Corporación", "Corporación",
+           "Startup", "Startup", "Startup", "Startup", "Startup"),
+  ingresos_millones = c(3522.91, 2831.89, 2413.98, 1751.65, 1187.63,
+                       81.40, 62.83, 37.21, 15.80, 8.45),
+  empleados = c(85000, 72000, 65000, 48000, 35000,
+               120, 85, 45, 28, 15)
+)
 
-gdp$continent <- countrycode(gdp$iso3c, origin = 'iso3c', destination = 'continent')
-
-gdp <- gdp %>% select(pais=country, continente=continent, pib=NY.GDP.MKTP.KD) %>%   mutate(pib = round(pib/1e9, 2))
-
-gdp |> kbl(format = "html")|> kable_paper("hover")
+empresas_inversion |> 
+  kbl(format = "html", caption = "Ingresos y Empleados: Corporaciones vs Startups (2023)") |> 
+  kable_paper("hover", full_width = FALSE) 
 ```
-´
-Mostrar un diagrama de caja de la distribución del PIB para cada continente, sin usar y usando escala logarítmica. Comentar la información que ofrecen ambos gráficos y discutir las razones para las diferencias (ej., posición central y dispersión de las distribuciones).
 
-Nota: realizar algunos ajustes (mínimos) a los gráficos como dar color a los diagramas (asociado al continente), poner título al gráfico, los ejes, etc. 
+### Apartado 2.a)
 
+Mostrar dos diagramas de caja de la distribución de ingresos por tipo de empresa, sin usar y usando escala logarítmica. 
 
-### Apartado c)
+  -  Nota: realizar algunos ajustes (mínimos) a los gráficos como dar color a los diagramas (asociado al tipo de empresa), poner título al gráfico, los ejes, etc.
+
+### Apartado 2.b)
+
+- Comparando ambos gráficos, ¿qué diferencias existen en la posición central y la variabilidad dentro de cada grupo? ¿qué explican esas diferencias?
+  
+- ¿Qué gráfico es más informativo y por qué?
+  
+- Si la variabilidad observada en los gráficos es una aproximación de la variabilidad en la rentabilidad de una inversión, ¿qué concluirías como empleado de la consultora sobre si es más volátil invertir en Corporaciones o en Startups?
+  
+
+---
+
+## Ejercicio 3
+
 
 El fichero [hotels.csv](https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv) contiene información sobre reservas de hoteles, donde cada fila corresponde con una reserva; la información detallada sobre las variables puede encontrarse [aquí](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md). 
 
@@ -169,9 +174,9 @@ datos <- import("https://raw.githubusercontent.com/albarran/00datos/main/hotels.
 ggplot (data = datos) + geom_bar (mapping = aes (x=market_segment)) + facet_wrap(~hotel)
 ```
 
-#### Apartado c.1)
+### Apartado 3.a)
 
-La columna `market_segment` contiene información de a qué categoría de los segmentos de mercado pertenece la reserva: Aviation (reservas por aerolíneas), Complementary (reservas de cortesía/gratuitas), Corporate (reservas de Empresas), Direct (reservas directas), Groups (Grupos), Offline TA/TO (Agencia de Viajes/Tour Operador 'offline'), Online TA (Agencia de Viajes de internter), Undefined (Sin definir). <!-- Podemos representar la distribución de reservas en cada segmento de la siguiente manera: 
+La columna `market_segment` contiene información de a qué categoría de los segmentos de mercado pertenece la reserva: Aviation (reservas por aerolíneas), Complementary (reservas de cortesía/gratuitas), Corporate (reservas de Empresas), Direct (reservas directas), Groups (Grupos), Offline TA/TO (Agencia de Viajes/Tour Operador 'offline'), Online TA (Agencia de Viajes de internet), Undefined (Sin definir). <!-- Podemos representar la distribución de reservas en cada segmento de la siguiente manera: 
 
 ```{r}
 #| echo: true
@@ -185,11 +190,73 @@ Una cadena hotelera está interesada en desarrollar promociones basadas en difer
 
 Mostrar una visualización que permita a la cadena hotelera tener la información para tomar decisiones sobre sus promociones. Realizar los ajustes necesarios para que la visualización sea clara y fácil de interpretar: títulos, etiquetas, colores, etc.
 
-#### Apartado c.2)
+### Apartado 3.b)
 
 Un directivo de la empresa afirma que deben centrarse en personas que reservan con antelación, y cree que las personas con hijos tienden a reservar con mayor anticipación. Realice un análisis que permita comprobar si esta afirmación es cierta o no. 
 
 Nota: para realizar este análisis, se puede usar la variable `lead_time` (número de días que transcurren entre la fecha de reserva y la fecha de llegada) y la variable `children` (número de niños).
+
+<!--
+
+Una agencia de marketing digital ha recopilado datos sobre campañas publicitarias:
+
+```{r datos-marketing}
+#| echo: false
+#| eval: true
+# Los datos estarán disponibles en:
+# marketing_data <- rio::import("https://raw.githubusercontent.com/albarran/00datos/main/marketing_campaigns.csv")
+```
+
+Los datos incluyen: `campaña`, `canal` (Google, Facebook, Instagram, LinkedIn), `presupuesto`, `impresiones`, `clics`, `conversiones`, `fecha`, `sector_cliente` (Tecnología, Retail, Servicios, Manufactura).
+
+Para cada pregunta de negocio, **especifica y justifica** qué tipo de gráfico usarías, luego **créalo**:
+
+### Pregunta 3a: Efectividad por Canal
+"¿Qué canal publicitario tiene mejor tasa de conversión?"
+
+**Tu propuesta de gráfico:** _______________
+**Justificación:** _______________
+
+### Pregunta 3b: Evolución Temporal
+"¿Cómo ha evolucionado el ROI (retorno de inversión) por sector durante el último año?"
+
+**Tu propuesta de gráfico:** _______________
+**Justificación:** _______________
+
+### Pregunta 3c: Relación Presupuesto-Resultados
+"¿Existe relación entre el presupuesto y el número de conversiones? ¿Depende del sector?"
+
+**Tu propuesta de gráfico:** _______________
+**Justificación:** _______________
+
+### Pregunta 3d: Comparación de Performance
+"¿Qué combinación canal-sector genera mejores resultados en términos de costo por conversión?"
+
+**Tu propuesta de gráfico:** _______________
+**Justificación:** _______________
+
+---
+
+## Ejercicio 4: Análisis de Satisfacción del Cliente
+
+Una cadena de retail quiere entender los factores que influyen en la satisfacción del cliente:
+
+```{r datos-satisfaccion}
+#| echo: false
+#| eval: true
+# Datos disponibles en:
+# satisfaccion <- rio::import("https://raw.githubusercontent.com/albarran/00datos/main/customer_satisfaction.csv")
+```
+
+Variables: `tienda`, `region`, `categoria_producto`, `precio`, `tiempo_espera`, `calidad_servicio`, `satisfaccion_general`, `probabilidad_recompra`, `edad_cliente`, `genero`.
+
+### Apartado 4a: Factores de Satisfacción
+Identifica qué variables están más relacionadas con la satisfacción general. Crea las visualizaciones apropiadas y explica tus hallazgos.
+
+### Apartado 4b: Segmentación Regional
+Analiza si existen diferencias significativas en satisfacción entre regiones y categorías de producto. ¿Qué estrategias regionales recomendarías?
+
+-->
 
 # Entrega del ejercicio
 
