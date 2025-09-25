@@ -117,9 +117,9 @@ macro <- data.frame(
   deuda = c(118, 112, 69, 150, 127, 193, 52, 108, 83, 73, 59, 24),
   norte = c("No", "Sí", "Sí", "No", "No", "No", 
             "Sí", "Sí", "Sí", "Sí", "Sí", "Sí"),
-  tipo = c(rep("Desarrollada", 12))
-) %>%
-  mutate(across(c(norte, tipo), as.factor))
+  poblacion = c(47, 68, 83, 60, 10, 11, 17, 12, 9, 5, 5, 0.6)
+  ) %>%
+  mutate(norte = as.factor(norte))
 
 # ========================================
 # DATASET 3: COMPORTAMIENTO DEL CONSUMIDOR
@@ -214,7 +214,7 @@ ventas_info <- data.frame(
 )
 
 macro_info <- data.frame(
-  variable = c("pais", "pib", "desempleo", "inflacion", "deuda", "norte", "tipo"),
+  variable = c("pais", "pib", "desempleo", "inflacion", "deuda", "norte", "poblacion"),
   descripcion = c(
     "Nombre del país",
     "PIB per cápita en euros",
@@ -222,9 +222,9 @@ macro_info <- data.frame(
     "Tasa de inflación anual en porcentaje",
     "Deuda pública como % del PIB",
     "Norte de Europa (Sí/No)",
-    "Clasificación económica del país"
+    "Población (millones de personas)"
   ),
-  tipo = c("Carácter", "Numérica", "Numérica", "Numérica", "Numérica", "Factor", "Factor")
+  tipo = c("Carácter", "Numérica", "Numérica", "Numérica", "Numérica", "Factor", "Numérica")
 )
 
 clientes_info <- data.frame(
@@ -572,7 +572,8 @@ ggplot(clientes, aes(x = ingresos/1000, y = gasto/1000)) +
 
 ```{r transformaciones-originales2}
 #| eval: false
-ggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point()
+#| echo: false
+graf_base
 ```
 
 - Pero otros gráficos representan estadísticas calculadas a partir de los datos
@@ -693,58 +694,28 @@ graf + geom_density()
 - Funciones de escala: `scale_<estética>_<tipo>`. Ejemplos,
 
 
+<div style="font-size: 0.65em;">
 
-<center>
-![](figure/escalas.png){width="50%"}
-</center>
+| **Escala**        | **Tipos**    | **Ejemplos**              |
+|-------------------|--------------|---------------------------|
+|                   |              |                           |
+| scale_color_      | identity     | scale_fill_continuous     |
+| scale_fill_       | manual       | scale_color_discrete      |
+| scale_size_       | continuous   | scale_color_manual        |
+|                   | discrete     | scale_size_discrete       |
+|                   |              |                           |
+| scale_shape_      | discrete     | scale_shape_discrete      |
+| scale_linetype_   | manual       | scale_shape_manual        |
+|                   | identity     | scale_linetype_discrete   |
+|                   |              |                           |
+| scale_x_          | continuous   | scale_x_continuous        |
+| scale_y_          | discrete     | scale_y_discrete          |
+|                   | reverse      | scale_y_reverse           |
+|                   | log10        | scale_x_log10             |
+|                   | date         | scale_x_date              |
+|                   | datetime     | scale_y_datetime          |
 
-<!--
-
-+-------------------+------------+---------------------------+ 
-| **Escala**        | **Tipos**  | **Ejemplos**              |
-+===================+============+===========================+
-| scale\_color\_    | identity   | scale\_fill\_continuous   |
-| scale\_fill\_     | manual     | scale\_color\_discrete    |
-| scale\_size\_     | continuous | scale\_size\_manual       |
-|                   | discrete   | scale\_size\_discrete     |
-+-------------------+------------+---------------------------+
-+-------------------+------------+---------------------------+
-| scale\_shape\_    | discrete   | scale\_shape\_discrete    |
-| scale\_linetype\_ | identity   | scale\_shape\_manual      |
-|                   | manual     | scale\_linetype\_discrete |
-+-------------------+------------+---------------------------+
-+-------------------+------------+---------------------------+
-| scale\_x\_        | continuous | scale\_x\_continuous      |
-| scale\_y\_        | discrete   | scale\_y\_discrete        |
-|                   | reverse    | scale\_x\_log             |
-|                   | log        | scale\_y\_reverse         |
-|                   | date       | scale\_x\_date            |
-|                   | datetime   | scale\_y\_datetime        |
-+-------------------+------------+---------------------------+
-
-
-
-PARA pdf y luego png
- 
-| **Escala**        | **Tipos**  | **Ejemplos**              |
-|-------------------|------------|---------------------------|
-| scale\_color\_    | identity   | scale\_fill\_continuous   |
-| scale\_fill\_     | manual     | scale\_color\_discrete    |
-| scale\_size\_     | continuous | scale\_size\_manual       |
-|                   | discrete   | scale\_size\_discrete     |
-|-------------------|------------|---------------------------|
-| scale\_shape\_    | discrete   | scale\_shape\_discrete    |
-| scale\_linetype\_ | identity   | scale\_shape\_manual      |
-|                   | manual     | scale\_linetype\_discrete |
-|-------------------|------------|---------------------------|
-| scale\_x\_        | continuous | scale\_x\_continuous      |
-| scale\_y\_        | discrete   | scale\_y\_discrete        |
-|                   | reverse    | scale\_x\_log             |
-|                   | log        | scale\_y\_reverse         |
-|                   | date       | scale\_x\_date            |
-|                   | datetime   | scale\_y\_datetime        |
-
--->
+</div>
 
 ## Escalas (cont.)
 
@@ -764,7 +735,7 @@ ggplot(macro, aes(y = desempleo, x = pib/1000)) +
   geom_point(aes(color = norte, size = deuda, shape = norte)) + 
   scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +
   scale_shape_discrete(labels = c("Norte", "Sur"), 
-                       name = "Zona del País")
+                       name = "Zona de Europa")
 
 ```
 
@@ -785,13 +756,18 @@ g2 + scale_color_gradient2(breaks = c(5, 10, 15),
   - `name`: título de la escala
 ::::
 
-- Nota: es redundante asociar dos estéticas a una variable
+- Nota: este ejemplo tiene elementos redundantes a efectos ilustrativos
+
+:::: {.notes}
+- Ej., dos estéticas para una variables
+- `limits` que no concuerdan con `breaks`
+::::
 
 ## Escala Logarítmica
 
 - En muchos contextos, las variables tienen un **rango de valores amplio**
   
-  - PIB (Malta €16B vs EE.UU. €26T), clientes (pyme 500 vs Inditex 200M)
+  - PIB, población (Lux 6K vs ALE 83M), clientes (pyme 500 vs Inditex 200M)
   
   
 - Escala lineal vs logarítmica:
@@ -801,29 +777,26 @@ g2 + scale_color_gradient2(breaks = c(5, 10, 15),
   - Logarítmica: misma distancia visual = mismo incremento relativo (%)
 
 
-- Usar logaritmos **cambia interpretación** de diferencias absolutas a porcentuales
-
-  - Más relevante +10% <!--clientes--> o +500 clientes (mucho en pyme, nada en Inditex)
-
-  - **NO** para "evitar" valores extremos, distribución asimétrica, no normal 
-
-. . .
-
-
 ```{r escala-log}
 #| eval: false
-ggplot(macro, aes(y = desempleo, x = pib)) + 
-  scale_x_log10() + geom_point()
+ggplot(macro, aes(y = desempleo, x = poblacion)) + 
+  scale_x_log10(breaks = seq(0,100,20)) + geom_point()
 ```
 
 - Mejor que `x = log(pib)` porque los ejes se muestran en unidades originales
 
 :::: {.notes}
 
-qué es un logaritmo de euros o de personas
+- qué es un logaritmo de euros o de personas
 
 ::::
 
+
+- Usar logs **cambia la interpretación** de diferencias absolutas a porcentuales
+
+  - Más relevante +10% <!--clientes--> o +500 clientes (mucho en pyme, nada en Inditex)
+
+  - **NO** para "evitar" valores extremos o distribución asimétrica <!-- no normal -->
 
 ## Facetas (sub-gráficos)
 
@@ -904,13 +877,15 @@ ggplot(clientes, aes(x = canal, y = gasto/1000)) +
            label = "Objetivo mínimo", color = "red")
 ```
 
-## Personalizar el aspecto general: Color
+## Personalizar el aspecto general
+
+
 
 :::: {.notes}
 
 - Se puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas
 
-::::
+**COLOR**
 
 - Cambiamos colores manualmente usando nombres o [códigos hexadecimales](https://html-color-codes.info/codigos-de-colores-hexadecimales/) 
 
@@ -925,19 +900,25 @@ graf + scale_fill_manual(values = c("#1f77b4", "#ff7f0e",
                                     "#2ca02c", "#d62728"))
 ```
 
-::::{.notes}
-
 - **Precaución**: los elementos decorativos deben ayudar a nuestro objetivo de transmitir *información*
 
 ::::
 
-- Es preferible usar **paletas predefinidas** con criterios de diseño y visualización de información:
+- Se pueden cambiar manualmente **colores** (p.e.,  `scale_fill_manual()`) o la forma (ej., `scale_shape_manual()`)
+
+- PERO es preferible usar *paletas predefinidas* con criterios de diseño y visualización de *información*:
 
 ```{r paletas-predefinidas}
 #| eval: false
 library(RColorBrewer)
 display.brewer.all()
 graf + scale_fill_brewer(palette = "Set2")
+```
+
+
+```{r paletas-predefinidas2}
+#| eval: false
+#| echo: false
 graf + scale_fill_brewer(palette = "Dark2")
 ```
 
@@ -945,15 +926,22 @@ graf + scale_fill_brewer(palette = "Dark2")
 
 - [`RColorBrewer`](http://www.colorbrewer2.org) <!--de Cynthia Brewer--> o 
 [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) <!--(replica `matplotlib` de Python)-->
+
+- También se puede cambiar la [forma](https://ggplot2.tidyverse.org/reference/scale_shape.html) con `scale_shape_manual()` 
 ::::
 
 
-- También se puede cambiar la [forma](https://ggplot2.tidyverse.org/reference/scale_shape.html) con `scale_shape_manual()` 
+. . .
 
+:::: {.notes}
 
-## Personalizar el aspecto general: Temas
+**TEMAS**
 
 - Se puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:
+
+::::
+
+- Se puede añadir una capa de **tema** (estilo general de todos los componentes)
 
 ```{r temas-predefinidos0}
 #| eval: false
@@ -969,18 +957,18 @@ graf + theme_classic()
 ```{r temas-predefinidos}
 #| eval: false
 graf + theme_gray()       # predeterminado
-graf + theme_light()
 graf + theme_minimal()
-graf + theme_classic()
 ```
 
-- **Temas profesionales**
+- También existen **temas profesionales** predefinidos en bibliotecas
 ```{r temas-profesionales}
 #| eval: false
 library(ggthemes)
 graf + theme_economist() + scale_fill_economist()     
 ```
 
+
+:::: {.notes}
 - Nota: es posible, pero *no recomendable* personalizar elementos concretos del tema (o definir un tema nuevo propio) 
 
 ```{r personalizacion}
@@ -989,7 +977,7 @@ tema_empresa <- theme_minimal() +
   theme(text = element_text(color = "darkblue", family = "Arial"))
 graf + tema_empresa
 ```
-
+::::
 
 <!-- ## ------------------------------------------------------------------- -->
 :::: {.notes}

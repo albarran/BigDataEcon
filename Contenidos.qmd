@@ -101,7 +101,6 @@ strip-comments: true
 
   * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
 
-
   * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
 <!--
     - Fecha límite de entrega: **dom., 06-oct., 23:59h**
