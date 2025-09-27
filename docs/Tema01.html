@@ -1241,19 +1241,19 @@ display:block!important;
 <tr class="header">
 <th>Tipo</th>
 <th>Función</th>
-<th>Uso Principal</th>
+<th>Uso Habitual</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>Puntos</strong></td>
 <td><code>geom_point()</code></td>
-<td>Dispersión, correlaciones</td>
+<td>Dispersión</td>
 </tr>
 <tr class="even">
 <td><strong>Líneas</strong></td>
 <td><code>geom_line()</code></td>
-<td>Series temporales</td>
+<td>Evolución temporal</td>
 </tr>
 <tr class="odd">
 <td><strong>Barras</strong></td>
@@ -1273,19 +1273,19 @@ display:block!important;
 <tr class="even">
 <td><strong>Suavizado</strong></td>
 <td><code>geom_smooth()</code></td>
-<td>Tendencias, regresión</td>
+<td>Tendencias</td>
 </tr>
 <tr class="odd">
 <td><strong>Texto</strong></td>
 <td><code>geom_text()</code></td>
-<td>Etiquetas, anotaciones</td>
+<td>Etiquetas</td>
 </tr>
 </tbody>
 </table>
 <p>Para lista completa: buscar funciones que comienzan con <code>geom_</code> en Ayuda</p>
 </section>
-<section id="elementos-estéticos-con-aes" class="slide level2">
-<h2>Elementos Estéticos con <code>aes()</code></h2>
+<section id="asociación-estética-con-aes" class="slide level2">
+<h2>Asociación Estética, con <code>aes()</code></h2>
 <aside class="notes">
 <p>Elementos estéticos son “algo que se puede ver” (información)</p>
 <style type="text/css">
@@ -1301,6 +1301,32 @@ display:block!important;
 }</style></aside>
 <ul>
 <li><p>Cada <code>aes()</code> es una asociación entre una <strong>señal visual</strong> y una <strong>variable</strong>:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 10%">
+<col style="width: 52%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>posición</strong>: <code>x</code>, <code>y</code></td>
+<td>|</td>
+<td><strong>forma</strong>: <code>shape</code></td>
+</tr>
+<tr class="even">
+<td><strong>color</strong>: color exterior</td>
+<td>|</td>
+<td><strong>relleno</strong>: <code>fill</code> (color interior)</td>
+</tr>
+<tr class="odd">
+<td><strong>tamaño</strong>: <code>size</code></td>
+<td>|</td>
+<td><strong>tipo de línea</strong>: <code>linetype</code></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<aside class="notes">
 <ul>
 <li><strong>posición</strong>: <code>x</code>, <code>y</code><br>
 </li>
@@ -1309,32 +1335,7 @@ display:block!important;
 <li><strong>forma</strong>: <code>shape</code> (de los puntos)</li>
 <li><strong>tipo de línea</strong>: <code>linetype</code></li>
 <li><strong>tamaño</strong>: <code>size</code></li>
-</ul></li>
-<li><p><strong>Regla de oro</strong>: Si quieres que algo varíe con los datos, ponlo en <code>aes()</code></p></li>
 </ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> marketing, <span class="at">y =</span> ventas)) <span class="sc">+</span></span>
-<span id="cb6-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region, <span class="at">size =</span> satisfaccion))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li>Cada <code>geom</code> acepta solo un subconjunto de estéticas (ver ayuda)</li>
-</ul>
-<aside class="notes">
-<p><strong><code>esquisse</code>: Interfaz Gráfica</strong></p>
-<p><code>esquisse</code> implementa visualmente la lógica de <code>ggplot2</code>:</p>
-<ul>
-<li>Similar a Tableau, PowerBI, Gapminder</li>
-<li>“Arrastrar y soltar” variables a estéticas</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co">#install.packages(&quot;esquisse&quot;)</span></span>
-<span id="cb7-2"><a></a><span class="fu">library</span>(esquisse)</span>
-<span id="cb7-3"><a></a><span class="fu">esquisser</span>()                         </span>
-<span id="cb7-4"><a></a><span class="fu">data</span>(<span class="st">&quot;mpg&quot;</span>)</span>
-<span id="cb7-5"><a></a><span class="fu">esquisser</span>(mpg, <span class="at">viewer =</span> <span class="st">&quot;browser&quot;</span>)   </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>Características:</strong> - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico<br>
-- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1346,22 +1347,45 @@ width: 1px!important;
 overflow: hidden!important;
 display:block!important;
 }</style></aside>
+<ul>
+<li><p>Algunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas</p></li>
+<li><p>Cada <code>geom</code> acepta solo un subconjunto de estéticas (ver ayuda)</p></li>
+<li><p><strong>Regla de oro</strong>: Si quieres que algo varíe con los datos, ponlo en <code>aes()</code></p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> marketing, <span class="at">y =</span> ventas)) <span class="sc">+</span></span>
+<span id="cb6-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="asociación-estética-vs.-opción-fija" class="slide level2">
 <h2>Asociación Estética vs. Opción Fija</h2>
 <ul>
 <li>Con <code>aes()</code>, se visualiza una <strong>variable</strong> con una señal visual</li>
 </ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib)) <span class="sc">+</span></span>
-<span id="cb8-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> norte, <span class="at">color =</span> deuda))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <ul>
 <li>Fuera de <code>aes()</code>, se establece un <strong>valor fijo</strong> de la señal visual</li>
 </ul>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> marketing, <span class="at">y =</span> ventas)) <span class="sc">+</span></span>
+<span id="cb7-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>Principio</strong>: Añadir señal visual para representar información, NO “embellecer”</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib)) <span class="sc">+</span></span>
+<span id="cb8-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte), <span class="at">shape =</span> <span class="st">&quot;diamond&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>NO saturar el gráfico con estéticas fijas o información innecesaria</li>
+</ul>
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib)) <span class="sc">+</span></span>
-<span id="cb9-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="st">&quot;diamond&quot;</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> inflacion, <span class="at">color =</span> deuda))</span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib)) <span class="sc">+</span></span>
+<span id="cb9-5"><a></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="st">&quot;diamond&quot;</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <p><strong>Nota</strong>: <code>norte</code> (carácter) se convierte automáticamente a factor: → escala categórica</p>
@@ -1376,6 +1400,34 @@ width: 1px!important;
 overflow: hidden!important;
 display:block!important;
 }</style></aside>
+<aside class="notes">
+<p><strong><code>esquisse</code>: Interfaz Gráfica</strong></p>
+<p><code>esquisse</code> implementa visualmente la lógica de <code>ggplot2</code>:</p>
+<ul>
+<li>Similar a Tableau, PowerBI, Gapminder</li>
+<li>“Arrastrar y soltar” variables a estéticas</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co">#install.packages(&quot;esquisse&quot;)</span></span>
+<span id="cb10-2"><a></a><span class="fu">library</span>(esquisse)</span>
+<span id="cb10-3"><a></a><span class="fu">esquisser</span>()                         </span>
+<span id="cb10-4"><a></a><span class="fu">data</span>(<span class="st">&quot;mpg&quot;</span>)</span>
+<span id="cb10-5"><a></a><span class="fu">esquisser</span>(mpg, <span class="at">viewer =</span> <span class="st">&quot;browser&quot;</span>)   </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Características:</strong> - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico<br>
+- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</div>
 </section>
 <section id="gráficos-como-objetos" class="slide level2">
 <h2>Gráficos como Objetos</h2>
@@ -1383,21 +1435,17 @@ display:block!important;
 <li>Un gráfico también es un objeto de R</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>graf_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib)) <span class="sc">+</span></span>
-<span id="cb10-2"><a></a>                <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>graf_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib)) <span class="sc">+</span></span>
+<span id="cb11-2"><a></a>                <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Se pueden agregar capas a este objeto:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_line</span>()</span>
-<span id="cb11-2"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> norte)) </span>
-<span id="cb11-3"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> inflacion, <span class="at">color =</span> deuda))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_line</span>()</span>
+<span id="cb12-2"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> norte)) </span>
+<span id="cb12-3"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> inflacion, <span class="at">color =</span> deuda))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<ul>
-<li><p><strong>Principio</strong>: Añadir señal visual para representar información adicional, NO para “embellecer”</p></li>
-<li><p>NO saturar el gráfico con estéticas fijas o información innecesaria</p></li>
-</ul>
 </section>
 <section id="datos-y-estéticas-específicas-por-capa" class="slide level2">
 <h2>Datos (y estéticas) específicas por capa</h2>
@@ -1421,20 +1469,20 @@ display:block!important;
 <li><code>geom_text()</code>: acepta estéticas de etiquetas (variables con texto):</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>)</span>
-<span id="cb12-2"><a></a></span>
-<span id="cb12-3"><a></a><span class="fu">library</span>(ggrepel)  <span class="co"># Evita solapamiento</span></span>
-<span id="cb12-4"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>)</span>
+<span id="cb13-2"><a></a></span>
+<span id="cb13-3"><a></a><span class="fu">library</span>(ggrepel)  <span class="co"># Evita solapamiento</span></span>
+<span id="cb13-4"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Ahora con datos específicos por capa si solo queremos señalar algunos puntos</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>graf_base <span class="sc">+</span> </span>
-<span id="cb13-2"><a></a>  <span class="fu">geom_text_repel</span>(</span>
-<span id="cb13-3"><a></a>    <span class="at">data =</span> <span class="fu">subset</span>(macro, </span>
-<span id="cb13-4"><a></a>                  pais <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;España&quot;</span>,<span class="st">&quot;Francia&quot;</span>,<span class="st">&quot;Alemania&quot;</span>)), </span>
-<span id="cb13-5"><a></a>    <span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>graf_base <span class="sc">+</span> </span>
+<span id="cb14-2"><a></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb14-3"><a></a>    <span class="at">data =</span> <span class="fu">subset</span>(macro, </span>
+<span id="cb14-4"><a></a>                  pais <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;España&quot;</span>,<span class="st">&quot;Francia&quot;</span>,<span class="st">&quot;Alemania&quot;</span>)), </span>
+<span id="cb14-5"><a></a>    <span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Esta idea se puede <strong>generalizar</strong>: usar distintos datos o estéticas en cada capa según las necesidades del gráfico</li>
@@ -1447,23 +1495,38 @@ display:block!important;
 </ul>
 <ul>
 <li><p>Pero otros gráficos representan estadísticas calculadas a partir de los datos</p></li>
-<li><p><code>geom_smooth()</code>: regresión → predicciones</p></li>
+<li><p><code>geom_boxplot()</code>: datos → cuartiles, mediana</p></li>
+</ul>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">ggplot</span>(clientes, </span>
+<span id="cb15-2"><a></a>       <span class="fu">aes</span>(<span class="at">y =</span> gasto<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span>  </span>
+<span id="cb15-3"><a></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column">
+<center>
+<img role="img" data-src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzgwIiBoZWlnaHQ9IjI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEZvbmRvIC0tPgogIDxyZWN0IHdpZHRoPSIzODAiIGhlaWdodD0iMjYwIiBmaWxsPSIjZjhmOGY4Ii8+CiAgCiAgPCEtLSDDgXJlYSBkZWwgZGlhZ3JhbWEgLS0+CiAgPHJlY3QgeD0iMTcwIiB5PSI1IiB3aWR0aD0iNjAiIGhlaWdodD0iMjQwIiBmaWxsPSIjZTBlMGUwIiBvcGFjaXR5PSIwLjMiLz4KICAKICA8IS0tIE91dGxpZXJzICh2YWxvcmVzIGF0w61waWNvcykgLS0+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMjAiIHI9IjMiIGZpbGw9ImJsYWNrIi8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iNDAiIHI9IjMiIGZpbGw9ImJsYWNrIi8+CiAgCiAgPCEtLSBMw61uZWEgc3VwZXJpb3IgKG3DoXhpbW8gbm8gYXTDrXBpY28pIC0tPgogIDxsaW5lIHgxPSIxOTUiIHkxPSI2NSIgeDI9IjIwNSIgeTI9IjY1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iMjAwIiB5MT0iNjUiIHgyPSIyMDAiIHkyPSI4NSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgCiAgPCEtLSBDYWphIHByaW5jaXBhbCAtLT4KICA8cmVjdCB4PSIxODUiIHk9Ijg1IiB3aWR0aD0iMzAiIGhlaWdodD0iMTIwIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgCiAgPCEtLSBNZWRpYW5hIChRMikgLS0+CiAgPGxpbmUgeDE9IjE4NSIgeTE9IjE0NSIgeDI9IjIxNSIgeTI9IjE0NSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgCiAgPCEtLSBMw61uZWEgaW5mZXJpb3IgKG3DrW5pbW8gbm8gYXTDrXBpY28pIC0tPgogIDxsaW5lIHgxPSIyMDAiIHkxPSIyMDUiIHgyPSIyMDAiIHkyPSIyMjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIvPgogIDxsaW5lIHgxPSIxOTUiIHkxPSIyMjUiIHgyPSIyMDUiIHkyPSIyMjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIvPgogIAogIDwhLS0gRXRpcXVldGFzIGNvbiBmbGVjaGFzIC0tPgogIAogIDwhLS0gT3V0bGllcnMgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjMwIiB4Mj0iMTY1IiB5Mj0iMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjMwIiB4Mj0iMTY1IiB5Mj0iNDAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPHRleHQgeD0iMzAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciIGZvbnQtd2VpZ2h0PSJib2xkIj5WYWxvcmVzPC90ZXh0PgogIDx0ZXh0IHg9IjMwIiB5PSI0MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iYm9sZCI+YXTDrXBpY29zPC90ZXh0PgogIAogIDwhLS0gUTMgKHBlcmNlbnRpbCA3NSkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9Ijg1IiB4Mj0iMTgwIiB5Mj0iODUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPHRleHQgeD0iMzAiIHk9IjgwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPlBlcmNlbnRpbCA3NTwvdGV4dD4KICA8dGV4dCB4PSIzMCIgeT0iOTciIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyI+KFEzKTwvdGV4dD4KICAKICA8IS0tIE1lZGlhbmEgKFEyL3BlcmNlbnRpbCA1MCkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjE0NSIgeDI9IjE4MCIgeTI9IjE0NSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93aGVhZCkiLz4KICA8dGV4dCB4PSIzMCIgeT0iMTQwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPk1lZGlhbmE8L3RleHQ+CiAgPHRleHQgeD0iMzAiIHk9IjE1NyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3Ij4oUTIpPC90ZXh0PgogIAogIDwhLS0gUTEgKHBlcmNlbnRpbCAyNSkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjIwNSIgeDI9IjE4MCIgeTI9IjIwNSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93aGVhZCkiLz4KICA8dGV4dCB4PSIzMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPlBlcmNlbnRpbCAyNTwvdGV4dD4KICA8dGV4dCB4PSIzMCIgeT0iMjE3IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPihRMSk8L3RleHQ+CiAgCiAgPCEtLSBNw6F4aW1vIG5vIGF0w61waWNvIC0gTcOBUyBBUlJJQkEgLS0+CiAgPGxpbmUgeDE9IjI1MCIgeTE9Ijc1IiB4Mj0iMjMwIiB5Mj0iNjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPHRleHQgeD0iMjgwIiB5PSI3MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNjY2Ij5Nw6F4aW1vPC90ZXh0PgogIDx0ZXh0IHg9IjI4MCIgeT0iODMiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzY2NiI+KG5vIGF0w61waWNvKTwvdGV4dD4KICAKICA8IS0tIE3DrW5pbW8gbm8gYXTDrXBpY28gLS0+CiAgPGxpbmUgeDE9IjI1MCIgeTE9IjI0MCIgeDI9IjIzMCIgeTI9IjIyNSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93aGVhZCkiLz4KICA8dGV4dCB4PSIyODAiIHk9IjIzNyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNjY2Ij5Nw61uaW1vPC90ZXh0PgogIDx0ZXh0IHg9IjI4MCIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiM2NjYiPihubyBhdMOtcGljbyk8L3RleHQ+CiAgCiAgPCEtLSBSYW5nbyBpbnRlcmN1YXJ0w61saWNvIC0tPgogIDxsaW5lIHgxPSIyNDAiIHkxPSI4NSIgeDI9IjI0MCIgeTI9IjIwNSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iMjM3IiB5MT0iODUiIHgyPSIyNDMiIHkyPSI4NSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iMjM3IiB5MT0iMjA1IiB4Mj0iMjQzIiB5Mj0iMjA1IiBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMiIvPgogIAogIDwhLS0gRmxlY2hhIGRvYmxlIHBhcmEgUklDIC0tPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyb3doZWFkIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iNyIgcmVmWD0iOSIgcmVmWT0iMy41IiBvcmllbnQ9ImF1dG8iPgogICAgICA8cG9seWdvbiBwb2ludHM9IjAgMCwgMTAgMy41LCAwIDciIGZpbGw9ImJsYWNrIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgCiAgPHRleHQgeD0iMjUwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzg4OCIgZm9udC13ZWlnaHQ9ImJvbGQiPlJhbmdvPC90ZXh0PgogIDx0ZXh0IHg9IjI1MCIgeT0iMTU0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM4ODgiIGZvbnQtd2VpZ2h0PSJib2xkIj5JbnRlcmN1YXJ0w61saWNvPC90ZXh0PgogIDx0ZXh0IHg9IjI1MCIgeT0iMTY4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM4ODgiIGZvbnQtd2VpZ2h0PSJib2xkIj4oUklDKTwvdGV4dD4KICAKICA8IS0tIEV0aXF1ZXRhIDEuNSB4IFJJQyAtLT4KICA8bGluZSB4MT0iMjQ1IiB5MT0iNDAiIHgyPSIyNDUiIHkyPSI4NSIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjMsMyIvPgogIDx0ZXh0IHg9IjI1NSIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzk5OSI+MS41IMOXIFJJQzwvdGV4dD4KPC9zdmc+" style="width:60.0%">
+</center>
+</div></div>
+<ul>
+<li><code>geom_smooth()</code>: regresión → predicción de línea de tendencia</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_smooth</span>()           <span class="co"># con intervalos de confianza</span></span>
-<span id="cb14-2"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_smooth</span>()           <span class="co"># con intervalos de confianza</span></span>
+<span id="cb16-2"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
 <li>Podríamos agregar la línea de regresión “manualmente”</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>res <span class="ot">&lt;-</span> <span class="fu">lm</span>(gasto <span class="sc">~</span> ingreso, <span class="at">data =</span> clientes)</span>
-<span id="cb15-2"><a></a>clientes<span class="sc">$</span>ingreso_pred <span class="ot">&lt;-</span> res[[<span class="st">&quot;fitted.values&quot;</span>]]</span>
-<span id="cb15-3"><a></a><span class="co"># graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base</span></span>
-<span id="cb15-4"><a></a></span>
-<span id="cb15-5"><a></a>graf_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">y =</span> gasto, <span class="at">x =</span> ingreso)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb15-6"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ingreso_pred))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>res <span class="ot">&lt;-</span> <span class="fu">lm</span>(gasto <span class="sc">~</span> ingreso, <span class="at">data =</span> clientes)</span>
+<span id="cb17-2"><a></a>clientes<span class="sc">$</span>ingreso_pred <span class="ot">&lt;-</span> res[[<span class="st">&quot;fitted.values&quot;</span>]]</span>
+<span id="cb17-3"><a></a><span class="co"># graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base</span></span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a>graf_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">y =</span> gasto, <span class="at">x =</span> ingreso)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb17-6"><a></a>graf_base <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ingreso_pred))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>NO necesitamos repetir la estetica de posición <code>x</code> para <code>geom_line()</code> porque ya está definida en <code>graf_base</code></li>
@@ -1479,21 +1542,6 @@ width: 1px!important;
 overflow: hidden!important;
 display:block!important;
 }</style></aside>
-<ul>
-<li><code>geom_boxplot()</code>: datos → cuartiles, mediana</li>
-</ul>
-<div class="columns">
-<div class="column">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">ggplot</span>(clientes, </span>
-<span id="cb16-2"><a></a>       <span class="fu">aes</span>(<span class="at">y =</span> gasto<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span>  </span>
-<span id="cb16-3"><a></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div><div class="column">
-<center>
-<img role="img" data-src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzgwIiBoZWlnaHQ9IjI2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEZvbmRvIC0tPgogIDxyZWN0IHdpZHRoPSIzODAiIGhlaWdodD0iMjYwIiBmaWxsPSIjZjhmOGY4Ii8+CiAgCiAgPCEtLSDDgXJlYSBkZWwgZGlhZ3JhbWEgLS0+CiAgPHJlY3QgeD0iMTcwIiB5PSI1IiB3aWR0aD0iNjAiIGhlaWdodD0iMjQwIiBmaWxsPSIjZTBlMGUwIiBvcGFjaXR5PSIwLjMiLz4KICAKICA8IS0tIE91dGxpZXJzICh2YWxvcmVzIGF0w61waWNvcykgLS0+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMjAiIHI9IjMiIGZpbGw9ImJsYWNrIi8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iNDAiIHI9IjMiIGZpbGw9ImJsYWNrIi8+CiAgCiAgPCEtLSBMw61uZWEgc3VwZXJpb3IgKG3DoXhpbW8gbm8gYXTDrXBpY28pIC0tPgogIDxsaW5lIHgxPSIxOTUiIHkxPSI2NSIgeDI9IjIwNSIgeTI9IjY1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iMjAwIiB5MT0iNjUiIHgyPSIyMDAiIHkyPSI4NSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgCiAgPCEtLSBDYWphIHByaW5jaXBhbCAtLT4KICA8cmVjdCB4PSIxODUiIHk9Ijg1IiB3aWR0aD0iMzAiIGhlaWdodD0iMTIwIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgCiAgPCEtLSBNZWRpYW5hIChRMikgLS0+CiAgPGxpbmUgeDE9IjE4NSIgeTE9IjE0NSIgeDI9IjIxNSIgeTI9IjE0NSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgCiAgPCEtLSBMw61uZWEgaW5mZXJpb3IgKG3DrW5pbW8gbm8gYXTDrXBpY28pIC0tPgogIDxsaW5lIHgxPSIyMDAiIHkxPSIyMDUiIHgyPSIyMDAiIHkyPSIyMjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIvPgogIDxsaW5lIHgxPSIxOTUiIHkxPSIyMjUiIHgyPSIyMDUiIHkyPSIyMjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIvPgogIAogIDwhLS0gRXRpcXVldGFzIGNvbiBmbGVjaGFzIC0tPgogIAogIDwhLS0gT3V0bGllcnMgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjMwIiB4Mj0iMTY1IiB5Mj0iMjAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjMwIiB4Mj0iMTY1IiB5Mj0iNDAiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPHRleHQgeD0iMzAiIHk9IjI1IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciIGZvbnQtd2VpZ2h0PSJib2xkIj5WYWxvcmVzPC90ZXh0PgogIDx0ZXh0IHg9IjMwIiB5PSI0MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iYm9sZCI+YXTDrXBpY29zPC90ZXh0PgogIAogIDwhLS0gUTMgKHBlcmNlbnRpbCA3NSkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9Ijg1IiB4Mj0iMTgwIiB5Mj0iODUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPHRleHQgeD0iMzAiIHk9IjgwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPlBlcmNlbnRpbCA3NTwvdGV4dD4KICA8dGV4dCB4PSIzMCIgeT0iOTciIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyI+KFEzKTwvdGV4dD4KICAKICA8IS0tIE1lZGlhbmEgKFEyL3BlcmNlbnRpbCA1MCkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjE0NSIgeDI9IjE4MCIgeTI9IjE0NSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93aGVhZCkiLz4KICA8dGV4dCB4PSIzMCIgeT0iMTQwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPk1lZGlhbmE8L3RleHQ+CiAgPHRleHQgeD0iMzAiIHk9IjE1NyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3Ij4oUTIpPC90ZXh0PgogIAogIDwhLS0gUTEgKHBlcmNlbnRpbCAyNSkgLS0+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjIwNSIgeDI9IjE4MCIgeTI9IjIwNSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93aGVhZCkiLz4KICA8dGV4dCB4PSIzMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPlBlcmNlbnRpbCAyNTwvdGV4dD4KICA8dGV4dCB4PSIzMCIgeT0iMjE3IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTciPihRMSk8L3RleHQ+CiAgCiAgPCEtLSBNw6F4aW1vIG5vIGF0w61waWNvIC0gTcOBUyBBUlJJQkEgLS0+CiAgPGxpbmUgeDE9IjI1MCIgeTE9Ijc1IiB4Mj0iMjMwIiB5Mj0iNjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMSIgbWFya2VyLWVuZD0idXJsKCNhcnJvd2hlYWQpIi8+CiAgPHRleHQgeD0iMjgwIiB5PSI3MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNjY2Ij5Nw6F4aW1vPC90ZXh0PgogIDx0ZXh0IHg9IjI4MCIgeT0iODMiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzY2NiI+KG5vIGF0w61waWNvKTwvdGV4dD4KICAKICA8IS0tIE3DrW5pbW8gbm8gYXTDrXBpY28gLS0+CiAgPGxpbmUgeDE9IjI1MCIgeTE9IjI0MCIgeDI9IjIzMCIgeTI9IjIyNSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIxIiBtYXJrZXItZW5kPSJ1cmwoI2Fycm93aGVhZCkiLz4KICA8dGV4dCB4PSIyODAiIHk9IjIzNyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNjY2Ij5Nw61uaW1vPC90ZXh0PgogIDx0ZXh0IHg9IjI4MCIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiM2NjYiPihubyBhdMOtcGljbyk8L3RleHQ+CiAgCiAgPCEtLSBSYW5nbyBpbnRlcmN1YXJ0w61saWNvIC0tPgogIDxsaW5lIHgxPSIyNDAiIHkxPSI4NSIgeDI9IjI0MCIgeTI9IjIwNSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iMjM3IiB5MT0iODUiIHgyPSIyNDMiIHkyPSI4NSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iMjM3IiB5MT0iMjA1IiB4Mj0iMjQzIiB5Mj0iMjA1IiBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMiIvPgogIAogIDwhLS0gRmxlY2hhIGRvYmxlIHBhcmEgUklDIC0tPgogIDxkZWZzPgogICAgPG1hcmtlciBpZD0iYXJyb3doZWFkIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iNyIgcmVmWD0iOSIgcmVmWT0iMy41IiBvcmllbnQ9ImF1dG8iPgogICAgICA8cG9seWdvbiBwb2ludHM9IjAgMCwgMTAgMy41LCAwIDciIGZpbGw9ImJsYWNrIi8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgCiAgPHRleHQgeD0iMjUwIiB5PSIxNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzg4OCIgZm9udC13ZWlnaHQ9ImJvbGQiPlJhbmdvPC90ZXh0PgogIDx0ZXh0IHg9IjI1MCIgeT0iMTU0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM4ODgiIGZvbnQtd2VpZ2h0PSJib2xkIj5JbnRlcmN1YXJ0w61saWNvPC90ZXh0PgogIDx0ZXh0IHg9IjI1MCIgeT0iMTY4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM4ODgiIGZvbnQtd2VpZ2h0PSJib2xkIj4oUklDKTwvdGV4dD4KICAKICA8IS0tIEV0aXF1ZXRhIDEuNSB4IFJJQyAtLT4KICA8bGluZSB4MT0iMjQ1IiB5MT0iNDAiIHgyPSIyNDUiIHkyPSI4NSIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjMsMyIvPgogIDx0ZXh0IHg9IjI1NSIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzk5OSI+MS41IMOXIFJJQzwvdGV4dD4KPC9zdmc+" style="width:60.0%">
-</center>
-</div></div>
 </section>
 <section id="gráficos-que-muestran-datos-transformados-cont." class="slide level2">
 <h2>Gráficos que muestran datos transformados (cont.)</h2>
@@ -1505,23 +1553,23 @@ display:block!important;
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
 <li>Con datos ya transformados, usar <code>stat = &quot;identity&quot;</code>:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="co"># Frecuencias automáticas</span></span>
-<span id="cb18-2"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span>
-<span id="cb18-3"><a></a></span>
-<span id="cb18-4"><a></a><span class="co"># Valores ya calculados - ventas promedio por región</span></span>
-<span id="cb18-5"><a></a>ventas_promedio <span class="ot">&lt;-</span> ventas <span class="sc">%&gt;%</span> </span>
-<span id="cb18-6"><a></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-7"><a></a>  <span class="fu">summarise</span>(<span class="at">venta_media_miles =</span> <span class="fu">mean</span>(ventas))</span>
-<span id="cb18-8"><a></a></span>
-<span id="cb18-9"><a></a><span class="fu">ggplot</span>(ventas_promedio, <span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">y =</span> venta_media_miles)) <span class="sc">+</span> </span>
-<span id="cb18-10"><a></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="co"># Frecuencias automáticas</span></span>
+<span id="cb19-2"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span>
+<span id="cb19-3"><a></a></span>
+<span id="cb19-4"><a></a><span class="co"># Valores ya calculados - ventas promedio por región</span></span>
+<span id="cb19-5"><a></a>ventas_promedio <span class="ot">&lt;-</span> ventas <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a></a>  <span class="fu">summarise</span>(<span class="at">venta_media_miles =</span> <span class="fu">mean</span>(ventas))</span>
+<span id="cb19-8"><a></a></span>
+<span id="cb19-9"><a></a><span class="fu">ggplot</span>(ventas_promedio, <span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">y =</span> venta_media_miles)) <span class="sc">+</span> </span>
+<span id="cb19-10"><a></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1535,17 +1583,17 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 <ul>
-<li><p>Para variables continuas, no existen categorías “naturales” para calcular las frecuencias</p>
+<li><p>En variables continuas, no hay categorías “naturales” para calcular frecuencias</p>
 <ul>
 <li><p>Se tienen que definir “arbitrariamente” los intervalos</p></li>
-<li><p>Distintas elecciones pueden revelar distinta información</p></li>
+<li><p>Distintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico</p></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">x =</span> ingresos<span class="sc">/</span><span class="dv">1000</span>))</span>
-<span id="cb19-2"><a></a>graf <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>)              <span class="co"># Número de grupos</span></span>
-<span id="cb19-3"><a></a>graf <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">3</span>)           <span class="co"># Ancho de grupos</span></span>
-<span id="cb19-4"><a></a>graf <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">90</span>,<span class="dv">5</span>))  <span class="co"># Rangos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">x =</span> ingresos<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb20-2"><a></a>graf <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>)              <span class="co"># Número de grupos</span></span>
+<span id="cb20-3"><a></a>graf <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">3</span>)           <span class="co"># Ancho de grupos</span></span>
+<span id="cb20-4"><a></a>graf <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">90</span>,<span class="dv">5</span>))  <span class="co"># Rangos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="escalas-control-de-asociación-estética" class="slide level2">
@@ -1655,17 +1703,17 @@ display:block!important;
 <li><p>Otros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> pais, <span class="at">x =</span> pib)) <span class="sc">+</span> </span>
-<span id="cb20-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> desempleo))  <span class="sc">+</span></span>
-<span id="cb20-3"><a></a>  <span class="fu">scale_color_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),</span>
-<span id="cb20-4"><a></a>                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>), </span>
-<span id="cb20-5"><a></a>                         <span class="at">low =</span> <span class="st">&quot;green&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb20-6"><a></a></span>
-<span id="cb20-7"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> </span>
-<span id="cb20-8"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte, <span class="at">size =</span> deuda, <span class="at">shape =</span> norte)) <span class="sc">+</span> </span>
-<span id="cb20-9"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">5</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">25</span>)) <span class="sc">+</span></span>
-<span id="cb20-10"><a></a>  <span class="fu">scale_shape_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Norte&quot;</span>, <span class="st">&quot;Sur&quot;</span>), </span>
-<span id="cb20-11"><a></a>                       <span class="at">name =</span> <span class="st">&quot;Zona de Europa&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> pais, <span class="at">x =</span> pib)) <span class="sc">+</span> </span>
+<span id="cb21-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> desempleo))  <span class="sc">+</span></span>
+<span id="cb21-3"><a></a>  <span class="fu">scale_color_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),</span>
+<span id="cb21-4"><a></a>                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>), </span>
+<span id="cb21-5"><a></a>                         <span class="at">low =</span> <span class="st">&quot;green&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb21-6"><a></a></span>
+<span id="cb21-7"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> </span>
+<span id="cb21-8"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte, <span class="at">size =</span> deuda, <span class="at">shape =</span> norte)) <span class="sc">+</span> </span>
+<span id="cb21-9"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">5</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">25</span>)) <span class="sc">+</span></span>
+<span id="cb21-10"><a></a>  <span class="fu">scale_shape_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Norte&quot;</span>, <span class="st">&quot;Sur&quot;</span>), </span>
+<span id="cb21-11"><a></a>                       <span class="at">name =</span> <span class="st">&quot;Zona de Europa&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -1723,8 +1771,8 @@ display:block!important;
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> poblacion)) <span class="sc">+</span> </span>
-<span id="cb21-2"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">20</span>)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> poblacion)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">20</span>)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Mejor que <code>x = log(pib)</code> porque los ejes se muestran en unidades originales</li>
@@ -1759,23 +1807,23 @@ display:block!important;
 <li><p>Facilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a>graf_tiempo <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ventas_tiempo, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> ventas))</span>
-<span id="cb22-2"><a></a>graf_tiempo <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> region))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>graf_tiempo <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ventas_tiempo, <span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> ventas))</span>
+<span id="cb23-2"><a></a>graf_tiempo <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> region))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>facet_wrap()</code>: facetas por una variable (usando “fórmula” <code>~</code>)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>graf_tiempo <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>region, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>graf_tiempo <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>region, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>facet_grid()</code>: facetas en dos dimensiones</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>g3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> clientes) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> gasto))</span>
-<span id="cb24-2"><a></a>g3 <span class="sc">+</span> <span class="fu">facet_grid</span>(segmento <span class="sc">~</span> canal)  <span class="co"># Filas y columnas</span></span>
-<span id="cb24-3"><a></a>g3 <span class="sc">+</span> <span class="fu">facet_grid</span>(segmento <span class="sc">~</span> .)      <span class="co"># Solo por filas </span></span>
-<span id="cb24-4"><a></a>g3 <span class="sc">+</span> <span class="fu">facet_grid</span>(. <span class="sc">~</span> canal)         <span class="co"># Solo por columnas</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>g3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> clientes) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> gasto))</span>
+<span id="cb25-2"><a></a>g3 <span class="sc">+</span> <span class="fu">facet_grid</span>(segmento <span class="sc">~</span> canal)  <span class="co"># Filas y columnas</span></span>
+<span id="cb25-3"><a></a>g3 <span class="sc">+</span> <span class="fu">facet_grid</span>(segmento <span class="sc">~</span> .)      <span class="co"># Solo por filas </span></span>
+<span id="cb25-4"><a></a>g3 <span class="sc">+</span> <span class="fu">facet_grid</span>(. <span class="sc">~</span> canal)         <span class="co"># Solo por columnas</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="contexto-con-labs" class="slide level2">
@@ -1787,18 +1835,18 @@ display:block!important;
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> </span>
-<span id="cb25-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte, <span class="at">size =</span> deuda)) <span class="sc">+</span> </span>
-<span id="cb25-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb25-4"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-5"><a></a>    <span class="at">title =</span> <span class="st">&quot;Relación entre PIB per cápita y tasa de desempleo&quot;</span>,</span>
-<span id="cb25-6"><a></a>    <span class="at">subtitle =</span> <span class="st">&quot;Países de la Unión Europea (2023)&quot;</span>,</span>
-<span id="cb25-7"><a></a>    <span class="at">caption =</span> <span class="st">&quot;Fuente: Eurostat&quot;</span>,</span>
-<span id="cb25-8"><a></a>    <span class="at">x =</span> <span class="st">&quot;PIB per cápita (miles de €)&quot;</span>,</span>
-<span id="cb25-9"><a></a>    <span class="at">y =</span> <span class="st">&quot;Tasa de desempleo (%)&quot;</span>,</span>
-<span id="cb25-10"><a></a>    <span class="at">color =</span> <span class="st">&quot;Norte&quot;</span>,</span>
-<span id="cb25-11"><a></a>    <span class="at">size =</span> <span class="st">&quot;Deuda pública (% PIB)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb25-12"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> </span>
+<span id="cb26-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte, <span class="at">size =</span> deuda)) <span class="sc">+</span> </span>
+<span id="cb26-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-5"><a></a>    <span class="at">title =</span> <span class="st">&quot;Relación entre PIB per cápita y tasa de desempleo&quot;</span>,</span>
+<span id="cb26-6"><a></a>    <span class="at">subtitle =</span> <span class="st">&quot;Países de la Unión Europea (2023)&quot;</span>,</span>
+<span id="cb26-7"><a></a>    <span class="at">caption =</span> <span class="st">&quot;Fuente: Eurostat&quot;</span>,</span>
+<span id="cb26-8"><a></a>    <span class="at">x =</span> <span class="st">&quot;PIB per cápita (miles de €)&quot;</span>,</span>
+<span id="cb26-9"><a></a>    <span class="at">y =</span> <span class="st">&quot;Tasa de desempleo (%)&quot;</span>,</span>
+<span id="cb26-10"><a></a>    <span class="at">color =</span> <span class="st">&quot;Norte&quot;</span>,</span>
+<span id="cb26-11"><a></a>    <span class="at">size =</span> <span class="st">&quot;Deuda pública (% PIB)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb26-12"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="otros-elementos-de-contexto" class="slide level2">
@@ -1807,24 +1855,24 @@ display:block!important;
 <li><strong><code>annotate()</code></strong>: añade objetos geométricos NO asociados a variables:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
-<span id="cb26-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte)) <span class="sc">+</span> </span>
-<span id="cb26-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb26-4"><a></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">y =</span> <span class="dv">11</span>, </span>
-<span id="cb26-5"><a></a>           <span class="at">label =</span> <span class="st">&quot;La doble división Norte-Sur&quot;</span>) <span class="sc">+</span></span>
-<span id="cb26-6"><a></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">85</span>, <span class="at">y =</span> <span class="dv">6</span>, <span class="at">label =</span> <span class="st">&quot;R ^ 2 == 0.45&quot;</span>, </span>
-<span id="cb26-7"><a></a>           <span class="at">parse =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> pib<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb27-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> norte)) <span class="sc">+</span> </span>
+<span id="cb27-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">y =</span> <span class="dv">11</span>, </span>
+<span id="cb27-5"><a></a>           <span class="at">label =</span> <span class="st">&quot;La doble división Norte-Sur&quot;</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">85</span>, <span class="at">y =</span> <span class="dv">6</span>, <span class="at">label =</span> <span class="st">&quot;R ^ 2 == 0.45&quot;</span>, </span>
+<span id="cb27-7"><a></a>           <span class="at">parse =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><strong>Líneas de Referencia</strong></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">x =</span> canal, <span class="at">y =</span> gasto<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
-<span id="cb27-2"><a></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb27-3"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">3.0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
-<span id="cb27-4"><a></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb27-5"><a></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">3</span>, <span class="at">y =</span> <span class="fl">3.3</span>, </span>
-<span id="cb27-6"><a></a>           <span class="at">label =</span> <span class="st">&quot;Objetivo mínimo&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a><span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">x =</span> canal, <span class="at">y =</span> gasto<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb28-2"><a></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb28-3"><a></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">3.0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb28-4"><a></a>             <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">3</span>, <span class="at">y =</span> <span class="fl">3.3</span>, </span>
+<span id="cb28-6"><a></a>           <span class="at">label =</span> <span class="st">&quot;Objetivo mínimo&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="personalizar-el-aspecto-general" class="slide level2">
@@ -1838,13 +1886,13 @@ display:block!important;
 <li>Cambiamos colores manualmente usando nombres o <a href="https://html-color-codes.info/codigos-de-colores-hexadecimales/">códigos hexadecimales</a></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">y =</span> ventas, </span>
-<span id="cb28-2"><a></a>                           <span class="at">fill =</span> region)) <span class="sc">+</span> </span>
-<span id="cb28-3"><a></a>          <span class="fu">geom_boxplot</span>()</span>
-<span id="cb28-4"><a></a></span>
-<span id="cb28-5"><a></a>graf <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;orange&quot;</span>))</span>
-<span id="cb28-6"><a></a>graf <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;#ff7f0e&quot;</span>, </span>
-<span id="cb28-7"><a></a>                                    <span class="st">&quot;#2ca02c&quot;</span>, <span class="st">&quot;#d62728&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">y =</span> ventas, </span>
+<span id="cb29-2"><a></a>                           <span class="at">fill =</span> region)) <span class="sc">+</span> </span>
+<span id="cb29-3"><a></a>          <span class="fu">geom_boxplot</span>()</span>
+<span id="cb29-4"><a></a></span>
+<span id="cb29-5"><a></a>graf <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;orange&quot;</span>))</span>
+<span id="cb29-6"><a></a>graf <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#1f77b4&quot;</span>, <span class="st">&quot;#ff7f0e&quot;</span>, </span>
+<span id="cb29-7"><a></a>                                    <span class="st">&quot;#2ca02c&quot;</span>, <span class="st">&quot;#d62728&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><strong>Precaución</strong>: los elementos decorativos deben ayudar a nuestro objetivo de transmitir <em>información</em></li>
@@ -1865,9 +1913,11 @@ display:block!important;
 <li><p>PERO es preferible usar <em>paletas predefinidas</em> con criterios de diseño y visualización de <em>información</em>:</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb29-2"><a></a><span class="fu">display.brewer.all</span>()</span>
-<span id="cb29-3"><a></a>graf <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a>graf <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">y =</span> ventas, <span class="at">fill =</span> region)) <span class="sc">+</span> </span>
+<span id="cb30-2"><a></a>          <span class="fu">geom_boxplot</span>()</span>
+<span id="cb30-3"><a></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb30-4"><a></a><span class="fu">display.brewer.all</span>()</span>
+<span id="cb30-5"><a></a>graf <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -1905,25 +1955,31 @@ display:block!important;
 <ul>
 <li>Se puede añadir una capa de <strong>tema</strong> (estilo general de todos los componentes)</li>
 </ul>
+<div class="columns">
+<div class="column">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a>graf <span class="sc">+</span> <span class="fu">theme_gray</span>()       <span class="co"># predeterminado</span></span>
-<span id="cb30-2"><a></a>graf <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a>graf <span class="sc">+</span> <span class="fu">theme_gray</span>()      </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a></a>graf <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
 <ul>
 <li>También existen <strong>temas profesionales</strong> predefinidos en bibliotecas</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb31-2"><a></a>graf <span class="sc">+</span> <span class="fu">theme_economist</span>() <span class="sc">+</span> <span class="fu">scale_fill_economist</span>()     </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb33-2"><a></a>graf <span class="sc">+</span> <span class="fu">theme_economist</span>() <span class="sc">+</span> <span class="fu">scale_fill_economist</span>()     </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
 <li>Nota: es posible, pero <em>no recomendable</em> personalizar elementos concretos del tema (o definir un tema nuevo propio)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a></a>tema_empresa <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb32-2"><a></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">family =</span> <span class="st">&quot;Arial&quot;</span>))</span>
-<span id="cb32-3"><a></a>graf <span class="sc">+</span> tema_empresa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a>tema_empresa <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb34-2"><a></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">family =</span> <span class="st">&quot;Arial&quot;</span>))</span>
+<span id="cb34-3"><a></a>graf <span class="sc">+</span> tema_empresa</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1983,26 +2039,26 @@ display:block!important;
 <li>Relación Gasto Marketing - Ventas</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> marketing, <span class="at">y =</span> ventas)) <span class="sc">+</span></span>
-<span id="cb33-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span></span>
-<span id="cb33-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb33-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;ROI del Gasto en Marketing por Región&quot;</span>,</span>
-<span id="cb33-5"><a></a>       <span class="at">x =</span> <span class="st">&quot;Inversión en Marketing (miles €)&quot;</span>,</span>
-<span id="cb33-6"><a></a>       <span class="at">y =</span> <span class="st">&quot;Ventas (miles €)&quot;</span>,</span>
-<span id="cb33-7"><a></a>       <span class="at">color =</span> <span class="st">&quot;Región&quot;</span>) <span class="sc">+</span></span>
-<span id="cb33-8"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> marketing, <span class="at">y =</span> ventas)) <span class="sc">+</span></span>
+<span id="cb35-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span></span>
+<span id="cb35-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;ROI del Gasto en Marketing por Región&quot;</span>,</span>
+<span id="cb35-5"><a></a>       <span class="at">x =</span> <span class="st">&quot;Inversión en Marketing (miles €)&quot;</span>,</span>
+<span id="cb35-6"><a></a>       <span class="at">y =</span> <span class="st">&quot;Ventas (miles €)&quot;</span>,</span>
+<span id="cb35-7"><a></a>       <span class="at">color =</span> <span class="st">&quot;Región&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-8"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="2" type="1">
 <li>Distribución de Satisfacción del Cliente</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> satisfaccion)) <span class="sc">+</span></span>
-<span id="cb34-2"><a></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb34-3"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>producto) <span class="sc">+</span></span>
-<span id="cb34-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribución de Satisfacción del Cliente por Producto&quot;</span>,</span>
-<span id="cb34-5"><a></a>       <span class="at">x =</span> <span class="st">&quot;Puntuación de Satisfacción (1-5)&quot;</span>,</span>
-<span id="cb34-6"><a></a>       <span class="at">y =</span> <span class="st">&quot;Número de Clientes&quot;</span>) <span class="sc">+</span></span>
-<span id="cb34-7"><a></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="fu">ggplot</span>(ventas, <span class="fu">aes</span>(<span class="at">x =</span> satisfaccion)) <span class="sc">+</span></span>
+<span id="cb36-2"><a></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>producto) <span class="sc">+</span></span>
+<span id="cb36-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribución de Satisfacción del Cliente por Producto&quot;</span>,</span>
+<span id="cb36-5"><a></a>       <span class="at">x =</span> <span class="st">&quot;Puntuación de Satisfacción (1-5)&quot;</span>,</span>
+<span id="cb36-6"><a></a>       <span class="at">y =</span> <span class="st">&quot;Número de Clientes&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-7"><a></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ejemplos-aplicados-1" class="slide level2 scrollable">
@@ -2012,14 +2068,14 @@ display:block!important;
 <li>Comparación de Indicadores UE</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">x =</span> pais, <span class="at">y =</span> pib)) <span class="sc">+</span></span>
-<span id="cb35-2"><a></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> norte)) <span class="sc">+</span></span>
-<span id="cb35-3"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PIB per cápita en países de la UE&quot;</span>,</span>
-<span id="cb35-4"><a></a>       <span class="at">x =</span> <span class="st">&quot;País&quot;</span>,</span>
-<span id="cb35-5"><a></a>       <span class="at">y =</span> <span class="st">&quot;PIB per cápita (miles €)&quot;</span>,</span>
-<span id="cb35-6"><a></a>       <span class="at">fill =</span> <span class="st">&quot;Norte&quot;</span>) <span class="sc">+</span></span>
-<span id="cb35-7"><a></a>  <span class="fu">theme_economist</span>() <span class="sc">+</span></span>
-<span id="cb35-8"><a></a>  <span class="fu">scale_fill_economist</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">x =</span> pais, <span class="at">y =</span> pib)) <span class="sc">+</span></span>
+<span id="cb37-2"><a></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> norte)) <span class="sc">+</span></span>
+<span id="cb37-3"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PIB per cápita en países de la UE&quot;</span>,</span>
+<span id="cb37-4"><a></a>       <span class="at">x =</span> <span class="st">&quot;País&quot;</span>,</span>
+<span id="cb37-5"><a></a>       <span class="at">y =</span> <span class="st">&quot;PIB per cápita (miles €)&quot;</span>,</span>
+<span id="cb37-6"><a></a>       <span class="at">fill =</span> <span class="st">&quot;Norte&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-7"><a></a>  <span class="fu">theme_economist</span>() <span class="sc">+</span></span>
+<span id="cb37-8"><a></a>  <span class="fu">scale_fill_economist</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2036,14 +2092,14 @@ display:block!important;
 <li>Indicadores Macroeconómicos</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">x =</span> desempleo, <span class="at">y =</span> inflacion)) <span class="sc">+</span></span>
-<span id="cb36-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> deuda, <span class="at">color =</span> norte)) <span class="sc">+</span></span>
-<span id="cb36-3"><a></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb36-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Relación Desempleo-Inflación por País&quot;</span>,</span>
-<span id="cb36-5"><a></a>       <span class="at">x =</span> <span class="st">&quot;Tasa de Desempleo (%)&quot;</span>,</span>
-<span id="cb36-6"><a></a>       <span class="at">y =</span> <span class="st">&quot;Tasa de Inflación (%)&quot;</span>,</span>
-<span id="cb36-7"><a></a>       <span class="at">size =</span> <span class="st">&quot;Deuda Pública (% PIB)&quot;</span>,</span>
-<span id="cb36-8"><a></a>       <span class="at">color =</span> <span class="st">&quot;Norte de Europa&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">x =</span> desempleo, <span class="at">y =</span> inflacion)) <span class="sc">+</span></span>
+<span id="cb38-2"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> deuda, <span class="at">color =</span> norte)) <span class="sc">+</span></span>
+<span id="cb38-3"><a></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> pais), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb38-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Relación Desempleo-Inflación por País&quot;</span>,</span>
+<span id="cb38-5"><a></a>       <span class="at">x =</span> <span class="st">&quot;Tasa de Desempleo (%)&quot;</span>,</span>
+<span id="cb38-6"><a></a>       <span class="at">y =</span> <span class="st">&quot;Tasa de Inflación (%)&quot;</span>,</span>
+<span id="cb38-7"><a></a>       <span class="at">size =</span> <span class="st">&quot;Deuda Pública (% PIB)&quot;</span>,</span>
+<span id="cb38-8"><a></a>       <span class="at">color =</span> <span class="st">&quot;Norte de Europa&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p><strong>Buenas prácticas</strong>: visualizar no es decorar datos, es comunicar <em>insights</em></p>
@@ -2115,8 +2171,8 @@ display:block!important;
 <li><strong>Guardar gráficos</strong>: en la pestaña de <em>Plots</em> &gt; <em>Export</em> o con el comando</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a><span class="fu">ggsave</span>(<span class="st">&quot;analisis-ventas.pdf&quot;</span>)</span>
-<span id="cb37-2"><a></a><span class="fu">ggsave</span>(<span class="st">&quot;dashboard-macro.png&quot;</span>, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a><span class="fu">ggsave</span>(<span class="st">&quot;analisis-ventas.pdf&quot;</span>)</span>
+<span id="cb39-2"><a></a><span class="fu">ggsave</span>(<span class="st">&quot;dashboard-macro.png&quot;</span>, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <ul>
