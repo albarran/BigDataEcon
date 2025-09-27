@@ -410,19 +410,19 @@ ggplot(data = ventas) +
 Cada `geom_*()` agrega un tipo diferente de capa: 
 
 
-| Tipo | Función | Uso Principal |
+| Tipo | Función | Uso Habitual |
 |------|---------|---------------|
-| **Puntos** | `geom_point()` | Dispersión, correlaciones |
-| **Líneas** | `geom_line()` | Series temporales |
+| **Puntos** | `geom_point()` | Dispersión |
+| **Líneas** | `geom_line()` | Evolución temporal |
 | **Barras** | `geom_bar()` | Frecuencias categóricas |
 | **Histograma** | `geom_histogram()` | Distribución continua |
 | **Cajas** | `geom_boxplot()` | Estadísticos descriptivos |
-| **Suavizado** | `geom_smooth()` | Tendencias, regresión |
-| **Texto** | `geom_text()` | Etiquetas, anotaciones |
+| **Suavizado** | `geom_smooth()` | Tendencias |
+| **Texto** | `geom_text()` | Etiquetas |
 
 Para lista completa: buscar funciones que comienzan con `geom_` en Ayuda
 
-## Elementos Estéticos con `aes()`
+## Asociación Estética, con `aes()`
 
 :::: {.notes}
 
@@ -432,23 +432,77 @@ Elementos estéticos son "algo que se puede ver" (información)
 
 - Cada `aes()` es una asociación entre una **señal visual** y una **variable**:
 
+  |                           |        |                                       |
+  |---------------------------|--------|---------------------------------------|
+  | **posición**: `x`, `y`    | &#124; | **forma**: `shape`                    |
+  | **color**: color exterior | &#124; | **relleno**: `fill` (color interior)  |
+  | **tamaño**: `size`        | &#124; | **tipo de línea**: `linetype`         |
+
+:::: {.notes}
   - **posición**: `x`, `y`  
   - **color**: color exterior
   - **relleno**: `fill` (color interior)
   - **forma**: `shape` (de los puntos)
   - **tipo de línea**: `linetype`
   - **tamaño**: `size`
+::::
+
+- Algunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas
+- Cada `geom` acepta solo un subconjunto de estéticas (ver ayuda)
 
 - **Regla de oro**: Si quieres que algo varíe con los datos, ponlo en `aes()`
 
 ```{r ejemplo-esteticas}
 #| eval: false
 ggplot(ventas, aes(x = marketing, y = ventas)) +
-  geom_point(aes(color = region, size = satisfaccion))
+  geom_point(aes(color = region))
 ```
 
-- Cada `geom` acepta solo un subconjunto de estéticas (ver ayuda) 
 
+
+## Asociación Estética vs. Opción Fija
+
+- Con `aes()`, se visualiza una **variable** con una señal visual
+
+```{r mapeo-estetico}
+#| eval: false
+#| echo: false
+ggplot(ventas, aes(x = marketing, y = ventas)) +
+  geom_point(aes(color = region))
+```
+
+- Fuera de `aes()`, se establece un **valor fijo** de la señal visual
+
+```{r opcion-fija}
+#| eval: false
+ggplot(ventas, aes(x = marketing, y = ventas)) +
+  geom_point(aes(color = "red"))
+```
+
+. . .
+
+- **Principio**: Añadir señal visual para representar información, NO "embellecer"
+
+```{r mapeo-estetico2}
+#| eval: false
+ggplot(macro, aes(y = desempleo, x = pib)) +
+  geom_point(aes(color = norte), shape = "diamond")
+```
+
+- NO saturar el gráfico con estéticas fijas o información innecesaria
+
+```{r mapeo-estetico3}
+#| eval: false
+ggplot(macro, aes(y = desempleo, x = pib)) +
+  geom_point(aes(size = inflacion, color = deuda))
+
+ggplot(macro, aes(y = desempleo, x = pib)) +
+  geom_point(shape = "diamond", color = "blue", size = 3)
+```
+
+:::: {.notes}
+**Nota**: `norte` (carácter) se convierte automáticamente a factor: → escala categórica
+::::
 
 <!-- ## ------------------------------------------------------------------- -->
 
@@ -481,29 +535,6 @@ esquisser(mpg, viewer = "browser")
 <!-- ## ------------------------------------------------------------------- -->
 
 
-## Asociación Estética vs. Opción Fija
-
-- Con `aes()`, se visualiza una **variable** con una señal visual
-
-```{r mapeo-estetico}
-#| eval: false
-ggplot(macro, aes(y = desempleo, x = pib)) +
-  geom_point(aes(shape = norte, color = deuda))
-```
-
-- Fuera de `aes()`, se establece un **valor fijo** de la señal visual
-
-```{r opcion-fija}
-#| eval: false
-ggplot(macro, aes(y = desempleo, x = pib)) +
-  geom_point(shape = "diamond", color = "blue", size = 3)
-```
-
-
-:::: {.notes}
-**Nota**: `norte` (carácter) se convierte automáticamente a factor: → escala categórica
-::::
-
 ## Gráficos como Objetos
 
 - Un gráfico también es un objeto de R
@@ -524,10 +555,6 @@ graf_base + geom_line()
 graf_base + geom_point(aes(shape = norte)) 
 graf_base + geom_point(aes(size = inflacion, color = deuda))
 ```
-
-- **Principio**: Añadir señal visual para representar información adicional, NO para "embellecer"
-
-- NO saturar el gráfico con estéticas fijas o información innecesaria
 
 
 ## Datos (y estéticas) específicas por capa
@@ -578,7 +605,34 @@ graf_base
 
 - Pero otros gráficos representan estadísticas calculadas a partir de los datos
 
-- `geom_smooth()`: regresión → predicciones
+- `geom_boxplot()`: datos → cuartiles, mediana
+
+:::: {.columns}
+
+::: {.column}
+
+```{r boxplot-ejemplo}
+#| eval: false
+ggplot(clientes, 
+       aes(y = gasto/1000)) +  
+  geom_boxplot()
+```
+
+:::
+
+::: {.column}
+
+<center>
+![](figure/boxplot_spanish.svg){width=60%}
+</center>
+
+:::
+
+::::
+
+
+
+- `geom_smooth()`: regresión → predicción de línea de tendencia
 ```{r smoothers}
 #| eval: false
 graf_base + geom_smooth()           # con intervalos de confianza
@@ -602,31 +656,6 @@ graf_base + geom_line(aes(y = ingreso_pred))
 ```
 
 * NO necesitamos repetir la estetica de posición `x` para `geom_line()` porque ya está definida en `graf_base`
-
-::::
-
-- `geom_boxplot()`: datos → cuartiles, mediana
-
-:::: {.columns}
-
-::: {.column}
-
-```{r boxplot-ejemplo}
-#| eval: false
-ggplot(clientes, 
-       aes(y = gasto/1000)) +  
-  geom_boxplot()
-```
-
-:::
-
-::: {.column}
-
-<center>
-![](figure/boxplot_spanish.svg){width=60%}
-</center>
-
-:::
 
 ::::
 
@@ -665,11 +694,11 @@ ggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) +
 ::::
 
 
-- Para variables continuas, no existen categorías "naturales" para calcular las frecuencias
+- En variables continuas, no hay categorías "naturales" para calcular frecuencias
 
   - Se tienen que definir "arbitrariamente" los intervalos
   
-  - Distintas elecciones pueden revelar distinta información
+  - Distintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico
 
 ```{r histograma-parametros}
 #| eval: false
@@ -678,6 +707,7 @@ graf + geom_histogram(bins = 20)              # Número de grupos
 graf + geom_histogram(binwidth = 3)           # Ancho de grupos
 graf + geom_histogram(breaks = seq(10,90,5))  # Rangos
 ```
+
 
 ```{r histograma-densidad}
 #| echo: false
@@ -910,6 +940,8 @@ graf + scale_fill_manual(values = c("#1f77b4", "#ff7f0e",
 
 ```{r paletas-predefinidas}
 #| eval: false
+graf <- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + 
+          geom_boxplot()
 library(RColorBrewer)
 display.brewer.all()
 graf + scale_fill_brewer(palette = "Set2")
@@ -954,11 +986,25 @@ graf + theme_dark()
 graf + theme_classic()
 ```
 
-```{r temas-predefinidos}
+:::: {.columns}
+
+::: {.column}
+
+```{r temas-predefinidos1}
 #| eval: false
-graf + theme_gray()       # predeterminado
+graf + theme_gray()      
+```
+:::
+
+::: {.column}
+
+```{r temas-predefinidos2}
+#| eval: false
 graf + theme_minimal()
 ```
+:::
+
+::::
 
 - También existen **temas profesionales** predefinidos en bibliotecas
 ```{r temas-profesionales}
