@@ -317,142 +317,226 @@
   {
     "objectID": "docs/Tema02.html#limpieza-y-doma-de-datos",
     "href": "docs/Tema02.html#limpieza-y-doma-de-datos",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Limpieza y “doma” de datos ",
     "text": "Limpieza y “doma” de datos \n\n\n\n\nUn análisis de datos adecuado requiere (mucho) tiempo de trabajo “sucio” \ntidyverse incluye una colección de bibliotecas con herramientes eficientes para el proceso de “tratamiento de datos” (“data wrangling”)\n\n\nEl objetivo es tener un conjunto de datos ordenado y limpio para poder realizar análisis de manera eficiente\nEsto puede requerir seleccionar columnas, filtrar filas, crear nuevas variables, ordenar, agrupar, resumir, etc."
   },
   {
     "objectID": "docs/Tema02.html#qué-son-datos-ordenados-tidy-data",
     "href": "docs/Tema02.html#qué-son-datos-ordenados-tidy-data",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "¿Qué son datos ordenados (‘tidy data’)?",
     "text": "¿Qué son datos ordenados (‘tidy data’)?\n1.- Cada columna es una variable: mide el mismo atributo entre unidades\n2.- Cada fila es una observación (caso): misma unidad a través de atributos\n3.- Cada celda es un valor\n\n\n\n\nTenemos información similar y no redundante en una misma tabla\n\n\nEs una forma natural (variable = vector columna) para trabajar con datos \n\n\ntidyverse es eficiente con datos ordenados"
   },
   {
     "objectID": "docs/Tema02.html#datos-no-ordenados",
     "href": "docs/Tema02.html#datos-no-ordenados",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Datos no ordenados",
     "text": "Datos no ordenados\n\n\n\n\n\n\n\n\nOtras estructuras como esta pueden tener sentido para mostrar información (o por convenciones)\n\n\nLa visualización es atractiva, PERO sobran filas para analizar los datos: ej., total de personas con hijos y sin pareja entre 30 y 39 años"
   },
   {
     "objectID": "docs/Tema02.html#funciones-de-transformación-de-datos",
     "href": "docs/Tema02.html#funciones-de-transformación-de-datos",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Funciones de transformación de datos",
     "text": "Funciones de transformación de datos\n\nLa mayoría de operaciones pueden realizarse combinando 5 “verbos” \n\nNOTA: existe una colección de “chuletas” de R, p.e., para transformación.\n\nTodos tienen como primer argumento un data frame, los siguientes describen qué hacer (con columnas o filas) y devuelven otro data frame\n\n1.- select(): selecciona variables por nombres o posiciones de columnas, separados por comas\n\n\n\n\nselect(presidential, name, party)\nselect(presidential, 1:2, 4)"
   },
   {
     "objectID": "docs/Tema02.html#filtrar-filas",
     "href": "docs/Tema02.html#filtrar-filas",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Filtrar filas",
     "text": "Filtrar filas\n2.- filter(): conserva filas en las que la condición lógica es verdadera\n\n\n\n\nfilter(presidential, party == \"Republican\")\nfilter(presidential, start &gt; 1973 & party == \"Democratic\")\n\n\nSe pueden combinar (anidar) porque ambas toman y devuelve un data frame, pero así son difíciles de leer\n\n\nselect(filter(presidential, start &gt; 1973), name)"
   },
   {
     "objectID": "docs/Tema02.html#el-operador-de-tubería",
     "href": "docs/Tema02.html#el-operador-de-tubería",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "El operador de tubería %>%",
     "text": "El operador de tubería %&gt;%\n\ndatos %&gt;% filter(condition) equivale a filter(datos, condition)\n\nAplicable a cualquier función: 10 %&gt;% log() es log(10)\n\nEl anidamiento es fácil:\n\nTomar presidential y pasarlo a filtrar (produce un nuevo data frame); \nTomar este resultado y pasarlo a seleccionar.\n\n\n\npresidential %&gt;% \n  filter(start &gt; 1973) %&gt;% \n  select(name)\n\n\nAtajo de teclado: Cmd / Ctrl + Mays + M\nTambién existe una tubería en R base: |&gt;"
   },
   {
     "objectID": "docs/Tema02.html#crear-nuevas-variables",
     "href": "docs/Tema02.html#crear-nuevas-variables",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Crear nuevas variables",
     "text": "Crear nuevas variables\n\n\n3.-mutate(): añade nuevas columnas, creando variables según una fórmula a partir de otras\n\n\n\n\n\n\ntambién rename(): cambiar el nombre de una columna \n\n\n\n\n\n\n# evitar \"machacar\" la fuente original\nmypresidents &lt;- presidential %&gt;%          \n                  mutate(duracion = end - start) \n\n# crear varias, separadas por coma\npresidential %&gt;% mutate(sigloXXI = start &gt; 2000,   \n                        duracion = end - start,    \n                        duracio2 = duracion*2   )  \n\npresidential %&gt;% rename(nombre = name)"
   },
   {
     "objectID": "docs/Tema02.html#ordenar-filas",
     "href": "docs/Tema02.html#ordenar-filas",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Ordenar filas",
     "text": "Ordenar filas\n\n\n4.- arrange(): re-ordena las filas todas las columnas de un data frame\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\nmypresidents %&gt;% arrange(desc(duracion))\n\n# ordenar por más de una columna: primero por duración, \n# en caso de empate por partido\nmypresidents %&gt;% arrange(desc(duracion), party)"
   },
   {
     "objectID": "docs/Tema02.html#resumir-todo-el-conjunto-de-datos",
     "href": "docs/Tema02.html#resumir-todo-el-conjunto-de-datos",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Resumir todo el conjunto de datos",
     "text": "Resumir todo el conjunto de datos\n5.- summarize(): colapsa valores de un data frame en una sola fila resumen\n\n\n\n\nEspecificando cómo se reducirá una columna entera de datos en un solo valor.\n\n\nlibrary(lubridate)\nmypresidents %&gt;%\n  summarize(\n    media_duracion = mean(duracion),\n    N = n(),                        # n(): cuenta número de filas\n    first_year = min(year(start)),  # year(): año de una fecha\n    num_dems = sum(party == \"Democratic\") )\n\n\nsummarize() suele usarse en conjunción con group_by()"
   },
   {
     "objectID": "docs/Tema02.html#group_by",
     "href": "docs/Tema02.html#group_by",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "group_by()",
-    "text": "group_by()\n\ngroup_by(): cambia el alcance de cada función para que no actúe sobre todo el data frame sino en grupos individuales \n¿Cuál es la duración media de los demócratas y de los republicanos? Hacerlo por separado no es eficiente: especificamos que las filas deben ser agrupadas \n\n\nmypresidents %&gt;% group_by(party) %&gt;%         # solo \"marca\" dos grupos \n  summarize(N = n(),                         # nuevas variables\n            media_duracion = mean(duracion)) # \n\n\nNuevo conjunto de datos con nuevas variables (columnas) a un distinto nivel de observación (fila): una fila para cada valor del grupo\n\n\nRelacionado con Tablas dinámicas en Excel (y SUMAR.SI/SUMIF)\nungroup() elimina la agrupación para volver a operar en datos desagrupados\n\n\nmypresidents %&gt;% group_by(party) %&gt;% mutate(MD = mean(duracion)) %&gt;% \n  ungroup() %&gt;% arrange(duracion) %&gt;%  slice_head(n=1)"
+    "text": "group_by()\n\ngroup_by(): cambia el alcance de cada función para que no actúe sobre todo el data frame sino en grupos individuales \n¿Cuál es la duración media de los demócratas y de los republicanos? Hacerlo por separado no es eficiente: especificamos que las filas deben ser agrupadas \n\n\nmypresidents %&gt;% group_by(party) %&gt;%         # solo \"marca\" dos grupos \n  summarize(N = n(),                         # nuevas variables\n            media_duracion = mean(duracion)) # \n\n\nNuevo conjunto de datos con nuevas variables (columnas) a un distinto nivel de observación (fila): una fila para cada valor del grupo\n\n\nEn Excel: Tablas dinámicas, AGRUPARPOR() (y SUMAR.SI/SUMIF)\nungroup() elimina la agrupación para volver a operar en datos desagrupados\n\n\nmypresidents %&gt;% group_by(party) %&gt;% mutate(MD = mean(duracion)) %&gt;% \n  ungroup() %&gt;% arrange(duracion) %&gt;%  slice_head(n=1)"
   },
   {
-    "objectID": "docs/Tema02.html#seleccionar-muchas-variables",
-    "href": "docs/Tema02.html#seleccionar-muchas-variables",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
-    "section": "Seleccionar muchas variables",
-    "text": "Seleccionar muchas variables\n\nlibrary(nycflights13)           # incluye flights:  19 variables\nselect(flights, year:arr_time)  # desde variable \"year\" hasta \"arr_time\"\nselect(flights, -(year:day))    # todas menos \"year, month, day\"\n\n\nFunciones a utilizar dentro de select():\n\nstarts_with(\"abc\"): nombres que comienzan con “abc”.\nends_with(\"xyz\"): nombres que acaban con “xyz”.\ncontains(\"ijk\"): nombres que contienen “ijk”.\nnum_range(\"x\", 1:3): para x1, x2 y x3.\nmatches(): nombres que coinciden con una expresión regular"
+    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-columnas",
+    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-columnas",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Algunas funciones adicionales para columnas",
+    "text": "Algunas funciones adicionales para columnas\n\n\nselect() para muchas variables usando : y - con nombres\n\n\nlibrary(nycflights13)           # incluye flights:  19 variables\nselect(flights, year:arr_time)  # desde variable \"year\" hasta \"arr_time\"\nselect(flights, -(year:day))    # todas menos \"year, month, day\"\n\n\nTambién funciones como:\n\nstarts_with(\"abc\"): nombres que comienzan con “abc”.\nends_with(\"xyz\"): nombres que acaban con “xyz”.\ncontains(\"ijk\"): nombres que contienen “ijk”.\nnum_range(\"x\", 1:3): para x1, x2 y x3.\nmatches(): nombres que coinciden con una expresión regular\n\n\n\n\npull(var): extrae una única columna (como vector)\n\n\nmypresidents %&gt;% pull(duracion) %&gt;% mean()"
   },
   {
-    "objectID": "docs/Tema02.html#algunos-verbos-adicionales",
-    "href": "docs/Tema02.html#algunos-verbos-adicionales",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
-    "section": "Algunos verbos adicionales",
-    "text": "Algunos verbos adicionales\n\nslice(), slice_head(), slice_sample(): extrae filas por posición o aleatoriamente\n\n\nmypresidents %&gt;% slice_head(n=3)\n\n\ndrop_na() y replace_na(): elimina/reemplaza filas con valores ausentes\ndistinct(): extrae sólo las filas únicas (una o varias variables)\n\n\nmypresidents %&gt;% distinct(party)\n\n\ncount(): cuenta los valores únicos de una o más variables\n\n\nmypresidents %&gt;% count(party)    # mypresidents %&gt;% group_by(party) %&gt;% summarize(n=n())\nmypresidents %&gt;% count(party, sort = TRUE)\n\n\nacross(): aplica la misma transformación a múltiples columnas\n\n\nflights %&gt;% mutate(across(air_time:distance, ~ log(.x)+1))\nflights %&gt;% mutate(across(is.character, ~ parse_factor(.x)))"
+    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-filas",
+    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-filas",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Algunas funciones adicionales para filas",
+    "text": "Algunas funciones adicionales para filas\n\nslice(), slice_head(), slice_sample(): extraen filas por posición (en lugar de condición) o aleatoriamente\n\n\nmypresidents %&gt;% slice_head(n=3)\n\n\ndistinct(): extrae sólo las filas únicas (una o varias variables)\n\n\nmypresidents %&gt;% distinct(party)\n\n\ndrop_na() y replace_na(): elimina/reemplaza filas con valores ausentes"
   },
   {
-    "objectID": "docs/Tema02.html#funciones-para-crear-variables",
-    "href": "docs/Tema02.html#funciones-para-crear-variables",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
-    "section": "Funciones para crear variables",
-    "text": "Funciones para crear variables\n\nOperadores aritméticos (+, -, *, /, ^, %/%, %%) y lógicos (&lt;, &lt;=, &gt;, &gt;=, !=)\nFunciones como log(), lag(), lead(), cumsum(), row_number() etc.\n\n\nMuchas funciones son equivalentes a otras de R base:\n\nparse_number(), parse_factor(), etc. por as.number(), as.factor(), etc.\nbind_cols() y bind_rows() por cbind() y rbind()\nif_else(): ejecución condicional por ifelse() (también case_when())\n\n\n\nflights %&gt;% mutate(retraso = if_else(dep_delay &gt; 0, \"tarde\", \"bien\")) \nflights %&gt;% mutate(retraso = if_else(dep_delay &gt; 0, \"tarde\",    # encadenados\n                                if_else(dep_delay &lt;0, \"bien\", \"normal\")))\n\n\nDiscretizar variables: cut_interval(), cut_number(), cut_width()"
+    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables",
+    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Algunas funciones adicionales para crear variables",
+    "text": "Algunas funciones adicionales para crear variables\n\ncount(): cuenta los valores únicos de una o más variables\n\n\nmypresidents %&gt;% count(party)    \n# mypresidents %&gt;% group_by(party) %&gt;% summarize(n=n())\nmypresidents %&gt;% count(party, sort = TRUE)\n\n\nacross(): aplica la misma transformación a múltiples columnas\n\n\nflights %&gt;% mutate(across(air_time:distance, ~ log(.x)+1))\nflights %&gt;% mutate(across(where(is.character), ~ parse_factor(.x)))\n\n\nOperadores aritméticos (+, -, *, /, ^, %/%, %%) y lógicos (&lt;, &lt;=, &gt;, &gt;=, !=)\nFunciones como log(), lag(), lead(), cumsum(), row_number() etc."
   },
   {
-    "objectID": "docs/Tema02.html#funciones-de-resumen-útiles",
-    "href": "docs/Tema02.html#funciones-de-resumen-útiles",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
-    "section": "Funciones de resumen útiles",
-    "text": "Funciones de resumen útiles\n\nMedidas de centralidad y de dispersión: mean(x), median(x), sd(x), IQR(x) \nMedidas de rango: min(x), quantile(x, 0.25), max(x)\nMedidas de posición: first(x), nth(x, 2), last(x).\nSumas, productos, etc.\nConteos:\n\nn(): observaciones totales (tamaño del grupo)\nsum(!is.na(x)): observaciones no ausentes\nn_distinct(x): filas distintas en x"
+    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables-cont.",
+    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables-cont.",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Algunas funciones adicionales para crear variables (cont.)",
+    "text": "Algunas funciones adicionales para crear variables (cont.)\n\nMuchas funciones son equivalentes a otras de R base:\n\nparse_number(), parse_factor(), etc. por as.number(), as.factor(), etc.\nbind_cols() y bind_rows() por cbind() y rbind()\nif_else(): ejecución condicional por ifelse() (también case_when())\n\n\n\nflights %&gt;% \n  mutate(retraso = if_else(dep_delay &gt; 0, \"tarde\", \"bien\")) \nflights %&gt;% \n  mutate(retraso = if_else(dep_delay &gt; 0, \"tarde\",    # encadenados\n                      if_else(dep_delay &lt;0, \"bien\", \"normal\")))\n\n\nDiscretizar variables: cut_interval(), cut_number(), cut_width()"
+  },
+  {
+    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-resúmenes",
+    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-resúmenes",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Algunas funciones adicionales para resúmenes",
+    "text": "Algunas funciones adicionales para resúmenes\n\nMedidas de centralidad y de dispersión: mean(x), median(x), sd(x), IQR(x) \nMedidas de rango: min(x), quantile(x, 0.25), max(x)\nMedidas de posición: first(x), nth(x, 2), last(x).\nSumas, productos, etc.\nConteos:\n\nn(): observaciones totales (tamaño del grupo)\nsum(!is.na(x)): observaciones no ausentes\nn_distinct(x): filas distintas en x"
   },
   {
     "objectID": "docs/Tema02.html#cuatro-representaciones-de-los-mismos-datos",
     "href": "docs/Tema02.html#cuatro-representaciones-de-los-mismos-datos",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Cuatro representaciones de los mismos datos",
     "text": "Cuatro representaciones de los mismos datos\n\n\n\nlibrary(tidyverse)\ntable1     # datos ordenados\ntable2     # varios valores por celda\n\n\n\n\n\n\n\n\n\ntable3     # más de una variable en una columna\ntable4a \ntable4b\n\n\ntable4a y table4b ofrecen información útil para presentación"
   },
   {
     "objectID": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
     "href": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Mismos datos, dos formatos: ancho o largo",
     "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”) depende de qué queramos hacer\n\nP.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregación (SUMAR.SI) y algunos gráficos\n\n\n\n\n\n\n\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\ntable4a        # formato ancho\ntable1         # formato largo"
   },
   {
     "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
     "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "pivot_longer(): de ancho a largo",
     "text": "pivot_longer(): de ancho a largo\n\nPivotar las variables en dos nuevas columnas (deben crearse)\n\n\n\n\npivot_longer(table4a, \n             cols=2:3, \n             names_to = \"year\", \n             values_to = \"cases\") \n\n\n\n\n\n\n\ndata frame a cambiar de forma\nnombres o índices de las columnas que representan valores, no variables\nlos nombres de esas antiguas variables van como valores a nueva variable\nlos valores de las antiguas celdas van a otra nueva variable"
   },
   {
     "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
     "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "pivot_longer(): de ancho a largo (cont.)",
     "text": "pivot_longer(): de ancho a largo (cont.)\n\nRecordad que existen formas equivalentes de hacer lo mismo\n\n\ntable4a %&gt;% pivot_longer(cols = `1999`:`2000`, \n                         values_to = \"cases\", names_to = \"year\")\n\n\nNotar que los nombres de columna son caracteres y cuando son números van entre ` (evita confusión con índice de posición)\n\n\nDeberíamos cambiar el tipo de las nuevas variables\n\n\ntable4a %&gt;% \n  pivot_longer(2:3, names_to = \"year\", values_to = \"cases\") %&gt;%\n  mutate(year= parse_number(year))"
   },
   {
     "objectID": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
     "href": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "pivot_wider(): de largo a ancho",
     "text": "pivot_wider(): de largo a ancho\n\n\n\ntable2 %&gt;%\n    pivot_wider(names_from = type,  \n                values_from = count)\n\n\n\n\n\n\n\nel data frame a cambiar de forma\nnombre de la variable de cuyos valores vienen los nuevos nombres de columnas\nnombre de la variable de la que tomar los valores para las nuevas columnas\n\n\n\n\ntable1 %&gt;% select(-population) %&gt;%            # Tabla de presentación \n    pivot_wider(names_from = year, values_from = cases)"
   },
   {
     "objectID": "docs/Tema02.html#dos-funciones-útiles",
     "href": "docs/Tema02.html#dos-funciones-útiles",
-    "title": "Tema 02 - Tratamiento de datos (una tabla)",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
     "section": "Dos funciones útiles",
     "text": "Dos funciones útiles\n\nseparate(): dividir una columna en múltiples variables indicando un separador o vector de posiciones en las que dividir\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), sep = \"/\")\ntable3 %&gt;% separate(year, into = c(\"century\", \"year\"), sep = 2)\n\n\nCon convert = TRUE intenta convertir el tipo (no mantener carácter)\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), \n                    convert = TRUE)\n\n\nunite(): combinar múltiples columnas en una\n\n\ntable5 %&gt;% \n  unite(new, century, year, sep = \"-\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#múltiples-tablas-de-datos",
+    "href": "docs/Tema02.html#múltiples-tablas-de-datos",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Múltiples tablas de datos",
+    "text": "Múltiples tablas de datos\n\nAnalizar datos suele implicar múltiples tablas\n\ndiferentes orígenes: ej., dptos. de empresa (personal, ventas, almacén)\nalmacenamiento más eficiente: elementos “similares” dentro de una tabla y diferentes entre ellas\n\nPara poder combinar la información los datos deben ser relacionales: cada par de tablas están relacionadas mediante identificadores llamados claves\n\n\nP.e., la biblioteca nycflights13 contiene varias tablas: el nombre de la compañía está “codificado” en flights y se puede encontrar en airlines\n\n\nflights %&gt;% select(dep_time,arr_time,carrier:dest) \nairlines\n\n\nAmbas tablas contienen un identificador común clave (“key”): carrier"
+  },
+  {
+    "objectID": "docs/Tema02.html#relaciones-entre-tablas",
+    "href": "docs/Tema02.html#relaciones-entre-tablas",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Relaciones entre tablas",
+    "text": "Relaciones entre tablas"
+  },
+  {
+    "objectID": "docs/Tema02.html#datos-relacionales-1",
+    "href": "docs/Tema02.html#datos-relacionales-1",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Datos relacionales",
+    "text": "Datos relacionales\n\nTipos de claves:\n\nPrimaria (o interna): identifican de forma única cada observación en una tabla. Puede ser una sola variable (en planes) o múltiples (en weather)\n\nSubrogada = número de fila, si la tabla carece de identificación única\n\nSecundaria (o externa): señala a la clave primaria de otra tabla \n\n\n\nUna clave primaria y una externa (asociada) en otra tabla forman una relación:\n\nde uno-a-muchos (ej., vuelos y aviones), de uno-a-uno, de muchos-a-muchos (ej., aerolíneas y aeropuertos), de muchos-a-uno\n\nOperaciones que se pueden realizar con dos tablas: uniones de transformación, uniones de filtro y operaciones de conjunto"
+  },
+  {
+    "objectID": "docs/Tema02.html#uniones-de-transformación",
+    "href": "docs/Tema02.html#uniones-de-transformación",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Uniones de transformación",
+    "text": "Uniones de transformación\n\nAñaden nuevas variables a una tabla desde filas coincidentes en otra.\nEjemplo:\n\n\n\n\n\ncbind() o bind_columns(): nuevas columnas para filas en el mismo orden\n\n\nDos argumentos obligatorios: las tablas que se unen\n\n\n# queremos añadir el nombre de las compañias en la tabla de vuelos\nflights2 &lt;- flights %&gt;% \n              select(year:day, hour, origin, dest, carrier, tailnum)\nairlines"
+  },
+  {
+    "objectID": "docs/Tema02.html#argumento-by-cómo-se-emparejan-las-tablas",
+    "href": "docs/Tema02.html#argumento-by-cómo-se-emparejan-las-tablas",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Argumento by: ¿Cómo se emparejan las tablas?",
+    "text": "Argumento by: ¿Cómo se emparejan las tablas?\n\nLas claves (variables que relacionan ambas tablas) se indican, para una variable, con by = \"varX\" o, para varias, con by = c(\"varX\", \"varY\")\n\n\nflights2 %&gt;% inner_join(airlines, by = \"carrier\") \nflights2 %&gt;% inner_join(weather, \n                by = c(\"year\", \"month\", \"day\", \"hour\", \"origin\"))\n\n\nSi se omite el argumento by, se usan todas las variables en común. Esto no siempre es deseable: ej., año no es lo mismo en flights y planes\nColumnas con el mismo nombre (ej., año) se desambigúan con un sufijo\n\n\nflights2 %&gt;% left_join(planes, by = c(\"tailnum\"))\n\n\nby = c(\"x1\" = \"y1\", \"x2\" = \"y2\") para emparejar la variable x1 en la primera tabla con la variable y1 en la segunda, y la variable x2 con y2\n\n\nflights2 %&gt;% left_join(airports, \n                  by = c(\"dest\" = \"faa\"))    # aeropuerto de destino"
+  },
+  {
+    "objectID": "docs/Tema02.html#unión-interna",
+    "href": "docs/Tema02.html#unión-interna",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Unión interna",
+    "text": "Unión interna\n\ndf1 &lt;- tibble(clave = c(1:3), val_x = c(\"x1\", \"x2\", \"x3\"))\ndf2 &lt;- tibble(clave = c(1:2, 4), val_y = c(\"y1\",\"y2\",\"y4\"))\n\n\ninner_join(x, y) sólo incluye observaciones que coincidan en x y y.\n\n\ndf1 %&gt;% inner_join(df2, by = \"clave\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#uniones-externas",
+    "href": "docs/Tema02.html#uniones-externas",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Uniones externas",
+    "text": "Uniones externas\n\n\n\nCuando una fila no coincide en una unión externa, las nuevas variables se rellenan como valores ausentes \nleft_join(df1, df2): mantiene todas las observaciones en x, coincidan o no con la de y\n\n(no se pierden observaciones de la tabla primaria)\n\nright_join(df1, df2): mantiene todas las observaciones en y\nfull_join(df1, df2): incluye todas las observaciones de x e y"
+  },
+  {
+    "objectID": "docs/Tema02.html#claves-duplicadas",
+    "href": "docs/Tema02.html#claves-duplicadas",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Claves duplicadas",
+    "text": "Claves duplicadas\n\nSi una coincidencia no es única, se generan todas las combinaciones posibles (producto cartesiano) de las observaciones coincidentes\n\n\n\n\nEn una tabla: añade información en una relación de uno a muchos.\n\n\n\n\n\n\n\nEn ambas tablas: igualmente, todas las combinaciones posibles\n\n\n\n\nposible error: NO hay clave primaria única"
+  },
+  {
+    "objectID": "docs/Tema02.html#uniones-de-filtro",
+    "href": "docs/Tema02.html#uniones-de-filtro",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Uniones de filtro",
+    "text": "Uniones de filtro\n\nFiltra las observaciones de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla\nSe tiene un subconjunto de las filas de la tabla de la izquierda\n\n\n\n\nsemi_join(x, y) mantiene las observaciones en x que están en y\n\n\n\ndf1 %&gt;% semi_join(df2, \n          by = \"clave\")\n\n\n\n\nanti_join(x, y) elimina las observaciones en x que están en y\n\n\n\ndf1 %&gt;% anti_join(df2, \n          by = \"clave\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#uniones-de-filtro-cont.",
+    "href": "docs/Tema02.html#uniones-de-filtro-cont.",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Uniones de filtro (cont.)",
+    "text": "Uniones de filtro (cont.)\n\nClaves duplicadas: en uniones de filtro sólo importa la existencia de una coincidencia, NO qué observación coincida \\(\\Rightarrow\\) NUNCA duplica filas\n\n\n\n\n\nLas uniones de filtro son útiles para diagnosticar desajustes de uniones (qué observaciones serán emparejadas)\n\n\nflights %&gt;% anti_join(planes, by = \"tailnum\") %&gt;%   # vuelos sin información del avión\n              count(tailnum, sort = TRUE)\n\n\nPueden ser equivalentes a usar filter(), con tablas previamente resumidas, pero permiten filtrados complejos fácilmente"
+  },
+  {
+    "objectID": "docs/Tema02.html#operaciones-de-conjunto",
+    "href": "docs/Tema02.html#operaciones-de-conjunto",
+    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "section": "Operaciones de conjunto",
+    "text": "Operaciones de conjunto\n\nTrabajan con filas completas, comparando valores de cada variable.\nEsperan que x e y tengan las mismas variables, y tratan las observaciones (filas) como elementos de un conjunto.\nÚtil cuando se quiere dividir un filtro complejo en piezas más simples.\n\n\ndf1 &lt;- tibble(x = 1:2, y = c(1, 1))\ndf2 &lt;- tibble(x = c(1,1), y = 1:2)\n\nintersect(df1, df2)     # solo filas tanto en df1 como en df2\nunion(df1, df2)         # filas únicas en ambas tablas df1 y df2` \nunion_all(df1, df2)     # todas las filas de df1 y df2, manteniendo duplicados \nsetdiff(df1, df2)       # filas en df1, pero no en df2\nsetdiff(df2, df1)"
   },
   {
     "objectID": "docs/Tema01ej.html",
@@ -1054,14 +1138,21 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio"
+    "text": "(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-4",
+    "href": "Contenidos.html#semana-4",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
   },
   {
     "objectID": "Contenidos.html#semana-3",
     "href": "Contenidos.html#semana-3",
     "title": "Contenidos",
-    "section": "",
-    "text": "(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio"
+    "section": "Semana 3",
+    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio"
   },
   {
     "objectID": "Contenidos.html#semana-2",
@@ -1152,7 +1243,7 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nVentasTabla\nEmpleados\nDosTablas"
   },
   {
     "objectID": "about.html",
