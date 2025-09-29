@@ -3,7 +3,7 @@
 # subtitle: "Análisis de Datos Multivariantes aplicado al Marketing - Curso 2023/24 \n\n Universidad de Alicante"
 # subtitle: "Muestreo y Análisis de Datos - Universidad de Alicante"
 # subtitle: "Econometría II - Curso 2023/24 \n\n Universidad de Alicante"
-title    :  "Tema 02 - Tratamiento de datos (una tabla)" # con `dplyr` (una sola tabla)"
+title    :  "Tema 02 - Limpieza y Tratamiento de datos" # con `dplyr` (una sola tabla)"
 author:  
     - "Pedro Albarrán"
 #    - "Teresa Molina"
@@ -220,6 +220,7 @@ tibble(x = 1:5, y = 1, z = x ^ 2 + y)
 
 -->
 
+# Introduccion. Datos ordenados
 
 ## Limpieza y "doma" de datos <!-- ("data wrangling")-->
 
@@ -344,6 +345,7 @@ as.data.frame(presidential)
 
 ```
 
+# Datos ordenados
 
 ## ¿Qué son datos ordenados ('tidy data')?
 
@@ -416,6 +418,60 @@ ggplot(table1, aes(x = year, y = cases)) +
 ::: 
 ::::
 
+
+<!--
+## Verbos principales en `tidyr` (cont.)
+
+* `separate()`: separar una columna que representa múltiples variables
+
+  ![](figure/separate2.png){width=85%}
+  
+* `unite()`: une varias columnas (inverso de `separate()`)
+-->
+
+<!--
+## Comentario sobre valores ausentes
+
+```{r, eval=FALSE, echo=TRUE}
+accion <- tibble( anio  = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                  trim  = c(   1,    2,    3,    4,    2,    3,    4),
+                  rent  = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66))
+```
+
+*  **Dos tipos** de valores ausentes: en 2015.Q4 *explícitos* y en 2016.Q1 *implícitos*
+
+* Esto cambia con la forma de representación
+
+```{r, eval=FALSE, echo=TRUE}
+ancho <- accion %>% 
+            pivot_wider(names_from = anio, values_from = rent)     
+ancho             # NA explícitos al convertir a formato ancho
+
+ancho %>%  pivot_longer(cols = c("2015","2016"), 
+                        names_to = "anio", values_to = "rent")
+
+accion %>% complete(anio, trim)  # todos NA explícitos 
+                                 # (rellena buscando todas combinacines)
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+ancho %>%  pivot_longer(cols = c("2015","2016"), names_to = "anio", values_to = "rent",
+               values_drop_na = TRUE)  # NA implícitos al convertir a largo 
+
+```
+
+-->
+
+<!--
+* complete(): encuentra todas las combinaciones únicas y se asegura de la tabla contiene todos esos valores
+
+* rellenando `NA` explícitos cuando sea necesario.
+-->
+
+
+# Transformación de datos (una tabla)
+
 ## Funciones de transformación de datos
 
 * La mayoría de operaciones pueden realizarse combinando 5 "verbos" <!--: `select()`, `filter()`, `mutate()`, `arrange()` y `summarize()` (más `%>%` y `group_by()`)-->
@@ -437,7 +493,8 @@ select(presidential, 1:2, 4)
 ```
 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 presidential[,c("name", "party")]
 presidential[,c(1:2,4)]
 ```
@@ -448,7 +505,8 @@ presidential[,c(1:2,4)]
 
 ## Filtrar filas
 
-```{r,  echo = FALSE}
+```{r}
+#| echo: false
 presidential
 ```
 
@@ -469,7 +527,8 @@ select(presidential, 1:2, 4)
 ```
 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 presidential[,c("name", "party")]
 presidential[,c(1:2,4)]
 ```
@@ -496,7 +555,8 @@ $\hspace{1cm}$
 filter(presidential, party == "Republican")
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 subset(presidential, party == "Republican")
 presidential[presidential$party == "Republican",]
 
@@ -525,7 +585,8 @@ filter(presidential, party == "Republican")
 filter(presidential, start > 1973 & party == "Democratic")
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 subset(presidential, party == "Republican")
 presidential[presidential$party == "Republican",]
 
@@ -572,7 +633,8 @@ select(filter(presidential, start > 1973), name)
 -->
 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 paso1 <- filter(presidential, start > 1973 & party == "Democratic")
 select(paso1, name)
 class(paso1)
@@ -586,7 +648,8 @@ class(paso1)
 ## El operador de tubería `%>%` 
 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 paso1 <- presidential %>% filter(start > 1973 & party == "Democratic")
 paso1 %>% select(name)
 ```
@@ -630,7 +693,8 @@ presidential %>% head(2)   # = head(presidential, 2)
 lm(data = mtcars, mpg ~ hp) %>%  summary()
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 sin(cos(log(10)))
 10 %>% log() %>% cos() %>% sin()
 
@@ -761,7 +825,8 @@ OJO: desc(): transforma en negativo
 * Especificando *cómo* se reducirá una columna entera de datos en un solo valor. 
 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 library(lubridate)
 mypresidents %>%
   summarize(media_duracion = mean(duracion),
@@ -778,7 +843,8 @@ mypresidents %>%
     num_dems = sum(party == "Democratic") )
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 mypresidents %>% mutate(dem = party=="Democratic") %>% 
   summarize(num_dem = sum(dem),
             total_dias = sum(duracion))
@@ -793,7 +859,8 @@ mypresidents %>% mutate(dem = party=="Democratic") %>%
 
 * ¿Cuál es la duración media de los demócratas y de los republicanos? Hacerlo <!--para cada partido--> por separado no es eficiente:  <!--usaremos `summarize()` pero especificando--> especificamos que las filas <!--del *data frame*--> deben ser agrupadas <!--por los valores de esa variable-->
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 mypresidents %>% summarize(N = n(), media_duracion = mean(duracion))
 
 mypresidents %>% filter(party == "Democratic") %>%  summarize(N = n(), media_duracion = mean(duracion))
@@ -822,7 +889,7 @@ mypresidents %>% group_by(party) %>%         # solo "marca" dos grupos
   * DEBEN INCLUIRSE variables que se quieran mantener
 -->
 
-* Relacionado con *Tablas dinámicas* en Excel (y *SUMAR.SI*/*SUMIF*) 
+* En Excel: *Tablas dinámicas*, *AGRUPARPOR()* (y *SUMAR.SI*/*SUMIF*) 
 
 * `ungroup()` elimina la agrupación para volver a operar en datos desagrupados 
 
@@ -831,7 +898,8 @@ mypresidents %>% group_by(party) %>% mutate(MD = mean(duracion)) %>%
   ungroup() %>% arrange(duracion) %>%  slice_head(n=1)
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 mypresidents %>% mutate(media_dur = mean(duracion)) %>% arrange(duracion) %>%  slice_head(n=1)
 
 mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>% arrange(duracion) %>%  slice_head(n=1)
@@ -840,7 +908,11 @@ mypresidents %>% group_by(party) %>% mutate(media_duracion = mean(duracion)) %>%
 ```
 
 
-## Seleccionar muchas variables 
+## Algunas funciones adicionales para columnas
+
+::: {style="font-size: 90%;"} 
+
+* `select()` para muchas variables usando `:` y `-` con nombres
 
 ```{r}
 library(nycflights13)           # incluye flights:  19 variables
@@ -852,14 +924,17 @@ select(flights, -(year:day))    # todas menos "year, month, day"
 * Seleccionar unas pocas variables es fácil:  `select(flights, year, month, day)`
 -->
 
-* Funciones a utilizar dentro de `select()`:
+* También funciones como:
+
     + `starts_with("abc")`: nombres que comienzan con "abc".
     + `ends_with("xyz")`: nombres que acaban con "xyz".
     + `contains("ijk")`: nombres que contienen "ijk".
     + `num_range("x", 1:3)`: para x1, x2 y x3.
     + `matches()`: nombres que coinciden con una [expresión regular](https://es.wikipedia.org/wiki/Expresi%C3%B3n_regular)
 
-```{r echo=FALSE}
+
+```{r}
+#| echo: false
 presidential %>% select(party, everything())   # everything(): útil para reordenar
 ```
 
@@ -884,7 +959,8 @@ presidential %>% select(party, everything())   # everything(): útil para reorde
  en `cor()`, `use = "complete.obs"`
 -->
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 data <- tibble(x1 = c(1:4, NA, 6.0, 7, NA), x2 = c(NA, 12:14, NA, 16.0, 17:18) )
 
 data %>% summarize(num = n(), meanNA = mean(x1), mean = mean(x1, na.rm = TRUE))
@@ -924,11 +1000,20 @@ data %>% mutate(x1 = replace_na(x1,0))          %>% summarize(num = n(), mean = 
 na.omit() vs. drop_na: el primero es de base (stats) el otro de tidyr
 -->
 
-## Algunos verbos adicionales
+* `pull(var)`: extrae una única columna (como vector)
+```{r}
+#| echo: true
+mypresidents %>% pull(duracion) %>% mean()
+```
 
-* `slice()`, `slice_head()`, `slice_sample()`: extrae filas por posición o aleatoriamente
+:::
 
-```{r echo=T}
+## Algunas funciones adicionales para filas
+
+* `slice()`, `slice_head()`, `slice_sample()`: extraen filas por posición (en lugar de condición) o aleatoriamente
+
+```{r}
+#| echo: true
 mypresidents %>% slice_head(n=3)
 ```
 
@@ -936,11 +1021,10 @@ mypresidents %>% slice_head(n=3)
    - `slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()`
 -->
 
-* `drop_na()` y `replace_na()`: elimina/reemplaza filas con valores ausentes
-
 * `distinct()`: extrae sólo las filas únicas (una o varias variables)
  
-```{r echo=T}
+```{r}
+#| echo: true
 mypresidents %>% distinct(party)
 ```
 
@@ -950,15 +1034,20 @@ mypresidents %>% distinct(party)
   - relocate(): cambiar orden de columnas
 -->
 
+* `drop_na()` y `replace_na()`: elimina/reemplaza filas con valores ausentes
+
+## Algunas funciones adicionales para crear variables
 
 * `count()`: cuenta los valores únicos de una o más variables
 
 ```{r echo=TRUE}
-mypresidents %>% count(party)    # mypresidents %>% group_by(party) %>% summarize(n=n())
+mypresidents %>% count(party)    
+# mypresidents %>% group_by(party) %>% summarize(n=n())
 mypresidents %>% count(party, sort = TRUE)
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 flights %>% group_by(tailnum) %>% summarize(n = n()) %>% arrange(desc(n))
 flights %>% count(tailnum, sort = TRUE) 
 ```
@@ -979,10 +1068,11 @@ flights %>% group_by(tailnum) %>% summarize(n = sum(dep_delay))
 
 ```{r}
 flights %>% mutate(across(air_time:distance, ~ log(.x)+1))
-flights %>% mutate(across(is.character, ~ parse_factor(.x)))
+flights %>% mutate(across(where(is.character), ~ parse_factor(.x)))
 ```
 
-```{r, echo=FALSE}
+```{r,}
+#| echo: false
 flights %>%
   summarise(across(where(is.integer), n_distinct))
 flights %>%
@@ -1019,7 +1109,7 @@ flights %>%
 -->
 
 <!-- ## Funciones útiles para crear variables -->
-## Funciones para crear variables 
+<!-- ## Funciones para crear variables  -->
 
 <!-- * Operadores aritméticos: `+`, `-`, `*`, `/`, `^`, `%/%` (división entera), `%%` (resto) -->
 
@@ -1034,7 +1124,8 @@ flights %>%
 
 <!-- * Agregados acumulativos y móviles: ver ayuda de `cumsum()`  y `cummean()` -->
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 cumsum(1:10)
 cumprod(1:10)
 cummin(1:10)
@@ -1064,6 +1155,7 @@ row_number(y)
 
 <!-- ## Funciones para crear variables (cont.) -->
 
+## Algunas funciones adicionales para crear variables (cont.)
 
 * Muchas funciones son equivalentes a otras de R base:
 
@@ -1073,9 +1165,11 @@ row_number(y)
     - `if_else()`: ejecución condicional por `ifelse()` (también `case_when()`)
 
 ```{r}
-flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde", "bien")) 
-flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde",    # encadenados
-                                if_else(dep_delay <0, "bien", "normal")))
+flights %>% 
+  mutate(retraso = if_else(dep_delay > 0, "tarde", "bien")) 
+flights %>% 
+  mutate(retraso = if_else(dep_delay > 0, "tarde",    # encadenados
+                      if_else(dep_delay <0, "bien", "normal")))
 ```
 
 ```{r}
@@ -1086,7 +1180,8 @@ flights %>% mutate(retraso = if_else(dep_delay > 0, "tarde",             # encad
                                         if_else(dep_delay <0, "bien", "normal")))
 ```
 
-```{r, echo=FALSE}
+```{r,}
+#| echo: false
 flights %>%
   group_by(carrier) %>%
   mutate(new_classification = case_when(
@@ -1113,7 +1208,8 @@ mutate(Quantity = replace(Quantity, Quantity<=0, NA), UnitPrice = replace(UnitPr
   
 * Discretizar variables<!--numéricas a categóricas-->: `cut_interval()`, `cut_number()`, `cut_width()`
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
 ```
 
@@ -1124,7 +1220,7 @@ flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
     - `bind_cols()` y `bind_rows()` por `cbind()` y `rbind()`
 -->
 
-## Funciones de resumen útiles
+## Algunas funciones adicionales para resúmenes
 
 * Medidas de centralidad y de dispersión: `mean(x)`, `median(x)`, `sd(x)`, `IQR(x)` <!--, `mad(x)` -->
 
@@ -1145,6 +1241,61 @@ flights %>% mutate(retraso = cut_width(dep_delay,2))   # retraso es factor
   - `n_distinct(x)`:  filas distintas en `x`
   
   <!-- más rápido que unique() -->
+
+
+
+<!--
+## Verbos principales en `tidyr` (cont.)
+
+* `separate()`: separar una columna que representa múltiples variables
+
+  ![](figure/separate2.png){width=85%}
+  
+* `unite()`: une varias columnas (inverso de `separate()`)
+-->
+
+<!--
+## Comentario sobre valores ausentes
+
+```{r, eval=FALSE, echo=TRUE}
+accion <- tibble( anio  = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                  trim  = c(   1,    2,    3,    4,    2,    3,    4),
+                  rent  = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66))
+```
+
+*  **Dos tipos** de valores ausentes: en 2015.Q4 *explícitos* y en 2016.Q1 *implícitos*
+
+* Esto cambia con la forma de representación
+
+```{r, eval=FALSE, echo=TRUE}
+ancho <- accion %>% 
+            pivot_wider(names_from = anio, values_from = rent)     
+ancho             # NA explícitos al convertir a formato ancho
+
+ancho %>%  pivot_longer(cols = c("2015","2016"), 
+                        names_to = "anio", values_to = "rent")
+
+accion %>% complete(anio, trim)  # todos NA explícitos 
+                                 # (rellena buscando todas combinacines)
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+ancho %>%  pivot_longer(cols = c("2015","2016"), names_to = "anio", values_to = "rent",
+               values_drop_na = TRUE)  # NA implícitos al convertir a largo 
+
+```
+
+-->
+
+<!--
+* complete(): encuentra todas las combinaciones únicas y se asegura de la tabla contiene todos esos valores
+
+* rellenando `NA` explícitos cuando sea necesario.
+-->
+
+# Pivotar para ordenar
+
 
 
 ## Cuatro representaciones de los mismos datos
@@ -1347,7 +1498,8 @@ left_join(tidy4a, tidy4b)
 ## `pivot_longer()`: de ancho a largo (cont.)
 
 * Recordad que existen formas equivalentes de hacer lo mismo
-```{r, eval=FALSE, echo=FALSE}
+```{r, eval=FALSE,}
+#| echo: false
 pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases")       
 table4a %>% pivot_longer(c(`1999`, `2000`), values_to = "cases", names_to = "year")
 table4a %>% pivot_longer(names_to = "year", values_to = "cases", -country)
@@ -1382,7 +1534,8 @@ table4a %>%
   mutate(year= parse_number(year))
 ```
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 pivot_longer(table4a, 2:3, names_to = "year", values_to = "cases") %>% mutate(year= as.integer(year))
 ```
 
@@ -1444,7 +1597,8 @@ table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
 table3 %>% separate(year, into = c("century", "year"), sep = 2)
 ```
 
-```{r, eval=FALSE, echo=FALSE}
+```{r, eval=FALSE,}
+#| echo: false
 table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
 table3 %>% separate(rate, into = c("cases", "population")) 
 ```
@@ -1454,7 +1608,8 @@ table3 %>% separate(rate, into = c("cases", "population"))
     - la longitud de `sep` debe ser uno menos que la de `into`
     - valores positivos comienzan (en 1)por la izquierda; negativos (desde -1) por la derecha
 
-```{r, eval=FALSE, echo=FALSE}
+```{r, eval=FALSE,}
+#| echo: false
 table3 %>% separate(year, into = c("century", "year"), sep = 2)
 ```
 -->
@@ -1484,7 +1639,8 @@ table5 %>%
   unite(new, century, year, sep = "-")
 ```
 
-```{r, eval=FALSE, echo=FALSE}
+```{r, eval=FALSE,}
+#| echo: false
 table5 %>% 
   unite(new, century, year, sep = "")   # sin separación
 
@@ -1492,55 +1648,664 @@ table5 %>%
   unite(new, century, year, sep = "-")
 ```
 
+
+
+# Datos relacionales
+
+## Múltiples tablas de datos
+
+* Analizar datos suele implicar múltiples tablas
+
+    - diferentes orígenes<!-- de datos-->: ej., dptos. de empresa (personal, ventas, almacén)  
+    
+    - almacenamiento más eficiente: elementos "similares" dentro de una tabla y diferentes entre ellas
+
+* Para poder *combinar* la información los datos deben ser **relacionales**: cada par de tablas están relacionadas <!--organizada--> mediante identificadores <!--únicos--> llamados **claves** 
+
+<!-- en un sistema de gestión de base de datos relacional-->
+
+* P.e., la biblioteca `nycflights13` contiene varias tablas: el nombre de la compañía está "codificado" en `flights` y se puede encontrar en `airlines`
+
 <!--
-## Verbos principales en `tidyr` (cont.)
+* Algunas variables están "codificadas": p.e., el nombre completo de la compañía se encuentra en `airlines`
+-->
+```{r, echo=FALSE}
+library(nycflights13)
+```
 
-* `separate()`: separar una columna que representa múltiples variables
+```{r}
+flights %>% select(dep_time,arr_time,carrier:dest) 
+airlines
+```
 
-  ![](figure/separate2.png){width=85%}
-  
-* `unite()`: une varias columnas (inverso de `separate()`)
+* Ambas tablas contienen un identificador común **clave** ("key"):  `carrier`
+
+
+## Relaciones entre tablas
+<center>
+![](figure/relational-nycflights.png)
+</center>
+<!--
+
+* `flights` se conecta con `airlines` a través de `carrier`.
+
+* `flights` conecta con `planes` a través de `tailnum`.
+
+* `flights` se conecta a los `airports` de dos maneras: `origin` y `dest`.
+
+* `flights` se conecta a `weather` a través de `origin` (el lugar) y  `year`, `month`, `day` y `hour` (el tiempo).
+-->
+
+## Datos relacionales
+
+* Tipos de claves:
+
+    - **Primaria (o interna)**: identifican de forma única cada observación en una tabla. Puede ser *una sola variable* (en `planes`) o *múltiples* (en `weather`)
+
+      - *Subrogada* = número de fila, si la tabla carece de identificación única 
+
+    - **Secundaria (o externa)**: señala a la clave primaria de otra tabla <!--(`tailnumber` en `flights`). Una variable puede ser clave primaria y externa: `origin` en `weather` y `airports`-->
+
+    
+<!--
+* Es conveniente verificar que las claves primarias realmente identifican de manera única cada observación. 
+
+```{r}
+planes %>% count(tailnum) %>% filter(n > 1)
+#table(planes$tailnum)
+```
+
+* La clave externa asegura la integridad referencial. 
 -->
 
 <!--
-## Comentario sobre valores ausentes
+* Tabla sin clave de identificación única: se crea con `mutate()` y `row_number()`. 
 
-```{r, eval=FALSE, echo=TRUE}
-accion <- tibble( anio  = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
-                  trim  = c(   1,    2,    3,    4,    2,    3,    4),
-                  rent  = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66))
+```{r}
+flights %>% 
+  count(year, month, day, flight) %>% 
+  filter(n > 1)
 ```
 
-*  **Dos tipos** de valores ausentes: en 2015.Q4 *explícitos* y en 2016.Q1 *implícitos*
+-->
 
-* Esto cambia con la forma de representación
+* Una clave primaria y una externa (asociada) en otra tabla forman una **relación**: 
 
-```{r, eval=FALSE, echo=TRUE}
-ancho <- accion %>% 
-            pivot_wider(names_from = anio, values_from = rent)     
-ancho             # NA explícitos al convertir a formato ancho
+    - de uno-a-muchos (ej., vuelos y aviones), de uno-a-uno, de muchos-a-muchos (ej., aerolíneas y aeropuertos), de muchos-a-uno
 
-ancho %>%  pivot_longer(cols = c("2015","2016"), 
-                        names_to = "anio", values_to = "rent")
 
-accion %>% complete(anio, trim)  # todos NA explícitos 
-                                 # (rellena buscando todas combinacines)
+* Operaciones que se pueden realizar con dos tablas: uniones de transformación, uniones de filtro y operaciones de conjunto
+
+<!--
+## Operaciones con dos tablas
+
+* **Uniones de transformación** ("Mutating joins"): añade nuevas variables a una tabla desde filas coincidentes en otra.  
+
+* **Uniones de filtro** ("Filtering joins"): filtra las observaciones de una tabla basándose en si coinciden o no con una observación de la otra tabla. 
+
+* **Operaciones de conjunto** ("Set operations"): combinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.    
+
+* Esta discusión asume que tenemos datos ordenados (*tidy*):
+    + las filas son observaciones 
+    + las columnas son variables
+
+-->
+
+<!--
+* Ayuda: 
+
+ r4ds
+ 
+ USAR DATOS Y GRAFICOS DE <https://github.com/gadenbuie/tidyexplain>
+
+
+-->
+
+## Uniones de transformación
+
+* Añaden **nuevas variables** a una tabla desde *filas coincidentes* en otra.  
+
+* [Ejemplo:](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx)
+
+<!-- como mutate = mutating joins -->
+
+<center>
+![](figure/DatosRelacionales.png)
+</center>
+
+
+
+* `cbind()` o `bind_columns()`: nuevas columnas para filas en el mismo orden
+
+<!-- clave = fila Y ademán en el mismo orden -->
+
+<!-- 
+como en Excel por defecto
+
+* en Excel, las uniones se hacen con VLOOKUP o HLOOKUP (BUSQUEDAH, BUSQUEDAV)
+-->
+
+* Dos argumentos obligatorios: las tablas que se unen
+
+```{r}
+# queremos añadir el nombre de las compañias en la tabla de vuelos
+flights2 <- flights %>% 
+              select(year:day, hour, origin, dest, carrier, tailnum)
+airlines
 ```
 
+```{r}
+#| echo: false
+flights2 <- flights %>% 
+              select(year:day, hour, origin, dest, carrier, tailnum)
+flights2 %>% left_join(airlines)   # añade el nombre de las compañías 
+                                   # en la tabla de vuelos
+
+```
+
+
+```{r}
+#| echo: false
+flights2 <- flights %>% select(year:day, hour, origin, dest, carrier, tailnum)
+left_join(flights2, airlines)     # añade el nombre de las compañías en la tabla de vuelos
+flights2 %>% left_join(airlines)
+```
 
 ```{r echo=FALSE, eval=FALSE}
-ancho %>%  pivot_longer(cols = c("2015","2016"), names_to = "anio", values_to = "rent",
-               values_drop_na = TRUE)  # NA implícitos al convertir a largo 
+flights2 %>% mutate(name = if_else(carrier == "9E", "Endeavor Air Inc.",
+                           if_else(carrier == "AA", "American Airlines Inc.", 
+                                   ...
+                           if_else(carrier == "UA", "United Air Lines Inc.", ....))))
+```
+
+##  Argumento `by`: ¿Cómo se emparejan las tablas? 
+
+* Las claves (variables que relacionan ambas tablas) se indican, para una variable, con `by = "varX"` o, para varias, con `by = c("varX", "varY")` 
+
+```{r}
+flights2 %>% inner_join(airlines, by = "carrier") 
+flights2 %>% inner_join(weather, 
+                by = c("year", "month", "day", "hour", "origin"))
+```
+
+* Si se omite el argumento `by`, se usan todas las variables en común. <!-- de ambas tablas. --> Esto no siempre es deseable: ej., año no es lo mismo en `flights` y `planes`
+
+* Columnas con el mismo nombre (ej., año) se desambigúan con un sufijo
+
+```{r}
+flights2 %>% left_join(planes, by = c("tailnum"))
+```
+
+* `by = c("x1" = "y1", "x2" = "y2")` para emparejar la variable `x1` en la primera tabla con la variable `y1` en la segunda, y la variable `x2` con `y2`
+
+```{r,  echo = TRUE, eval = FALSE}
+flights2 %>% left_join(airports, 
+                  by = c("dest" = "faa"))    # aeropuerto de destino
+```
+
+
+<!-- * Por defecto se usan todas las variables que aparezcan en ambas tablas  -->
+
+<!--(unión natural). -->
+
+```{r}
+#| echo: false
+flights2 %>% left_join(weather)    # coinciden en año, mes, día, hora y origen        
+```
+
+<!-- * No siempre deseable o posible: ej., año no es lo mismo en `flights` y `planes` -->
+
+<!--
+* PERO el mismo nombre puedecon significado diferente (ej., año en `flights` y `planes`)
+-->
+
+```{r echo=FALSE}
+flights2 %>% left_join(planes)
+flights2 %>% left_join(planes, by = c("tailnum"))
+```
+
+
+<!-- * `by = c("varX", "varY")`: para usar sólo algunas variables comunes -->
+
+```{r}
+#| echo: false
+flights2 %>% left_join(planes, by = c("tailnum"))   # también: by = "tailnum"  
+flights2 %>% left_join(weather, by = c("year", "month", "day", "hour", "origin"))
+```
+
+<!-- * Las columnas con el mismo nombre (ej., año) se desambigúan <!--en la salida--> <!--con un sufijo -->
+
+<!-- * `by = c("x1" = "y1", "x2" = "y2")` para emparejar la variable `x1` en la primera tabla con la variable `y1` en la segunda, y la variable `x2` con `y2` -->
+
+<!--Las variables usadas para la unión también se utilizarán en la tabla de salida.-->
+
+<!--    + P.e., el vuelo tiene un aeropuerto de origen y destino, ¿a cuál lo unimos? -->
+
+```{r,  echo = FALSE, eval = FALSE}
+flights2 %>% left_join(airports, by = c("dest" = "faa"))    # aeropuerto de destino
+```
+
+```{r,  echo = FALSE, eval = FALSE}
+flights2 %>% left_join(airports, by = c("origin" = "faa"))  # aeropuerto de origen
+```
+
+<!--
+
+by = c("x1" = "x1", "x2" = "x2") es la forma general
+
+se puede simplificar en algunos caso, by = "x1", by = c("x1", "x2") PERO
+
+by = "x1" = "z1"    # NO funciona aunque solo un elemento en vector
+-->
+
+
+## Unión interna
+
+
+```{r}
+df1 <- tibble(clave = c(1:3), val_x = c("x1", "x2", "x3"))
+df2 <- tibble(clave = c(1:2, 4), val_y = c("y1","y2","y4"))
+```
+
+* `inner_join(x, y)` sólo incluye observaciones que coincidan en `x` y `y`.
+```{r}
+df1 %>% inner_join(df2, by = "clave")
+```
+
+
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+<center>
+![](figure/join-inner.png){width=102%}
+</center>
+:::
+
+::: {}
+
+<center>
+![](figure/inner-join.gif.zip)
+
+</center>
+:::
+
+::::
+
+
+
+<!--
+* Uniendo dos series temporales con periodos diferentes: [PIB](https://fred.stlouisfed.org/series/GDPC1) y [consumo](https://fred.stlouisfed.org/series/MEHOINUSA672N)
+-->
+
+## Uniones externas
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+* Cuando una fila no coincide en una unión externa, las nuevas variables se rellenan como **valores ausentes** <!--con `NA`.--> 
+
+* `left_join(df1, df2)`: mantiene todas las observaciones en `x`, coincidan o no con la de `y` 
+  + (no se pierden observaciones de la tabla primaria) 
+* `right_join(df1, df2)`:  mantiene todas las observaciones en `y`
+* `full_join(df1, df2)`: incluye todas las observaciones de `x` e `y`
+
+
+:::
+
+::: {}
+
+<center>
+
+![](figure/join-outer.png){width=75%}
+
+</center>
+:::
+
+::::
+
+
+<!--
+
+## Uniones externas (cont.)
+
+:::: {style="display: flex;"}
+
+::: {}
+
+```{r}
+df1 %>% left_join(df2)
+
 
 ```
 
+<center>
+![](figure/left-join.gif){width=80%}
+</center>
+
+
+:::
+
+::: {}
+$\hspace{0.5cm}$
+:::
+
+::: {}
+
+```{r}
+df1 %>% right_join(df2)    
+```
+<center>
+![](figure/right-join.gif){width=80%}
+</center>
+
+:::
+
+::: {}
+$\hspace{0.5cm}$
+:::
+
+::: {}
+
+```{r}
+df1 %>% full_join(df2)   
+```
+
+<center>
+![](figure/full-join.gif){width=80%}
+</center>
+
+:::
+::::
+
+* Notar que `df1 %>% right_join(df2)` es igual que `df2 %>% left_join(df1)`, pero con diferente orden columnas
+
+-->
+
+
+<!--
+## Uniones de transformación como conjuntos
+
+<center>
+![](figure/join-venn.png){width=95%}
+</center>
+
+* PERO un diagrama de Venn no puede mostrar lo que sucede cuando las claves no identifican una observación de manera única.
+-->
+
+## Claves duplicadas
+
+
+* Si una coincidencia no es única, se generan todas las combinaciones posibles (producto cartesiano) de las observaciones coincidentes
+
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+* En **una tabla**: añade información <!--adicional--> en una relación de uno a muchos.
+
+<center>
+![](figure/join-one-to-many.png){width=95%}
+</center>
+```{r echo=FALSE}
+df1dup <- tibble(clave = c(1, 2, 2, 1), val_x = c("x1", "x2", "x3", "x4"))
+df2dup <- tibble(clave = c(1, 2), val_y = c("y1", "y2"))
+df1dup %>% left_join(df2dup)
+```
+
+:::
+
+::: {}
+
+* En **ambas tablas**: igualmente, <!--se obtienen--> todas las combinaciones posibles
+<center>
+![](figure/join-many-to-many.png){width=85%}
+</center>
+  + posible error: NO hay clave primaria única
+  
+  <!--: las claves no identifican únicamente una observación en ninguna de las dos tablas -->
+
+```{r echo=FALSE}
+df1dup2 <- tibble(clave = c(1, 2, 2, 3), val_x = c("x1", "x2", "x3", "x4"))
+df2dup2 <- tibble(clave = c(1, 2, 2, 3), val_y = c("y1", "y2", "y3", "y4"))
+df1dup2 %>% left_join(df2dup2)
+```
+
+
+:::
+::::
+
+
+
+<!--
+## Observación
+
+La función `base::merge()`  puede realizar los cuatro tipos de unión de transformación (usando las opciones `all.x = ` y `all.y = `, ver ayuda). Las ventajas de los verbos específicos de `dplyr` es que expresan más claramente la intención del código: la diferencia entre las uniones es realmente importante pero está oculta en los argumentos de `merge()`. Las uniones de dplyr son considerablemente más rápidas y no alteran el orden de las filas.
+
+
+melt et al. <http://had.co.nz/reshape/>
+
+-->
+
+
+## Uniones de filtro
+
+<!-- * Las uniones de filtro pero **afectan a las observaciones**, no a las variables -->
+
+* Filtra las **observaciones** de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla
+
+* Se tiene un subconjunto de las filas de la tabla de la izquierda
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 20px; "}
+
+::: {}
+
+* `semi_join(x, y)` mantiene <!--todas--> las observaciones en `x` que están <!--coinciden--> en `y`
+
+![](figure/join-semi.png){width=95%}
+
+```{r}
+df1 %>% semi_join(df2, 
+          by = "clave")
+```
+
+:::
+
+::: {}
+
+* `anti_join(x, y)` elimina <!--todas--> las observaciones en `x` que están <!--coinciden--> en `y`
+
+![](figure/join-anti.png){width=95%}
+
+```{r}
+df1 %>% anti_join(df2, 
+          by = "clave")
+```
+::: 
+
+::::
+
+## Uniones de filtro (cont.)
+
+
+* **Claves duplicadas**: en uniones de filtro sólo importa la existencia de una coincidencia, NO qué observación coincida $\Rightarrow$ NUNCA duplica filas
+
+<center>
+![](figure/join-semi-many.png){width=35%}
+</center>
+
+```{r echo=FALSE}
+df1dup2 %>% semi_join(df2dup2)
+```
+
+* Las uniones de filtro son útiles  para diagnosticar desajustes de uniones (qué observaciones serán emparejadas)
+
+<!-- ## Aplicaciones de `anti_join()` y `semi_join()` -->
+
+
+<!-- * Son útiles para diagnosticar desajustes de uniones (qué observaciones serán emparejadas), porque solo eliminan y nunca duplican observaciones -->
+
+<!--
+Importante antes de hacer uniones con tablas MUY grandes
+--> 
+
+```{r}
+flights %>% anti_join(planes, by = "tailnum") %>%   # vuelos sin información del avión
+              count(tailnum, sort = TRUE)
+
+```
+
+
+```{r echo=FALSE}
+flights %>% count(tailnum, sort = TRUE)
+```
+
+
+<!--
+```{r}
+df1dup3 <- tibble(clave = c(1, 1, 3, 4), val_x = c("x1", "x2", "x3", "x4"))
+df2dup3 <- tibble(clave = c(1, 1, 2), val_y = c("y1", "y2", "y1"))
+
+# Cuatro filas para empezar:
+df1dup3 %>% nrow()
+# Y tenemos cuatro filas después de la unión
+df1dup3 %>% inner_join(df2dup3, by = "clave") %>% nrow()
+df1dup3 %>% inner_join(df2dup3, by = "clave")
+# Pero sólo dos filas en realidad coinciden
+df1dup3 %>% semi_join(df2dup3, by = "clave") %>% nrow()
+df1dup3 %>% semi_join(df2dup3, by = "clave")
+```
+-->
+
+
+* <!--También algunas uniones de filtro son--> Pueden ser equivalentes a usar `filter()`, con tablas previamente resumidas, pero permiten filtrados complejos fácilmente
+
+<!-- 
+Unión, PERO NO con tabla ya existente
+
+Creamos una tabla para nuestro objetivo de unión de filtrado 
+-->
+
+```{r}
+#| echo: false
+top_dest <- flights %>% count(dest, sort = TRUE) %>% head(10)   # destinos populares
+flights %>% filter(dest %in% top_dest$dest)
+flights %>% semi_join(top_dest)
+```
+
+```{r echo=FALSE}
+flights %>% count(dest, sort = TRUE) %>% head(10) 
+flights %>% group_by(dest) %>% summarize(n=n()) %>% arrange(desc(n)) %>% head(10)
+```
+
+```{r echo=FALSE, eval=FALSE}
+flights %>% count(dest)
+table(flights$dest)
+
+flights %>% count(dest, sort = TRUE)
+
+flights %>% filter(dest =="ORD" | dest = "ATL" | ...) 
+
+top_dest$dest
+flights %>% filter(dest %in% top_dest$dest) %>% summarize(media=mean(arr_delay))
+flights %>% semi_join(top_dest)     
+```
+
+<!--
+* Pero permiten filtrados complejos fácilmente <!--: ej., los diez días con más vuelos <!-- o con los atrasos promedio más atos--> <!--necesita un filtro con varias variables (`year`, `month`, `day`)-->
+
+```{r echo=FALSE}
+top_dias <- flights %>% count(year, month, day, sort = TRUE) %>% head(3)
+flights %>% semi_join(top_dias)
+```
+
+```{r echo=FALSE}
+flights %>% filter(day %in% top_dias$day, month %in% top_dias$month) %>% distinct(day, month)
+flights %>% semi_join(top_dias) %>% distinct(day, month)
+```
+
+
+## Operaciones de conjunto
+
+<!--
+* Combinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.   
+-->
+
+* Trabajan con filas completas, comparando valores de cada variable.
+
+* Esperan que `x` e `y` tengan las **mismas variables**, y tratan las observaciones (filas) como elementos de un conjunto.
+
+* Útil cuando se quiere dividir un filtro complejo en piezas más simples.
+
+<!--
+* `intersect(x, y)`: devuelve solo las observaciones tanto en `x` como en  `y`  
+* `union(x, y)`: devuelve las observaciones únicas en ambas tablas `x` e `y`  
+* `union_all(x, y)`: devuelve todas las filas de `x` e `y`, manteniendo duplicados  
+* `setdiff(x, y)`: devuelve las observaciones en `x`, pero no en `y`.  
+-->
+
+```{r}
+df1 <- tibble(x = 1:2, y = c(1, 1))
+df2 <- tibble(x = c(1,1), y = 1:2)
+
+intersect(df1, df2)     # solo filas tanto en df1 como en df2
+union(df1, df2)         # filas únicas en ambas tablas df1 y df2` 
+union_all(df1, df2)     # todas las filas de df1 y df2, manteniendo duplicados 
+setdiff(df1, df2)       # filas en df1, pero no en df2
+setdiff(df2, df1)   
+```
+
+
+```{r, echo = FALSE, eval = FALSE}
+intersect(df1, df2)   # inner_join(df1,df2)
+union(df1, df2)       # full_join(df1,df2)   # Notad que tenemos 3 filas, no 4
+setdiff(df1, df2)     # anti_join(df1,df2)
+setdiff(df2, df1)     # anti_join(df2, df1)
+```
+
+
+<!--
+## Equivalencia con bases de datos SQL
+
+https://www.cs.utexas.edu/~mitra/csFall2006/cs329/lectures/sql.html
+
+```{r}
+#| echo: false
+#| eval: false
+#| results: asis
+library(kableExtra)
+#library(knitr)
+tabla <- tribble(
+     ~dplyr           ,     ~SQL                                                               ,
+  "inner_join()"      ,	"SELECT * FROM x JOIN y ON x.a = y.a"                                  ,
+  "left_join()"       ,	"SELECT * FROM x LEFT JOIN y ON x.a = y.a"                             ,
+  "right_join()"      ,	"SELECT * FROM x RIGHT JOIN y ON x.a = y.a"                            ,
+  "full_join()"       ,	"SELECT * FROM x FULL JOIN y ON x.a = y.a"                             ,
+  "semi_join()"       ,	"SELECT * FROM x WHERE EXISTS (SELECT 1 FROM y WHERE x.a = y.a)"       ,
+  "anti_join()"       ,	"SELECT * FROM x WHERE NOT EXISTS (SELECT 1 FROM y WHERE x.a = y.a)"   ,
+  "intersect(x, y)"   ,	"SELECT * FROM x INTERSECT SELECT * FROM y"                            ,
+  "union(x, y)"       ,	"SELECT * FROM x UNION SELECT * FROM y"                                ,
+  "setdiff(x, y)"     , "SELECT * FROM x EXCEPT SELECT * FROM y"                              
+)
+tabla %>%
+  kbl()  %>%
+  kable_paper("hover", full_width = F, font_size = 22)
+# tabla
+```
+
+
+
+* SQL soporta más tipos de unión y puede trabajar con más de dos tablas.
 -->
 
 <!--
-* complete(): encuentra todas las combinaciones únicas y se asegura de la tabla contiene todos esos valores
 
-* rellenando `NA` explícitos cuando sea necesario.
+Como sugiere esta sintaxis,  más tipos de unión porque se pueden conectar las tablas usando restricciones diferentes a la igualdad (algunas veces llamadas no-equijoins).
+
+`x` and `y` no tienen que ser tablas en la misma base de datos. Si especifica `copy = TRUE`, `dplyr` copiará la tabla `y` en el mismo lugar que `x`. 
+
+
+Revisar las reglas de coerción. P. e., los factores se conservan sólo si los niveles coinciden exactamente; si no, se "coaccionan" (se fuerza su conversión) a tipo de carácter.
+
 -->
-
-
-

@@ -88,13 +88,11 @@ strip-comments: true
 
   * [Tema 02 - Ejercicio 1](docs/Tema02ej1.qmd)
 
-## Semana 4
-(30-Sept. a 6-Oct.)
-
-  * [Tema 02 - Tratamiento de Datos](docs/Tema02.qmd)
-
-
 -->
+## Semana 4
+(29-Sept. a 5-Oct.)
+
+  * [Tema 02 - Limpieza y Tratamiento de Datos](docs/Tema02.qmd)
 
 ## Semana 3
 (22-Sept. a 28-Sept.)
