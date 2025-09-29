@@ -88,6 +88,7 @@ strip-comments: true
 
   * [Tema 02 - Ejercicio 1](docs/Tema02ej1.qmd)
 
+*********************************************************************
 -->
 ## Semana 4
 (29-Sept. a 5-Oct.)
@@ -100,10 +101,7 @@ strip-comments: true
   * [Tema 01 - Visualización de Datos](docs/Tema01.qmd)
 
   * [Tema 01 - Ejercicio](docs/Tema01ej.qmd)
-<!--
-    - Fecha límite de entrega: **dom., 06-oct., 23:59h**
-*********************************************************************
--->
+    - Fecha límite de entrega: **dom., 05-oct., 23:59h**
 
 ## Semana 2
 (15-Sept. a 21-Sept.)
