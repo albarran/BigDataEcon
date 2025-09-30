@@ -1243,7 +1243,7 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nVentasTabla\nEmpleados\nDosTablas"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data\nVentasTabla\nEmpleados\nDosTablas"
   },
   {
     "objectID": "about.html",
