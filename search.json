@@ -317,226 +317,317 @@
   {
     "objectID": "docs/Tema02.html#limpieza-y-doma-de-datos",
     "href": "docs/Tema02.html#limpieza-y-doma-de-datos",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Limpieza y “doma” de datos ",
-    "text": "Limpieza y “doma” de datos \n\n\n\n\nUn análisis de datos adecuado requiere (mucho) tiempo de trabajo “sucio” \ntidyverse incluye una colección de bibliotecas con herramientes eficientes para el proceso de “tratamiento de datos” (“data wrangling”)\n\n\nEl objetivo es tener un conjunto de datos ordenado y limpio para poder realizar análisis de manera eficiente\nEsto puede requerir seleccionar columnas, filtrar filas, crear nuevas variables, ordenar, agrupar, resumir, etc."
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Limpieza y “doma” de datos",
+    "text": "Limpieza y “doma” de datos\n\n\nEn la vida real, los datos se tiene que recolectar, unir, limpiar, recodificar, etc.\n\n\n\n\n\nEl ciclo de vida de los datos\n\n\n\n\n\n\n\n\n\nEl desafío real del análisis de datos:\n\n80% del tiempo de trabajo “sucio” : limpieza y preparación\n20% del tiempo: análisis y modelización\n\ntidyverse incluye una colección de bibliotecas con herramientes eficientes para el proceso de “tratamiento de datos” (“data wrangling”)\n\n\n\nofrece herramientas eficientes inspiradas en declaraciones de consulta SQL\nbasadas en una gramática de manipulación de datos\n\n\n\nEl objetivo es obtener un conjunto de datos ordenado y limpio para realizar el análisis eficientemente y obtener información útil para la toma de decisiones"
   },
   {
-    "objectID": "docs/Tema02.html#qué-son-datos-ordenados-tidy-data",
-    "href": "docs/Tema02.html#qué-son-datos-ordenados-tidy-data",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "¿Qué son datos ordenados (‘tidy data’)?",
-    "text": "¿Qué son datos ordenados (‘tidy data’)?\n1.- Cada columna es una variable: mide el mismo atributo entre unidades\n2.- Cada fila es una observación (caso): misma unidad a través de atributos\n3.- Cada celda es un valor\n\n\n\n\nTenemos información similar y no redundante en una misma tabla\n\n\nEs una forma natural (variable = vector columna) para trabajar con datos \n\n\ntidyverse es eficiente con datos ordenados"
+    "objectID": "docs/Tema02.html#datos-ordenados-tidy-data-principios-fundamentales",
+    "href": "docs/Tema02.html#datos-ordenados-tidy-data-principios-fundamentales",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Datos ordenados (‘tidy data’): Principios fundamentales",
+    "text": "Datos ordenados (‘tidy data’): Principios fundamentales\n1.- Cada columna es una variable: mide el mismo atributo entre unidades\n2.- Cada fila es una observación (caso): misma unidad a través de atributos\n3.- Cada celda es un valor\n\n\natributos (cuantitativos o cualitativos) o características\nobservación (caso): valores de la misma unidad a través de atributos\nUna tabla puede completar la información con uniones a tablas adicionales (ej., para variables codificadas)\n\n\n\n\nTenemos información similar y no redundante en una misma tabla\nEs una forma natural (variable = vector columna) para trabajar con datos \n\n\ntidyverse es eficiente con datos ordenados\n\n\n\nAtributos diferentes en columnas diferentes; p.e., nombres de columnas no deben ser valores\nMismo nivel de agregación en toda la tabla\nNo mezclar tipos de datos Ni almacenar múltiples valores"
   },
   {
     "objectID": "docs/Tema02.html#datos-no-ordenados",
     "href": "docs/Tema02.html#datos-no-ordenados",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Datos no ordenados",
-    "text": "Datos no ordenados\n\n\n\n\n\n\n\n\nOtras estructuras como esta pueden tener sentido para mostrar información (o por convenciones)\n\n\nLa visualización es atractiva, PERO sobran filas para analizar los datos: ej., total de personas con hijos y sin pareja entre 30 y 39 años"
+    "text": "Datos no ordenados\n\n\n\n\n\n\n\n\n\nOtras estructuras como esta pueden tener sentido para mostrar información (o por convenciones)\nLa visualización es atractiva, PERO sobran filas para analizar los datos: ej., total de personas con hijos y sin pareja entre 30 y 39 años\n\n\n\nProblemas de estos datos:\n\nMeses están en columnas (son valores, no variables)\nFila “Total” mezcla niveles de agregación\nDifícil filtrar, agrupar o visualizar\n\nPor Qué Importan los Datos Ordenados\n\n\nVentajas:\n✓ Consistencia en todas las operaciones\n✓ Fácil manipulación con dplyr\n✓ Visualización directa con ggplot2\n✓ Compatible con modelización\n✓ Facilita colaboración\n\nEjemplo Práctico:\n\n# Con datos ordenados: FÁCIL\nventas %&gt;%\n  group_by(id_tienda, mes) %&gt;%\n  summarize(ventas_total = sum(total))\n\n# Con datos desordenados: COMPLEJO\n# Requiere reshape, limpieza, etc."
+  },
+  {
+    "objectID": "docs/Tema02.html#caso-de-estudio-retailcorp",
+    "href": "docs/Tema02.html#caso-de-estudio-retailcorp",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso de Estudio: RetailCorp",
+    "text": "Caso de Estudio: RetailCorp\n\nContexto: Cadena de venta al por menor scon 12 tiendas en España\nObjetivo: Analizar rendimiento de ventas para toma de decisiones estratégicas\n\n\n\nload(\"data/retail_data.RData\")\n\n\n\n\nRecibe datos de\n\nSistema de ventas (POS)\nCRM de clientes\nInventario de productos\nRRHH de empleados\nInformes Excel de gerentes\n\n\n\nProblemas Típicos:\n\nFormatos inconsistentes\nDatos duplicados\nValores ausentes\nEstructuras inadecuadas\nTablas dispersas"
   },
   {
     "objectID": "docs/Tema02.html#funciones-de-transformación-de-datos",
     "href": "docs/Tema02.html#funciones-de-transformación-de-datos",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Funciones de transformación de datos",
-    "text": "Funciones de transformación de datos\n\nLa mayoría de operaciones pueden realizarse combinando 5 “verbos” \n\nNOTA: existe una colección de “chuletas” de R, p.e., para transformación.\n\nTodos tienen como primer argumento un data frame, los siguientes describen qué hacer (con columnas o filas) y devuelven otro data frame\n\n1.- select(): selecciona variables por nombres o posiciones de columnas, separados por comas\n\n\n\n\nselect(presidential, name, party)\nselect(presidential, 1:2, 4)"
+    "text": "Funciones de transformación de datos\n\nLa mayoría de operaciones pueden realizarse combinando 5 “verbos”:\n\nselect(): selecciona columnas (variables)\nfilter(): filtra (extraer) filas\nmutate(): crea nuevas columnas\narrange(): ordena filas\nsummarize(): crea resúmenes de la tabla\n\n\nMás la tubería %&gt;% o |&gt;\ny group_by()\n\nNOTA: existe una colección de “chuletas” de R, p.e., para transformación.\nTodos tienen como primer argumento un data frame, los siguientes describen qué hacer (con columnas o filas) y devuelven otro data frame\n\n\n1.- select(): selecciona variables por nombres o posiciones de columnas, separados por comas\n\n\n\n\n\n\nselect(presidential, name, party)\nselect(presidential, 1:2, 4)"
   },
   {
-    "objectID": "docs/Tema02.html#filtrar-filas",
-    "href": "docs/Tema02.html#filtrar-filas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Filtrar filas",
-    "text": "Filtrar filas\n2.- filter(): conserva filas en las que la condición lógica es verdadera\n\n\n\n\nfilter(presidential, party == \"Republican\")\nfilter(presidential, start &gt; 1973 & party == \"Democratic\")\n\n\nSe pueden combinar (anidar) porque ambas toman y devuelve un data frame, pero así son difíciles de leer\n\n\nselect(filter(presidential, start &gt; 1973), name)"
+    "objectID": "docs/Tema02.html#select",
+    "href": "docs/Tema02.html#select",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "1. select()",
+    "text": "1. select()\n\nSelecciona variables por nombres o posiciones de columnas, separados por comas\n\n\n\nEj., un analista solo necesita información básica de ventas\n\n\nselect(ventas, id_venta, fecha, id_tienda, id_producto, total)\n\nselect(ventas, 1:2, 5, 4, 12)\n\n\nAplicación Empresarial: el equipo de marketing solo necesita información de cliente y venta\n\n\nventas_mkt &lt;- select(ventas, \n                fecha, id_cliente, id_producto, total)"
   },
   {
-    "objectID": "docs/Tema02.html#el-operador-de-tubería",
-    "href": "docs/Tema02.html#el-operador-de-tubería",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "El operador de tubería %>%",
-    "text": "El operador de tubería %&gt;%\n\ndatos %&gt;% filter(condition) equivale a filter(datos, condition)\n\nAplicable a cualquier función: 10 %&gt;% log() es log(10)\n\nEl anidamiento es fácil:\n\nTomar presidential y pasarlo a filtrar (produce un nuevo data frame); \nTomar este resultado y pasarlo a seleccionar.\n\n\n\npresidential %&gt;% \n  filter(start &gt; 1973) %&gt;% \n  select(name)\n\n\nAtajo de teclado: Cmd / Ctrl + Mays + M\nTambién existe una tubería en R base: |&gt;"
+    "objectID": "docs/Tema02.html#filter",
+    "href": "docs/Tema02.html#filter",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "2. filter()",
+    "text": "2. filter()\n\nConserva filas en las que una condición lógica (o varias separadas por comas) es verdadera\n\n\n\nCaso de Uso: Gerente quiere analizar ventas específicas con determinadas características\n\n\nventas_top      &lt;- filter(ventas, total &gt; 100)\n\nventas_ene_2024 &lt;- filter(ventas, año == 2024, mes == 1)\n\nventas_mad_bcn  &lt;- filter(ventas, id_tienda %in% c(1, 2))\n\nventas_premium  &lt;- filter(ventas, \n                     total &gt; 100 & descuento_porcentaje == 0)"
   },
   {
-    "objectID": "docs/Tema02.html#crear-nuevas-variables",
-    "href": "docs/Tema02.html#crear-nuevas-variables",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Crear nuevas variables",
-    "text": "Crear nuevas variables\n\n\n3.-mutate(): añade nuevas columnas, creando variables según una fórmula a partir de otras\n\n\n\n\n\n\ntambién rename(): cambiar el nombre de una columna \n\n\n\n\n\n\n# evitar \"machacar\" la fuente original\nmypresidents &lt;- presidential %&gt;%          \n                  mutate(duracion = end - start) \n\n# crear varias, separadas por coma\npresidential %&gt;% mutate(sigloXXI = start &gt; 2000,   \n                        duracion = end - start,    \n                        duracio2 = duracion*2   )  \n\npresidential %&gt;% rename(nombre = name)"
+    "objectID": "docs/Tema02.html#encadenando-operaciones-con-tuberías-o",
+    "href": "docs/Tema02.html#encadenando-operaciones-con-tuberías-o",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Encadenando operaciones con tuberías: %>% o |>",
+    "text": "Encadenando operaciones con tuberías: %&gt;% o |&gt;\n\n\nLas operaciones encadenadas no son legibles o crean objetos intermedios\n\n\nventas_top_markt &lt;- select(filter(ventas, total &gt; 100),\n                      fecha, id_cliente, id_producto, total)\n\nventas_top        &lt;- filter(ventas, total &gt; 100)\nventas_top_markt  &lt;- select(ventas_top, \n                       fecha, id_cliente, id_producto, total)\n\n\n\n\n\ndatos %&gt;% filter(condicion) equivale a filter(datos, condicion)\n\n\n\nLos objetos intermedios son basura innecesaria\nAplicable a cualquier función: 10 %&gt;% log() es log(10)\nSe pueden anidar operaciones: siempre toman y devuelve un data frame\nFáci y legible\n\n\n\nEl anidamiento con tuberías sigue el flujo natural de lectura\n\nToma una tabla y pásala a un comando que acepta y produce un data frame\nToma la nueva tabla resultante y pásala a otro comando\n\n\n\nventas_top_markt &lt;- ventas |&gt;                   \n                     filter(total &gt; 100) |&gt;     \n                     select(fecha, id_cliente, id_producto, total)\n\n\n\nggplot2 uwa + en lugar de %&gt;% (desarrollado antes)\nAtajo de teclado: Cmd / Ctrl + Mays + M\nTambién existe una tubería en R base: |&gt;"
   },
   {
-    "objectID": "docs/Tema02.html#ordenar-filas",
-    "href": "docs/Tema02.html#ordenar-filas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Ordenar filas",
-    "text": "Ordenar filas\n\n\n4.- arrange(): re-ordena las filas todas las columnas de un data frame\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\nmypresidents %&gt;% arrange(desc(duracion))\n\n# ordenar por más de una columna: primero por duración, \n# en caso de empate por partido\nmypresidents %&gt;% arrange(desc(duracion), party)"
+    "objectID": "docs/Tema02.html#funciones-auxiliares-de-selección-de-columnas",
+    "href": "docs/Tema02.html#funciones-auxiliares-de-selección-de-columnas",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Funciones auxiliares de selección (de columnas)",
+    "text": "Funciones auxiliares de selección (de columnas)\n\n# Por rango de columnas\nventas |&gt; select(id_venta:id_tienda)\n\n# Excluir columnas\nventas |&gt; select(-descuento_porcentaje, -descuento_aplicado)\n\n# Por patrón de nombre\nventas |&gt; select(starts_with(\"id_\"))\nventas |&gt; select(ends_with(\"_porcentaje\"))\nventas |&gt; select(contains(\"descuento\"))\n\n# Por tipo de dato\nventas |&gt; select(where(is.numeric))\nventas |&gt; select(where(is.character))\n\n\npull(): extrae una única columna, como vector\n\n\nventas |&gt; pull(cantidad) |&gt; mean()\n\n\n\nselect() para muchas variables usando : y - con nombres\n\n\nlibrary(nycflights13)           # incluye flights:  19 variables\nselect(flights, year:arr_time)  # desde variable \"year\" hasta \"arr_time\"\nselect(flights, -(year:day))    # todas menos \"year, month, day\"\n\n\nnum_range(\"x\", 1:3): para x1, x2 y x3.\nmatches(): nombres que coinciden con una expresión regular\nmatches(\"(.)\\\\1\"): selecciona las variables que coinciden con una expresión regular (en este caso, cualquier variable que contenga caracteres repetidos)."
   },
   {
-    "objectID": "docs/Tema02.html#resumir-todo-el-conjunto-de-datos",
-    "href": "docs/Tema02.html#resumir-todo-el-conjunto-de-datos",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Resumir todo el conjunto de datos",
-    "text": "Resumir todo el conjunto de datos\n5.- summarize(): colapsa valores de un data frame en una sola fila resumen\n\n\n\n\nEspecificando cómo se reducirá una columna entera de datos en un solo valor.\n\n\nlibrary(lubridate)\nmypresidents %&gt;%\n  summarize(\n    media_duracion = mean(duracion),\n    N = n(),                        # n(): cuenta número de filas\n    first_year = min(year(start)),  # year(): año de una fecha\n    num_dems = sum(party == \"Democratic\") )\n\n\nsummarize() suele usarse en conjunción con group_by()"
+    "objectID": "docs/Tema02.html#mutate",
+    "href": "docs/Tema02.html#mutate",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "3. mutate()",
+    "text": "3. mutate()\n\n\n\nCrea o modifica variables mediante una fórmula a partir de otras columnas\n\n\n\n\n\n\n\n\n\nventas2 &lt;- ventas |&gt;\n  mutate(\n    precio_final_unitario = total / cantidad,\n    es_inicio_mes         = day(fecha) &lt;= 7\n  )\n\n\nFunciones para operar con fechas (usando lubridate)\n\n\n\nlubridate es parte de tidyverse\n\n\n\nventas_tiempo &lt;- ventas |&gt;\n  mutate(\n    fecha_completa = as.Date(fecha),  # tipo de objeto \"fecha\"\n    semana_año = week(fecha),\n    nombre_mes = month(fecha, label = TRUE),\n    dias_desde_venta = as.numeric(Sys.Date() - fecha)\n  )"
   },
   {
-    "objectID": "docs/Tema02.html#group_by",
-    "href": "docs/Tema02.html#group_by",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "group_by()",
-    "text": "group_by()\n\ngroup_by(): cambia el alcance de cada función para que no actúe sobre todo el data frame sino en grupos individuales \n¿Cuál es la duración media de los demócratas y de los republicanos? Hacerlo por separado no es eficiente: especificamos que las filas deben ser agrupadas \n\n\nmypresidents %&gt;% group_by(party) %&gt;%         # solo \"marca\" dos grupos \n  summarize(N = n(),                         # nuevas variables\n            media_duracion = mean(duracion)) # \n\n\nNuevo conjunto de datos con nuevas variables (columnas) a un distinto nivel de observación (fila): una fila para cada valor del grupo\n\n\nEn Excel: Tablas dinámicas, AGRUPARPOR() (y SUMAR.SI/SUMIF)\nungroup() elimina la agrupación para volver a operar en datos desagrupados\n\n\nmypresidents %&gt;% group_by(party) %&gt;% mutate(MD = mean(duracion)) %&gt;% \n  ungroup() %&gt;% arrange(duracion) %&gt;%  slice_head(n=1)"
+    "objectID": "docs/Tema02.html#arrange",
+    "href": "docs/Tema02.html#arrange",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "4. arrange()",
+    "text": "4. arrange()\n\n\n\nre-ordena las filas todas las columnas de un data frame\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\n\n\nsimilar a Excel\nsort() es para un vector\n\n\n\nCaso de Uso: Top 10 ventas más altas\n\n\nventas |&gt; \n  arrange(desc(total)) |&gt; \n  select(id_venta, fecha, total) |&gt; head(10) \n\n\nOrdenamientos múltiples: ordena por la primera variable y luego, en caso de empate, por la siguiente, etc.\n\n\nventas |&gt;\n  arrange(id_tienda, desc(total)) |&gt;\n  select(id_tienda, id_venta, total) |&gt; head(10)"
   },
   {
-    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-columnas",
-    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-columnas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Algunas funciones adicionales para columnas",
-    "text": "Algunas funciones adicionales para columnas\n\n\nselect() para muchas variables usando : y - con nombres\n\n\nlibrary(nycflights13)           # incluye flights:  19 variables\nselect(flights, year:arr_time)  # desde variable \"year\" hasta \"arr_time\"\nselect(flights, -(year:day))    # todas menos \"year, month, day\"\n\n\nTambién funciones como:\n\nstarts_with(\"abc\"): nombres que comienzan con “abc”.\nends_with(\"xyz\"): nombres que acaban con “xyz”.\ncontains(\"ijk\"): nombres que contienen “ijk”.\nnum_range(\"x\", 1:3): para x1, x2 y x3.\nmatches(): nombres que coinciden con una expresión regular\n\n\n\n\npull(var): extrae una única columna (como vector)\n\n\nmypresidents %&gt;% pull(duracion) %&gt;% mean()"
+    "objectID": "docs/Tema02.html#summarize",
+    "href": "docs/Tema02.html#summarize",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "5. summarize()",
+    "text": "5. summarize()\n\n\n\nCrea un nuevo conjunto de datos de una sola fila, con variables nuevas de un solo valor que resumen los datos completos\n\n\n\n\n\n\n\n\n\nCaso de Uso: KPIs para el dashboard ejecutivo\n\n\nventas |&gt;\n  summarize(\n    total_ventas       = n(),           # Volumen (núm. de filas)\n    ingresos_totales   = sum(total),    # Ingresos\n    ingresos_promedio  = mean(total),\n    ingresos_mediano   = median(total),\n    descuento_promedio = mean(descuento_porcentaje), # Descuentos\n    descuento_total    = sum(descuento_aplicado),\n    unidades_vendidas  = sum(cantidad),             # Productos\n    clientes_unicos    = n_distinct(id_cliente)     # Clientes \n                         # (núm. de filas distintas)\n  )"
   },
   {
-    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-filas",
-    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-filas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Algunas funciones adicionales para filas",
-    "text": "Algunas funciones adicionales para filas\n\nslice(), slice_head(), slice_sample(): extraen filas por posición (en lugar de condición) o aleatoriamente\n\n\nmypresidents %&gt;% slice_head(n=3)\n\n\ndistinct(): extrae sólo las filas únicas (una o varias variables)\n\n\nmypresidents %&gt;% distinct(party)\n\n\ndrop_na() y replace_na(): elimina/reemplaza filas con valores ausentes"
+    "objectID": "docs/Tema02.html#group_by-análisis-por-grupos",
+    "href": "docs/Tema02.html#group_by-análisis-por-grupos",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "group_by(): Análisis por Grupos",
+    "text": "group_by(): Análisis por Grupos\n\nCambia el alcance de cada función para que no actúe sobre todo el data frame sino en grupos individuales\n\n\n\ngroup_by() + summarize() = el poder de la agregación\n\nConcepto: cambiar el nivel de análisis: de transacciones a tiendas, productos, etc.)\nEn Excel: Tablas dinámicas, AGRUPARPOR() (y SUMAR.SI/SUMIF)\n\n\n\nventas                             # tabla a nivel de transacción\n\nventas |&gt;\n  summarize(ingresos = sum(total)) # resumen global\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  summarize(ingresos = sum(total)) # resumen por tienda\n                                   # tabla a nivel de tienda\n\n\n\ngroup_by() similar a facet\nVer ventas |&gt; group_by(id_tienda): tibble muestra que hay dos grupos\ndatos de información/ventas por empleado a información por tienda\nDEBEN INCLUIRSE variables que se quieran mantener"
   },
   {
-    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables",
-    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Algunas funciones adicionales para crear variables",
-    "text": "Algunas funciones adicionales para crear variables\n\ncount(): cuenta los valores únicos de una o más variables\n\n\nmypresidents %&gt;% count(party)    \n# mypresidents %&gt;% group_by(party) %&gt;% summarize(n=n())\nmypresidents %&gt;% count(party, sort = TRUE)\n\n\nacross(): aplica la misma transformación a múltiples columnas\n\n\nflights %&gt;% mutate(across(air_time:distance, ~ log(.x)+1))\nflights %&gt;% mutate(across(where(is.character), ~ parse_factor(.x)))\n\n\nOperadores aritméticos (+, -, *, /, ^, %/%, %%) y lógicos (&lt;, &lt;=, &gt;, &gt;=, !=)\nFunciones como log(), lag(), lead(), cumsum(), row_number() etc."
+    "objectID": "docs/Tema02.html#combinando-mutate-con-group_by",
+    "href": "docs/Tema02.html#combinando-mutate-con-group_by",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Combinando mutate() con group_by()",
+    "text": "Combinando mutate() con group_by()\n\nDiferencia Clave:\n\ngroup_by() + summarize(): Reduce filas (nuevo dataset agregado a nivel de los grupos)\ngroup_by() + mutate(): Mantiene filas (añade columnas calculadas por grupo a nivel de la tabla original)\n\nEjemplo: Porcentaje de las ventas mensuales que representa cada transacción\n\n\nventas |&gt;\n  group_by(id_tienda, mes) |&gt;\n  mutate(\n    ventas_tienda_mes = sum(total),\n    pct_de_ventas_mes = total / ventas_tienda_mes * 100\n  ) |&gt;\n  slice_max(pct_de_ventas_mes) |&gt; \n  select(id_tienda, mes, id_venta, total, pct_de_ventas_mes)"
   },
   {
-    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables-cont.",
-    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-crear-variables-cont.",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Algunas funciones adicionales para crear variables (cont.)",
-    "text": "Algunas funciones adicionales para crear variables (cont.)\n\nMuchas funciones son equivalentes a otras de R base:\n\nparse_number(), parse_factor(), etc. por as.number(), as.factor(), etc.\nbind_cols() y bind_rows() por cbind() y rbind()\nif_else(): ejecución condicional por ifelse() (también case_when())\n\n\n\nflights %&gt;% \n  mutate(retraso = if_else(dep_delay &gt; 0, \"tarde\", \"bien\")) \nflights %&gt;% \n  mutate(retraso = if_else(dep_delay &gt; 0, \"tarde\",    # encadenados\n                      if_else(dep_delay &lt;0, \"bien\", \"normal\")))\n\n\nDiscretizar variables: cut_interval(), cut_number(), cut_width()"
+    "objectID": "docs/Tema02.html#análisis-multinivel-y-ungroup",
+    "href": "docs/Tema02.html#análisis-multinivel-y-ungroup",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Análisis multinivel y ungroup()",
+    "text": "Análisis multinivel y ungroup()\n\n\nEncontrar la fecha con la mayor venta por tienda\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  arrange(desc(total)) |&gt;  \n  slice(1) |&gt;                     # Primera fila (de cada grupo)\n  select(id_tienda, fecha, total)\n# alternativa: slice_max()\n\n\nIMPORTANTE: No olvidar ungroup() o .groups = \"drop\" después de terminar operaciones agrupadas\n\n\n\nDespués de group_by() + mutate():\n\nSi tu siguiente operación debe ser GLOBAL → usa ungroup()\nSi debe seguir POR GRUPO → no uses ungroup()\n\nDespués de group_by() + summarize():\n\nsummarize() ya reduce un nivel de agrupación\nSi tenías múltiples grupos, sigue agrupado por los anteriores\nUsa .groups = “drop” o ungroup() para estar seguro\n\n\n\n\nCálculo de Porcentajes Globales: sin desagrupar, sum(total) suma por tienda → siempre da 100%\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total)) |&gt;\n  ungroup() |&gt;\n  mutate(porcentaje = ventas_tienda / sum(total) * 100)"
   },
   {
-    "objectID": "docs/Tema02.html#algunas-funciones-adicionales-para-resúmenes",
-    "href": "docs/Tema02.html#algunas-funciones-adicionales-para-resúmenes",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Algunas funciones adicionales para resúmenes",
-    "text": "Algunas funciones adicionales para resúmenes\n\nMedidas de centralidad y de dispersión: mean(x), median(x), sd(x), IQR(x) \nMedidas de rango: min(x), quantile(x, 0.25), max(x)\nMedidas de posición: first(x), nth(x, 2), last(x).\nSumas, productos, etc.\nConteos:\n\nn(): observaciones totales (tamaño del grupo)\nsum(!is.na(x)): observaciones no ausentes\nn_distinct(x): filas distintas en x"
+    "objectID": "docs/Tema02.html#análisis-multinivel-y-ungroup-cont.",
+    "href": "docs/Tema02.html#análisis-multinivel-y-ungroup-cont.",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Análisis multinivel y ungroup() (cont.)",
+    "text": "Análisis multinivel y ungroup() (cont.)\n\n\nFiltrar Top Global: sin desagrupar, será top 5 de cada tienda\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total), \n         .groups = \"drop\" ) |&gt;\n  arrange(desc(ventas_tienda)) |&gt;\n  slice_head(n = 5)\n\n\nMedia Global después de agrupar: sin desagrupar, 1 fila por tienda (media mensual de cada tienda)\n\n\n# Ventas por tienda y mes\nventas_mes_por_tienda &lt;- ventas |&gt;\n  group_by(id_tienda, mes) |&gt;\n  summarize(total_mes = sum(total))\n\nventas_mensuales_medias &lt;- ventas_mes_por_tienda |&gt;\n  ungroup() |&gt;\n  summarize(media = mean(total_mes))\n# Resultado: 1 fila (media de todos los meses de todas las tiendas)\n\n\n\n\nRanking de Productos\n\n\nventas |&gt;\n  group_by(id_producto) |&gt;\n  summarize(\n    unidades_vendidas = sum(cantidad),\n    ingresos_totales = sum(total)\n  ) |&gt;\n  ungroup() |&gt;                     # posteriores NO por grupos\n  arrange(desc(ingresos_totales))\n\nAplicación: Segmentación de Clientes\n\n# Calcular valor del cliente\nvalor_cliente &lt;- ventas |&gt;\n  group_by(id_cliente) |&gt;\n  mutate(\n    num_compras_cliente = n(),\n    gasto_total_cliente = sum(total),\n    ticket_promedio = mean(total),\n    \n    # Clasificación RFM simplificada\n    recencia_dias = as.numeric(max(fecha) - min(fecha)),\n    frecuencia = n(),\n    monetario = sum(total)\n  ) |&gt;\n  ungroup()\n\n\n\nProblema: Análisis de ventas navideñas en Madrid\n\n# SIN pipe: difícil de leer, muchas variables intermedias\nventas_madrid &lt;- filter(ventas, id_tienda == 1)\nventas_madrid_navidad &lt;- filter(ventas_madrid, mes == 12)\nventas_resumen &lt;- summarize(ventas_madrid_navidad, \n                            total = sum(total),\n                            n = n())\n\n# CON pipe: flujo natural de lectura\nanalisis_navidad_madrid &lt;- ventas |&gt;\n  filter(id_tienda == 1) |&gt;\n  filter(mes == 12) |&gt;\n  summarize(\n    ingresos_totales = sum(total),\n    num_transacciones = n(),\n    ticket_promedio = mean(total)\n  )\n\nanalisis_navidad_madrid\n\nAnálisis Completo Paso a Paso\nObjetivo: Análisis de campaña de descuentos del Q4 2023\n\nanalisis_campana_q4 &lt;- ventas |&gt;\n  # 1. Filtrar período relevante\n  filter(año == 2023, trimestre == 4) |&gt;\n  \n  # 2. Agregar categoría de descuento\n  mutate(\n    tipo_descuento = case_when(\n      descuento_porcentaje == 0 ~ \"Sin descuento\",\n      descuento_porcentaje &lt;= 10 ~ \"Descuento bajo\",\n      descuento_porcentaje &lt;= 20 ~ \"Descuento medio\",\n      TRUE ~ \"Descuento alto\"\n    )\n  ) |&gt;\n  \n  # 3. Agrupar por tipo de descuento\n  group_by(tipo_descuento) |&gt;\n  \n  # 4. Calcular métricas\n  summarize(\n    num_ventas = n(),\n    ingresos_totales = sum(total),\n    ticket_promedio = mean(total),\n    unidades_vendidas = sum(cantidad),\n    .groups = \"drop\"\n  ) |&gt;\n  \n  # 5. Ordenar por ingresos\n  arrange(desc(ingresos_totales)) |&gt;\n  \n  # 6. Calcular porcentajes\n  mutate(\n    pct_ventas = round(num_ventas / sum(num_ventas) * 100, 1),\n    pct_ingresos = round(ingresos_totales / sum(ingresos_totales) * 100, 1)\n  )\n\nanalisis_campana_q4\n\nInterpretación de Resultados:\n\nCada paso transforma el dataset\nEl pipe hace el código legible como una narrativa\nFácil añadir/quitar pasos para exploración"
   },
   {
-    "objectID": "docs/Tema02.html#cuatro-representaciones-de-los-mismos-datos",
-    "href": "docs/Tema02.html#cuatro-representaciones-de-los-mismos-datos",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Cuatro representaciones de los mismos datos",
-    "text": "Cuatro representaciones de los mismos datos\n\n\n\nlibrary(tidyverse)\ntable1     # datos ordenados\ntable2     # varios valores por celda\n\n\n\n\n\n\n\n\n\ntable3     # más de una variable en una columna\ntable4a \ntable4b\n\n\ntable4a y table4b ofrecen información útil para presentación"
+    "objectID": "docs/Tema02.html#funciones-auxiliares-para-filas",
+    "href": "docs/Tema02.html#funciones-auxiliares-para-filas",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Funciones auxiliares para filas",
+    "text": "Funciones auxiliares para filas\n\nExtraer filas pero NO por condición: por posición (slice(), slice_head()), aleatoriamente (slice_sample()), etc.\n\n\nventas |&gt; slice_max(total, n = 5) # Top 5 ventas\nventas |&gt; slice_sample(n = 100)   # sub-muestra aleatoria\n\n\n\nslice_head(), slice_tail(), slice_min(), slice_max()\n\n\n\ndistinct(): extrae sólo las filas únicas (una o varias variables)\n\n\nventas %&gt;% distinct(id_producto)\n\n\ndrop_na() y replace_na(): elimina/reemplaza filas con valores ausentes\n\n\n# Quita filas con NA en cualquier variable\nventas_completas &lt;- ventas %&gt;%\n  drop_na()                    \n\n# solo quita si precio_unitario es NA\nventas_completas_precio &lt;- ventas %&gt;%\n  drop_na(precio_unitario)  \n\n\n¿Cómo tratar los (“contagiosos”) NA? * Eliminar observaciones con valores ausentes, PERO\n- en *alguna variable*, con `na.rm=TRUE` o `filter(!is.na(x))` o `drop_na(x)` \n\n- en *todo* el conjunto de datos con `drop_na()`\n\n-  en `cor()`, `use = \"complete.obs\"`\n\nReemplazar con un valor, PERO ¿cúal?\n\nNA por no presentarse a un examen es cero\nNA por no contestar a pregunta de renta o gasto es ¿cero?\n\n\n\nna.omit() vs. drop_na: el primero es de base (stats) el otro de tidyr"
+  },
+  {
+    "objectID": "docs/Tema02.html#otras-funciones-auxilidares-de-tidyverse",
+    "href": "docs/Tema02.html#otras-funciones-auxilidares-de-tidyverse",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Otras funciones auxilidares de tidyverse",
+    "text": "Otras funciones auxilidares de tidyverse\n\n\nMuchas funciones son equivalentes a otras de R base:\n\nparse_number(), parse_factor(), etc. por as.numeric(), as.factor(), etc.\nbind_cols() y bind_rows() por cbind() y rbind()\nif_else() y case_when() para ejecución condicional (ifelse())\n\n\n\nventas |&gt;\n  mutate(\n    tipo_venta = if_else(total &gt; 100, \"Alta\", \"Baja\"), # condición simple\n    categoria_cliente = case_when(              # múltiples condiciones\n      total &lt; 30  ~ \"Económico\",\n      total &lt; 100 ~ \"Estándar\",\n      TRUE        ~ \"Premium\"               # OJO: convertir a factor\n    )\n  )\n\n\nDiscretizar variables: cut_interval(), cut_number(), cut_width()\n\n\nFunciones para fechas de lubridate: year(), month(), `day(), quarter(), week()"
+  },
+  {
+    "objectID": "docs/Tema02.html#funciones-auxiliares-de-creación-de-variables",
+    "href": "docs/Tema02.html#funciones-auxiliares-de-creación-de-variables",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Funciones auxiliares de creación de variables",
+    "text": "Funciones auxiliares de creación de variables\n\nrename(): cambiar el nombre de una columna\n\n\nventas_renamed &lt;- ventas |&gt;\n  rename(\n    fecha_venta = fecha,\n    monto_total = total\n  )\n\n\n\n\n\n\n\n\ntransmute(): como mutate() pero solo mantiene las variables creadas\nrelocate(): cambiar orden de columnas\n\n\n\nacross(): aplica la misma transformación a múltiples columnas\n\n\nventas |&gt; mutate(across(c(cantidad, subtotal:total), ~ log(.x)))\nventas |&gt; mutate(across(where(is.character), ~ parse_factor(.x)))\n\n\nOperadores aritméticos (+, -, *, /, ^, %/%, %%) y lógicos (&lt;, &lt;=, &gt;, &gt;=, !=)\nFunciones como log(), lag(), lead(), cumsum(), row_number() etc.\n\n\n\ncombinados con otros: funciones de “agregación” x - mean(x), y - sum(y)\nOrdenamiento: row_number()\nmin_rank(), row_number() y otras de dplyr::ranking\npercent_rank(), cume_dist()\n\n\nAgregados acumulativos y móviles: ver ayuda de cumsum() y cummean()"
+  },
+  {
+    "objectID": "docs/Tema02.html#funciones-auxiliares-de-resumen",
+    "href": "docs/Tema02.html#funciones-auxiliares-de-resumen",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Funciones auxiliares de resumen",
+    "text": "Funciones auxiliares de resumen\n\ncount(): cuenta los valores únicos de una o más variables\n\n\nventas |&gt; count(id_tienda)\n# ventas |&gt; group_by(id_tienda) |&gt;  summarize(n = n())\nventas |&gt; count(id_tienda, sort = TRUE)\n\n\n\nMedidas de centralidad y de dispersión: mean(x), median(x), sd(x), IQR(x) \nMedidas de rango: min(x), quantile(x, 0.25), max(x)\nMedidas de posición: first(x), nth(x, 2), last(x).\n\n\n\nsimilar a x[1], x[2] y x[length(x)]\n\n\n\nSumas, productos, etc.\nConteos:\n\nn(): observaciones totales (tamaño del grupo)\nn_distinct(x): filas distintas en x\n\n\n\n\nsum(!is.na(x)): observaciones no ausentes\nmás rápido que unique()"
   },
   {
     "objectID": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
     "href": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Mismos datos, dos formatos: ancho o largo",
-    "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”) depende de qué queramos hacer\n\nP.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregación (SUMAR.SI) y algunos gráficos\n\n\n\n\n\n\n\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\ntable4a        # formato ancho\ntable1         # formato largo"
+    "text": "Mismos datos, dos formatos: ancho o largo\n\n\n\nLa utilidad de almacenar los datos en un rectángulo ancho (“wide”) o en uno largo (“long”) depende de qué queramos hacer\n\nP.e., Excel prefiere el formato largo para tablas dinámicas, fórmulas de agregación (SUMAR.SI) y algunos gráficos\n\n\n\n\n\n\n\nEn general, el formato largo es más útil para el análisis\nEl cambio de forma “reshaping”\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\nDISTINTO de trasponer filas y columnas en Excel\nExiste una función para pivotar en Excel\n\nLos datos en bruto suelen estar en formato largo: facilita la recogida de información, no el análisis\n\n\n\nEl cambio de forma entre formatos es una tarea habitual del analista de datos.\nCambiar entre representación larga y ancha se conoce como pivotar (o girar)\n\n\ntable4a        # formato ancho\ntable1         # formato largo\n\n\nCambiar la forma de una tabla (pivotar / girar)\n\nLas celdas en un formato se reordenan en el otro\n\n\n\n\n\n\n\nLos metadatos que no se reordenan son extendidos/reducidos para no perder información.\n\nhttps://tidyr.tidyverse.org/\n\nreshape en R base: https://jozef.io/r001-reshape/\n\nhttps://www.r-bloggers.com/2019/07/how-to-reshape-a-dataframe-from-wide-to-long-or-long-to-wide-format/\nhttps://www.r-bloggers.com/how-to-reshape-data-in-r-tidyr-vs-reshape2/\nhttps://www.r-bloggers.com/pivoting-tidily/\nVerbos principales en tidyr\n\npivot_longer(): cambia la forma de “anchos” a “largos” (+filas/-cols)\n\nordena datos originales para facilitar el análisis.\n\npivot_wider() cambia la forma de “largos” a “anchos” (+cols/-filas)\n\nútil para crear tablas de resumen o un formato para otras herramientas.\n\n\n\n\n\n\n\nLa longitud es un término relativo, y sólo se puede decir (por ejemplo) que el conjunto de datos A es más largo que el conjunto de datos B."
+  },
+  {
+    "objectID": "docs/Tema02.html#el-problema-del-formato-ancho",
+    "href": "docs/Tema02.html#el-problema-del-formato-ancho",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "El Problema del Formato “Ancho”",
+    "text": "El Problema del Formato “Ancho”\n\nSituación Real: Reporte mensual enviado por finanzas\n\n\nventas_ancho &lt;- tibble(\n  tienda = c(\"Madrid\", \"Barcelona\", \"Valencia\"),\n  Ene_2023 = c(45000, 52000, 38000),\n  Feb_2023 = c(48000, 54000, 41000),\n  Mar_2023 = c(51000, 56000, 39000),\n  Abr_2023 = c(49000, 55000, 42000)\n)\n\n\nProblemas:\n\nNo se puede filtrar por mes fácilmente\nNo se puede hacer group_by por mes\nDifícil calcular tendencias temporales\nNo es “tidy data”"
   },
   {
     "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
     "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "pivot_longer(): de ancho a largo",
-    "text": "pivot_longer(): de ancho a largo\n\nPivotar las variables en dos nuevas columnas (deben crearse)\n\n\n\n\npivot_longer(table4a, \n             cols=2:3, \n             names_to = \"year\", \n             values_to = \"cases\") \n\n\n\n\n\n\n\ndata frame a cambiar de forma\nnombres o índices de las columnas que representan valores, no variables\nlos nombres de esas antiguas variables van como valores a nueva variable\nlos valores de las antiguas celdas van a otra nueva variable"
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "pivot_longer(): De Ancho a Largo",
+    "text": "pivot_longer(): De Ancho a Largo\n\n# Convertir a formato largo (ordenado)\nventas_largo &lt;- ventas_ancho %&gt;%\n  pivot_longer(\n    cols = Ene_2023:Abr_2023,        # columnas a pivotar\n    names_to = \"mes_año\",             # nombre para los encabezados\n    values_to = \"ingresos\"            # nombre para los valores\n  )\n\nventas_largo\n\nAhora sí podemos analizar:\n\n# Separar mes y año\nventas_largo_limpio &lt;- ventas_largo %&gt;%\n  separate(mes_año, into = c(\"mes\", \"año\"), sep = \"_\") %&gt;%\n  mutate(año = as.numeric(año))\n\n# Análisis temporal por tienda\nventas_largo_limpio %&gt;%\n  group_by(tienda) %&gt;%\n  mutate(\n    crecimiento = ingresos - lag(ingresos),\n    pct_crecimiento = round((ingresos - lag(ingresos)) / lag(ingresos) * 100, 1)\n  )\n\n# Visualización fácil\nlibrary(ggplot2)\nggplot(ventas_largo_limpio, aes(x = mes, y = ingresos, color = tienda, group = tienda)) +\n  geom_line() +\n  geom_point() +\n  theme_minimal() +\n  labs(title = \"Evolución de Ingresos por Tienda\")"
   },
   {
-    "objectID": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
-    "href": "docs/Tema02.html#pivot_longer-de-ancho-a-largo-cont.",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "pivot_longer(): de ancho a largo (cont.)",
-    "text": "pivot_longer(): de ancho a largo (cont.)\n\nRecordad que existen formas equivalentes de hacer lo mismo\n\n\ntable4a %&gt;% pivot_longer(cols = `1999`:`2000`, \n                         values_to = \"cases\", names_to = \"year\")\n\n\nNotar que los nombres de columna son caracteres y cuando son números van entre ` (evita confusión con índice de posición)\n\n\nDeberíamos cambiar el tipo de las nuevas variables\n\n\ntable4a %&gt;% \n  pivot_longer(2:3, names_to = \"year\", values_to = \"cases\") %&gt;%\n  mutate(year= parse_number(year))"
+    "objectID": "docs/Tema02.html#caso-real-datos-de-ventas-mensuales",
+    "href": "docs/Tema02.html#caso-real-datos-de-ventas-mensuales",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso Real: Datos de Ventas Mensuales",
+    "text": "Caso Real: Datos de Ventas Mensuales\n\n# Crear reporte mensual en formato ancho\nreporte_mensual_ancho &lt;- ventas %&gt;%\n  mutate(mes_nombre = paste(mes, año, sep = \"_\")) %&gt;%\n  group_by(id_tienda, mes_nombre) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\") %&gt;%\n  pivot_wider(\n    names_from = mes_nombre,\n    values_from = ingresos,\n    values_fill = 0  # llenar con 0 si no hay ventas\n  )\n\nhead(reporte_mensual_ancho)\n\n# Volver a formato largo para análisis\nreporte_mensual_largo &lt;- reporte_mensual_ancho %&gt;%\n  pivot_longer(\n    cols = -id_tienda,\n    names_to = \"periodo\",\n    values_to = \"ingresos\"\n  ) %&gt;%\n  separate(periodo, into = c(\"mes\", \"año\"), sep = \"_\", convert = TRUE)\n\nreporte_mensual_largo"
   },
   {
     "objectID": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
     "href": "docs/Tema02.html#pivot_wider-de-largo-a-ancho",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "pivot_wider(): de largo a ancho",
-    "text": "pivot_wider(): de largo a ancho\n\n\n\ntable2 %&gt;%\n    pivot_wider(names_from = type,  \n                values_from = count)\n\n\n\n\n\n\n\nel data frame a cambiar de forma\nnombre de la variable de cuyos valores vienen los nuevos nombres de columnas\nnombre de la variable de la que tomar los valores para las nuevas columnas\n\n\n\n\ntable1 %&gt;% select(-population) %&gt;%            # Tabla de presentación \n    pivot_wider(names_from = year, values_from = cases)"
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "pivot_wider(): De Largo a Ancho",
+    "text": "pivot_wider(): De Largo a Ancho\nCaso de Uso: Crear tabla de presentación para ejecutivos\n\n# Tabla comparativa: ingresos por región y trimestre\ntabla_ejecutiva &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  filter(año == 2023) %&gt;%\n  group_by(region, trimestre) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\") %&gt;%\n  pivot_wider(\n    names_from = trimestre,\n    values_from = ingresos,\n    names_prefix = \"Q\"\n  ) %&gt;%\n  mutate(\n    Total = Q1 + Q2 + Q3 + Q4,\n    across(Q1:Q4, ~round(.x / 1000, 1))  # en miles\n  )\n\ntabla_ejecutiva"
   },
   {
-    "objectID": "docs/Tema02.html#dos-funciones-útiles",
-    "href": "docs/Tema02.html#dos-funciones-útiles",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Dos funciones útiles",
-    "text": "Dos funciones útiles\n\nseparate(): dividir una columna en múltiples variables indicando un separador o vector de posiciones en las que dividir\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), sep = \"/\")\ntable3 %&gt;% separate(year, into = c(\"century\", \"year\"), sep = 2)\n\n\nCon convert = TRUE intenta convertir el tipo (no mantener carácter)\n\n\ntable3 %&gt;% separate(rate, into = c(\"cases\", \"population\"), \n                    convert = TRUE)\n\n\nunite(): combinar múltiples columnas en una\n\n\ntable5 %&gt;% \n  unite(new, century, year, sep = \"-\")"
+    "objectID": "docs/Tema02.html#separar-y-unir-columnas",
+    "href": "docs/Tema02.html#separar-y-unir-columnas",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Separar y Unir Columnas",
+    "text": "Separar y Unir Columnas\n\n# separate(): dividir columna en múltiples\ndatos_ejemplo &lt;- tibble(\n  codigo = c(\"MAD-001\", \"BCN-002\", \"VAL-003\"),\n  fecha_hora = c(\"2023-01-15 10:30\", \"2023-01-16 14:20\", \"2023-01-17 09:15\")\n)\n\ndatos_separados &lt;- datos_ejemplo %&gt;%\n  separate(codigo, into = c(\"ciudad\", \"numero\"), sep = \"-\") %&gt;%\n  separate(fecha_hora, into = c(\"fecha\", \"hora\"), sep = \" \")\n\ndatos_separados\n\n# unite(): combinar columnas\ndatos_unidos &lt;- datos_separados %&gt;%\n  unite(\"codigo_completo\", ciudad, numero, sep = \"-\") %&gt;%\n  unite(\"timestamp\", fecha, hora, sep = \" \")\n\ndatos_unidos"
   },
   {
-    "objectID": "docs/Tema02.html#múltiples-tablas-de-datos",
-    "href": "docs/Tema02.html#múltiples-tablas-de-datos",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Múltiples tablas de datos",
-    "text": "Múltiples tablas de datos\n\nAnalizar datos suele implicar múltiples tablas\n\ndiferentes orígenes: ej., dptos. de empresa (personal, ventas, almacén)\nalmacenamiento más eficiente: elementos “similares” dentro de una tabla y diferentes entre ellas\n\nPara poder combinar la información los datos deben ser relacionales: cada par de tablas están relacionadas mediante identificadores llamados claves\n\n\nP.e., la biblioteca nycflights13 contiene varias tablas: el nombre de la compañía está “codificado” en flights y se puede encontrar en airlines\n\n\nflights %&gt;% select(dep_time,arr_time,carrier:dest) \nairlines\n\n\nAmbas tablas contienen un identificador común clave (“key”): carrier"
+    "objectID": "docs/Tema02.html#por-qué-múltiples-tablas",
+    "href": "docs/Tema02.html#por-qué-múltiples-tablas",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Por Qué Múltiples Tablas",
+    "text": "Por Qué Múltiples Tablas\nVentajas del Diseño Relacional:\n\nEficiencia: No repetir información\nConsistencia: Un solo lugar para actualizar\nIntegridad: Relaciones claras entre datos\nEscalabilidad: Fácil añadir nuevas tablas\n\n\n# Ejemplo: información duplicada vs relacional\n\n# MAL: Todo en una tabla (información repetida)\nventas_todo_junto &lt;- ventas %&gt;%\n  left_join(productos, by = \"id_producto\") %&gt;%\n  left_join(tiendas, by = \"id_tienda\") %&gt;%\n  left_join(clientes, by = \"id_cliente\")\n\n# BIEN: Tablas separadas, unir solo cuando necesario\n# ventas, productos, tiendas, clientes son tablas independientes"
   },
   {
-    "objectID": "docs/Tema02.html#relaciones-entre-tablas",
-    "href": "docs/Tema02.html#relaciones-entre-tablas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Relaciones entre tablas",
-    "text": "Relaciones entre tablas"
+    "objectID": "docs/Tema02.html#tipos-de-uniones-visión-general",
+    "href": "docs/Tema02.html#tipos-de-uniones-visión-general",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Tipos de Uniones: Visión General",
+    "text": "Tipos de Uniones: Visión General\n\n# Datos de ejemplo para ilustrar\ndf1 &lt;- tibble(id = 1:3, valor_x = c(\"A\", \"B\", \"C\"))\ndf2 &lt;- tibble(id = c(1, 2, 4), valor_y = c(\"X\", \"Y\", \"Z\"))\n\n# inner_join: solo coincidencias\ninner_join(df1, df2, by = \"id\")  # resultado: 1, 2\n\n# left_join: todas de la izquierda\nleft_join(df1, df2, by = \"id\")   # resultado: 1, 2, 3 (3 con NA)\n\n# right_join: todas de la derecha\nright_join(df1, df2, by = \"id\")  # resultado: 1, 2, 4 (4 con NA)\n\n# full_join: todas de ambas\nfull_join(df1, df2, by = \"id\")   # resultado: 1, 2, 3, 4"
   },
   {
-    "objectID": "docs/Tema02.html#datos-relacionales-1",
-    "href": "docs/Tema02.html#datos-relacionales-1",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Datos relacionales",
-    "text": "Datos relacionales\n\nTipos de claves:\n\nPrimaria (o interna): identifican de forma única cada observación en una tabla. Puede ser una sola variable (en planes) o múltiples (en weather)\n\nSubrogada = número de fila, si la tabla carece de identificación única\n\nSecundaria (o externa): señala a la clave primaria de otra tabla \n\n\n\nUna clave primaria y una externa (asociada) en otra tabla forman una relación:\n\nde uno-a-muchos (ej., vuelos y aviones), de uno-a-uno, de muchos-a-muchos (ej., aerolíneas y aeropuertos), de muchos-a-uno\n\nOperaciones que se pueden realizar con dos tablas: uniones de transformación, uniones de filtro y operaciones de conjunto"
+    "objectID": "docs/Tema02.html#caso-real-enriquecer-datos-de-ventas",
+    "href": "docs/Tema02.html#caso-real-enriquecer-datos-de-ventas",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso Real: Enriquecer Datos de Ventas",
+    "text": "Caso Real: Enriquecer Datos de Ventas\nObjetivo: Análisis completo con información de todas las tablas\n\n# Crear dataset completo para análisis\nventas_completo &lt;- ventas %&gt;%\n  # Información de productos\n  left_join(productos %&gt;% select(id_producto, nombre_producto, id_categoria, precio, costo),\n            by = \"id_producto\") %&gt;%\n  \n  # Información de categorías\n  left_join(categorias, by = \"id_categoria\") %&gt;%\n  \n  # Información de tiendas\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region, tamaño_m2),\n            by = \"id_tienda\") %&gt;%\n  \n  # Información de clientes\n  left_join(clientes %&gt;% select(id_cliente, programa_fidelidad, fecha_registro),\n            by = \"id_cliente\") %&gt;%\n  \n  # Información de empleados\n  left_join(empleados %&gt;% select(id_empleado, puesto),\n            by = \"id_empleado\")\n\n# Ahora podemos hacer análisis complejos\nglimpse(ventas_completo)\n\nAnálisis Enriquecido:\n\n# Rentabilidad por categoría y región\nanalisis_rentabilidad &lt;- ventas_completo %&gt;%\n  mutate(\n    margen_venta = precio - costo,\n    rentabilidad = margen_venta * cantidad\n  ) %&gt;%\n  group_by(nombre_categoria, region) %&gt;%\n  summarize(\n    num_ventas = n(),\n    ingresos = sum(total),\n    rentabilidad_total = sum(rentabilidad, na.rm = TRUE),\n    margen_porcentaje = round(mean(margen_venta / precio * 100, na.rm = TRUE), 1),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(desc(rentabilidad_total))\n\nhead(analisis_rentabilidad, 10)\n\nCaso de Uso: Performance por región y mes\n\n# Primero unir con info de tiendas para obtener región\nperformance_regional &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  group_by(region, año, mes) %&gt;%\n  summarize(\n    ventas_totales = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(region, año, mes)\n\nhead(performance_regional, 10)\n\nCaso de Uso: Performance por región y mes\n\n# Primero unir con info de tiendas para obtener región\nperformance_regional &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  group_by(region, año, mes) %&gt;%\n  summarize(\n    ventas_totales = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(region, año, mes)\n\nhead(performance_regional, 10)\n\n\nAplicación: Crecimiento anual\n\n\n# Comparación mensual por región\ncrecimiento_mensual &lt;- performance_regional %&gt;%\n  group_by(region, mes) %&gt;%\n  arrange(año) %&gt;%\n  mutate(\n    ingresos_año_anterior = lag(ingresos),\n    crecimiento_absoluto = ingresos - ingresos_año_anterior,\n    crecimiento_porcentual = round(\n      (ingresos - ingresos_año_anterior) / ingresos_año_anterior * 100, 1\n    )\n  ) %&gt;%\n  filter(!is.na(crecimiento_porcentual))\n\n# Regiones con mayor crecimiento\ncrecimiento_mensual %&gt;%\n  filter(año == 2023) %&gt;%\n  group_by(region) %&gt;%\n  summarize(crecimiento_promedio = mean(crecimiento_porcentual, na.rm = TRUE)) %&gt;%\n  arrange(desc(crecimiento_promedio))"
   },
   {
-    "objectID": "docs/Tema02.html#uniones-de-transformación",
-    "href": "docs/Tema02.html#uniones-de-transformación",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Uniones de transformación",
-    "text": "Uniones de transformación\n\nAñaden nuevas variables a una tabla desde filas coincidentes en otra.\nEjemplo:\n\n\n\n\n\ncbind() o bind_columns(): nuevas columnas para filas en el mismo orden\n\n\nDos argumentos obligatorios: las tablas que se unen\n\n\n# queremos añadir el nombre de las compañias en la tabla de vuelos\nflights2 &lt;- flights %&gt;% \n              select(year:day, hour, origin, dest, carrier, tailnum)\nairlines"
+    "objectID": "docs/Tema02.html#uniones-de-filtrado",
+    "href": "docs/Tema02.html#uniones-de-filtrado",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Uniones de Filtrado",
+    "text": "Uniones de Filtrado\nsemi_join: Mantener filas que tienen coincidencia\n\n# Clientes que SÍ han comprado\nclientes_activos &lt;- clientes %&gt;%\n  semi_join(ventas, by = \"id_cliente\")\n\nnrow(clientes_activos)  # ¿Cuántos clientes activos?\n\n# Productos que SÍ se han vendido\nproductos_vendidos &lt;- productos %&gt;%\n  semi_join(ventas, by = \"id_producto\")\n\nanti_join: Mantener filas que NO tienen coincidencia\n\n# Clientes registrados pero sin compras\nclientes_sin_compras &lt;- clientes %&gt;%\n  anti_join(ventas, by = \"id_cliente\")\n\nnrow(clientes_sin_compras)  # Oportunidad de marketing\n\n# Productos en catálogo pero nunca vendidos\nproductos_sin_vender &lt;- productos %&gt;%\n  anti_join(ventas, by = \"id_producto\") %&gt;%\n  filter(activo == TRUE)  # y que estén activos\n\nnrow(productos_sin_vender)  # ¿Eliminar del catálogo?"
   },
   {
-    "objectID": "docs/Tema02.html#argumento-by-cómo-se-emparejan-las-tablas",
-    "href": "docs/Tema02.html#argumento-by-cómo-se-emparejan-las-tablas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Argumento by: ¿Cómo se emparejan las tablas?",
-    "text": "Argumento by: ¿Cómo se emparejan las tablas?\n\nLas claves (variables que relacionan ambas tablas) se indican, para una variable, con by = \"varX\" o, para varias, con by = c(\"varX\", \"varY\")\n\n\nflights2 %&gt;% inner_join(airlines, by = \"carrier\") \nflights2 %&gt;% inner_join(weather, \n                by = c(\"year\", \"month\", \"day\", \"hour\", \"origin\"))\n\n\nSi se omite el argumento by, se usan todas las variables en común. Esto no siempre es deseable: ej., año no es lo mismo en flights y planes\nColumnas con el mismo nombre (ej., año) se desambigúan con un sufijo\n\n\nflights2 %&gt;% left_join(planes, by = c(\"tailnum\"))\n\n\nby = c(\"x1\" = \"y1\", \"x2\" = \"y2\") para emparejar la variable x1 en la primera tabla con la variable y1 en la segunda, y la variable x2 con y2\n\n\nflights2 %&gt;% left_join(airports, \n                  by = c(\"dest\" = \"faa\"))    # aeropuerto de destino"
+    "objectID": "docs/Tema02.html#uniones-con-claves-múltiples",
+    "href": "docs/Tema02.html#uniones-con-claves-múltiples",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Uniones con Claves Múltiples",
+    "text": "Uniones con Claves Múltiples\n\n# Crear tabla de objetivos mensuales por tienda\nobjetivos &lt;- tibble(\n  id_tienda = rep(1:12, each = 12),\n  mes = rep(1:12, times = 12),\n  objetivo_ingresos = runif(144, 30000, 80000)\n)\n\n# Comparar ventas reales vs objetivos\ncomparacion_objetivos &lt;- ventas %&gt;%\n  group_by(id_tienda, mes) %&gt;%\n  summarize(ingresos_reales = sum(total), .groups = \"drop\") %&gt;%\n  left_join(objetivos, by = c(\"id_tienda\", \"mes\")) %&gt;%\n  mutate(\n    diferencia = ingresos_reales - objetivo_ingresos,\n    cumplimiento_pct = round(ingresos_reales / objetivo_ingresos * 100, 1),\n    cumple_objetivo = cumplimiento_pct &gt;= 100\n  )\n\n# Tiendas que más superan objetivos\ncomparacion_objetivos %&gt;%\n  filter(cumple_objetivo) %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(\n    meses_cumplidos = n(),\n    exceso_promedio = mean(diferencia)\n  ) %&gt;%\n  arrange(desc(meses_cumplidos))"
   },
   {
-    "objectID": "docs/Tema02.html#unión-interna",
-    "href": "docs/Tema02.html#unión-interna",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Unión interna",
-    "text": "Unión interna\n\ndf1 &lt;- tibble(clave = c(1:3), val_x = c(\"x1\", \"x2\", \"x3\"))\ndf2 &lt;- tibble(clave = c(1:2, 4), val_y = c(\"y1\",\"y2\",\"y4\"))\n\n\ninner_join(x, y) sólo incluye observaciones que coincidan en x y y.\n\n\ndf1 %&gt;% inner_join(df2, by = \"clave\")"
+    "objectID": "docs/Tema02.html#caso-de-estudio-completo-análisis-de-devoluciones",
+    "href": "docs/Tema02.html#caso-de-estudio-completo-análisis-de-devoluciones",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso de Estudio Completo: Análisis de Devoluciones",
+    "text": "Caso de Estudio Completo: Análisis de Devoluciones\nProblema de Negocio\nContexto: Gerente de operaciones preocupado por devoluciones\nPreguntas: 1. ¿Qué productos tienen más devoluciones? 2. ¿Hay patrones por tienda o categoría? 3. ¿Impacto financiero de las devoluciones? 4. ¿Recomendaciones accionables?\nPaso 1: Exploración Inicial\n\n# Visión general de devoluciones\nglimpse(devoluciones)\n\n# Estadísticas básicas\ndevoluciones %&gt;%\n  summarize(\n    total_devoluciones = n(),\n    tasa_devolucion = n() / nrow(ventas) * 100,\n    reembolso_total = sum(reembolso),\n    reembolso_promedio = mean(reembolso),\n    dias_promedio = mean(as.numeric(fecha_devolucion - \n                        ventas$fecha[match(id_venta, ventas$id_venta)]), na.rm = TRUE)\n  )\n\nPaso 2: Análisis por Motivo\n\n# Distribución de motivos\nanalisis_motivos &lt;- devoluciones %&gt;%\n  group_by(motivo) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    .groups = \"drop\"\n  ) %&gt;%\n  mutate(\n    pct_devoluciones = round(num_devoluciones / sum(num_devoluciones) * 100, 1),\n    pct_reembolso = round(reembolso_total / sum(reembolso_total) * 100, 1)\n  ) %&gt;%\n  arrange(desc(num_devoluciones))\n\nanalisis_motivos\n\n# Visualización\nggplot(analisis_motivos, aes(x = reorder(motivo, num_devoluciones), \n                              y = num_devoluciones)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(title = \"Devoluciones por Motivo\",\n       x = \"Motivo\", y = \"Número de Devoluciones\") +\n  theme_minimal()"
   },
   {
-    "objectID": "docs/Tema02.html#uniones-externas",
-    "href": "docs/Tema02.html#uniones-externas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Uniones externas",
-    "text": "Uniones externas\n\n\n\nCuando una fila no coincide en una unión externa, las nuevas variables se rellenan como valores ausentes \nleft_join(df1, df2): mantiene todas las observaciones en x, coincidan o no con la de y\n\n(no se pierden observaciones de la tabla primaria)\n\nright_join(df1, df2): mantiene todas las observaciones en y\nfull_join(df1, df2): incluye todas las observaciones de x e y"
+    "objectID": "docs/Tema02.html#caso-de-estudio-completo-cont.",
+    "href": "docs/Tema02.html#caso-de-estudio-completo-cont.",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso de Estudio Completo (cont.)",
+    "text": "Caso de Estudio Completo (cont.)\nPaso 3: Productos Problemáticos\n\n# Unir devoluciones con ventas y productos\nproductos_devueltos &lt;- devoluciones %&gt;%\n  left_join(ventas %&gt;% select(id_venta, id_producto, id_tienda), \n            by = \"id_venta\") %&gt;%\n  left_join(productos %&gt;% select(id_producto, nombre_producto, id_categoria),\n            by = \"id_producto\") %&gt;%\n  left_join(categorias %&gt;% select(id_categoria, nombre_categoria),\n            by = \"id_categoria\")\n\n# Top productos con más devoluciones\nproductos_problema &lt;- productos_devueltos %&gt;%\n  group_by(id_producto, nombre_producto, nombre_categoria) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(desc(num_devoluciones)) %&gt;%\n  head(20)\n\nproductos_problema\n\n# Calcular tasa de devolución por producto\ntasa_devolucion_producto &lt;- ventas %&gt;%\n  group_by(id_producto) %&gt;%\n  summarize(\n    veces_vendido = n(),\n    .groups = \"drop\"\n  ) %&gt;%\n  left_join(\n    devoluciones %&gt;%\n      left_join(ventas %&gt;% select(id_venta, id_producto), by = \"id_venta\") %&gt;%\n      group_by(id_producto) %&gt;%\n      summarize(veces_devuelto = n(), .groups = \"drop\"),\n    by = \"id_producto\"\n  ) %&gt;%\n  mutate(\n    veces_devuelto = replace_na(veces_devuelto, 0),\n    tasa_devolucion = round(veces_devuelto / veces_vendido * 100, 2)\n  ) %&gt;%\n  filter(veces_vendido &gt;= 10) %&gt;%  # solo productos con suficientes ventas\n  arrange(desc(tasa_devolucion))\n\nhead(tasa_devolucion_producto, 10)\n\nPaso 4: Análisis por Tienda y Categoría\n\n# Devoluciones por tienda\ndevoluciones_tienda &lt;- productos_devueltos %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region),\n            by = \"id_tienda\") %&gt;%\n  group_by(id_tienda, nombre_tienda, region) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    .groups = \"drop\"\n  )\n\n# Calcular tasa de devolución por tienda\nventas_por_tienda &lt;- ventas %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(num_ventas = n(), .groups = \"drop\")\n\ncomparacion_tiendas &lt;- ventas_por_tienda %&gt;%\n  left_join(devoluciones_tienda, by = \"id_tienda\") %&gt;%\n  mutate(\n    num_devoluciones = replace_na(num_devoluciones, 0),\n    tasa_devolucion = round(num_devoluciones / num_ventas * 100, 2)\n  ) %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region),\n            by = \"id_tienda\") %&gt;%\n  arrange(desc(tasa_devolucion))\n\ncomparacion_tiendas\n\n# Por categoría\ndevoluciones_categoria &lt;- productos_devueltos %&gt;%\n  group_by(nombre_categoria) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    motivo_principal = names(sort(table(motivo), decreasing = TRUE))[1],\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(desc(num_devoluciones))\n\ndevoluciones_categoria"
   },
   {
-    "objectID": "docs/Tema02.html#claves-duplicadas",
-    "href": "docs/Tema02.html#claves-duplicadas",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Claves duplicadas",
-    "text": "Claves duplicadas\n\nSi una coincidencia no es única, se generan todas las combinaciones posibles (producto cartesiano) de las observaciones coincidentes\n\n\n\n\nEn una tabla: añade información en una relación de uno a muchos.\n\n\n\n\n\n\n\nEn ambas tablas: igualmente, todas las combinaciones posibles\n\n\n\n\nposible error: NO hay clave primaria única"
+    "objectID": "docs/Tema02.html#caso-de-estudio-completo-y-3",
+    "href": "docs/Tema02.html#caso-de-estudio-completo-y-3",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso de Estudio Completo (y 3)",
+    "text": "Caso de Estudio Completo (y 3)\nPaso 5: Impacto Financiero\n\n# Impacto total\nimpacto_financiero &lt;- ventas %&gt;%\n  summarize(\n    ingresos_brutos = sum(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  mutate(\n    reembolsos = sum(devoluciones$reembolso),\n    ingresos_netos = ingresos_brutos - reembolsos,\n    tasa_devolucion_financiera = round(reembolsos / ingresos_brutos * 100, 2)\n  )\n\nimpacto_financiero\n\n# Impacto por período\nimpacto_temporal &lt;- ventas %&gt;%\n  mutate(año_mes = paste(año, sprintf(\"%02d\", mes), sep = \"-\")) %&gt;%\n  group_by(año_mes) %&gt;%\n  summarize(\n    ingresos_brutos = sum(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  left_join(\n    devoluciones %&gt;%\n      left_join(ventas %&gt;% select(id_venta, año, mes), by = \"id_venta\") %&gt;%\n      mutate(año_mes = paste(año, sprintf(\"%02d\", mes), sep = \"-\")) %&gt;%\n      group_by(año_mes) %&gt;%\n      summarize(reembolsos = sum(reembolso), .groups = \"drop\"),\n    by = \"año_mes\"\n  ) %&gt;%\n  mutate(\n    reembolsos = replace_na(reembolsos, 0),\n    ingresos_netos = ingresos_brutos - reembolsos,\n    tasa_devolucion = round(reembolsos / ingresos_brutos * 100, 2)\n  ) %&gt;%\n  arrange(año_mes)\n\n# Visualizar tendencia\nggplot(impacto_temporal, aes(x = año_mes, y = tasa_devolucion, group = 1)) +\n  geom_line(color = \"red\", size = 1) +\n  geom_point() +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  labs(title = \"Evolución de la Tasa de Devolución\",\n       x = \"Período\", y = \"Tasa de Devolución (%)\")"
   },
   {
-    "objectID": "docs/Tema02.html#uniones-de-filtro",
-    "href": "docs/Tema02.html#uniones-de-filtro",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Uniones de filtro",
-    "text": "Uniones de filtro\n\nFiltra las observaciones de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla\nSe tiene un subconjunto de las filas de la tabla de la izquierda\n\n\n\n\nsemi_join(x, y) mantiene las observaciones en x que están en y\n\n\n\ndf1 %&gt;% semi_join(df2, \n          by = \"clave\")\n\n\n\n\nanti_join(x, y) elimina las observaciones en x que están en y\n\n\n\ndf1 %&gt;% anti_join(df2, \n          by = \"clave\")"
+    "objectID": "docs/Tema02.html#caso-de-estudio-completo-y-4",
+    "href": "docs/Tema02.html#caso-de-estudio-completo-y-4",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Caso de Estudio Completo (y 4)",
+    "text": "Caso de Estudio Completo (y 4)\nPaso 6: Recomendaciones Accionables\n\n# Crear informe ejecutivo\ninforme_devoluciones &lt;- list(\n  resumen = devoluciones %&gt;%\n    summarize(\n      total_devoluciones = n(),\n      tasa_global = round(n() / nrow(ventas) * 100, 2),\n      costo_total = sum(reembolso)\n    ),\n  \n  productos_criticos = tasa_devolucion_producto %&gt;%\n    filter(tasa_devolucion &gt; 10) %&gt;%\n    head(10),\n  \n  tiendas_problema = comparacion_tiendas %&gt;%\n    filter(tasa_devolucion &gt; 7) %&gt;%\n    head(5),\n  \n  categorias_riesgo = devoluciones_categoria %&gt;%\n    head(3)\n)\n\n# Mostrar informe\ninforme_devoluciones\n\nRecomendaciones:\n\nProductos: Revisar calidad de productos con tasa &gt;10%\nTiendas: Capacitación en tiendas con alta tasa de devolución\nCategorías: Mejorar descripción de productos en categorías problemáticas\nProcesos: Implementar mejor política de cambios para “Talla incorrecta”"
   },
   {
-    "objectID": "docs/Tema02.html#uniones-de-filtro-cont.",
-    "href": "docs/Tema02.html#uniones-de-filtro-cont.",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Uniones de filtro (cont.)",
-    "text": "Uniones de filtro (cont.)\n\nClaves duplicadas: en uniones de filtro sólo importa la existencia de una coincidencia, NO qué observación coincida \\(\\Rightarrow\\) NUNCA duplica filas\n\n\n\n\n\nLas uniones de filtro son útiles para diagnosticar desajustes de uniones (qué observaciones serán emparejadas)\n\n\nflights %&gt;% anti_join(planes, by = \"tailnum\") %&gt;%   # vuelos sin información del avión\n              count(tailnum, sort = TRUE)\n\n\nPueden ser equivalentes a usar filter(), con tablas previamente resumidas, pero permiten filtrados complejos fácilmente"
+    "objectID": "docs/Tema02.html#buenas-prácticas-y-errores-comunes",
+    "href": "docs/Tema02.html#buenas-prácticas-y-errores-comunes",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Buenas Prácticas y Errores Comunes",
+    "text": "Buenas Prácticas y Errores Comunes\nTrabajar con Valores Ausentes (NA)\n\n# Identificar NAs\nventas %&gt;%\n  summarize(\n    na_cliente = sum(is.na(id_cliente)),\n    na_producto = sum(is.na(id_producto)),\n    na_total = sum(is.na(total))\n  )\n\n# Filtrar NAs\nventas_sin_na &lt;- ventas %&gt;%\n  filter(!is.na(id_cliente))\n\n# Eliminar filas con ANY NA\nventas_completas &lt;- ventas %&gt;%\n  drop_na()\n\n# Eliminar NAs de columnas específicas\nventas %&gt;%\n  drop_na(id_cliente, total)\n\n# Reemplazar NAs\nclientes_limpio &lt;- clientes %&gt;%\n  mutate(\n    programa_fidelidad = replace_na(programa_fidelidad, \"Básico\")\n  )\n\n# NA en operaciones: usar na.rm = TRUE\nventas %&gt;%\n  summarize(\n    media_con_na = mean(descuento_porcentaje),\n    media_sin_na = mean(descuento_porcentaje, na.rm = TRUE)\n  )"
   },
   {
-    "objectID": "docs/Tema02.html#operaciones-de-conjunto",
-    "href": "docs/Tema02.html#operaciones-de-conjunto",
-    "title": "Tema 02 - Limpieza y Tratamiento de datos",
-    "section": "Operaciones de conjunto",
-    "text": "Operaciones de conjunto\n\nTrabajan con filas completas, comparando valores de cada variable.\nEsperan que x e y tengan las mismas variables, y tratan las observaciones (filas) como elementos de un conjunto.\nÚtil cuando se quiere dividir un filtro complejo en piezas más simples.\n\n\ndf1 &lt;- tibble(x = 1:2, y = c(1, 1))\ndf2 &lt;- tibble(x = c(1,1), y = 1:2)\n\nintersect(df1, df2)     # solo filas tanto en df1 como en df2\nunion(df1, df2)         # filas únicas en ambas tablas df1 y df2` \nunion_all(df1, df2)     # todas las filas de df1 y df2, manteniendo duplicados \nsetdiff(df1, df2)       # filas en df1, pero no en df2\nsetdiff(df2, df1)"
+    "objectID": "docs/Tema02.html#errores-comunes-y-soluciones",
+    "href": "docs/Tema02.html#errores-comunes-y-soluciones",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Errores Comunes y Soluciones",
+    "text": "Errores Comunes y Soluciones\nError 1: Olvidar ungroup()\n\n# PROBLEMA\ndatos_agrupados &lt;- ventas %&gt;%\n  group_by(id_tienda) %&gt;%\n  mutate(total_tienda = sum(total))\n\n# Operaciones siguientes están agrupadas (puede causar errores)\ndatos_agrupados %&gt;%\n  summarize(media_global = mean(total))  # No es media global!\n\n# SOLUCIÓN\ndatos_correctos &lt;- ventas %&gt;%\n  group_by(id_tienda) %&gt;%\n  mutate(total_tienda = sum(total)) %&gt;%\n  ungroup() %&gt;%\n  summarize(media_global = mean(total))"
+  },
+  {
+    "objectID": "docs/Tema02.html#errores-comunes-y-soluciones-cont.",
+    "href": "docs/Tema02.html#errores-comunes-y-soluciones-cont.",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Errores Comunes y Soluciones (cont.)",
+    "text": "Errores Comunes y Soluciones (cont.)\nError 2: Nombres de columnas con espacios o caracteres especiales\n\n# PROBLEMA\ndatos_problema &lt;- tibble(\n  `Nombre Producto` = c(\"A\", \"B\", \"C\"),\n  `Precio (€)` = c(10, 20, 30)\n)\n\n# Usar backticks\ndatos_problema %&gt;%\n  select(`Nombre Producto`, `Precio (€)`)\n\n# MEJOR: Usar nombres sin espacios\ndatos_bien &lt;- datos_problema %&gt;%\n  rename(\n    nombre_producto = `Nombre Producto`,\n    precio_euros = `Precio (€)`\n  )"
+  },
+  {
+    "objectID": "docs/Tema02.html#errores-comunes-y-soluciones-y-3",
+    "href": "docs/Tema02.html#errores-comunes-y-soluciones-y-3",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Errores Comunes y Soluciones (y 3)",
+    "text": "Errores Comunes y Soluciones (y 3)\nError 3: No verificar claves duplicadas en joins\n\n# PROBLEMA: claves duplicadas pueden multiplicar filas\ndf1 &lt;- tibble(id = c(1, 1, 2), valor = c(\"A\", \"B\", \"C\"))\ndf2 &lt;- tibble(id = c(1, 2), info = c(\"X\", \"Y\"))\n\nresultado &lt;- left_join(df1, df2, by = \"id\")\nnrow(resultado)  # Esperamos 3, tenemos 3 (pero revisar lógica)\n\n# VERIFICAR antes de hacer join\ndf1 %&gt;% count(id) %&gt;% filter(n &gt; 1)  # ids duplicados\ndf2 %&gt;% count(id) %&gt;% filter(n &gt; 1)  # ids duplicados\n\n# SOLUCIÓN: decidir qué hacer con duplicados\ndf1_unico &lt;- df1 %&gt;% distinct(id, .keep_all = TRUE)\n\nError 4: Orden de operaciones incorrecto\n\n# PROBLEMA: filtrar después de summarize\nventas %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(total = sum(total)) %&gt;%\n  filter(cantidad &gt; 3)  # ERROR: cantidad ya no existe\n\n# SOLUCIÓN: filtrar antes de summarize\nventas %&gt;%\n  filter(cantidad &gt; 3) %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(total = sum(total))"
+  },
+  {
+    "objectID": "docs/Tema02.html#optimización",
+    "href": "docs/Tema02.html#optimización",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Optimización",
+    "text": "Optimización\n\n# USO EFICIENTE: filtrar primero, luego unir\nventas_2023 &lt;- ventas %&gt;%\n  filter(año == 2023) %&gt;%  # reduce tamaño\n  left_join(productos, by = \"id_producto\")\n\n# USO INEFICIENTE: unir todo, luego filtrar\nventas_2023_lento &lt;- ventas %&gt;%\n  left_join(productos, by = \"id_producto\") %&gt;%\n  filter(año == 2023)\n\n# SELECCIONAR SOLO COLUMNAS NECESARIAS\nproductos_minimo &lt;- productos %&gt;%\n  select(id_producto, nombre_producto, precio)\n\nventas_join &lt;- ventas %&gt;%\n  left_join(productos_minimo, by = \"id_producto\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#gráficos-de-análisis-exploratorio",
+    "href": "docs/Tema02.html#gráficos-de-análisis-exploratorio",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Gráficos de Análisis Exploratorio",
+    "text": "Gráficos de Análisis Exploratorio\n\n# Distribución de ventas\nggplot(ventas, aes(x = total)) +\n  geom_histogram(bins = 50, fill = \"steelblue\", alpha = 0.7) +\n  labs(title = \"Distribución de Ventas\",\n       x = \"Importe Total (€)\", y = \"Frecuencia\") +\n  theme_minimal()\n# Ventas por día de la semana\nventas_dia &lt;- ventas %&gt;%\n  group_by(dia_semana) %&gt;%\n  summarize(\n    num_ventas = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total)\n  )\n\nggplot(ventas_dia, aes(x = dia_semana, y = ingresos)) +\n  geom_col(fill = \"coral\") +\n  labs(title = \"Ingresos por Día de la Semana\",\n       x = \"Día\", y = \"Ingresos (€)\") +\n  theme_minimal()\n# Evolución temporal\nventas_mensual &lt;- ventas %&gt;%\n  group_by(año, mes) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\") %&gt;%\n  mutate(periodo = paste(año, sprintf(\"%02d\", mes), sep = \"-\"))\n\nggplot(ventas_mensual, aes(x = periodo, y = ingresos, group = 1)) +\n  geom_line(color = \"darkgreen\", size = 1) +\n  geom_point() +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  labs(title = \"Evolución de Ingresos Mensuales\",\n       x = \"Período\", y = \"Ingresos (€)\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#comparaciones-y-rankings",
+    "href": "docs/Tema02.html#comparaciones-y-rankings",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Comparaciones y Rankings",
+    "text": "Comparaciones y Rankings\n\n# Top 10 tiendas por ingresos\ntop_tiendas &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda), by = \"id_tienda\") %&gt;%\n  group_by(nombre_tienda) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\") %&gt;%\n  arrange(desc(ingresos)) %&gt;%\n  head(10)\n\nggplot(top_tiendas, aes(x = reorder(nombre_tienda, ingresos), y = ingresos)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(title = \"Top 10 Tiendas por Ingresos\",\n       x = \"Tienda\", y = \"Ingresos (€)\") +\n  theme_minimal()\n# Comparación entre regiones\nventas_region &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  group_by(region, año) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\")\n\nggplot(ventas_region, aes(x = factor(año), y = ingresos, fill = region)) +\n  geom_col(position = \"dodge\") +\n  labs(title = \"Ingresos por Región y Año\",\n       x = \"Año\", y = \"Ingresos (€)\", fill = \"Región\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "docs/Tema02.html#guardar-datasets-procesados",
+    "href": "docs/Tema02.html#guardar-datasets-procesados",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Guardar Datasets Procesados",
+    "text": "Guardar Datasets Procesados\n\n# Guardar en RData\nsave(ventas_completo, file = \"data/ventas_procesado.RData\")\n\n# Guardar en CSV\nwrite_csv(ventas_completo, \"data/ventas_procesado.csv\")\n\n# Guardar múltiples objetos\nsave(analisis_rentabilidad, comparacion_objetivos, \n     file = \"data/analisis_completo.RData\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#crear-reportes",
+    "href": "docs/Tema02.html#crear-reportes",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Crear Reportes",
+    "text": "Crear Reportes\n\n# Tabla resumen para Excel\nreporte_ejecutivo &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region), \n            by = \"id_tienda\") %&gt;%\n  group_by(region, año, trimestre) %&gt;%\n  summarize(\n    num_transacciones = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total),\n    clientes_unicos = n_distinct(id_cliente),\n    .groups = \"drop\"\n  ) %&gt;%\n  pivot_wider(\n    names_from = trimestre,\n    values_from = c(ingresos, num_transacciones),\n    names_glue = \"{.value}_Q{trimestre}\"\n  )\n\n# Exportar\nlibrary(writexl)\nwrite_xlsx(reporte_ejecutivo, \"reportes/reporte_ejecutivo.xlsx\")\n\n\nResumen\n\nFlujo de Trabajo Recomendado\n\n\nExploración Inicial\n\nglimpse(), summary(), head()\nIdentificar tipos de datos y valores ausentes\n\nLimpieza\n\nFiltrar datos irrelevantes\nManejar valores ausentes\nCorregir tipos de datos\n\nTransformación\n\nCrear variables derivadas\nPivotar si es necesario\nUnir tablas relacionadas\n\nAgregación\n\ngroup_by() + summarize() para KPIs\nCalcular métricas de negocio\n\nAnálisis\n\nComparaciones temporales\nRankings y segmentaciones\nIdentificar outliers\n\nVisualización\n\nGráficos exploratorios\nDashboards de KPIs\n\nExportación\n\nGuardar resultados procesados\nCrear reportes\n\n\nPrincipios Clave\nDatos Ordenados (Tidy Data): - Una variable por columna - Una observación por fila - Un valor por celda\nCódigo Legible: - Usar pipe %&gt;% para encadenar operaciones - Un paso por línea - Nombres descriptivos de variables - Comentarios para lógica compleja\nEficiencia: - Filtrar temprano, unir tarde - Seleccionar solo columnas necesarias - Verificar claves antes de joins - Usar glimpse() para inspeccionar resultados intermedios\nReproducibilidad: - Scripts ordenados y comentados - Guardar datos procesados - Documentar decisiones de limpieza\nRecursos Adicionales\n\nDocumentación: ?dplyr, ?tidyr\nCheat Sheets: RStudio &gt; Help &gt; Cheatsheets\nLibros:\n\n“R for Data Science” (Wickham & Grolemund)\n“Advanced R” (Wickham)\n\nComunidad: Stack Overflow, RStudio Community"
+  },
+  {
+    "objectID": "docs/Tema02.html#ejercicios-de-práctica",
+    "href": "docs/Tema02.html#ejercicios-de-práctica",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Ejercicios de Práctica",
+    "text": "Ejercicios de Práctica\nEjercicio 1: Análisis de Categorías\nUsando los datos de RetailCorp:\n\nIdentifica las 3 categorías con mayores ingresos en 2023\nCalcula la tasa de crecimiento año sobre año para cada categoría\nDetermina qué categorías tienen los tickets promedio más altos\nCrea un gráfico comparativo\n\nEjercicio 2: Segmentación de Clientes\n\nClasifica clientes según su valor total de compras (Bajo/Medio/Alto/Premium)\nCalcula la recencia (días desde última compra)\nIdentifica clientes en riesgo (no han comprado en &gt;90 días)\nPropón estrategia de retención\n\nEjercicio 3: Análisis de Empleados\n\nCalcula el promedio de ventas por empleado\nIdentifica empleados top performers\nAnaliza si hay diferencias por puesto\nSugiere un sistema de bonificaciones\n\nEjercicio 4: Optimización de Inventario\n\nLista productos con baja rotación (pocas ventas)\nIdentifica productos descontinuados\nCalcula el stock óptimo por tienda (simulado)\nRecomienda productos a eliminar del catálogo"
   },
   {
     "objectID": "docs/Tema01ej.html",
