@@ -25,14 +25,16 @@ format:
     show-notes: false  # Las notas no se muestran por defecto
     notes-format: html # Formato de las notas
 execute:
-  enabled: true
-  eval: true
-  echo: true
-  warning: false
-  message: false
+  enabled: true      # execute code chunks
+  eval: false        # by default, don't evaluate code chunks
+  echo: true         # show code
+  warning: false     # don't show warnings (redundant to eval: false)
+  message: false     # don't show messages (idem)
+  output: false      # don't show output (idem)
+  fig.show: hide     # don't show figures (idem)
 knitr:
-  opts_chunk:
-    results: hide
+  opts_chunk:         # OJO: reduntant to execute:
+    results: hide     # ni muestra resultados ni figuras
     fig.show: hide
 lang: es
 strip-comments: true
@@ -43,11 +45,18 @@ toc-title: "Contenidos"
 css: styles.css
 ---
 
-```{r setup, message=FALSE, warning=FALSE, include=FALSE} 
-knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
-                      warning = FALSE, message = FALSE,
-                      results = "hide", fig.show="hide")
-rm(list = ls())       
+```{r setup}
+#| include: false
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/ECMTII/ECMTII/Slides_2023")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
 library(tidyverse)
 library(rio)
 library(kableExtra)
@@ -55,7 +64,6 @@ library(rmarkdown)
 ```
 
 ```{r generar-datos}
-#| eval: false
 #| echo: false
 
 library(tidyverse)
@@ -356,7 +364,6 @@ Al finalizar este tema, serás capaz de:
 ## Creando un "ggplot"
 
 ```{r cargar}
-#| eval: false
 library(ggplot2)
 load("data/datosVisualizacion.RData")
 ```
@@ -366,22 +373,18 @@ load("data/datosVisualizacion.RData")
 - Solo `ggplot()`  crea un gráfico vacío
 
 ```{r ejemplo-basico0}
-#| eval: false
 ggplot(data = ventas)
 ```
 
 - `aes()` define **cómo las variables se asignan a propiedades visuales**
 
 ```{r ejemplo-basico1}
-#| eval: false
-
 ggplot(data = ventas, aes(x = marketing, y = ventas))
 ```
 
 - Añadir capas con `+`: objeto geométrico `geom_point()`
 
 ```{r ejemplo-basico2}
-#| eval: false
 ggplot(data = ventas, aes(x = marketing, y = ventas)) + 
   geom_point()
 ```
@@ -391,14 +394,11 @@ ggplot(data = ventas, aes(x = marketing, y = ventas)) +
 - **NOTAR**: datos y estética para *todas* las capas o solo para una
 
 ```{r ejemplo-alternativo}
-#| eval: false
-
 ggplot(data = ventas) + 
   geom_point(aes(x = marketing, y = ventas))
 ```
 
 ```{r ejemplo-alternativo2}
-#| eval: false
 #| echo: false
 ggplot(data = ventas) + 
   geom_point(mapping = aes(x = marketing, y = ventas))
@@ -453,7 +453,6 @@ Elementos estéticos son "algo que se puede ver" (información)
 - **Regla de oro**: Si quieres que algo varíe con los datos, ponlo en `aes()`
 
 ```{r ejemplo-esteticas}
-#| eval: false
 ggplot(ventas, aes(x = marketing, y = ventas)) +
   geom_point(aes(color = region))
 ```
@@ -465,7 +464,6 @@ ggplot(ventas, aes(x = marketing, y = ventas)) +
 - Con `aes()`, se visualiza una **variable** con una señal visual
 
 ```{r mapeo-estetico}
-#| eval: false
 #| echo: false
 ggplot(ventas, aes(x = marketing, y = ventas)) +
   geom_point(aes(color = region))
@@ -474,7 +472,6 @@ ggplot(ventas, aes(x = marketing, y = ventas)) +
 - Fuera de `aes()`, se establece un **valor fijo** de la señal visual
 
 ```{r opcion-fija}
-#| eval: false
 ggplot(ventas, aes(x = marketing, y = ventas)) +
   geom_point(aes(color = "red"))
 ```
@@ -484,7 +481,6 @@ ggplot(ventas, aes(x = marketing, y = ventas)) +
 - **Principio**: Añadir señal visual para representar información, NO "embellecer"
 
 ```{r mapeo-estetico2}
-#| eval: false
 ggplot(macro, aes(y = desempleo, x = pib)) +
   geom_point(aes(color = norte), shape = "diamond")
 ```
@@ -492,7 +488,6 @@ ggplot(macro, aes(y = desempleo, x = pib)) +
 - NO saturar el gráfico con estéticas fijas o información innecesaria
 
 ```{r mapeo-estetico3}
-#| eval: false
 ggplot(macro, aes(y = desempleo, x = pib)) +
   geom_point(aes(size = inflacion, color = deuda))
 
@@ -516,7 +511,6 @@ ggplot(macro, aes(y = desempleo, x = pib)) +
 - "Arrastrar y soltar" variables a estéticas
 
 ```{r esquisse-demo}
-#| eval: false
 #install.packages("esquisse")
 library(esquisse)
 esquisser()                         
@@ -540,8 +534,6 @@ esquisser(mpg, viewer = "browser")
 - Un gráfico también es un objeto de R
 
 ```{r objetos-graficos}
-#| eval: false
-#| echo: true
 graf_base <- ggplot(macro, aes(y = desempleo, x = pib)) +
                 geom_point()
 ```
@@ -549,8 +541,6 @@ graf_base <- ggplot(macro, aes(y = desempleo, x = pib)) +
 - Se pueden agregar capas a este objeto:
 
 ```{r capas-objetos}
-#| eval: false
-#| echo: true
 graf_base + geom_line()
 graf_base + geom_point(aes(shape = norte)) 
 graf_base + geom_point(aes(size = inflacion, color = deuda))
@@ -567,7 +557,6 @@ graf_base + geom_point(aes(size = inflacion, color = deuda))
 
 - `geom_text()`: acepta estéticas de etiquetas (variables con texto):
 ```{r texto}
-#| eval: false
 graf_base + geom_text(aes(label = pais), size = 3)
 
 library(ggrepel)  # Evita solapamiento
@@ -576,7 +565,6 @@ graf_base + geom_text_repel(aes(label = pais), size = 3)
 
 - Ahora con datos específicos por capa si solo queremos señalar algunos puntos
 ```{r subconjuntos}
-#| eval: false
 graf_base + 
   geom_text_repel(
     data = subset(macro, 
@@ -591,14 +579,12 @@ graf_base +
 - Algunos gráficos (ej., *dispersión*) muestran los datos originales directamente
 
 ```{r transformaciones-originales}
-#| eval: false
 #| echo: false
 ggplot(clientes, aes(x = ingresos/1000, y = gasto/1000)) + 
       geom_point()
 ```
 
 ```{r transformaciones-originales2}
-#| eval: false
 #| echo: false
 graf_base
 ```
@@ -612,7 +598,6 @@ graf_base
 ::: {.column}
 
 ```{r boxplot-ejemplo}
-#| eval: false
 ggplot(clientes, 
        aes(y = gasto/1000)) +  
   geom_boxplot()
@@ -622,9 +607,7 @@ ggplot(clientes,
 
 ::: {.column}
 
-<center>
-![](figure/boxplot_spanish.svg){width=60%}
-</center>
+![](figure/boxplot_spanish.svg){width=60% fig-align="center"}
 
 :::
 
@@ -634,7 +617,6 @@ ggplot(clientes,
 
 - `geom_smooth()`: regresión → predicción de línea de tendencia
 ```{r smoothers}
-#| eval: false
 graf_base + geom_smooth()           # con intervalos de confianza
 graf_base + geom_smooth(method = lm, se = FALSE)  
 ```
@@ -645,8 +627,6 @@ graf_base + geom_smooth(method = lm, se = FALSE)
 * Podríamos agregar la línea de regresión "manualmente"
 
 ```{r}
-#| echo: true
-#| eval: false
 res <- lm(gasto ~ ingreso, data = clientes)
 clientes$ingreso_pred <- res[["fitted.values"]]
 # graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base
@@ -669,7 +649,6 @@ graf_base + geom_line(aes(y = ingreso_pred))
   - Notad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)
 
 ```{r barras}
-#| eval: false
 ggplot(ventas, aes(x = region)) + geom_bar()
 ```
 
@@ -678,7 +657,6 @@ ggplot(ventas, aes(x = region)) + geom_bar()
 - Con datos ya transformados, usar `stat = "identity"`:
 
 ```{r barras-identity}
-#| eval: false
 # Frecuencias automáticas
 ggplot(ventas, aes(x = region)) + geom_bar()
 
@@ -701,7 +679,6 @@ ggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) +
   - Distintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico
 
 ```{r histograma-parametros}
-#| eval: false
 graf <- ggplot(clientes, aes(x = ingresos/1000))
 graf + geom_histogram(bins = 20)              # Número de grupos
 graf + geom_histogram(binwidth = 3)           # Ancho de grupos
@@ -711,7 +688,6 @@ graf + geom_histogram(breaks = seq(10,90,5))  # Rangos
 
 ```{r histograma-densidad}
 #| echo: false
-#| eval: false
 graf + geom_histogram(aes(y = after_stat(density))) # Densidad vs. frecuencia
 graf + geom_density()
 ```
@@ -754,7 +730,6 @@ graf + geom_density()
 - Otros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta
 
 ```{r escalas-ejemplos}
-#| eval: false
 ggplot(macro, aes(y = pais, x = pib)) + 
   geom_point(aes(color = desempleo))  +
   scale_color_continuous(breaks = c(5, 10, 15),
@@ -770,7 +745,6 @@ ggplot(macro, aes(y = desempleo, x = pib/1000)) +
 ```
 
 ```{r escalas-ejemplos2}
-#| eval: false
 #| echo: false
 g2 + scale_color_gradient2(breaks = c(5, 10, 15),
                            labels = c("Bajo", "Medio", "Alto"), 
@@ -797,30 +771,35 @@ g2 + scale_color_gradient2(breaks = c(5, 10, 15),
 
 - En muchos contextos, las variables tienen un **rango de valores amplio**
   
-  - PIB, población (Lux 6K vs ALE 83M), clientes (pyme 500 vs Inditex 200M)
+  - PIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)
   
   
 - Escala lineal vs logarítmica:
 
-  - Lineal: misma distancia visual = mismo aumento absoluto (€, clientes) → los valores pequeños quedan "aplastados" para mostrar los grandes
+  - Lineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan "aplastados" para mostrar los grandes
 
   - Logarítmica: misma distancia visual = mismo incremento relativo (%)
 
 
 ```{r escala-log}
-#| eval: false
 ggplot(macro, aes(y = desempleo, x = poblacion)) + 
   scale_x_log10(breaks = seq(0,100,20)) + geom_point()
 ```
+
+
 
 - Mejor que `x = log(pib)` porque los ejes se muestran en unidades originales
 
 :::: {.notes}
 
+- En escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -> incremento de 20 millones de personas en ambos casos
+
+- En escala logarítmica: misma distancia entre  20 y 40 que entre 40 y 80 -> incremento del 100% en ambos casos
+
+
 - qué es un logaritmo de euros o de personas
 
 ::::
-
 
 - Usar logs **cambia la interpretación** de diferencias absolutas a porcentuales
 
@@ -835,7 +814,6 @@ ggplot(macro, aes(y = desempleo, x = poblacion)) +
 - Facilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)
 
 ```{r facetas-problema}
-#| eval: false
 graf_tiempo <- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))
 graf_tiempo + geom_line(aes(color = region))
 ```
@@ -844,14 +822,12 @@ graf_tiempo + geom_line(aes(color = region))
 - `facet_wrap()`: facetas por una variable (usando "fórmula" `~`)
 
 ```{r facet-wrap}
-#| eval: false
 graf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)
 ```
 
 - `facet_grid()`: facetas en dos dimensiones
 
 ```{r facet-grid}
-#| eval: false
 g3 <- ggplot(data = clientes) + geom_histogram(aes(x = gasto))
 g3 + facet_grid(segmento ~ canal)  # Filas y columnas
 g3 + facet_grid(segmento ~ .)      # Solo por filas 
@@ -865,7 +841,6 @@ g3 + facet_grid(. ~ canal)         # Solo por columnas
   - Descripciones claras de variables y sus unidades
 
 ```{r etiquetas-completas}
-#| eval: false
 ggplot(macro, aes(y = desempleo, x = pib/1000)) + 
   geom_point(aes(color = norte, size = deuda)) + 
   geom_smooth(method = "lm", se = FALSE) +
@@ -886,7 +861,6 @@ ggplot(macro, aes(y = desempleo, x = pib/1000)) +
 - **`annotate()`**: añade objetos geométricos NO asociados a variables:
 
 ```{r anotaciones}
-#| eval: false
 ggplot(macro, aes(y = desempleo, x = pib/1000)) +
   geom_point(aes(color = norte)) + 
   geom_smooth(method = "lm", se = FALSE) +
@@ -898,7 +872,6 @@ ggplot(macro, aes(y = desempleo, x = pib/1000)) +
 
 - **Líneas de Referencia**
 ```{r lineas-referencia}
-#| eval: false
 ggplot(clientes, aes(x = canal, y = gasto/1000)) +
   geom_boxplot() +
   geom_hline(yintercept = 3.0, linetype = "dashed", 
@@ -920,7 +893,6 @@ ggplot(clientes, aes(x = canal, y = gasto/1000)) +
 - Cambiamos colores manualmente usando nombres o [códigos hexadecimales](https://html-color-codes.info/codigos-de-colores-hexadecimales/) 
 
 ```{r colores-manuales}
-#| eval: false
 graf <- ggplot(ventas, aes(x = region, y = ventas, 
                            fill = region)) + 
           geom_boxplot()
@@ -939,7 +911,6 @@ graf + scale_fill_manual(values = c("#1f77b4", "#ff7f0e",
 - PERO es preferible usar *paletas predefinidas* con criterios de diseño y visualización de *información*:
 
 ```{r paletas-predefinidas}
-#| eval: false
 graf <- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + 
           geom_boxplot()
 library(RColorBrewer)
@@ -949,7 +920,6 @@ graf + scale_fill_brewer(palette = "Set2")
 
 
 ```{r paletas-predefinidas2}
-#| eval: false
 #| echo: false
 graf + scale_fill_brewer(palette = "Dark2")
 ```
@@ -976,7 +946,6 @@ graf + scale_fill_brewer(palette = "Dark2")
 - Se puede añadir una capa de **tema** (estilo general de todos los componentes)
 
 ```{r temas-predefinidos0}
-#| eval: false
 #| echo: false
 graf + theme_gray()       # predeterminado
 graf + theme_linedraw()
@@ -991,7 +960,6 @@ graf + theme_classic()
 ::: {.column}
 
 ```{r temas-predefinidos1}
-#| eval: false
 graf + theme_gray()      
 ```
 :::
@@ -999,7 +967,6 @@ graf + theme_gray()
 ::: {.column}
 
 ```{r temas-predefinidos2}
-#| eval: false
 graf + theme_minimal()
 ```
 :::
@@ -1008,7 +975,6 @@ graf + theme_minimal()
 
 - También existen **temas profesionales** predefinidos en bibliotecas
 ```{r temas-profesionales}
-#| eval: false
 library(ggthemes)
 graf + theme_economist() + scale_fill_economist()     
 ```
@@ -1018,7 +984,6 @@ graf + theme_economist() + scale_fill_economist()
 - Nota: es posible, pero *no recomendable* personalizar elementos concretos del tema (o definir un tema nuevo propio) 
 
 ```{r personalizacion}
-#| eval: false
 tema_empresa <- theme_minimal() + 
   theme(text = element_text(color = "darkblue", family = "Arial"))
 graf + tema_empresa
@@ -1056,7 +1021,6 @@ graf + tema_empresa
 
 1. Relación Gasto Marketing - Ventas
 ```{r ejemplo-marketing}
-#| eval: false
 ggplot(ventas, aes(x = marketing, y = ventas)) +
   geom_point(aes(color = region)) +
   geom_smooth(method = "lm", se = TRUE) +
@@ -1069,7 +1033,6 @@ ggplot(ventas, aes(x = marketing, y = ventas)) +
 
 2. Distribución de Satisfacción del Cliente
 ```{r ejemplo-satisfaccion}
-#| eval: false
 ggplot(ventas, aes(x = satisfaccion)) +
   geom_bar(fill = "steelblue") +
   facet_wrap(~producto) +
@@ -1084,7 +1047,6 @@ ggplot(ventas, aes(x = satisfaccion)) +
 :::: {.notes}
 3. Comparación de Indicadores UE
 ```{r ejemplo-macro}
-#| eval: false
 ggplot(macro, aes(x = pais, y = pib)) +
   geom_col(aes(fill = norte)) +
   labs(title = "PIB per cápita en países de la UE",
@@ -1099,7 +1061,6 @@ ggplot(macro, aes(x = pais, y = pib)) +
 
 3. Indicadores Macroeconómicos
 ```{r ejemplo-triangulo}
-#| eval: false
 ggplot(macro, aes(x = desempleo, y = inflacion)) +
   geom_point(aes(size = deuda, color = norte)) +
   geom_text_repel(aes(label = pais), size = 3) +
@@ -1160,7 +1121,6 @@ ggplot(macro, aes(x = desempleo, y = inflacion)) +
 
 - **Guardar gráficos**: en la pestaña de *Plots* > *Export* o con el comando
 ```{r guardar}
-#| eval: false
 ggsave("analisis-ventas.pdf")
 ggsave("dashboard-macro.png", width = 12, height = 8, dpi = 300)
 ```

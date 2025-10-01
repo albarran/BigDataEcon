@@ -60,10 +60,12 @@ format:
        # - \setbeameroption{show notes on second screen}
 execute:
   enabled: true      # (no) ejecutar code chunks
-  eval: true        # por defecto, evalúa y muestra códido de code chunks
+  eval: false        # por defecto, no evalúa y muestra códido de code chunks
   echo: true
   warning: false    # pero no los mensajes ni warnings
   message: false
+  results: hide
+  fig.show: hide
 knitr:
   opts_chunk:
     results: hide     # ni muestra resultados ni figuras
@@ -78,7 +80,7 @@ css: styles.css
 ---
 
 ```{r setup}
-#| include = FALSE
+#| include: false
 # se evalua pero no incluye output (mensajes, etc.)
 
 # Elimino todo del Entorno (del documento)
@@ -134,7 +136,6 @@ rm(list = ls())
     + Ejecutar algo que no es un **comando de R** devuelve un error
 
 ```{r}
-#| eval: false
 2 + 2
 3 * (1 - 4)^2
 sqrt(log(5/2))
@@ -149,8 +150,6 @@ hola
 
 ```{r}
 #| echo: false
-#| eval: false
-
 abs(-5)
 9 %/% 4
 9 %% 4
@@ -281,7 +280,6 @@ y ver que las cosas que pongan se llegan por el navegador
 
 ```{r}
 getwd()
-
 ```
 
 - Inicialmente el directorio de trabajo es el directorio por defecto del usuario del SO ("\~"), donde "`/`" es el separador de directorios
@@ -420,7 +418,7 @@ ceiling(5.2)
 ::: {.notes}
 ```{r}
 #| echo: false
-#| eval: false
+
 sin(pi/6)
 floor(3.1)
 ```
@@ -463,7 +461,7 @@ log(base = 10, x = 2)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 help(min)
 ?min
 ```
@@ -486,7 +484,7 @@ help(min)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 ??minimize
 ```
 
@@ -564,7 +562,7 @@ y           # NO cambia (en Excel, sí)
 ::: {.notes}
 
 ```{r}
-#| eval: false
+
 #| echo: false
 ls()        # mostrar objetos
 rm(y)       # eliminar el objeto "y"
@@ -608,7 +606,7 @@ rm(y, x)         # eliminar solo algunos objetos
 
 ```{r}
 #| echo: false
-#| eval: false
+
 log(-1)                         # warning
 seq(from = 10, to = 2, by = 1)  # error
 ```
@@ -624,7 +622,7 @@ seq(from = 10, to = 2, by = 1)  # error
 
 ```{r}
 #| echo: false
-#| eval: false
+
 from <- 4
 seq(from == 1, to = 5, by = 1)   # ¿por qué?
 ```
@@ -803,7 +801,7 @@ z <- 1:10       # equivale a z <- seq(1,10,1)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 y <- c(1,3,5,7,9)
 z <- c(x, y)
 ```
@@ -827,7 +825,7 @@ y <- seq(from = 10, to = 1, by = -1)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 z <- 1:10       # equivale a z <- seq(1,10,1)
 ```
 
@@ -878,12 +876,12 @@ as.numeric( c("1", "2", "foo", "10", "bar") )
 
 ```{r}
 #| echo: false
-#| eval: false
+
 2.5+"hola"
 ```
     
 ```{r}
-#| eval: false
+
 a <- 4
 c <- 'a' + 1
 ```
@@ -896,7 +894,7 @@ c <- 'a' + 1
 -   La clase de un objeto es *única* (solo un tipo de <!--objetos--> elementales) y puede conocerse <!--con `class()` o--> en el `Environment` <!-- de RStudio--> o con `str()`
 
 ```{r}
-#| eval: false
+
 str(y)
 ```
 
@@ -906,7 +904,7 @@ str(y)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 is(x)
 class(y)
 mode(z)
@@ -923,12 +921,12 @@ mode(z)
 -   NO se pueden realizar operaciones incompatibles entre clases
 
 ```{r}
-#| eval: false
+
 2.5+"hola"
 ```
 -   Cuidado con las comillas: NO es lo mismo un objeto (su contenido) que el carácter de su nombre
 ```{r}
-#| eval: false
+
 a <- 4
 c <- 'a' + 1
 ```
@@ -936,7 +934,7 @@ c <- 'a' + 1
 -   También suele pasar cuando pasamos un objeto vector (o escalar) como argumento a una función
 
 ```{r}
-#| eval: false
+
 mibase <- 10
 log(5, base="mibase")
 ```
@@ -983,7 +981,7 @@ altura2
 ## Funciones para vectores
 
 ```{r}
-#| eval: false
+
 numeric(n)      # crea un vector con n ceros
 
 length(x)   # longitud: número de elementos
@@ -1198,7 +1196,7 @@ TRUE | FALSE # Operador OR:  A | B = T si al menos una T
 - Nuevamente podemos confundir los objetos `hola` y `adios` con sus caracteres
 ```{r}
 #| echo: false
-#| eval: false
+
 'cadena' == "cadena"
 'hola' > 'adios'   
 ```
@@ -1300,7 +1298,7 @@ c(3,9) %in% x
 
 * Algunas funciones para vectores lógicos
 ```{r}
-#| eval: false
+
 any(z)      # ¿algún elemento de "z" es T?          = max()
 all(z)      # ¿todos los elementos de "z" son T?    = prod()
 which(z)    # ¿qué elementos de "z" son Verdaderos?  
@@ -1324,7 +1322,7 @@ which(altura > 180 | altura < 160)
 ## Mensajes de "Error" y "Warning" (Aviso/Advertencia)
 
 ```{r}
-#| eval: false
+
 log(-1)                         # warning
 seq(from = 10, to = 2, by = 1)  # error
 ```
@@ -1442,7 +1440,7 @@ altura[ c("Jose", "Elena") ]
 
 ```{r}
 #| echo: false
-#| eval: false
+
 which(altura == 182)
 pos <- which(altura > 180 | altura < 160)
 altura[pos]
@@ -1664,7 +1662,7 @@ satisf_f <- factor(satisf, order = TRUE)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 genero   <- c("H", "M", "M", "H", "H")
 genero_f <- factor(genero, labels= c("Hombre", "Mujer"))
 ```
@@ -1738,7 +1736,7 @@ summary(genero_f)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 satisf   <- c(3, 1, 1, 1, 1, 1, 1, 1, 1)
 satisf_f <- factor(satisfaccion, order = TRUE,
                     labels = c("Bajo", "Medio", "Alto"),
@@ -1755,307 +1753,277 @@ summary(factor_satisfaccion)
 ```
 
 
-::: {.notes}
+:::: {.notes}
 
-[]: # 
-[]: # ## Matrices
-[]: # 
-[]: # -   Las matrices son una extensión de vectores a dos dimensiones. 
-[]: # 
-[]: # <!--
-[]: # - Se pueden crear con `matrix(), a partir de un vector con todos los valores,  rellenando por []: # columnas (argumento `byrow = FALSE`) y conocemos su dimensión con `dim()`-->
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), nrow = 2)
-[]: # dim(matrx)
-[]: # ```
-[]: # 
-[]: # -  Se pueden crear con `matrix()` o <!--También se crear -->uniendo vectores filas o vectores []: # columnas (de las mismas dimensiones) con `cbind()` y `rbind()`
-[]: # 
-[]: # :::: {.columns}
-[]: # 
-[]: # ::: {.column width="40%"}
-[]: # 
-[]: # 
-[]: # ```{r}
-[]: # r1 <- 1:4
-[]: # r2 <- c(4, 8, 5, 10)
-[]: # M1 <- rbind(r1, r2)
-[]: # ```
-[]: # 
-[]: # ::: 
-[]: # 
-[]: # ::: {.column width="5%"}
-[]: # 
-[]: # :::
-[]: # 
-[]: # ::: {.column width="45%"}
-[]: # 
-[]: # ```{r}
-[]: # c1 <- 11:12
-[]: # c2 <- 25:26
-[]: # c3 <- c(14, 25)
-[]: # M2 <- cbind(c1, c2, c3)
-[]: # ```
-[]: # 
-[]: # :::
-[]: # 
-[]: # ::::
-[]: # 
-[]: # * Podemos usarlos para añadir nuevas filas, columnas u otra matriz
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # #| eval: false
-[]: # M1 <- cbind(matrx, c(90,95))          
-[]: # M2 <- rbind(matrx, c(40, -20, 25))    
-[]: # 
-[]: # A <- cbind(c(40,30), c(70, 75))
-[]: # cbind(M1, A)
-[]: # 
-[]: # B <- cbind(c(40, 2), c(-20, 1), c(25, 1))
-[]: # rbind(matrx, B)
-[]: # ```
-[]: # 
-[]: # ::: {.notes}
-[]: # + Si no tienen dimensiones compatibles, R repetirá (como ya vimos en aritmética de vectores)
-[]: # 
-[]: # `M1 <- cbind(matrx, c(90,95))`
-[]: # 
-[]: # `M2 <- rbind(matrx, c(40, -20, 25))`
-[]: # 
-[]: # 
-[]: # `A <- cbind(c(40,30), c(70, 75))`
-[]: # 
-[]: # `cbind(M1, A)`
-[]: # 
-[]: # 
-[]: # `B <- cbind(c(40, 2), c(-20, 1), c(25, 1))`
-[]: # 
-[]: # `rbind(matrx, B)`
-[]: # 
-[]: # :::
-[]: # 
-[]: # -   Podemos dar nombres a columnas y filas 
-[]: # 
-[]: # ```{r}
-[]: # colnames(M2) <- c("ene", "feb", "mar")
-[]: # rownames(M2) <- c("gast", "ingr")
-[]: # ```
-[]: # 
-[]: # 
-[]: # ## Matrices (cont.)
-[]: # 
-[]: # <!-- -   Podemos dar nombres a columnas y filas -->
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # colnames(M2) <- c("ene", "feb", "mar")
-[]: # rownames(M2) <- c("gast", "ingr")
-[]: # ```
-[]: # 
-[]: # ::: {.notes}
-[]: # -   Notad que NO podemos usar la función `names()` vista anteriormente
-[]: #     porque solo aplica a vectores
-[]: # 
-[]: # -  También se puede especificar los nombres al crear con matrix con argumento `dimnames`
-[]: # 
-[]: # `meses <- c("ene", "feb", "mar")`
-[]: # 
-[]: # `matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), `
-[]: # 
-[]: # `           nrow = 2,dimnames=list(c("gast", "ingr"), meses))`
-[]: # :::
-[]: # 
-[]: # -   Usamos los paréntesis cuadrados para acceder a los elementos (o una sub-matriz) por posición, []: # nombre o condición lógica
-[]: # 
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # M2[4]   # posición total
-[]: # M2[[4]] 
-[]: # ```
-[]: # 
-[]: # 
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # M2[1,3]                 
-[]: # M2["ingr", "ene"]      
-[]: # M2[c(1:2),c(1,3)]
-[]: # ```
-[]: # 
-[]: # 
-[]: # :::: {.columns}
-[]: # 
-[]: # ::: {.column width="40%"}
-[]: # 
-[]: # 
-[]: # ```{r}
-[]: # M2[1,3]                 
-[]: # M2["ingr", "ene"]      
-[]: # M2[c(1:2),c(1,3)]
-[]: # ```
-[]: # 
-[]: # ::: 
-[]: # 
-[]: # ::: {.column width="5%"}
-[]: # 
-[]: # :::
-[]: # 
-[]: # ::: {.column width="45%"}
-[]: # 
-[]: # ```{r}
-[]: # M2[2,]      # fila entera
-[]: # M2[,"feb"]  # columna entera
-[]: # 
-[]: # ```
-[]: # 
-[]: # :::
-[]: # 
-[]: # ::::
-[]: # 
-[]: # 
-[]: # ::: {.notes}
-[]: # 
-[]: # + Notad que en matrices tiene más sentido el doble paréntesis cuadrado `[[ ]]` (debería preferirse []: # para acceder a un elemento por su posición sobre el total)
-[]: # 
-[]: # :::
-[]: # 
-[]: # <!--
-[]: # -   También se pueden extraer filas o columnas enteras
-[]: # -->
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # M2[2,]      # por posición
-[]: # M2[,"feb"]  # por nombre
-[]: # ```
-[]: # 
-[]: # <!--
-[]: # ## Aritmética de Matrices 
-[]: # -->
-[]: # 
-[]: # -   Las operaciones habituales son elemento a elemento: la matrices deben tener las mismas []: # dimensiones (o R repetirá elementos)
-[]: # 
-[]: # 
-[]: # 
-[]: # :::: {.columns}
-[]: # 
-[]: # ::: {.column width="40%"}
-[]: # 
-[]: # 
-[]: # ```{r}
-[]: # matrx + M2
-[]: # matrx * M2
-[]: # ```
-[]: # 
-[]: # ::: 
-[]: # 
-[]: # ::: {.column width="5%"}
-[]: # 
-[]: # :::
-[]: # 
-[]: # ::: {.column width="45%"}
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # matrx - 3
-[]: # matrx * 10 
-[]: # matrx / 2
-[]: # ```
-[]: # 
-[]: # 
-[]: # ```{r}
-[]: # matrx - 3
-[]: # matrx * 10 
-[]: # ```
-[]: # 
-[]: # :::
-[]: # 
-[]: # ::::
-[]: # 
-[]: # 
-[]: # ::: {.notes}
-[]: # 
-[]: # * Como en el caso de vectores, si las dimensiones no son iguales, se repiten elementos
-[]: # 
-[]: # * En las operaciones con escalares , realmente se han "expandido" los escalares a una matriz de []: # dimensiones equivalentes (una matriz con todos los elementos iguales al escalar)
-[]: # 
-[]: # 
-[]: # :::
-[]: # 
-[]: # -   Se pueden hacer todo tipo [operaciones matriciales con
-[]: #     R](http://www.statmethods.net/advstats/matrix.html) como multiplicación matricial, `%*%`, []: # transponer, `t(M1)`, invertir, `solve(A)`, etc.
-[]: # 
-[]: # -   También existen funciones para matrices: `diag()`, `rowSums()`, `colMeans()`, etc.
-[]: # 
-[]: # <!--
-[]: # ## Funciones para Matrices
-[]: # 
-[]: # * Para crear la matriz identidad de dimensiones $n\times n$
-[]: # ```{r}
-[]: # #| eval: false
-[]: # #| echo: false
-[]: # diag(n)     
-[]: # ```
-[]: # 
-[]: # * Para crear un matriz con los elementos del vector `vec` en la diagonal
-[]: # ```{r}
-[]: # #| eval: false
-[]: # #| echo: false
-[]: # diag(vec)   
-[]: # ```
-[]: # 
-[]: # -   Se pueden calcular sumas o medias de las filas o columnas de una
-[]: #     matriz
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # rowSums(M2)
-[]: # colMeans(M2)
-[]: # ```
-[]: # 
-[]: # ::: {.notes}
-[]: # 
-[]: # * Notar que `mean(matrx)` calcula la media de *todos* los elementos de la matriz (como si fuera un []: # vector)
-[]: # 
-[]: # 
-[]: # -   También, se puede operar con un subconjunto de la matriz (que puede
-[]: #     ser otra matriz o un vector)
-[]: # 
-[]: # ```{r}
-[]: # #| echo: false
-[]: # #| eval: false
-[]: # colSums(M2[1:2,2:3])
-[]: # mean(M2[3,2:3])
-[]: # ```
-[]: # 
-[]: # :::
-[]: # -->
-[]: # 
-[]: # <!--
-[]: # ## "Arrays"
-[]: # 
-[]: # * Un "Array" es un vector de "n" dimensiones. Se crea con la función `array`
-[]: # ```{r}
-[]: # x <- array(c(1:8), dim =c(2,2,2) )
-[]: # x
-[]: # ```
-[]: # 
-[]: # * Se puede acceder a los elementos con paréntesis cuadrados
-[]: # ```{r}
-[]: # x[2,1,2]
-[]: # x[,,1]
-[]: # ```
-[]: # 
-[]: # * Los nombres de todas las dimensiones de un "array" (includas matrices) se manejan con la función []: # `dimnames`, además de al crearlos.
-[]: # 
-[]: #     + Es un tipo de objetos nuevos conocidos como listas.
-[]: # -->
+**Matrices**
 
+-   Las matrices son una extensión de vectores a dos dimensiones. 
+
+- Se pueden crear con `matrix(), a partir de un vector con todos los valores,  rellenando por columnas (argumento `byrow = FALSE`) y conocemos su dimensión con `dim()`
+
+```{r}
+#| echo: false
+matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), nrow = 2)
+dim(matrx)
+```
+ 
+-  Se pueden crear con `matrix()` o <!--También se crear -->uniendo vectores filas o vectores []: # nas (de las mismas dimensiones) con `cbind()` y `rbind()`
+ 
+:::: {.columns}
+ 
+::: {.column width="40%"}
+ 
+ 
+```{r}
+r1 <- 1:4
+r2 <- c(4, 8, 5, 10)
+M1 <- rbind(r1, r2)
+```
+ 
+::: 
+ 
+::: {.column width="5%"}
+ 
 :::
+ 
+::: {.column width="45%"}
+ 
+```{r}
+c1 <- 11:12
+c2 <- 25:26
+c3 <- c(14, 25)
+M2 <- cbind(c1, c2, c3)
+```
+ 
+:::
+
+::::
+ 
+- Podemos usarlos para añadir nuevas filas, columnas u otra matriz
+ 
+```{r}
+#| echo: false
+
+M1 <- cbind(matrx, c(90,95))          
+M2 <- rbind(matrx, c(40, -20, 25))    
+
+A <- cbind(c(40,30), c(70, 75))
+cbind(M1, A)
+
+B <- cbind(c(40, 2), c(-20, 1), c(25, 1))
+rbind(matrx, B)
+```
+ 
+- Si no tienen dimensiones compatibles, R repetirá (como ya vimos en aritmética de vectores)
+ 
+ `M1 <- cbind(matrx, c(90,95))`
+ 
+ `M2 <- rbind(matrx, c(40, -20, 25))`
+ 
+ 
+ `A <- cbind(c(40,30), c(70, 75))`
+ 
+ `cbind(M1, A)`
+ 
+ 
+ `B <- cbind(c(40, 2), c(-20, 1), c(25, 1))`
+ 
+ `rbind(matrx, B)`
+ 
+  -   Podemos dar nombres a columnas y filas 
+
+```{r}
+colnames(M2) <- c("ene", "feb", "mar")
+rownames(M2) <- c("gast", "ingr")
+```
+ 
+ 
+**Podemos dar nombres a columnas y filas**
+ 
+```{r}
+#| echo: false
+colnames(M2) <- c("ene", "feb", "mar")
+rownames(M2) <- c("gast", "ingr")
+```
+ 
+-   Notad que NO podemos usar la función `names()` vista anteriormente
+     porque solo aplica a vectores
+ 
+-  También se puede especificar los nombres al crear con matrix con argumento `dimnames`
+ 
+ `meses <- c("ene", "feb", "mar")`
+ 
+ `matrx <- matrix(data = c(100, 60, 55, 75, 110, 85), `
+ 
+ `           nrow = 2,dimnames=list(c("gast", "ingr"), meses))`
+
+ -   Usamos los paréntesis cuadrados para acceder a los elementos (o una sub-matriz) por posición,  nombre o condición lógica
+ 
+ 
+```{r}
+#| echo: false
+M2[4]   # posición total
+M2[[4]] 
+```
+ 
+ 
+```{r}
+#| echo: false
+M2[1,3]                 
+M2["ingr", "ene"]      
+M2[c(1:2),c(1,3)]
+```
+ 
+ 
+:::: {.columns}
+ 
+::: {.column width="40%"}
+ 
+ 
+```{r}
+M2[1,3]                 
+M2["ingr", "ene"]      
+M2[c(1:2),c(1,3)]
+```
+ 
+::: 
+ 
+::: {.column width="5%"}
+ 
+:::
+ 
+::: {.column width="45%"}
+ 
+```{r}
+M2[2,]      # fila entera
+M2[,"feb"]  # columna entera
+
+```
+ 
+:::
+ 
+::::
+ 
+ 
++ Notad que en matrices tiene más sentido el doble paréntesis cuadrado `[[ ]]` (debería preferirse  para acceder a un elemento por su posición sobre el total)
+ 
+-   También se pueden extraer filas o columnas enteras
+
+ 
+```{r}
+#| echo: false
+M2[2,]      # por posición
+M2[,"feb"]  # por nombre
+```
+ 
+**Aritmética de Matrices**
+ 
+-   Las operaciones habituales son elemento a elemento: la matrices deben tener las mismas []: # siones (o R repetirá elementos)
+ 
+ 
+:::: {.columns}
+
+::: {.column width="40%"}
+ 
+```{r}
+matrx + M2
+matrx * M2
+```
+ 
+::: 
+ 
+::: {.column width="5%"}
+ 
+:::
+ 
+::: {.column width="45%"}
+ 
+```{r}
+#| echo: false
+matrx - 3
+matrx * 10 
+matrx / 2
+```
+ 
+ 
+```{r}
+matrx - 3
+matrx * 10 
+```
+ 
+:::
+ 
+::::
+ 
+ 
+* Como en el caso de vectores, si las dimensiones no son iguales, se repiten elementos
+ 
+* En las operaciones con escalares , realmente se han "expandido" los escalares a una matriz de []: ensiones equivalentes (una matriz con todos los elementos iguales al escalar)
+ 
+ 
+-   Se pueden hacer todo tipo [operaciones matriciales con
+     R](http://www.statmethods.net/advstats/matrix.html) como multiplicación matricial, `%*%`, []: # poner, `t(M1)`, invertir, `solve(A)`, etc.
+ 
+-   También existen funciones para matrices: `diag()`, `rowSums()`, `colMeans()`, etc.
+ 
+
+**Funciones para Matrices**
+ 
+* Para crear la matriz identidad de dimensiones $n\times n$
+```{r}
+
+#| echo: false
+diag(n)     
+```
+ 
+* Para crear un matriz con los elementos del vector `vec` en la diagonal
+```{r}
+
+#| echo: false
+diag(vec)   
+```
+ 
+-   Se pueden calcular sumas o medias de las filas o columnas de una
+     matriz
+ 
+```{r}
+#| echo: false
+rowSums(M2)
+colMeans(M2)
+```
+ 
+* Notar que `mean(matrx)` calcula la media de *todos* los elementos de la matriz (como si fuera un  vector)
+ 
+-   También, se puede operar con un subconjunto de la matriz (que puede
+     ser otra matriz o un vector)
+ 
+```{r}
+#| echo: false
+
+colSums(M2[1:2,2:3])
+mean(M2[3,2:3])
+```
+ 
+
+**"Arrays"**
+ 
+* Un "Array" es un vector de "n" dimensiones. Se crea con la función `array`
+```{r}
+x <- array(c(1:8), dim =c(2,2,2) )
+x
+```
+ 
+* Se puede acceder a los elementos con paréntesis cuadrados
+```{r}
+x[2,1,2]
+x[,,1]
+```
+ 
+* Los nombres de todas las dimensiones de un "array" (includas matrices) se manejan con la función  `dimnames`, además de al crearlos.
+ 
+     + Es un tipo de objetos nuevos conocidos como listas.
+
+::::
 
 
 ## "Data Frames"
@@ -2073,7 +2041,7 @@ summary(factor_satisfaccion)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 altura <- c(177, 178, 168, 164, 186, 162, 160)
 peso   <- c(75, 85, 70, 60, 80, 65, 54)
 genero_f <- factor(c(1,2,2,2,1,1,2), 
@@ -2084,7 +2052,6 @@ class(datos)
 
 
 ```{r}
-#| echo: true
 altura <- c(177, 178, 168, 164, 186, 162, 160)
 peso   <- c(75, 85, 70, 60, 80, 65, 54)
 genero   <- c(2, 1, 2, 2, 2, 1, 1)
@@ -2135,7 +2102,7 @@ datos <- as.data.frame(mat)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 View(datos)
 ```
 
@@ -2155,7 +2122,7 @@ tail(datos, n=3)  # últimas 3 observaciones
 -   Funciones para conocer las dimensiones de distintos objetos en R
 
 ```{r}
-#| eval: false
+
 
 length(x) # en matrices: total de elementos
           # en listas/data.frame: número de listas/variables
@@ -2167,7 +2134,7 @@ ncol(data.frame) #     pero no vectores o listas
 -   Y también los nombres
 
 ```{r}
-#| eval: false
+
 
 dimnames(data.frame)   # también matrices
 colnames(data.frame)   # idem
@@ -2209,7 +2176,7 @@ datos[[2]] == datos[["Peso"]]
 
 ```{r}
 #| echo: false
-#| eval: false
+
 vectAltura <- datos$Altura    # objeto resultante = vector
 datos[[2]] == datos[["Peso"]]
 ```
@@ -2275,7 +2242,7 @@ datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres
 
 ```{r}
 #| echo: false
-#| eval: false
+
 datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres        
 datos1 <- datos[datos$Genero == "Hombre", c("Altura", "Peso")] 
 
@@ -2292,7 +2259,7 @@ datos$Altura_m <- datos$Altura / 100
 
 ```{r}
 #| echo: false
-#| eval: false
+
 datos$IMC <- datos$Peso / datos$Altura_m^2
 ```
 
@@ -2337,7 +2304,7 @@ datos <- within(datos, {
 
 ```{r}
 #| echo: false
-#| eval: false
+
 search()           # (ver también en RStudio)
 head(age)          # no se encuentra
 head(Affairs$age)
@@ -2352,7 +2319,7 @@ head(age)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 detach(Affairs)
 ```
 
@@ -2365,7 +2332,7 @@ detach(Affairs)
 
 ```{r}
 #| echo: false
-#| eval: false
+
 pos <- order(datos$Altura)
 datos[pos,]
 ```
@@ -2429,7 +2396,7 @@ miLista <- list(saludo="hola", vec=x, lista=list(1:4, "X"),
 <!-- -   Con `[]` extraemos elementos por posición o por nombre, como listas -->
 
 <!-- ```{r} -->
-<!-- #| eval: false -->
+<!--  -->
 <!-- class(miLista["vec"]) -->
 <!-- miLista[2] + 2     # operación incompatible entre clases -->
 <!-- ``` -->
@@ -2479,7 +2446,7 @@ miLista[[2]] + 3
 
 ```{r}
 #| echo: false
-#| eval: false
+
 miLista[[2]][2]
 
 miLista[2][2]   # lista de longitud 1
@@ -2508,8 +2475,6 @@ miLista[2][2]   # lista de longitud 1
 
 
 ```{r}
-#| echo: true
-#| eval: false
 install.packages("AER")
 ```
 
@@ -2539,7 +2504,7 @@ library(AER)
     
 ```{r}
 #| echo: false
-#| eval: false
+
 search()
 library(AER)
 search()
@@ -2549,7 +2514,6 @@ search()
 
 ```{r}
 #| echo: false
-#| eval: false
 library(help=utils)      # Ayuda para una biblioteca concreta
 ```
 
@@ -2604,7 +2568,6 @@ find("units")
 
 ```{r}
 #| echo: false
-#| eval: false
 find("units")
 library(Hmisc)
 find("units")
@@ -2618,7 +2581,6 @@ find("units")
 -   Para mostrar todos los datos de las bibliotecas cargadas
 
 ```{r}
-#| eval: false
 data()
 ```
 
@@ -2635,7 +2597,6 @@ help("Affairs")
 -   Guardamos objetos del espacio de trabajo con `save()` (en una ruta relativa al directorio de trabajo)
 
 ```{r}
-#| eval: false
 x <- 1:20
 y <- 2 * x ^ 2 + 1
 save(x, file="x.RData")      # un objeto, o varios
@@ -2658,7 +2619,7 @@ save(x, y, file="data/xy.RData")  #   separados por comas
 rm( list=ls() )
 ```
 
-```{r eval=FALSE, echo=T}
+```{r}
 load("data/xy.RData")
 ```
 
@@ -2676,7 +2637,6 @@ load("data/xy.RData")
 
 ```{r}
 #| echo: false
-#| eval: false
 unlink("xy.RData")
 ```
 :::
@@ -2758,7 +2718,6 @@ datos <- read.table("data/sex_data.csv", header=T, sep =",")
 
 ```{r}
 #| echo: false
-#| eval: false
 sexdata <- read.table("data/sex_data.csv",
                       header=F, sep=",",
                       col.names = c("valor", "fecha", "otra", as.character(4:25)),
@@ -2767,7 +2726,6 @@ sexdata <- read.table("data/sex_data.csv",
 
 ```{r}
 #| echo: false
-#| eval: false
 sexdata <- read.table("data/sex_data.csv", 
                       header=F, sep=",",   
                       col.names = c("valor", "fecha", "otra", as.character(4:25)), 
@@ -2810,7 +2768,6 @@ datos <- read_csv(file = "data/sex_data.csv")
 
 ```{r}
 #| echo: false
-#| eval: false
 nombres <- c("area", "temperatura", "tamaño", "almacenaje", "método",
                 "textura", "sabor", "humedad")
 arch <- "data/potatoes.csv"
@@ -2819,7 +2776,6 @@ patatas <- read_csv(arch, col_names = nombres, skip = 1,  n_max = 15)
 
 ```{r}
 #| echo: false
-#| eval: false
 arch <- file.path("data", "sex_data.csv")
 ```
 
@@ -2827,7 +2783,6 @@ arch <- file.path("data", "sex_data.csv")
 
 ```{r}
 #| echo: false
-#| eval: false
 perritos <- read_delim("data/hotdogs.txt", delim = "\t",
                            col_names = c("tipo", "calorias", "sodio"),
                            col_types = "fii")
@@ -2846,7 +2801,6 @@ list(fac, int, int)
 <!--
 ```{r}
 #| echo: false
-#| eval: false
 x <- read_fwf(file="data/renta.txt", skip = 1, 
               fwf_cols(edad = 3, genero = 7, renta = 10, educacion = 9 )
               )
@@ -2877,7 +2831,6 @@ sink(file= , split=TRUE)
 -   Incluye funciones tanto para leer el archivo como para conocer información sobre él (ej., nombres de las hojas) y leerlos
 
 ```{r}
-#| eval: false
 #| echo: false
 library(readxl)
 excel_sheets("data/urbanpop.xlsx")                   # nombres de las hojas
@@ -2886,7 +2839,6 @@ pop_2 <- read_excel("data/urbanpop.xlsx", sheet = "1975-2011")
 ```
 
 ```{r}
-#| eval: false
 library(readxl)
 excel_sheets("data/beauty.xls")       # nombres de las hojas
 dat_1 <- read_excel("data/beauty.xls", sheet = 1)
@@ -2901,7 +2853,6 @@ dat_2 <- read_excel("data/beauty.xls", sheet = "beauty")
     representa missing si no es celda en blanco, etc
 
 ```{r}
-#| eval: false
 #| echo: false
 urbanpop_sel <- read_excel("data/urbanpop.xlsx", sheet = 2, 
                            col_names = FALSE, skip = 21)
@@ -3016,7 +2967,7 @@ export(nsw, "data/nsw.csv")
 -   Usando en ![](figure/ImportDataset.jpg){width="10%"} para importar formatos de SAS,
     STATA y SPSS
 
-```{r eval=FALSE, echo=T}
+```{r}
 library(haven)
 sales <- read_sas("./data/sales.sas7bdat")  # no convierte caracteres a factores
 ```
@@ -3025,7 +2976,7 @@ sales <- read_sas("./data/sales.sas7bdat")  # no convierte caracteres a factores
 
 -   Es conveniente convertir a una estructura propia de R como factores
 
-```{r eval=FALSE, echo=T}
+```{r}
 sugar <- read_stata("./data/trade.dta")        # read_dta() es lo mismo
 sugar$Date <- as.Date(as_factor(sugar$Date))
 
@@ -3047,7 +2998,7 @@ work$GENDER <- as_factor(work$GENDER)
 -   Entre otras opciones para .dta: `convert.dates`, `convert.factors`,
     `missing.type`, etc.
 
-```{r eval=FALSE, echo=T}
+```{r}
 library(foreign)
 read.dta("./data/nsw.dta", convert.factors=F)
 ```
@@ -3055,7 +3006,7 @@ read.dta("./data/nsw.dta", convert.factors=F)
 -   Para .sav, la opción `use.value.labels` establece si las variables
     con etiquetas en SPSS se convierten a factores
 
-```{r eval=FALSE, echo=T}
+```{r}
 earn <- read.spss("data/earnings_data.sav",
                   to.data.frame=TRUE, use.value.labels=FALSE)
 ```
@@ -3134,7 +3085,7 @@ download.file(url_rdata, destfile = "wine_local.RData")
 
     -   `quantmod`
 
-```{r eval=FALSE, echo=T}
+```{r}
 library(quantmod)
 help(quantmod)
 help(getSymbols)
@@ -3157,7 +3108,7 @@ help(getSymbols)
 
 2.  Averiguamos el "symbol" o nombre interno de la variable
 
-```{r eval=FALSE, echo=T}
+```{r}
 getSymbols("FPCPITOTLZGESP",src='FRED')
 plot(FPCPITOTLZGESP)
 
@@ -3174,7 +3125,7 @@ plot(FPCPITOTLZGESP[1:20,])
 -   Averiguamos el símbolo de una acción: ej., "Telefonica, Equity -
     NYQ"
 
-```{r eval=FALSE, echo=T}
+```{r}
 getSymbols('TEF',src='yahoo')
 dim(TEF)
 plot(TEF$TEF.Close)
@@ -3182,13 +3133,14 @@ plot(TEF$TEF.Close)
 
 -   Incluye funciones específicas de análisis, p.e., gráficos
 
-```{r eval=FALSE, echo=T}
+```{r}
 candleChart(TEF[-(1:3650),], up.col = "black", dn.col = "red",
             theme = "white")
 
 ```
 
-```{r eval=FALSE, echo=F}
+```{r}
+#| echo: false
 getSymbols('^IBEX',src='yahoo')
 candleChart(IBEX[1:20,], up.col = "black", dn.col = "red", theme = "white")
 
@@ -3201,7 +3153,7 @@ candleChart(IBEX[-(1:3150),], up.col = "black", dn.col = "red", theme = "white")
 
 * Conviene renombrar las variables para que sean más descriptivas
 
-```{r eval=FALSE, echo=T}
+```{r}
 getSymbols('MKTGDPESA646NWDB',
            src='FRED')        #  Gross Domestic Product for Spain
                               # Current U.S. Dollars, Annual, Not Seasonally Adjusted
@@ -3212,13 +3164,13 @@ gdp <- MKTGDPESA646NWDB       # rm(FPCPITOTLZGESP, MKTGDPESA646NWDB)
 
 * Podemos hacer estadísticas descriptivas
 
-```{r eval=FALSE, echo=T}
+```{r}
 cor(inf, gdp)
 ```
 
 * Cuidado con NAs y que las longitudes de los vectores sean iguales
 
-```{r eval=FALSE, echo=T}
+```{r}
 dim(inf)
 dim(gdp)
 cor(inf[1:56,], gdp[1:56,])
@@ -3226,8 +3178,8 @@ cor(inf[1:56,], gdp[1:56,])
 plot(as.numeric(inf), as.numeric(gdp))
 ```
 
-```{r eval=FALSE, echo=F}
-
+```{r}
+#| echo: false
 
 # tidyquant: https://github.com/business-science/tidyquant  ver video.
 
@@ -3309,7 +3261,6 @@ plot(x,y)
 
 ::: {.notes}
 ```{r}
-#| eval: false
 #| echo: false
 plot(sin, -pi, 2*pi)
 plot(log, 1, 10)
@@ -3323,7 +3274,6 @@ plot(a)    # a frente a un índice
 - Podemos cambiar opciones (ver Ayuda de `plot.default`) como *type* (puntos, líneas, etc.), símbolo de punto (*pch*), tipo de línea (*lty*), ancho de línea (*lwd*), color (*col*), título, etiquetas de los ejes, etc.
 
 ```{r}
-#| eval: false
 plot(x, y, type="b", pch=3)
 plot(x, y, type="l", lty=2, lwd=2)
 plot(x, y, xlab="Eje X", ylab="Eje Y", main="Mi título")
@@ -3356,7 +3306,6 @@ arrows(6.5,6,7,5)
 ```
 
 ```{r}
-#| eval: false
 #| echo: false
 plot(x,y)
 points(7,5)                   
@@ -3371,7 +3320,6 @@ arrows(6.5,6,7,5)
 - También se pueden tener gráficos supuestos con `matplot()`: representa una variable (eje x) frente a las columnas de una matriz (eje y)
 
 ```{r}
-#| eval: false
 #| echo: false
 year <- 2011:2015
 producto1 <- c(12, 15, 14, 16, 17)
@@ -3386,7 +3334,6 @@ matplot(year, ventas, type="b", lwd = c(1, 2, 3))
 
 ```{r}
 #| echo: false
-#| eval: false
 # en el gráfico anterior de distribuciones
 legend(position="topright", 
         legend=c("sigma==1", "sigma==2", "sigma==3"),
@@ -3590,7 +3537,8 @@ cor(ceosal1$salary, ceosal1$roe)  # correlación
 <!--
 * ¿Cómo obtendríamos la moda? Tu respuesta [aquí](https://docs.google.com/forms/d/e/1FAIpQLSc2dYxHSuTLF-aGuVkusM3UevEKkCu6Iky2HC7aL6wkcP3r0g/viewform)
 
-```{r eval=FALSE, echo=F}
+```{r}
+#| echo: false
 # Pensamiento algoritmico
 # 2. moda(x) = valor más frecuente de la distribución de x
 # 3-4.
@@ -3611,7 +3559,8 @@ cor(ceosal1$salary, ceosal1$roe)  # correlación
 #
 # 6. tabla[tabla==max(tabla)]
 
-```{r eval=FALSE, echo=F}
+```{r}
+#| echo: false
 # https://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode
 Mode <- function(x) {
   ux <- unique(x)
@@ -3648,7 +3597,6 @@ plot(density(ceosal1$roe))
 
 ```{r}
 #| echo: false
-#| eval: false
 hist(ceosal1$roe, breaks=c(0,5,10,20,30,60) )
 lines(density(ceosal1$roe))
 ```
@@ -4067,7 +4015,6 @@ Affairs$univers <- ifelse(Affairs$education>15, 1, 0)
 :::{.notes}
 ```{r}
 #| echo: false
-#| eval: false
 if (p<=0.05) {
   decision <- "Rechazar H0"
 } else {
