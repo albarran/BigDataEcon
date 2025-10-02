@@ -4,7 +4,7 @@ lang: es
 strip-comments: true
 ---
 
-####  A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:::
+####  A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:
 
 
 * Tema 0:
