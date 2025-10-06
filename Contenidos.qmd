@@ -85,8 +85,8 @@ strip-comments: true
 ## Semana 5
 (06-Oct. a 12-Oct.)
 
-  * [Tema 04 - Introducción a Quarto](docs/Tema03.qmd)
-  * [Tema 04 - Ejercicio](docs/Tema03ej.qmd)
+  * [Tema 03 - Introducción a Quarto](docs/Tema03.qmd)
+  * [Tema 03 - Ejercicio](docs/Tema03ej.qmd)
     - Fecha límite de entrega: **dom., 19-oct., 23:59h**
 
 ## Semana 4
