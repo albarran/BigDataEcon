@@ -66,97 +66,88 @@ library(rmarkdown)
 
 ```{r generar-datos}
 #| echo: false
+#| eval: true
 
-# Crear directorio para datos
+library(tidyverse)
+
 if (!dir.exists("data")) dir.create("data")
-
 set.seed(2024)
 
 # ========================================
-# DATASET: CATEGORÍAS
-# ========================================
-categorias <- data.frame(
-  id_categoria = 1:8,
-  nombre_categoria = c("Electrónica", "Ropa", "Hogar", "Deportes", 
-                       "Alimentación", "Juguetes", "Libros", "Belleza"),
-  margen_promedio = c(0.25, 0.45, 0.35, 0.40, 0.15, 0.35, 0.30, 0.50)
-)
-
-# ========================================
-# DATASET: PRODUCTOS
+# PRODUCTOS (sin tabla de categorías)
 # ========================================
 productos <- data.frame(
   id_producto = 1:150,
   nombre_producto = paste0("Producto_", sprintf("%03d", 1:150)),
-  id_categoria = sample(1:8, 150, replace = TRUE),
+  categoria = sample(c("Electrónica", "Ropa", "Hogar", "Deportes", 
+                       "Alimentación", "Juguetes", "Libros", "Belleza"),
+                     150, replace = TRUE),
   precio = round(runif(150, 10, 500), 2),
-  costo = round(runif(150, 5, 400), 2)
+  costo = round(runif(150, 5, 400), 2),
+  activo = sample(c(TRUE, FALSE), 150, replace = TRUE, prob = c(0.9, 0.1))
 ) %>%
-  mutate(
-    precio = ifelse(precio < costo, costo * 1.2, precio),
-    activo = sample(c(TRUE, FALSE), 150, replace = TRUE, prob = c(0.9, 0.1))
-  )
+  mutate(precio = ifelse(precio < costo, costo * 1.2, precio))
 
 # ========================================
-# DATASET: TIENDAS
+# TIENDAS
 # ========================================
 tiendas <- data.frame(
   id_tienda = 1:12,
+  codigo_tienda = paste0("T", sprintf("%03d", 1:12)),
   nombre_tienda = c("Madrid Centro", "Barcelona Diagonal", "Valencia Puerto",
                     "Sevilla Este", "Bilbao Centro", "Málaga Costa",
                     "Zaragoza Plaza", "Alicante Playa", "Valladolid Norte",
                     "Vigo Mar", "Gijón Centro", "Murcia Sur"),
   region = c("Centro", "Nordeste", "Levante", "Sur", "Norte", "Sur",
-             "Centro", "Levante", "Norte", "Noroeste", "Norte", "Levante"),
-  tamaño_m2 = c(800, 1200, 600, 750, 900, 650, 700, 850, 500, 550, 600, 700),
-  fecha_apertura = as.Date(c("2015-01-15", "2014-06-20", "2016-03-10",
-                             "2015-09-05", "2017-02-14", "2016-11-22",
-                             "2018-04-03", "2017-08-17", "2019-01-25",
-                             "2018-10-09", "2019-05-30", "2020-02-18"))
+             "Centro", "Levante", "Norte", "Noroeste", "Norte", "Levante")
 )
 
 # ========================================
-# DATASET: EMPLEADOS
+# EMPLEADOS
 # ========================================
 empleados <- data.frame(
-  id_empleado = 1:85,
-  nombre = paste0("Empleado_", 1:85),
-  id_tienda = sample(1:12, 85, replace = TRUE),
+  id_empleado = 1:100,
+  nombre = paste0("Empleado_", 1:100),
+  id_tienda = c(sample(1:12, 85, replace = TRUE), rep(NA, 15)),
   puesto = sample(c("Vendedor", "Supervisor", "Gerente", "Almacén"),
-                  85, replace = TRUE, prob = c(0.6, 0.2, 0.1, 0.1)),
-  fecha_contratacion = sample(seq(as.Date("2015-01-01"), 
-                                  as.Date("2023-12-31"), by = "day"),
-                              85, replace = TRUE)) %>%
-  mutate(
-    salario_mensual = case_when(
-      puesto == "Vendedor" ~ round(rnorm(85, 1400, 200), 0),
-      puesto == "Supervisor" ~ round(rnorm(85, 2000, 300), 0),
-      puesto == "Gerente" ~ round(rnorm(85, 3000, 400), 0),
-      puesto == "Almacén" ~ round(rnorm(85, 1300, 150), 0)),
-    salario_mensual = pmax(salario_mensual, 1100)
-  )
+                  100, replace = TRUE, prob = c(0.6, 0.2, 0.1, 0.1)),
+  salario_mensual = round(rnorm(100, 1800, 400), 0)
+) %>%
+  mutate(salario_mensual = pmax(salario_mensual, 1100))
 
 # ========================================
-# DATASET: CLIENTES
+# CLIENTES
 # ========================================
 clientes <- data.frame(
   id_cliente = 1:2500,
   email = paste0("cliente", 1:2500, "@email.com"),
-  fecha_registro = sample(seq(as.Date("2015-01-01"), 
-                              as.Date("2024-01-31"), by = "day"),
-                          2500, replace = TRUE),
-  codigo_postal = sample(c("28001", "08001", "46001", "41001", "48001",
-                           "29001", "50001", "03001", "47001", "36001",
-                           "33001", "30001"), 2500, replace = TRUE),
   programa_fidelidad = sample(c("Básico", "Silver", "Gold", "Platinum", NA),
                               2500, replace = TRUE, 
                               prob = c(0.4, 0.25, 0.15, 0.05, 0.15))
 )
 
 # ========================================
-# DATASET: VENTAS (Principal - ~5000 registros)
+# COMISIONES_EMPLEADO 
+# CLAVE COMPUESTA: codigo_tienda + puesto
+# (nombre diferente: codigo_tienda en vez de id_tienda)
 # ========================================
-# Generar fechas con mayor concentración en años recientes
+comisiones_empleado <- expand.grid(
+  codigo_tienda = paste0("T", sprintf("%03d", 1:12)),
+  puesto = c("Vendedor", "Supervisor", "Gerente", "Almacén")
+) %>%
+  mutate(
+    comision_porcentaje = case_when(
+      puesto == "Vendedor" & codigo_tienda %in% c("T001", "T002") ~ 3.0,
+      puesto == "Vendedor" ~ 2.5,
+      puesto == "Supervisor" ~ 1.5,
+      puesto == "Gerente" ~ 1.0,
+      TRUE ~ 0.5
+    )
+  )
+
+# ========================================
+# VENTAS (tabla central)
+# ========================================
 fechas_ventas <- c(
   sample(seq(as.Date("2020-01-01"), as.Date("2021-12-31"), by = "day"),
          1000, replace = TRUE),
@@ -174,7 +165,7 @@ ventas <- data.frame(
   id_cliente = sample(clientes$id_cliente, 5000, replace = TRUE),
   id_producto = sample(productos$id_producto, 5000, replace = TRUE),
   id_tienda = sample(tiendas$id_tienda, 5000, replace = TRUE),
-  id_empleado = sample(empleados$id_empleado, 5000, replace = TRUE),
+  id_empleado = sample(empleados$id_empleado[1:85], 5000, replace = TRUE),
   cantidad = sample(1:5, 5000, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.07, 0.03)),
   descuento_porcentaje = sample(c(0, 5, 10, 15, 20, 25),
                                 5000, replace = TRUE,
@@ -194,19 +185,8 @@ ventas <- data.frame(
   select(-precio)
 
 # ========================================
-# DATASET: EJEMPLO VENTAS_ANCHO
+# DEVOLUCIONES
 # ========================================
-ventas_ancho <- tibble(
-  tienda = c("Madrid", "Barcelona", "Valencia"),
-  Q1 = c(145, 152, 138),
-  Q2 = c(158, 164, 151),
-  Q3 = c(151, 156, 149),
-  Q4 = c(169, 175, 162)
-)
-# ========================================
-# DATASET: DEVOLUCIONES
-# ========================================
-# Aproximadamente 5% de ventas tienen devolución
 ventas_con_devolucion <- sample(ventas$id_venta, 
                                 round(nrow(ventas) * 0.05), 
                                 replace = FALSE)
@@ -226,6 +206,17 @@ devoluciones <- ventas %>%
   ) %>%
   select(id_devolucion, id_venta, fecha_devolucion, motivo, 
          cantidad_devuelta, reembolso, procesado)
+
+# ========================================
+# VENTAS_ANCHO (para pivoting)
+# ========================================
+ventas_ancho <- tibble(
+  tienda = c("Madrid", "Barcelona", "Valencia"),
+  Q1 = c(145, 152, 138),
+  Q2 = c(158, 164, 151),
+  Q3 = c(151, 156, 149),
+  Q4 = c(169, 175, 162)
+)
 
 # ========================================
 # INFORMACIÓN DE VARIABLES
@@ -259,67 +250,59 @@ ventas_info <- data.frame(
 )
 
 productos_info <- data.frame(
-  variable = c("id_producto", "nombre_producto", "id_categoria", 
-               "precio", "costo", "activo"),
+  variable = c("id_producto", "nombre_producto", "categoria", "precio", "costo", "activo"),
   descripcion = c(
     "Identificador único del producto",
     "Nombre descriptivo del producto",
-    "Identificador de la categoría a la que pertenece",
+    "Categoría del producto",
     "Precio de venta al público en euros",
     "Costo de adquisición/producción en euros",
     "Indica si el producto está activo en catálogo (TRUE/FALSE)"
   ),
-  tipo = c("Entero", "Carácter", "Entero", "Numérica", "Numérica", "Lógico")
+  tipo = c("Entero", "Carácter", "Carácter", "Numérica", "Numérica", "Lógico")
 )
 
 clientes_info <- data.frame(
-  variable = c("id_cliente", "email", "fecha_registro", 
-               "codigo_postal", "programa_fidelidad"),
+  variable = c("id_cliente", "email", "programa_fidelidad"),
   descripcion = c(
     "Identificador único del cliente",
     "Dirección de correo electrónico del cliente",
-    "Fecha de registro en el sistema",
-    "Código postal de residencia del cliente",
     "Nivel en el programa de fidelidad (Básico/Silver/Gold/Platinum/NA)"
   ),
-  tipo = c("Entero", "Carácter", "Fecha", "Carácter", "Factor")
+  tipo = c("Entero", "Carácter", "Factor")
 )
 
 empleados_info <- data.frame(
-  variable = c("id_empleado", "nombre", "id_tienda", "puesto",
-               "fecha_contratacion", "salario_mensual"),
+  variable = c("id_empleado", "nombre", "id_tienda", "puesto", "salario_mensual"),
   descripcion = c(
     "Identificador único del empleado",
     "Nombre del empleado",
-    "Identificador de la tienda donde trabaja",
+    "Identificador de la tienda donde trabaja (NA si sin asignar)",
     "Puesto de trabajo (Vendedor/Supervisor/Gerente/Almacén)",
-    "Fecha de contratación del empleado",
     "Salario mensual bruto en euros"
   ),
-  tipo = c("Entero", "Carácter", "Entero", "Factor", "Fecha", "Numérica")
+  tipo = c("Entero", "Carácter", "Entero", "Factor", "Numérica")
 )
 
 tiendas_info <- data.frame(
-  variable = c("id_tienda", "nombre_tienda", "region", "tamaño_m2",
-               "fecha_apertura"),
+  variable = c("id_tienda", "codigo_tienda", "nombre_tienda", "region"),
   descripcion = c(
     "Identificador único de la tienda",
+    "Código alfanumérico de la tienda (formato T001-T012)",
     "Nombre comercial de la tienda",
-    "Región geográfica (Centro/Norte/Sur/Nordeste/Levante/Noroeste)",
-    "Superficie de la tienda en metros cuadrados",
-    "Fecha de apertura de la tienda"
+    "Región geográfica (Centro/Norte/Sur/Nordeste/Levante/Noroeste)"
   ),
-  tipo = c("Entero", "Carácter", "Factor", "Numérica", "Fecha")
+  tipo = c("Entero", "Carácter", "Carácter", "Factor")
 )
 
-categorias_info <- data.frame(
-  variable = c("id_categoria", "nombre_categoria", "margen_promedio"),
+comisiones_empleado_info <- data.frame(
+  variable = c("codigo_tienda", "puesto", "comision_porcentaje"),
   descripcion = c(
-    "Identificador único de la categoría",
-    "Nombre de la categoría de productos",
-    "Margen de beneficio promedio de la categoría (proporción)"
+    "Código de la tienda",
+    "Puesto del empleado",
+    "Porcentaje de comisión por venta"
   ),
-  tipo = c("Entero", "Carácter", "Numérica")
+  tipo = c("Carácter", "Factor", "Numérica")
 )
 
 devoluciones_info <- data.frame(
@@ -339,19 +322,10 @@ devoluciones_info <- data.frame(
 
 # Guardar todos los datasets
 save(ventas, productos, clientes, empleados, tiendas, 
-     categorias, devoluciones, ventas_ancho,
-     ventas_info, productos_info, clientes_info, 
-     empleados_info, tiendas_info, categorias_info, devoluciones_info,
+     comisiones_empleado, devoluciones, ventas_ancho,
+     ventas_info, productos_info, clientes_info, empleados_info, 
+     tiendas_info, comisiones_empleado_info, devoluciones_info,
      file = "data/retail_data.RData")
-
-# Exportar también a CSV para otros usos
-# write_csv(ventas, "data/ventas.csv")
-# write_csv(productos, "data/productos.csv")
-# write_csv(clientes, "data/clientes.csv")
-# write_csv(empleados, "data/empleados.csv")
-# write_csv(tiendas, "data/tiendas.csv")
-# write_csv(categorias, "data/categorias.csv")
-# write_csv(devoluciones, "data/devoluciones.csv")
 ```
 
 # Introducción. Datos Ordenados
@@ -375,16 +349,18 @@ save(ventas, productos, clientes, empleados, tiendas,
 
 - `tidyverse` incluye una colección de bibliotecas con herramientes eficientes para el proceso de "tratamiento de datos" ("data wrangling")
 
-:::: {.notes}
-- En la vida real, los datos se tiene que recolectar, unir, limpiar, recodificar, etc.
+- El objetivo es obtener un conjunto de datos **ordenado** y **limpio** para realizar el análisis eficientemente y obtener información útil para la toma de decisiones
 
-- ofrece herramientas eficientes inspiradas en  declaraciones de consulta **SQL** 
+
+:::: {.notes}
+
+- Ciclo: Recolectar, unir, limpiar, recodificar, etc.
+
+- `tidyverse` ofrece herramientas eficientes inspiradas en  declaraciones de consulta **SQL** 
 
 - basadas en una *gramática de manipulación de datos*
 
 ::::
-
-- El objetivo es obtener un conjunto de datos **ordenado** y **limpio** para realizar el análisis eficientemente y obtener información útil para la toma de decisiones
 
 
 ## Datos ordenados ('tidy data'): Principios fundamentales
@@ -398,10 +374,30 @@ save(ventas, productos, clientes, empleados, tiendas,
 
 ![](figure/tidy-1.png){width=65% fig-align="center"}
 
-* Tenemos información similar y no redundante en una misma tabla 
+- Importante: ¿a qué nivel estamos midiendo la información? ¿qué es una unidad en la tabla?
 
-* Es una forma natural (variable = vector columna) para trabajar con datos <!-- en R y otros lenguajes-->
- 
+  - a nivel de cada compra realizada por un cliente en cada fecha
+  
+  - a nivel de todas las compras realizdas por un cliente, etc.
+
+- Tenemos información similar y no redundante en una misma tabla 
+
+
+:::: {.notes}
+
+
+1. Atributos o características  (cuantitativos o cualitativos) diferentes en columnas diferentes; p.e., nombres de columnas no deben ser valores
+
+  - Variable = vector columna: forma natural para trabajar con datos
+
+2. Mismo nivel de agregación en toda la tabla
+
+3. No mezclar tipos de datos Ni almacenar múltiples valores
+
+  - Una tabla puede completar la información con uniones a tablas adicionales (ej., para variables codificadas)
+
+-  `tidyverse` es eficiente con datos ordenados 
+
 ```{r}
 #| echo: false
 # Para acceder al vector valores de `cases`
@@ -412,35 +408,11 @@ table2$count[c(1,3,5,7,9,11)]  # table2 %>% filter(type == "cases") %>%
 c(table4a$`1999`, table4a$`2000`)
 # crear variables es fácil
 table1 %>% mutate(rate = cases / population * 10000)  
-```
 
-* `tidyverse` es eficiente con datos ordenados 
-
-
-```{r}
-#| echo: false
 # Ej. gráfico temporal
 
 ggplot(table1, aes(x = year, y = cases)) +  
   geom_line(aes(colour = country))
-```
-
-
-:::: {.notes}
-
-
-1. Atributos o características  (cuantitativos o cualitativos) diferentes en columnas diferentes; p.e., nombres de columnas no deben ser valores
-
-2. Mismo nivel de agregación en toda la tabla
-
-3. No mezclar tipos de datos Ni almacenar múltiples valores
-
-  - Una tabla puede completar la información con uniones a tablas adicionales (ej., para variables codificadas)
-
-```{r}
-#| echo: false
-# Ejemplo de datos ORDENADOS
-head(ventas, 3)
 ```
 
 ::::
@@ -567,7 +539,7 @@ load("data/retail_data.RData")
 1.  select()  =  data[, c("name") / pos] 
               =  subset()
 
-2.  filter()  =  data[c("name") / pos, ] 
+2.  filter()  =  data[c("name") / pos / condicion, ] 
               =  subset()
 
 3.  mutate()  = data$newvar <- 
@@ -632,55 +604,37 @@ ventas_mkt <- select(ventas,
 
 - Conserva filas en las que una *condición lógica* (o varias separadas por comas) es verdadera
 
-![](figure/mutate.png){width=70% fig-align="center"}
+![](figure/filter.png){width=70% fig-align="center"}
 
 
 - **Caso de Uso:** Gerente quiere analizar ventas específicas con determinadas características
 
 ```{r}
-ventas_top      <- filter(ventas, total > 100)
+ventas_top      <- filter(ventas, total > 1000)
 
 ventas_ene_2024 <- filter(ventas, año == 2024, mes == 1)
 
 ventas_mad_bcn  <- filter(ventas, id_tienda %in% c(1, 2))
 
 ventas_premium  <- filter(ventas, 
-                     total > 100 & descuento_porcentaje == 0)
+                     total > 1000 & descuento_porcentaje == 0)
 ```
 
 
 
 ```{r}
 #| echo: false
-# Ventas superiores a 100€
-ventas_altas <- ventas %>%
-  filter(total > 100)
-
 # Ventas con descuento
 ventas_con_descuento <- ventas %>%
   filter(descuento_porcentaje > 0)
 
-# Filtro simple: ventas del último mes
-ventas_enero_2024 <- ventas %>%
-  filter(año == 2024, mes == 1)
-
-nrow(ventas_enero_2024)  # ¿Cuántas ventas hubo?
-
-# Ventas en tiendas específicas
-ventas_madrid_bcn <- ventas %>%
-  filter(id_tienda %in% c(1, 2))
-
 # Combinando condiciones: ventas altas sin descuento
 ventas_premium <- ventas %>%
-  filter(total > 100, descuento_porcentaje == 0)
+  filter(total > 1000, descuento_porcentaje == 0)
 
 # Análisis de fin de semana vs días laborables
 ventas_finde <- ventas %>%
   filter(dia_semana %in% c("sábado", "domingo"))
-
-# Ventas problemáticas (alta cantidad + alto descuento)
-ventas_revisar <- ventas %>%
-  filter(cantidad > 3, descuento_porcentaje >= 20)
 
 # Campaña de verano 2023
 ventas_verano_2023 <- ventas %>%
@@ -692,15 +646,15 @@ ventas_verano_2023 <- ventas %>%
 
 ::: {style="font-size: 95%;"}
 
-- Las operaciones encadenadas no son legibles o crean objetos intermedios
+- Las operaciones encadenadas crean objetos intermedios o no son legibles
 
 ```{r}
-ventas_top_markt <- select(filter(ventas, total > 100),
-                      fecha, id_cliente, id_producto, total)
-
-ventas_top        <- filter(ventas, total > 100)
+ventas_top        <- filter(ventas, total > 1000)
 ventas_top_markt  <- select(ventas_top, 
                        fecha, id_cliente, id_producto, total)
+
+ventas_top_markt <- select(filter(ventas, total > 1000),
+                      fecha, id_cliente, id_producto, total)
 ```
 
 :::
@@ -719,7 +673,7 @@ ventas_top_markt  <- select(ventas_top,
 
 ```{r}
 ventas_top_markt <- ventas |>                   
-                     filter(total > 100) |>     
+                     filter(total > 1000) |>     
                      select(fecha, id_cliente, id_producto, total)
 ```
 
@@ -734,13 +688,31 @@ ventas_top_markt <- ventas |>
 
 - Legible, fácil anidar operaciones: siempre toman y devuelve un *data frame*
 
+```{r}
+#| echo: false
+
+# estas dos son equivalentes
+filter(ventas, total > 100)
+ventas |> filter(total > 100)
+
+# y estas
+select(ventas_top, 
+       fecha, id_cliente, id_producto, total)
+ventas_top |> select(fecha, id_cliente, id_producto, total)
+
+# sustituimos ventas_top
+filter(ventas, total > 100) |> select(fecha, id_cliente, id_producto, total)
+
+# y reemplazamos
+ventas |> filter(total > 100) |> select(fecha, id_cliente, id_producto, total)
+```
 
 
 - `ggplot2` `+` en lugar de `%>%` (desarrollado antes)
 
-* Atajo de teclado: `Cmd / Ctrl + Mays + M `
+- Atajo de teclado: `Cmd / Ctrl + Mays + M `
 
-* También existe una tubería en R base: `|>`
+- También existe una tubería en R base: `|>`
 
 ::::
 
@@ -819,7 +791,7 @@ ventas_tiempo <- ventas |>
     fecha_completa = as.Date(fecha),  # tipo de objeto "fecha"
     semana_año = week(fecha),
     nombre_mes = month(fecha, label = TRUE),
-    dias_desde_venta = as.numeric(Sys.Date() - fecha)
+    dias_desde_venta = Sys.Date() - fecha
   )
 ```
 
@@ -852,7 +824,7 @@ ventas |>
 ```{r}
 ventas |>
   arrange(id_tienda, desc(total)) |>
-  select(id_tienda, id_venta, total) |> head(10)
+  select(id_tienda, id_venta, total)
 ```
 
 :::: {.notes}
@@ -876,7 +848,7 @@ ventas |>
 - *Caso de Uso:* KPIs para el dashboard ejecutivo
 
 ```{r}
-ventas |>
+KPIs <- ventas |>
   summarize(
     total_ventas       = n(),           # Volumen (núm. de filas)
     ingresos_totales   = sum(total),    # Ingresos
@@ -919,7 +891,7 @@ dispersion_ventas
 
 - `group_by()` + `summarize()` = el poder de la agregación
 
-  - **Concepto:** cambiar el nivel de análisis: de transacciones a tiendas, productos, etc.)
+  - **Concepto:** cambiar el nivel de análisis: de transacciones a tiendas, productos, etc.
   
   - En Excel: *Tablas dinámicas*, *AGRUPARPOR()* (y *SUMAR.SI*/*SUMIF*) 
 
@@ -1244,11 +1216,11 @@ data %>% mutate(x1 = replace_na(x1,0))          %>% summarize(num = n(), mean = 
 ```{r}
 ventas |>
   mutate(
-    tipo_venta = if_else(total > 100, "Alta", "Baja"), # condición simple
+    tipo_venta = if_else(total > 1000, "Alta", "Baja"), # condición simple
     categoria_cliente = case_when(              # múltiples condiciones
-      total < 30  ~ "Económico",
-      total < 100 ~ "Estándar",
-      TRUE        ~ "Premium"               # OJO: convertir a factor
+      total < 300  ~ "Económico",
+      total < 1000 ~ "Estándar",
+      TRUE         ~ "Premium"               # OJO: convertir a factor
     )
   )
 ```
@@ -1828,7 +1800,7 @@ tibble(
 
 # Formato LARGO: una sola operación
 ventas_largo <- ventas_ancho |>
-  pivot_longer(Q1:Q4, names_to = "trimestre", values_to = "ingresos")
+  pivot_longer(Q1:Q4, names_to = "trimestre", values_to = "ventas")
 
 ventas_largo |>
   group_by(trimestre) |>
@@ -1911,10 +1883,10 @@ ggplot(ventas_largo, aes(x = trimestre, y = ventas,
 ```{r}
 analisis <- ventas_largo |>
   group_by(trimestre) |>
-  summarize(total = sum(ingresos))
+  summarize(total = sum(ventas))
 
 tabla_presentacion <- ventas_largo |>
-  pivot_wider(names_from = trimestre, values_from = ingresos) |>
+  pivot_wider(names_from = trimestre, values_from = ventas) |>
   mutate(Total = Q1 + Q2 + Q3 + Q4)
 ```
 
@@ -1925,25 +1897,68 @@ tabla_presentacion <- ventas_largo |>
 
 ## Por Qué Múltiples Tablas
 
-**Ventajas del Diseño Relacional:**
+- Analizar datos suele implicar múltiples tablas
 
-1. **Eficiencia:** No repetir información
-2. **Consistencia:** Un solo lugar para actualizar
-3. **Integridad:** Relaciones claras entre datos
-4. **Escalabilidad:** Fácil añadir nuevas tablas
+  - diferentes orígenes: ej., dptos. de empresa (personal, ventas, almacén)
+
+  - almacenamiento más eficiente: elementos “similares” dentro de una tabla y diferentes entre ellas
+
+- Para poder combinar información los datos deben ser relacionales: cada par de tablas están relacionadas mediante identificadores comunes llamados **claves**
+
+  - Primaria (o interna): identifican de forma única cada observación en una tabla. Puede ser una sola variable o múltiples
+
+  - Secundaria (o externa): señala a la clave primaria de otra tabla
+
+::::{.notes}
+* Es conveniente verificar que las claves primarias realmente identifican de manera única cada observación. 
 
 ```{r}
-# Ejemplo: información duplicada vs relacional
-
-# MAL: Todo en una tabla (información repetida)
-ventas_todo_junto <- ventas %>%
-  left_join(productos, by = "id_producto") %>%
-  left_join(tiendas, by = "id_tienda") %>%
-  left_join(clientes, by = "id_cliente")
-
-# BIEN: Tablas separadas, unir solo cuando necesario
-# ventas, productos, tiendas, clientes son tablas independientes
+planes %>% count(tailnum) %>% filter(n > 1)
+#table(planes$tailnum)
 ```
+
+* La clave externa asegura la integridad referencial. 
+
+
+- Subrogada = número de fila, si la tabla carece de identificación única
+
+
+* Tabla sin clave de identificación única: se crea con `mutate()` y `row_number()`. 
+
+```{r}
+flights %>% 
+  count(year, month, day, flight) %>% 
+  filter(n > 1)
+```
+
+::::
+
+- Una clave primaria y su externa asociada en otra tabla forman una relación: de uno-a-muchos, de uno-a-uno, de muchos-a-muchos, de muchos-a-uno
+
+## Diagrama de Relaciones del Sistema RetailCorp
+
+![](figure/Tema02relat.png){width=75% fig-align="center"}
+
+
+::::{.notes}
+
+- gráfico creado con UML en https://www.plantuml.com
+- usando Tema02relat.uml
+
+
+**Operaciones con dos tablas**
+
+* **Uniones de transformación** ("Mutating joins"): añade nuevas variables a una tabla desde filas coincidentes en otra.  
+
+* **Uniones de filtro** ("Filtering joins"): filtra las observaciones de una tabla basándose en si coinciden o no con una observación de la otra tabla. 
+
+* **Operaciones de conjunto** ("Set operations"): combinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.    
+
+* Esta discusión asume que tenemos datos ordenados (*tidy*):
+    + las filas son observaciones 
+    + las columnas son variables
+
+::::
 
 ## Tipos de Uniones: Visión General
 
@@ -2525,15 +2540,18 @@ ggplot(ventas_region, aes(x = factor(año), y = ingresos, fill = region)) +
 
 - Datos Ordenados
 
-- Código Legible:
+- Código Legible y reproducible
 
-  - Usar pipe `%>%` para encadenar operaciones
+  - Scripts ordenados y comentados
+
+  - Encadenar operacion con  `|>` en un paso por línea
   
-  - Un paso por línea
-  
+  - Documentar decisiones de limpieza
+
   - Nombres descriptivos de variables
+
+  - Guardar datos procesados
   
-  - Comentarios para lógica compleja
 
 - Eficiencia:
 
@@ -2544,14 +2562,6 @@ ggplot(ventas_region, aes(x = factor(año), y = ingresos, fill = region)) +
   - Verificar claves antes de joins
   
 -   Inspeccionar resultados intermedios
-
-- Reproducibilidad:
-
-  - Scripts ordenados y comentados
-  
-  - Guardar datos procesados
-  
-  - Documentar decisiones de limpieza
 
 
 :::: {.notes}
