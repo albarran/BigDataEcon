@@ -1,0 +1,116 @@
+---
+title: "Tema 03. Quarto. Ejercicio."
+author:  
+    - "Pedro Albarrán"
+format:
+  html: 
+    embed-resources: true
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    results: hide
+    fig.show: hide
+lang: es
+strip-comments: true
+toc: false
+css: styles.css
+---
+
+# Apartado a)
+
+i.  Iniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera). 
+
+ii. Crea una primera sección del documento, p.e., con el nombre "Apartado a)". Para **cada apartado** posterior debes crear **una nueva sección** correspondiente al apartado. 
+
+iii. Escribe un **breve** frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.
+
+      Nota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.
+
+iv. Guarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI:  `Tema03ej_123456789.qmd`
+
+v. Renderiza tu documento para visualizar el documento html creado. 
+
+    Comprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.
+    
+vi. Cambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.
+
+    Comprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.
+
+vii. Borra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.
+
+# Apartado b)
+
+i. Escribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable `mpg` del conjunto de datos `mtcars`.
+
+ii. Crear y dar un nombre a una sub-sección que incluya lo siguiente.
+
+    * Tres celdas, todas con el código `summary(mtcars)`. La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar. 
+    
+    * Cargar las bibliotecas `AER` y `Hmisc` en una nueva celda de código. Cambia los valores de `warning`, `error` y `message` y renderiza el documento para observar los cambios. Comentar los cambios **brevemente** y qué forma de presentación prefieres para tu documento.
+
+iii. Crear y dar nombre a otra sub-sección.
+
+      * Añadir una celda con el código `a <- 2`, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código `b <- 3 + a` y que sí se evalúe. Renderizar el documento y comprobar que da un error.
+      * Cambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.
+
+# Apartado c)
+
+i. Crear una celda con el código para mostrar un gráfico de puntos con los datos de `mtcars` para las variables `disp` (tamaño del motor) y `mpg` (consumo). 
+
+    * Añadir en la *celda de código* (no usando `ggplot`) un título del gráfico (aparece en la parte inferior).
+
+ii. Crear una nueva celda de código que incluya dos gráficos de caja, para `disp` y para `mpg`, que se muestren uno al lado del otro.
+
+# Apartado d)
+
+i. Crear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar `mtcars` y `summary(mtcars)`.
+
+ii. Crear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe)  y que incluya:
+
+    * cargar la biblioteca `kableExtra` para poder usar la función `kbl()`
+    * mostrar el resultado de `mtcars` y `summary(mtcars)` con la función `kbl()` con distintas opciones de estilo (una guía completa [aquí](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)). Por ejemplo
+    
+```{r}
+#| echo: true
+#| eval: false
+mtcars %>% kbl()  %>%
+  kable_styling()
+summary(mtcars) %>% kbl()  %>%
+  kable_styling()
+
+mtcars %>% kbl()  %>%
+  kable_classic(full_width = F)
+summary(mtcars) %>% kbl()  %>%
+  kable_minimal()
+```
+    
+  Comentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.
+
+# Apartado e)
+
+i. Incluir la opción `df-print: paged` en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos ("data frame") `mtcars` en los apartados d.i) y d.ii). 
+
+    Comentar las diferencias y qué forma de presentación prefieres para tu documento.
+
+ii. Incluye la opción `code-fold: true` en la cabecera. Comprobar cómo cambia el documento y comentar **brevemente** qué forma de presentación prefieres para tu documento.
+
+iii. Elige un tema entre [estos](https://bootswatch.com/3/) y aplícalo al documento.
+
+# Entrega del ejercicio
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSfiztzC-uNclcnwywhCLGwWAoOLG6GC6510hBote3ufooN8GA/viewform) con vuestros datos y subid
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema03ej_123456789.qmd
+  
+  * Tema03ej_123456789.zip
