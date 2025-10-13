@@ -102,7 +102,7 @@
     "href": "docs/Tema02.html#datos-ordenados-tidy-data-principios-fundamentales",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Datos ordenados (‘tidy data’): Principios fundamentales",
-    "text": "Datos ordenados (‘tidy data’): Principios fundamentales\n1.- Cada columna es una variable: mide el mismo atributo entre unidades\n2.- Cada fila es una observación (caso): misma unidad a través de atributos\n3.- Cada celda es un valor\n\n\nImportante: ¿a qué nivel estamos midiendo la información? ¿qué es una unidad en la tabla?\n\na nivel de cada compra realizada por un cliente en cada fecha\na nivel de todas las compras realizdas por un cliente, etc.\n\nTenemos información similar y no redundante en una misma tabla\n\n\n\nAtributos o características (cuantitativos o cualitativos) diferentes en columnas diferentes; p.e., nombres de columnas no deben ser valores\n\n\nVariable = vector columna: forma natural para trabajar con datos\n\n\nMismo nivel de agregación en toda la tabla\nNo mezclar tipos de datos Ni almacenar múltiples valores\n\n\nUna tabla puede completar la información con uniones a tablas adicionales (ej., para variables codificadas)\ntidyverse es eficiente con datos ordenados"
+    "text": "Datos ordenados (‘tidy data’): Principios fundamentales\n1.- Cada columna es una variable: mide el mismo atributo entre unidades\n2.- Cada fila es una observación (caso): misma unidad a través de atributos\n3.- Cada celda es un valor\n\n\n¿Qué es una unidad en la tabla? ¿a qué nivel medimos la información?\n\na nivel de cada compra realizada por un cliente en cada fecha, o\na nivel de cliente (todas sus compras), de tienda (todas sus ventas), etc.\n\nTenemos información similar y no redundante en una misma tabla\n\n\n\nAtributos o características (cuantitativos o cualitativos) diferentes en columnas diferentes; p.e., nombres de columnas no deben ser valores\n\n\nVariable = vector columna: forma natural para trabajar con datos\n\n\nMismo nivel de agregación en toda la tabla\nNo mezclar tipos de datos Ni almacenar múltiples valores\n\n\nUna tabla puede completar la información con uniones a tablas adicionales (ej., para variables codificadas)\ntidyverse es eficiente con datos ordenados"
   },
   {
     "objectID": "docs/Tema02.html#datos-no-ordenados",
@@ -165,7 +165,7 @@
     "href": "docs/Tema02.html#arrange",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "4. arrange()",
-    "text": "4. arrange()\n\n\n\nre-ordena las filas todas las columnas de un data frame\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\n\nCaso de Uso: Top 10 ventas más altas\n\n\nventas |&gt; \n  arrange(desc(total)) |&gt; \n  select(id_venta, fecha, total) |&gt; head(10) \n\n\nOrdenamientos múltiples: ordena por la primera variable y luego, en caso de empate, por la siguiente, etc.\n\n\nventas |&gt;\n  arrange(id_tienda, desc(total)) |&gt;\n  select(id_tienda, id_venta, total)\n\n\n\nsimilar a Excel\nsort() es para un vector"
+    "text": "4. arrange()\n\n\n\nre-ordena las filas de un data frame (todas las columnas)\n\nen orden ascendente (por defecto) o descendente con desc()\n\n\n\n\n\n\n\n\n\n\nCaso de Uso: Top 5 ventas más altas\n\n\nventas |&gt; \n  arrange(desc(total)) |&gt; slice(5) |&gt; \n  select(id_venta, fecha, total)  \n\n\nOrdenamientos múltiples: ordena por la primera variable y luego, en caso de empate, por la siguiente, etc.\n\n\nventas |&gt;\n  arrange(id_tienda, desc(total)) |&gt;\n  select(id_tienda, id_venta, total)\n\n\n\nsimilar a Excel\nsort() es para un vector"
   },
   {
     "objectID": "docs/Tema02.html#summarize",
@@ -179,28 +179,21 @@
     "href": "docs/Tema02.html#group_by-análisis-por-grupos",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "group_by(): Análisis por Grupos",
-    "text": "group_by(): Análisis por Grupos\n\nCambia el alcance de cada función para que no actúe sobre todo el data frame sino en grupos individuales\n\n\n\ngroup_by() + summarize() = el poder de la agregación\n\nConcepto: cambiar el nivel de análisis: de transacciones a tiendas, productos, etc.\nEn Excel: Tablas dinámicas, AGRUPARPOR() (y SUMAR.SI/SUMIF)\n\n\n\nventas                             # tabla a nivel de transacción\n\nventas |&gt;\n  summarize(ingresos = sum(total)) # resumen global\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  summarize(ingresos = sum(total)) # resumen por tienda\n                                   # tabla a nivel de tienda\n\n\n\ngroup_by() similar a facet\nVer ventas |&gt; group_by(id_tienda): tibble muestra que hay dos grupos\ndatos de información/ventas por empleado a información por tienda\nDEBEN INCLUIRSE variables que se quieran mantener"
+    "text": "group_by(): Análisis por Grupos\n\n\nCambia el alcance: cada función actúa dentro de grupos, no sobre toda la tabla\nEjemplo: encontrar la fecha con la mayor venta por tienda\n\n\nventas |&gt; group_by(id_tienda) |&gt;\n  arrange(desc(total)) |&gt;  \n  slice(1) |&gt;                     # Fila 1 (de cada grupo)\n  select(id_tienda, fecha, total)\n\n\n\n\nalternativa slice_max()\n\n\n\n\n\ngroup_by() + summarize() = cambia el nivel de análisis, agregando, p.e., de transacciones a tiendas, productos, etc.\n\nEn Excel: Tablas dinámicas, AGRUPARPOR() (y SUMAR.SI/SUMIF)\n\n\n\nventas                             # tabla a nivel de transacción\nventas |&gt;\n  summarize(ingresos = sum(total)) # resumen global\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  summarize(ingresos = sum(total)) # resumen por tienda\n                                   # tabla a nivel de tienda\n\n\n\n\ngroup_by() similar a facet\nVer ventas |&gt; group_by(id_tienda): tibble muestra que hay dos grupos\ndatos de información/ventas por empleado a información por tienda\nDEBEN INCLUIRSE variables que se quieran mantener\nEjercicio:\n\nPara cada producto, calcular\n\n\nsuma de valor de ventas (variable total)\nmedia de valor de ventas (idem)\nmedia de cantidad vendida (variable cantidad)\n\n\nEn R y Excel\n¿Cuáles son los 5 productos con menor cantidad media vendida?\n\n\n\nventas_prod &lt;- ventas |&gt;\n  group_by(producto) |&gt;\n  summarize(\n    sum_total = sum(total),\n    med_total = mean(total),\n    med_cant  = mean(cantidad)\n  )\n\nexport(ventas, \"ventas.xlsx\")\n# misma secuencia en Tablas Dinamicas de Excel\n\n# igual que antes pero con este nueva tabla de datos a nivel producto\nventas_prod |&gt;\n  arrange(med_cantidad) |&gt; \n  head(5)"
   },
   {
-    "objectID": "docs/Tema02.html#combinando-mutate-con-group_by",
-    "href": "docs/Tema02.html#combinando-mutate-con-group_by",
+    "objectID": "docs/Tema02.html#group_by-cont.",
+    "href": "docs/Tema02.html#group_by-cont.",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Combinando mutate() con group_by()",
-    "text": "Combinando mutate() con group_by()\n\nDiferencia Clave:\n\ngroup_by() + summarize(): Reduce filas (nuevo dataset agregado a nivel de los grupos)\ngroup_by() + mutate(): Mantiene filas (añade columnas calculadas por grupo a nivel de la tabla original)\n\nEjemplo: Porcentaje de las ventas mensuales que representa cada transacción\n\n\nventas |&gt;\n  group_by(id_tienda, mes) |&gt;\n  mutate(\n    ventas_tienda_mes = sum(total),\n    pct_de_ventas_mes = total / ventas_tienda_mes * 100\n  ) |&gt;\n  slice_max(pct_de_ventas_mes) |&gt; \n  select(id_tienda, mes, id_venta, total, pct_de_ventas_mes)"
+    "section": "group_by() (cont.)",
+    "text": "group_by() (cont.)\n\ngroup_by() + summarize() reduce filas: nueva tabla agregada a nivel de los grupos\n\n\ntabla_sum &lt;- ventas |&gt; group_by(id_tienda) |&gt;\n  summarize(ingresos = sum(total))\n\n\ngroup_by() + mutate() mantiene filas: añade columnas calculadas por grupo a nivel de la tabla original\n\n\ntabla_mut &lt;- ventas |&gt; group_by(id_tienda) |&gt;\n  mutate(ingresos = sum(total))\n\n\n\nEjemplo: Porcentaje de las ventas que representa cada transacción\n\n\nventas |&gt; group_by(id_tienda) |&gt;\n  mutate(\n    ventas_tienda = sum(total),\n    pct_de_ventas = total / ventas_tienda * 100\n  )"
   },
   {
-    "objectID": "docs/Tema02.html#análisis-multinivel-y-ungroup",
-    "href": "docs/Tema02.html#análisis-multinivel-y-ungroup",
+    "objectID": "docs/Tema02.html#ungroup",
+    "href": "docs/Tema02.html#ungroup",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Análisis multinivel y ungroup()",
-    "text": "Análisis multinivel y ungroup()\n\n\nEncontrar la fecha con la mayor venta por tienda\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  arrange(desc(total)) |&gt;  \n  slice(1) |&gt;                     # Primera fila (de cada grupo)\n  select(id_tienda, fecha, total)\n# alternativa: slice_max()\n\n\nIMPORTANTE: No olvidar ungroup() o .groups = \"drop\" después de terminar operaciones agrupadas\nCálculo de Porcentajes Globales: sin desagrupar, sum(total) suma por tienda → siempre da 100%\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total)) |&gt;\n  ungroup() |&gt;\n  mutate(porcentaje = ventas_tienda / sum(total) * 100)\n\n\n\n\nDespués de group_by() + mutate():\n\nSi tu siguiente operación debe ser GLOBAL → usa ungroup()\nSi debe seguir POR GRUPO → no uses ungroup()\n\nDespués de group_by() + summarize():\n\nsummarize() ya reduce un nivel de agrupación\nSi tenías múltiples grupos, sigue agrupado por los anteriores\nUsa .groups = “drop” o ungroup() para estar seguro"
-  },
-  {
-    "objectID": "docs/Tema02.html#análisis-multinivel-y-ungroup-cont.",
-    "href": "docs/Tema02.html#análisis-multinivel-y-ungroup-cont.",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Análisis multinivel y ungroup() (cont.)",
-    "text": "Análisis multinivel y ungroup() (cont.)\n\n\nFiltrar Top Global: sin desagrupar, será top 5 de cada tienda\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total), \n         .groups = \"drop\" ) |&gt;\n  arrange(desc(ventas_tienda)) |&gt;\n  slice_head(n = 5)\n\n\nMedia Global después de agrupar: sin desagrupar, 1 fila por tienda (media mensual de cada tienda)\n\n\n# Ventas por tienda y mes\nventas_mes_por_tienda &lt;- ventas |&gt;\n  group_by(id_tienda, mes) |&gt;\n  summarize(total_mes = sum(total))\n\nventas_mensuales_medias &lt;- ventas_mes_por_tienda |&gt;\n  ungroup() |&gt;\n  summarize(media = mean(total_mes))\n# Resultado: 1 fila (media de todos los meses de todas las tiendas)\n\n\n\n\nRanking de Productos\n\n\nventas |&gt;\n  group_by(id_producto) |&gt;\n  summarize(\n    unidades_vendidas = sum(cantidad),\n    ingresos_totales = sum(total)\n  ) |&gt;\n  ungroup() |&gt;                     # posteriores NO por grupos \n  arrange(desc(ingresos_totales))\n# ungroup() innecesario con summarize en este caso\n\nAplicación: Segmentación de Clientes\n\n# Calcular valor del cliente\nvalor_cliente &lt;- ventas |&gt;\n  group_by(id_cliente) |&gt;\n  mutate(\n    num_compras_cliente = n(),\n    gasto_total_cliente = sum(total),\n    ticket_promedio = mean(total),\n    \n    # Clasificación RFM simplificada\n    recencia_dias = as.numeric(max(fecha) - min(fecha)),\n    frecuencia = n(),\n    monetario = sum(total)\n  ) |&gt;\n  ungroup()\n\nProblema: Análisis de ventas navideñas en Madrid\n\n# SIN pipe: difícil de leer, muchas variables intermedias\nventas_madrid &lt;- filter(ventas, id_tienda == 1)\nventas_madrid_navidad &lt;- filter(ventas_madrid, mes == 12)\nventas_resumen &lt;- summarize(ventas_madrid_navidad, \n                            total = sum(total),\n                            n = n())\n\n# CON pipe: flujo natural de lectura\nanalisis_navidad_madrid &lt;- ventas |&gt;\n  filter(id_tienda == 1) |&gt;\n  filter(mes == 12) |&gt;\n  summarize(\n    ingresos_totales = sum(total),\n    num_transacciones = n(),\n    ticket_promedio = mean(total)\n  )\n\nanalisis_navidad_madrid\n\nAnálisis Completo Paso a Paso\nObjetivo: Análisis de campaña de descuentos del Q4 2023\n\nanalisis_campana_q4 &lt;- ventas |&gt;\n  # 1. Filtrar período relevante\n  filter(año == 2023, trimestre == 4) |&gt;\n  \n  # 2. Agregar categoría de descuento\n  mutate(\n    tipo_descuento = case_when(\n      descuento_porcentaje == 0 ~ \"Sin descuento\",\n      descuento_porcentaje &lt;= 10 ~ \"Descuento bajo\",\n      descuento_porcentaje &lt;= 20 ~ \"Descuento medio\",\n      TRUE ~ \"Descuento alto\"\n    )\n  ) |&gt;\n  \n  # 3. Agrupar por tipo de descuento\n  group_by(tipo_descuento) |&gt;\n  \n  # 4. Calcular métricas\n  summarize(\n    num_ventas = n(),\n    ingresos_totales = sum(total),\n    ticket_promedio = mean(total),\n    unidades_vendidas = sum(cantidad),\n    .groups = \"drop\"\n  ) |&gt;\n  \n  # 5. Ordenar por ingresos\n  arrange(desc(ingresos_totales)) |&gt;\n  \n  # 6. Calcular porcentajes\n  mutate(\n    pct_ventas = round(num_ventas / sum(num_ventas) * 100, 1),\n    pct_ingresos = round(ingresos_totales / sum(ingresos_totales) * 100, 1)\n  )\n\nanalisis_campana_q4\n\nInterpretación de Resultados:\n\nCada paso transforma el dataset\nEl pipe hace el código legible como una narrativa\nFácil añadir/quitar pasos para exploración"
+    "section": "ungroup()",
+    "text": "ungroup()\n\n\nIMPORTANTE: No olvidar ungroup() o .groups = \"drop\" después de terminar operaciones agrupadas\nCálculo de Porcentajes Globales: sin desagrupar, el segundo sum(total) suma por tienda → siempre da 100%\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total)) |&gt;\n  ungroup() |&gt;\n  mutate(porcentaje = ventas_tienda / sum(total) * 100)\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total),\n         .groups = \"drop\") |&gt;\n  mutate(porcentaje = ventas_tienda / sum(total) * 100)\n\n\n\n\nDespués de group_by() + mutate():\n\nSi tu siguiente operación debe ser GLOBAL → usa ungroup()\nSi debe seguir POR GRUPO → no uses ungroup()\n\nDespués de group_by() + summarize():\n\nsummarize() ya reduce un nivel de agrupación\nSi tenías múltiples grupos, sigue agrupado por los anteriores\nUsa .groups = “drop” o ungroup() para estar seguro\n\n\n\n\nFiltrar Top Global: sin desagrupar, será top 5 de cada tienda\n\n\nventas |&gt;\n  group_by(id_tienda) |&gt;\n  mutate(ventas_tienda = sum(total), \n         .groups = \"drop\" ) |&gt;\n  arrange(desc(ventas_tienda)) |&gt;\n  slice_head(n = 5)\n\n\nMedia Global después de agrupar: sin desagrupar, 1 fila por tienda (media mensual de cada tienda)\n\n\n# Ventas por tienda y mes\nventas_mes_por_tienda &lt;- ventas |&gt;\n  group_by(id_tienda, mes) |&gt;\n  summarize(total_mes = sum(total))\n\nventas_mensuales_medias &lt;- ventas_mes_por_tienda |&gt;\n  ungroup() |&gt;\n  summarize(media = mean(total_mes))\n# Resultado: 1 fila (media de todos los meses de todas las tiendas)\n\n\n\nRanking de Productos\n\n\nventas |&gt;\n  group_by(id_producto) |&gt;\n  summarize(\n    unidades_vendidas = sum(cantidad),\n    ingresos_totales = sum(total)\n  ) |&gt;\n  ungroup() |&gt;                     # posteriores NO por grupos \n  arrange(desc(ingresos_totales))\n# ungroup() innecesario con summarize en este caso\n\nAplicación: Segmentación de Clientes\n\n# Calcular valor del cliente\nvalor_cliente &lt;- ventas |&gt;\n  group_by(id_cliente) |&gt;\n  mutate(\n    num_compras_cliente = n(),\n    gasto_total_cliente = sum(total),\n    ticket_promedio = mean(total),\n    \n    # Clasificación RFM simplificada\n    recencia_dias = as.numeric(max(fecha) - min(fecha)),\n    frecuencia = n(),\n    monetario = sum(total)\n  ) |&gt;\n  ungroup()\n\nProblema: Análisis de ventas navideñas en Madrid\n\n# SIN pipe: difícil de leer, muchas variables intermedias\nventas_madrid &lt;- filter(ventas, id_tienda == 1)\nventas_madrid_navidad &lt;- filter(ventas_madrid, mes == 12)\nventas_resumen &lt;- summarize(ventas_madrid_navidad, \n                            total = sum(total),\n                            n = n())\n\n# CON pipe: flujo natural de lectura\nanalisis_navidad_madrid &lt;- ventas |&gt;\n  filter(id_tienda == 1) |&gt;\n  filter(mes == 12) |&gt;\n  summarize(\n    ingresos_totales = sum(total),\n    num_transacciones = n(),\n    ticket_promedio = mean(total)\n  )\n\nanalisis_navidad_madrid\n\nAnálisis Completo Paso a Paso\nObjetivo: Análisis de campaña de descuentos del Q4 2023\n\nanalisis_campana_q4 &lt;- ventas |&gt;\n  # 1. Filtrar período relevante\n  filter(año == 2023, trimestre == 4) |&gt;\n  \n  # 2. Agregar categoría de descuento\n  mutate(\n    tipo_descuento = case_when(\n      descuento_porcentaje == 0 ~ \"Sin descuento\",\n      descuento_porcentaje &lt;= 10 ~ \"Descuento bajo\",\n      descuento_porcentaje &lt;= 20 ~ \"Descuento medio\",\n      TRUE ~ \"Descuento alto\"\n    )\n  ) |&gt;\n  \n  # 3. Agrupar por tipo de descuento\n  group_by(tipo_descuento) |&gt;\n  \n  # 4. Calcular métricas\n  summarize(\n    num_ventas = n(),\n    ingresos_totales = sum(total),\n    ticket_promedio = mean(total),\n    unidades_vendidas = sum(cantidad),\n    .groups = \"drop\"\n  ) |&gt;\n  \n  # 5. Ordenar por ingresos\n  arrange(desc(ingresos_totales)) |&gt;\n  \n  # 6. Calcular porcentajes\n  mutate(\n    pct_ventas = round(num_ventas / sum(num_ventas) * 100, 1),\n    pct_ingresos = round(ingresos_totales / sum(ingresos_totales) * 100, 1)\n  )\n\nanalisis_campana_q4"
   },
   {
     "objectID": "docs/Tema02.html#funciones-auxiliares-para-filas",
@@ -235,7 +228,7 @@
     "href": "docs/Tema02.html#operaciones-adicionales-de-limpieza",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Operaciones Adicionales de Limpieza",
-    "text": "Operaciones Adicionales de Limpieza\n\n\nseparate(): dividir una columna por caracter o posición\n\n\ntable3 |&gt; separate(rate, into = c(\"cases\", \"population\"), sep = \"/\")\ntabla5 &lt;- table3 |&gt; separate(year, into = c(\"century\", \"year\"), sep = 2)\n\n\nCon convert = TRUE intenta convertir el tipo de dato (no mantener carácter)\n\n\ntable3 |&gt; separate(rate, into = c(\"cases\", \"population\"), convert = TRUE)\n\n\n\nArgumentos: date frame, columna a dividir, nombres de las nuevas variables y carácter separador (por defecto cualquier carácter no numérico)\n\n(estrictamente, una expresión regular)\n\nSi se pasa a sep un vector de enteros, son posiciones en las que dividir\nla longitud de sep debe ser uno menos que la de into\nvalores positivos comienzan (en 1)por la izquierda; negativos (desde -1) por la derecha\n\n\n\nunite(): combinar columnas\n\n\ntable5 |&gt; unite(new, century, year, sep = \"-\")\n\n\n\nArgumentos:\n\nun data frame\nel nombre de la nueva variable a crear\n\nun conjunto de columnas a combinar\ncarácter entre valores de las columnas originales\nEl separador por defecto es subrayado, sep = _\n\n\n\n\n\n\nPara nombres de columnas con espacios o caracteres especiales, debemos usar acento invertido\n\nMejor: renombrar sin espacios\n\n\n\ndatos_problema |&gt; \n  rename(nombre_producto = `Nombre Producto`,\n         precio_euros    = `Precio (€)`)"
+    "text": "Operaciones Adicionales de Limpieza\n\nseparate(): dividir una columna por caracter o posición\n\n\nunite(): combinar columnas\n\n\n\nArgumentos: date frame, columna a dividir, nombres de las nuevas variables y carácter (expresión regular) para separar\n\nSi se pasa a sep un vector de enteros, son posiciones en las que dividir\nla longitud de sep debe ser uno menos que la de into\nvalores positivos comienzan (en 1)por la izquierda; negativos (desde -1) por la derecha\n\nCon convert = TRUE intenta convertir el tipo de dato (no mantener carácter)\n\n\ntable3 |&gt; separate(rate, into = c(\"cases\", \"population\"), convert = TRUE)\n\n\nArgumentos: data frame, nombre de la nueva variable a crear, columnas a combinar y carácter entre valores de las columnas originales\n\nEl separador por defecto es subrayado, sep = _\n\n\n\n\n\nPara nombres de columnas con espacios o caracteres especiales, debemos usar acento invertido\n\nMejor: renombrar sin espacios\n\n\n\ndatos_problema |&gt; \n  rename(nombre_producto = `Nombre Producto`,\n         precio_euros    = `Precio (€)`)"
   },
   {
     "objectID": "docs/Tema02.html#mismos-datos-dos-formatos-ancho-o-largo",
@@ -284,119 +277,413 @@
     "href": "docs/Tema02.html#diagrama-de-relaciones-del-sistema-retailcorp",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Diagrama de Relaciones del Sistema RetailCorp",
-    "text": "Diagrama de Relaciones del Sistema RetailCorp\n\n\n\ngráfico creado con UML en https://www.plantuml.com\nusando Tema02relat.uml\n\nOperaciones con dos tablas\n\nUniones de transformación (“Mutating joins”): añade nuevas variables a una tabla desde filas coincidentes en otra.\nUniones de filtro (“Filtering joins”): filtra las observaciones de una tabla basándose en si coinciden o no con una observación de la otra tabla.\nOperaciones de conjunto (“Set operations”): combinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.\nEsta discusión asume que tenemos datos ordenados (tidy):\n\nlas filas son observaciones\nlas columnas son variables"
+    "text": "Diagrama de Relaciones del Sistema RetailCorp\n\n\n\ngráfico creado con UML en https://www.plantuml.com\nusando Tema02relat.puml\n\nlibrary(plantuml)\n# Guarda el código en un archivo \"diagrama.puml\"\nplantuml(\"diagrama.puml\")\nOperaciones con dos tablas\n\nUniones de transformación (“Mutating joins”): añade nuevas variables a una tabla desde filas coincidentes en otra.\nUniones de filtro (“Filtering joins”): filtra las observaciones de una tabla basándose en si coinciden o no con una observación de la otra tabla.\nOperaciones de conjunto (“Set operations”): combinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.\nEsta discusión asume que tenemos datos ordenados (tidy):\n\nlas filas son observaciones\nlas columnas son variables"
+  },
+  {
+    "objectID": "docs/Tema02.html#uniones-de-transformación",
+    "href": "docs/Tema02.html#uniones-de-transformación",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Uniones de transformación",
+    "text": "Uniones de transformación\n\nAñaden nuevas variables a una tabla desde filas coincidentes en otra.\n\n\n\n\nTenemos estos datos.\n¿Cómo conseguimos unirlos adecuadamente en R y en Excel?\n\n\n\n\n\n\n\n\n\nCon cbind() o bind_columns() o copiando y pegando en Excel: nuevas columnas para filas en el mismo orden\n\n\n\ntabla1 &lt;- import(\"data/DosTablas.xlsx\", sheet = 1)\ntabla2 &lt;- import(\"data/DosTablas.xlsx\", sheet = 2)\nunion  &lt;- inner_join(tabla1, tabla2, by = \"Vendedor\")\n\n\ncomo mutate = mutating joins\nclave = fila Y ademán en el mismo orden\n\nen Excel, las uniones se hacen con VLOOKUP o HLOOKUP o XLOOKUP (BUSQUEDAH, BUSQUEDAV, BUSQUEDAX)"
   },
   {
     "objectID": "docs/Tema02.html#tipos-de-uniones-visión-general",
     "href": "docs/Tema02.html#tipos-de-uniones-visión-general",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Tipos de Uniones: Visión General",
-    "text": "Tipos de Uniones: Visión General\n\n# Datos de ejemplo para ilustrar\ndf1 &lt;- tibble(id = 1:3, valor_x = c(\"A\", \"B\", \"C\"))\ndf2 &lt;- tibble(id = c(1, 2, 4), valor_y = c(\"X\", \"Y\", \"Z\"))\n\n# inner_join: solo coincidencias\ninner_join(df1, df2, by = \"id\")  # resultado: 1, 2\n\n# left_join: todas de la izquierda\nleft_join(df1, df2, by = \"id\")   # resultado: 1, 2, 3 (3 con NA)\n\n# right_join: todas de la derecha\nright_join(df1, df2, by = \"id\")  # resultado: 1, 2, 4 (4 con NA)\n\n# full_join: todas de ambas\nfull_join(df1, df2, by = \"id\")   # resultado: 1, 2, 3, 4"
+    "text": "Tipos de Uniones: Visión General\n\n\n\n\nUnión interna: inner_join(x, y) sólo incluye observaciones que coincidan en x y y.\n\n\n\n\n\n\n\n\n\n\n\n\nUniones externas: cuando una fila no coincide en una unión externa, las nuevas variables se rellenan como valores ausentes\n\n\n\nleft_join(x, y)\n\n\n\n\n\n\nright_join(x, y)\n\n\n\n\n\n\nfull_join(x, y)\n\n\n\n\n\n\n\nPensar con cuidado el tipo de unión necesaria: qué observaciones quedan (todas, solo de una tabla y cuál) y ser conscientes de la introducción de NAs\n\n\n\nunión interna: Uniendo dos series temporales con periodos diferentes: PIB y consumo\n\n\n\n\n\n\n\nleft_join(df1, df2): mantiene todas las observaciones en x, coincidan o no con la de y\n\n(no se pierden observaciones de la tabla primaria)\n\nright_join(df1, df2): mantiene todas las observaciones en y\nfull_join(df1, df2): incluye todas las observaciones de x e y"
   },
   {
-    "objectID": "docs/Tema02.html#caso-real-enriquecer-datos-de-ventas",
-    "href": "docs/Tema02.html#caso-real-enriquecer-datos-de-ventas",
+    "objectID": "docs/Tema02.html#análisis-de-ventas-por-región-en-el-tiempo",
+    "href": "docs/Tema02.html#análisis-de-ventas-por-región-en-el-tiempo",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Caso Real: Enriquecer Datos de Ventas",
-    "text": "Caso Real: Enriquecer Datos de Ventas\nObjetivo: Análisis completo con información de todas las tablas\n\n# Crear dataset completo para análisis\nventas_completo &lt;- ventas %&gt;%\n  # Información de productos\n  left_join(productos %&gt;% select(id_producto, nombre_producto, id_categoria, precio, costo),\n            by = \"id_producto\") %&gt;%\n  \n  # Información de categorías\n  left_join(categorias, by = \"id_categoria\") %&gt;%\n  \n  # Información de tiendas\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region, tamaño_m2),\n            by = \"id_tienda\") %&gt;%\n  \n  # Información de clientes\n  left_join(clientes %&gt;% select(id_cliente, programa_fidelidad, fecha_registro),\n            by = \"id_cliente\") %&gt;%\n  \n  # Información de empleados\n  left_join(empleados %&gt;% select(id_empleado, puesto),\n            by = \"id_empleado\")\n\n# Ahora podemos hacer análisis complejos\nglimpse(ventas_completo)\n\nAnálisis Enriquecido:\n\n# Rentabilidad por categoría y región\nanalisis_rentabilidad &lt;- ventas_completo %&gt;%\n  mutate(\n    margen_venta = precio - costo,\n    rentabilidad = margen_venta * cantidad\n  ) %&gt;%\n  group_by(nombre_categoria, region) %&gt;%\n  summarize(\n    num_ventas = n(),\n    ingresos = sum(total),\n    rentabilidad_total = sum(rentabilidad, na.rm = TRUE),\n    margen_porcentaje = round(mean(margen_venta / precio * 100, na.rm = TRUE), 1),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(desc(rentabilidad_total))\n\nhead(analisis_rentabilidad, 10)\n\nCaso de Uso: Performance por región y mes\n\n# Primero unir con info de tiendas para obtener región\nperformance_regional &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  group_by(region, año, mes) %&gt;%\n  summarize(\n    ventas_totales = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(region, año, mes)\n\nhead(performance_regional, 10)\n\nCaso de Uso: Performance por región y mes\n\n# Primero unir con info de tiendas para obtener región\nperformance_regional &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  group_by(region, año, mes) %&gt;%\n  summarize(\n    ventas_totales = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(region, año, mes)\n\nhead(performance_regional, 10)\n\n\nAplicación: Crecimiento anual\n\n\n# Comparación mensual por región\ncrecimiento_mensual &lt;- performance_regional %&gt;%\n  group_by(region, mes) %&gt;%\n  arrange(año) %&gt;%\n  mutate(\n    ingresos_año_anterior = lag(ingresos),\n    crecimiento_absoluto = ingresos - ingresos_año_anterior,\n    crecimiento_porcentual = round(\n      (ingresos - ingresos_año_anterior) / ingresos_año_anterior * 100, 1\n    )\n  ) %&gt;%\n  filter(!is.na(crecimiento_porcentual))\n\n# Regiones con mayor crecimiento\ncrecimiento_mensual %&gt;%\n  filter(año == 2023) %&gt;%\n  group_by(region) %&gt;%\n  summarize(crecimiento_promedio = mean(crecimiento_porcentual, na.rm = TRUE)) %&gt;%\n  arrange(desc(crecimiento_promedio))"
+    "section": "Análisis de ventas por región en el tiempo",
+    "text": "Análisis de ventas por región en el tiempo\n\n\nPara usar la información de región se deben unir las tablas de ventas y de tiendas\n\n\ntabla_regional &lt;- ventas |&gt;\n  left_join(tiendas, by = \"id_tienda\") |&gt;   \n  group_by(region, año, mes) %&gt;%\n  summarize( valor_ventas = sum(total),\n             ticket_medio = mean(total),\n             cantidad_media = mean(cantidad) ) |&gt; ungroup()\n\n\nAhora podemos realizar más análisis\n\n\n# Evolución de ventas por región\ntabla_regional |&gt; \n  mutate(periodo = ym(paste(año, mes, sep = \"-\"))) |&gt;\n  ggplot() + \n  geom_line(aes(x = periodo, y = valor_ventas, color = region))\n\n# Los dos periodos con más ventas medias de cada región\ntabla_regional |&gt; \n  group_by(region) |&gt;  \n  arrange(desc(ticket_medio)) |&gt; slice(1:2)"
+  },
+  {
+    "objectID": "docs/Tema02.html#sobre-el-argumento-by",
+    "href": "docs/Tema02.html#sobre-el-argumento-by",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Sobre el argumento by",
+    "text": "Sobre el argumento by\n\nLas claves, es decir, las variables que relacionan ambas tablas, se indican con\n\nby = \"varX\", cuando la clave es una variable\nby = c(\"varX\", \"varY\"), cuando son varias variables\n\nSi los nombre son distintos en cada tabla, se empareja x1 en la primera con y1 en la segunda con by = c(\"x1\" = \"y1\", \"x2\" = \"y2\")\n\n\n\nSi se omite el argumento by, se usan todas las variables en común. Esto no siempre es deseable: ej., año no es lo mismo en flights y planes\nColumnas con el mismo nombre (ej., año) se desambigúan con un sufijo\n\n\n\n\nEj., calcular el bono medio de los Vendedores\n\n\nempleados |&gt; filter(puesto == \"Vendedor\") |&gt;\n  left_join(promociones_empleado, \n            by = c(\"id_empleado\" = \"cod_empleado\", \n                   \"id_tienda\" = \"cod_tienda\") ) |&gt; \n  pull(monto_bono) |&gt; mean(na.rm = T)"
+  },
+  {
+    "objectID": "docs/Tema02.html#claves-duplicadas",
+    "href": "docs/Tema02.html#claves-duplicadas",
+    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
+    "section": "Claves duplicadas",
+    "text": "Claves duplicadas\n\nSi una coincidencia no es única, se generan todas las combinaciones posibles (producto cartesiano) de las observaciones coincidentes\nUn uso habitual de las uniones: los nombres completos de categorías se ponen una tabla aparte y solo se une cuando se necesitan\n\n\n# margen medio por categoría de producto\nproductos |&gt; \n  mutate(margen = precio - costo) |&gt; \n  select(id_categoria, margen) |&gt; \n  right_join(categorias,                 # ¿por qué right?\n             by = c(\"id_categoria\" = \"categoria\")) |&gt;\n    group_by(nombre_categoria) |&gt; \n  summarize(margen_medio = mean(margen))\n\n\n\nEn una tabla: añade información adicional en una relación de uno a muchos.\n\n\n\n\n\n\n\nEn ambas tablas: igualmente, todas las combinaciones posibles\n\n\n\n\n\n\n\nposible error: NO hay clave primaria única (que identifica una observación)\n\n\ndf1dup2 &lt;- tibble(clave = c(1, 2, 2, 3), val_x = c(\"x1\", \"x2\", \"x3\", \"x4\"))\ndf2dup2 &lt;- tibble(clave = c(1, 2, 2, 3), val_y = c(\"y1\", \"y2\", \"y3\", \"y4\"))\ndf1dup2 %&gt;% left_join(df2dup2)\n\n\nbase::merge() realizar los cuatro tipos de unión de transformación (usando las opciones all.x = y all.y =, ver ayuda).\nlos verbos específicos de dplyr es que expresan más claramente la intención del código: la diferencia entre las uniones es realmente importante pero está oculta en los argumentos de merge(). Las uniones de dplyr son considerablemente más rápidas y no alteran el orden de las filas.\n\nmelt et al. http://had.co.nz/reshape/"
   },
   {
     "objectID": "docs/Tema02.html#uniones-de-filtrado",
     "href": "docs/Tema02.html#uniones-de-filtrado",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
     "section": "Uniones de Filtrado",
-    "text": "Uniones de Filtrado\nsemi_join: Mantener filas que tienen coincidencia\n\n# Clientes que SÍ han comprado\nclientes_activos &lt;- clientes %&gt;%\n  semi_join(ventas, by = \"id_cliente\")\n\nnrow(clientes_activos)  # ¿Cuántos clientes activos?\n\n# Productos que SÍ se han vendido\nproductos_vendidos &lt;- productos %&gt;%\n  semi_join(ventas, by = \"id_producto\")\n\nanti_join: Mantener filas que NO tienen coincidencia\n\n# Clientes registrados pero sin compras\nclientes_sin_compras &lt;- clientes %&gt;%\n  anti_join(ventas, by = \"id_cliente\")\n\nnrow(clientes_sin_compras)  # Oportunidad de marketing\n\n# Productos en catálogo pero nunca vendidos\nproductos_sin_vender &lt;- productos %&gt;%\n  anti_join(ventas, by = \"id_producto\") %&gt;%\n  filter(activo == TRUE)  # y que estén activos\n\nnrow(productos_sin_vender)  # ¿Eliminar del catálogo?"
+    "text": "Uniones de Filtrado\n\nFiltran las observaciones de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla\nSe tiene un subconjunto de las filas de la tabla de la izquierda\n\n\n\n\nsemi_join(x, y) mantiene las observaciones en x que están en y\n\n\n\n\nanti_join(x, y) elimina las observaciones en x que están en y\n\n\n\n\n\nno afectan a las variables\nClaves duplicadas: en uniones de filtro sólo importa la existencia de una coincidencia, NO qué observación coincida \\(\\Rightarrow\\) NUNCA duplica filas"
   },
   {
-    "objectID": "docs/Tema02.html#uniones-con-claves-múltiples",
-    "href": "docs/Tema02.html#uniones-con-claves-múltiples",
+    "objectID": "docs/Tema02.html#uniones-de-filtrado-cont.",
+    "href": "docs/Tema02.html#uniones-de-filtrado-cont.",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Uniones con Claves Múltiples",
-    "text": "Uniones con Claves Múltiples\n\n# Crear tabla de objetivos mensuales por tienda\nobjetivos &lt;- tibble(\n  id_tienda = rep(1:12, each = 12),\n  mes = rep(1:12, times = 12),\n  objetivo_ingresos = runif(144, 30000, 80000)\n)\n\n# Comparar ventas reales vs objetivos\ncomparacion_objetivos &lt;- ventas %&gt;%\n  group_by(id_tienda, mes) %&gt;%\n  summarize(ingresos_reales = sum(total), .groups = \"drop\") %&gt;%\n  left_join(objetivos, by = c(\"id_tienda\", \"mes\")) %&gt;%\n  mutate(\n    diferencia = ingresos_reales - objetivo_ingresos,\n    cumplimiento_pct = round(ingresos_reales / objetivo_ingresos * 100, 1),\n    cumple_objetivo = cumplimiento_pct &gt;= 100\n  )\n\n# Tiendas que más superan objetivos\ncomparacion_objetivos %&gt;%\n  filter(cumple_objetivo) %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(\n    meses_cumplidos = n(),\n    exceso_promedio = mean(diferencia)\n  ) %&gt;%\n  arrange(desc(meses_cumplidos))"
+    "section": "Uniones de Filtrado (cont.)",
+    "text": "Uniones de Filtrado (cont.)\n\nAplicación: ¿cuántos clientes tenemos y cuántos sí han comprado?\n\n\nclientes |&gt; distinct(id_cliente) |&gt; count()\nclientes |&gt; semi_join(ventas) |&gt; distinct(id_cliente) |&gt; count()\n\n\nAplicación: ¿qué productos NO han sido devueltos?\n\n\n\nÚtiles para diagnosticar desajustes de uniones (qué observaciones serán emparejadas). Importante antes de unir tablas MUY grandes\n\n\n# empleados sin información de ventas\nempleados |&gt; anti_join(ventas, \n                       by = c(\"id_empleado\", \"id_tienda\")) |&gt; \n  count(id_empleado, id_tienda)  \n\n\n\nUtiles porque solo eliminan y nunca duplican observaciones\n\n\n\nPueden ser una alternativa simple a usar filter() con filtrados complejos (que involucran varias variables), creando previamente tablas resumidas\n-Ej., venta promedio de los 10 productos con más cantidad vendida\n\n\nUnión, PERO NO con tabla ya existente\nCreamos una tabla para nuestro objetivo de unión de filtrado\n\nAlgunas uniones de filtrado pueden ser equivalentes a usar filter(), con tablas previamente resumidas, pero permiten filtrados complejos (que involucran varias variables) fácilmente\n\n\nej., los diez días con más vuelos (o con los atrasos promedio más altos, necesita un filtro con varias variables (year, month, day)"
   },
   {
-    "objectID": "docs/Tema02.html#caso-de-estudio-completo-análisis-de-devoluciones",
-    "href": "docs/Tema02.html#caso-de-estudio-completo-análisis-de-devoluciones",
+    "objectID": "docs/Tema02.html#operaciones-de-conjunto",
+    "href": "docs/Tema02.html#operaciones-de-conjunto",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Caso de Estudio Completo: Análisis de Devoluciones",
-    "text": "Caso de Estudio Completo: Análisis de Devoluciones\nProblema de Negocio\nContexto: Gerente de operaciones preocupado por devoluciones\nPreguntas: 1. ¿Qué productos tienen más devoluciones? 2. ¿Hay patrones por tienda o categoría? 3. ¿Impacto financiero de las devoluciones? 4. ¿Recomendaciones accionables?\nPaso 1: Exploración Inicial\n\n# Visión general de devoluciones\nglimpse(devoluciones)\n\n# Estadísticas básicas\ndevoluciones %&gt;%\n  summarize(\n    total_devoluciones = n(),\n    tasa_devolucion = n() / nrow(ventas) * 100,\n    reembolso_total = sum(reembolso),\n    reembolso_promedio = mean(reembolso),\n    dias_promedio = mean(as.numeric(fecha_devolucion - \n                        ventas$fecha[match(id_venta, ventas$id_venta)]), na.rm = TRUE)\n  )\n\nPaso 2: Análisis por Motivo\n\n# Distribución de motivos\nanalisis_motivos &lt;- devoluciones %&gt;%\n  group_by(motivo) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    .groups = \"drop\"\n  ) %&gt;%\n  mutate(\n    pct_devoluciones = round(num_devoluciones / sum(num_devoluciones) * 100, 1),\n    pct_reembolso = round(reembolso_total / sum(reembolso_total) * 100, 1)\n  ) %&gt;%\n  arrange(desc(num_devoluciones))\n\nanalisis_motivos\n\n# Visualización\nggplot(analisis_motivos, aes(x = reorder(motivo, num_devoluciones), \n                              y = num_devoluciones)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(title = \"Devoluciones por Motivo\",\n       x = \"Motivo\", y = \"Número de Devoluciones\") +\n  theme_minimal()"
+    "section": "Operaciones de conjunto",
+    "text": "Operaciones de conjunto\n\nTrabajan con filas completas, comparando valores de cada variable.\nEsperan que x e y tengan las mismas variables, y tratan las observaciones (filas) como elementos de un conjunto.\nÚtil cuando se quiere dividir un filtro complejo en piezas más simples.\n\n\n\nCombinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.\n\n\n\ndf1 &lt;- tibble(x = 1:2, y = c(1, 1))\ndf2 &lt;- tibble(x = c(1,1), y = 1:2)\n\nintersect(df1, df2)     # solo filas tanto en df1 como en df2\nunion(df1, df2)         # filas únicas en ambas tablas df1 y df2` \nunion_all(df1, df2)     # todas las filas de df1 y df2, manteniendo duplicados \nsetdiff(df1, df2)       # filas en df1, pero no en df2\nsetdiff(df2, df1)   \n\n\nEquivalencia con bases de datos SQL\nhttps://www.cs.utexas.edu/~mitra/csFall2006/cs329/lectures/sql.html\n\nSQL soporta más tipos de unión y puede trabajar con más de dos tablas.\n\nComo sugiere esta sintaxis, más tipos de unión porque se pueden conectar las tablas usando restricciones diferentes a la igualdad (algunas veces llamadas no-equijoins).\nx and y no tienen que ser tablas en la misma base de datos. Si especifica copy = TRUE, dplyr copiará la tabla y en el mismo lugar que x.\nRevisar las reglas de coerción. P. e., los factores se conservan sólo si los niveles coinciden exactamente; si no, se “coaccionan” (se fuerza su conversión) a tipo de carácter."
   },
   {
-    "objectID": "docs/Tema02.html#caso-de-estudio-completo-cont.",
-    "href": "docs/Tema02.html#caso-de-estudio-completo-cont.",
+    "objectID": "docs/Tema02.html#buenas-prácticas",
+    "href": "docs/Tema02.html#buenas-prácticas",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Caso de Estudio Completo (cont.)",
-    "text": "Caso de Estudio Completo (cont.)\nPaso 3: Productos Problemáticos\n\n# Unir devoluciones con ventas y productos\nproductos_devueltos &lt;- devoluciones %&gt;%\n  left_join(ventas %&gt;% select(id_venta, id_producto, id_tienda), \n            by = \"id_venta\") %&gt;%\n  left_join(productos %&gt;% select(id_producto, nombre_producto, id_categoria),\n            by = \"id_producto\") %&gt;%\n  left_join(categorias %&gt;% select(id_categoria, nombre_categoria),\n            by = \"id_categoria\")\n\n# Top productos con más devoluciones\nproductos_problema &lt;- productos_devueltos %&gt;%\n  group_by(id_producto, nombre_producto, nombre_categoria) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(desc(num_devoluciones)) %&gt;%\n  head(20)\n\nproductos_problema\n\n# Calcular tasa de devolución por producto\ntasa_devolucion_producto &lt;- ventas %&gt;%\n  group_by(id_producto) %&gt;%\n  summarize(\n    veces_vendido = n(),\n    .groups = \"drop\"\n  ) %&gt;%\n  left_join(\n    devoluciones %&gt;%\n      left_join(ventas %&gt;% select(id_venta, id_producto), by = \"id_venta\") %&gt;%\n      group_by(id_producto) %&gt;%\n      summarize(veces_devuelto = n(), .groups = \"drop\"),\n    by = \"id_producto\"\n  ) %&gt;%\n  mutate(\n    veces_devuelto = replace_na(veces_devuelto, 0),\n    tasa_devolucion = round(veces_devuelto / veces_vendido * 100, 2)\n  ) %&gt;%\n  filter(veces_vendido &gt;= 10) %&gt;%  # solo productos con suficientes ventas\n  arrange(desc(tasa_devolucion))\n\nhead(tasa_devolucion_producto, 10)\n\nPaso 4: Análisis por Tienda y Categoría\n\n# Devoluciones por tienda\ndevoluciones_tienda &lt;- productos_devueltos %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region),\n            by = \"id_tienda\") %&gt;%\n  group_by(id_tienda, nombre_tienda, region) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    .groups = \"drop\"\n  )\n\n# Calcular tasa de devolución por tienda\nventas_por_tienda &lt;- ventas %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(num_ventas = n(), .groups = \"drop\")\n\ncomparacion_tiendas &lt;- ventas_por_tienda %&gt;%\n  left_join(devoluciones_tienda, by = \"id_tienda\") %&gt;%\n  mutate(\n    num_devoluciones = replace_na(num_devoluciones, 0),\n    tasa_devolucion = round(num_devoluciones / num_ventas * 100, 2)\n  ) %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda, region),\n            by = \"id_tienda\") %&gt;%\n  arrange(desc(tasa_devolucion))\n\ncomparacion_tiendas\n\n# Por categoría\ndevoluciones_categoria &lt;- productos_devueltos %&gt;%\n  group_by(nombre_categoria) %&gt;%\n  summarize(\n    num_devoluciones = n(),\n    reembolso_total = sum(reembolso),\n    motivo_principal = names(sort(table(motivo), decreasing = TRUE))[1],\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(desc(num_devoluciones))\n\ndevoluciones_categoria"
+    "section": "Buenas Prácticas",
+    "text": "Buenas Prácticas\n\nDatos Ordenados\nCódigo Legible y reproducible\n\nScripts ordenados y comentados\nEncadenar operacion con |&gt; en un paso por línea\nInspeccionar resultados intermedios\nDocumentar decisiones de limpieza\nNombres descriptivos de variables\nGuardar datos procesados\n\nErrores comunes\n\nNo verificar claves duplicadas en uniones\nOrden de operaciones incorrecto: ej., filtar después de summarize() por una variable que ya no existe"
   },
   {
-    "objectID": "docs/Tema02.html#caso-de-estudio-completo-y-3",
-    "href": "docs/Tema02.html#caso-de-estudio-completo-y-3",
+    "objectID": "docs/Tema02.html#buenas-prácticas-cont.",
+    "href": "docs/Tema02.html#buenas-prácticas-cont.",
     "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Caso de Estudio Completo (y 3)",
-    "text": "Caso de Estudio Completo (y 3)\nPaso 5: Impacto Financiero\n\n# Impacto total\nimpacto_financiero &lt;- ventas %&gt;%\n  summarize(\n    ingresos_brutos = sum(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  mutate(\n    reembolsos = sum(devoluciones$reembolso),\n    ingresos_netos = ingresos_brutos - reembolsos,\n    tasa_devolucion_financiera = round(reembolsos / ingresos_brutos * 100, 2)\n  )\n\nimpacto_financiero\n\n# Impacto por período\nimpacto_temporal &lt;- ventas %&gt;%\n  mutate(año_mes = paste(año, sprintf(\"%02d\", mes), sep = \"-\")) %&gt;%\n  group_by(año_mes) %&gt;%\n  summarize(\n    ingresos_brutos = sum(total),\n    .groups = \"drop\"\n  ) %&gt;%\n  left_join(\n    devoluciones %&gt;%\n      left_join(ventas %&gt;% select(id_venta, año, mes), by = \"id_venta\") %&gt;%\n      mutate(año_mes = paste(año, sprintf(\"%02d\", mes), sep = \"-\")) %&gt;%\n      group_by(año_mes) %&gt;%\n      summarize(reembolsos = sum(reembolso), .groups = \"drop\"),\n    by = \"año_mes\"\n  ) %&gt;%\n  mutate(\n    reembolsos = replace_na(reembolsos, 0),\n    ingresos_netos = ingresos_brutos - reembolsos,\n    tasa_devolucion = round(reembolsos / ingresos_brutos * 100, 2)\n  ) %&gt;%\n  arrange(año_mes)\n\n# Visualizar tendencia\nggplot(impacto_temporal, aes(x = año_mes, y = tasa_devolucion, group = 1)) +\n  geom_line(color = \"red\", size = 1) +\n  geom_point() +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  labs(title = \"Evolución de la Tasa de Devolución\",\n       x = \"Período\", y = \"Tasa de Devolución (%)\")"
+    "section": "Buenas Prácticas (cont.)",
+    "text": "Buenas Prácticas (cont.)\nEficiencia:\n\nFiltrar temprano, unir tarde\n\n\nventas_2023 &lt;- ventas |&gt;\n  filter(año == 2023) |&gt;    # reduce tamaño\n  left_join(productos, by = \"id_producto\")\n\nventas_2023_lento &lt;- ventas |&gt;\n  left_join(productos, by = \"id_producto\") |&gt;\n  filter(año == 2023)\n\n\nSeleccionar solo columnas necesarias\n\n\nRecursos Adicionales\n\nDocumentación: ?dplyr, ?tidyr\nCheat Sheets: RStudio &gt; Help &gt; Cheatsheets\nLibros:\n\n“R for Data Science” (Wickham & Grolemund)\n“Advanced R” (Wickham)\n\nComunidad: Stack Overflow, RStudio Community"
   },
   {
-    "objectID": "docs/Tema02.html#caso-de-estudio-completo-y-4",
-    "href": "docs/Tema02.html#caso-de-estudio-completo-y-4",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Caso de Estudio Completo (y 4)",
-    "text": "Caso de Estudio Completo (y 4)\nPaso 6: Recomendaciones Accionables\n\n# Crear informe ejecutivo\ninforme_devoluciones &lt;- list(\n  resumen = devoluciones %&gt;%\n    summarize(\n      total_devoluciones = n(),\n      tasa_global = round(n() / nrow(ventas) * 100, 2),\n      costo_total = sum(reembolso)\n    ),\n  \n  productos_criticos = tasa_devolucion_producto %&gt;%\n    filter(tasa_devolucion &gt; 10) %&gt;%\n    head(10),\n  \n  tiendas_problema = comparacion_tiendas %&gt;%\n    filter(tasa_devolucion &gt; 7) %&gt;%\n    head(5),\n  \n  categorias_riesgo = devoluciones_categoria %&gt;%\n    head(3)\n)\n\n# Mostrar informe\ninforme_devoluciones\n\nRecomendaciones:\n\nProductos: Revisar calidad de productos con tasa &gt;10%\nTiendas: Capacitación en tiendas con alta tasa de devolución\nCategorías: Mejorar descripción de productos en categorías problemáticas\nProcesos: Implementar mejor política de cambios para “Talla incorrecta”"
-  },
-  {
-    "objectID": "docs/Tema02.html#buenas-prácticas-y-errores-comunes",
-    "href": "docs/Tema02.html#buenas-prácticas-y-errores-comunes",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Buenas Prácticas y Errores Comunes",
-    "text": "Buenas Prácticas y Errores Comunes"
-  },
-  {
-    "objectID": "docs/Tema02.html#errores-comunes-y-soluciones-y-3",
-    "href": "docs/Tema02.html#errores-comunes-y-soluciones-y-3",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Errores Comunes y Soluciones (y 3)",
-    "text": "Errores Comunes y Soluciones (y 3)\nError 3: No verificar claves duplicadas en joins\n\n# PROBLEMA: claves duplicadas pueden multiplicar filas\ndf1 &lt;- tibble(id = c(1, 1, 2), valor = c(\"A\", \"B\", \"C\"))\ndf2 &lt;- tibble(id = c(1, 2), info = c(\"X\", \"Y\"))\n\nresultado &lt;- left_join(df1, df2, by = \"id\")\nnrow(resultado)  # Esperamos 3, tenemos 3 (pero revisar lógica)\n\n# VERIFICAR antes de hacer join\ndf1 %&gt;% count(id) %&gt;% filter(n &gt; 1)  # ids duplicados\ndf2 %&gt;% count(id) %&gt;% filter(n &gt; 1)  # ids duplicados\n\n# SOLUCIÓN: decidir qué hacer con duplicados\ndf1_unico &lt;- df1 %&gt;% distinct(id, .keep_all = TRUE)\n\nError 4: Orden de operaciones incorrecto\n\n# PROBLEMA: filtrar después de summarize\nventas %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(total = sum(total)) %&gt;%\n  filter(cantidad &gt; 3)  # ERROR: cantidad ya no existe\n\n# SOLUCIÓN: filtrar antes de summarize\nventas %&gt;%\n  filter(cantidad &gt; 3) %&gt;%\n  group_by(id_tienda) %&gt;%\n  summarize(total = sum(total))"
-  },
-  {
-    "objectID": "docs/Tema02.html#optimización",
-    "href": "docs/Tema02.html#optimización",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Optimización",
-    "text": "Optimización\n\n# USO EFICIENTE: filtrar primero, luego unir\nventas_2023 &lt;- ventas %&gt;%\n  filter(año == 2023) %&gt;%  # reduce tamaño\n  left_join(productos, by = \"id_producto\")\n\n# USO INEFICIENTE: unir todo, luego filtrar\nventas_2023_lento &lt;- ventas %&gt;%\n  left_join(productos, by = \"id_producto\") %&gt;%\n  filter(año == 2023)\n\n# SELECCIONAR SOLO COLUMNAS NECESARIAS\nproductos_minimo &lt;- productos %&gt;%\n  select(id_producto, nombre_producto, precio)\n\nventas_join &lt;- ventas %&gt;%\n  left_join(productos_minimo, by = \"id_producto\")"
-  },
-  {
-    "objectID": "docs/Tema02.html#gráficos-de-análisis-exploratorio",
-    "href": "docs/Tema02.html#gráficos-de-análisis-exploratorio",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Gráficos de Análisis Exploratorio",
-    "text": "Gráficos de Análisis Exploratorio\n\n# Distribución de ventas\nggplot(ventas, aes(x = total)) +\n  geom_histogram(bins = 50, fill = \"steelblue\", alpha = 0.7) +\n  labs(title = \"Distribución de Ventas\",\n       x = \"Importe Total (€)\", y = \"Frecuencia\") +\n  theme_minimal()\n\n# Ventas por día de la semana\nventas_dia &lt;- ventas %&gt;%\n  group_by(dia_semana) %&gt;%\n  summarize(\n    num_ventas = n(),\n    ingresos = sum(total),\n    ticket_promedio = mean(total)\n  )\n\nggplot(ventas_dia, aes(x = dia_semana, y = ingresos)) +\n  geom_col(fill = \"coral\") +\n  labs(title = \"Ingresos por Día de la Semana\",\n       x = \"Día\", y = \"Ingresos (€)\") +\n  theme_minimal()\n\n# Evolución temporal\nventas_mensual &lt;- ventas %&gt;%\n  group_by(año, mes) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\") %&gt;%\n  mutate(periodo = paste(año, sprintf(\"%02d\", mes), sep = \"-\"))\n\nggplot(ventas_mensual, aes(x = periodo, y = ingresos, group = 1)) +\n  geom_line(color = \"darkgreen\", size = 1) +\n  geom_point() +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  labs(title = \"Evolución de Ingresos Mensuales\",\n       x = \"Período\", y = \"Ingresos (€)\")"
-  },
-  {
-    "objectID": "docs/Tema02.html#comparaciones-y-rankings",
-    "href": "docs/Tema02.html#comparaciones-y-rankings",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Comparaciones y Rankings",
-    "text": "Comparaciones y Rankings\n\n# Top 10 tiendas por ingresos\ntop_tiendas &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, nombre_tienda), by = \"id_tienda\") %&gt;%\n  group_by(nombre_tienda) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\") %&gt;%\n  arrange(desc(ingresos)) %&gt;%\n  head(10)\n\nggplot(top_tiendas, aes(x = reorder(nombre_tienda, ingresos), y = ingresos)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(title = \"Top 10 Tiendas por Ingresos\",\n       x = \"Tienda\", y = \"Ingresos (€)\") +\n  theme_minimal()\n\n# Comparación entre regiones\nventas_region &lt;- ventas %&gt;%\n  left_join(tiendas %&gt;% select(id_tienda, region), by = \"id_tienda\") %&gt;%\n  group_by(region, año) %&gt;%\n  summarize(ingresos = sum(total), .groups = \"drop\")\n\nggplot(ventas_region, aes(x = factor(año), y = ingresos, fill = region)) +\n  geom_col(position = \"dodge\") +\n  labs(title = \"Ingresos por Región y Año\",\n       x = \"Año\", y = \"Ingresos (€)\", fill = \"Región\") +\n  theme_minimal()"
-  },
-  {
-    "objectID": "docs/Tema02.html#principios-clave",
-    "href": "docs/Tema02.html#principios-clave",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Principios Clave",
-    "text": "Principios Clave\n\nDatos Ordenados\nCódigo Legible y reproducible\n\nScripts ordenados y comentados\nEncadenar operacion con |&gt; en un paso por línea\nDocumentar decisiones de limpieza\nNombres descriptivos de variables\nGuardar datos procesados\n\nEficiencia:\n\nFiltrar temprano, unir tarde\nSeleccionar solo columnas necesarias\nVerificar claves antes de joins\n\nInspeccionar resultados intermedios\n\n\nRecursos Adicionales\n\nDocumentación: ?dplyr, ?tidyr\nCheat Sheets: RStudio &gt; Help &gt; Cheatsheets\nLibros:\n\n“R for Data Science” (Wickham & Grolemund)\n“Advanced R” (Wickham)\n\nComunidad: Stack Overflow, RStudio Community"
-  },
-  {
-    "objectID": "docs/Tema02.html#ejercicios-de-práctica",
-    "href": "docs/Tema02.html#ejercicios-de-práctica",
-    "title": "Tema 02 - Limpieza y Tratamiento de Datos",
-    "section": "Ejercicios de Práctica",
-    "text": "Ejercicios de Práctica\nEjercicio 1: Análisis de Categorías\nUsando los datos de RetailCorp:\n\nIdentifica las 3 categorías con mayores ingresos en 2023\nCalcula la tasa de crecimiento año sobre año para cada categoría\nDetermina qué categorías tienen los tickets promedio más altos\nCrea un gráfico comparativo\n\nEjercicio 2: Segmentación de Clientes\n\nClasifica clientes según su valor total de compras (Bajo/Medio/Alto/Premium)\nCalcula la recencia (días desde última compra)\nIdentifica clientes en riesgo (no han comprado en &gt;90 días)\nPropón estrategia de retención\n\nEjercicio 3: Análisis de Empleados\n\nCalcula el promedio de ventas por empleado\nIdentifica empleados top performers\nAnaliza si hay diferencias por puesto\nSugiere un sistema de bonificaciones\n\nEjercicio 4: Optimización de Inventario\n\nLista productos con baja rotación (pocas ventas)\nIdentifica productos descontinuados\nCalcula el stock óptimo por tienda (simulado)\nRecomienda productos a eliminar del catálogo"
-  },
-  {
-    "objectID": "docs/Tema02ej1.html",
-    "href": "docs/Tema02ej1.html",
-    "title": "Tema 2. Transformación de Datos. Ejercicio 1",
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
     "section": "",
-    "text": "Entrega del ejercicio\nEste ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\n\n\nPregunta 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nEn clase haremos estos apartados tanto usando un programa de hoja de cálculo (como Excel, LibreOffice Calc o Google Sheets) como usando R.\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nRepetir el apartado a) para cada empleado de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\n¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?\n\n\nRepresentar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.\nPresentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.\nPresentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010."
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
+  },
+  {
+    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "title": "Introducción",
+    "section": "“Datificación” de la vida diaria",
+    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
+  },
+  {
+    "objectID": "docs/0Intro.html#importancia-de-los-datos",
+    "href": "docs/0Intro.html#importancia-de-los-datos",
+    "title": "Introducción",
+    "section": "Importancia de los datos",
+    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
+  },
+  {
+    "objectID": "docs/0Intro.html#objetivos",
+    "href": "docs/0Intro.html#objetivos",
+    "title": "Introducción",
+    "section": "Objetivos",
+    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
+  },
+  {
+    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "title": "Introducción",
+    "section": "Aprendiendo a analizar datos",
+    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
+  },
+  {
+    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
+    "href": "docs/0Intro.html#análitica-cadena-de-valor",
+    "title": "Introducción",
+    "section": "Análitica: Cadena de Valor",
+    "text": "Análitica: Cadena de Valor"
+  },
+  {
+    "objectID": "docs/0Intro.html#tipos-de-análisis",
+    "href": "docs/0Intro.html#tipos-de-análisis",
+    "title": "Introducción",
+    "section": "Tipos de Análisis",
+    "text": "Tipos de Análisis"
+  },
+  {
+    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Ciclo de Vida del Análisis de Datos",
+    "text": "Ciclo de Vida del Análisis de Datos"
+  },
+  {
+    "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
+    "href": "docs/Tema01.html#por-qué-visualizar-datos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "¿Por qué visualizar datos?",
+    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nBancos Centrales: dashboard de indicadores macroeconómicos\nConsultoras: presentaciones ejecutivas con insights de datos\nInvestigación: trabajos con gráficos que demuestran hipótesis\nMedios: The Economist, Financial Times - visualización como marca\nEmpresas: dashboards de KPIs, segmentación de clientes\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
+  },
+  {
+    "objectID": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
+    "href": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "ggplot2 y la Gramática de Gráficos",
+    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
+  },
+  {
+    "objectID": "docs/Tema01.html#creando-un-ggplot",
+    "href": "docs/Tema01.html#creando-un-ggplot",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Creando un “ggplot”",
+    "text": "Creando un “ggplot”\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n\nSolo ggplot() crea un gráfico vacío\n\n\nggplot(data = ventas)\n\n\naes() define cómo las variables se asignan a propiedades visuales\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\nAñadir capas con +: objeto geométrico geom_point()\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\nNOTAR: datos y estética para todas las capas o solo para una\n\n\nggplot(data = ventas) + \n  geom_point(aes(x = marketing, y = ventas))"
+  },
+  {
+    "objectID": "docs/Tema01.html#objetos-geométricos",
+    "href": "docs/Tema01.html#objetos-geométricos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Objetos Geométricos",
+    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Habitual\n\n\n\n\nPuntos\ngeom_point()\nDispersión\n\n\nLíneas\ngeom_line()\nEvolución temporal\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias\n\n\nTexto\ngeom_text()\nEtiquetas\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
+  },
+  {
+    "objectID": "docs/Tema01.html#asociación-estética-con-aes",
+    "href": "docs/Tema01.html#asociación-estética-con-aes",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Asociación Estética, con aes()",
+    "text": "Asociación Estética, con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\n\n\n\n\n\n\n\nposición: x, y\n|\nforma: shape\n\n\ncolor: color exterior\n|\nrelleno: fill (color interior)\n\n\ntamaño: size\n|\ntipo de línea: linetype\n\n\n\n\n\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\n\n\nAlgunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region))"
+  },
+  {
+    "objectID": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
+    "href": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Asociación Estética vs. Opción Fija",
+    "text": "Asociación Estética vs. Opción Fija\n\nCon aes(), se visualiza una variable con una señal visual\n\n\nFuera de aes(), se establece un valor fijo de la señal visual\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = \"red\"))\n\n\n\nPrincipio: Añadir señal visual para representar información, NO “embellecer”\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(color = norte), shape = \"diamond\")\n\n\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(size = inflacion, color = deuda))\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(shape = \"diamond\", color = \"blue\", size = 3)\n\n\nNota: norte (carácter) se convierte automáticamente a factor: → escala categórica\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-como-objetos",
+    "href": "docs/Tema01.html#gráficos-como-objetos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos como Objetos",
+    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))"
+  },
+  {
+    "objectID": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
+    "href": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Datos (y estéticas) específicas por capa",
+    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
+    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos que muestran datos transformados",
+    "text": "Gráficos que muestran datos transformados\n\nAlgunos gráficos (ej., dispersión) muestran los datos originales directamente\n\n\nPero otros gráficos representan estadísticas calculadas a partir de los datos\ngeom_boxplot(): datos → cuartiles, mediana\n\n\n\n\nggplot(clientes, \n       aes(y = gasto/1000)) +  \n  geom_boxplot()\n\n\n\n\n\n\n\n\n\ngeom_smooth(): regresión → predicción de línea de tendencia\n\n\ngraf_base + geom_smooth()           # con intervalos de confianza\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
+    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos que muestran datos transformados (cont.)",
+    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram(): datos → frecuencias por intervalo\nLa estadística predeterminada en geom_bar() es contar casos (stat_count)\n\nNotad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)\n\n\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas %&gt;% \n  group_by(region) %&gt;% \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")\n\n\n\nEn variables continuas, no hay categorías “naturales” para calcular frecuencias\n\nSe tienen que definir “arbitrariamente” los intervalos\nDistintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico\n\n\n\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)              # Número de grupos\ngraf + geom_histogram(binwidth = 3)           # Ancho de grupos\ngraf + geom_histogram(breaks = seq(10,90,5))  # Rangos"
+  },
+  {
+    "objectID": "docs/Tema01.html#escalas-control-de-asociación-estética",
+    "href": "docs/Tema01.html#escalas-control-de-asociación-estética",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escalas: Control de Asociación Estética",
+    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,\n\n\n\n\n\nEscala\nTipos\nEjemplos\n\n\n\n\n\n\n\n\n\nscale_color_\nidentity\nscale_fill_continuous\n\n\nscale_fill_\nmanual\nscale_color_discrete\n\n\nscale_size_\ncontinuous\nscale_color_manual\n\n\n\ndiscrete\nscale_size_discrete\n\n\n\n\n\n\n\nscale_shape_\ndiscrete\nscale_shape_discrete\n\n\nscale_linetype_\nmanual\nscale_shape_manual\n\n\n\nidentity\nscale_linetype_discrete\n\n\n\n\n\n\n\nscale_x_\ncontinuous\nscale_x_continuous\n\n\nscale_y_\ndiscrete\nscale_y_discrete\n\n\n\nreverse\nscale_y_reverse\n\n\n\nlog10\nscale_x_log10\n\n\n\ndate\nscale_x_date\n\n\n\ndatetime\nscale_y_datetime"
+  },
+  {
+    "objectID": "docs/Tema01.html#escalas-cont.",
+    "href": "docs/Tema01.html#escalas-cont.",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escalas (cont.)",
+    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona de Europa\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: este ejemplo tiene elementos redundantes a efectos ilustrativos\n\n\n\nEj., dos estéticas para una variables\nlimits que no concuerdan con breaks"
+  },
+  {
+    "objectID": "docs/Tema01.html#escala-logarítmica",
+    "href": "docs/Tema01.html#escala-logarítmica",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escala Logarítmica",
+    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\n\n\nggplot(macro, aes(y = desempleo, x = poblacion)) + \n  scale_x_log10(breaks = seq(0,100,20)) + geom_point()\n\n\nMejor que x = log(pib) porque los ejes se muestran en unidades originales\n\n\n\nEn escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -&gt; incremento de 20 millones de personas en ambos casos\nEn escala logarítmica: misma distancia entre 20 y 40 que entre 40 y 80 -&gt; incremento del 100% en ambos casos\nqué es un logaritmo de euros o de personas\n\n\n\nUsar logs cambia la interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\nNO para “evitar” valores extremos o distribución asimétrica"
+  },
+  {
+    "objectID": "docs/Tema01.html#facetas-sub-gráficos",
+    "href": "docs/Tema01.html#facetas-sub-gráficos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Facetas (sub-gráficos)",
+    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
+  },
+  {
+    "objectID": "docs/Tema01.html#contexto-con-labs",
+    "href": "docs/Tema01.html#contexto-con-labs",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Contexto con labs()",
+    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
+  },
+  {
+    "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
+    "href": "docs/Tema01.html#otros-elementos-de-contexto",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Otros Elementos de Contexto",
+    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
+  },
+  {
+    "objectID": "docs/Tema01.html#personalizar-el-aspecto-general",
+    "href": "docs/Tema01.html#personalizar-el-aspecto-general",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Personalizar el aspecto general",
+    "text": "Personalizar el aspecto general\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\nCOLOR\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nSe pueden cambiar manualmente colores (p.e., scale_fill_manual()) o la forma (ej., scale_shape_manual())\nPERO es preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + \n          geom_boxplot()\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\n\n\n\nRColorBrewer o viridis \nTambién se puede cambiar la forma con scale_shape_manual()\n\n\n\n\nTEMAS\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\n\nSe puede añadir una capa de tema (estilo general de todos los componentes)\n\n\n\n\ngraf + theme_gray()      \n\n\n\ngraf + theme_minimal()\n\n\n\nTambién existen temas profesionales predefinidos en bibliotecas\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-aplicados",
+    "href": "docs/Tema01.html#ejemplos-aplicados",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos Aplicados",
+    "text": "Ejemplos Aplicados\n\nRelación Gasto Marketing - Ventas\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region)) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(title = \"ROI del Gasto en Marketing por Región\",\n       x = \"Inversión en Marketing (miles €)\",\n       y = \"Ventas (miles €)\",\n       color = \"Región\") +\n  theme_minimal()\n\n\nDistribución de Satisfacción del Cliente\n\n\nggplot(ventas, aes(x = satisfaccion)) +\n  geom_bar(fill = \"steelblue\") +\n  facet_wrap(~producto) +\n  labs(title = \"Distribución de Satisfacción del Cliente por Producto\",\n       x = \"Puntuación de Satisfacción (1-5)\",\n       y = \"Número de Clientes\") +\n  theme_light()"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-aplicados-1",
+    "href": "docs/Tema01.html#ejemplos-aplicados-1",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos Aplicados",
+    "text": "Ejemplos Aplicados\n\n\nComparación de Indicadores UE\n\n\nggplot(macro, aes(x = pais, y = pib)) +\n  geom_col(aes(fill = norte)) +\n  labs(title = \"PIB per cápita en países de la UE\",\n       x = \"País\",\n       y = \"PIB per cápita (miles €)\",\n       fill = \"Norte\") +\n  theme_economist() +\n  scale_fill_economist()\n\n\n\nIndicadores Macroeconómicos\n\n\nggplot(macro, aes(x = desempleo, y = inflacion)) +\n  geom_point(aes(size = deuda, color = norte)) +\n  geom_text_repel(aes(label = pais), size = 3) +\n  labs(title = \"Relación Desempleo-Inflación por País\",\n       x = \"Tasa de Desempleo (%)\",\n       y = \"Tasa de Inflación (%)\",\n       size = \"Deuda Pública (% PIB)\",\n       color = \"Norte de Europa\")\n\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema01.html#comentarios-finales",
+    "href": "docs/Tema01.html#comentarios-finales",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Comentarios Finales",
+    "text": "Comentarios Finales\n\nGuardar gráficos: en la pestaña de Plots &gt; Export o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R y RStudio\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
+  },
+  {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(13-Oct. a 19-Oct.)\n\nTema 02 - Ejercicio\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-6",
+    "href": "Contenidos.html#semana-6",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(13-Oct. a 19-Oct.)\n\nTema 02 - Ejercicio\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-5",
+    "href": "Contenidos.html#semana-5",
+    "title": "Contenidos",
+    "section": "Semana 5",
+    "text": "Semana 5\n(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto"
+  },
+  {
+    "objectID": "Contenidos.html#semana-4",
+    "href": "Contenidos.html#semana-4",
+    "title": "Contenidos",
+    "section": "Semana 4",
+    "text": "Semana 4\n(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "Semana 3",
+    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 05-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
+  },
+  {
+    "objectID": "ProyectoFinal.html#elección-de-tema",
+    "href": "ProyectoFinal.html#elección-de-tema",
+    "title": "Proyecto Final",
+    "section": "Elección de Tema",
+    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
+  },
+  {
+    "objectID": "ProyectoFinal.html#entrega-final",
+    "href": "ProyectoFinal.html#entrega-final",
+    "title": "Proyecto Final",
+    "section": "Entrega Final",
+    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
+  },
+  {
+    "objectID": "ProyectoFinal.html#importante-plagio.",
+    "href": "ProyectoFinal.html#importante-plagio.",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO.",
+    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+  },
+  {
+    "objectID": "index.html#pedro-albarrán",
+    "href": "index.html#pedro-albarrán",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
+  },
+  {
+    "objectID": "index.html#alberto-pérez",
+    "href": "index.html#alberto-pérez",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+  },
+  {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
+    "section": "",
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data\nVentasTabla\nEmpleados\nDosTablas"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "docs/Tema03ej.html",
+    "href": "docs/Tema03ej.html",
+    "title": "Tema 03. Quarto. Ejercicio.",
+    "section": "",
+    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -649,335 +936,6 @@
     "title": "Tema 0: Introducción a R y RStudio (Posit)",
     "section": "Nota sobre programación “avanzada”",
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
-  },
-  {
-    "objectID": "docs/Tema03ej.html",
-    "href": "docs/Tema03ej.html",
-    "title": "Tema 03. Quarto. Ejercicio.",
-    "section": "",
-    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data\nVentasTabla\nEmpleados\nDosTablas"
-  },
-  {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "index.html#pedro-albarrán",
-    "href": "index.html#pedro-albarrán",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
-  },
-  {
-    "objectID": "index.html#alberto-pérez",
-    "href": "index.html#alberto-pérez",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
-    "section": "",
-    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
-  },
-  {
-    "objectID": "ProyectoFinal.html#elección-de-tema",
-    "href": "ProyectoFinal.html#elección-de-tema",
-    "title": "Proyecto Final",
-    "section": "Elección de Tema",
-    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
-  },
-  {
-    "objectID": "ProyectoFinal.html#entrega-final",
-    "href": "ProyectoFinal.html#entrega-final",
-    "title": "Proyecto Final",
-    "section": "Entrega Final",
-    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
-  },
-  {
-    "objectID": "ProyectoFinal.html#importante-plagio.",
-    "href": "ProyectoFinal.html#importante-plagio.",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO.",
-    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-5",
-    "href": "Contenidos.html#semana-5",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-4",
-    "href": "Contenidos.html#semana-4",
-    "title": "Contenidos",
-    "section": "Semana 4",
-    "text": "Semana 4\n(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "Semana 3",
-    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 05-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
-  },
-  {
-    "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
-    "href": "docs/Tema01.html#por-qué-visualizar-datos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "¿Por qué visualizar datos?",
-    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nBancos Centrales: dashboard de indicadores macroeconómicos\nConsultoras: presentaciones ejecutivas con insights de datos\nInvestigación: trabajos con gráficos que demuestran hipótesis\nMedios: The Economist, Financial Times - visualización como marca\nEmpresas: dashboards de KPIs, segmentación de clientes\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
-  },
-  {
-    "objectID": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
-    "href": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "ggplot2 y la Gramática de Gráficos",
-    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
-  },
-  {
-    "objectID": "docs/Tema01.html#creando-un-ggplot",
-    "href": "docs/Tema01.html#creando-un-ggplot",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Creando un “ggplot”",
-    "text": "Creando un “ggplot”\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n\nSolo ggplot() crea un gráfico vacío\n\n\nggplot(data = ventas)\n\n\naes() define cómo las variables se asignan a propiedades visuales\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\nAñadir capas con +: objeto geométrico geom_point()\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\nNOTAR: datos y estética para todas las capas o solo para una\n\n\nggplot(data = ventas) + \n  geom_point(aes(x = marketing, y = ventas))"
-  },
-  {
-    "objectID": "docs/Tema01.html#objetos-geométricos",
-    "href": "docs/Tema01.html#objetos-geométricos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Objetos Geométricos",
-    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Habitual\n\n\n\n\nPuntos\ngeom_point()\nDispersión\n\n\nLíneas\ngeom_line()\nEvolución temporal\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias\n\n\nTexto\ngeom_text()\nEtiquetas\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
-  },
-  {
-    "objectID": "docs/Tema01.html#asociación-estética-con-aes",
-    "href": "docs/Tema01.html#asociación-estética-con-aes",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Asociación Estética, con aes()",
-    "text": "Asociación Estética, con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\n\n\n\n\n\n\n\nposición: x, y\n|\nforma: shape\n\n\ncolor: color exterior\n|\nrelleno: fill (color interior)\n\n\ntamaño: size\n|\ntipo de línea: linetype\n\n\n\n\n\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\n\n\nAlgunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region))"
-  },
-  {
-    "objectID": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
-    "href": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Asociación Estética vs. Opción Fija",
-    "text": "Asociación Estética vs. Opción Fija\n\nCon aes(), se visualiza una variable con una señal visual\n\n\nFuera de aes(), se establece un valor fijo de la señal visual\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = \"red\"))\n\n\n\nPrincipio: Añadir señal visual para representar información, NO “embellecer”\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(color = norte), shape = \"diamond\")\n\n\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(size = inflacion, color = deuda))\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(shape = \"diamond\", color = \"blue\", size = 3)\n\n\nNota: norte (carácter) se convierte automáticamente a factor: → escala categórica\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-como-objetos",
-    "href": "docs/Tema01.html#gráficos-como-objetos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos como Objetos",
-    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))"
-  },
-  {
-    "objectID": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
-    "href": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Datos (y estéticas) específicas por capa",
-    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
-    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos que muestran datos transformados",
-    "text": "Gráficos que muestran datos transformados\n\nAlgunos gráficos (ej., dispersión) muestran los datos originales directamente\n\n\nPero otros gráficos representan estadísticas calculadas a partir de los datos\ngeom_boxplot(): datos → cuartiles, mediana\n\n\n\n\nggplot(clientes, \n       aes(y = gasto/1000)) +  \n  geom_boxplot()\n\n\n\n\n\n\n\n\n\ngeom_smooth(): regresión → predicción de línea de tendencia\n\n\ngraf_base + geom_smooth()           # con intervalos de confianza\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
-    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos que muestran datos transformados (cont.)",
-    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram(): datos → frecuencias por intervalo\nLa estadística predeterminada en geom_bar() es contar casos (stat_count)\n\nNotad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)\n\n\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas %&gt;% \n  group_by(region) %&gt;% \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")\n\n\n\nEn variables continuas, no hay categorías “naturales” para calcular frecuencias\n\nSe tienen que definir “arbitrariamente” los intervalos\nDistintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico\n\n\n\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)              # Número de grupos\ngraf + geom_histogram(binwidth = 3)           # Ancho de grupos\ngraf + geom_histogram(breaks = seq(10,90,5))  # Rangos"
-  },
-  {
-    "objectID": "docs/Tema01.html#escalas-control-de-asociación-estética",
-    "href": "docs/Tema01.html#escalas-control-de-asociación-estética",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escalas: Control de Asociación Estética",
-    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,\n\n\n\n\n\nEscala\nTipos\nEjemplos\n\n\n\n\n\n\n\n\n\nscale_color_\nidentity\nscale_fill_continuous\n\n\nscale_fill_\nmanual\nscale_color_discrete\n\n\nscale_size_\ncontinuous\nscale_color_manual\n\n\n\ndiscrete\nscale_size_discrete\n\n\n\n\n\n\n\nscale_shape_\ndiscrete\nscale_shape_discrete\n\n\nscale_linetype_\nmanual\nscale_shape_manual\n\n\n\nidentity\nscale_linetype_discrete\n\n\n\n\n\n\n\nscale_x_\ncontinuous\nscale_x_continuous\n\n\nscale_y_\ndiscrete\nscale_y_discrete\n\n\n\nreverse\nscale_y_reverse\n\n\n\nlog10\nscale_x_log10\n\n\n\ndate\nscale_x_date\n\n\n\ndatetime\nscale_y_datetime"
-  },
-  {
-    "objectID": "docs/Tema01.html#escalas-cont.",
-    "href": "docs/Tema01.html#escalas-cont.",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escalas (cont.)",
-    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona de Europa\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: este ejemplo tiene elementos redundantes a efectos ilustrativos\n\n\n\nEj., dos estéticas para una variables\nlimits que no concuerdan con breaks"
-  },
-  {
-    "objectID": "docs/Tema01.html#escala-logarítmica",
-    "href": "docs/Tema01.html#escala-logarítmica",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escala Logarítmica",
-    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\n\n\nggplot(macro, aes(y = desempleo, x = poblacion)) + \n  scale_x_log10(breaks = seq(0,100,20)) + geom_point()\n\n\nMejor que x = log(pib) porque los ejes se muestran en unidades originales\n\n\n\nEn escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -&gt; incremento de 20 millones de personas en ambos casos\nEn escala logarítmica: misma distancia entre 20 y 40 que entre 40 y 80 -&gt; incremento del 100% en ambos casos\nqué es un logaritmo de euros o de personas\n\n\n\nUsar logs cambia la interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\nNO para “evitar” valores extremos o distribución asimétrica"
-  },
-  {
-    "objectID": "docs/Tema01.html#facetas-sub-gráficos",
-    "href": "docs/Tema01.html#facetas-sub-gráficos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Facetas (sub-gráficos)",
-    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
-  },
-  {
-    "objectID": "docs/Tema01.html#contexto-con-labs",
-    "href": "docs/Tema01.html#contexto-con-labs",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Contexto con labs()",
-    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
-  },
-  {
-    "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
-    "href": "docs/Tema01.html#otros-elementos-de-contexto",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Otros Elementos de Contexto",
-    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
-  },
-  {
-    "objectID": "docs/Tema01.html#personalizar-el-aspecto-general",
-    "href": "docs/Tema01.html#personalizar-el-aspecto-general",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Personalizar el aspecto general",
-    "text": "Personalizar el aspecto general\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\nCOLOR\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nSe pueden cambiar manualmente colores (p.e., scale_fill_manual()) o la forma (ej., scale_shape_manual())\nPERO es preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + \n          geom_boxplot()\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\n\n\n\nRColorBrewer o viridis \nTambién se puede cambiar la forma con scale_shape_manual()\n\n\n\n\nTEMAS\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\n\nSe puede añadir una capa de tema (estilo general de todos los componentes)\n\n\n\n\ngraf + theme_gray()      \n\n\n\ngraf + theme_minimal()\n\n\n\nTambién existen temas profesionales predefinidos en bibliotecas\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejemplos-aplicados",
-    "href": "docs/Tema01.html#ejemplos-aplicados",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Ejemplos Aplicados",
-    "text": "Ejemplos Aplicados\n\nRelación Gasto Marketing - Ventas\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region)) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(title = \"ROI del Gasto en Marketing por Región\",\n       x = \"Inversión en Marketing (miles €)\",\n       y = \"Ventas (miles €)\",\n       color = \"Región\") +\n  theme_minimal()\n\n\nDistribución de Satisfacción del Cliente\n\n\nggplot(ventas, aes(x = satisfaccion)) +\n  geom_bar(fill = \"steelblue\") +\n  facet_wrap(~producto) +\n  labs(title = \"Distribución de Satisfacción del Cliente por Producto\",\n       x = \"Puntuación de Satisfacción (1-5)\",\n       y = \"Número de Clientes\") +\n  theme_light()"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejemplos-aplicados-1",
-    "href": "docs/Tema01.html#ejemplos-aplicados-1",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Ejemplos Aplicados",
-    "text": "Ejemplos Aplicados\n\n\nComparación de Indicadores UE\n\n\nggplot(macro, aes(x = pais, y = pib)) +\n  geom_col(aes(fill = norte)) +\n  labs(title = \"PIB per cápita en países de la UE\",\n       x = \"País\",\n       y = \"PIB per cápita (miles €)\",\n       fill = \"Norte\") +\n  theme_economist() +\n  scale_fill_economist()\n\n\n\nIndicadores Macroeconómicos\n\n\nggplot(macro, aes(x = desempleo, y = inflacion)) +\n  geom_point(aes(size = deuda, color = norte)) +\n  geom_text_repel(aes(label = pais), size = 3) +\n  labs(title = \"Relación Desempleo-Inflación por País\",\n       x = \"Tasa de Desempleo (%)\",\n       y = \"Tasa de Inflación (%)\",\n       size = \"Deuda Pública (% PIB)\",\n       color = \"Norte de Europa\")\n\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
-  },
-  {
-    "objectID": "docs/Tema01.html#comentarios-finales",
-    "href": "docs/Tema01.html#comentarios-finales",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Comentarios Finales",
-    "text": "Comentarios Finales\n\nGuardar gráficos: en la pestaña de Plots &gt; Export o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R y RStudio\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
-  },
-  {
-    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "title": "Introducción",
-    "section": "“Datificación” de la vida diaria",
-    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
-  },
-  {
-    "objectID": "docs/0Intro.html#importancia-de-los-datos",
-    "href": "docs/0Intro.html#importancia-de-los-datos",
-    "title": "Introducción",
-    "section": "Importancia de los datos",
-    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
-  },
-  {
-    "objectID": "docs/0Intro.html#objetivos",
-    "href": "docs/0Intro.html#objetivos",
-    "title": "Introducción",
-    "section": "Objetivos",
-    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
-  },
-  {
-    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "title": "Introducción",
-    "section": "Aprendiendo a analizar datos",
-    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
-  },
-  {
-    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
-    "href": "docs/0Intro.html#análitica-cadena-de-valor",
-    "title": "Introducción",
-    "section": "Análitica: Cadena de Valor",
-    "text": "Análitica: Cadena de Valor"
-  },
-  {
-    "objectID": "docs/0Intro.html#tipos-de-análisis",
-    "href": "docs/0Intro.html#tipos-de-análisis",
-    "title": "Introducción",
-    "section": "Tipos de Análisis",
-    "text": "Tipos de Análisis"
-  },
-  {
-    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "title": "Introducción",
-    "section": "Ciclo de Vida del Análisis de Datos",
-    "text": "Ciclo de Vida del Análisis de Datos"
-  },
-  {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Introducción a R. Ejercicio 1",
-    "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
   },
   {
     "objectID": "docs/Tema01ej.html",
