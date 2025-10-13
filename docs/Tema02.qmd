@@ -68,264 +68,8 @@ library(rmarkdown)
 #| echo: false
 #| eval: true
 
-library(tidyverse)
+source("Tema02datos.R")
 
-if (!dir.exists("data")) dir.create("data")
-set.seed(2024)
-
-# ========================================
-# PRODUCTOS (sin tabla de categorías)
-# ========================================
-productos <- data.frame(
-  id_producto = 1:150,
-  nombre_producto = paste0("Producto_", sprintf("%03d", 1:150)),
-  categoria = sample(c("Electrónica", "Ropa", "Hogar", "Deportes", 
-                       "Alimentación", "Juguetes", "Libros", "Belleza"),
-                     150, replace = TRUE),
-  precio = round(runif(150, 10, 500), 2),
-  costo = round(runif(150, 5, 400), 2),
-  activo = sample(c(TRUE, FALSE), 150, replace = TRUE, prob = c(0.9, 0.1))
-) %>%
-  mutate(precio = ifelse(precio < costo, costo * 1.2, precio))
-
-# ========================================
-# TIENDAS
-# ========================================
-tiendas <- data.frame(
-  id_tienda = 1:12,
-  codigo_tienda = paste0("T", sprintf("%03d", 1:12)),
-  nombre_tienda = c("Madrid Centro", "Barcelona Diagonal", "Valencia Puerto",
-                    "Sevilla Este", "Bilbao Centro", "Málaga Costa",
-                    "Zaragoza Plaza", "Alicante Playa", "Valladolid Norte",
-                    "Vigo Mar", "Gijón Centro", "Murcia Sur"),
-  region = c("Centro", "Nordeste", "Levante", "Sur", "Norte", "Sur",
-             "Centro", "Levante", "Norte", "Noroeste", "Norte", "Levante")
-)
-
-# ========================================
-# EMPLEADOS
-# ========================================
-empleados <- data.frame(
-  id_empleado = 1:100,
-  nombre = paste0("Empleado_", 1:100),
-  id_tienda = c(sample(1:12, 85, replace = TRUE), rep(NA, 15)),
-  puesto = sample(c("Vendedor", "Supervisor", "Gerente", "Almacén"),
-                  100, replace = TRUE, prob = c(0.6, 0.2, 0.1, 0.1)),
-  salario_mensual = round(rnorm(100, 1800, 400), 0)
-) %>%
-  mutate(salario_mensual = pmax(salario_mensual, 1100))
-
-# ========================================
-# CLIENTES
-# ========================================
-clientes <- data.frame(
-  id_cliente = 1:2500,
-  email = paste0("cliente", 1:2500, "@email.com"),
-  programa_fidelidad = sample(c("Básico", "Silver", "Gold", "Platinum", NA),
-                              2500, replace = TRUE, 
-                              prob = c(0.4, 0.25, 0.15, 0.05, 0.15))
-)
-
-# ========================================
-# COMISIONES_EMPLEADO 
-# CLAVE COMPUESTA: codigo_tienda + puesto
-# (nombre diferente: codigo_tienda en vez de id_tienda)
-# ========================================
-comisiones_empleado <- expand.grid(
-  codigo_tienda = paste0("T", sprintf("%03d", 1:12)),
-  puesto = c("Vendedor", "Supervisor", "Gerente", "Almacén")
-) %>%
-  mutate(
-    comision_porcentaje = case_when(
-      puesto == "Vendedor" & codigo_tienda %in% c("T001", "T002") ~ 3.0,
-      puesto == "Vendedor" ~ 2.5,
-      puesto == "Supervisor" ~ 1.5,
-      puesto == "Gerente" ~ 1.0,
-      TRUE ~ 0.5
-    )
-  )
-
-# ========================================
-# VENTAS (tabla central)
-# ========================================
-fechas_ventas <- c(
-  sample(seq(as.Date("2020-01-01"), as.Date("2021-12-31"), by = "day"),
-         1000, replace = TRUE),
-  sample(seq(as.Date("2022-01-01"), as.Date("2022-12-31"), by = "day"),
-         1500, replace = TRUE),
-  sample(seq(as.Date("2023-01-01"), as.Date("2023-12-31"), by = "day"),
-         2000, replace = TRUE),
-  sample(seq(as.Date("2024-01-01"), as.Date("2024-01-31"), by = "day"),
-         500, replace = TRUE)
-)
-
-ventas <- data.frame(
-  id_venta = 1:5000,
-  fecha = sample(fechas_ventas, 5000, replace = FALSE),
-  id_cliente = sample(clientes$id_cliente, 5000, replace = TRUE),
-  id_producto = sample(productos$id_producto, 5000, replace = TRUE),
-  id_tienda = sample(tiendas$id_tienda, 5000, replace = TRUE),
-  id_empleado = sample(empleados$id_empleado[1:85], 5000, replace = TRUE),
-  cantidad = sample(1:5, 5000, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.07, 0.03)),
-  descuento_porcentaje = sample(c(0, 5, 10, 15, 20, 25),
-                                5000, replace = TRUE,
-                                prob = c(0.5, 0.2, 0.15, 0.1, 0.04, 0.01))
-) %>%
-  left_join(productos %>% select(id_producto, precio), by = "id_producto") %>%
-  mutate(
-    precio_unitario = precio,
-    subtotal = cantidad * precio_unitario,
-    descuento_aplicado = round(subtotal * descuento_porcentaje / 100, 2),
-    total = subtotal - descuento_aplicado,
-    año = year(fecha),
-    mes = month(fecha),
-    trimestre = quarter(fecha),
-    dia_semana = wday(fecha, label = TRUE, abbr = FALSE, week_start = 1)
-  ) %>%
-  select(-precio)
-
-# ========================================
-# DEVOLUCIONES
-# ========================================
-ventas_con_devolucion <- sample(ventas$id_venta, 
-                                round(nrow(ventas) * 0.05), 
-                                replace = FALSE)
-
-devoluciones <- ventas %>%
-  filter(id_venta %in% ventas_con_devolucion) %>%
-  mutate(
-    id_devolucion = row_number(),
-    fecha_devolucion = fecha + sample(1:30, n(), replace = TRUE),
-    motivo = sample(c("Defectuoso", "No satisfecho", "Talla incorrecta", 
-                      "Color diferente", "Cambio de opinión"),
-                    n(), replace = TRUE,
-                    prob = c(0.15, 0.25, 0.20, 0.15, 0.25)),
-    cantidad_devuelta = pmin(cantidad, sample(1:3, n(), replace = TRUE)),
-    reembolso = round(total * (cantidad_devuelta / cantidad), 2),
-    procesado = sample(c(TRUE, FALSE), n(), replace = TRUE, prob = c(0.9, 0.1))
-  ) %>%
-  select(id_devolucion, id_venta, fecha_devolucion, motivo, 
-         cantidad_devuelta, reembolso, procesado)
-
-# ========================================
-# VENTAS_ANCHO (para pivoting)
-# ========================================
-ventas_ancho <- tibble(
-  tienda = c("Madrid", "Barcelona", "Valencia"),
-  Q1 = c(145, 152, 138),
-  Q2 = c(158, 164, 151),
-  Q3 = c(151, 156, 149),
-  Q4 = c(169, 175, 162)
-)
-
-# ========================================
-# INFORMACIÓN DE VARIABLES
-# ========================================
-ventas_info <- data.frame(
-  variable = c("id_venta", "fecha", "id_cliente", "id_producto", "id_tienda",
-               "id_empleado", "cantidad", "descuento_porcentaje", "precio_unitario",
-               "subtotal", "descuento_aplicado", "total", "año", "mes",
-               "trimestre", "dia_semana"),
-  descripcion = c(
-    "Identificador único de la transacción de venta",
-    "Fecha de la venta (formato YYYY-MM-DD)",
-    "Identificador del cliente que realizó la compra",
-    "Identificador del producto vendido",
-    "Identificador de la tienda donde se realizó la venta",
-    "Identificador del empleado que atendió la venta",
-    "Número de unidades vendidas",
-    "Porcentaje de descuento aplicado (0-25%)",
-    "Precio por unidad del producto en euros",
-    "Precio total antes de descuento (cantidad × precio_unitario)",
-    "Importe del descuento aplicado en euros",
-    "Precio final pagado por el cliente en euros",
-    "Año de la venta",
-    "Mes de la venta (1-12)",
-    "Trimestre del año (1-4)",
-    "Día de la semana de la venta"
-  ),
-  tipo = c("Entero", "Fecha", "Entero", "Entero", "Entero", "Entero",
-           "Entero", "Numérica", "Numérica", "Numérica", "Numérica",
-           "Numérica", "Entero", "Entero", "Entero", "Factor")
-)
-
-productos_info <- data.frame(
-  variable = c("id_producto", "nombre_producto", "categoria", "precio", "costo", "activo"),
-  descripcion = c(
-    "Identificador único del producto",
-    "Nombre descriptivo del producto",
-    "Categoría del producto",
-    "Precio de venta al público en euros",
-    "Costo de adquisición/producción en euros",
-    "Indica si el producto está activo en catálogo (TRUE/FALSE)"
-  ),
-  tipo = c("Entero", "Carácter", "Carácter", "Numérica", "Numérica", "Lógico")
-)
-
-clientes_info <- data.frame(
-  variable = c("id_cliente", "email", "programa_fidelidad"),
-  descripcion = c(
-    "Identificador único del cliente",
-    "Dirección de correo electrónico del cliente",
-    "Nivel en el programa de fidelidad (Básico/Silver/Gold/Platinum/NA)"
-  ),
-  tipo = c("Entero", "Carácter", "Factor")
-)
-
-empleados_info <- data.frame(
-  variable = c("id_empleado", "nombre", "id_tienda", "puesto", "salario_mensual"),
-  descripcion = c(
-    "Identificador único del empleado",
-    "Nombre del empleado",
-    "Identificador de la tienda donde trabaja (NA si sin asignar)",
-    "Puesto de trabajo (Vendedor/Supervisor/Gerente/Almacén)",
-    "Salario mensual bruto en euros"
-  ),
-  tipo = c("Entero", "Carácter", "Entero", "Factor", "Numérica")
-)
-
-tiendas_info <- data.frame(
-  variable = c("id_tienda", "codigo_tienda", "nombre_tienda", "region"),
-  descripcion = c(
-    "Identificador único de la tienda",
-    "Código alfanumérico de la tienda (formato T001-T012)",
-    "Nombre comercial de la tienda",
-    "Región geográfica (Centro/Norte/Sur/Nordeste/Levante/Noroeste)"
-  ),
-  tipo = c("Entero", "Carácter", "Carácter", "Factor")
-)
-
-comisiones_empleado_info <- data.frame(
-  variable = c("codigo_tienda", "puesto", "comision_porcentaje"),
-  descripcion = c(
-    "Código de la tienda",
-    "Puesto del empleado",
-    "Porcentaje de comisión por venta"
-  ),
-  tipo = c("Carácter", "Factor", "Numérica")
-)
-
-devoluciones_info <- data.frame(
-  variable = c("id_devolucion", "id_venta", "fecha_devolucion", "motivo",
-               "cantidad_devuelta", "reembolso", "procesado"),
-  descripcion = c(
-    "Identificador único de la devolución",
-    "Identificador de la venta original asociada",
-    "Fecha en que se procesó la devolución",
-    "Motivo de la devolución (Defectuoso/No satisfecho/etc.)",
-    "Cantidad de unidades devueltas",
-    "Importe reembolsado al cliente en euros",
-    "Indica si la devolución ha sido procesada (TRUE/FALSE)"
-  ),
-  tipo = c("Entero", "Entero", "Fecha", "Factor", "Entero", "Numérica", "Lógico")
-)
-
-# Guardar todos los datasets
-save(ventas, productos, clientes, empleados, tiendas, 
-     comisiones_empleado, devoluciones, ventas_ancho,
-     ventas_info, productos_info, clientes_info, empleados_info, 
-     tiendas_info, comisiones_empleado_info, devoluciones_info,
-     file = "data/retail_data.RData")
 ```
 
 # Introducción. Datos Ordenados
@@ -374,11 +118,11 @@ save(ventas, productos, clientes, empleados, tiendas,
 
 ![](figure/tidy-1.png){width=65% fig-align="center"}
 
-- Importante: ¿a qué nivel estamos midiendo la información? ¿qué es una unidad en la tabla?
+- ¿Qué es una unidad en la tabla? ¿a qué nivel medimos la información?
 
-  - a nivel de cada compra realizada por un cliente en cada fecha
+  - a nivel de cada compra realizada por un cliente en cada fecha, o
   
-  - a nivel de todas las compras realizdas por un cliente, etc.
+  - a nivel de cliente (todas sus compras), de tienda (todas sus ventas), etc.
 
 - Tenemos información similar y no redundante en una misma tabla 
 
@@ -803,21 +547,26 @@ ventas_tiempo <- ventas |>
 ## 4. `arrange()`
 
 :::: {.columns}
+
 ::: {.column width=55%}
-- re-ordena las filas todas las columnas de un *data frame*
+
+- re-ordena las filas de un *data frame* (todas las columnas)
+
   - en orden ascendente (por defecto) o descendente con `desc()`
+
 :::
 
 ::: {.column width=45%}
 ![](figure/arrange.png){width=50% fig-align="center"}
 ::: 
+
 ::::
 
-- *Caso de Uso:* Top 10 ventas más altas
+- *Caso de Uso:* Top 5 ventas más altas
 ```{r}
 ventas |> 
-  arrange(desc(total)) |> 
-  select(id_venta, fecha, total) |> head(10) 
+  arrange(desc(total)) |> slice(5) |> 
+  select(id_venta, fecha, total)  
 ```
 
 - Ordenamientos **múltiples**: ordena por la primera variable y luego, en caso de empate, por la siguiente, etc.
@@ -885,28 +634,44 @@ dispersion_ventas
 
 ## `group_by()`: Análisis por Grupos
 
-- Cambia el alcance de *cada función* para que no actúe sobre todo el *data frame* sino en grupos individuales
+::: {style="font-size: 95%;"}
+
+- Cambia el alcance: *cada función* actúa dentro de grupos, no sobre toda la tabla
+
+- Ejemplo: encontrar la fecha con la mayor venta por tienda
+
+```{r}
+ventas |> group_by(id_tienda) |>
+  arrange(desc(total)) |>  
+  slice(1) |>                     # Fila 1 (de cada grupo)
+  select(id_tienda, fecha, total)
+```
+
+:::
+
+::::{.notes}
+- alternativa `slice_max()`
+::::
 
 . . .
 
-- `group_by()` + `summarize()` = el poder de la agregación
+::: {style="font-size: 95%;"}
 
-  - **Concepto:** cambiar el nivel de análisis: de transacciones a tiendas, productos, etc.
+- `group_by()` + `summarize()` = cambia el nivel de análisis, **agregando**, p.e., de transacciones a tiendas, productos, etc.
   
   - En Excel: *Tablas dinámicas*, *AGRUPARPOR()* (y *SUMAR.SI*/*SUMIF*) 
 
 ```{r}
 ventas                             # tabla a nivel de transacción
-
 ventas |>
   summarize(ingresos = sum(total)) # resumen global
-
 ventas |>
   group_by(id_tienda) |>
   summarize(ingresos = sum(total)) # resumen por tienda
                                    # tabla a nivel de tienda
-                                     
 ```
+
+:::
 
 :::: {.notes}
 
@@ -917,21 +682,67 @@ ventas |>
 - datos de información/ventas por empleado a información por tienda
 
 - DEBEN INCLUIRSE variables que se quieran mantener
+
+
+- **Ejercicio**:
+
+  1. Para cada *producto*, calcular
+  
+    - suma de valor de ventas (variable *total*)
+    
+    - media de valor de ventas (idem)
+    
+    - media de cantidad vendida (variable *cantidad*)
+    
+  2. En R y Excel 
+  
+  3. ¿Cuáles son los 5 productos con menor cantidad media vendida?
+  
+  
+```{r}
+ventas_prod <- ventas |>
+  group_by(producto) |>
+  summarize(
+    sum_total = sum(total),
+    med_total = mean(total),
+    med_cant  = mean(cantidad)
+  )
+
+export(ventas, "ventas.xlsx")
+# misma secuencia en Tablas Dinamicas de Excel
+
+# igual que antes pero con este nueva tabla de datos a nivel producto
+ventas_prod |>
+  arrange(med_cantidad) |> 
+  head(5) 
+```
+
 ::::
 
 
-## Combinando `mutate()` con `group_by()`
+##  `group_by()` (cont.)
 
-- **Diferencia Clave:**
-
-  - `group_by() + summarize()`: Reduce filas (nuevo dataset agregado a nivel de los grupos)
-  
-  - `group_by() + mutate()`: Mantiene filas (añade columnas calculadas por grupo a nivel de la tabla original)
-
-- Ejemplo: Porcentaje de las ventas mensuales que representa cada transacción
+- `group_by() + summarize()` reduce filas: nueva tabla agregada a nivel de los grupos
 
 ```{r}
-ventas |>
+tabla_sum <- ventas |> group_by(id_tienda) |>
+  summarize(ingresos = sum(total))
+```
+
+- `group_by() + mutate()` mantiene filas: añade columnas calculadas por grupo a nivel de la tabla original
+
+```{r}
+tabla_mut <- ventas |> group_by(id_tienda) |>
+  mutate(ingresos = sum(total))
+```
+
+. . .
+
+- Ejemplo: Porcentaje de las ventas que representa cada transacción
+
+```{r}
+#| echo: false
+ventas |> 
   group_by(id_tienda, mes) |>
   mutate(
     ventas_tienda_mes = sum(total),
@@ -941,26 +752,25 @@ ventas |>
   select(id_tienda, mes, id_venta, total, pct_de_ventas_mes)
 ```
 
-## Análisis multinivel y `ungroup()`
-
-::: {style="font-size: 92%;"}
-- Encontrar la fecha con la mayor venta por tienda
-
 ```{r}
-ventas |>
-  group_by(id_tienda) |>
-  arrange(desc(total)) |>  
-  slice(1) |>                     # Primera fila (de cada grupo)
-  select(id_tienda, fecha, total)
-# alternativa: slice_max()
+ventas |> group_by(id_tienda) |>
+  mutate(
+    ventas_tienda = sum(total),
+    pct_de_ventas = total / ventas_tienda * 100
+  )
 ```
 
+  
+
+## `ungroup()`
+
+::: {style="font-size: 92%;"}
 
 - **IMPORTANTE:** No olvidar `ungroup()` o `.groups = "drop"` después de terminar operaciones agrupadas
 
 
 
-- Cálculo de Porcentajes Globales: sin desagrupar, `sum(total)` suma *por tienda* → siempre da 100%
+- Cálculo de Porcentajes Globales: sin desagrupar, el segundo `sum(total)` suma *por tienda* → siempre da 100%
 
 
 ```{r}
@@ -969,6 +779,13 @@ ventas |>
   mutate(ventas_tienda = sum(total)) |>
   ungroup() |>
   mutate(porcentaje = ventas_tienda / sum(total) * 100)
+
+ventas |>
+  group_by(id_tienda) |>
+  mutate(ventas_tienda = sum(total),
+         .groups = "drop") |>
+  mutate(porcentaje = ventas_tienda / sum(total) * 100)
+
 ```
 
 :::
@@ -987,10 +804,6 @@ ventas |>
   - Si tenías múltiples grupos, sigue agrupado por los anteriores
 
   - Usa .groups = "drop" o ungroup() para estar seguro
-::::
-
-
-## Análisis multinivel y  `ungroup()` (cont.)
 
 ::: {style="font-size: 92%;"}
 - Filtrar Top Global: sin desagrupar, será top 5 de *cada* tienda
@@ -1019,8 +832,6 @@ ventas_mensuales_medias <- ventas_mes_por_tienda |>
 # Resultado: 1 fila (media de todos los meses de todas las tiendas)
 ```
 :::
-
-:::: {.notes}
 
 - Ranking de Productos
 
@@ -1123,13 +934,6 @@ analisis_campana_q4 <- ventas |>
 analisis_campana_q4
 ```
 
-**Interpretación de Resultados:**
-
-- Cada paso transforma el dataset
-
-- El pipe hace el código legible como una narrativa
-
-- Fácil añadir/quitar pasos para exploración
 ::::
 
 
@@ -1421,14 +1225,30 @@ ventas %>%
 
 ## Operaciones Adicionales de Limpieza
 
-::: {style="font-size: 90%;"}
-
 - `separate()`: dividir una columna por caracter o posición
 
 ```{r}
+#| echo: false
 table3 |> separate(rate, into = c("cases", "population"), sep = "/")
 tabla5 <- table3 |> separate(year, into = c("century", "year"), sep = 2)
 ```
+
+
+- `unite()`: combinar columnas
+
+
+```{r}
+#| echo: false
+table5 |> unite(new, century, year, sep = "-")
+```
+
+:::: {.notes}
+
+- Argumentos: *date frame*, columna a dividir, nombres de las nuevas variables y carácter (expresión regular) para separar
+
+  - Si se pasa a `sep` un vector de enteros, son posiciones en las que dividir
+  - la longitud de `sep` debe ser uno menos que la de `into`
+  - valores positivos comienzan (en 1)por la izquierda; negativos (desde -1) por la derecha
 
 - Con  `convert = TRUE` intenta convertir el tipo de dato (no mantener carácter)
 
@@ -1436,42 +1256,16 @@ tabla5 <- table3 |> separate(year, into = c("century", "year"), sep = 2)
 table3 |> separate(rate, into = c("cases", "population"), convert = TRUE)
 ```
 
-:::: {.notes}
 
-- Argumentos: *date frame*, columna a dividir, nombres de las nuevas variables y carácter separador (por defecto cualquier carácter no numérico)
+- Argumentos: *data frame*, nombre de la nueva variable a crear,  columnas a combinar y carácter entre valores de las columnas originales
 
-(estrictamente, una expresión regular)
-
-
-- Si se pasa a `sep` un vector de enteros, son posiciones en las que dividir
-- la longitud de `sep` debe ser uno menos que la de `into`
-- valores positivos comienzan (en 1)por la izquierda; negativos (desde -1) por la derecha
+  - El separador por defecto es subrayado, `sep = _`
 
 ::::
 
-
-- `unite()`: combinar columnas
-
-```{r}
-table5 |> unite(new, century, year, sep = "-")
-```
-
-:::: {.notes}
-- Argumentos: 
-  - un *data frame*
-  - el nombre de la nueva variable a crear 
-- un conjunto de columnas a combinar
-- carácter entre valores de las columnas originales
-
-- El separador por defecto es subrayado, `sep = _`
-
-::::
-
-:::
 
 . . .
 
-::: {style="font-size: 90%;"}
 - Para nombres de columnas con espacios o caracteres especiales, debemos usar acento invertido
 
   - Mejor: renombrar sin espacios
@@ -1482,7 +1276,6 @@ datos_problema |>
          precio_euros    = `Precio (€)`)
 ```
 
-:::
 
 
 # Transformación de Datos: Pivotar
@@ -1943,8 +1736,13 @@ flights %>%
 ::::{.notes}
 
 - gráfico creado con UML en https://www.plantuml.com
-- usando Tema02relat.uml
+- usando Tema02relat.puml
 
+```
+library(plantuml)
+# Guarda el código en un archivo "diagrama.puml"
+plantuml("diagrama.puml")
+```
 
 **Operaciones con dos tablas**
 
@@ -1960,9 +1758,58 @@ flights %>%
 
 ::::
 
-## Tipos de Uniones: Visión General
+
+## Uniones de transformación
+
+- Añaden **nuevas variables** a una tabla desde *filas coincidentes* en otra.  
+
+::::{.columns}
+
+:::{.column width=40%}
+
+- Tenemos estos [datos](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx). 
+
+- ¿Cómo conseguimos unirlos adecuadamente en R y en Excel?
+
+
+:::
+
+:::{.column width=60%}
+
+![](figure/DatosRelacionales.png){width=95% fig-align="center"}
+
+:::
+
+::::
+
+
+- Con `cbind()` o `bind_columns()` o copiando y pegando en Excel: nuevas columnas para filas en el mismo orden
+
+. . .
 
 ```{r}
+tabla1 <- import("data/DosTablas.xlsx", sheet = 1)
+tabla2 <- import("data/DosTablas.xlsx", sheet = 2)
+union  <- inner_join(tabla1, tabla2, by = "Vendedor")
+```
+
+
+::::{.notes}
+
+como mutate = mutating joins
+
+clave = fila Y ademán en el mismo orden
+
+- en Excel, las uniones se hacen con VLOOKUP o HLOOKUP o XLOOKUP (BUSQUEDAH, BUSQUEDAV, BUSQUEDAX)
+
+::::
+
+## Tipos de Uniones: Visión General
+
+::: {style="font-size: 95%;"}
+
+```{r}
+#| echo: false
 # Datos de ejemplo para ilustrar
 df1 <- tibble(id = 1:3, valor_x = c("A", "B", "C"))
 df2 <- tibble(id = c(1, 2, 4), valor_y = c("X", "Y", "Z"))
@@ -1980,437 +1827,459 @@ right_join(df1, df2, by = "id")  # resultado: 1, 2, 4 (4 con NA)
 full_join(df1, df2, by = "id")   # resultado: 1, 2, 3, 4
 ```
 
-## Caso Real: Enriquecer Datos de Ventas
 
-**Objetivo:** Análisis completo con información de todas las tablas
+::::{.columns}
+
+:::{.column width=50%}
+
+- Unión interna: `inner_join(x, y)` sólo incluye observaciones que coincidan en `x` y `y`.
+:::
+
+
+:::{.column width=50%}
+
+![](figure/join-inner.png){width=65% fig-align="center"}
+:::
+
+::::
+
+
+<div style="margin-top: -1em;"></div>
+
+- Uniones externas: cuando una fila no coincide en una unión externa, las nuevas variables se rellenan como **valores ausentes**
+
+::::{.columns}
+  
+:::{.column width=33%}
+
+`left_join(x, y)`
+
+![](figure/join-outer1.png){width=85% fig-align="center"}
+:::
+
+:::{.column width=33%}
+
+`right_join(x, y)`
+
+![](figure/join-outer2.png){width=85% fig-align="center"}
+:::
+
+:::{.column width=33%}
+
+`full_join(x, y)`
+
+
+![](figure/join-outer3.png){width=85% fig-align="center"}
+:::
+
+::::
+
+- **Pensar** con cuidado el tipo de unión necesaria: qué observaciones quedan (todas, solo de una tabla y cuál) y ser conscientes de la introducción de `NAs`
+
+::::{.notes}
+
+* unión interna:  Uniendo dos series temporales con periodos diferentes: [PIB](https://fred.stlouisfed.org/series/GDPC1) y [consumo](https://fred.stlouisfed.org/series/MEHOINUSA672N)
+
+![](figure/inner-join.gif){width=75% fig-align="center"}
+
+* `left_join(df1, df2)`: mantiene todas las observaciones en `x`, coincidan o no con la de `y` 
+  + (no se pierden observaciones de la tabla primaria) 
+* `right_join(df1, df2)`:  mantiene todas las observaciones en `y`
+* `full_join(df1, df2)`: incluye todas las observaciones de `x` e `y`
+
+![](figure/join-outer.png){width=75% fig-align="center"}
+
+![](figure/left-join.gif){width=80% fig-align="center"}
+
+![](figure/right-join.gif){width=80% fig-align="center"}
+
+![](figure/full-join.gif){width=80% fig-align="center"}
+
+::::
+
+:::
+
+## Análisis de ventas por región en el tiempo
+
+::: {style="font-size: 95%;"}
+- Para usar la información de región se deben unir las tablas de ventas y de tiendas
 
 ```{r}
-# Crear dataset completo para análisis
-ventas_completo <- ventas %>%
-  # Información de productos
-  left_join(productos %>% select(id_producto, nombre_producto, id_categoria, precio, costo),
-            by = "id_producto") %>%
-  
-  # Información de categorías
-  left_join(categorias, by = "id_categoria") %>%
-  
-  # Información de tiendas
-  left_join(tiendas %>% select(id_tienda, nombre_tienda, region, tamaño_m2),
-            by = "id_tienda") %>%
-  
-  # Información de clientes
-  left_join(clientes %>% select(id_cliente, programa_fidelidad, fecha_registro),
-            by = "id_cliente") %>%
-  
-  # Información de empleados
-  left_join(empleados %>% select(id_empleado, puesto),
-            by = "id_empleado")
-
-# Ahora podemos hacer análisis complejos
-glimpse(ventas_completo)
-```
-
-**Análisis Enriquecido:**
-
-```{r}
-# Rentabilidad por categoría y región
-analisis_rentabilidad <- ventas_completo %>%
-  mutate(
-    margen_venta = precio - costo,
-    rentabilidad = margen_venta * cantidad
-  ) %>%
-  group_by(nombre_categoria, region) %>%
-  summarize(
-    num_ventas = n(),
-    ingresos = sum(total),
-    rentabilidad_total = sum(rentabilidad, na.rm = TRUE),
-    margen_porcentaje = round(mean(margen_venta / precio * 100, na.rm = TRUE), 1),
-    .groups = "drop"
-  ) %>%
-  arrange(desc(rentabilidad_total))
-
-head(analisis_rentabilidad, 10)
-```
-
-
-**Caso de Uso:** Performance por región y mes
-
-```{r}
-# Primero unir con info de tiendas para obtener región
-performance_regional <- ventas %>%
-  left_join(tiendas %>% select(id_tienda, region), by = "id_tienda") %>%
+tabla_regional <- ventas |>
+  left_join(tiendas, by = "id_tienda") |>   
   group_by(region, año, mes) %>%
-  summarize(
-    ventas_totales = n(),
-    ingresos = sum(total),
-    ticket_promedio = mean(total),
-    .groups = "drop"
-  ) %>%
-  arrange(region, año, mes)
-
-head(performance_regional, 10)
+  summarize( valor_ventas = sum(total),
+             ticket_medio = mean(total),
+             cantidad_media = mean(cantidad) ) |> ungroup()
 ```
 
-
-**Caso de Uso:** Performance por región y mes
+- Ahora podemos realizar más análisis
 
 ```{r}
-# Primero unir con info de tiendas para obtener región
-performance_regional <- ventas %>%
-  left_join(tiendas %>% select(id_tienda, region), by = "id_tienda") %>%
-  group_by(region, año, mes) %>%
-  summarize(
-    ventas_totales = n(),
-    ingresos = sum(total),
-    ticket_promedio = mean(total),
-    .groups = "drop"
-  ) %>%
-  arrange(region, año, mes)
+# Evolución de ventas por región
+tabla_regional |> 
+  mutate(periodo = ym(paste(año, mes, sep = "-"))) |>
+  ggplot() + 
+  geom_line(aes(x = periodo, y = valor_ventas, color = region))
 
-head(performance_regional, 10)
+# Los dos periodos con más ventas medias de cada región
+tabla_regional |> 
+  group_by(region) |>  
+  arrange(desc(ticket_medio)) |> slice(1:2)
 ```
 
-- **Aplicación:** Crecimiento anual
+:::
+
+##  Sobre el argumento `by`
+
+-  Las claves, es decir, las variables que relacionan ambas tablas, se indican con 
+
+    - `by = "varX"`, cuando la clave es una variable
+  
+    - `by = c("varX", "varY")`, cuando son varias variables
+
+- Si los nombre son distintos en cada tabla, se empareja `x1` en la primera con `y1` en la segunda con `by = c("x1" = "y1", "x2" = "y2")` 
+
+
+::::{.notes}
+* Si se omite el argumento `by`, se usan todas las variables en común. <!-- de ambas tablas. --> Esto no siempre es deseable: ej., año no es lo mismo en `flights` y `planes`
+
+* Columnas con el mismo nombre (ej., año) se desambigúan con un sufijo
+::::
+
+. . .
+
+- Ej., calcular el bono medio de los Vendedores
 
 ```{r}
-# Comparación mensual por región
-crecimiento_mensual <- performance_regional %>%
-  group_by(region, mes) %>%
-  arrange(año) %>%
-  mutate(
-    ingresos_año_anterior = lag(ingresos),
-    crecimiento_absoluto = ingresos - ingresos_año_anterior,
-    crecimiento_porcentual = round(
-      (ingresos - ingresos_año_anterior) / ingresos_año_anterior * 100, 1
-    )
-  ) %>%
-  filter(!is.na(crecimiento_porcentual))
-
-# Regiones con mayor crecimiento
-crecimiento_mensual %>%
-  filter(año == 2023) %>%
-  group_by(region) %>%
-  summarize(crecimiento_promedio = mean(crecimiento_porcentual, na.rm = TRUE)) %>%
-  arrange(desc(crecimiento_promedio))
+empleados |> filter(puesto == "Vendedor") |>
+  left_join(promociones_empleado, 
+            by = c("id_empleado" = "cod_empleado", 
+                   "id_tienda" = "cod_tienda") ) |> 
+  pull(monto_bono) |> mean(na.rm = T)
 ```
+
+##  Claves duplicadas
+
+- Si una coincidencia no es única, se generan todas las combinaciones posibles (producto cartesiano) de las observaciones coincidentes
+
+
+- Un uso habitual de las uniones: los nombres completos de categorías se  ponen una tabla aparte y solo se une cuando se necesitan
+
+```{r}
+# margen medio por categoría de producto
+productos |> 
+  mutate(margen = precio - costo) |> 
+  select(id_categoria, margen) |> 
+  right_join(categorias,                 # ¿por qué right?
+             by = c("id_categoria" = "categoria")) |>
+    group_by(nombre_categoria) |> 
+  summarize(margen_medio = mean(margen))
+```
+
+
+:::: {.notes}
+
+* En **una tabla**: añade información adicional en una relación de uno a muchos.
+
+![](figure/join-one-to-many.png){width=95% fig-align="center"}
+
+
+```{r echo=FALSE}
+df1dup <- tibble(clave = c(1, 2, 2, 1), val_x = c("x1", "x2", "x3", "x4"))
+df2dup <- tibble(clave = c(1, 2), val_y = c("y1", "y2"))
+df1dup %>% left_join(df2dup)
+```
+
+- En **ambas tablas**: igualmente, todas las combinaciones posibles
+
+
+![](figure/join-many-to-many.png){width=85% fig-align="center"}
+
+  + posible error: NO hay clave primaria única (que identifica una observación)
+  
+```{r}
+df1dup2 <- tibble(clave = c(1, 2, 2, 3), val_x = c("x1", "x2", "x3", "x4"))
+df2dup2 <- tibble(clave = c(1, 2, 2, 3), val_y = c("y1", "y2", "y3", "y4"))
+df1dup2 %>% left_join(df2dup2)
+```
+
+
+- `base::merge()`  realizar los cuatro tipos de unión de transformación (usando las opciones `all.x = ` y `all.y = `, ver ayuda). 
+
+- los verbos específicos de `dplyr` es que expresan más claramente la intención del código: la diferencia entre las uniones es realmente importante pero está oculta en los argumentos de `merge()`. Las uniones de dplyr son considerablemente más rápidas y no alteran el orden de las filas.
+
+
+melt et al. <http://had.co.nz/reshape/>
+
+::::
 
 
 ## Uniones de Filtrado
 
-**semi_join:** Mantener filas que tienen coincidencia
+- Filtran las **observaciones** de la tabla de la izquierda basándose en si coinciden o no con una observación de la otra tabla
+
+
+- Se tiene un subconjunto de las filas de la tabla de la izquierda
+
+::::{.columns}
+::: {.column width=50%}
+
+* `semi_join(x, y)` mantiene las observaciones en `x` que están en `y`
+
+![](figure/join-semi.png){width=95%}
 
 ```{r}
-# Clientes que SÍ han comprado
-clientes_activos <- clientes %>%
-  semi_join(ventas, by = "id_cliente")
-
-nrow(clientes_activos)  # ¿Cuántos clientes activos?
-
-# Productos que SÍ se han vendido
-productos_vendidos <- productos %>%
-  semi_join(ventas, by = "id_producto")
+#| echo: false
+df1 %>% semi_join(df2, 
+          by = "clave")
 ```
 
-**anti_join:** Mantener filas que NO tienen coincidencia
+:::
+
+::: {.column width=50%}
+
+* `anti_join(x, y)` elimina <!--todas--> las observaciones en `x` que están <!--coinciden--> en `y`
+
+![](figure/join-anti.png){width=95%}
 
 ```{r}
-# Clientes registrados pero sin compras
-clientes_sin_compras <- clientes %>%
-  anti_join(ventas, by = "id_cliente")
+#| echo: false
+df1 %>% anti_join(df2, 
+          by = "clave")
+```
+::: 
 
-nrow(clientes_sin_compras)  # Oportunidad de marketing
+::::
 
-# Productos en catálogo pero nunca vendidos
-productos_sin_vender <- productos %>%
-  anti_join(ventas, by = "id_producto") %>%
-  filter(activo == TRUE)  # y que estén activos
+::::{.notes}
 
-nrow(productos_sin_vender)  # ¿Eliminar del catálogo?
+- no afectan a las variables
+
+- **Claves duplicadas**: en uniones de filtro sólo importa la existencia de una coincidencia, NO qué observación coincida $\Rightarrow$ NUNCA duplica filas
+
+![](figure/join-semi-many.png){width=35% fig-align="center"}
+
+```{r echo=FALSE}
+df1dup2 %>% semi_join(df2dup2)
 ```
 
-## Uniones con Claves Múltiples
+::::
+
+## Uniones de Filtrado (cont.)
+
+- Aplicación: ¿cuántos clientes tenemos y cuántos sí han comprado?
 
 ```{r}
-# Crear tabla de objetivos mensuales por tienda
-objetivos <- tibble(
-  id_tienda = rep(1:12, each = 12),
-  mes = rep(1:12, times = 12),
-  objetivo_ingresos = runif(144, 30000, 80000)
+clientes |> distinct(id_cliente) |> count()
+clientes |> semi_join(ventas) |> distinct(id_cliente) |> count()
+```
+
+-  Aplicación: ¿qué productos NO han sido devueltos?
+
+```{r}
+#| echo: false
+# Productos que NO han sido devueltos
+productos_devueltos <- ventas |> 
+  semi_join(devoluciones, by = "id_venta") |> 
+  distinct(id_producto)
+
+productos |> anti_join(productos_devueltos)
+```
+
+. . .
+
+- Útiles para diagnosticar desajustes de uniones (qué observaciones serán emparejadas). Importante antes de unir tablas MUY grandes
+
+```{r}
+# empleados sin información de ventas
+empleados |> anti_join(ventas, 
+                       by = c("id_empleado", "id_tienda")) |> 
+  count(id_empleado, id_tienda)  
+```
+
+
+::::{.notes}
+
+- Utiles porque solo eliminan y nunca duplican observaciones
+
+```{r}
+#| echo: false
+flights %>% anti_join(planes, by = "tailnum") %>%   # vuelos sin información del avión
+              count(tailnum, sort = TRUE)
+
+flights %>% count(tailnum, sort = TRUE)
+```
+
+::::
+
+
+
+- Pueden ser una alternativa simple a usar `filter()` con filtrados complejos (que involucran varias variables), creando previamente tablas resumidas
+
+  -Ej., venta promedio de los 10 productos con más cantidad vendida
+
+::::{.notes}
+Unión, PERO NO con tabla ya existente
+
+Creamos una tabla para nuestro objetivo de unión de filtrado 
+
+- Algunas  uniones de filtrado pueden ser equivalentes a usar `filter()`, con tablas previamente resumidas, pero permiten filtrados complejos (que involucran varias variables) fácilmente
+
+
+```{r}
+#| echo: false
+top_dest <- flights %>% count(dest, sort = TRUE) %>% head(10)   # destinos populares
+flights %>% filter(dest %in% top_dest$dest)
+flights %>% semi_join(top_dest)
+```
+
+```{r}
+#| echo: false
+flights %>% count(dest, sort = TRUE) %>% head(10) 
+flights %>% group_by(dest) %>% summarize(n=n()) %>% arrange(desc(n)) %>% head(10)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+flights %>% count(dest)
+table(flights$dest)
+
+flights %>% count(dest, sort = TRUE)
+
+flights %>% filter(dest =="ORD" | dest = "ATL" | ...) 
+
+top_dest$dest
+flights %>% filter(dest %in% top_dest$dest) %>% summarize(media=mean(arr_delay))
+flights %>% semi_join(top_dest)     
+```
+
+- ej., los diez días con más vuelos (o con los atrasos promedio más altos, necesita un filtro con varias variables (`year`, `month`, `day`)
+
+```{r}
+#| echo: false
+top_dias <- flights %>% count(year, month, day, sort = TRUE) %>% head(3)
+flights %>% semi_join(top_dias)
+```
+
+```{r}
+#| echo: false
+flights %>% filter(day %in% top_dias$day, month %in% top_dias$month) %>% distinct(day, month)
+flights %>% semi_join(top_dias) %>% distinct(day, month)
+```
+
+::::
+
+
+
+## Operaciones de conjunto
+
+* Trabajan con filas completas, comparando valores de cada variable.
+
+* Esperan que `x` e `y` tengan las **mismas variables**, y tratan las observaciones (filas) como elementos de un conjunto.
+
+* Útil cuando se quiere dividir un filtro complejo en piezas más simples.
+
+::::{.notes}
+
+* Combinan las observaciones en los conjuntos de datos como si fueran elementos de un conjunto.   
+
+::::
+
+```{r}
+df1 <- tibble(x = 1:2, y = c(1, 1))
+df2 <- tibble(x = c(1,1), y = 1:2)
+
+intersect(df1, df2)     # solo filas tanto en df1 como en df2
+union(df1, df2)         # filas únicas en ambas tablas df1 y df2` 
+union_all(df1, df2)     # todas las filas de df1 y df2, manteniendo duplicados 
+setdiff(df1, df2)       # filas en df1, pero no en df2
+setdiff(df2, df1)   
+```
+
+
+```{r}
+#| echo: false
+intersect(df1, df2)   # inner_join(df1,df2)
+union(df1, df2)       # full_join(df1,df2)   # Notad que tenemos 3 filas, no 4
+setdiff(df1, df2)     # anti_join(df1,df2)
+setdiff(df2, df1)     # anti_join(df2, df1)
+```
+
+
+::::{.notes}
+**Equivalencia con bases de datos SQL**
+
+https://www.cs.utexas.edu/~mitra/csFall2006/cs329/lectures/sql.html
+
+```{r}
+#| echo: false
+#| eval: false
+#| results: asis
+library(kableExtra)
+#library(knitr)
+tabla <- tribble(
+     ~dplyr           ,     ~SQL                                                               ,
+  "inner_join()"      ,	"SELECT * FROM x JOIN y ON x.a = y.a"                                  ,
+  "left_join()"       ,	"SELECT * FROM x LEFT JOIN y ON x.a = y.a"                             ,
+  "right_join()"      ,	"SELECT * FROM x RIGHT JOIN y ON x.a = y.a"                            ,
+  "full_join()"       ,	"SELECT * FROM x FULL JOIN y ON x.a = y.a"                             ,
+  "semi_join()"       ,	"SELECT * FROM x WHERE EXISTS (SELECT 1 FROM y WHERE x.a = y.a)"       ,
+  "anti_join()"       ,	"SELECT * FROM x WHERE NOT EXISTS (SELECT 1 FROM y WHERE x.a = y.a)"   ,
+  "intersect(x, y)"   ,	"SELECT * FROM x INTERSECT SELECT * FROM y"                            ,
+  "union(x, y)"       ,	"SELECT * FROM x UNION SELECT * FROM y"                                ,
+  "setdiff(x, y)"     , "SELECT * FROM x EXCEPT SELECT * FROM y"                              
 )
-
-# Comparar ventas reales vs objetivos
-comparacion_objetivos <- ventas %>%
-  group_by(id_tienda, mes) %>%
-  summarize(ingresos_reales = sum(total), .groups = "drop") %>%
-  left_join(objetivos, by = c("id_tienda", "mes")) %>%
-  mutate(
-    diferencia = ingresos_reales - objetivo_ingresos,
-    cumplimiento_pct = round(ingresos_reales / objetivo_ingresos * 100, 1),
-    cumple_objetivo = cumplimiento_pct >= 100
-  )
-
-# Tiendas que más superan objetivos
-comparacion_objetivos %>%
-  filter(cumple_objetivo) %>%
-  group_by(id_tienda) %>%
-  summarize(
-    meses_cumplidos = n(),
-    exceso_promedio = mean(diferencia)
-  ) %>%
-  arrange(desc(meses_cumplidos))
+tabla %>%
+  kbl()  %>%
+  kable_paper("hover", full_width = F, font_size = 22)
+# tabla
 ```
 
-## Caso de Estudio Completo: Análisis de Devoluciones
 
-### Problema de Negocio
 
-**Contexto:** Gerente de operaciones preocupado por devoluciones
+* SQL soporta más tipos de unión y puede trabajar con más de dos tablas.
 
-**Preguntas:**
-1. ¿Qué productos tienen más devoluciones?
-2. ¿Hay patrones por tienda o categoría?
-3. ¿Impacto financiero de las devoluciones?
-4. ¿Recomendaciones accionables?
 
-### Paso 1: Exploración Inicial
+Como sugiere esta sintaxis,  más tipos de unión porque se pueden conectar las tablas usando restricciones diferentes a la igualdad (algunas veces llamadas no-equijoins).
 
-```{r}
-# Visión general de devoluciones
-glimpse(devoluciones)
+`x` and `y` no tienen que ser tablas en la misma base de datos. Si especifica `copy = TRUE`, `dplyr` copiará la tabla `y` en el mismo lugar que `x`. 
 
-# Estadísticas básicas
-devoluciones %>%
-  summarize(
-    total_devoluciones = n(),
-    tasa_devolucion = n() / nrow(ventas) * 100,
-    reembolso_total = sum(reembolso),
-    reembolso_promedio = mean(reembolso),
-    dias_promedio = mean(as.numeric(fecha_devolucion - 
-                        ventas$fecha[match(id_venta, ventas$id_venta)]), na.rm = TRUE)
-  )
-```
 
-### Paso 2: Análisis por Motivo
+Revisar las reglas de coerción. P. e., los factores se conservan sólo si los niveles coinciden exactamente; si no, se "coaccionan" (se fuerza su conversión) a tipo de carácter.
 
-```{r}
-# Distribución de motivos
-analisis_motivos <- devoluciones %>%
-  group_by(motivo) %>%
-  summarize(
-    num_devoluciones = n(),
-    reembolso_total = sum(reembolso),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    pct_devoluciones = round(num_devoluciones / sum(num_devoluciones) * 100, 1),
-    pct_reembolso = round(reembolso_total / sum(reembolso_total) * 100, 1)
-  ) %>%
-  arrange(desc(num_devoluciones))
+::::
 
-analisis_motivos
 
-# Visualización
-ggplot(analisis_motivos, aes(x = reorder(motivo, num_devoluciones), 
-                              y = num_devoluciones)) +
-  geom_col(fill = "steelblue") +
-  coord_flip() +
-  labs(title = "Devoluciones por Motivo",
-       x = "Motivo", y = "Número de Devoluciones") +
-  theme_minimal()
-```
+## Buenas Prácticas
 
-## Caso de Estudio Completo (cont.)
+- Datos Ordenados
 
-### Paso 3: Productos Problemáticos
+- Código Legible y reproducible
 
-```{r}
-# Unir devoluciones con ventas y productos
-productos_devueltos <- devoluciones %>%
-  left_join(ventas %>% select(id_venta, id_producto, id_tienda), 
-            by = "id_venta") %>%
-  left_join(productos %>% select(id_producto, nombre_producto, id_categoria),
-            by = "id_producto") %>%
-  left_join(categorias %>% select(id_categoria, nombre_categoria),
-            by = "id_categoria")
-
-# Top productos con más devoluciones
-productos_problema <- productos_devueltos %>%
-  group_by(id_producto, nombre_producto, nombre_categoria) %>%
-  summarize(
-    num_devoluciones = n(),
-    reembolso_total = sum(reembolso),
-    .groups = "drop"
-  ) %>%
-  arrange(desc(num_devoluciones)) %>%
-  head(20)
-
-productos_problema
-
-# Calcular tasa de devolución por producto
-tasa_devolucion_producto <- ventas %>%
-  group_by(id_producto) %>%
-  summarize(
-    veces_vendido = n(),
-    .groups = "drop"
-  ) %>%
-  left_join(
-    devoluciones %>%
-      left_join(ventas %>% select(id_venta, id_producto), by = "id_venta") %>%
-      group_by(id_producto) %>%
-      summarize(veces_devuelto = n(), .groups = "drop"),
-    by = "id_producto"
-  ) %>%
-  mutate(
-    veces_devuelto = replace_na(veces_devuelto, 0),
-    tasa_devolucion = round(veces_devuelto / veces_vendido * 100, 2)
-  ) %>%
-  filter(veces_vendido >= 10) %>%  # solo productos con suficientes ventas
-  arrange(desc(tasa_devolucion))
-
-head(tasa_devolucion_producto, 10)
-```
-
-### Paso 4: Análisis por Tienda y Categoría
-
-```{r}
-# Devoluciones por tienda
-devoluciones_tienda <- productos_devueltos %>%
-  left_join(tiendas %>% select(id_tienda, nombre_tienda, region),
-            by = "id_tienda") %>%
-  group_by(id_tienda, nombre_tienda, region) %>%
-  summarize(
-    num_devoluciones = n(),
-    reembolso_total = sum(reembolso),
-    .groups = "drop"
-  )
-
-# Calcular tasa de devolución por tienda
-ventas_por_tienda <- ventas %>%
-  group_by(id_tienda) %>%
-  summarize(num_ventas = n(), .groups = "drop")
-
-comparacion_tiendas <- ventas_por_tienda %>%
-  left_join(devoluciones_tienda, by = "id_tienda") %>%
-  mutate(
-    num_devoluciones = replace_na(num_devoluciones, 0),
-    tasa_devolucion = round(num_devoluciones / num_ventas * 100, 2)
-  ) %>%
-  left_join(tiendas %>% select(id_tienda, nombre_tienda, region),
-            by = "id_tienda") %>%
-  arrange(desc(tasa_devolucion))
-
-comparacion_tiendas
-
-# Por categoría
-devoluciones_categoria <- productos_devueltos %>%
-  group_by(nombre_categoria) %>%
-  summarize(
-    num_devoluciones = n(),
-    reembolso_total = sum(reembolso),
-    motivo_principal = names(sort(table(motivo), decreasing = TRUE))[1],
-    .groups = "drop"
-  ) %>%
-  arrange(desc(num_devoluciones))
-
-devoluciones_categoria
-```
-
-## Caso de Estudio Completo (y 3)
-### Paso 5: Impacto Financiero
-
-```{r}
-# Impacto total
-impacto_financiero <- ventas %>%
-  summarize(
-    ingresos_brutos = sum(total),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    reembolsos = sum(devoluciones$reembolso),
-    ingresos_netos = ingresos_brutos - reembolsos,
-    tasa_devolucion_financiera = round(reembolsos / ingresos_brutos * 100, 2)
-  )
-
-impacto_financiero
-
-# Impacto por período
-impacto_temporal <- ventas %>%
-  mutate(año_mes = paste(año, sprintf("%02d", mes), sep = "-")) %>%
-  group_by(año_mes) %>%
-  summarize(
-    ingresos_brutos = sum(total),
-    .groups = "drop"
-  ) %>%
-  left_join(
-    devoluciones %>%
-      left_join(ventas %>% select(id_venta, año, mes), by = "id_venta") %>%
-      mutate(año_mes = paste(año, sprintf("%02d", mes), sep = "-")) %>%
-      group_by(año_mes) %>%
-      summarize(reembolsos = sum(reembolso), .groups = "drop"),
-    by = "año_mes"
-  ) %>%
-  mutate(
-    reembolsos = replace_na(reembolsos, 0),
-    ingresos_netos = ingresos_brutos - reembolsos,
-    tasa_devolucion = round(reembolsos / ingresos_brutos * 100, 2)
-  ) %>%
-  arrange(año_mes)
-
-# Visualizar tendencia
-ggplot(impacto_temporal, aes(x = año_mes, y = tasa_devolucion, group = 1)) +
-  geom_line(color = "red", size = 1) +
-  geom_point() +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Evolución de la Tasa de Devolución",
-       x = "Período", y = "Tasa de Devolución (%)")
-```
-
-## Caso de Estudio Completo (y 4)
-
-### Paso 6: Recomendaciones Accionables
-
-```{r}
-# Crear informe ejecutivo
-informe_devoluciones <- list(
-  resumen = devoluciones %>%
-    summarize(
-      total_devoluciones = n(),
-      tasa_global = round(n() / nrow(ventas) * 100, 2),
-      costo_total = sum(reembolso)
-    ),
+  1. Scripts ordenados y comentados
   
-  productos_criticos = tasa_devolucion_producto %>%
-    filter(tasa_devolucion > 10) %>%
-    head(10),
+  2. Encadenar operacion con  `|>` en un paso por línea
   
-  tiendas_problema = comparacion_tiendas %>%
-    filter(tasa_devolucion > 7) %>%
-    head(5),
+  3. Inspeccionar resultados intermedios
+
+  4. Documentar decisiones de limpieza
   
-  categorias_riesgo = devoluciones_categoria %>%
-    head(3)
-)
-
-# Mostrar informe
-informe_devoluciones
-```
-
-**Recomendaciones:**
-
-1. **Productos:** Revisar calidad de productos con tasa >10%
-2. **Tiendas:** Capacitación en tiendas con alta tasa de devolución
-3. **Categorías:** Mejorar descripción de productos en categorías problemáticas
-4. **Procesos:** Implementar mejor política de cambios para "Talla incorrecta"
-
-## Buenas Prácticas y Errores Comunes
+  5. Nombres descriptivos de variables
+  
+  6. Guardar datos procesados
 
 
-## Errores Comunes y Soluciones (y 3)
+- Errores comunes
 
-**Error 3: No verificar claves duplicadas en joins**
+  1. No verificar claves duplicadas en uniones
+
+  2. Orden de operaciones incorrecto: ej., filtar después de `summarize()` por una variable que ya no existe
 
 ```{r}
+#| echo: false
+
 # PROBLEMA: claves duplicadas pueden multiplicar filas
 df1 <- tibble(id = c(1, 1, 2), valor = c("A", "B", "C"))
 df2 <- tibble(id = c(1, 2), info = c("X", "Y"))
@@ -2426,9 +2295,9 @@ df2 %>% count(id) %>% filter(n > 1)  # ids duplicados
 df1_unico <- df1 %>% distinct(id, .keep_all = TRUE)
 ```
 
-**Error 4: Orden de operaciones incorrecto**
 
 ```{r}
+#| echo: false
 # PROBLEMA: filtrar después de summarize
 ventas %>%
   group_by(id_tienda) %>%
@@ -2442,126 +2311,34 @@ ventas %>%
   summarize(total = sum(total))
 ```
 
-## Optimización
+
+## Buenas Prácticas (cont.)
+
+### Eficiencia:
+
+
+1. Filtrar temprano, unir tarde
 
 ```{r}
-# USO EFICIENTE: filtrar primero, luego unir
-ventas_2023 <- ventas %>%
-  filter(año == 2023) %>%  # reduce tamaño
+ventas_2023 <- ventas |>
+  filter(año == 2023) |>    # reduce tamaño
   left_join(productos, by = "id_producto")
 
-# USO INEFICIENTE: unir todo, luego filtrar
-ventas_2023_lento <- ventas %>%
-  left_join(productos, by = "id_producto") %>%
+ventas_2023_lento <- ventas |>
+  left_join(productos, by = "id_producto") |>
   filter(año == 2023)
+```
 
-# SELECCIONAR SOLO COLUMNAS NECESARIAS
+2. Seleccionar solo columnas necesarias
+
+```{r}
+#| echo: false
 productos_minimo <- productos %>%
   select(id_producto, nombre_producto, precio)
 
 ventas_join <- ventas %>%
   left_join(productos_minimo, by = "id_producto")
 ```
-
-## Gráficos de Análisis Exploratorio
-
-```{r}
-# Distribución de ventas
-ggplot(ventas, aes(x = total)) +
-  geom_histogram(bins = 50, fill = "steelblue", alpha = 0.7) +
-  labs(title = "Distribución de Ventas",
-       x = "Importe Total (€)", y = "Frecuencia") +
-  theme_minimal()
-
-# Ventas por día de la semana
-ventas_dia <- ventas %>%
-  group_by(dia_semana) %>%
-  summarize(
-    num_ventas = n(),
-    ingresos = sum(total),
-    ticket_promedio = mean(total)
-  )
-
-ggplot(ventas_dia, aes(x = dia_semana, y = ingresos)) +
-  geom_col(fill = "coral") +
-  labs(title = "Ingresos por Día de la Semana",
-       x = "Día", y = "Ingresos (€)") +
-  theme_minimal()
-
-# Evolución temporal
-ventas_mensual <- ventas %>%
-  group_by(año, mes) %>%
-  summarize(ingresos = sum(total), .groups = "drop") %>%
-  mutate(periodo = paste(año, sprintf("%02d", mes), sep = "-"))
-
-ggplot(ventas_mensual, aes(x = periodo, y = ingresos, group = 1)) +
-  geom_line(color = "darkgreen", size = 1) +
-  geom_point() +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Evolución de Ingresos Mensuales",
-       x = "Período", y = "Ingresos (€)")
-```
-
-## Comparaciones y Rankings
-
-```{r}
-# Top 10 tiendas por ingresos
-top_tiendas <- ventas %>%
-  left_join(tiendas %>% select(id_tienda, nombre_tienda), by = "id_tienda") %>%
-  group_by(nombre_tienda) %>%
-  summarize(ingresos = sum(total), .groups = "drop") %>%
-  arrange(desc(ingresos)) %>%
-  head(10)
-
-ggplot(top_tiendas, aes(x = reorder(nombre_tienda, ingresos), y = ingresos)) +
-  geom_col(fill = "steelblue") +
-  coord_flip() +
-  labs(title = "Top 10 Tiendas por Ingresos",
-       x = "Tienda", y = "Ingresos (€)") +
-  theme_minimal()
-
-# Comparación entre regiones
-ventas_region <- ventas %>%
-  left_join(tiendas %>% select(id_tienda, region), by = "id_tienda") %>%
-  group_by(region, año) %>%
-  summarize(ingresos = sum(total), .groups = "drop")
-
-ggplot(ventas_region, aes(x = factor(año), y = ingresos, fill = region)) +
-  geom_col(position = "dodge") +
-  labs(title = "Ingresos por Región y Año",
-       x = "Año", y = "Ingresos (€)", fill = "Región") +
-  theme_minimal()
-```
-
-
-
-## Principios Clave
-
-- Datos Ordenados
-
-- Código Legible y reproducible
-
-  - Scripts ordenados y comentados
-
-  - Encadenar operacion con  `|>` en un paso por línea
-  
-  - Documentar decisiones de limpieza
-
-  - Nombres descriptivos de variables
-
-  - Guardar datos procesados
-  
-
-- Eficiencia:
-
-  - Filtrar temprano, unir tarde
-  
-  - Seleccionar solo columnas necesarias
-  
-  - Verificar claves antes de joins
-  
--   Inspeccionar resultados intermedios
 
 
 :::: {.notes}
@@ -2575,36 +2352,3 @@ ggplot(ventas_region, aes(x = factor(año), y = ingresos, fill = region)) +
 - **Comunidad:** Stack Overflow, RStudio Community
 
 ::::
-
-## Ejercicios de Práctica
-
-### Ejercicio 1: Análisis de Categorías
-
-Usando los datos de RetailCorp:
-
-1. Identifica las 3 categorías con mayores ingresos en 2023
-2. Calcula la tasa de crecimiento año sobre año para cada categoría
-3. Determina qué categorías tienen los tickets promedio más altos
-4. Crea un gráfico comparativo
-
-### Ejercicio 2: Segmentación de Clientes
-
-1. Clasifica clientes según su valor total de compras (Bajo/Medio/Alto/Premium)
-2. Calcula la recencia (días desde última compra)
-3. Identifica clientes en riesgo (no han comprado en >90 días)
-4. Propón estrategia de retención
-
-### Ejercicio 3: Análisis de Empleados
-
-1. Calcula el promedio de ventas por empleado
-2. Identifica empleados top performers
-3. Analiza si hay diferencias por puesto
-4. Sugiere un sistema de bonificaciones
-
-### Ejercicio 4: Optimización de Inventario
-
-1. Lista productos con baja rotación (pocas ventas)
-2. Identifica productos descontinuados
-3. Calcula el stock óptimo por tienda (simulado)
-4. Recomienda productos a eliminar del catálogo
-
