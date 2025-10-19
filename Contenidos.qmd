@@ -69,18 +69,19 @@ strip-comments: true
 
   * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
 
-## Semana 7
-(21-Oct. a 27-Oct.)
-
-  * [Tema 03 - Ejercicio](docs/Tema03ej.qmd)
-
 *********************************************************************
 -->
 
+## Semana 7
+(20-Oct. a 26-Oct.)
+
+  * [Tema 02 - Ejercicio](docs/Tema02ej1.qmd)
+
+  * [Tema 02 - Plantilla de respuestas](docs/Tema02ej1_123456789.R)
+
+
 ## Semana 6
 (13-Oct. a 19-Oct.)
-
-  * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
 
   * [Tema 03 - Ejercicio](docs/Tema03ej.qmd)
     - Fecha límite de entrega: **dom., 19-oct., 23:59h**

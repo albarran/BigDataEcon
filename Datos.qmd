@@ -22,11 +22,13 @@ strip-comments: true
 
 * Tema 2:
 
-  + [retail_data](https://raw.githubusercontent.com/albarran/00datos/main/retail_data.RData)
+  + [retail_data.RData](https://raw.githubusercontent.com/albarran/00datos/main/retail_data.RData)
 
   + [VentasTabla](https://raw.githubusercontent.com/albarran/00datos/main/VentasTabla.xlsx)
-  + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
   + [DosTablas](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx)
+
+  + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
+  + [regionEmpleado](https://raw.githubusercontent.com/albarran/00datos/main/regionEmpleado.xlsx) 
 
 <!--
 * Tema 5:

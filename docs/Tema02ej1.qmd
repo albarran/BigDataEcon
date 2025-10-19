@@ -1,0 +1,599 @@
+---
+title: "Tema 02 - Transformación de Datos"
+subtitle: "Ejercicio Práctico 1"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html: 
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false      
+  fig.show: hide     
+lang: es
+strip-comments: true
+---
+<!-- markdownlint-disable-file MD013 -->
+
+```{r}
+#| include: false
+#| eval: true
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+library(rio)
+library(kableExtra)
+```
+
+**NOTA**: Este ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).
+
+---
+
+## Ejercicio 1
+
+Descargad [este archivo (comprimido)](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (`ID`), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las `ventas` realizadas por dicho empleado en un periodo concreto, dado por año y mes.
+
+::: {.content-visible when-profile="soluciones"}
+En clase haremos estos apartados utilizando tanto un programa de hoja de cálculo (como Excel, LibreOffice Calc o Google Sheets) como también empleando R. 
+:::
+
+Para garantizar claridad y accesibilidad, se recomienda dividir las tareas en pasos manejables y utilizar herramientas que permitan una visualización clara de los datos.
+
+
+### Apartado 1.a)
+
+Elige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para `0104` debes usar `104`). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+empleados <- import("https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip")
+
+# (alternativa 1) - misma secuencia que en Excel
+empleados |>
+  filter(ID == 8751) |>
+  arrange(desc(ventas)) |>
+  slice_head(n=1) |>   # tambien slice(1)
+  select(anio, mes)
+
+# (alternativa 2)
+empleados |>
+  filter(ID == 8751) |>
+  filter(ventas == max(ventas)) |>
+  select(anio, mes)
+
+# (alternativa 3)
+empleados |>
+  filter(ID == 8751) |>
+  slice_max(ventas) |>
+  select(anio, mes)
+```
+
+Pensar PASOS, pensar qué funciones (de las cinco) usar en cada paso
+
+* seleccionar filas de un empledo/a
+
+* hay que seleccionar un periodo, PERO que cumpla una **condición** (paso previo)
+
+* filtrado de ventas == valor, o bien otra variable que tiene el máximo, o  bien directamente el máximo
+
+* o ordenar descendente y elegir el primer valor
+
+* OJO: ambas opciones NO son equivalente si en caso de empates: si mismo valor máximo en dos periodos, filter selecciona dos
+
+
+:::
+
+### Apartado 1.b)
+
+Elige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para `0104` debes usar `104`). Encontrar el periodo (año y mes) en el que sus ventas **relativas al total** de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+# (alternativa 1)
+empleados |>
+  group_by(anio, mes) |>
+  mutate(ventas_prop = ventas / sum(ventas) * 100) |>
+  ungroup() |>
+  filter(ID == 8751) |>
+  arrange(desc(ventas_prop)) |>
+  slice_head(n=1) |>             # tambien slice(1)
+  select(anio, mes, ventas_prop)
+
+# (alternativa 2)
+empleados |>
+  group_by(anio, mes) |>
+  mutate(ventas_prop = ventas / sum(ventas) * 100) |>
+  ungroup() |>
+  filter(ID == 8751) |>
+  filter(ventas_prop == max(ventas_prop)) |>
+  select(anio, mes, ventas_prop)
+
+# (alternativa 3)
+#igual que antes con slice_max(ventas_prop)
+```
+PASOS: necesitamos crear una variables (ventas de i en t)/(total ventas en t)
+
+1. si se crea después de filtrar: ventas/suma(ventas) es (ventas de i en t)/(total ventas de i)
+2. si se crea antes de filtrar sin más es (ventas de i en t)/(total de ventas, de todos individuso en todos los periodos)
+
+group_by para limitar el alcance de sum() a periodo
+
+NO olvidar ungroup() cuando ya no necesitamos
+
+
+* En Excel: se podría crear Ventas_totales en cada periodo, y luego dividir por esa columna
+* opcion 1: tabla dinámica, PERO luego hay que hacer JOIN con la tabla original:
+              * BUSCARV, BUSCARH, BUSCARX,... HLOOKUP, VLOOKUP, XLOOKUP
+* opción 2: SUMAR.SI o SUMAR.SI.CONJUNTO,.. SUMIF, SUMIFS
+             * SUMAR.SI.CONJUNTO(F:F,G:G,G2,H:H,H2)  (F: ventas, G: anio, H: mes)
+             * muy lento
+
+
+** OJO: tabla dinámica con función en Excel: PIVOTAR
+
+:::
+
+### Apartado 1.c)
+
+Repetir el apartado a) para **cada empleado** de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+# Para todos los empleados - imposible en Excel (o casi)
+empleados |>
+  group_by(ID) |>
+  arrange(desc(ventas)) |>
+  slice_head(n=1) |>      # también slice(1)
+  select(ID, anio, mes)
+
+# Alternativa estilo Excel:
+# ordenar por ventas y eliminar duplicados de ID
+empleados |>
+  arrange(desc(ventas)) |>
+  distinct(ID, .keep_all = TRUE) |>
+  select(ID, anio, mes)
+```
+:::
+
+### Apartado 1.d)
+
+¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+# Solución ADECUADA: nuevo conjunto de datos
+# a nivel de empresa
+empleados |>
+  group_by(anio, mes) |>
+  summarize(ventas_totales = sum(ventas)) |>
+  ungroup() |>
+  arrange(desc(ventas_totales)) |>
+  slice_head(n=1)
+# alternativas sustituyendo los dos ultimos pasos, por una de las dos siguientes
+# filter(ventas_totales = max(ventas_totales))
+# slice_max(ventas_totales)
+```
+
+- Opción lenta, con más columnas e inadecuada
+
+```{r}
+empleados |>
+  group_by(anio, mes) |>
+  mutate(ventas_totales = sum(ventas)) |>
+  arrange(desc(ventas_totales)) |>            # mas lento por más filas
+  slice_head(n=1)                             # columnas innecesarias
+```
+:::
+
+<!--
+e. Encontrar los nombres y apellidos de los diez empleados con más ventas (mayor número total de ventas) entre julio de 2002 (incluido) y junio de 2006 (incluido).
+```{r}
+# solución
+
+
+# solución
+empleados |>
+  filter((anio == 2002 & mes >=7) | (anio>=2003 & anio<=2005) | (anio == 2006 & mes <=6)) |>
+  group_by(ID, apellido1, apellido2, nombre) |>      # OJO: si no se incluyen
+  summarize(ventas_totales = sum(ventas)) |> ungroup() |>
+  arrange(desc(ventas_totales)) |>
+  head(10) |>
+  select(starts_with("apellido"), nombre)
+
+# alternativa: usar
+# slice_max(ventas_totales, n=10)
+```
+-->
+
+### Apartado 1.e)
+
+- Representar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.
+
+- Presentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.
+
+- Presentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+datosAnioGenero <- empleados |>
+  group_by(anio, genero) |>
+  summarize(ventas_totales = sum(ventas),
+            num = n(),
+            num2 = n_distinct(ID),
+            ventas_medias = mean(ventas)) |>
+  ungroup()
+```
+
+```{r}
+# Gráfico 1: Evolución temporal de ventas
+ggplot(data = datosAnioGenero, aes(x = anio, y = ventas_totales, color = genero)) +
+  geom_line() +
+  labs(title = "Evolución temporal de las ventas anuales por género",
+       x = "Año", y = "Ventas totales", color = "Género")
+```
+
+```{r}
+# Gráfico 2: Número de empleados únicos por género
+ggplot(data = datosAnioGenero) +
+  geom_bar(aes(x = anio, y = num2, fill = genero),
+           stat = "identity", position = "dodge") +
+  labs(title = "Número de empleados únicos por género",
+       x = "Año", y = "Número de empleados", fill = "Género")
+```
+
+```{r}
+# Tabla: Media de ventas en años específicos
+tabla_ventas <- datosAnioGenero |>
+  filter(anio %in% c(2000, 2005, 2010)) |>
+  select(genero, anio, ventas_medias) |>
+  pivot_wider(names_from = anio, values_from = ventas_medias)
+
+tabla_ventas
+
+# avanzado (no se pide)
+tabla_ventas |>
+  kbl(format = "html",
+      caption = "Media de ventas anuales por género (años seleccionados)",
+      digits = 2) |>
+  kable_paper("hover", full_width = FALSE)
+```
+:::
+
+---
+
+<!--
+# Pregunta 2
+
+El archivo [ChaseBank.csv](https://raw.githubusercontent.com/albarran/00datos/main/ChaseBank.csv) incluye un registro de cada sucursal de Chase Bank en EE.UU., con la siguiente información:
+
+| **Variable**          | **Descripción**                                      |
+|-----------------------|------------------------------------------------------|
+| `Institution Name`    | Nombre de la institución                             |
+| `Main Office`         | = 1 si es la oficina principal del banco             |
+| `Branch Name`         | Nombre de la sucursal                                |
+| `Branch Number`       | Identificador de la sucursal                         |
+| `Established Date`    | Fecha de establecimiento de la sucursal              |
+| `Acquired Date`       | Fecha de adquisición por JP Morgan Chase (si aplica) |
+| `Street Address`      | Dirección de la sucursal                             |
+| `City`                | Ciudad de la sucursal                                |
+| `County`              | Condado de la sucursal                               |
+| `State`               | Estado de la sucursal                                |
+| `Zipcode`             | Código postal de la sucursal                         |
+| `Latitude`            | Coordenada de latitud de la ubicación de la sucursal |
+| `Longitude`           | Coordenada de longitud de la ubicación de la sucursal|
+| `XXXX Deposits`       | Depósitos en la sucursal durante el año XXXX (en $)  |
+
+
+Para todos los análisis siempre excluimos la oficina principal. NOTAD que en R, los nombres de las columnas con espacios se escriben entre `` ` ``; por ejemplo, `` `Main Office` ``.
+
+```{r}
+#| echo: false
+#| eval: false
+library(rio)
+library(tidyverse)
+
+ChaseBank <- import("https://raw.githubusercontent.com/albarran/00datos/main/ChaseBank.csv") |>
+              filter(`Main Office` == 0)
+```
+
+a. Presenta una tabla con el nombre, ciudad y estado de las tres oficinas con más depósitos en cada año.
+
+```{r}
+#| echo: false
+#| eval: false
+ChaseBank |>
+  pivot_longer(cols = starts_with("20"),
+               names_to = "year", values_to = "deposits") |>
+  mutate(year = parse_number(year)) |>
+  group_by(year) |>
+  arrange(desc(deposits)) |>
+  slice_head(n = 3) |>
+  select(`Branch Name`, City, State, year, deposits)
+```
+
+
+a. En cada año, ¿qué sucursal ha tenido la mayor tasa de crecimiento en la cantidad total de depósitos (respecto al anterior)?
+
+    * NOTA: en R, la función `lag()` permite acceder al valor de la fila anterior.
+
+```{r}
+#| echo: false
+
+ChaseBankLargo <- ChaseBank |>
+  select(`Branch Name`, `Branch Number`, City:Zipcode, starts_with("20")) |>
+  pivot_longer(cols = starts_with("20"),
+               names_to = "year", values_to = "deposits") |>
+  mutate(year = parse_number(year))
+
+ChaseBankLargo2 <-
+  ChaseBankLargo |>
+    group_by(`Branch Number`) |>
+    arrange(`Branch Number`, year) |>
+    mutate(tasa_crecim =
+             if_else(lag(deposits)==0,
+                     NA,
+                     100*(deposits - lag(deposits)) / lag(deposits)))
+
+ChaseBankLargo2 |>
+   group_by(year) |>
+   arrange(desc(tasa_crecim)) |>
+   slice_head(n=1)
+
+
+ChaseBankLargo2 |>
+  group_by(`Branch Name`, City, State) |>
+  summarise(media_tasa  = mean(tasa_crecim, na.rm = TRUE)) |>
+  ungroup() |>
+  arrange(desc(media_tasa))  |>
+   slice_head(n=1)
+```
+
+
+b. ¿Qué sucursal ha tenido un mayor crecimiento en los depósitos acumulado en todo este periodo? ¿Y crecimiento medio anual?
+
+
+
+
+
+
+¿Qué sucursal bancaria ha tenido mayor tasa de crecimiento anual (respecto al año anterior) en los depósitos? ¿Qué sucursal ha tenido mayor tasa media de crecimiento anual en este periodo?
+
+    * NOTA: en R, la función `lag()` permite acceder al valor de la fila anterior.
+
+```{r}
+#| echo: false
+#| eval: false
+ChaseBank2 <- ChaseBank |>
+  select(`Branch Name`, `Branch Number`, City:Zipcode, starts_with("20")) |>
+  pivot_longer(cols = starts_with("20"),
+               names_to = "year", values_to = "deposits") |>
+  mutate(year = parse_number(year)) |>
+  group_by(`Branch Number`) |>
+  arrange(`Branch Number`, year) |>
+  mutate(deposits = if_else(deposits == 0, NA, deposits),
+    tasa_crecim = 100*(deposits - lag(deposits)) / lag(deposits))
+
+
+ ChaseBank2 |>
+   group_by(year) |>
+   arrange(desc(tasa_crecim)) |>
+   slice_head(n=1)
+
+
+ ChaseBank2 |>
+   group_by(`Branch Name`, City, State) |>
+  summarise(media_tasa  = mean(tasa_crecim, na.rm = TRUE)) |>
+  arrange(desc(media_tasa))
+
+
+
+```
+
+```{r}
+temp <- ChaseBank2 |> filter(max(deposits==0)==T)
+```
+
+
+   a.3. Para cada estado, ¿cuál es la oficina en que más dinero depositaron los clientes en cada año?
+
+
+
+b. Para cada estado, queremos saber:
+  b.1. ¿cuántas sucursales bancarias hay?
+  b.2. ¿cuál ha sido el crecimiento anual medio de los depósitos?
+  b.3. Representar gráficamente la cantidad de depósitos en el tiempo para cada estado.
+
+-->
+
+
+## Ejercicio 2
+
+Además del archivo del Ejercicio 1, disponemos de [este archivo Excel](https://raw.githubusercontent.com/albarran/00datos/main/regionEmpleado.xlsx) con dos hojas: `regiones`, con la clave de las regiones donde la empresa tiene sedes y el nombre completo de cada región, y `regionEmpleado`, con el identificador de cada individuo y la región a la que pertenece.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+regiones <- import("https://raw.githubusercontent.com/albarran/00datos/main/regionEmpleado.xlsx",
+                   sheet = "regiones")
+regionEmpleado <- import("https://raw.githubusercontent.com/albarran/00datos/main/regionEmpleado.xlsx",
+                         sheet = "regionEmpleado")
+```
+:::
+
+### Apartado 2.a)
+
+Mostrar en una tabla el nombre y apellidos del empleado de cada región con mayores ventas totales en el periodo de tiempo analizado.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+## comprobamos si hay observaciones en ambas tablas
+
+table(regionEmpleado$region)
+table(regionEmpleado$ID)
+
+empleados |>
+  anti_join(regionEmpleado, by = "ID") |>
+  distinct(ID)
+
+
+regionEmpleado |>
+  anti_join(empleados, by = "ID") |>
+  distinct(ID)
+
+# solución ineficiente
+t0 <- Sys.time()
+
+empleados |>
+  inner_join(regionEmpleado, by = "ID") |>
+  group_by(ID, nombre, apellido1, apellido2, region) |>
+  summarize(ventas = sum(ventas)) |>  ungroup() |>
+  group_by(region) |>
+  arrange(desc(ventas)) |>
+  slice_head(n = 1) |>
+  select(region, nombre, apellido1, apellido2, ventasT)
+
+Sys.time() - t0
+
+# Solución más eficiente: agrupa primero, luego une
+t0 <- Sys.time()
+
+empleados |>
+  group_by(ID, nombre, apellido1, apellido2) |>
+  summarize(ventasT = sum(ventas)) |>
+  ungroup() |>
+  inner_join(regionEmpleado, by = "ID") |>
+  group_by(region) |>
+  arrange(desc(ventasT)) |>
+  slice_head(n = 1) |>
+  select(region, nombre, apellido1, apellido2, ventasT)
+
+Sys.time() - t0
+```
+:::
+
+### Apartado 2.b)
+
+Mostrar el nombre completo de la región con más ventas cada año.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+# Solución más eficiente: agrupa primero, luego une solo lo necesario
+t0 <- Sys.time()
+empleados |>
+  inner_join(regionEmpleado, by = "ID") |>
+  group_by(region, anio) |>
+  summarize(ventasT = sum(ventas)) |>
+  ungroup() |>
+  group_by(anio) |>
+  arrange(desc(ventasT)) |>
+  slice_head(n = 1) |>
+  ungroup() |>
+  inner_join(regiones, by = c("region" = "claveRegion")) |>
+  select(anio, nombreRegion, ventasT)
+Sys.time() - t0
+
+### menos eficiente
+t0 <- Sys.time()
+
+empleados |>
+  inner_join(regionEmpleado, by = "ID")  |>
+  inner_join(regiones, by = c("region" = "claveRegion")) |>
+  group_by(nombreRegion, anio) |>
+  summarize(ventasT = sum(ventas)) |>  ungroup() |>
+  group_by(anio) |>
+  arrange(desc(ventasT)) |>   # slice_max(ventasT)
+  slice_head(n = 1)
+
+Sys.time() - t0
+
+```
+:::
+
+### Apartado 2.c)
+
+Mostrar los nombres y apellidos de los empleados "misteriosos": es decir, aquellos que no sabemos a qué región pertenecen.
+
+::: {.content-visible when-profile="soluciones"}
+```{r}
+# Solución más eficiente con anti_join (recomendado)
+t0 <- Sys.time()
+empleados |>
+  anti_join(regionEmpleado, by = "ID") |>
+  distinct(ID, nombre, apellido1, apellido2)
+Sys.time() - t0
+
+# ineficiente con left_join
+t0 <- Sys.time()
+empleados |>
+  left_join(regionEmpleado, by = "ID") |>
+  filter(is.na(region)) |>
+  distinct(ID, nombre, apellido1, apellido2)
+Sys.time() - t0
+```
+:::
+
+
+::: {.content-visible when-profile="NINGUNO"}
+
+Crea `renderizar.R`:
+
+```r
+# Sin soluciones
+quarto::quarto_render("Tema02ej1.qmd")
+
+# Con soluciones
+quarto::quarto_render("Tema02ej1.qmd", profile = "soluciones")
+```
+
+## Con archivo auxiliar `_quarto.yml`
+
+<https://quarto.org/docs/projects/profiles.html>
+
+Crea un archivo `_quarto.yml` en el mismo directorio:
+
+```yaml
+project:
+  type: default
+
+profile:
+  default:
+    # Sin soluciones
+
+  soluciones:
+    # Con soluciones
+```
+
+```yaml
+project:
+  type: default
+
+profile:
+  group:
+#    - [default, soluciones]
+    - [soluciones, default]
+```
+
+## Desde RStudio
+
+1. Abre el archivo en RStudio
+2. Haz clic en el **botón Render** (sin soluciones)
+3. O haz clic en la **flecha** junto al botón Render y selecciona el perfil "soluciones"
+
+:::
