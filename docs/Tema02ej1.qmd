@@ -549,6 +549,15 @@ Sys.time() - t0
 ```
 :::
 
+## Entrega del ejercicio
+
+Rellenad este [FORMULARIO](https://forms.gle/aEzDFFM9Tq9hZMhFA) con vuestros datos y subid 
+
+  - vuestro archivo de R 
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  - Tema02ej1_123456789.R
 
 ::: {.content-visible when-profile="NINGUNO"}
 
