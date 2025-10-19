@@ -1057,6 +1057,13 @@
     "text": "Ejercicio 2\nAdemás del archivo del Ejercicio 1, disponemos de este archivo Excel con dos hojas: regiones, con la clave de las regiones donde la empresa tiene sedes y el nombre completo de cada región, y regionEmpleado, con el identificador de cada individuo y la región a la que pertenece.\n\nApartado 2.a)\nMostrar en una tabla el nombre y apellidos del empleado de cada región con mayores ventas totales en el periodo de tiempo analizado.\n\n\nApartado 2.b)\nMostrar el nombre completo de la región con más ventas cada año.\n\n\nApartado 2.c)\nMostrar los nombres y apellidos de los empleados “misteriosos”: es decir, aquellos que no sabemos a qué región pertenecen."
   },
   {
+    "objectID": "docs/Tema02ej1.html#entrega-del-ejercicio",
+    "href": "docs/Tema02ej1.html#entrega-del-ejercicio",
+    "title": "Tema 02 - Transformación de Datos",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema02ej1_123456789.R"
+  },
+  {
     "objectID": "Datos.html",
     "href": "Datos.html",
     "title": "Datos",
