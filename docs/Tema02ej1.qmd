@@ -45,6 +45,8 @@ library(kableExtra)
 
 **NOTA**: Este ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).
 
+Podéis encontrar una plantilla para vuestras respuestas [aquí](Tema02ej1_123456789.R).
+
 ---
 
 ## Ejercicio 1
@@ -551,7 +553,7 @@ Sys.time() - t0
 
 ## Entrega del ejercicio
 
-Rellenad este [FORMULARIO](https://forms.gle/aEzDFFM9Tq9hZMhFA) con vuestros datos y subid 
+Rellenad este [FORMULARIO](https://forms.gle/eeQEWFfFt3JmLnsBA) con vuestros datos y subid 
 
   - vuestro archivo de R 
 
