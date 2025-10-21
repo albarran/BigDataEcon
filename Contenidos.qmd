@@ -77,9 +77,6 @@ strip-comments: true
 
   * [Tema 02 - Ejercicio](docs/Tema02ej1.qmd)
 
-  * [Tema 02 - Plantilla de respuestas](docs/Tema02ej1_123456789.R)
-
-
 ## Semana 6
 (13-Oct. a 19-Oct.)
 
