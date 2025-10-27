@@ -1,0 +1,1851 @@
+---
+title: "Tema 04 - Análisis Exploratorio de Datos (AED)"
+subtitle: "Proceso para conocer y entender nuestros datos"
+author:  
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:  
+        - beige
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    show-notes: false
+    notes-format: html
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+
+# Elimino todo del Entorno
+rm(list = ls())
+
+# Cargo bibliotecas necesarias
+library(tidyverse)
+library(kableExtra)
+library(skimr)
+library(dlookr)
+library(janitor)
+library(corrplot)
+library(GGally)
+```
+
+```{r}
+#| label: generar-datos
+#| echo: false
+#| eval: false
+
+source("Tema04datos.R")
+
+```
+
+# Introducción al AED
+
+## De los datos en bruto a la información
+
+![](figure/data-science-explore.svg){width=70% fig-align="center"}
+
+::: {style="font-size: 95%;"}
+
+- El AED es una fase inicial importante, con dos objetivos:
+
+  1. Conocer nuestros datos e identificar problemas → Preprocesamiento 
+  
+      - qué variables, tipo de información, calidad (información faltante, inconsistencias, problemas en combinación de datos)
+
+  2. Análisis descriptivo: identificar patrones y encontrar escenarios de análisis
+
+- NO hay una "receta": el proceso es diferente con distintos datos o con los mismos datos para diferentes objetivos
+
+  - Es un proceso iterativo para descubrir información
+
+:::
+
+## Caso de Estudio: PYMES Europeas
+
+- Una consultora analiza 500 PYMES europeas fundadas entre 1980-2020 para:
+
+  - Evaluar salud financiera y solvencia
+  - Identificar patrones de productividad
+  - Analizar riesgo crediticio
+  - Ofrecer recomendaciones de inversión
+
+- Fuente de datos: [pymes_europa.csv](https://raw.githubusercontent.com/albarran/00datos/main/pymes_europa.csv)
+
+  + información: [diccionario_pymes.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_pymes.csv)
+
+
+::::{.notes}
+
+  - 28 variables (identificación, financieras, productividad, riesgo)
+  - Sectores: Tecnología, Manufactura, Servicios, Construcción, etc.
+  - Países: España, Alemania, Francia, Italia, Portugal, y Europa del Este
+  - Período: Empresas fundadas entre 1980-2020
+  
+::::
+
+- Objetivo del AED:
+
+  - Limpiar y preprocesar los datos
+  - Entender los datos (distribuciones y relaciones entre variables)
+  - Descubrir patrones (riesgo de las empresa, diferencias por sector y país)
+
+# Primera Aproximación
+
+## Contexto y reconomicimiento de los datos
+
+::: {style="font-size: 95%;"}
+- Contexto: conocimiento previo de los datos (fuente, cómo están almacenados, etc.)
+
+- Cargar los datos
+
+```{r}
+#| echo: false
+# Cargar datos
+pymes <- read_csv("data/pymes_europa.csv")
+
+# Diccionario de datos
+diccionario <- read_csv("data/diccionario_pymes.csv")
+```
+
+```{r}
+library(rio)
+pymes <- import("data/pymes_europa.csv")
+```
+
+- **Reconocimiento inicial de las características**: 
+
+  - número de observaciones y de variables
+  - tipo de cada variable
+  - visualizar los datos
+
+:::: {.notes}
+- contexto: 
+  - fuente (de dónde han salido)
+  - cómo están almacenados (.csv, .xlsx, ...)
+
+- Reconocimiento
+```{r}
+#| eval: false
+View(pymes)
+head(pymes)
+names(pymes)
+dim(pymes)
+
+str(pymes)
+```
+::::
+
+
+- SIEMPRE consultar el "diccionario" de datos 
+
+  - Descripción de cada variable y unidades de medida 
+  - Tipo de variable esperado
+
+```{r}
+diccionario <- import("data/diccionario_pymes.csv")
+```
+
+
+::::{.notes}
+
+```{r}
+#| echo: false
+diccionario |> 
+  select(variable, descripcion, tipo) |> 
+  slice(1:10) |> 
+  kable()
+```
+::::
+
+:::
+
+## Identificar Problemas de Calidad en los Datos
+
+::: {style="font-size: 90%;"}
+1. Verificar que las variables la información y el tipo adecuado
+
+    - Algunas variables deberían ser numéricas:
+
+```{r}
+#| echo: false
+# ¿Qué tipos tenemos?
+sapply(pymes, class) |> head(10)
+```
+
+```{r}
+pymes <- pymes |>
+  mutate( anio_fundacion = as.numeric(anio_fundacion),
+          empleados = as.numeric(empleados),
+          liquidez_ratio = as.numeric(liquidez_ratio)  )
+```
+
+```{r}
+#| echo: false
+pymes <- pymes |> 
+  mutate(across(c(anio_fundacion, empleados, liquidez_ratio), ~parse_number(.x)))
+```
+
+
+
+:::: {.notes}
+- `anio_fundacion` es carácter (debería ser numérica)
+- `empleados` es carácter (debería ser numérica)  
+- `liquidez_ratio` es carácter (debería ser numérica)
+
+::::
+
+
+2. Detectar inconsistencias en texto, fechas, unidades, etc.
+
+    - Ej.: en sector, "Tecnología", "tecnologia", "TECNOLOGÍA" son la misma categoría
+  
+    - este tipo de problemas se puede descubrir más adelante.
+
+```{r}
+#| echo: false
+table(pymes$sector)
+```
+
+```{r}
+# Homogeneizar texto
+pymes <- pymes |> 
+  mutate( sector = str_to_lower(sector),
+          sector = str_replace_all(sector, "tecnologia", "tecnología"),
+          sector = str_replace_all(sector, "farmaceutico", "farmacéutico"),
+          sector = str_replace_all(sector, "energia", "energía") )
+```
+
+:::
+
+## Identificar Problemas (cont.)
+
+::: {style="font-size: 95%;"}
+
+3. Las variables con información **categórica** deben ser **factores**
+
+```{r}
+#| echo: false
+pymes <- pymes |>
+  mutate(
+    sector = as.factor(sector),
+    pais = as.factor(pais),
+    tipo_propiedad = as.factor(tipo_propiedad),
+    tamano_ciudad = as.factor(tamano_ciudad),
+    rating_credito = factor(rating_credito, 
+                           levels = c("AAA", "AA", "A", "BBB", "BB", 
+                                     "B", "CCC", "CC", "C", "D"),
+                           ordered = TRUE)
+  )
+```
+
+```{r}
+pymes <- pymes |>
+  mutate(across(c(sector, pais, tipo_propiedad, tamano_ciudad), 
+                ~parse_factor(.x))) |>
+  mutate(rating_credito = factor(rating_credito, 
+                           levels = c("AAA", "AA", "A", 
+                                      "BBB", "BB", "B", 
+                                      "CCC", "CC", "C", "D"),
+                           ordered = TRUE)
+  )
+```
+
+
+:::: {.notes}
+```{r}
+#| eval: false
+# Verificar
+pymes |> select(where(is.factor)) |> str()
+```
+::::
+
+
+4. Identificar Valores Faltantes (NAs)
+
+```{r}
+#| echo: false
+# Resumen de NAs
+pymes |> 
+  summarise(across(everything(), ~sum(is.na(.)))) |>
+  pivot_longer(everything(), names_to = "variable", values_to = "NAs") |>
+  filter(NAs > 0) |>
+  arrange(desc(NAs)) |>
+  kable()
+```
+
+```{r}
+pymes |> summary()
+```
+
+:::: {.notes}
+Interpretación:
+
+- Variables financieras: empresas que no reportan información
+- `ebitda`, `beneficio_neto`: ~40 empresas sin datos
+- `roe` tiene NAs porque depende de `beneficio_neto`
+
+::::
+
+- Podríamos decidir borrar o reemplazar los `NAs`, pero se suele preferir decidir al modelizar
+
+
+:::
+
+## Identificar Problemas (y 3)
+
+::: {style="font-size: 90%;"}
+
+4. Detectar y eliminar filas duplicadas
+
+:::: {.notes}
+
+y filas vacias?
+
+::::
+
+```{r}
+#| echo: false
+
+# ¿Hay duplicados completos?
+sum(duplicated(pymes))
+
+# Ver duplicados
+dups <- duplicated(pymes) | duplicated(pymes, fromLast = TRUE)
+
+pymes |>
+  filter(dups) |>
+  arrange(empresa_id) |>
+  select(empresa_id, sector, pais, ingresos, empleados) |>
+  head(10) |>
+  kable()
+
+```
+
+
+```{r}
+sum(duplicated(pymes))
+pymes <- pymes |> distinct()
+```
+
+
+
+5. Variables que contienen información redundante
+
+    - Ej., `activos_total` y `total_recursos` son `pasivos + patrimonio_neto` (igualdad contable)
+
+```{r}
+#| echo: false
+# Verificar relación contable: Activos = Pasivos + Patrimonio
+pymes |>
+  mutate(diferencia = abs(activos_total - (pasivos + patrimonio_neto))) |>
+  summarise(
+    max_diferencia = max(diferencia, na.rm = TRUE),
+    media_diferencia = mean(diferencia, na.rm = TRUE)
+  ) |>
+  kable()
+```
+
+```{r}
+all.equal(pymes$total_recursos, pymes$pasivos + pymes$patrimonio_neto)
+
+pymes <- pymes |> select(-total_recursos)
+```
+
+
+6. Otras: 
+
+    - Renombrar variables (para mayor claridad), generar nuevas
+    
+    - ¿Mantenemos solo algunas variables u observaciones?
+
+- NO ES UNA RECETA: más adelante podemos volver atrás, para rehacer o tomar decisiones
+
+:::
+
+:::: {.notes}
+
+**Resumen de Limpieza Realizada**
+
+Preprocesamiento completado:
+
+- Tipos de variables corregidos (texto → numérico)
+- Inconsistencias de texto homogeneizadas
+- Variables categóricas convertidas a factores
+- Duplicados eliminados
+- Variables redundantes eliminadas
+- NAs identificados (mantener por ahora)
+
+Datos limpios: Ahora podemos comenzar el análisis exploratorio
+
+```{r}
+# Dimensiones finales
+dim(pymes)
+```
+
+::::
+
+:::: {.notes}
+* Dos *tipos* de preguntas siempre serán útiles  para hacer descubrimientos dentro de sus datos
+
+1. ¿Qué tipo de **variación** tiene cada variable? (análisis univariante)
+    
+2. ¿Qué tipo de relaciones se produce entre las variables (**covariación**)? (análisis multivariante)
+
+* La respuesta implica analizar distribuciones, numérica y/o gráficamenente.
+
+    + El análisis es diferente si las variables son numéricas o categóricas
+::::
+
+
+# Análisis de Variación ("univariante")
+
+## Patrones de variación en los datos
+
+- Queremos entender cómo cambian los valores de una variable entre distintas observaciones (p. e., ventas de diferentes empresas), es decir, su **distribución**
+
+  - diferentes técnicas según el tipo de variable (numérica o categórica).
+
+. . .
+
+::: {style="font-size: 95%;"}
+
+- Aspectos a observar en la distribución
+
+  - Inconsistencias: categorías erróneas (“unknown”), valores fuera de rango
+  
+  - Concentración de valores: ceros, números redondos o repeticiones excesivas → ¿errores o patrones reales?
+  
+  - Categorías: ¿tienen sentido? ¿agrupar de manera diferente? ¿reagrupar si hay pocas observaciones?
+  
+  - Continuas: dispersión o asimetría (usar log?); ¿discretizar (ej. grupos de edad)?
+  
+  - Valores inusuales (“atípicos” o “outliers”): no encajan en el patrón general
+  
+    - ¿cambian los resultados del análisis sin ellos? ¿Qué los ha causado?
+
+:::
+
+:::: {.notes}
+
+Notar que el análisis es diferente para variables categóricas y numéricas: es conveniente describirlas por separado en un documento final
+
+
+Detectar inconsistencias en la distribución de valores o en las categorías: p.e., “unknown” en job de Bank
+
+Valores frecuentes, concentración en valores concretos (p.e., ceros, números “redondos”, etc.): ¿por qué se producen? ¿son “esperables”?
+
+ 
+¿Tienen sentido las categorías de las variables cualitativas?
+agrupar valores con pocas observaciones
+crear categorías más “finas”o más agregadas (ej. de países a continentes)
+ 
+¿Sería preferible discretizar alguna variable continua? Ej., grupos de edad
+
+Variables con alta dispersión o distribución asimétrica (logs?)
+
+ 
+Variables con información redundante, homogeneizar valores, normalidad(?)
+ 
+Valores inusuales (“atípicos” o “outliers”): no encajan en el patrón general
+
+¿cambian los resultados del análisis sin ellos? ¿Qué los ha causado?
+
+::::
+
+
+
+## Variables Categóricas
+
+::: {style="font-size: 95%;"}
+
+- Describimos la distribución con **frecuencias y proporciones**: con `summary()`, `table()`, `mode()`  o con `summarize()`, `count()`
+  
+```{r}
+table(pymes$sector)
+pymes |> count(sector, sort = TRUE)
+
+prop.table(table(pymes$sector))
+#¿proporciones con count() y `tidyverse`?
+```
+
+- Este análisis reveló un **problema**: categorías con pocas observaciones que dificultan análisis (visualizaciones desequilibradas, resultados poco confiables)
+  
+:::: {.notes}  
+  - Estadísticos poco confiables (muestra pequeña)
+  - Visualizaciones desequilibradas
+  - Riesgo de overfitting en modelos posteriores
+  - Dificultan comparaciones robustas
+::::
+
+- **Agrupar categorías** similares o crear categoría residual con un mínimo de observaciones
+
+```{r}
+library(forcats)
+pymes <- pymes |>
+  mutate(sector_agrupado = fct_lump_n(sector, n = 5, 
+                                      other_level = "Otros"))
+```
+
+:::
+
+## Variables Categóricas: Visualización
+
+::::{.notes}
+- Los gráficos ayudan a entender y explicar mejor la distribución de los datos.
+::::
+
+- Para distribuciones discretas, la mejor visualización de la distribución de los datos es un histograma.
+
+```{r}
+# Gráfico de barras de frecuencias absolutas
+g0 <- ggplot(data = pymes) 
+g0 + geom_bar(aes(x = pais)) + 
+  theme(axis.text.x = element_text(angle = 90))
+g0 + geom_bar( aes(x = "", fill = tipo_propiedad))
+
+# Gráfico de barras de frecuencias relativas (proporciones)
+g0 + geom_bar(aes(x = tipo_propiedad, 
+                  y = after_stat(prop), group = 1))
+
+pymes |> count(tipo_propiedad) |> mutate(prop = n / sum(n)) |>
+  ggplot() + geom_bar(aes(x = tipo_propiedad, y = prop), 
+                      stat = "identity")
+```
+
+```{r}
+#| echo: false
+g0 + 
+  geom_bar(aes(x = tipo_propiedad, y = after_stat(count/sum(count))))
+```
+
+
+- Observación: la mayor parte de las PYMEs son empresas familiares o S.L.
+
+## Variables Cuantitativas
+
+- Estadísticas descriptivas básicas con `summary()`
+```{r}
+summary(pymes)
+```
+
+- Información adicional con funciones para estadísticos (rango, varianza, cuartiles, asimetría) 
+
+```{r}
+summary(pymes$ingresos)
+pymes |>
+  summarise(
+    media = mean(ingresos, na.rm = TRUE),
+    mediana = median(ingresos, na.rm = TRUE),
+    sd = sd(ingresos, na.rm = TRUE),
+    min = min(ingresos, na.rm = TRUE),
+    max = max(ingresos, na.rm = TRUE),
+    q25 = quantile(ingresos, 0.25, na.rm = TRUE),
+    q75 = quantile(ingresos, 0.75, na.rm = TRUE)  )
+```
+
+- Interés particular en amplia variabilidad, distribución asimétrica
+
+## Variables Cuantitativas: Visualización
+
+- Para distribuciones numéricas, la visualización de la distribución de los datos puede realizarse con un histograma, con la densidad o ambos.
+
+```{r}
+ggplot(pymes) + geom_histogram(aes(x = empleados), bins = 30)
+
+ggplot(pymes, aes(x=empleados)) + 
+  geom_histogram(aes(y=after_stat(density)), bins = 30) + 
+  geom_density()
+```
+
+- Recordar: usar varios anchos de intervalo (esto es, cómo discretizar la variable continua)
+
+- Si observamos una distribución muy asimétrica, considerar escala logaritmica
+
+```{r}
+ggplot(pymes, aes(x = ingresos)) + geom_histogram(bins = 30) 
+ggplot(pymes, aes(x = ingresos)) + geom_histogram(bins = 30) + 
+  scale_x_log10()
+```
+
+ 
+## Variables Cuantitativas: Visualización con Boxplots
+
+- Los gráficos de caja pueden ser útiles sobre la dispersión, identificar outliers y comparar distribuciones
+
+```{r}
+ggplot(pymes, aes(y = roe)) +
+  geom_boxplot()
+```
+
+![](figure/eda-boxplot.png){width=75% fig-align="center"}
+
+:::: {.notes}
+**Identificar Outliers: Método IQR**
+
+Método estándar: IQR (Rango Intercuartílico)
+
+```{r}
+
+
+
+# Calcular límites
+Q1 <- quantile(pymes$roe, 0.25, na.rm = TRUE)
+Q3 <- quantile(pymes$roe, 0.75, na.rm = TRUE)
+IQR <- Q3 - Q1
+limite_inf <- Q1 - 1.5 * IQR
+limite_sup <- Q3 + 1.5 * IQR
+
+# Contar outliers
+pymes <- pymes |>
+  mutate(roe_outlier = roe < limite_inf | roe > limite_sup)
+
+table(pymes$roe_outlier)
+```
+
+Decisión: NO eliminar automáticamente, investigar causa
+
+
+Outliers pueden ser:
+
+- Errores de medición → corregir o eliminar
+- Casos reales extremos → mantener o analizar por separado
+- Empresas excepcionales → insights valiosos
+::::
+
+## Herramientas Automáticas: skimr
+
+```{r}
+library(skimr)
+
+# Resumen completo y rápido
+pymes |> 
+  select(ingresos, beneficio_neto, roe, roa, empleados) |>
+  skim()
+```
+
+Ventajas: Visión rápida, histogramas inline, NAs, estadísticos
+
+## Herramientas Automáticas: dlookr
+
+```{r}
+
+
+
+library(dlookr)
+
+# Diagnóstico de datos
+diagnose(pymes) |>
+  select(variables, types, missing_count, missing_percent, unique_count) |>
+  head(10) |>
+  kable()
+```
+
+```{r}
+
+
+
+# Descripción de variables numéricas
+describe(pymes) |>
+  select(described_variables, mean, p25, p50, p75, skewness) |>
+  filter(!is.na(mean)) |>
+  arrange(desc(abs(skewness))) |>
+  head(10) |>
+  kable()
+```
+
+# Análisis de Covariación ("multivariante")
+
+## Análisis Bivariante: Una Continua y Una Categórica
+
+¿Es diferente la distribución de Y (continua) por categorías de X?
+
+1. mediante el histograma o densidad (en el mismo gráfico o diferentes)  
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 5
+
+ggplot(pymes, aes(x = ingresos, color = sector_agrupado)) +
+  geom_density() +
+  scale_x_log10(labels = scales::comma) +
+  theme_minimal() +
+  labs(title = "Distribución de Ingresos por Sector",
+       x = "Ingresos (miles €, escala log)", 
+       y = "Densidad",
+       color = "Sector")
+```
+
+## Análisis Bivariante: Boxplots por Grupo
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+ggplot(pymes, aes(x = sector_agrupado, y = ingresos, fill = sector_agrupado)) +
+  geom_boxplot() +
+  scale_y_log10(labels = scales::comma) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none") +
+  labs(title = "Distribución de Ingresos por Sector",
+       x = "Sector", y = "Ingresos (miles €, escala log)")
+```
+
+Observación: Tecnología y Servicios tienen medianas más altas
+
+## Estadísticos Descriptivos por Grupo
+
+```{r}
+
+
+
+# Ingresos promedio por sector
+pymes |>
+  group_by(sector_agrupado) |>
+  summarise(
+    n = n(),
+    media = mean(ingresos, na.rm = TRUE),
+    mediana = median(ingresos, na.rm = TRUE),
+    sd = sd(ingresos, na.rm = TRUE)
+  ) |>
+  arrange(desc(media)) |>
+  kable(digits = 0)
+```
+
+Interpretación:
+
+- Tecnología: ingresos promedio más altos
+- Alta variabilidad dentro de cada sector (SD alta)
+
+## Análisis Bivariante: Dos Categóricas
+
+¿Hay relación entre sector y tipo de propiedad?
+
+```{r}
+
+
+
+# Tabla de contingencia
+table(pymes$sector_agrupado, pymes$tipo_propiedad)
+```
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 5
+
+# Visualización con barras apiladas
+ggplot(pymes, aes(x = sector_agrupado, fill = tipo_propiedad)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Tipo de Propiedad por Sector (proporciones)",
+       x = "Sector", y = "Proporción", fill = "Tipo Propiedad")
+```
+
+## Análisis Bivariante: Dos Continuas
+
+La forma obvia de visualizar relaciones entre variables continuas es un gráfico de dispersión
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+ggplot(pymes, aes(x = activos_total, y = ingresos)) +
+  geom_point(alpha = 0.5, color = "steelblue") +
+  geom_smooth(method = "lm", color = "red", se = TRUE) +
+  scale_x_log10(labels = scales::comma) +
+  scale_y_log10(labels = scales::comma) +
+  theme_minimal() +
+  labs(title = "Relación entre Activos e Ingresos",
+       x = "Activos Totales (miles €, escala log)",
+       y = "Ingresos (miles €, escala log)")
+```
+
+Observación: Relación positiva entre activos e ingresos
+
+## Correlación entre Variables Numéricas
+
+```{r}
+
+
+
+# Correlación simple
+cor(pymes$activos_total, pymes$ingresos, use = "complete.obs")
+```
+
+```{r}
+
+
+
+# Matriz de correlaciones (selección de variables)
+pymes |>
+  select(activos_total, ingresos, empleados, 
+         beneficio_neto, roe, roa) |>
+  cor(use = "complete.obs") |>
+  round(2) |>
+  kable()
+```
+
+Interpretación:
+
+- Correlación alta entre `activos_total` e `ingresos` (0.82)
+- `ROE` y `ROA` moderadamente correlacionados
+- `empleados` correlacionado con tamaño financiero
+
+## Visualización de Correlaciones
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 12
+#| fig-height: 10
+
+library(corrplot)
+
+pymes |>
+  select(activos_total, pasivos, patrimonio_neto, ingresos, 
+         ebitda, beneficio_neto, liquidez_ratio, roe, roa,
+         deuda_patrimonio, empleados) |>
+  cor(use = "complete.obs") |>
+  corrplot(method = "color", type = "upper", 
+           tl.col = "black", tl.srt = 45,
+           addCoef.col = "black", number.cex = 0.6)
+```
+
+## Análisis Multivariante con GGally
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 12
+#| fig-height: 10
+
+library(GGally)
+
+pymes |>
+  select(ingresos, beneficio_neto, empleados, 
+         roe, deuda_patrimonio, sector_agrupado) |>
+  ggpairs(aes(color = sector_agrupado, alpha = 0.5),
+          lower = list(continuous = "smooth"))
+```
+
+
+# Transformación: Motivación desde el AED
+
+## Crear Variables Derivadas
+
+Las transformaciones de variables NO "caen del cielo". Surgen del análisis previo:
+
+### Caso 1: Antigüedad de la empresa
+
+**Motivación del AED**:
+- Tenemos `anio_fundacion` pero queremos analizar madurez
+- Análisis temporal reveló que empresas fundadas en diferentes décadas se comportan diferente
+- Para comparaciones: necesitamos años desde fundación, no año absoluto
+
+```{r}
+
+
+# Calcular antigüedad
+pymes <- pymes |>
+  mutate(antiguedad = 2024 - anio_fundacion)
+```
+
+**Ahora podemos**:
+- Comparar empresas jóvenes (< 5 años) vs consolidadas (> 15 años)
+- Analizar relación antigüedad-rentabilidad
+- Identificar si hay "valle de la muerte" para PYMEs
+
+## Crear Variables Derivadas (cont.)
+
+### Caso 2: Clasificación por tamaño
+
+**Motivación del AED**:
+
+```{r}
+
+
+
+# Del análisis univariante: distribución de empleados
+summary(pymes$empleados)
+```
+
+Observación: Rango muy amplio (1 a 250+ empleados). Dificulta análisis.
+
+La Unión Europea define categorías estándar para PYMES. Aplicar esta clasificación facilita:
+- Comparaciones con estudios previos
+- Comunicación con stakeholders
+- Segmentación de mercado
+
+```{r}
+
+
+# Clasificar empresas por tamaño (definición UE)
+pymes <- pymes |>
+  mutate(
+    tamano_empresa = cut(empleados, 
+                        breaks = c(0, 10, 50, 250, Inf),
+                        labels = c("Micro", "Pequeña", "Mediana", "Grande"),
+                        include.lowest = TRUE)
+  )
+```
+
+```{r}
+
+
+
+# Verificar distribución
+table(pymes$tamano_empresa)
+```
+
+**Tradeoff importante**: Discretizar simplifica comunicación pero pierde información
+
+- **Ventaja**: Facilita comparaciones "Micro vs Pequeña vs Mediana"
+- **Desventaja**: Tratamos igual empresas de 11 y 49 empleados
+- **Recomendación**: Mantener ambas (continua para análisis, categórica para comunicación)
+
+## Crear Variables Derivadas (cont.)
+### Caso 3: Productividad laboral
+
+**Motivación del AED**:
+
+Del análisis bivariante vimos:
+- Ingresos correlacionados con empleados (r = 0.65)
+- Pero la relación no es proporcional
+- Queremos medir eficiencia: ingresos por empleado
+
+```{r}
+
+
+# Crear variable de productividad
+pymes <- pymes |>
+  mutate(productividad_laboral = ingresos / empleados)
+```
+
+Esta variable derivada permite:
+- Comparar eficiencia entre empresas de distinto tamaño
+- Identificar empresas sobre/sub-performando
+- Analizar productividad por sector (tech vs manufactura)
+
+**Insight del AED posterior**: Tecnología tiene productividad 3x mayor que Manufactura
+
+## Agrupar Categorías de Rating: Justificación
+
+Del análisis univariante de `rating_credito`:
+
+```{r}
+
+
+
+table(pymes$rating_credito)
+```
+
+**Problemas identificados**:
+1. CCC, CC, C, D tienen < 10 observaciones cada uno
+2. Análisis bivariante mostró: C y D comportamiento financiero similar
+3. No hay diferencia estadística entre BB y B en nuestros datos
+
+**Decisión de negocio**: Crear tres grupos significativos
+
+```{r}
+
+
+# Agrupar ratings bajos
+pymes <- pymes |>
+  mutate(
+    rating_agrupado = fct_collapse(rating_credito,
+      "Grado Inversión" = c("AAA", "AA", "A", "BBB"),
+      "Grado Especulativo" = c("BB", "B"),
+      "Alto Riesgo" = c("CCC", "CC", "C", "D")
+    )
+  )
+```
+
+**Justificación**:
+- "Grado Inversión": bajo riesgo, acceso fácil a financiación
+- "Grado Especulativo": riesgo moderado, típico de muchas PYMES
+- "Alto Riesgo": problemas financieros serios, requiere atención
+
+Esta agrupación:
+- Es robusta estadísticamente (suficientes observaciones)
+- Tiene sentido de negocio (convención del mercado)
+- Facilita visualización y comunicación
+- Mantiene poder predictivo (verificado en análisis bivariante)
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 5
+
+# Visualización agrupada
+ggplot(pymes, aes(x = rating_agrupado, fill = rating_agrupado)) +
+  geom_bar() +
+  scale_fill_manual(values = c("green3", "gold2", "red2")) +
+  theme_minimal() +
+  labs(title = "Rating Crediticio Agrupado",
+       x = "Categoría de Riesgo", y = "Número de empresas") +
+  theme(legend.position = "none")
+```
+
+**Regla general**: Agrupa solo cuando:
+1. El análisis previo mostró que es necesario
+2. Tiene sentido de negocio
+3. Las categorías agrupadas tienen comportamiento similar
+4. Mejora la robustez sin perder información crítica
+
+## Relación Rating - Variables Financieras
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+# Ratio deuda/patrimonio por rating
+ggplot(pymes, aes(x = rating_agrupado, y = deuda_patrimonio, 
+                  fill = rating_agrupado)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("green3", "gold2", "red2")) +
+  coord_cartesian(ylim = c(0, 3)) +
+  theme_minimal() +
+  labs(title = "Ratio Deuda/Patrimonio por Categoría de Riesgo",
+       x = "Categoría de Riesgo", y = "Ratio Deuda/Patrimonio") +
+  theme(legend.position = "none")
+```
+
+Insight: Empresas de alto riesgo tienen mayor endeudamiento
+
+<!--
+# Más Aplicaciones Prácticas
+
+## Análisis de Productividad Laboral
+
+Calcular productividad: ingresos por empleado
+
+```{r}
+
+
+# Crear variable de productividad
+pymes <- pymes |>
+  mutate(productividad_laboral = ingresos / empleados)
+```
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+# Productividad por sector
+pymes |>
+  filter(!is.na(productividad_laboral)) |>
+  ggplot(aes(x = sector_agrupado, y = productividad_laboral, 
+             fill = sector_agrupado)) +
+  geom_boxplot() +
+  scale_y_log10(labels = scales::comma) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none") +
+  labs(title = "Productividad Laboral por Sector",
+       x = "Sector", 
+       y = "Ingresos por Empleado (miles €, escala log)")
+```
+
+Insight: Tecnología lidera en productividad laboral
+
+## Análisis de Innovación y Rentabilidad
+
+¿Las empresas que invierten más en innovación son más rentables?
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+# Relación innovación-ROE
+pymes |>
+  filter(!is.na(innovacion_pct), !is.na(roe)) |>
+  ggplot(aes(x = innovacion_pct, y = roe)) +
+  geom_point(alpha = 0.5, color = "steelblue") +
+  geom_smooth(method = "lm", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación entre Inversión en I+D y Rentabilidad",
+       x = "Inversión en I+D (% ingresos)",
+       y = "ROE (%)")
+```
+
+```{r}
+
+
+
+# Correlación
+cor.test(pymes$innovacion_pct, pymes$roe, use = "complete.obs")
+```
+
+Conclusión: Correlación positiva débil pero significativa
+
+## Análisis de Exportaciones por País
+
+¿Qué países tienen empresas más orientadas a la exportación?
+
+```{r}
+
+
+
+# Exportaciones promedio por país
+pymes |>
+  filter(!is.na(exportaciones_pct)) |>
+  group_by(pais) |>
+  summarise(
+    n = n(),
+    exportaciones_media = mean(exportaciones_pct),
+    exportaciones_mediana = median(exportaciones_pct)
+  ) |>
+  arrange(desc(exportaciones_media)) |>
+  kable(digits = 1)
+```
+
+:::: {.notes}
+```{r}
+#| eval: false
+# Discretizar exportaciones
+pymes <- pymes |>
+  mutate(
+    perfil_exportador = case_when(
+      exportaciones_pct == 0 ~ "No exporta",
+      exportaciones_pct < 25 ~ "Exportador ocasional",
+      exportaciones_pct < 50 ~ "Exportador moderado",
+      exportaciones_pct >= 50 ~ "Exportador principal"
+    ),
+    perfil_exportador = factor(perfil_exportador, 
+                               levels = c("No exporta", "Exportador ocasional",
+                                        "Exportador moderado", "Exportador principal"))
+  )
+```
+::::
+
+## Análisis por Tamaño de Empresa
+
+```{r}
+
+
+
+# Características por tamaño
+pymes |>
+  group_by(tamano_empresa) |>
+  summarise(
+    n = n(),
+    ingresos_promedio = mean(ingresos, na.rm = TRUE),
+    roe_promedio = mean(roe, na.rm = TRUE),
+    deuda_patrimonio_promedio = mean(deuda_patrimonio, na.rm = TRUE)
+  ) |>
+  kable(digits = 1)
+```
+
+Insight:
+
+- Empresas más grandes: mayores ingresos (obvio)
+- ROE similar entre tamaños
+- Grandes empresas: mayor acceso a financiación (menor deuda/patrimonio)
+
+## Análisis Temporal: Antigüedad
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+# ROE por antigüedad
+pymes |>
+  filter(!is.na(roe), !is.na(antiguedad)) |>
+  ggplot(aes(x = antiguedad, y = roe)) +
+  geom_point(alpha = 0.3, color = "steelblue") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Rentabilidad por Antigüedad de la Empresa",
+       x = "Antigüedad (años)",
+       y = "ROE (%)")
+```
+
+Patrón: Empresas jóvenes más volátiles, consolidadas más estables
+
+## Análisis de Riesgo: Morosidad
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 6
+
+# Morosidad por rating de riesgo
+pymes |>
+  filter(!is.na(morosidad_dias)) |>
+  ggplot(aes(x = rating_agrupado, y = morosidad_dias, 
+             fill = rating_agrupado)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("green3", "gold2", "red2")) +
+  theme_minimal() +
+  labs(title = "Días de Morosidad por Categoría de Riesgo",
+       x = "Categoría de Riesgo", y = "Días de morosidad promedio") +
+  theme(legend.position = "none")
+```
+
+Conclusión: Clara relación entre rating y morosidad
+
+## Análisis Geográfico: Patrones por País
+
+```{r}
+
+
+
+# Comparación de indicadores por país (top 5)
+pymes |>
+  filter(pais %in% c("España", "Alemania", "Francia", "Italia", "Portugal")) |>
+  group_by(pais) |>
+  summarise(
+    n = n(),
+    roe_medio = mean(roe, na.rm = TRUE),
+    deuda_patr_medio = mean(deuda_patrimonio, na.rm = TRUE),
+    liquidez_media = mean(liquidez_ratio, na.rm = TRUE),
+    innovacion_media = mean(innovacion_pct, na.rm = TRUE)
+  ) |>
+  arrange(desc(roe_medio)) |>
+  kable(digits = 2)
+```
+
+Insights:
+
+- Alemania: mejor ROE y menor endeudamiento
+- España e Italia: mayor endeudamiento
+- Diferencias significativas en innovación
+
+## Análisis Multivariante: Sector × País
+
+```{r}
+
+
+
+# Interacción sector-país (top combinaciones)
+pymes |>
+  filter(sector_agrupado != "Otros",
+         pais %in% c("España", "Alemania", "Francia", "Italia")) |>
+  group_by(sector_agrupado, pais) |>
+  summarise(
+    n = n(),
+    roe_medio = mean(roe, na.rm = TRUE)
+  ) |>
+  filter(n >= 10) |>
+  arrange(desc(roe_medio)) |>
+  head(10) |>
+  kable(digits = 1)
+```
+
+Conclusión: Hay interacciones importantes sector-país
+
+## Caso de Negocio: Scoring de Empresas
+
+Crear un score simple para priorizar empresas de inversión
+
+```{r}
+
+
+# Score basado en múltiples criterios
+pymes <- pymes |>
+  mutate(
+    score_rentabilidad = case_when(
+      is.na(roe) ~ 0,
+      roe >= 15 ~ 3,
+      roe >= 10 ~ 2,
+      roe >= 5 ~ 1,
+      TRUE ~ 0
+    ),
+    score_liquidez = case_when(
+      is.na(liquidez_ratio) ~ 0,
+      liquidez_ratio >= 2 ~ 3,
+      liquidez_ratio >= 1.5 ~ 2,
+      liquidez_ratio >= 1 ~ 1,
+      TRUE ~ 0
+    ),
+    score_deuda = case_when(
+      is.na(deuda_patrimonio) ~ 0,
+      deuda_patrimonio < 0.5 ~ 3,
+      deuda_patrimonio < 1 ~ 2,
+      deuda_patrimonio < 1.5 ~ 1,
+      TRUE ~ 0
+    ),
+    score_total = score_rentabilidad + score_liquidez + score_deuda
+  )
+```
+
+-->
+
+# Herramientas de AED Automatizado y uso de IA
+
+## La Promesa de la Automatización
+
+El AED que hemos realizado manualmente es riguroso pero consume tiempo. ¿Podríamos automatizar partes del proceso?
+
+La respuesta es: **Sí, pero con precaución**
+
+Ventajas de herramientas automatizadas:
+
+- Velocidad: generan reportes completos en segundos/minutos
+- Exhaustividad: revisan sistemáticamente todas las variables
+- Reproducibilidad: mismo código → mismos resultados
+- Punto de partida: excelente para primera exploración
+
+Limitaciones críticas:
+
+- No entienden contexto de negocio
+- Generan "ruido": muchos gráficos irrelevantes
+- Interpretación superficial
+- No sugieren acciones específicas
+
+## Herramientas de AED Automatizado en R
+
+### DataExplorer: Reportes HTML completos
+
+```{r}
+#| eval: false
+
+library(DataExplorer)
+
+# Reporte completo automatizado
+create_report(pymes, 
+              output_file = "reporte_pymes.html",
+              y = "rating_agrupado")
+```
+
+Genera automáticamente:
+
+- Estructura del dataset
+- Variables con missing values
+- Distribuciones univariantes
+- Correlaciones
+- Análisis bivariante con variable objetivo
+
+**Útil para**: Primera exploración, compartir con no-técnicos
+
+**Limitación**: 100+ páginas sin priorización
+
+### dlookr: Diagnóstico y análisis
+
+Ya usamos `diagnose()` y `describe()`, pero dlookr puede generar reportes web:
+
+```{r}
+#| eval: false
+
+library(dlookr)
+
+# Reporte web interactivo
+pymes |> 
+  mutate(across(where(is.character), as.factor)) |> 
+  eda_web_report(
+    target = "rating_agrupado",
+    output_file = "eda_pymes.html",
+    author = "Tu Nombre"
+  )
+```
+
+Incluye:
+
+- Diagnóstico de calidad
+- Análisis univariante y bivariante
+- Tests estadísticos automáticos
+- Transformaciones sugeridas
+
+**Útil para**: Exploración técnica detallada
+
+**Limitación**: Requiere entender estadística para interpretar tests
+
+### smartEDA: Análisis exploratorio inteligente
+
+```{r}
+#| eval: false
+
+library(SmartEDA)
+
+# Reporte completo
+ExpReport(pymes, 
+          Target = "rating_agrupado",
+          op_file = "SmartEDA_pymes.html",
+          op_dir = "output/")
+
+# Función útil: Resumen ejecutivo
+ExpData(data = pymes, type = 1)  # Overview
+ExpData(data = pymes, type = 2)  # Structure
+```
+
+**Útil para**: Balance entre detalle y usabilidad
+
+### Herramientas interactivas
+
+```{r}
+#| eval: false
+
+# GWalkR: Interfaz tipo Tableau
+library(GWalkR)
+gwalkr(pymes)
+
+# explore: Exploración guiada
+library(explore)
+explore(pymes)
+```
+
+## Cuándo usar cada herramienta
+
+| Situación | Herramienta recomendada |
+|-----------|------------------------|
+| Primera exploración de datos nuevos | `DataExplorer::create_report()` |
+| Diagnóstico técnico de calidad | `dlookr::diagnose()` |
+| Estadísticos rápidos con gráficos | `skimr::skim()` |
+| Exploración interactiva | `explore::explore()` o `GWalkR` |
+| Reportes para stakeholders | `SmartEDA::ExpReport()` |
+| Análisis profundo experto | **Manual (lo que hemos hecho)** |
+
+## Uso de IA Generativa para AED
+
+### ChatGPT y Claude para análisis de datos
+
+Ejemplo de flujo de trabajo con IA:
+
+```
+Usuario → IA:
+"Tengo un dataset de 500 empresas europeas con variables 
+financieras. Quiero entender qué factores se asocian con 
+alta rentabilidad. El archivo es pymes_europa.csv"
+
+IA → Usuario:
+[Genera código para cargar datos, hacer EDA inicial, 
+visualizaciones, análisis de correlación, etc.]
+```
+
+### Capacidades de IA en AED
+
+**Lo que hace bien**:
+
+1. **Generar código estándar rápidamente**
+   - "Crea un boxplot de ingresos por sector"
+   - "Calcula correlaciones entre variables financieras"
+
+2. **Sugerir análisis adicionales**
+   - "También podrías analizar la distribución por país"
+   - "Verifica si hay outliers usando el método IQR"
+
+3. **Explicar conceptos**
+   - "¿Qué significa un p-valor < 0.05?"
+   - "¿Cómo interpreto un coeficiente de correlación negativo?"
+
+4. **Documentación automática**
+   - Genera comentarios para el código
+   - Crea descripciones de hallazgos
+
+**Limitaciones críticas**:
+
+1. **No conoce tu contexto de negocio**
+   ```
+   ❌ IA: "Un ROE de 5% es bajo"
+   ✓ Experto: "5% es normal en retail pero bajo en tech"
+   ```
+
+2. **Análisis superficial**
+   - Hace análisis estándar (correlaciones, medias, etc.)
+   - NO identifica patrones sutiles específicos del dominio
+   - NO formula hipótesis de negocio interesantes
+
+3. **Riesgo de "hallucinations"**
+   ```
+   ❌ IA podría "inventar" patrones que no existen
+   ❌ Interpretaciones estadísticamente incorrectas
+   ❌ Confundir correlación con causalidad
+   ```
+
+4. **Limitación de tamaño**
+   - ChatGPT: datasets < 100-200MB funcionan bien
+   - Para datos grandes: necesitas estrategias (sampling, agregación)
+
+5. **Dependencia de prompts**
+   - Resultado depende de cómo preguntes
+   - Requiere conocer qué preguntar (¡conocimiento previo!)
+
+### Ejemplo práctico con IA
+
+**Prompt efectivo**:
+```
+"Analiza pymes_europa.csv. Variables clave: ingresos, roe, 
+sector, pais. 
+
+Contexto: son PYMES europeas 2020-2024. Un ROE típico es 
+8-12%. Sectores principales: Manufactura, Servicios, Tecnología.
+
+Pregunta de negocio: ¿Qué características tienen las empresas 
+con ROE > 15%?
+
+Dame: (1) Limpieza necesaria, (2) Estadísticos descriptivos, 
+(3) Visualizaciones clave, (4) Análisis por sector"
+```
+
+**Por qué es bueno**:
+- Da contexto de negocio
+- Define rangos normales
+- Pregunta específica de negocio
+- Solicita análisis estructurado
+
+**Prompt malo**:
+```
+"Analiza este dataset"
+```
+→ Resultado: análisis genérico sin valor
+
+### Validación crítica de resultados de IA
+
+**SIEMPRE**:
+
+1. **Verifica el código generado**
+   - ¿Usa las variables correctas?
+   - ¿Maneja NAs apropiadamente?
+   - ¿Las transformaciones tienen sentido?
+
+2. **Valida interpretaciones**
+   ```r
+   # IA sugiere: "La correlación es 0.85, muy fuerte"
+   # TÚ verificas: ¿Es espuria? ¿Hay outliers influyendo?
+   
+   # IA dice: "No hay diferencias entre sectores"
+   # TÚ verificas: ¿Usó el test apropiado? ¿Suficiente muestra?
+   ```
+
+3. **Cuestiona recomendaciones**
+   - ¿Tienen sentido de negocio?
+   - ¿Están respaldadas por los datos?
+   - ¿Consideran el contexto del problema?
+
+## Filosofía: Automatización Inteligente
+
+### El modelo 80/20 para AED moderno
+
+**20% del tiempo: Automatización**
+- Herramientas de autoEDA para exploración inicial
+- IA para generar código estándar
+- Reportes automatizados para stakeholders
+
+**80% del valor: Análisis experto**
+- Interpretación basada en conocimiento del dominio
+- Decisiones sobre limpieza y transformaciones
+- Formulación de hipótesis de negocio
+- Validación y crítica de hallazgos
+- Recomendaciones accionables
+
+### Flujo de trabajo recomendado
+
+1. **Exploración rápida (automática)**
+   ```r
+   # 5 minutos
+   pymes |> skim()
+   pymes |> diagnose()
+   create_report(pymes)
+   ```
+
+2. **Identificar áreas de interés**
+   - ¿Qué variables tienen problemas?
+   - ¿Qué relaciones parecen interesantes?
+   - ¿Qué no tiene sentido de negocio?
+
+3. **Análisis manual profundo (lo que hicimos)**
+   - Limpieza contextualizada
+   - Visualizaciones específicas
+   - Análisis por segmentos de negocio
+   - Interpretación experta
+
+4. **Usar IA como asistente**
+   ```
+   "Ayúdame a crear una visualización que compare 
+   ROE por sector para empresas con >50 empleados, 
+   destacando el top 10% en cada sector"
+   ```
+
+5. **Validar y documentar**
+   - Verificar todos los hallazgos importantes
+   - Documentar decisiones y justificaciones
+   - Crear narrativa de negocio
+
+## Advertencias Importantes
+
+### NO hagas esto:
+
+❌ Usar reportes automatizados como análisis final
+❌ Confiar ciegamente en interpretaciones de IA
+❌ Incluir todas las visualizaciones que genera una herramienta
+❌ Olvidar validar hallazgos automáticos
+
+### SÍ haz esto:
+
+✓ Usar automatización como punto de partida
+✓ Validar críticamente todo output automático
+✓ Combinar velocidad de herramientas con expertise humano
+✓ Documentar por qué una herramienta sugirió algo
+✓ Mantener el contexto de negocio en el centro
+
+## Ejemplo: Análisis Híbrido
+
+Flujo real de un análisis profesional:
+
+```r
+# 1. Exploración automática (5 min)
+pymes |> skim()
+diagnose(pymes) |> filter(missing_percent > 10)
+
+# 2. Pregunta a IA (2 min)
+"Sugiere visualizaciones para entender la relación 
+entre tamaño de empresa y rentabilidad"
+
+# 3. Código generado por IA (revisado por ti)
+ggplot(pymes, aes(x = empleados, y = roe)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess") +
+  scale_x_log10()
+
+# 4. TÚ interpretas con contexto de negocio (15 min)
+# Observas que empresas 20-50 empleados tienen ROE más alto
+# Investigas por qué: ¿eficiencia operativa? ¿sectores?
+# Validas con análisis adicional por sector
+# Formulas hipótesis de negocio
+
+# 5. TÚ decides acción (5 min)
+# "Recomendar a inversores: PYMES 20-50 empleados 
+# en sector Servicios muestran mejor rentabilidad..."
+```
+
+## Recursos para profundizar
+
+- **autoEDA en R**: [Journal of Statistical Software paper](https://journal.r-project.org/archive/2019/RJ-2019-033/)
+- **IA para análisis**: [ChatGPT for EDA guide](https://www.analyticsvidhya.com/blog/2023/04/analyzing-data-using-chatgpt/)
+- **Limitaciones de LLMs**: [Statistical Modeling blog](https://statmodeling.stat.columbia.edu/2024/06/24/forking-paths-in-llms-for-data-analysis/)
+
+## Práctica recomendada
+
+Para dominar este enfoque:
+
+1. Usa herramientas automatizadas en tu próximo dataset
+2. Anota qué hicieron bien y qué se perdieron
+3. Experimenta con prompts de IA para análisis
+4. Compara resultados automáticos vs tu análisis manual
+5. Desarrolla criterio para saber cuándo confiar en automatización
+
+**Regla de oro**: La automatización acelera, el expertise guía. Nunca al revés.
+
+
+## Distribución del Score de Inversión
+
+```{r}
+
+
+#| fig-show: asis
+#| fig-width: 10
+#| fig-height: 5
+
+# Visualizar distribución del score
+ggplot(pymes, aes(x = factor(score_total))) +
+  geom_bar(fill = "steelblue") +
+  theme_minimal() +
+  labs(title = "Distribución del Score de Inversión (0-9)",
+       x = "Score Total", y = "Número de empresas")
+```
+
+```{r}
+
+
+
+# Top empresas por score
+pymes |>
+  filter(score_total >= 8) |>
+  select(empresa_id, sector_agrupado, pais, roe, 
+         liquidez_ratio, deuda_patrimonio, score_total) |>
+  arrange(desc(score_total)) |>
+  head(10) |>
+  kable(digits = 2)
+```
+
+## Más Herramientas de AED "Automático"
+
+Muchas partes del AED son parcialmente "automatizables": muchos paquetes tratan de facilitar esas partes
+
+[`Radiant`](https://radiant-rstats.github.io/docs/) puede instalarse o probarse [online](https://vnijs.shinyapps.io/radiant/)
+
+- Sirve tanto para análisis exploratorio, visualización y transformación como para algunas modelizaciones
+
+Algunas bibliotecas permiten explorar datos y/o realizar visualizaciones y tableros fácilmente de forma interactiva: `GwalkR`, `explore`
+
+Informes automatizados con `dlookr`, `DataExplorer`, `DataMaid`, `smartEDA`
+
+```{r}
+#| eval: false
+
+library(dlookr)
+pymes |> 
+  mutate(across(where(is.character), ~parse_factor(.x))) |> 
+  eda_web_report(target = "rating_agrupado")
+```
+
+Algunos componentes del AED y sobre todo la interpretación del AED son específica de los datos y del objetivo del estudio
+
+
+:::: {.notes}
+**Resumen**
+
+El AED es fundamental para cualquier proyecto de datos:
+
+---
+
+**Lo que logramos en este AED**
+
+1. **Conocimos nuestros datos profundamente**
+   - 500 empresas, 28 variables, múltiples sectores y países
+   - Identificamos y corregimos 11 tipos de problemas de calidad
+
+2. **Identificamos patrones de negocio**
+   - Tecnología lidera en productividad e innovación
+   - Alemania muestra las PYMES más sólidas financieramente
+   - Rating crediticio correlaciona fuertemente con endeudamiento
+
+3. **Formulamos hipótesis de investigación**
+   - Inversión en I+D asociada con mejor rentabilidad
+   - Tamaño óptimo: 20-50 empleados para máxima eficiencia
+   - Exportación y éxito correlacionados en ciertos sectores
+
+---
+
+**Lecciones clave**
+
+**NO existe una receta única para AED**:
+
+- Cada dataset es diferente (industria, escala, problemas)
+- Cada objetivo requiere enfoques distintos (predicción vs descripción)
+- Es un proceso iterativo: descubrimiento → pregunta → análisis → descubrimiento
+
+**El proceso importa tanto como el resultado**:
+
+- Documentar decisiones (por qué agrupaste, por qué eliminaste)
+- Justificar transformaciones (qué motivó crear nuevas variables)
+- Ser transparente sobre limitaciones (qué NO pudimos responder)
+
+---
+
+**Sobre herramientas automatizadas e IA**
+
+**Lo que aprendimos**:
+
+- Herramientas de autoEDA: excelente punto de partida (regla 80/20)
+- IA generativa: útil para código y documentación
+- Pero: interpretación requiere expertise y contexto de negocio
+- Validación humana es siempre necesaria
+
+**Enfoque profesional**:
+
+1. Usa automatización para velocidad inicial
+2. Aplica criterio experto para profundidad
+3. Valida hallazgos críticamente
+4. Mantén contexto de negocio en el centro
+5. Documenta proceso y decisiones
+
+---
+
+**La limpieza consume tiempo, pero es inversión**
+
+**Tiempo típico en proyectos reales**:
+
+- Limpieza de datos: 40-50% del tiempo
+- Exploración y análisis: 30-40% del tiempo
+- Modelización: 10-20% del tiempo
+- Comunicación de resultados: 10-15% del tiempo
+
+¿Por qué invertir tanto en limpieza y AED?
+
+**Porque datos limpios = análisis confiable**
+
+- Decisiones de negocio incorrectas por datos sucios: costosas
+- "Garbage in, garbage out" es real
+- AED previene sorpresas desagradables después
+- Tiempo en AED ahorra tiempo (y dinero) después
+
+---
+
+**Próximos pasos naturales**
+
+Después del AED, típicamente:
+
+1. **Feature engineering**: crear variables más sofisticadas
+2. **Modelización**: predicción, clasificación, clustering
+3. **Validación**: dividir datos train/test, cross-validation
+4. **Deployment**: poner modelos en producción
+5. **Monitoreo**: verificar que modelos siguen funcionando
+
+Pero todo comienza con un buen AED.
+
+---
+
+**Un AED bien hecho es como...**
+
+- **Médico**: Examen completo antes de diagnóstico
+- **Detective**: Investigar escena del crimen antes de acusar
+- **Arquitecto**: Estudiar terreno antes de diseñar edificio
+
+No se puede saltear. No hay atajos. Vale la pena hacerlo bien.
+
+**Siguiente paso**: Con datos limpios y entendidos, estamos listos para modelizar. Pero esa es otra historia...
+
+::::

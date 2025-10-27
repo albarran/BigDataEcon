@@ -64,13 +64,14 @@ strip-comments: true
     - Fecha límite de entrega: **dom., 17-nov., 23:59h**
   * [Tema 06 - Modelización: métodos estadísticos](docs/Tema06.qmd)
 
-## Semana 8
-(28-Oct. a 3-Nov.)
-
-  * [Tema 05 - Análisis Exploratorio de Datos](docs/Tema05.qmd)
-
 *********************************************************************
 -->
+
+## Semana 8
+(27-Oct. a 2-Nov.)
+
+  * [Tema 04 - Análisis Exploratorio de Datos](docs/Tema04.qmd)
+
 
 ## Semana 7
 (20-Oct. a 26-Oct.)
