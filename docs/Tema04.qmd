@@ -142,10 +142,10 @@ library(rio)
 pymes <- import("data/pymes_europa.csv")
 ```
 
-- **Reconocimiento inicial de las características**: 
+- **Reconocimiento inicial de las características**: ¿todo como esperamos?
 
-  - número de observaciones y de variables
-  - tipo de cada variable
+  - número de observaciones y de variables 
+  - tipo de cada variable 
   - visualizar los datos
 
 :::: {.notes}
@@ -166,13 +166,13 @@ str(pymes)
 ::::
 
 
-- SIEMPRE consultar el "diccionario" de datos 
+- **Consultar** el "diccionario" de datos 
 
   - Descripción de cada variable y unidades de medida 
   - Tipo de variable esperado
 
 ```{r}
-diccionario <- import("data/diccionario_pymes.csv")
+diccionario <- read_csv("data/diccionario_pymes.csv")
 ```
 
 
@@ -191,7 +191,7 @@ diccionario |>
 
 ## Identificar Problemas de Calidad en los Datos
 
-::: {style="font-size: 90%;"}
+
 1. Verificar que las variables la información y el tipo adecuado
 
     - Algunas variables deberían ser numéricas:
@@ -211,6 +211,7 @@ pymes <- pymes |>
 
 ```{r}
 #| echo: false
+#| eval: false
 pymes <- pymes |> 
   mutate(across(c(anio_fundacion, empleados, liquidez_ratio), ~parse_number(.x)))
 ```
@@ -245,7 +246,6 @@ pymes <- pymes |>
           sector = str_replace_all(sector, "energia", "energía") )
 ```
 
-:::
 
 ## Identificar Problemas (cont.)
 
@@ -255,6 +255,7 @@ pymes <- pymes |>
 
 ```{r}
 #| echo: false
+#| eval: false
 pymes <- pymes |>
   mutate(
     sector = as.factor(sector),
@@ -323,8 +324,6 @@ Interpretación:
 
 ## Identificar Problemas (y 3)
 
-::: {style="font-size: 90%;"}
-
 4. Detectar y eliminar filas duplicadas
 
 :::: {.notes}
@@ -373,24 +372,22 @@ pymes |>
     media_diferencia = mean(diferencia, na.rm = TRUE)
   ) |>
   kable()
+
+all.equal(pymes$total_recursos, pymes$pasivos + pymes$patrimonio_neto)
 ```
 
 ```{r}
-all.equal(pymes$total_recursos, pymes$pasivos + pymes$patrimonio_neto)
-
 pymes <- pymes |> select(-total_recursos)
 ```
 
+6. Renombrar variables (para mayor claridad), generar nuevas
 
-6. Otras: 
+7. ¿Mantenemos solo algunas variables u observaciones?
 
-    - Renombrar variables (para mayor claridad), generar nuevas
-    
-    - ¿Mantenemos solo algunas variables u observaciones?
+8. Otras...
 
 - NO ES UNA RECETA: más adelante podemos volver atrás, para rehacer o tomar decisiones
 
-:::
 
 :::: {.notes}
 
@@ -486,19 +483,23 @@ Valores inusuales (“atípicos” o “outliers”): no encajan en el patrón g
 
 ## Variables Categóricas
 
-::: {style="font-size: 95%;"}
-
 - Describimos la distribución con **frecuencias y proporciones**: con `summary()`, `table()`, `mode()`  o con `summarize()`, `count()`
   
 ```{r}
 table(pymes$sector)
-pymes |> count(sector, sort = TRUE)
 
-prop.table(table(pymes$sector))
-#¿proporciones con count() y `tidyverse`?
+pymes |> count(sector, sort = TRUE) |> mutate(prop = n / sum(n))
 ```
 
-- Este análisis reveló un **problema**: categorías con pocas observaciones que dificultan análisis (visualizaciones desequilibradas, resultados poco confiables)
+```{r}
+#| echo: false
+prop.table(table(pymes$sector))
+```
+
+- Este análisis puede detectar situaciones donde queremos **agrupar categorías**: 
+  
+    - dos clases similares 
+    - clases con pocas observaciones (análisis más difícil: visualizaciones desequilibradas, resultados poco confiables) 
   
 :::: {.notes}  
   - Estadísticos poco confiables (muestra pequeña)
@@ -507,18 +508,20 @@ prop.table(table(pymes$sector))
   - Dificultan comparaciones robustas
 ::::
 
-- **Agrupar categorías** similares o crear categoría residual con un mínimo de observaciones
-
 ```{r}
 library(forcats)
 pymes <- pymes |>
-  mutate(sector_agrupado = fct_lump_n(sector, n = 5, 
-                                      other_level = "Otros"))
+  mutate(sector_agrupado = fct_lump_min(sector, min = 5, 
+                                  other_level = "Otros"), 
+         sector_agrupado = fct_collapse(sector, 
+                                  Grupo1 = c("manufactura", "textil"),
+                                  Grupo2 = c("servicios", "comercio")))
 ```
 
-:::
 
 ## Variables Categóricas: Visualización
+
+::: {style="font-size: 95%;"}
 
 ::::{.notes}
 - Los gráficos ayudan a entender y explicar mejor la distribución de los datos.
@@ -527,16 +530,26 @@ pymes <- pymes |>
 - Para distribuciones discretas, la mejor visualización de la distribución de los datos es un histograma.
 
 ```{r}
-# Gráfico de barras de frecuencias absolutas
-g0 <- ggplot(data = pymes) 
-g0 + geom_bar(aes(x = pais)) + 
+# frecuencias absolutas
+ggplot(data = pymes) + geom_bar(aes(x = tipo_propiedad))  
+# frecuencias relativas (proporciones)
+ggplot(data = pymes)+ geom_bar(aes(x = tipo_propiedad, 
+                                   y = after_stat(prop), group = 1))
+
+# Variantes
+pymes |> count(tipo_propiedad) |> ggplot() + 
+  geom_bar(aes(x = tipo_propiedad, y = n), stat = "identity")
+
+ggplot(data = pymes) + geom_bar(aes(x = tipo_propiedad)) +
   theme(axis.text.x = element_text(angle = 90))
-g0 + geom_bar( aes(x = "", fill = tipo_propiedad))
 
-# Gráfico de barras de frecuencias relativas (proporciones)
-g0 + geom_bar(aes(x = tipo_propiedad, 
-                  y = after_stat(prop), group = 1))
+# barra vertical
+ggplot(data = pymes) + geom_bar(aes(x = "", fill = tipo_propiedad))
+```
 
+
+```{r}
+#| echo: false
 pymes |> count(tipo_propiedad) |> mutate(prop = n / sum(n)) |>
   ggplot() + geom_bar(aes(x = tipo_propiedad, y = prop), 
                       stat = "identity")
@@ -544,15 +557,18 @@ pymes |> count(tipo_propiedad) |> mutate(prop = n / sum(n)) |>
 
 ```{r}
 #| echo: false
-g0 + 
-  geom_bar(aes(x = tipo_propiedad, y = after_stat(count/sum(count))))
+ggplot(data = pymes) + 
+  geom_bar(aes(x = pais, y = after_stat(count/sum(count))))
 ```
 
 
 - Observación: la mayor parte de las PYMEs son empresas familiares o S.L.
 
+:::
+
 ## Variables Cuantitativas
 
+::: {style="font-size: 95%;"}
 - Estadísticas descriptivas básicas con `summary()`
 ```{r}
 summary(pymes)
@@ -570,10 +586,13 @@ pymes |>
     min = min(ingresos, na.rm = TRUE),
     max = max(ingresos, na.rm = TRUE),
     q25 = quantile(ingresos, 0.25, na.rm = TRUE),
-    q75 = quantile(ingresos, 0.75, na.rm = TRUE)  )
+    q75 = quantile(ingresos, 0.75, na.rm = TRUE),
+    NAs = sum(is.na(ingresos)))
 ```
 
 - Interés particular en amplia variabilidad, distribución asimétrica
+
+:::
 
 ## Variables Cuantitativas: Visualización
 
@@ -587,9 +606,9 @@ ggplot(pymes, aes(x=empleados)) +
   geom_density()
 ```
 
-- Recordar: usar varios anchos de intervalo (esto es, cómo discretizar la variable continua)
+- Recordar: usar varios anchos de intervalo. Esto es **discretizar** la variable continua de formas distintas
 
-- Si observamos una distribución muy asimétrica, considerar escala logaritmica
+- Si observamos una distribución muy asimétrica, considerar escala logarítmica
 
 ```{r}
 ggplot(pymes, aes(x = ingresos)) + geom_histogram(bins = 30) 
@@ -642,236 +661,393 @@ Outliers pueden ser:
 - Empresas excepcionales → insights valiosos
 ::::
 
-## Herramientas Automáticas: skimr
+## Herramientas Automáticas
+
+- `datasummary_skim()`: vista rápida de todas las variables (o algunas seleccionada), distinguiendo automáticamente por tipo 
+
+  - útil para uso personal, no necesariamente para incluir en informe final
+
+::::{.notes}
+
+- inspirada en `skim()` de `skimr`
+
+    - devuelve un `data frame`
+
+    - Ventajas: Visión rápida, histogramas inline, NAs, estadísticos
+
+- DataExplorer
+- El paquete janitor contiene herramientas para limpieza de datos
+
+::::
 
 ```{r}
-library(skimr)
-
-# Resumen completo y rápido
-pymes |> 
-  select(ingresos, beneficio_neto, roe, roa, empleados) |>
-  skim()
+library(modelsummary)
+pymes |> datasummary_skim()
 ```
 
-Ventajas: Visión rápida, histogramas inline, NAs, estadísticos
+```{r}
+#| echo: false
+pymes |> select(activos_total:patrimonio_neto) |> datasummary_skim()
+pymes |> datasummary_skim(type = "categorical")
+```
 
-## Herramientas Automáticas: dlookr
+- `DataExplorer`
 
 ```{r}
+#| eval: false
+library(DataExplorer)
+plot_bar(pymes)        # para TODAS las variables categóricas
+plot_histogram(pymes)  # para TODAS las variables numéricas
 
+create_report(pymes)
+```
 
+- `dlookr` ofrece heramientas para diagnóstico y exploración de datos 
 
-library(dlookr)
+::::{.notes}
+- devolviendo *data frame* (para usar con `kable()`)
 
-# Diagnóstico de datos
+```{r}
+#| echo: false
+#| eval: false
+library(dlookr)       # en MacOS, puede pedir instalar XQuartz
 diagnose(pymes) |>
   select(variables, types, missing_count, missing_percent, unique_count) |>
   head(10) |>
   kable()
+
+describe(pymes, campaign:y)
+
+pymes |> describe() |>
+  select(described_variables, skewness, mean, p25, p50, p75) |> 
+  filter(!is.na(skewness)) |> arrange(desc(abs(skewness)))
+
+pymes |>
+  group_by(pais) |> 
+  describe(empleados, activos_total, pasivos) 
+
+pymes |> normality() |>
+  filter(p_value <= 0.01) |> arrange(abs(p_value))
+
+pymes |> plot_normality()
+
+
+pymes |> eda_web_report()
+pymes |> eda_paged_report()
+pymes |> eda_paged_report(output_format = "pdf")
 ```
 
-```{r}
-
-
-
-# Descripción de variables numéricas
-describe(pymes) |>
-  select(described_variables, mean, p25, p50, p75, skewness) |>
-  filter(!is.na(mean)) |>
-  arrange(desc(abs(skewness))) |>
-  head(10) |>
-  kable()
-```
+::::
 
 # Análisis de Covariación ("multivariante")
 
-## Análisis Bivariante: Una Continua y Una Categórica
+## Análisis de Covariación 
 
-¿Es diferente la distribución de Y (continua) por categorías de X?
+::::{.notes}
+- La variación describe el comportamiento *dentro* de una variable
+::::
 
-1. mediante el histograma o densidad (en el mismo gráfico o diferentes)  
+- La covariación describe **relaciones entre variables**: tendencia a que los valores de una variable dependan de la otra
 
-```{r}
+- Estudiamos la **distribución condicional** de una variable $\small{Y}$ dados los valores de otra $\small{X}$
 
+  - Si $\small{\Pr(Y|X=x_1) = \Pr(Y|X=x_0) =  \Pr(Y) \Rightarrow}$ $\small{Y}$ NO depende de $\small{X}$
 
-#| fig-show: asis
-#| fig-width: 10
-#| fig-height: 5
-
-ggplot(pymes, aes(x = ingresos, color = sector_agrupado)) +
-  geom_density() +
-  scale_x_log10(labels = scales::comma) +
-  theme_minimal() +
-  labs(title = "Distribución de Ingresos por Sector",
-       x = "Ingresos (miles €, escala log)", 
-       y = "Densidad",
-       color = "Sector")
-```
-
-## Análisis Bivariante: Boxplots por Grupo
-
-```{r}
+    - p.e., el valor esperado de $\small{Y}$ será el mismo para distintos valores de $\small{X}$
+    
+  - Si la probabilidad condicional de que $\small{Y}$ tome valores altos (o bajos) depende de lo que sabemos de $\small{X}$, se puede **predecir** (su valor esperado) a partir del valor de $\small{X}$
 
 
-#| fig-show: asis
-#| fig-width: 10
-#| fig-height: 6
+- Punto de partida para formular modelos que explican **patrones complejos** de los datos
 
-ggplot(pymes, aes(x = sector_agrupado, y = ingresos, fill = sector_agrupado)) +
-  geom_boxplot() +
-  scale_y_log10(labels = scales::comma) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none") +
-  labs(title = "Distribución de Ingresos por Sector",
-       x = "Sector", y = "Ingresos (miles €, escala log)")
-```
+::::{.notes}
 
-Observación: Tecnología y Servicios tienen medianas más altas
-
-## Estadísticos Descriptivos por Grupo
-
-```{r}
+  - ¿qué explica la relación sugerida por el patrón de covariación? 
+  
+  - ¿cómo de fuerte es la relación?
+  
+  - ¿otras variables pueden afectar a la relación? ¿varían por subgrupos?
 
 
+- ¿es la covariación una relación causal? 
 
-# Ingresos promedio por sector
-pymes |>
-  group_by(sector_agrupado) |>
-  summarise(
-    n = n(),
-    media = mean(ingresos, na.rm = TRUE),
-    mediana = median(ingresos, na.rm = TRUE),
-    sd = sd(ingresos, na.rm = TRUE)
-  ) |>
-  arrange(desc(media)) |>
-  kable(digits = 0)
-```
+::::
 
-Interpretación:
 
-- Tecnología: ingresos promedio más altos
-- Alta variabilidad dentro de cada sector (SD alta)
+- La forma de visualizar la posible existencia de relaciones depende del *tipo de variables*
 
-## Análisis Bivariante: Dos Categóricas
 
-¿Hay relación entre sector y tipo de propiedad?
+## Una variable numérica y una categórica
+
+::: {style="font-size: 95%;"}
+
+- ¿Es diferente la distribución de Y (continua) por categorías de X? 
+
+  - Cuidado: podemos necesitar *escala logarítmica*
+  
+  - También ajustes como reordenar las categorías de un factor (`forcats`), rotar los ejes, etc.
+
+- Podemos usar histogramas o densidades, en un mismo gráfico o con facetas
 
 ```{r}
-
-
-
-# Tabla de contingencia
-table(pymes$sector_agrupado, pymes$tipo_propiedad)
+g0 <- ggplot(pymes, aes(x = ingresos)) +  scale_x_log10()
+g0 + geom_density(aes(color = tamano_ciudad))
+g0 + geom_density() + facet_wrap(~sector)
 ```
 
 ```{r}
+#| echo: false
+#| eval: false
+ggplot(pymes, aes(x = ingresos, color = tamano_ciudad)) + 
+  geom_density() + scale_x_log10()
+ggplot(pymes) + geom_density(aes(x = ingresos)) + 
+  facet_wrap(~sector) + scale_x_log10()
+```
 
 
-#| fig-show: asis
-#| fig-width: 10
-#| fig-height: 5
+- Con muchos grupos o uno muy pequeño, es difícil notar diferencias 
+```{r}
+pymes <- pymes |> mutate(rating = fct_collapse(rating_credito, 
+                        "Rating Alto" = c("AAA", "AA", "A", "BBB"),
+                        "Rating Bajo" = c("BB", "B", "CCC", "CC", "C", "D")))
+ggplot(pymes, aes(x = ingresos, color = rating)) +     # color = rating_credito
+            geom_density() + scale_x_log10()
+```
 
-# Visualización con barras apiladas
-ggplot(pymes, aes(x = sector_agrupado, fill = tipo_propiedad)) +
+```{r}
+#| echo: false
+#| eval: false
+ggplot(pymes, aes(x = ingresos, color = rating_credito)) + 
+  geom_density() + scale_x_log10()
+pymes <- pymes |> mutate(rating = fct_collapse(rating_credito, 
+                        "Rating Alto" = c("AAA", "AA", "A", "BBB"),
+                        "Rating Bajo" = c("BB", "B", "CCC", "CC", "C", "D")))
+ggplot(pymes, aes(x = ingresos, color = rating)) +
+            geom_density() + scale_x_log10()
+
+```
+
+
+- También con gráficos de caja (menos información pero más fácil de comparar)  
+
+  - ¿cómo se vería este gráfico si no hubiesemos homogeneizado `sector`?
+
+```{r}
+ggplot(pymes, aes(x = sector, y = ingresos, fill = sector)) +
+  geom_boxplot() + scale_y_log10()
+```
+
+:::
+
+## Una variable numérica y una categórica (cont.)
+
+::: {style="font-size: 95%;"}
+
+- También podemos calcular estadísticos concretos de la distribución de Y para distintos valores de X
+
+```{r}
+pymes |> group_by(sector) |>
+  summarise(media = mean(ingresos, na.rm = TRUE),
+            mediana = median(ingresos, na.rm = TRUE),
+            n = n(),
+            sd = sd(ingresos, na.rm = TRUE))
+pymes |> group_by(rating) |>
+  summarise(media = mean(ingresos, na.rm = TRUE),
+            mediana = median(ingresos, na.rm = TRUE),
+            n = n(),
+            sd = sd(ingresos, na.rm = TRUE))
+```
+
+- NOTA: una regresión simple equivale a calcular la media de la variable continua por grupos
+
+$$
+\scriptsize
+E[Y|X]=\beta_0+\beta_1 X \Rightarrow 
+\begin{cases} 
+E[Y|X=0] &=\beta_0 \\
+E[Y|X=1]&=\beta_0+\beta_1
+\end{cases}
+$$
+
+```{r}
+lm(data = pymes, ingresos ~ sector) |> summary()
+lm(data = pymes, ingresos ~ rating) |> summary()
+```
+
+
+- ¿Y mediante la correlación? NO tiene sentido cuando una variable es categórica 
+
+```{r}
+#| eval: false
+pymes |> select(ingresos, rating) |> cor()
+```
+
+:::
+
+## Dos variables categóricas
+
+- Partimos de la distribución conjunta de frecuencias absolutas
+
+```{r}
+#| echo: false
+table(pymes$sector, pymes$tipo_propiedad)
+
+pymes |> ggplot(aes(x=tipo_propiedad)) + geom_bar(aes(fill=sector)) 
+pymes |> ggplot(aes(x=tipo_propiedad)) + geom_bar()+ facet_wrap(~sector)
+``` 
+
+```{r}
+pymes |> count(sector, tipo_propiedad) |>
+  pivot_wider(names_from = tipo_propiedad, values_from = n)
+
+pymes |> ggplot(aes(x=tipo_propiedad)) + geom_bar(aes(fill=sector), 
+                                                  position="dodge")
+```
+
+- Pero es más informativo la tabla o visualización de la distribución condicional de frecuencias relativas de una variable dada la otra
+
+  - ¿Hay la misma proporción de los tipos de propiedad en distintos sectores?
+
+```{r}
+datos <- pymes |> count(sector, tipo_propiedad) |> 
+  group_by(sector) |> mutate(prop= n/sum(n)) |> select(-n) 
+
+datos |> pivot_wider(names_from = sector, values_from = prop) 
+datos |> ggplot() + geom_bar(aes(x=sector, y=prop, fill = tipo_propiedad), 
+                      stat = "identity")
+
+ggplot(pymes, aes(x = sector, fill = tipo_propiedad)) +
   geom_bar(position = "fill") +
-  scale_y_continuous(labels = scales::percent) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Tipo de Propiedad por Sector (proporciones)",
-       x = "Sector", y = "Proporción", fill = "Tipo Propiedad")
+  scale_y_continuous(labels = scales::percent)
 ```
 
-## Análisis Bivariante: Dos Continuas
+::::{.notes}
 
-La forma obvia de visualizar relaciones entre variables continuas es un gráfico de dispersión
+- la distribución condicional es bastante diferente para varias categorías
+
+- están relacionadas
+
+::::
 
 ```{r}
+#| echo: false
 
+table(pymes$sector, pymes$tipo_propiedad) |> prop.table(margin = 2)
+pymes |> count(sector, tipo_propiedad) |> 
+  group_by(tipo_propiedad) |> mutate(prop= n/sum(n)) |> select(-n) |> 
+  pivot_wider(names_from = sector, values_from = prop)  
 
-#| fig-show: asis
-#| fig-width: 10
-#| fig-height: 6
+pymes |> ggplot(aes(x=sector)) + geom_bar(aes(fill=tipo_propiedad), position = "fill") 
 
+pymes |> count(sector, tipo_propiedad) |> 
+  group_by(sector) |> mutate(prop= n/sum(n)) |> 
+  ggplot() + geom_bar(aes(x=sector, y=prop, fill = tipo_propiedad), 
+                      stat = "identity")
+```
+
+## Dos variables numéricas
+
+- La forma obvia de visualizar relaciones entre variables continuas es un gráfico de dispersión; añadir `smoothers` ayuda a apreciar un patrón en los puntos
+
+```{r}
 ggplot(pymes, aes(x = activos_total, y = ingresos)) +
-  geom_point(alpha = 0.5, color = "steelblue") +
-  geom_smooth(method = "lm", color = "red", se = TRUE) +
-  scale_x_log10(labels = scales::comma) +
-  scale_y_log10(labels = scales::comma) +
-  theme_minimal() +
-  labs(title = "Relación entre Activos e Ingresos",
-       x = "Activos Totales (miles €, escala log)",
-       y = "Ingresos (miles €, escala log)")
+  geom_point() + geom_smooth(method = "lm", se = TRUE) +
+  scale_x_log10() +  scale_y_log10() 
 ```
+::::{.notes}
+  - Observamos una relación positiva entre activos e ingresos, pero en logaritmos
+  
+  - la relación es NO lineal
+::::
 
-Observación: Relación positiva entre activos e ingresos
+* Con `GGally` obtenemos una primera visión de conjunto
 
-## Correlación entre Variables Numéricas
+  - PERO la automatización no permite ajustes (ej., escala logarítmica)
 
 ```{r}
-
-
-
-# Correlación simple
-cor(pymes$activos_total, pymes$ingresos, use = "complete.obs")
+#| eval: false
+library(GGally)
+#pymes |> select(where(is.numeric)) |> ggpairs()
+pymes |> select(empleados:ingresos) |> ggpairs()
 ```
 
+- Otra posibilidad: discretizar una variable continua y usar las técnicas anteriores
+
 ```{r}
+#| echo: true
+pymes |> mutate(empleados_group = cut(empleados, 
+                                      breaks=seq(0, 250, by=25))) |>
+  ggplot() + geom_boxplot(aes(y = ingresos, x = empleados_group)) + 
+             scale_y_log10()
 
+``` 
 
+::::{.notes}
+- no existe relación entre ingresos y empleados
+::::
 
-# Matriz de correlaciones (selección de variables)
+## Dos variables numéricas: correlación 
+
+- Podemos estimar modelos de regresión con dos variables continuas
+
+```{r}
+#| echo: true
+summary(lm(data = pymes, ingresos ~ activos_total) )
+``` 
+
+- Y también correlaciones para dos (o múltiples) variables
+```{r}
 pymes |>
   select(activos_total, ingresos, empleados, 
          beneficio_neto, roe, roa) |>
-  cor(use = "complete.obs") |>
-  round(2) |>
-  kable()
+  cor(use = "complete.obs")
 ```
+
+```{r}
+#| echo: false
+cor(pymes$ingresos, pymes$activos_total, use = "complete.obs")
+
+library(dlookr)
+pymes |> correlate()
+pymes |> select(ingresos, activos_total) |>  correlate() 
+pymes |> group_by(pais) |>  correlate() 
+```
+
+::::{.notes}
 
 Interpretación:
 
 - Correlación alta entre `activos_total` e `ingresos` (0.82)
+
 - `ROE` y `ROA` moderadamente correlacionados
+
 - `empleados` correlacionado con tamaño financiero
 
-## Visualización de Correlaciones
+::::
+
+
+- O visualizar las correlaciones
 
 ```{r}
-
-
-#| fig-show: asis
-#| fig-width: 12
-#| fig-height: 10
-
-library(corrplot)
-
-pymes |>
+datos <- pymes |>
   select(activos_total, pasivos, patrimonio_neto, ingresos, 
          ebitda, beneficio_neto, liquidez_ratio, roe, roa,
-         deuda_patrimonio, empleados) |>
-  cor(use = "complete.obs") |>
-  corrplot(method = "color", type = "upper", 
-           tl.col = "black", tl.srt = 45,
-           addCoef.col = "black", number.cex = 0.6)
-```
+         deuda_patrimonio, empleados)
 
-## Análisis Multivariante con GGally
+datos |> correlate() |> plot()
+
+library(corrplot)
+datos |> cor() |> corrplot()
+datos |> cor() |> corrplot.mixed()
+
+``` 
 
 ```{r}
+#| echo: false
 
-
-#| fig-show: asis
-#| fig-width: 12
-#| fig-height: 10
-
-library(GGally)
-
-pymes |>
-  select(ingresos, beneficio_neto, empleados, 
-         roe, deuda_patrimonio, sector_agrupado) |>
-  ggpairs(aes(color = sector_agrupado, alpha = 0.5),
-          lower = list(continuous = "smooth"))
+library(corrplot)
+datos |> cor(use = "complete.obs") |> corrplot()
+datos |> cor(use = "complete.obs") |> corrplot.mixed()
 ```
 
 
@@ -879,18 +1055,22 @@ pymes |>
 
 ## Crear Variables Derivadas
 
-Las transformaciones de variables NO "caen del cielo". Surgen del análisis previo:
+::: {style="font-size: 95%;"}
 
-### Caso 1: Antigüedad de la empresa
+::::{.notes}
+El AED puede sugerir transformación o creación de variables 
+::::
 
-**Motivación del AED**:
+1. Usar logaritmos para variables con distribución asimétrica
+
+::::{.notes}
+- **Antigüedad** de la empresa:
+
 - Tenemos `anio_fundacion` pero queremos analizar madurez
 - Análisis temporal reveló que empresas fundadas en diferentes décadas se comportan diferente
 - Para comparaciones: necesitamos años desde fundación, no año absoluto
 
 ```{r}
-
-
 # Calcular antigüedad
 pymes <- pymes |>
   mutate(antiguedad = 2024 - anio_fundacion)
@@ -900,57 +1080,28 @@ pymes <- pymes |>
 - Comparar empresas jóvenes (< 5 años) vs consolidadas (> 15 años)
 - Analizar relación antigüedad-rentabilidad
 - Identificar si hay "valle de la muerte" para PYMEs
+::::
 
-## Crear Variables Derivadas (cont.)
-
-### Caso 2: Clasificación por tamaño
-
-**Motivación del AED**:
+2. **Agrupación por tamaño**: la distribución de empleados tiene un rango muy amplio 
 
 ```{r}
-
-
-
-# Del análisis univariante: distribución de empleados
-summary(pymes$empleados)
-```
-
-Observación: Rango muy amplio (1 a 250+ empleados). Dificulta análisis.
-
-La Unión Europea define categorías estándar para PYMES. Aplicar esta clasificación facilita:
-- Comparaciones con estudios previos
-- Comunicación con stakeholders
-- Segmentación de mercado
-
-```{r}
-
-
-# Clasificar empresas por tamaño (definición UE)
+pymes |> ggplot() + geom_histogram(aes(x = empleados))
 pymes <- pymes |>
-  mutate(
-    tamano_empresa = cut(empleados, 
-                        breaks = c(0, 10, 50, 250, Inf),
-                        labels = c("Micro", "Pequeña", "Mediana", "Grande"),
-                        include.lowest = TRUE)
-  )
+  mutate(tamano_empresa = cut(empleados, breaks = c(0, 10, 50, 250, Inf),
+                 labels = c("Micro", "Pequeña", "Mediana", "Grande"),
+                 include.lowest = TRUE) )
 ```
 
-```{r}
+- *Disyuntiva*: Discretizar simplifica comunicación (Pequeña vs. Mediana) pero pierde información (tratamo igual a 11 y 49 empleados)
 
+::::{.notes}
+  - Facilita comparaciones "Micro vs Pequeña vs Mediana"
+  - Tratamos igual empresas de 11 y 49 empleados
+  - Mantener ambas (continua para análisis, categórica para comunicación)
+::::
 
-
-# Verificar distribución
-table(pymes$tamano_empresa)
-```
-
-**Tradeoff importante**: Discretizar simplifica comunicación pero pierde información
-
-- **Ventaja**: Facilita comparaciones "Micro vs Pequeña vs Mediana"
-- **Desventaja**: Tratamos igual empresas de 11 y 49 empleados
-- **Recomendación**: Mantener ambas (continua para análisis, categórica para comunicación)
-
-## Crear Variables Derivadas (cont.)
-### Caso 3: Productividad laboral
+::::{.notes}
+Caso 3: Productividad laboral
 
 **Motivación del AED**:
 
@@ -960,8 +1111,6 @@ Del análisis bivariante vimos:
 - Queremos medir eficiencia: ingresos por empleado
 
 ```{r}
-
-
 # Crear variable de productividad
 pymes <- pymes |>
   mutate(productividad_laboral = ingresos / empleados)
@@ -973,28 +1122,14 @@ Esta variable derivada permite:
 - Analizar productividad por sector (tech vs manufactura)
 
 **Insight del AED posterior**: Tecnología tiene productividad 3x mayor que Manufactura
+::::
 
-## Agrupar Categorías de Rating: Justificación
+3. **Agrupar categorías de rating financiero**: el análisis univariante mostraba algunas categorías con pocas observaciones y otras con comportamiento similar
 
-Del análisis univariante de `rating_credito`:
-
-```{r}
-
-
-
-table(pymes$rating_credito)
-```
-
-**Problemas identificados**:
-1. CCC, CC, C, D tienen < 10 observaciones cada uno
-2. Análisis bivariante mostró: C y D comportamiento financiero similar
-3. No hay diferencia estadística entre BB y B en nuestros datos
-
+::::{.notes}
 **Decisión de negocio**: Crear tres grupos significativos
 
 ```{r}
-
-
 # Agrupar ratings bajos
 pymes <- pymes |>
   mutate(
@@ -1005,6 +1140,7 @@ pymes <- pymes |>
     )
   )
 ```
+
 
 **Justificación**:
 - "Grado Inversión": bajo riesgo, acceso fácil a financiación
@@ -1018,37 +1154,29 @@ Esta agrupación:
 - Mantiene poder predictivo (verificado en análisis bivariante)
 
 ```{r}
-
-
-#| fig-show: asis
-#| fig-width: 10
-#| fig-height: 5
-
 # Visualización agrupada
 ggplot(pymes, aes(x = rating_agrupado, fill = rating_agrupado)) +
-  geom_bar() +
-  scale_fill_manual(values = c("green3", "gold2", "red2")) +
-  theme_minimal() +
-  labs(title = "Rating Crediticio Agrupado",
-       x = "Categoría de Riesgo", y = "Número de empresas") +
-  theme(legend.position = "none")
+  geom_bar() 
 ```
+::::
 
-**Regla general**: Agrupa solo cuando:
-1. El análisis previo mostró que es necesario
-2. Tiene sentido de negocio
-3. Las categorías agrupadas tienen comportamiento similar
-4. Mejora la robustez sin perder información crítica
 
-## Relación Rating - Variables Financieras
+* Agrupar cuando:
+
+  1. El análisis previo mostró que es necesario
+
+  2. Tiene sentido de negocio
+
+  3. Las categorías agrupadas tienen comportamiento similar
+
+  4. Mejora la robustez sin perder información crítica
+
+::::
+
+::::{.notes}
+Relación Rating - Variables Financieras
 
 ```{r}
-
-
-#| fig-show: asis
-#| fig-width: 10
-#| fig-height: 6
-
 # Ratio deuda/patrimonio por rating
 ggplot(pymes, aes(x = rating_agrupado, y = deuda_patrimonio, 
                   fill = rating_agrupado)) +
@@ -1062,6 +1190,8 @@ ggplot(pymes, aes(x = rating_agrupado, y = deuda_patrimonio,
 ```
 
 Insight: Empresas de alto riesgo tienen mayor endeudamiento
+
+::::
 
 <!--
 # Más Aplicaciones Prácticas
@@ -1337,33 +1467,61 @@ pymes <- pymes |>
 
 ## La Promesa de la Automatización
 
-El AED que hemos realizado manualmente es riguroso pero consume tiempo. ¿Podríamos automatizar partes del proceso?
+- El AED manualmente consume tiempo. Se pueden automatizar partes del proceso, **pero con precaución**
 
-La respuesta es: **Sí, pero con precaución**
+- Ventajas de herramientas automatizadas: Velocidad, Exahaustividad, *Primera* Exploración
 
-Ventajas de herramientas automatizadas:
-
+::::{.notes}
 - Velocidad: generan reportes completos en segundos/minutos
 - Exhaustividad: revisan sistemáticamente todas las variables
 - Reproducibilidad: mismo código → mismos resultados
 - Punto de partida: excelente para primera exploración
+::::
 
-Limitaciones críticas:
+- Limitaciones críticas:
 
-- No entienden contexto de negocio
-- Generan "ruido": muchos gráficos irrelevantes
-- Interpretación superficial
-- No sugieren acciones específicas
+  - Ruido: muchos gráficos irrelantes
+  
+  - No entienden contexto de negocio
+  
+  - Interpretación superficial ->  No sugieren acciones específicas
 
-## Herramientas de AED Automatizado en R
+- Herramientas de AED Automatizado
 
-### DataExplorer: Reportes HTML completos
+  - Herramientas interactivas: `GWalkR`, `explore`, [`Radiant`](https://radiant-rstats.github.io/docs/) (también [online](https://vnijs.shinyapps.io/radiant/))
+
+  - Informes completos automatizados con `DataExplorer`, `dlookr`, `smartEDA`, `DataMaid`
+
+::::{.notes}
+
+- explorar datos y/o realizar visualizaciones y tableros interactivos
+
+- Radiant  tanto para análisis exploratorio, visualización y transformación como para algunas modelizaciones
 
 ```{r}
 #| eval: false
+#| echo: false
 
+# GWalkR: Interfaz tipo Tableau
+library(GWalkR)
+gwalkr(pymes)
+
+# explore: Exploración guiada
+library(explore)
+explore(pymes)
+```
+
+::::
+
+  
+
+:::: {.notes}
+
+**DataExplorer: reporte HTML completo**
+
+```{r}
+#| eval: false
 library(DataExplorer)
-
 # Reporte completo automatizado
 create_report(pymes, 
               output_file = "reporte_pymes.html",
@@ -1378,19 +1536,17 @@ Genera automáticamente:
 - Correlaciones
 - Análisis bivariante con variable objetivo
 
-**Útil para**: Primera exploración, compartir con no-técnicos
+*Útil para*: Primera exploración, compartir con no-técnicos
 
-**Limitación**: 100+ páginas sin priorización
+*Limitación*: 100+ páginas sin priorización
 
-### dlookr: Diagnóstico y análisis
 
-Ya usamos `diagnose()` y `describe()`, pero dlookr puede generar reportes web:
+**dlookr: Diagnóstico y análisis**
 
+Además de `diagnose()` y `describe()`
 ```{r}
 #| eval: false
-
 library(dlookr)
-
 # Reporte web interactivo
 pymes |> 
   mutate(across(where(is.character), as.factor)) |> 
@@ -1408,17 +1564,16 @@ Incluye:
 - Tests estadísticos automáticos
 - Transformaciones sugeridas
 
-**Útil para**: Exploración técnica detallada
+*Útil para*: Exploración técnica detallada
 
-**Limitación**: Requiere entender estadística para interpretar tests
+*Limitación*: Requiere entender estadística para interpretar tests
 
-### smartEDA: Análisis exploratorio inteligente
+**smartEDA: Análisis exploratorio inteligente**
 
 ```{r}
 #| eval: false
-
+#| echo: false
 library(SmartEDA)
-
 # Reporte completo
 ExpReport(pymes, 
           Target = "rating_agrupado",
@@ -1430,23 +1585,13 @@ ExpData(data = pymes, type = 1)  # Overview
 ExpData(data = pymes, type = 2)  # Structure
 ```
 
-**Útil para**: Balance entre detalle y usabilidad
+*Útil para*: Balance entre detalle y usabilidad
+::::
 
-### Herramientas interactivas
 
-```{r}
-#| eval: false
+::::{.notes}
 
-# GWalkR: Interfaz tipo Tableau
-library(GWalkR)
-gwalkr(pymes)
-
-# explore: Exploración guiada
-library(explore)
-explore(pymes)
-```
-
-## Cuándo usar cada herramienta
+Cuándo usar cada herramienta
 
 | Situación | Herramienta recomendada |
 |-----------|------------------------|
@@ -1457,27 +1602,29 @@ explore(pymes)
 | Reportes para stakeholders | `SmartEDA::ExpReport()` |
 | Análisis profundo experto | **Manual (lo que hemos hecho)** |
 
-## Uso de IA Generativa para AED
+::::
 
-### ChatGPT y Claude para análisis de datos
+## IA Generativa para análisis de datos
 
-Ejemplo de flujo de trabajo con IA:
+::: {style="font-size: 90%;"}
 
+-  El usuario debe introducir un *prompt* efectivo (no solo "analiza")
 ```
-Usuario → IA:
-"Tengo un dataset de 500 empresas europeas con variables 
-financieras. Quiero entender qué factores se asocian con 
-alta rentabilidad. El archivo es pymes_europa.csv"
-
-IA → Usuario:
-[Genera código para cargar datos, hacer EDA inicial, 
-visualizaciones, análisis de correlación, etc.]
+Analiza pymes_europa.csv. Variables clave: ingresos, roe, sector, país. 
+Contexto: PYMES europeas 2020-2024. ROE típico: 8-12%. 
+Pregunta: ¿Qué características tienen empresas con ROE > 15%?
+Dame: limpieza, descriptivos, visualizaciones, análisis por sector
 ```
 
-### Capacidades de IA en AED
+- Fortalezas
 
-**Lo que hace bien**:
+  - Genera código estándar rápidamente y lo documenta
+  
+  - Sugiere análisis adicionales
+  
+  - Explica conceptos estadísticos
 
+::::{.notes}
 1. **Generar código estándar rápidamente**
    - "Crea un boxplot de ingresos por sector"
    - "Calcula correlaciones entre variables financieras"
@@ -1493,8 +1640,23 @@ visualizaciones, análisis de correlación, etc.]
 4. **Documentación automática**
    - Genera comentarios para el código
    - Crea descripciones de hallazgos
+::::
 
-**Limitaciones críticas**:
+- **Limitaciones críticas**:
+
+  1. No conoce tu contexto de negocio 
+  
+  2. Análisis superficial y sin identificar patrones específicos del dominio
+  
+  3. Riesgo de errores
+  
+     - Puede "inventar" patrones inexistentes
+     - Confunde correlación con causalidad
+     - Interpretaciones estadísticamente incorrectas
+  
+  4. Limitaciones técnicas: datos < 100-200MB, resultados dependen del prompt
+  
+::::{.notes}
 
 1. **No conoce tu contexto de negocio**
    ```
@@ -1522,7 +1684,10 @@ visualizaciones, análisis de correlación, etc.]
    - Resultado depende de cómo preguntes
    - Requiere conocer qué preguntar (¡conocimiento previo!)
 
-### Ejemplo práctico con IA
+::::
+
+::::{.notes}
+**Ejemplo práctico con IA**
 
 **Prompt efectivo**:
 ```
@@ -1551,7 +1716,10 @@ Dame: (1) Limpieza necesaria, (2) Estadísticos descriptivos,
 ```
 → Resultado: análisis genérico sin valor
 
-### Validación crítica de resultados de IA
+::::
+
+
+::::{.notes}
 
 **SIEMPRE**:
 
@@ -1574,9 +1742,14 @@ Dame: (1) Limpieza necesaria, (2) Estadísticos descriptivos,
    - ¿Están respaldadas por los datos?
    - ¿Consideran el contexto del problema?
 
+::::
+
+:::
+
 ## Filosofía: Automatización Inteligente
 
-### El modelo 80/20 para AED moderno
+::::{.notes}
+**El modelo 80/20 para AED moderno**
 
 **20% del tiempo: Automatización**
 - Herramientas de autoEDA para exploración inicial
@@ -1590,57 +1763,97 @@ Dame: (1) Limpieza necesaria, (2) Estadísticos descriptivos,
 - Validación y crítica de hallazgos
 - Recomendaciones accionables
 
-### Flujo de trabajo recomendado
+**Flujo de trabajo recomendado**
 
-1. **Exploración rápida (automática)**
+::::
+
+
+:::: {.notes}
    ```r
    # 5 minutos
    pymes |> skim()
    pymes |> diagnose()
    create_report(pymes)
    ```
+::::
 
-2. **Identificar áreas de interés**
+
+1. Exploración rápida (automática)
+
+
+2. Identificar áreas de interés
    - ¿Qué variables tienen problemas?
    - ¿Qué relaciones parecen interesantes?
    - ¿Qué no tiene sentido de negocio?
 
-3. **Análisis manual profundo (lo que hicimos)**
+3. Análisis manual profundo **(lo que hicimos)**
    - Limpieza contextualizada
    - Visualizaciones específicas
-   - Análisis por segmentos de negocio
    - Interpretación experta
 
+::::{.notes}
 4. **Usar IA como asistente**
    ```
    "Ayúdame a crear una visualización que compare 
    ROE por sector para empresas con >50 empleados, 
    destacando el top 10% en cada sector"
    ```
+::::
 
-5. **Validar y documentar**
+4. SIEMPRE validación crítica de resultados de IA y documentar
+  
+    - Verifica el código (piensa y re-pregunta)
+  
+    - Valida las decisiones e interpretaciones (piensa y re-pregunta)
+
+    - Cuestiona las recomendaciones (piensa y re-pregunta)
+
+:::: {.notes}
+
+Validar y documentar
+
    - Verificar todos los hallazgos importantes
    - Documentar decisiones y justificaciones
    - Crear narrativa de negocio
+
+::::
 
 ## Advertencias Importantes
 
 ### NO hagas esto:
 
 ❌ Usar reportes automatizados como análisis final
+
 ❌ Confiar ciegamente en interpretaciones de IA
-❌ Incluir todas las visualizaciones que genera una herramienta
+
+❌ Incluir todas las visualizaciones automáticas
+
 ❌ Olvidar validar hallazgos automáticos
+
+
+Desarrolla criterio para saber cuándo confiar en automatización
+
 
 ### SÍ haz esto:
 
 ✓ Usar automatización como punto de partida
-✓ Validar críticamente todo output automático
-✓ Combinar velocidad de herramientas con expertise humano
-✓ Documentar por qué una herramienta sugirió algo
+
+✓ Validar críticamente todo *output* automático
+
+✓ Combinar velocidad de herramientas con *expertise* humano
+
 ✓ Mantener el contexto de negocio en el centro
 
-## Ejemplo: Análisis Híbrido
+**Regla de oro**: La automatización acelera, el expertise guía. Nunca al revés.
+
+
+::::{.notes}
+
+✓ Documentar por qué una herramienta sugirió algo
+::::
+
+::::{.notes}
+**Ejemplo: Análisis Híbrido**
 
 Flujo real de un análisis profesional:
 
@@ -1669,27 +1882,21 @@ ggplot(pymes, aes(x = empleados, y = roe)) +
 # "Recomendar a inversores: PYMES 20-50 empleados 
 # en sector Servicios muestran mejor rentabilidad..."
 ```
+::::
 
-## Recursos para profundizar
+:::: {.notes}
+**Recursos para profundizar**
 
-- **autoEDA en R**: [Journal of Statistical Software paper](https://journal.r-project.org/archive/2019/RJ-2019-033/)
-- **IA para análisis**: [ChatGPT for EDA guide](https://www.analyticsvidhya.com/blog/2023/04/analyzing-data-using-chatgpt/)
-- **Limitaciones de LLMs**: [Statistical Modeling blog](https://statmodeling.stat.columbia.edu/2024/06/24/forking-paths-in-llms-for-data-analysis/)
+- *autoEDA en R*: [Journal of Statistical Software paper](https://journal.r-project.org/archive/2019/RJ-2019-033/)
+- *IA para análisis*: [ChatGPT for EDA guide](https://www.analyticsvidhya.com/blog/2023/04/analyzing-data-using-chatgpt/)
+- *Limitaciones de LLMs*: [Statistical Modeling blog](https://statmodeling.stat.columbia.edu/2024/06/24/forking-paths-in-llms-for-data-analysis/)
 
-## Práctica recomendada
-
-Para dominar este enfoque:
-
-1. Usa herramientas automatizadas en tu próximo dataset
-2. Anota qué hicieron bien y qué se perdieron
-3. Experimenta con prompts de IA para análisis
-4. Compara resultados automáticos vs tu análisis manual
-5. Desarrolla criterio para saber cuándo confiar en automatización
-
-**Regla de oro**: La automatización acelera, el expertise guía. Nunca al revés.
+::::
 
 
-## Distribución del Score de Inversión
+
+::::{.notes}
+**Distribución del Score de Inversión**
 
 ```{r}
 
@@ -1707,9 +1914,6 @@ ggplot(pymes, aes(x = factor(score_total))) +
 ```
 
 ```{r}
-
-
-
 # Top empresas por score
 pymes |>
   filter(score_total >= 8) |>
@@ -1719,30 +1923,7 @@ pymes |>
   head(10) |>
   kable(digits = 2)
 ```
-
-## Más Herramientas de AED "Automático"
-
-Muchas partes del AED son parcialmente "automatizables": muchos paquetes tratan de facilitar esas partes
-
-[`Radiant`](https://radiant-rstats.github.io/docs/) puede instalarse o probarse [online](https://vnijs.shinyapps.io/radiant/)
-
-- Sirve tanto para análisis exploratorio, visualización y transformación como para algunas modelizaciones
-
-Algunas bibliotecas permiten explorar datos y/o realizar visualizaciones y tableros fácilmente de forma interactiva: `GwalkR`, `explore`
-
-Informes automatizados con `dlookr`, `DataExplorer`, `DataMaid`, `smartEDA`
-
-```{r}
-#| eval: false
-
-library(dlookr)
-pymes |> 
-  mutate(across(where(is.character), ~parse_factor(.x))) |> 
-  eda_web_report(target = "rating_agrupado")
-```
-
-Algunos componentes del AED y sobre todo la interpretación del AED son específica de los datos y del objetivo del estudio
-
+::::
 
 :::: {.notes}
 **Resumen**
@@ -1849,3 +2030,5 @@ No se puede saltear. No hay atajos. Vale la pena hacerlo bien.
 **Siguiente paso**: Con datos limpios y entendidos, estamos listos para modelizar. Pero esa es otra historia...
 
 ::::
+
+
