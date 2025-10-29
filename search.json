@@ -273,6 +273,13 @@
     "text": "Ciclo de Vida del Análisis de Datos"
   },
   {
+    "objectID": "docs/Tema03ej.html",
+    "href": "docs/Tema03ej.html",
+    "title": "Tema 03. Quarto. Ejercicio.",
+    "section": "",
+    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
+  },
+  {
     "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
     "href": "docs/Tema01.html#por-qué-visualizar-datos",
     "title": "Tema 01 - Visualización de datos",
@@ -417,14 +424,14 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos"
+    "text": "(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicio 1\nTema 04 - Ejercicio 2"
   },
   {
     "objectID": "Contenidos.html#semana-8",
     "href": "Contenidos.html#semana-8",
     "title": "Contenidos",
     "section": "",
-    "text": "(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos"
+    "text": "(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicio 1\nTema 04 - Ejercicio 2"
   },
   {
     "objectID": "Contenidos.html#semana-7",
@@ -550,7 +557,7 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nBankMarketing.csv\nBostonHousing.csv"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nstartups_fintech.csv\ndiccionario_startups.csv"
   },
   {
     "objectID": "about.html",
@@ -560,11 +567,102 @@
     "text": "About this site"
   },
   {
-    "objectID": "docs/Tema03ej.html",
-    "href": "docs/Tema03ej.html",
-    "title": "Tema 03. Quarto. Ejercicio.",
+    "objectID": "docs/Tema04ej2.html",
+    "href": "docs/Tema04ej2.html",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
     "section": "",
-    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
+    "text": "La biblioteca tidyquant integra análisis financiero con el ecosistema tidyverse, facilitando la obtención, transformación y visualización de datos económicos y financieros.\n\n\nFRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()\n\n\n\n\nPara acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()\n\n\n\n\ntidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
+    "href": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "FRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#obtener-datos-financieros",
+    "href": "docs/Tema04ej2.html#obtener-datos-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Para acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#visualizaciones-especializadas",
+    "href": "docs/Tema04ej2.html#visualizaciones-especializadas",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "tidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
+    "href": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 1: Datos Económicos (FRED)",
+    "text": "Parte 1: Datos Económicos (FRED)\n\nTarea 1.1: Obtener series económicas\nDescarga las siguientes series económicas de la zona euro o países específicos:\n\nTasa de desempleo de la zona euro o un país europeo\nÍndice de precios al consumo (IPC) o inflación\nTipo de interés de referencia del BCE o equivalente\n\n\n\nTarea 1.2: Análisis univariante\n\nPara cada serie económica:\n\nVisualiza su evolución temporal completa\nCalcula estadísticos descriptivos básicos en todo el periodo y en los últimos 5 años\n\n\n\nDescribe brevemente qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-2-datos-financieros",
+    "href": "docs/Tema04ej2.html#parte-2-datos-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 2: Datos Financieros",
+    "text": "Parte 2: Datos Financieros\n\nTarea 2.1: Obtener datos de acciones\nSelecciona 3 empresas europeas de sectores diferentes. Puedes elegir de:\n\nBanca: Santander, BBVA, Deutsche Bank\nEnergía: Iberdrola, Repsol, TotalEnergies\nTecnología: SAP, ASML, Infineon\nConsumo: Inditex, LVMH, Unilever\n\n\n\nTarea 2.2: Análisis de precios\n\nPara cada empresa:\n\nCrea un gráfico de velas para los últimos 6 meses\nAñade medias móviles (50 y 200 días) al gráfico completo\nCalcula estadísticos descriptivos del precio de cierre\nIdentifica períodos de alta/baja volatilidad\n\n\n\n\nTarea 2.3: Rendimientos\n\nCalcula los rendimientos diarios (% cambio en precio de cierre) para cada empresa:\n\n\nAnaliza y compara la distribución de rendimientos\nAnaliza y compara la volatilidad"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
+    "href": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 3: Integración de Datos Económicos y Financieros",
+    "text": "Parte 3: Integración de Datos Económicos y Financieros\n\nTarea 3.1: Preparar datos mensuales\nAgrega tanto datos económicos como financieros a frecuencia mensual:\n\n\nTarea 3.2: Combinar datasets\nUne los datos económicos y financieros por fecha (mes/año):\n\n\nTarea 3.3: Análisis de covariación\nAnaliza las relaciones entre variables económicas y precios de acciones:\n\nMatriz de correlación: ¿Cómo se correlacionan las variables?\n\n\nGráficos de dispersión: Relaciones específicas de interés\n\n\nSeries temporales superpuestas:\n\nVisualiza cómo evolucionan juntas una variable económica y un precio (usando dos ejes Y si es necesario):\n\n¿Qué relaciones observas? ¿Son intuitivas o sorprendentes? ¿Alguna relación inversa?"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#entrega-del-ejercicio",
+    "href": "docs/Tema04ej2.html#entrega-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej2_123456789.qmd\nTema04ej2_123456789.html\nTema04ej2_123456789.zip"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html",
+    "href": "docs/Tema04ej1.html",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.\nLos datos están disponibles en el archivo startups_fintech.csv; una descripción detallada de las variables en diccionario_startups.csv\n\nIMPORTANTE:\n\nMuestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.\nNo basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes."
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#contexto-del-ejercicio",
+    "href": "docs/Tema04ej1.html#contexto-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.\nLos datos están disponibles en el archivo startups_fintech.csv; una descripción detallada de las variables en diccionario_startups.csv\n\nIMPORTANTE:\n\nMuestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.\nNo basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes."
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#pregunta-1.-cargar-explorar-y-limpiar-los-datos",
+    "href": "docs/Tema04ej1.html#pregunta-1.-cargar-explorar-y-limpiar-los-datos",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Pregunta 1. Cargar, Explorar y Limpiar los Datos",
+    "text": "Pregunta 1. Cargar, Explorar y Limpiar los Datos\n\nApartado 1.a.\n\nIdentifica problemas de calidad.\n\n\n\nApartado 1.b.\n\nIdentifica qué variables tienen tipos incorrectos y corrígelos. Justifica por qué necesitan ser convertidas\n\n\n\nApartado 1.c. \n\nDetecta y elimina filas duplicadas.\nDetecta y elimina variables redundantes.\n\n\n\nApartado 1.d. \n\n¿Qué variables tienen valores ausentes y cuántos en cada variable?"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#pregunta-2-análisis-exploratorio-de-datos",
+    "href": "docs/Tema04ej1.html#pregunta-2-análisis-exploratorio-de-datos",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Pregunta 2: Análisis Exploratorio de Datos",
+    "text": "Pregunta 2: Análisis Exploratorio de Datos\n\nApartado 2.a. Distribución de las variables principales\n\nMuestra tablas y/o gráficos de las variables que consideres más relevantes.\n\nPista: en otras, presta atención a subsector, etapa, pais, financiacion_total, valoracion, ltv_cac_ratio, rating_riesgo, tasa_retencion, probabilidad de éxito y empleados.\n\nComenta brevemente las características principales de las variables que se derivan de dichas tablas y/o gráficos.\nEntre otras cosas,\n\n¿Detectas inconsistencias en las categorías de alguna variable? En caso afirmativo, ¿cómo las corriges?\n¿Consideras que se pueden agrupar ciertas categorías para mejorar la interpretación?\n¿Algunas variables tienen distribuciones sesgadas o asimétricas?\n¿Algunas variables tienen valores extremos o “atípicos”?\n\nDiscute la información útil que se puede extraer de las variables analizadas a través de sus distribuciones o principales estadísticos.\n\n\n\nApartado 2.b. Relación entre variables\n\nEstudia las relaciones que consideres más relevantes usando estadísticos y visualizaciones.\nDiscute brevemente cómo es la relación.\n\nPor ejemplo, si es lineal o no, fuerte o débil, positiva o negativa, etc.\n\nEntre otras, tu análisis debería abordar las siguientes cuestiones:\n\nFinanciación por subsector.\nRelación financiación-valoración.\n¿Qué características están relacionadas con el riesgo de las startups? \nRelación entre tasa_retencion y probabilidad de éxito.\nComparar indicadores clave (financiación, valoración, probabilidad de éxito) entre los principales países.\nPatrones de madurez: ¿cómo cambian (o no) las características de las startups con la etapa?"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#pregunta-3",
+    "href": "docs/Tema04ej1.html#pregunta-3",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\n\nApartado 3.a\n\nComenta brevemente los 5 principales hallazgos (según tu opinión) de tu análisis\n\n\n\nApartado 3.b\n\nBasándote en tu análisis, ¿qué recomendarías a la firma de capital riesgo?\n\nDónde buscar oportunidades\nQué evitar\nSeñales de alerta\nMétricas críticas"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#entrega-del-ejercicio",
+    "href": "docs/Tema04ej1.html#entrega-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej1_123456789.qmd\nTema04ej1_123456789.html\nTema04ej1_123456789.zip"
   },
   {
     "objectID": "docs/Tema00.html#introducción",
