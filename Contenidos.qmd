@@ -72,6 +72,9 @@ strip-comments: true
 
   * [Tema 04 - Análisis Exploratorio de Datos](docs/Tema04.qmd)
 
+  * [Tema 04 - Ejercicio 1](docs/Tema04ej1.qmd)
+
+  * [Tema 04 - Ejercicio 2](docs/Tema04ej2.qmd)
 
 ## Semana 7
 (20-Oct. a 26-Oct.)

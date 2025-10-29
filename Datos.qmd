@@ -35,8 +35,8 @@ strip-comments: true
   + [pymes_europa.csv](https://raw.githubusercontent.com/albarran/00datos/main/pymes_europa.csv)
   + [diccionario_pymes.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_pymes.csv)
 
-  + [BankMarketing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BankMarketing.csv)
-  + [BostonHousing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv)
+  + [startups_fintech.csv](https://raw.githubusercontent.com/albarran/00datos/main/startups_fintech.csv)
+  + [diccionario_startups.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_startups.csv)
 
 
 <!--

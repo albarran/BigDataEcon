@@ -1,0 +1,278 @@
+---
+title: "Tema 04 - Análisis Exploratorio de Datos"
+subtitle: "Ejercicio Práctico 1"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- markdownlint-disable-file MD013 -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+library(rio)
+library(kableExtra)
+```
+
+
+## Contexto del Ejercicio
+
+- Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.
+
+- Los datos están disponibles en el archivo [startups_fintech.csv](https://raw.githubusercontent.com/albarran/00datos/main/startups_fintech.csv); una descripción detallada de las variables en [diccionario_startups.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_startups.csv)
+
+
+<!--
+- Te han contratado como analista de datos para realizar un análisis exploratorio que les ayude a identificar:
+
+  1. Características de startups exitosas
+  2. Patrones de riesgo financiero
+  3. Oportunidades de inversión por país y subsector
+  4. Factores asociados con alta probabilidad de éxito
+
+## Normas importantes
+
+1. **Todo el código debe ser reproducible**: Alguien debe poder ejecutar tu `.qmd` y obtener los mismos resultados
+2. **Comenta tu código adecuadamente**: Explica qué hace cada bloque significativo
+3. **Interpreta todos los resultados**: No basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes
+4. **Justifica tus decisiones**: Si eliminas outliers, agrupas categorías o transformas variables, explica por qué
+
+- El informe debe mostrar **análisis manual específico**, gráficos personalizados e interpretaciones contextualizadas
+- Las herramientas automatizadas son tu punto de partida, no tu punto final
+- Demuestra que entiendes los datos más allá de lo que una herramienta automática puede decir
+
+-->
+
+**IMPORTANTE**: 
+
+- Muestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.
+
+- No basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes.
+
+
+---
+
+## Pregunta 1. Cargar, Explorar y Limpiar los Datos
+
+### Apartado 1.a. 
+
+- Identifica problemas de calidad.
+
+### Apartado 1.b. 
+
+- Identifica qué variables tienen tipos incorrectos y corrígelos. Justifica por qué necesitan ser convertidas
+
+<!--
+- Corrige tipos incorrectos (`anio_fundacion`, `empleados`, `burn_rate`, `runway_meses`).
+
+- Convierte categóricas a factores, incluyendo factores ordenados para `etapa` y `rating_riesgo`.
+-->
+
+### Apartado 1.c. <!--Detecta y elimina filas duplicadas y variables redundantes-->
+
+- Detecta y elimina filas duplicadas.
+
+- Detecta y elimina variables redundantes.
+
+### Apartado 1.d. <!-- Analiza el patrón de valores ausentes (`NAs`) -->
+
+- ¿Qué variables tienen valores ausentes y cuántos en cada variable?
+
+<!--
+- Comenta brevemente si los valores ausentes parecen aleatorios o hay un patrón.
+-->
+
+---
+
+## Pregunta 2: Análisis Exploratorio de Datos
+
+### Apartado 2.a. Distribución de las variables principales
+
+- Muestra tablas y/o gráficos de las variables que consideres más relevantes.
+
+  - Pista: en otras, presta atención a `subsector`, `etapa`, `pais`, `financiacion_total`, `valoracion`, `ltv_cac_ratio`, `rating_riesgo`, `tasa_retencion`, probabilidad de éxito y `empleados`.
+
+- Comenta brevemente las características principales de las variables que se derivan de dichas tablas y/o gráficos. 
+
+  Entre otras cosas,
+
+    - ¿Detectas inconsistencias en las categorías de alguna variable? En caso afirmativo, ¿cómo las corriges?
+
+    - ¿Consideras que se pueden agrupar ciertas categorías para mejorar la interpretación?
+
+    - ¿Algunas variables tienen distribuciones sesgadas o asimétricas?
+
+    - ¿Algunas variables tienen valores extremos o "atípicos"?
+
+- Discute la información útil que se puede extraer de las variables analizadas a través de sus distribuciones o principales estadísticos.
+
+<!--
+- Homogeneiza `subsector` corrigiendo problemas de mayúsculas/minúsculas.
+
+- Analiza la distribución de `subsector` y `pais`. Crea una nueva variable `subsector_agrupado` agrupando categorías con <10 observaciones.
+
+- ¿Cuáles son los subsectores y países dominantes?
+
+- ¿Por qué agrupaste ciertas categorías?
+
+- Analiza la distribución de `financiacion_total` y `empleados`. ¿Cómo es la distribución? ¿Simétrica o asimétrica? ¿Hay outliers extremos; son plausibles (unicornios) o parecen errores?
+
+-->
+
+### Apartado 2.b. Relación entre variables
+
+- Estudia las relaciones que consideres más relevantes usando estadísticos y visualizaciones.
+
+- Discute brevemente cómo es la relación.
+
+  - Por ejemplo, si es lineal o no, fuerte o débil, positiva o negativa, etc.
+
+- Entre otras, tu análisis debería abordar las siguientes cuestiones:
+
+  1. Financiación por subsector.
+
+  2. Relación financiación-valoración.
+
+  3. ¿Qué características están relacionadas con el riesgo de las startups? <!-- Relación entre `ltv_cac_ratio` y `rating_riesgo`.-->
+
+  4. Relación entre `tasa_retencion` y probabilidad de éxito.
+
+  5. Comparar indicadores clave (financiación, valoración, probabilidad de éxito) entre los principales países.
+  
+  6. Patrones de madurez: ¿cómo cambian (o no) las características de las startups con la `etapa`?
+
+---
+
+<!--
+1. ¿Qué subsectores atraen más financiación? ¿Hay diferencias significativas? ¿Qué implicaciones tiene para inversores?]
+
+2. [¿Cómo es la relación? ¿Lineal? ¿Fuerte? ¿Qué dice esto sobre cómo se valoran las startups?]
+
+3. Relación entre `ltv_cac_ratio` y `rating_riesgo`. ¿El ratio LTV/CAC es un buen predictor de riesgo? ¿Qué valores de ratio se asocian con bajo riesgo.
+
+5.[¿Qué países tienen startups más exitosas/valoradas? ¿Por qué podría ser?]
+
+-->
+
+
+<!--
+## Pregunta 4: Análisis de Negocio
+
+### 4.a. Análisis de riesgo
+
+- ¿Qué características tienen las startups de alto riesgo?
+
+- ¿Cómo ayudaría a identificar señales de alerta?
+
+### 4.b. Patrones de madurez
+
+- ¿Cómo cambian las métricas clave según la `etapa` de desarrollo? ¿Qué diferencias hay entre etapas?
+
+### 4.c. Basándose en el análisis previo, se propone un scoring de inversión simple basado en criterios como LTV/CAC >3, retención >75%, rating bajo/medio, runway >12 meses.
+
+- Justifica los criterios elegidos para crear el scoring.
+
+- Calcula el scoring y presenta las 15 mejores startups. ¿Qué tienen en común?
+
+
+[¿Qué patrones ves en las top startups? ¿Subsector? ¿País? ¿Etapa? ¿Métricas?]
+
+**Pregunta 5.2**: Analiza cómo varían las métricas clave (financiación, empleados, probabilidad éxito) según la `etapa` de desarrollo.
+
+```{r}
+#| label: analisis-etapas
+
+# Tu código aquí
+
+
+```
+
+**Tu interpretación**:
+
+[¿Cómo evolucionan las startups? ¿Qué es normal en cada etapa?]
+
+
+---
+-->
+
+
+## Pregunta 3
+
+### Apartado 3.a 
+
+- Comenta brevemente los 5 principales hallazgos (según tu opinión) de tu análisis
+
+### Apartado 3.b
+
+- Basándote en tu análisis, ¿qué recomendarías a la firma de capital riesgo?
+
+  - Dónde buscar oportunidades
+  - Qué evitar
+  - Señales de alerta
+  - Métricas críticas
+
+<!--
+## 6.3 Limitaciones
+
+**¿Qué limitaciones tiene este análisis?**
+
+[Ej: datos estáticos, información cualitativa ausente, etc.]
+
+---
+-->
+
+<!--
+**Autoevaluación**: Verifica que tu informe:
+
+- [ ] El código es reproducible
+- [ ] Cada gráfico/tabla tiene interpretación
+- [ ] Las decisiones están justificadas
+- [ ] El lenguaje es profesional
+- [ ] Las conclusiones están respaldadas
+-->
+
+## Entrega del ejercicio
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLScPBd-tHyUQ92nxYyn0-2eUQI_KZgg-0pgO248_56o4U5fN0g/viewform?usp=dialog) con vuestros datos y subid
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema04ej1_123456789.qmd
+
+  * Tema04ej1_123456789.html
+
+  * Tema04ej1_123456789.zip

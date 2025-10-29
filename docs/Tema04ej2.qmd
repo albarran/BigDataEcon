@@ -1,0 +1,505 @@
+---
+title: "Tema 04 - Análisis Exploratorio de Datos"
+subtitle: "Ejercicio Práctico 2: `tidyquant`"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- markdownlint-disable-file MD013 -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+library(rio)
+library(kableExtra)
+```
+
+# Introducción a tidyquant
+
+La biblioteca `tidyquant` integra análisis financiero con el ecosistema tidyverse, facilitando la obtención, transformación y visualización de datos económicos y financieros.
+
+## Obtener datos económicos de FRED
+
+FRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Obtener datos de PIB español
+pib_esp <- tq_get("CLVMNACSCAB1GQES",
+                  get = "economic.data",
+                  from = "2000-01-01")
+
+# Visualizar evolución
+ggplot(pib_esp, aes(x = date, y = price)) +
+  geom_line()
+```
+
+**Cómo encontrar series FRED**:
+
+1. Busca en [fred.stlouisfed.org](https://fred.stlouisfed.org/)
+2. Identifica el "símbolo" o código de la serie (ej: "UNRATE" para tasa de desempleo USA)
+3. Usa ese código en `tq_get()`
+
+## Obtener datos financieros
+
+Para acciones, identifica el símbolo en [Yahoo Finance](https://finance.yahoo.com/).
+
+```{r}
+#| eval: false
+#| echo: true
+# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)
+tech_stocks <- tq_get(c("AAPL", "MSFT"),
+                      get = "stock.prices",
+                      from = "2020-01-01")
+
+# Gráfico de precios de cierre
+tech_stocks %>%
+  ggplot(aes(x = date, y = close, color = symbol)) +
+  geom_line()
+```
+
+## Visualizaciones especializadas
+
+`tidyquant` incluye gráficos financieros específicos:
+
+### Gráficos de velas (candlestick)
+
+Muestran apertura, cierre, máximo y mínimo diarios:
+
+```{r}
+#| eval: false
+#| echo: true
+
+tech_stocks %>%
+  filter(symbol == "AAPL", year(date) == 2024) %>%
+  ggplot(aes(x = date, y = close)) +
+  geom_candlestick(aes(open = open, high = high,
+                       low = low, close = close))
+```
+
+### Medias móviles
+
+Suavizan tendencias de corto y largo plazo:
+
+```{r}
+#| eval: false
+#| echo: true
+
+tech_stocks %>%
+  filter(symbol == "AAPL", year(date) >= 2023) %>%
+  ggplot(aes(x = date, y = close)) +
+  geom_candlestick(aes(open = open, high = high,
+                       low = low, close = close)) +
+  geom_ma(ma_fun = SMA, n = 50, color = "blue") +  # Media móvil 50 días
+  geom_ma(ma_fun = SMA, n = 200, color = "red")    # Media móvil 200 días
+```
+
+---
+
+# Tu Ejercicio
+
+Una consultora económica necesita analizar la relación entre indicadores macroeconómicos europeos y el comportamiento del mercado de valores. Tu tarea es realizar un análisis exploratorio integrando datos económicos y financieros.
+
+## Parte 1: Datos Económicos (FRED)
+
+### Tarea 1.1: Obtener series económicas
+
+Descarga las siguientes series económicas de la zona euro o países específicos:
+
+1. **Tasa de desempleo** de la zona euro o un país europeo
+2. **Índice de precios al consumo (IPC)** o inflación
+3. **Tipo de interés de referencia** del BCE o equivalente
+
+<!--
+```{r}
+#| label: obtener-datos-economicos
+
+# Tu código aquí
+# Ejemplo de búsqueda:
+# - Desempleo zona euro: "LRHUTTTTEZM156S"
+# - IPC zona euro: "CP0000EZ19M086NEST"
+# - Tipo BCE: busca en FRED
+
+
+
+
+```
+-->
+
+### Tarea 1.2: Análisis univariante
+
+- Para cada serie económica:
+
+  - Visualiza su evolución temporal completa
+  - Calcula estadísticos descriptivos básicos en todo el periodo y en los últimos 5 años
+
+<!--
+- Crea un gráfico mostrando solo los últimos 5 años
+- Calcula estadísticos descriptivos básicos
+- Identifica tendencias generales y cambios importantes
+
+```{r}
+#| label: analisis-economico
+
+# Tu código aquí
+
+
+
+
+```
+
+**Tu interpretación**:
+
+[Describe qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?]
+
+-->
+
+- Describe brevemente qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?
+
+
+## Parte 2: Datos Financieros
+
+### Tarea 2.1: Obtener datos de acciones
+
+Selecciona 3 empresas europeas de sectores diferentes. Puedes elegir de:
+
+- **Banca**: Santander, BBVA, Deutsche Bank
+- **Energía**: Iberdrola, Repsol, TotalEnergies
+- **Tecnología**: SAP, ASML, Infineon
+- **Consumo**: Inditex, LVMH, Unilever
+
+<!--
+
+- **Banca**: Santander (SAN), BBVA (BBVA), Deutsche Bank (DB)
+- **Energía**: Iberdrola (IBE.MC), Repsol (REP.MC), TotalEnergies (TTE)
+- **Tecnología**: SAP (SAP), ASML (ASML), Infineon (IFX.DE)
+- **Consumo**: Inditex (ITX.MC), LVMH (MC.PA), Unilever (UL)
+
+**Nota**: Símbolos europeos suelen tener sufijos (.MC=Madrid, .PA=París, .DE=Frankfurt)
+
+```{r}
+#| label: obtener-datos-financieros
+
+# Tu código aquí
+# Obtén datos desde 2019 hasta hoy
+
+
+
+
+```
+-->
+### Tarea 2.2: Análisis de precios
+
+- Para cada empresa:
+
+  - Crea un gráfico de velas para los últimos 6 meses
+  - Añade medias móviles (50 y 200 días) al gráfico completo
+  - Calcula estadísticos descriptivos del precio de cierre
+  - Identifica períodos de alta/baja volatilidad
+
+<!--
+```{r}
+#| label: analisis-precios
+
+# Tu código aquí
+
+
+
+
+```
+
+**Tu interpretación**:
+
+[¿Qué patrones observas? ¿Alguna empresa muestra tendencia clara? ¿Cuál es más volátil?]
+-->
+
+
+
+### Tarea 2.3: Rendimientos
+
+- Calcula los rendimientos diarios (% cambio en precio de cierre) para cada empresa:
+
+<!--
+```{r}
+#| label: calcular-rendimientos
+
+# Sugerencia: usa dplyr::lag() o tq_transmute()
+# Rendimiento = (precio_hoy - precio_ayer) / precio_ayer * 100
+
+
+
+
+```
+-->
+
+- Analiza y compara la distribución de rendimientos
+
+- Analiza y compara la volatilidad
+
+<!--
+  - Distribución de rendimientos (histograma)
+  - Rendimiento acumulado en el período
+  - Comparación de volatilidad (desviación estándar de rendimientos)
+
+```{r}
+#| label: analisis-rendimientos
+
+# Tu código aquí
+
+
+
+
+```
+
+**Tu interpretación**:
+
+[¿Cuál empresa tuvo mejor rendimiento? ¿Cuál es más arriesgada (mayor volatilidad)?]
+-->
+
+## Parte 3: Integración de Datos Económicos y Financieros
+
+### Tarea 3.1: Preparar datos mensuales
+
+Agrega tanto datos económicos como financieros a frecuencia mensual:
+
+<!--
+```{r}
+#| label: datos-mensuales
+
+# Para acciones: calcular precio de cierre promedio mensual
+# Para económicos: ya suelen ser mensuales, pero verificar
+
+
+
+
+```
+-->
+
+### Tarea 3.2: Combinar datasets
+
+Une los datos económicos y financieros por fecha (mes/año):
+
+<!--
+```{r}
+#| label: combinar-datos
+
+# Tu código aquí
+# Usa inner_join() o left_join()
+
+
+
+
+```
+-->
+
+### Tarea 3.3: Análisis de covariación
+
+Analiza las relaciones entre variables económicas y precios de acciones:
+
+1. **Matriz de correlación**: ¿Cómo se correlacionan las variables?
+
+<!--
+```{r}
+#| label: correlaciones
+
+# Tu código aquí
+# Puedes usar corrplot o ggcorrplot
+
+
+
+
+```
+-->
+2. **Gráficos de dispersión**: Relaciones específicas de interés
+
+<!--
+```{r}
+#| label: dispersiones
+
+# Ejemplos:
+# - Desempleo vs precio acciones bancarias
+# - Inflación vs precio acciones energéticas
+# - Tipo de interés vs precio acciones tecnológicas
+
+
+
+
+```
+-->
+
+3. **Series temporales superpuestas**:
+
+Visualiza cómo evolucionan juntas una variable económica y un precio (usando dos ejes Y si es necesario):
+
+<!--
+```{r}
+#| label: series-superpuestas
+
+# Tu código aquí
+
+
+
+
+```
+
+**Tu interpretación**:
+-->
+
+- ¿Qué relaciones observas? ¿Son intuitivas o sorprendentes? ¿Alguna relación inversa?
+
+
+<!--
+## Parte 4: Análisis de un Evento Específico
+
+### Tarea 4.1: Identificar un evento económico
+
+Elige un evento relevante en el período analizado (ejemplos: COVID-19 en 2020, guerra Ucrania 2022, crisis bancaria 2023, cambios política monetaria).
+
+```{r}
+#| label: analisis-evento
+
+# Define el período del evento
+fecha_evento_inicio <- as.Date("YYYY-MM-DD")  # Ajusta
+fecha_evento_fin <- as.Date("YYYY-MM-DD")     # Ajusta
+
+# Filtra datos para ese período y períodos antes/después
+
+
+
+
+```
+
+Analiza:
+
+- Comportamiento de indicadores económicos durante el evento
+- Respuesta de los mercados (precios de acciones)
+- Recuperación post-evento
+
+```{r}
+#| label: visualizar-evento
+
+# Crea gráficos destacando el período del evento
+# Sugerencia: usa geom_rect() para sombrear el período
+
+
+
+
+```
+
+**Tu análisis**:
+
+[¿Cómo impactó el evento en indicadores económicos y mercados? ¿Cuál fue la magnitud? ¿Hubo recuperación?]
+
+## Parte 5: Conclusiones
+
+### Resumen de hallazgos
+
+Resume los 5-7 hallazgos más importantes de tu análisis:
+
+1. [Tu hallazgo sobre datos económicos]
+2. [Tu hallazgo sobre mercados financieros]
+3. [Tu hallazgo sobre relaciones entre economía y mercados]
+4. [Tu hallazgo sobre volatilidad o riesgo]
+5. [Tu hallazgo sobre el evento analizado]
+
+### Implicaciones prácticas
+
+Basándote en tu análisis, ¿qué recomendaciones harías?
+
+- **Para inversores**: [Tu recomendación]
+- **Para analistas económicos**: [Tu recomendación]
+- **Sobre sectores específicos**: [Tu recomendación]
+
+### Limitaciones
+
+- [Limitación 1: ej., frecuencia de datos]
+- [Limitación 2: ej., período analizado]
+- [Limitación 3: ej., variables no consideradas]
+
+---
+
+# Recursos Adicionales
+
+## Búsqueda de datos FRED
+
+Series económicas europeas útiles:
+
+- **Zona Euro**: Busca "Euro Area" en FRED
+- **España**: Busca "Spain"
+- **Alemania**: Busca "Germany"
+- **Francia**: Busca "France"
+
+Categorías comunes:
+- Empleo/Desempleo: "unemployment", "employment"
+- Precios: "inflation", "CPI", "consumer price"
+- Producción: "GDP", "industrial production"
+- Tipos de interés: "interest rate", "ECB"
+
+## Símbolos de acciones europeas
+
+Principales bolsas:
+- España (Madrid): `.MC` - ej: `TEF.MC` (Telefónica)
+- Francia (París): `.PA` - ej: `MC.PA` (LVMH)
+- Alemania (Frankfurt): `.DE` - ej: `SAP.DE` (SAP)
+- Reino Unido (Londres): `.L` - ej: `BP.L` (BP)
+
+---
+
+**Entrega**:
+
+- Archivo `.qmd` completado
+- Archivo `.html` generado
+- Asegúrate de que el código es reproducible
+
+**Evaluación**: Se valorará la calidad del análisis, interpretaciones fundamentadas y uso apropiado de visualizaciones.
+-->
+
+
+
+## Entrega del ejercicio
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSfAdvf8M4QzogaQOLwh8qOiLIplss6aJFF1kiv37RNrr24oyw/viewform?usp=dialog) con vuestros datos y subid
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema04ej2_123456789.qmd
+
+  * Tema04ej2_123456789.html
+
+  * Tema04ej2_123456789.zip
