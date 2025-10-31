@@ -163,13 +163,13 @@ library(kableExtra)
 
   2. Relación financiación-valoración.
 
-  3. ¿Qué características están relacionadas con el riesgo de las startups? <!-- Relación entre `ltv_cac_ratio` y `rating_riesgo`.-->
-
-  4. Relación entre `tasa_retencion` y probabilidad de éxito.
-
-  5. Comparar indicadores clave (financiación, valoración, probabilidad de éxito) entre los principales países.
+  3. ¿Qué características están relacionadas con el riesgo de las startups? Pista: considera al menos `ltv_cac_ratio`, `burn_rate`, `runway_meses` y `tasa_retencion`.
   
-  6. Patrones de madurez: ¿cómo cambian (o no) las características de las startups con la `etapa`?
+<!--  4. Relación entre `tasa_retencion` y probabilidad de éxito. -->
+
+  4. Comparar indicadores clave (financiación, valoración, probabilidad de éxito) entre los principales países (los cinco países con más empresas).
+  
+  5. Patrones de madurez: ¿cómo cambian (o no) las características de las startups con la `etapa`?
 
 ---
 
@@ -226,6 +226,7 @@ library(kableExtra)
 -->
 
 
+<!--
 ## Pregunta 3
 
 ### Apartado 3.a 
@@ -241,25 +242,8 @@ library(kableExtra)
   - Señales de alerta
   - Métricas críticas
 
-<!--
-## 6.3 Limitaciones
-
-**¿Qué limitaciones tiene este análisis?**
-
-[Ej: datos estáticos, información cualitativa ausente, etc.]
-
----
 -->
 
-<!--
-**Autoevaluación**: Verifica que tu informe:
-
-- [ ] El código es reproducible
-- [ ] Cada gráfico/tabla tiene interpretación
-- [ ] Las decisiones están justificadas
-- [ ] El lenguaje es profesional
-- [ ] Las conclusiones están respaldadas
--->
 
 ## Entrega del ejercicio
 
