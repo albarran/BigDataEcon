@@ -66,7 +66,7 @@ source("Tema05datos.R")
 
 ```
 
-# Métodos Estadísticos
+# Introducción
 
 ## Métodos Estadísticos
 
@@ -265,7 +265,7 @@ mediaFunc <- function(datos,  indices) {
 
 - Aprendizaje automático (*machine learning*, ML) o estadístico (*statiscal learning*): conjunto de técnicas algorítmicas para **extraer información de los datos**
 
-* [Tipos principales](https://vitalflux.com/wp-content/uploads/2020/12/mind_map_machine_learning_3.jpg)
+* [Tipos principales](http://eitc.org/research-opportunities/photos6/different-machine-learning-models_010924a/image_large)
 
 1. **Aprendizaje supervisado**: para cada medida de $X$ hay una *respuesta asociada* $Y$
 
@@ -274,6 +274,8 @@ mediaFunc <- function(datos,  indices) {
 2. **Aprendizaje no supervisado**: no hay una respuesta asociada, aprendemos rasgos no medidos
 
     + ej., observaciones similares organizadas en grupos distintos
+
+3. Aprendizaje por refuerzo
 
 ::::{.notes}
 1. **Aprendizaje supervisado**: escenarios en los que para cada observación de las mediciones $X_i$ hay una *respuesta asociada* $Y_i$ ("supervisa" el aprendizaje)
@@ -361,7 +363,7 @@ $$
 
   - La capacidad predictiva de un modelo mejora si incluimos más variables explicativas (modelo más flexible)
 
-# Regresión Lineal
+# Regresión Lineal y Logística
 
 ## Modelo de regresión lineal
 
@@ -556,7 +558,7 @@ lm(data = descuento, ventas ~ renta + descuento + zona) |> summary()
 
 ## Superando la linealidad
 
-1. Usando **logaritmos**, modelizamos elasticiades (cambios porcentuales) y rendimientos decrecientes
+1. Usando **logaritmos**, modelizamos elasticiades (cambios porcentuales) y relaciones no lineales
 
 ```{r}
 #| echo: true
@@ -583,7 +585,7 @@ Los logaritmos son fundamentales en economía: funciones de producción, demanda
 
 . . .
 
-2. Usando **polinomios** (y otras funciones no lineales), modelizamos efectos que varían con el nivel de la variable
+2. Usando **polinomios** (y otras funciones no lineales), modelizamos relaciones no lineales cuyos efectos varían con el nivel de la variable
 
 ```{r}
 lm(data=descuento, ventas ~ edad + I(edad^2) ) |> summary()
@@ -912,7 +914,9 @@ mod.nnet
 
 # Evaluación de modelos (por su capacidad predictiva)
 
-## Error de predicción
+::::{.notes}
+
+**Error de predicción**
 
 * Un modelo es mejor si sus predicciones se ajusten mejor a las observaciones
 
@@ -941,48 +945,70 @@ curve(0 * (x>=0) - x * (x<0), from = -2, to = 2, xlab = TeX("$y-\\hat{y}$"), yla
 curve(0.25 * (x> 0 & x<0.5) + 0.75 * (x>0.5) + 0.75 * (x>1.5) + 0.25 * (x < -1), add = TRUE, col = "black")
 ```
 
-## Métricas de error de predicción (cuantitativa)
+::::
 
-* **Mean Square Error** (Error Cuadrático Medio): $\small MSE(y,\widehat{y})={\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+## Métricas de error de predicción (regresión)
 
-    + penaliza grandes desviaciones
+::: {style="font-size: 95%;"}
 
-    + $\small R^2$ y $\small R^2$-ajustado son variantes del MSE, pero solo sirven para comparar modelos con la *misma variable dependiente*.
+* Un modelo es mejor si sus predicciones se ajustan mejor a las observaciones
 
-  <!-- $R^2$-ajustado penaliza por número de variables -->
+* El error de predicción es $y - \widehat{y} = f(X) - \widehat{f}(X)  + \varepsilon$
 
-* **Root Mean Square Error**: $\small RMSE(y,\widehat{y})=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+  + $f - \widehat{f}$ = error reducible (eligiendo modelo)
 
-    + mismas unidades que $\small y$
+  + $\varepsilon$ = error irreducible (variables no observadas)
 
-* **Mean Absolute Error**: $\small MAE(y,\widehat{y})=\frac{1}{n}\sum_{i=1}^{n}\left|y-\widehat{y}\right|$
+:::
 
-<!--     + también mediana -->
+. . .
 
- <!--
-* *Correlación* lineal o de rangos entre $\small y$ y $\small \widehat{y}$
-
-
-      + lineal ($y$ y $\widehat{y}$ pueden no tener las mismas unidades y escala como con RMSE y MAE)
-      + de rangos ($y$ y $\widehat{y}$ solo tiene que tener el mismo orden relativo, no minimizar distancia entre ellas)
-
-* *Coeficiente de determinación*
--->
-
-* Otras medidas basadas en distintas funciones de pérdida, la verosimilitud del modelo ($\small AIC$, $\small BIC$), etc
-
-<!-- AIC, BIC ajustan por el número de parámetros -->
-
-<!-- https://yardstick.tidymodels.org/reference/rmse.html -->
+::: {style="font-size: 95%;"}
 
 
+* Una **función de pérdida (o coste)** evalúa cómo valoramos las desviaciones
+
+  1. **Mean Square Error** (Error Cuadrático Medio): $\small \color{blue}{MSE(y,\widehat{y})={\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}}$
+  
+      + penaliza grandes desviaciones
+  
+      + $\small \color{blue}{R^2}$ y $\small \color{blue}{R^2-ajustado}$: variantes solo válidas para comparar modelos con la *misma variable dependiente*.
+  
+  ::::{.notes}  
+  
+  $R^2$-ajustado penaliza por número de variables 
+  
+  ::::
+  
+  2. **Root Mean Square Error**: $\small \color{blue}{RMSE(y,\widehat{y})=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}}$
+  
+      + mismas unidades que $\small y$
+  
+  3. **Mean Absolute Error**: $\small \color{blue}{MAE(y,\widehat{y})=\frac{1}{n}\sum_{i=1}^{n}\left|y-\widehat{y}\right|}$
+  
+  ::::{.notes} 
+  
+  * *Correlación* lineal o de rangos entre $\small y$ y $\small \widehat{y}$
+  
+  
+        + lineal ($y$ y $\widehat{y}$ pueden no tener las mismas unidades y escala como con RMSE y MAE)
+        + de rangos ($y$ y $\widehat{y}$ solo tiene que tener el mismo orden relativo, no minimizar distancia entre ellas)
+  
+  * *Coeficiente de determinación*
+  
+  
+  AIC, BIC ajustan por el número de parámetros
+  
+  https://yardstick.tidymodels.org/reference/rmse.html
+  
+  
+  ::::
+  
+  * Otras medidas basadas en distintas funciones de pérdida, la verosimilitud del modelo ($\small \color{blue}{AIC}$, $\small \color{blue}{BIC}$), etc
+
+:::
 
 ## Seleccionar el mejor modelo
-
-<!--
-![](figure/overfitting01c.png){width=85% fig-align="center"}
--->
-
 
 ```{r}
 #| echo: false
