@@ -39,12 +39,7 @@ strip-comments: true
   + [diccionario_startups.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_startups.csv)
 
 
-<!--
-* Tema 6:
-  
-  + [BostonHousing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv)
-  + [BankMarketing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BankMarketing.csv)
-
+* Tema 5:
 
   + [descuento.csv](https://raw.githubusercontent.com/albarran/00datos/main/descuento.csv)
 
@@ -53,6 +48,10 @@ strip-comments: true
   + [health_insurance.csv](https://raw.githubusercontent.com/albarran/00datos/main/health_insurance.csv)
 
 <!--
+
+  + [BostonHousing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv)
+  + [BankMarketing.csv](https://raw.githubusercontent.com/albarran/00datos/main/BankMarketing.csv)
+
 * Tema 14:
 
   + [clientes.csv](https://raw.githubusercontent.com/albarran/00datos/main/clientes.csv)

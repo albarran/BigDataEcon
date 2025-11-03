@@ -1,0 +1,1555 @@
+---
+title: "Tema 05 - Modelización y Aprendizaje Estadístico"
+subtitle: "Extraer patrones y relaciones de los datos"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:
+        - beige
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    show-notes: false
+    notes-format: html
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+
+
+# Elimino todo del Entorno
+rm(list = ls())
+
+# Cargo bibliotecas necesarias
+library(tidyverse)
+library(kableExtra)
+library(broom)
+library(modelsummary)
+```
+
+```{r}
+#| label: generar-datos
+#| echo: false
+#| eval: false
+
+source("Tema05datos.R")
+
+```
+
+# Métodos Estadísticos
+
+## Métodos Estadísticos
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+
+- La **modelización** mediante métodos estadísticos permite
+
+    - Encontrar patrones <!--(complejos), y cuantifificar su fortaleza -->
+
+    - Interpretar datos <!--(información)-->
+
+:::
+
+::: {.column width="55%"}
+
+![](figure/data-science-model.png){width=100% fig-align="center"}
+:::
+
+::::
+
+. . .
+
+- Los datos (casos observados) son una **muestra** de una **población** mayor (casos potenciales)
+
+```{r}
+#| echo: false
+#| eval: false
+data <- tibble(x = runif(n=25, min=0, max=20))
+ggplot(data, aes(x)) + geom_vline(xintercept = 10, color = "red") +
+  geom_density()
+```
+
+```{r}
+#| echo: true
+#| eval: false
+# Población: ventas diarias ~ Uniforme(0, 20), media = 10
+set.seed(9915)
+tibble(x = runif(n=1e9, min=0, max=20)) |> pull(x) |> mean()
+
+# Muestra de solo 25 días
+set.seed(9915)
+tibble(x = runif(n=25, min=0, max=20)) |> pull(x) |> mean()
+```
+
+- El estadístico varía entre muestras.
+
+- ¿Cómo de fiable es este estadístico en una muestra?
+
+
+## Variabilidad muestral
+
+- Con **todas** las muestras potenciales de tamaño $\small n$ conoceríamos la **distribución muestral** de un estadístico (información calculada en una muestra)
+
+    - Aproximación de "todas" las muestras potenciales con 1000 muestras
+
+::::{.notes}
+- Simulemos la distribución para la media en muchas muestras de $\small n=25$
+::::
+
+```{r}
+set.seed(101)
+nsim <- 1000
+ybar <- numeric(nsim)
+for (j in 1:nsim) {
+  muestra <- runif(n=25, 0, 20)
+  ybar[j] <- mean(muestra)
+}
+
+as_tibble(ybar) |> ggplot(aes(x=value)) + geom_density() +
+  geom_vline(xintercept=10)
+```
+
+::::{.notes}
+Concepto fundamental: cualquier estadístico muestral tiene incertidumbre asociada.
+::::
+
+- Tenemos una ÚNICA MUESTRA: ¿cómo cuantificar la incertidumbre?
+
+1. *Suponiendo* que los datos son normales, la media tiene una distribución normal
+
+2. [**Teorema Central del Límite**](https://openintro.shinyapps.io/CLT_mean/): para datos de cualquier distribución,  $\overline{Y} \overset{a}{\sim} N(\mu, \sigma^2/n)$ cuando $n \to \infty$
+
+::::{.notes}
+
+- *Ley de números grandes*: para un tamaño de la muestra $n$ grande, el promedio de la muestra está cerca de la media de la población <!--, y el error estándar es pequeño. -->
+
+- *Teorema de Límite Central*: para un tamaño de la muestra $n$ grande, la distribución muestral de la media es normal.
+
+- Permite hacer inferencia sin suponer que los datos sean normales, solo necesitamos n suficientemente grande.
+::::
+
+## Procedimiento Bootstrap
+
+::: {style="font-size: 95%;"}
+
+**Idea**: Usar la ÚNICA muestra como si fuera la población → generar variación "similar" a la muestral
+
+::::{.notes}
+
+- genera variación de remuestras a partir de una única muestra
+
+::::
+
+```{r}
+set.seed(101)
+UNICAmuestra <- tibble(x=runif(n=25, 0, 20))
+```
+
+1. Tomar muchas remuestras **con reemplazamiento** de la muestra original
+
+::::{.notes}
+
+- p.e., para (1,2,3) incluye los casos (1,1,2), (1,1,3), (2,2,1), etc.
+
+- *remuestras* o muestras de Bootstrap
+
+- ${n\choose n}= (n + n - 1)!/(n! (n-1)!)$ remuestras: la muestra original es una combinación entre muchas
+
+::::
+
+```{r}
+#| echo: true
+#| eval: false
+library(rsample)
+remuestras <- bootstraps(UNICAmuestra, times = 1000)
+```
+
+2. Calcular el estadístico en cada remuestra
+
+```{r}
+#| echo: true
+#| eval: false
+distrib <- list()
+for (r in 1:1000) {
+  remuestra <- remuestras$splits[[r]] |> as_tibble()
+  media  <- remuestra |> pull(x) |> mean()
+  sd    <-  remuestra |> pull(x) |> sd()
+  distrib[[r]] <- list(medias = media, sds =sd )
+}
+distribDF <- distrib |> bind_rows()
+```
+
+::::{.notes}
+
+IDEA de un bucle: saber como hacerlo en un caso, y luego hacer en general y se guarda en una lista
+
+  remuestra <- remuestras$splits[[1]] |> as_tibble()
+
+  -  hago todo lo que tenga que hacer,
+   con todos los pasos que sean necesarios
+  media  <- remuestra |> pull(x) |> mean()
+  sd    <- sd(remuestra$x)
+  - guardo los resultaods
+
+::::
+
+- La **distribución de remuestras** es "similar" a la distribución muestral sin supuestos (normalidad, TCL)
+
+::::{.notes}
+
+- La **distribución muestral bootstrap** NO es la distribución muestral, pero aproxima sus aspectos principales (*error estándard*) sin supuestos (normalidad, TCL)
+
+::::
+
+```{r}
+#| echo: true
+#| eval: false
+distribDF |> ggplot(aes(x=medias)) + geom_density()               # distribución
+mediaSE <- distribDF |> pull(medias) |> sd()                      # ES de la media
+mediaIC <- distribDF |> pull(medias) |> quantile(c(0.025, 0.975)) # IC de la media
+```
+
+```{r}
+#| echo: false
+#| eval: false
+library(boot)
+set.seed(101)
+UNICAmuestra <- tibble(x=runif(n=25, 0, 20))
+
+mediaFunc <- function(datos,  indices) {
+  remuestra <- datos[indices,]
+  return(mean(remuestra))
+}
+
+(bootRes <- boot(data = UNICAmuestra, statistic = mediaFunc, R = 1000))
+```
+
+:::
+
+# Aprendizaje Estadístico
+
+## ¿Qué es el aprendizaje estadístico?
+
+- Aprendizaje automático (*machine learning*, ML) o estadístico (*statiscal learning*): conjunto de técnicas algorítmicas para **extraer información de los datos**
+
+* [Tipos principales](https://vitalflux.com/wp-content/uploads/2020/12/mind_map_machine_learning_3.jpg)
+
+1. **Aprendizaje supervisado**: para cada medida de $X$ hay una *respuesta asociada* $Y$
+
+    + Aprendemos la respuesta $Y$ de casos nuevos a partir de casos previos
+
+2. **Aprendizaje no supervisado**: no hay una respuesta asociada, aprendemos rasgos no medidos
+
+    + ej., observaciones similares organizadas en grupos distintos
+
+::::{.notes}
+1. **Aprendizaje supervisado**: escenarios en los que para cada observación de las mediciones $X_i$ hay una *respuesta asociada* $Y_i$ ("supervisa" el aprendizaje)
+
+    + Aprendemos la respuesta $Y$ de casos nuevos a partir de casos previos
+
+2. **Aprendizaje no supervisado**: no hay una respuesta asociada a las mediciones de $X_i$ para supervisar el análisis que generará un modelo.
+
+    + Aprendemos rasgos no medidos a partir de casos "no etiquetados": ej. observaciones similares organizadas en grupos distintos (de clientes, países)
+
+::::
+
+## Aprendizaje supervisado
+
+$$
+\small Y = f(X) + \varepsilon
+$$
+
+- Modelo para la variable dependiente en función de
+
+  + factores observados (predictores/características)
+
+  + factores no observados ($\small \varepsilon$)
+
+  + $f$ representa la relación sistemática que $X$ (género, educación, etc.) ofrece sobre $Y$ (ej. renta)
+
+::::{.notes}
+
+- Y= variable objetivo, variable dependiente, de respuesta
+- X= independientes (predictores, características, regresores, factores)
+- X= inputs, features, covariates
+
++ $f$ representa la información/relación sistemática que $X$ (género, educación, etc.) ofrecen sobre un resultado medido $Y$ (ej. renta)
+
+::::
+
+- Objetivos:
+
+    1. Predecir el valor esperado de $\small Y$ para casos *nuevos*
+
+    2. Comprender cómo afectan al resultado esperado de $\small Y$ cambios en los valores de las características
+
+        + p.e., tiene la experiencia un efecto positivo o nula sobre la renta esperada
+
+        + ¡cuidado con afirmaciones de *causalidad*!
+
+::::{.notes}
+
+1. a partir de otros previamente etiquetados (medidos/clasificados)
+
+2. evaluar la calidad de nuestras predicciones e inferencias
+
+::::
+
+- En ambos casos, tenemos que estimar ("aprender") la $f$ desconocida
+
+## Aprendizaje supervisado (cont.)
+
+- Según la naturaleza de $Y$ tenemos:
+
+  - **Problemas de Regresión**: $Y$ cuantitativa (salario, ventas, precio)
+
+  - **Problemas de Clasificación**: $Y$ cualitativa (compra/no compra, categoría producto)
+
+::::{.notes}
+
+1.- Variable de respuesta cuantitativa (toma valores numéricos)
+
+2.- variable de respuesta cualitativa (toma valores en una de $C$ categorías o clases)
+
+::::
+
+. . .
+
+- Dos enfoques para especificar la relación $f$:
+
+  1. **Modelo Paramétrico**: supone un forma de $f$ que depende de parámetros desconocidos, p.e., lineal  $f(x) =\beta_0 + \beta_1 x_1 + \dots + \beta_k x_k$
+
+     - Más fácil de estimar e interpretar
+     - Menos flexible
+
+  2. **Modelo No paramétrico**: Ajustar sin supuestos funcionales
+     - Más flexible, mejor ajuste
+     - Más difícil de interpretar
+
+  - La capacidad predictiva de un modelo mejora si incluimos más variables explicativas (modelo más flexible)
+
+# Regresión Lineal
+
+## Modelo de regresión lineal
+
+- Modelo paramétrico para problemas de regresión que supone una relación lineal:
+
+$$\quad \small \color{blue}{ventas = \beta_0 + \beta_1 renta + \beta_2 descuento + u}$$
+
+
+::::{.notes}
+
+      + en este caso, la renta es 0 y el individuo no tiene descuento
+
+::::
+
+1. Constante $\small \color{blue}{\beta_0= E(ventas|renta=0, descuento=0)}$
+
+    + valor esperado de $\small Y$, ventas, cuando todas las variables explicativas son cero
+
+2. Pendiente de una variable continua $\small \color{blue}{\beta_1 = \frac{\delta E(ventas|renta,descuento)}{\delta{renta}}}$
+
+    + cambio esperado de $\small Y$, ventas, cuando la variable explicativa, renta,  aumenta en una unidad, manteniendo el resto de variables constantes (en este caso, un valor dado para descuento)
+
+    +  también $\small \beta_1 = E(ventas|renta=x+1,descuento=d)-E(ventas|renta=x,descuento=d)$
+
+3. Para variables discretas binarias  $\small \color{blue}{\beta_2 = E(ventas|renta=x,descuento=1)-E(ventas|renta=x,descuento=0)}$
+
+    + diferencia del valor esperado de $\small Y$, ventas, para el grupo indicado por la variable (tienen descuento) respecto al grupo de referencia (no tienen descuento), manteniendo el resto de variables (en este caso, renta) constante
+
+## Regresión Lineal: Estimación
+
+- Objetivo: estimar los coeficientes poblacionales desconocidos a partir de una muestra
+
+- Los coeficientes estimados minimizan la Suma Cuadrática de Residuos, $\small \hat{e}$ (errores de estimación): es decir , las **distancias** entre
+
+  - los datos observados: $\small y_i$
+
+  - y los datos predichos por el modelo estimado $\small \hat{y}_i=\hat{\beta}_0+\hat{\beta}_1 X_1+ \dots + \hat{\beta}_k X_p$
+
+:::: {.columns}
+
+::: {.column width="55%"}
+
+![](figure/fig_E2b.jpeg){width=100% fig-align="center"}
+
+:::
+
+::: {.column width="40%"}
+
+$$
+\small SCR=\sum_{i=1}^{n} \hat{e}_i^2= \sum_{i=1}^{n} ( y_i - \hat{y}_i)^2
+$$
+
+<!-- + Por tanto, también minimiza $\small ECM = \frac{SCR}{n} = MSE$ -->
+
+:::
+
+::::
+
+* Esto equivale a las condiciones derivadas de suponer $\small E(\varepsilon|X)=0$
+
+
+::::{.notes}
+
+```{r}
+#| echo: true
+#| eval: false
+# Usar datos del ejemplo original
+descuento <- read.csv("data/descuento.csv") |>
+  mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+
+modelo <- lm(ventas ~ renta + descuento, data = descuento)
+summary(modelo)
+```
+
+**Interpretación:**
+
+- Coef. de `renta`: Cambio en ventas por cada mil euros más de renta
+- Coef. de `descuento`: Diferencia en ventas entre quienes tienen y no tienen descuento
+
+::::
+
+## Regresión Lineal: Estimación (cont.)
+
+- Los parámetros del modelo $f(.)$ estimado, los $\small \beta_j$, son estadísticos con **variabilidad muestral**, medida por  su **error estándar** $\small se(\widehat{\beta}_j)$
+
+    - Usados para construir intervalos de confianza y para contrastar hipótesis sobre los parámetros poblacionales, p.e., significatividad ($\small \beta_1=0$) y signo.
+
+
+::::{.notes}
+$$
+\small se(\widehat{\beta}_j) =  \frac{\sigma^2}{(n-1)S^2_{x_j} (1 - R^2_{j})}
+$$
+
+
++ $\small \sigma^2=Var(\varepsilon)$, estimada con $\small \frac{SCR}{n-k-1}$
++ $\small S^2_{x_j}=\frac{\sum (x_{ij}-\bar{x}_j)^2}{n-1}=$varianza muestral de $\small X_j$
++ $\small R^2_{j}$ es el $\small R^2$ de la regresión de $\small X_j$ sobre el resto de regresores
+
+    + individual: $\small H_0: \beta_1=0$ con un estadístico $\small t=\frac{\widehat{\beta}_1-0}{se(\widehat{\beta}_1)}$
+    + conjunta: $\small H_0: \beta_1=\beta_2=\dots=\beta_k=0$ con un estadístico $\small F$
+
+* Medidas de la precisión del modelo: $\small MSE$ o $\small R^2=1-\frac{SCR}{SCT} = \frac{SCE}{SCT}$
+
+::::
+
+- La función `lm()` con la notación de fórmula crea un objeto lista con resultados
+
+```{r}
+descuento <- read.csv("data/descuento.csv") |>
+        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+modelo <- lm(data = descuento, ventas ~ renta + descuento)
+(sum.modelo <- summary(modelo))
+nobs(modelo)
+```
+
+- La predicción $\widehat{y}$ también está sujeta a incertidumbre por la estimación: se puede calcular su error estándar e intervalos de confianzas
+
+```{r}
+pred <- predict(modelo, type = "response",
+                se.fit = T, interval = "confidence")
+cbind(descuento$ventas, pred$fit, pred$se.fit) |> head()
+```
+
+```{r}
+#| echo: false
+ventas_pred <- predict(modelo, type = "response", se.fit = T)
+
+(a <- predict(modelo, type = "response", interval = "confidence"))
+(b <- predict(modelo, type = "response", interval = "prediction"))
+```
+
+
+::::{.notes}
+
+"Confounding factor" y Causalidad
+
+ * **"Correlación no implica causalidad"**, salvo en [ensayos científicos aleatorios](https://es.wikipedia.org/wiki/Prueba_controlada_aleatorizada) cuidadosamente controlados
+   + en otros campos como marketing digital o analítica de web se denominan [pruebas A/B](https://es.wikipedia.org/wiki/Prueba_A/B) (ej. dos versiones de una misma web)
+
+
+ * En general (datos observacionales), nos preocupa que otros factores que puedan ser los verdaderos determinantes de la relación observada
+
+ En los ensayos aleatorios se controla quien recibe una intervención (tratamiento) y quien no (control)
+
+    + En promedio, todos los demás factores están equilibrados entre los dos grupos: las diferencias pueden atribuirse a la aplicación del tratamiento
+
+    +  Pero si los sujetos no cumplen con los tratamientos o se pierden en el seguimiento..
+
+
+```{r}
+#| echo: false
+#| eval: false
+datos |> ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm")
+lm(data = datos, sales ~ discount) |> broom::tidy()
+
+# Pero si tenemos en cuenta la renta...
+
+datos |> mutate(renta_baja = income < 7500) |>
+  ggplot(aes(x=discount, y=sales)) + geom_point() + geom_smooth(method = "lm") +
+  facet_wrap(~renta_baja)
+lm(data = datos, sales ~ discount + income) |> summary()
+```
+
+::::
+
+## Ampliando el Modelo de Regresión Lineal
+
+* Incorporar información **cualitativa**: incluimos una variable binaria (*dummy*) para cada categoría, excepto una (grupo de referencia)
+
+    - Cada coeficiente es el efecto diferencial de ese grupo respecto al grupo de referencia
+
+    - Las dummies se crean automáticamente con factores (sin orden)
+
+        - también se pueden usar la biblioteca `fastDummies`
+
+```{r}
+lm(data = descuento, ventas ~ renta + descuento + zona) |> summary()
+```
+
+. . .
+
+- Modelizar relaciones **no lineales** entre la variable dependiente y las explicativas
+
+- El modelo lineal asume *efecto constante* $\frac{\partial Y}{\partial X_j} = \beta_j$, PERO en la realidad observamos
+
+  - Rendimientos decrecientes (productividad, utilidad)
+  - Elasticidades variables
+  - Umbrales y efectos discretos
+  - Efectos heterogéneos entre grupos
+
+- **Solución**: Transformar variables para capturar estas no linealidades
+
+## Superando la linealidad
+
+1. Usando **logaritmos**, modelizamos elasticiades (cambios porcentuales) y rendimientos decrecientes
+
+```{r}
+#| echo: true
+#| eval: false
+# Y ~ log(X): semi-elasticidad / rendimientos decrecientes
+lm(data = descuento, ventas ~ log(renta) + descuento)
+# log(Y) ~ log(X): elasticidad constante
+lm(data = descuento, log(ventas) ~ log(renta) + descuento)
+# log(Y) ~ X: semi-elasticidad / crecimiento exponencial
+lm(data = descuento, log(ventas) ~ renta + descuento)
+```
+
+::::{.notes}
+
+**Interpretación:**
+
+- $\log(Y) \sim \log(X)$: $\beta$ = elasticidad (% cambio en $Y$ por % cambio en $X$)
+- $Y \sim \log(X)$: Efecto decreciente de $X$ sobre $Y$
+- $\log(Y) \sim X$: Cambio porcentual en $Y$ por unidad de $X$
+
+
+Los logaritmos son fundamentales en economía: funciones de producción, demanda, ecuación de Mincer, etc.
+::::
+
+. . .
+
+2. Usando **polinomios** (y otras funciones no lineales), modelizamos efectos que varían con el nivel de la variable
+
+```{r}
+lm(data=descuento, ventas ~ edad + I(edad^2) ) |> summary()
+ggplot(descuento, aes(x=edad, y=ventas)) + geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2))
+```
+
+- El efecto marginal de $edad$ sobre $ventas$, $\small{\frac{\partial ventas}{\partial edad} = \beta_1 + 2\beta_2 edad}$ depende de la $edad$
+
+::::{.notes}
+- Si $\beta_2 < 0$: rendimientos decrecientes (forma de U invertida)
+- Si $\beta_2 > 0$: rendimientos crecientes (forma de U)
+
+Útil para ciclo de vida, curva de Laffer, relación ingreso-felicidad, etc.
+::::
+
+## Superando la linealidad (cont.)
+
+3. **Discretizando** variables también capturamos efectos no lineales: permite efectos "escalón" diferentes para distintos valores
+
+```{r}
+lm(data=descuento, ventas ~
+     cut(edad, seq(20, 60, 5), include.lowest = TRUE)) |> summary()
+ggplot(descuento, aes(x=edad, y=ventas)) + geom_point() +
+  geom_smooth(method = "lm",
+              formula = y ~ cut(x, seq(20, 60, 5), include.lowest = T))
+```
+
+```{r}
+#| echo: false
+#| eval: false
+# Directamente en fórmula (más control)
+lm(ventas ~ renta + descuento +
+     (edad >= 30 & edad < 40) + (edad >= 40 & edad < 50) + (edad >= 50),
+   data = descuento)
+```
+
+::::{.notes}
+* Se incluyen indicadores binarios para cada clase excepto grupo de referencia
+  + la constante recoge el valor medio de $\small Y$ para ese grupo de referencia
+  - Cada coeficiente: diferencia respecto al grupo base
+  - Permite modelizar umbrales y cambios bruscos
+
+Útil cuando sospechamos efectos discretos: tramos impositivos, niveles educativos, etc.
+::::
+
+. . .
+
+4. Usando **interacciones** entre variables, el efecto de un regresor dependerá de otro regresor
+
+  - La "pendiente" cambia con el valor de la otra variable: $\small{\frac{\partial ventas}{\partial mujer} = \beta_1 + \beta_3 mujer}$
+
+  - Deben incluirse *siempre* los factores principales (NO sólo `edad:renta`)
+
+```{r}
+lm(data = descuento, ventas ~ edad*renta)  |> summary()
+lm(data = descuento, ventas ~ renta*mujer) |> summary()
+
+ggplot(descuento, aes(x=renta, y=ventas, color = mujer)) +
+  geom_point() + geom_smooth(method = "lm", formula = y ~ x,
+                               se = FALSE)
+```
+
+::::{.notes}
+
+- Cuando interactuamos un regresor continuo y uno binario, permitimos que la pendiente del primero sea diferente para cada grupo
+
+- Las interacciones son clave para capturar heterogeneidad de efectos: distintos impactos según género, edad, región, etc.
+
+
+```{r}
+lm(data=descuento , ventas ~ (renta + zona)*descuento) |> summary()
+```
+
+- La interacción de dos variables binarias tiene una interpretación similar, para el efecto esperado de $\small Y$
+
+::::
+
+
+::::{.notes}
+**¿Cómo elegir entre modelos alternativos?**
+
+```{r}
+#| echo: true
+#| eval: false
+#| results: markup
+library(modelsummary)
+modelos <- list(
+  "Lineal" = lm(ventas ~ renta + descuento, data = descuento),
+  "Logarítmico" = lm(ventas ~ log(renta) + descuento, data = descuento),
+  "Cuadrático" = lm(ventas ~ renta + I(renta^2) + descuento, data = descuento),
+  "Con interacción" = lm(ventas ~ renta * mujer + descuento, data = descuento)
+)
+
+modelsummary(modelos,
+             gof_map = c("nobs", "r.squared", "adj.r.squared", "rmse"),
+             stars = TRUE)
+```
+
+1. **$R^2$ ajustado**: Penaliza complejidad
+   $$\bar{R}^2 = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
+
+2. **AIC, BIC**: Criterios de información que balancean ajuste y parsimonia
+
+3. **Significatividad conjunta**: Test $F$ para grupos de variables
+
+4. **Validación cruzada**: Error predictivo en datos no vistos (siguiente sección)
+
+**Advertencia**: NO usar solo significatividad individual cuando hay múltiples términos de una variable (ej. polinomios)
+
+La significatividad individual puede ser engañosa con polinomios o discretización debido a multicolinealidad.
+
+::::
+
+## Regresión Lineal: comentarios finales
+
+- Los resultados de (todos) estos modelos informan de la relación entre los regresores y la variables dependiente
+
+* **"Correlación no implica causalidad"**, salvo en [ensayos científicos aleatorios](https://es.wikipedia.org/wiki/Prueba_controlada_aleatorizada) controlados, también llamados [pruebas A/B](https://es.wikipedia.org/wiki/Prueba_A/B)
+
+. . .
+
+
+* La selección de variables es importante: evita sesgos o aumenta la variabilidad
+
+```{r}
+lm(data = descuento, ventas ~ descuento) |> summary()
+lm(data = descuento, ventas ~ descuento + renta) |> summary()
+lm(data = descuento, ventas ~ renta) |> summary()
+lm(data = descuento, ventas ~ renta + educ) |> summary()
+```
+
+. . .
+
+* Algunos sugieren "pruebas" para los problemas en el modelo lineal; eso es erróneo:
+
+  * No linealidad: hemos visto que modeliza relaciones no lineales
+
+  * No normalidad: innecesaria, con TCL o bootstrap.
+
+  * Colinearidad: simplemente elimina la variable colineal.
+
+  * Heterocedasticidad y autocorrelación: solo necesitamos errores estándar robustos
+
+::::{.notes}
+
+  * Outliers: pueden manejarse sin afectar la validez del modelo.
+
+* Algunos mencionan "pruebas" para detectar los supuestos problemas del modelo lineal: no linealidad, heterocedasticidad (y autocorrelación), no normalidad, colinearidad, outliers, ...
+
+* Este enfoque es mayormente erróneo como hemos visto: el modelo lineal permite no linealidades, no necesita normalidad (TCL, boostrap), eliminar la variable colineal soluciona el "problema", solo necesitamos usar errores estándar robustos, etc.
+
+::::
+
+## Regresión Logística
+
+::::{.notes}
+* La regresión lineal puede usarse respuestas binarias (no más de dos categorías),
+
+$$
+\small
+\Pr(Y=1|X)=\beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k = z
+$$
+aunque genera predicciones fuera del rango $\small [0,1]$
+
+* Solución: aplicar al índice lineal una transformación $\small F(z)\in[0,1]$
+::::
+
+- Un modelo de regresión lineal para respuestas binarias no es adecuado porque genera predicciones fuera del rango  $\small [0,1]$
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+* Solución: aplicar al índice lineal una transformación, la función logística $\small \Lambda (z)=\frac{e^z}{1+e^z}$:
+
+
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| eval: true
+#| fig.show: 'asis'
+#| fig.height: 3
+#install.packages("latex2exp")
+library(tidyverse)
+library(latex2exp)
+Logistic <- function(x) {exp(x)/(1+exp(x))}
+ggplot(data = data.frame(x = 0), mapping = aes(x = x)) +
+    stat_function(fun = Logistic) + scale_x_continuous(limits = c(-5, 5), name = "z") +
+  scale_y_continuous(name = TeX("$\\Lambda(z)$")) #+
+  annotate("text", x = -3 , y = 0.7, label = TeX("$\\Lambda(z)=\\frac{exp(z)}{1+exp(z)}$", output='character'), parse=TRUE)
+```
+
+:::
+
+::::
+
+
+* De manera que $\small \Pr(Y=1|X)= f(x)= \color{blue}{\Lambda( \beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k)} \in [0,1]$
+
+. . .
+
+::::{.notes}
+* Los coeficientes NO se interpretan como cambios en la probabilidad ante cambios unitarios en un regresor (efecto marginal sobre la probabilidad)
+
+* PERO su signo (y significatividad) son los mismos que los del efecto marginal
+::::
+
+* Como el modelo siempre es no lineal, el coeficiente NO coincide con la magnitud del efecto de un cambio en los regresores sobre la probabilidad. PERO sí coinciden en su signo (y significatividad)
+
+
+::::{.notes}
+* En esta especificación, la probabilidad relativa ("odd") es
+$$
+\small
+\frac{p(x)}{1-p(x)}=exp(\beta_0 + \beta_1 x_1 + \ldots + \beta_k x_k)
+$$
+
+* Por tanto, su logaritmo ("log odd" o logit) es lineal: los coeficientes son la elasticidad de la probabilidad relativa
+
+::::
+
+* NO se puede minimizar la SCR; el objetivo es maximizar la probabilidad (verosimilitud) de observar los unos y ceros en los datos
+
+::::{.notes}
+$$
+\small
+\ell(\beta_0, \beta_1, \dots, \beta_k)=\prod_{i:y_i=1}p(x_i) \prod_{i:y_i=0} \left(1 - p(x_i)\right)
+$$
+::::
+
+## Regresión Logística (cont.)
+
+* La regresión logística se puede estimar en R con la función `glm()` (similar a `lm()`); podemos incluir variables explicativas tanto cuantitativas como cualitativas, interacciones, etc.
+
+```{r}
+#| echo: true
+#| eval: false
+censo <- read_csv("data/census.csv") |>
+  mutate(across(where(is.character), ~parse_factor(.x)))
+
+logit <- glm(data = censo, income ~  race + age + I(age^2) +
+               log(hours_per_week)*sex +  education_1  +
+               capital_gain + capital_loss, family = "binomial")
+logit |>  summary()
+```
+
+* Como en el modelo lineal, podemos calcular predicciones de la probabilidad tanto en los mismos datos como en unos nuevos
+
+```{r}
+predict(logit, type="response")
+
+logit2 <- logit <- glm(data = censo, income ~  age + education_1,
+         family = "binomial")
+summary(logit2)
+predict(logit2, type="response",
+        newdata = tibble(age=c(20,60), education_1=c(9,16)))
+```
+
+::::{.notes}
+* Podemos incurrir en un sesgo por omisión de variables relevantes: ej., el efecto de `student` por omitir `balances` (con la que está correlacionada)
+```{r}
+glm(data = Default, default ~ student + balance, family = "binomial" ) |> summary()
+```
+::::
+
+## Regresión Logística con más de dos clases
+
+
+* La regresión logística se puede generalizar a situaciones con múltiples clases (modelos multinomiales) con un índice lineal para cada clase
+$$
+\small
+\Pr(Y=c|X)=\frac{e^{\beta_{0c}+\beta_{1c}X_1+\dots+\beta_{kc}X_k}}{\sum_{l=1}^{C}e^{\beta_{0l}+\beta_{1l}X_1+\dots+\beta_{kl}X_k}}
+$$
+
+* La librería `glmnet()` permite la estimación de estos modelos
+
+```{r}
+health <- read_csv("data/health_insurance.csv") |>
+  mutate(across(where(is.character), ~parse_factor(.x)))
+
+library(glmnet)
+x <- model.matrix(product ~ age + gender, data = health)
+mod.glmnet <- glmnet(x = x, y = health$product, family = "multinomial",
+                     lambda = 0, type.multinomial = "grouped")
+coef(mod.glmnet)
+predict(mod.glmnet, newx=x, type = "response")  # probabilidad de cada clase
+predict(mod.glmnet, newx=x, type = "class")     # clase
+```
+
+```{r}
+#| echo: false
+#| eval: false
+
+library(glmnet)
+iris.x <- as.matrix(iris[1:2])
+iris.y <- as.matrix(iris[5])
+mod.glmnet <- glmnet(x = iris.x, y = iris.y, family = "multinomial",
+                     lambda = 0, type.multinomial = "grouped")
+coef(mod.glmnet)
+
+predict(mod.glmnet, newx=iris.x, type = "response")  # probabilidad de cada clase
+predict(mod.glmnet, newx=iris.x, type = "class")     # clase
+
+d <- coef(mod.glmnet) |> reduce(cbind)
+colnames(d) <- names(c)
+d
+```
+
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+library(nnet)
+mod.nnet <- multinom(
+    Species ~ Sepal.Width + Petal.Length + Petal.Width, # Species ~ .
+    data = iris
+)
+mod.nnet
+```
+
+# Evaluación de modelos (por su capacidad predictiva)
+
+## Error de predicción
+
+* Un modelo es mejor si sus predicciones se ajusten mejor a las observaciones
+
+* El error de predicción es $y - \widehat{y} = f(X) - \widehat{f}(X)  + \varepsilon$
+
+  + $f - \widehat{f}$ = error reducible (eligiendo modelo)
+
+  + $\varepsilon$ = error irreducible (variables no observadas)
+
+* La **función de pérdida (o coste)** evalúa cómo valoramos las desviaciones
+```{r figures-side}
+#| echo: false
+#| layout-ncol: 2
+#| fig.show: hold
+#| eval: true
+
+#
+# #| out.width="50%"
+# #| fig.height=4
+library(latex2exp)
+curve(x^2, from = -2, to = 2, xlab = TeX("$y-\\hat{y}$"), ylab = "Coste")
+curve(abs(x), add = TRUE, col = "blue")
+legend('top',legend = c("x^2", "abs(x)"), text.col = c("black","blue"))
+
+curve(0 * (x>=0) - x * (x<0), from = -2, to = 2, xlab = TeX("$y-\\hat{y}$"), ylab = "Coste", col = "red")
+curve(0.25 * (x> 0 & x<0.5) + 0.75 * (x>0.5) + 0.75 * (x>1.5) + 0.25 * (x < -1), add = TRUE, col = "black")
+```
+
+## Métricas de error de predicción (cuantitativa)
+
+* **Mean Square Error** (Error Cuadrático Medio): $\small MSE(y,\widehat{y})={\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+
+    + penaliza grandes desviaciones
+
+    + $\small R^2$ y $\small R^2$-ajustado son variantes del MSE, pero solo sirven para comparar modelos con la *misma variable dependiente*.
+
+  <!-- $R^2$-ajustado penaliza por número de variables -->
+
+* **Root Mean Square Error**: $\small RMSE(y,\widehat{y})=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+
+    + mismas unidades que $\small y$
+
+* **Mean Absolute Error**: $\small MAE(y,\widehat{y})=\frac{1}{n}\sum_{i=1}^{n}\left|y-\widehat{y}\right|$
+
+<!--     + también mediana -->
+
+ <!--
+* *Correlación* lineal o de rangos entre $\small y$ y $\small \widehat{y}$
+
+
+      + lineal ($y$ y $\widehat{y}$ pueden no tener las mismas unidades y escala como con RMSE y MAE)
+      + de rangos ($y$ y $\widehat{y}$ solo tiene que tener el mismo orden relativo, no minimizar distancia entre ellas)
+
+* *Coeficiente de determinación*
+-->
+
+* Otras medidas basadas en distintas funciones de pérdida, la verosimilitud del modelo ($\small AIC$, $\small BIC$), etc
+
+<!-- AIC, BIC ajustan por el número de parámetros -->
+
+<!-- https://yardstick.tidymodels.org/reference/rmse.html -->
+
+
+
+## Seleccionar el mejor modelo
+
+<!--
+![](figure/overfitting01c.png){width=85% fig-align="center"}
+-->
+
+
+```{r}
+#| echo: false
+ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point() +
+  geom_smooth(method = "lm", formula = y ~ poly(x,2), se = FALSE) +
+  coord_cartesian(ylim = c(10,30))
+```
+
+* ¿Podemos predecir el número de visitantes en función de la temperatura?
+
+```{r}
+library(mosaicData)
+data(RailTrail)
+RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
+  geom_point() +  geom_smooth()
+```
+
+* ¿Cuál es el mejor modelo?
+
+  * $\small volume = \beta_0 + \beta_1 hightemp + \varepsilon$
+
+  * $\small volume = \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \varepsilon$
+
+  * ...
+
+  * $\small volume = \beta_0 + \beta_1 hightemp + \dots + \beta_{22} hightemp^{22} + \varepsilon$
+
+```{r}
+RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) +
+  coord_cartesian(ylim = c(100,750))
+```
+
+
+
+## Muestras de entrenamiento y de prueba
+
+* Las métricas de error (ej., $\small MSE$) suelen calcularse para predicciones de los mismos datos usados para ajustar/estimar el modelo (*in-sample prediction*)
+
+    + Esta muestra se denomina **muestra de entrenamiento** (*training sample*)
+
+* PERO queremos saber qué tal se predicen *casos nuevos* (*out-sample prediction*)
+
+* Usar las métricas en muestras de entrenamiento implica problemas de **"overfitting"**: sobreajuste a las características de la muestra concreta
+
+    * <!--escenarios en los que--> Un modelo menos flexible podría tener menor error de predicción con casos nuevos
+
+<!--
+    * Los grados de libertad (número de valores en el modelo que son libres de variar) resume la *flexibilidad* de una curva.
+-->
+
+* Debemos calcular las métricas de error con observaciones que el modelo NO ha usado antes: **muestra de prueba** (*test sample*)
+
+![](figure/train_test.png){width=100% fig-align="center"}
+
+## "Overfitting"
+
+::: {style="font-size: 85%;"}
+
+<!--
+
+:::: {.columns}
+
+::: {.column width="45%"}
+![](figure/overfitting2n.png){width=100% fig-align="center"}
+
+:::
+
+::: {.column width="5%"}
+\ \
+:::
+
+::: {.column width="45%"}
+![](figure/overfitting3n.png){width=100% fig-align="center"}
+:::
+
+::::
+
+-->
+
+![](figure/overfitting01c.png){width=70% fig-align="center"}
+
+<!--
+* Independientemente de los datos y método, a medida que aumenta la flexibilidad
+-->
+* Siempre que aumenta la flexibilidad, el MSE
+    + disminuye en la muestra de entrenamiento
+
+    + tiene forma de U en la muestra de prueba
+
+* Nota: el MSE en entrenamiento es siempre menor que en prueba
+
+:::
+
+## MSE en la muestra de prueba
+
+$$
+\small
+E\left[\left(y-\widehat{f}(x)\right)^2\right] =
+E\left[\left(f(x)-\widehat{f}(x) + \varepsilon
++ E\left[\widehat{f}(x)\right]-E\left[\widehat{f}(x)\right] \right)^2\right] =
+$$
+
+$$
+\small
+=\underbrace{\left[E\left(\widehat{f}(x)\right)-f(x)\right]^2}_{(1)} + \underbrace{E\left(\left[\widehat{f}(x)-E\left(\widehat{f}(x)\right)\right]^2\right)}_{(2)}+Var(\varepsilon)
+$$
+
+
+* $\small (1)=\left[Sesgo\left(\widehat{f}(x)\right)\right]^2$: error por supuestos erróneos en $f$
+
+    + ajuste insuficiente (*underfit*) al perder relaciones relevantes entre $X$ e $Y$
+
+* $\small (2)=Var\left(\widehat{f}(x)\right)$: sensibilidad a fluctuaciones en el  entrenamiento
+    + si el algoritmo modela puro ruido en entrenamiento, ajustará bien allí, pero predecirá mal casos nuevos (*overfit*)
+
+<!--
+Recuerdo de Econometría I:
+1. sesgo por omisión de variables relevantes
+2. aumento de varianza por inclusión de variable irrelevante
+-->
+
+## "Trade-off" Varianza--Sesgo
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+![](figure/biasvariance-tradeoff2.png){width=85% fig-align="center"}
+
+:::
+
+
+::: {.column width="45%"}
+* El sesgo se reduce y la varianza aumenta con la complejidad del modelo $\Rightarrow$  encontrar un método (ej., flexibilidad) para el que ambos sean bajos
+
+
+<!--
+A medida que se añaden más y más parámetros a un modelo, la complejidad del modelo aumenta y la varianza se convierte en nuestra principal preocupación, mientras que el sesgo disminuye constantemente. Por ejemplo, a medida que se añaden más términos polinómicos a una regresión lineal, mayor será la complejidad del modelo resultante.
+-->
+
+<!--
+![](figure/biasvariance-tradeoff2.png){width=22% fig-align="center"}
+
+-->
+
+<!--
+SESGO-VARIANZA VISTO EN ECONOMETRIA I: omitir variable relevante (modelos menos flexible), crea sesgo.
+                                       incluir variable no relevante (mas flexibe), aumenta varianza
+-->
+
+<!--
+## "Trade-off" Varianza--Sesgo (cont.)
+
+* Es fácil construir un modelo con bajo sesgo, pero tendrá alta varianza. Y al revés.
+-->
+
+<!--
+* El desafío es encontrar un método (ej., flexibilidad del modelo) para el cual tanto la varianza como el sesgo cuadrado sean bajos
+-->
+
+
+* NO  es posible minimizar simultáneamente ambas fuentes de error:  *memorización* (en entrenamiento) vs. *generalización* de resultados
+
+:::
+
+::::
+
+## Medir el Error en la Clasificación
+
+* Los modelos de clasificación NO predicen directamente la categoría, sino la *probabilidad* de que una observación pertenezca a cada categoría
+
+<!--
+* Típicamente se asigna la clase predicha como aquella con mayor probabilidad.
+
+* En el caso binario, equivale a fijar un umbral de 0.5, pero se deberían probar varios valores del umbral
+-->
+
+* La clase predicha será aquella con mayor probabilidad. En el caso binario, implicar superar el umbral de 0.5 (se deben probar varios valores)
+
+
+```{r}
+censo <- read_csv("data/census.csv") |>
+  mutate(income = parse_factor(income))
+logit <- glm(data = censo, income ~ capital_gain,
+             family = "binomial")
+prob.predict <- predict(logit, type = "response")
+
+umbral <- 0.5
+cat.predict  <- if_else(prob.predict > umbral, 1, 0)
+cbind(censo$income, cat.predict, prob.predict) |> head(10)
+```
+
+* Como no tiene sentido diferencia de clases (variables categóricas), NO se pueden calcular medidas como el MSE y otros relacionados
+
+<!--
+* Existen pseudo-$\small R^2$ como la correlación al cuadrado entre
+
+-->
+## Matriz de Confusión
+
+* Tabular categorías observadas frente a las categorías predichas
+
+```{r echo=FALSE, eval=TRUE, results='asis'}
+library(kableExtra)
+library(tidyverse)
+tab <- tibble(` ` = c("POSITIVO (1)", " ", "NEGATIVO (0)", " "),
+              `POSITIVO (1)` = c("Verdadero Positivo [VP]", " ", "Falso Negativo [FN]", "(Error Tipo II)"),
+              `NEGATIVO (0)` = c("Falso Positivo [FP]", "(Error Tipo I)", "Verdadero Negativo [VN]", " "))
+
+tab |> kbl(align = "c", col.names = c(".", "POSITIVO (1)", "NEGATIVO (0)")) |>
+  kable_paper("striped", full_width = T) |>
+  add_header_above(c(" " = 1, "CLASE OBSERVADA" = 2), bold = TRUE, font_size = "x-large") |>
+  collapse_rows(columns = 1, valign = "middle")  |>
+  pack_rows("CLASE PREDICHA", 1, 4)
+```
+
+```{r}
+table(cat.predict, censo$income)
+```
+
+* Existen varias medidas derivadas de la [matriz de confusión](https://en.wikipedia.org/wiki/Confusion_matrix)
+
+<!--
+* Una medida global para datos *imbalanced* es la *exactitud equilibrada*: $\small \frac{TVP+TVN}{2}$
+-->
+
+
+
+## Métricas con la matriz de confusión
+
+* **Tasa de observaciones correctamente clasificadas** (exactitud o *accuracy*)
+
+$$
+\scriptsize ACCUR=\frac{VP+VN}{VP+FP+VN+FN}
+$$
+
+<!-- = 1 - TCE$ -->
+
+<!--
+* Su complemento es la *tasa de clasificación errónea*<!-- o de error en la clasificación --><!--: <!-- $\scriptsize  TCE=\frac{FP+FN}{VP+FP+VN+FN}$
+-->
+
+<!--
+<center>
+$\small TCE=\frac{FP+FN}{VP+FP+VN+FN} = \frac{1}{n}\sum_{i=1}^{n}I\left[y_i \neq \widehat{y}_i\right]$
+</center>
+-->
+
+* No es informativo cuando algunas clases son infrecuentes (datos <!--*imbalanced* o--> desequilibrados)
+
+  + si hay poco fraude/enfermos (ej., 5%), predecir que nunca hay fraude implica $\scriptsize ACCUR=95\%$, PERO NO detecta fraude/enfermedad
+
+<!--
+    - si apenas hay fraude/enfermos (ej., 5%), predecir *siempre* que no hay fraude/individuo sano implica una alta ACCUR=95%
+
+    - PERO es incapaz detectar fraude/enfermedad
+-->
+
+<!-- fraude o enfermedad -->
+
+
+* El **estadístico Kappa** ($\small \kappa$) es una medida similar, pero que ajusta por lo se esperaría solo por azar (corrigiendo en parte el desequilibrio entre clases).
+
+<!-- https://en.wikipedia.org/wiki/Cohen's_kappa -->
+
+
+## Métricas con la matriz de confusión (cont.)
+
+* La **tasa de verdaderos positivos** o **sensibilidad** (*recall*) es el porcentaje de verdaderos positivos sobre el total de positivos observados
+$$
+\scriptsize TVP=SENSIT=\frac{VP}{VP+FN}
+$$
+
+    - ej., tasa de fraude/enfermos existentes que se detectan correctamente
+
+
+<!-- probabilidad de detección, potencia  -->
+
+* La **tasa de verdaderos negativos** o **especificidad** es el porcentaje de verdaderos negativos sobre el total de negativos observados
+$$
+\scriptsize TVN=ESPECIF=\frac{VN}{VN+FP}
+$$
+
+    - ej., tasa de "otras" opciones que se clasifican correctamente
+
+    - **Tasa de falsos positivos**: $\scriptsize TFP = 1 - TVN = 1 - ESPECIF$
+
+<!--
+
+Ejemplo: prueba diagnóstica, sensibilidad cuantos enfermos es capaz de detectar
+
+especificifciad, cuantos no enfermos es capaz de detectar corre
+
+-->
+
+
+
+## Métricas con la matriz de confusión (y 3)
+
+* La **exactitud equilibrada** (*Balanced Accuracy*) es una media <!--(aritmética o geométrica)--> de la sensibilidad y de la especificidad
+
+<!-- G-mean = sqrt(sensit * especif ) -->
+
+* La **precisión** o valor de predicción positivo es la cantidad de verdaderos positivos sobre el total de positivos predichos
+
+$$
+\scriptsize PREC=\frac{VP}{VP+FP}
+$$
+
+<!--
+    + Tasa de falso descubrimiento: $\small 1-PREC$
+-->
+
+* La familia de **medidas $\small F_{\beta}$** es una ratio de la importancia ponderada de la sensibilidad y de la precisión: $\scriptsize F_{\beta}=\frac{(1+\beta)^2 \times SENSIT \times PREC}{\beta^2 \times SENSIT + PREC}$
+
+  + Para $\scriptsize \beta<1$<!-- ($\scriptsize >1$)-->, se da menos <!--(más)--> importancia a la sensibilidad: los falsos positivos <!--(negativos)--> se consideran más costosos
+
+  + Para $\scriptsize \beta>1$, los falsos negativos son más costosos y para $\scriptsize \beta=1$ son igualmente costosos
+
+## Curva ROC ("Receiver Operating Characteristic")
+
+::: {style="font-size: 88%;"}
+
+<!--
+https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
+-->
+
+* Representa TVP (eje y) frente a TFP (eje x) en *diferentes umbrales* <!-- de clasificación*-->: reducir el umbral clasifica más elementos como positivos (verdaderos y falsos)
+
+<!--(es una curva de probabilidad)-->
+
+<!--
+* Reducir el umbral clasifica más elementos como positivos, por lo que aumentan tanto los falsos positivos como los verdaderos positivos.
+-->
+
+<!--
+:::: {.columns}
+
+::: {.column width="45%"}
+
+![](figure/ROC-AUC.svg){width=65% fig-align="center"}
+
+:::
+
+::: {.column width="45%"}
+
+
+![](figure/ROC.png){width=75% fig-align="center"}
+
+:::
+
+::::
+
+-->
+
+![](figure/ROC_AUC_combined.png){width=85% fig-align="center"}
+
+* La curva ROC informa del grado de separabilidad: dado un nivel de TFP, el clasificador es mejor cuanto mayor sea TVP
+
+<!--
+clasificador aleatorio:  por debajo de 45º el clasificador es pesimo predice más positivos entre los negativos que entre los positivos
+-->
+
+
+<!--
+* Con datos *imbalanced*  puede ser más informativo graficar TFP frente a precisión
+-->
+
+<!--
+
+![](figure/ROCCurve.svg){width=40% fig-align="center"}
+![](figure/AUC.svg){width=40% fig-align="center"}
+
+https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-classification-in-python/
+
+https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
+-->
+
+:::
+
+## AUC ("area under the curve")
+
+<!--
+* AUC informa del grado de separabilidad: mayor AUC implica que el modelo es capaz de distinguir entre clases (predecir 0s y 1s correctamente)
+-->
+
+* La AUC es el área bajo la curva ROC: ofrece una medida agregada de rendimiento entre 0 (todas las clasificaciones incorrectas) y 1 (todas correctas)
+
+<!--
+AUC provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example.
+-->
+
+* Resume la curva ROC y permite comparar curvas que se cruzan
+
+![](figure/ROC_intersect.png){width=55% fig-align="center"}
+
+
+## Extensiones. Métricas adicionales
+
+
+* Con más de dos clases, se realiza un análisis AUC-ROC para cada categoría (frente a las demás) <!--: se define una variable binaria para la categoría frente a todas las demás--> y se promedian<!-- la ROC y la AUC--> (ej., ponderando por casos en cada clase) <!--o no-->
+
+<!--
+https://yardstick.tidymodels.org/reference/roc_aunp.html
+
+https://yardstick.tidymodels.org/reference/roc_aunu.html
+
+-->
+
+
+<!--
+* Cuando la variable de respuesta tiene más de dos clases,
+
+    1. Se realiza un análisis AUC-ROC para cada categoría: se define una variable binaria para la categoría frente a todas las demás
+
+    2. Se obtiene el promedio de tanto de la ROC como de la AUC, bien dando igual peso a cada categoría o bien ponderando el número de casos de cada una
+
+-->
+
+* Con clases desequilibradas, se puede preferir en lugar de la ROC un gráfico de precisión frente sensibilidad (*precision-recall*) y su correspondiente AUC (*PR-AUC*)
+
+<!--
+https://yardstick.tidymodels.org/reference/pr_auc.html
+
+https://yardstick.tidymodels.org/reference/average_precision.html
+-->
+
+* Existen múltiples funciones de pérdida (o coste de clasificación) posibles.
+
+  + Las relacionadas con la *curva de ganancia* consideran el coste de alcanzar un cierto nivel de sensibilidad
+
+  + Otras se basan en la función de verosimilud o la entropía como medidas de pérdida (ej. *mean log loss*)
+
+<!--
++ gain curve: https://yardstick.tidymodels.org/reference/gain_curve.html
+
+https://yardstick.tidymodels.org/reference/gain_capture.html
+
++ mn_log_loss: https://yardstick.tidymodels.org/reference/mn_log_loss.html
+
+-->
+
+
+## Evaluación de Modelos: entrenamiento y prueba
+
+
+* Para minimizar problemas de *underfit* y, sobre todo, de *overfit*, DEBEMOS **dividir aleatoriamente** el conjunto de datos en dos partes:
+
+:::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
+
+::: {}
+
+![](figure/train_test_split2.png){width=95% fig-align="center"}
+
+:::
+
+::: {}
+
+* **Entrenamiento** (80-90%): datos sobre los que se construye/estima el modelo
+
+* **Prueba**(20-10%): se usa el modelo construido para predecir y se evalúa con datos no vistos antes
+
+:::
+
+::::
+
+* ¿Por qué renunciar a parte de los datos si sabemos que un tamaño muestral grande es importante? Evaluar correctamente un modelo lo es mucho más
+
+* La estimación del error en prueba puede ser volátil dependiendo de las observaciones incluidas en cada grupo
+
+## Evaluación de Modelos: Validación cruzada
+
+<!--
+* Los resultados de evaluación puede verse afectados por la partición concreta obtenida (ej. incluir observaciones atípicas en la muestra de prueba)
+-->
+
+* Para evitar que los datos sean sensibles a una partición concreta, se usa validación cruzada (*cross-validation* o *rotation estimation*)
+
+* Se repite varias veces y de forma ordenada el proceso de remuestreo para la partición en grupos de entrenamiento y prueba (similar a *bootstrap*)
+
+* Permite utilizar todas las observaciones de la muestra, tanto para estimar como para evaluar el modelo (aunque no a la vez)
+
+<!--
+![](figure/k-crossVal_split2.png){width=55% fig-align="center"}
+-->
+<!--
+* Entre las variantes más habituales se encuentran:
+
+    - Validación cruzada de K iteraciones (*K-fold cross-validation* o K-fold CV)
+
+    - Validación cruzada aleatoria (*Random cross-validation*, RCV)
+
+    - Validación cruzada dejando uno fuera (*Leave-one-out cross-validation*, LOOCV)
+
+    - Validación cruzada dejando p fuera (*Leave-p-out cross-validation*, LpOCV)
+-->
+
+<!--
+https://en.wikipedia.org/wiki/Cross-validation_(statistics)
+-->
+
+## Validación cruzada de K bloques
+
+::: {style="font-size: 95%;"}
+
+* El tipo más habitual de validación cruzada: se divide, aleatoriamente y *ex-ante*, la muestra en K subconjuntos (normalmente, 5 o 10)
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+<!-- De Joan.domenech91 - Trabajo propio, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17616792 -->
+
+![](figure/K-fold_cross_validation.jpg){heigth=150% fig-align="center"}
+:::
+
+::: {.column width="40%"}
++ Un subconjunto se usa como prueba y el K-1 restantes como entrenamiento
+
++ Se repite el proceso durante k iteraciones, con cada posible subconjunto de datos de prueba.
+:::
+
+::::
+
+
++ Se obtiene una métrica de error en cada iteración; se promedian para obtener un único resultado de evaluación
+
+
+<!-- * Es el tipo más habitual de validación cruzada -->
+
+* Evita la sensibilidad a una partición concreta de los datos y permite usar todas las observaciones tanto para estimar como para evaluar el modelo
+
+:::
+
+## Validación cruzada aleatoria (RCV) y LOOCV
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figure/Random_cross_validation.jpg){width=100% fig-align="center"}
+:::
+
+::: {.column width="40%"}
++ **RCV**: en *cada iteración* se realiza la particion aleatoria (con reemplazamiento) entre entrenamiento y prueba
+
++ Las observaciones pueden "repetir" como prueba
+:::
+
+::::
+
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figure/Leave-one-out.jpg){width=100% fig-align="center"}
+
+:::
+
+::: {.column width="40%"}
++ **LOOCV** (*leave one out CV*): solo una observación se usa como prueba en cada iteración y el resto como entrenamiento
+
++ Se realizan $n$ iteraciones; se calcula una media sobre $n$ resultados
+:::
+
+::::

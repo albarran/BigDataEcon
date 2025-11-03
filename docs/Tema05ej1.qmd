@@ -1,0 +1,608 @@
+---
+title: "Tema 05 - Modelización y Aprendizaje Estadístico"
+subtitle: "Ejercicio Práctico 1"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- markdownlint-disable-file MD013 -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
+library(tidyverse)
+library(rio)
+library(kableExtra)
+```
+
+
+## Datos
+
+El siguiente conjunto de datos tiene información sobre el volumen de usuarios de un camino ciclista ("via verde") en EE.UU. Tenéis más información en la ayuda de RStudio.
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(mosaicData)
+data("RailTrail")
+```
+
+La comisión gestora, PVPC, quiere entender la relación entre el volumen de usuarios y variables explicativas como incluyendo la temperatura, lluvia, nubosidad y el día de la semana. Para esto, estimamos el siguiente modelo de regresión:
+
+$$
+volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip + \varepsilon
+$$ {#eq-model1}
+
+
+
+```{r}
+#| eval: true
+modelo1 <- lm(data = RailTrail,
+              volume ~ hightemp + cloudcover + weekday + precip)
+```
+
+
+<!--
+## Tablas de resultados en Quarto
+
+### Usando `tidy()` y `kableExtra`
+
+Podemos combinar `tidy()` (de la biblioteca `broom`) con las funciones de la biblioteca [`kableExtra`](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) para incluir tablas de estadísticos descriptivos o de resultados de regresión. En el documento de Quarto, se debe incluir la opción `results: markup`.
+
+```{r}
+#| echo: true
+#| eval: true
+#| results: hide
+
+library(broom)
+library(kableExtra)
+modelo1 %>% tidy() %>% kbl() %>% kable_classic()
+```
+
+Notad que tras usar `tidy()` tenemos un conjunto de datos. Por tanto, podemos usar comandos conocidos para manipular la tabla, p.e., no mostrar todas las columnas.
+
+```{r}
+#| eval: true
+#| results: hide
+modelo1 %>% tidy() %>% select(term:std.error) %>% kbl() %>% kable_paper()
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+#| results: hide
+m1 <- modelo1 %>% tidy() %>% select(term:std.error)
+modelo2 %>% tidy() %>% select(term:std.error) %>% full_join(m1, by = "term")
+```
+
+### Usando`modelsummary()`
+
+Con `modelsummary()`, podemos mostrar los resultados de uno o varios modelos en la misma tabla. También debemos incluir la opción `results: markup`.
+
+Consideramos el siguiente modelo:
+$$
+volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip + \beta_5 \cdot spring + \beta_6 \cdot summer + \varepsilon
+$$
+
+```{r}
+#| results: hide
+#| eval: true
+library(modelsummary)
+modelo2 <- lm(data = RailTrail,  volume ~ hightemp + cloudcover + weekday + precip
+              + spring + summer,)
+
+modelsummary(list("Modelo 1" = modelo1, "Modelo 2" = modelo2),
+             gof_map = c("nobs", "r.squared", "adj.r.squared", "F", "rmse") )
+```
+
+-->
+
+
+<!--
+
+En lo que sigue, trabajaréis con un coeficiente concreto dependiendo de la última cifra de vuestro DNI o similar:
+
+* si es 1, 4 o 7, con el de `hightemp`
+* si es 2, 5 o 8, con el de `cloudcover`
+* si es 3, 6 o 9, con el de `weekday`
+* si es 0, con el de `precip`
+
+-->
+
+<!--
+### Acceso a resultado de una estimación
+
+
+Se puede acceder a los coeficientes de estimados por `lm()` con la función `coef()`, a la matriz de varianza-covarianza de los coeficientes con `vcov`. Los coeficientes y errores estándar también se pueden obtener a partir de `summary()` en el elemento `coefficients`.
+
+Se puede acceder a la varianza del error con `summary(modelo)$sigma**2`.
+
+```{r}
+#| echo: false
+#| eval: false
+coef(modelo1)
+vcov(modelo1)
+
+sum.modelo1 <- summary(modelo1)
+
+sum.modelo1$coefficients[,1:2]
+sum.modelo1$sigma**2
+
+## Un coeficiente concreto y su Error Estándar
+coef(modelo1)[1]
+summary(modelo1)$coefficients[1,1]
+
+sqrt(vcov(modelo1)[1,1])
+summary(modelo1)$coefficients[1,2]
+```
+
+
+
+
+```{r}
+#| echo: true
+#| eval: false
+coef(modelo1)
+vcov(modelo1)
+
+sum.modelo1 <- summary(modelo1)
+
+sum.modelo1$coefficients[,1:2]
+sum.modelo1$sigma**2
+
+## Un coeficiente concreto y su Error Estándar
+coef(modelo1)[1]
+summary(modelo1)$coefficients[1,1]
+
+sqrt(vcov(modelo1)[1,1])
+summary(modelo1)$coefficients[1,2]
+```
+
+-->
+
+
+## Apartado 1
+
+Para este apartado, trabajaréis con un coeficiente concreto de la @eq-model1 estimada anteriormente. El coeficiente dependerá de la última cifra de vuestro DNI o similar:
+
+  * si es 1, 4 o 7, con el de `hightemp`
+  * si es 2, 5 o 8, con el de `cloudcover`
+  * si es 3, 6 o 9, con el de `weekday`
+  * si es 0, con el de `precip`
+
+a.  Calcular el intervalo de confianza al 95% para vuestro coeficiente y el intervalo de confianza al 95% para la varianza del error, bajo el supuesto de que los errores del modelo siguen una distribución normal.
+
+  - Nota: bajo normalidad de los errores, $\widehat{\beta} \sim N\left(\beta, Var(\widehat{\beta})\right)$ y $(n-k)*s^2 / Var(\varepsilon) \sim \chi^2_{(n-k)}$, donde $n$ es el número de observaciones,  $k$ es el número de coeficientes (incluida la constante) y  $s^2$ es la estimación de la varianza del error.
+
+
+
+```{r}
+#| echo: false
+# b ~ N(B, Var(b))
+# IC = b +/- z_{a/2} *se(b)
+sum.modelo1 <- summary(modelo1)
+coef(modelo1)[5] + qnorm(0.975)*sqrt(vcov(modelo1)[5,5])*c(-1,1)
+# coef(modelo1)[5] - 1.96*sqrt(vcov(modelo1)[5,5])
+# coef(modelo1)[5] + 1.96*sqrt(vcov(modelo1)[5,5])
+
+# también se podría usar valores críticos de la t con
+coef(modelo1)[5] + qt(0.975, 85)*sqrt(vcov(modelo1)[5,5])*c(-1,1)
+# que es lo que ofrece
+confint(modelo1, 5, level=0.95)
+
+
+## ii)
+# (n-k) * S^2 / Var(e) ~ chi2(n-k)
+# n-k son los grados de libertad:
+#    observaciones menos parámetros estimados antes de calcular S^2
+# IC = [(n-k) S^2 / chi2(n-k, 1 - a/2) , (n-k) S^2 / chi2(n-k, a/2)]
+
+
+n <- nobs(modelo1)
+k <- length(modelo1$coefficients)
+(n-k)*sum.modelo1$sigma**2/qchisq(0.975, n-k)
+(n-k)*sum.modelo1$sigma**2/qchisq(0.025, n-k)
+
+(n-k)*sum.modelo1$sigma**2/c(qchisq(0.975, n-k), qchisq(0.025, n-k))
+```
+
+
+b. Usar bootstrap para obtener el intervalo de confianza al 95% para vuestro coeficiente y el intervalo de confianza al 95% para la varianza del error. Debéis fijar como semilla vuestro DNI para realizar un bucle como el visto en clase.
+
+
+```{r}
+#| echo: false
+#| eval: false
+#### La opción más simple y directa
+#### dado lo que se muestra explicitamente
+t0 <-  Sys.time()   # mido tiempo de ejecución, no se pedia para entrega
+set.seed(60000000)
+n <- nobs(modelo1)
+boot <- list()
+for(i in 1:1000){
+  mod <- RailTrail %>%
+    sample_n(size = n, replace = TRUE) %>%
+    lm(data = . , volume ~ hightemp + cloudcover + weekday + precip)
+
+  boot[[i]] <- list(coef=coef(mod)[5], sigma2 = summary(mod)$sigma**2)
+}
+
+boot_df <- boot %>% bind_rows()
+sort(boot_df[[1]])[c(25,975)]
+sort(boot_df[[2]])[c(25,975)]
+Sys.time()-t0  #tiempo de ejecución
+```
+
+```{r}
+#| echo: false
+#| eval: false
+#### NO COMENTAR-NO VISTO EN CLASE
+#### La opción más simple y directa
+#### dado lo que se muestra explicitamente
+t0 <-  Sys.time()   # mido tiempo de ejecución, no se pedia para entrega
+
+mis_estad <- function(coef) {
+  mod <- RailTrail %>%
+        sample_n(size = n, replace = TRUE) %>%
+        lm(data = . , volume ~ hightemp + cloudcover + weekday + precip)
+  sol <- list(coef=coef(mod)[coef], sigma2 = summary(mod)$sigma**2)
+  return(sol)
+}
+
+set.seed(60000000)
+n <- nrow(RailTrail)
+boot <- 1:1000 %>% map(~mis_estad(5))
+
+boot_df <- boot %>% bind_rows()
+
+sort(boot_df[[1]])[c(25,975)]
+sort(boot_df[[2]])[c(25,975)]
+Sys.time()-t0  #tiempo de ejecución
+```
+
+
+
+```{r}
+#| echo: false
+#| eval: false
+# NO forma parte de la entrega: solo demostración
+# Se debe ejecutar después del primer método
+
+# distribución teórica para el coeficiente bajo normalidad y bootstrap (rojo)
+p1 <- ggplot(data = data.frame(x = boot_df[[1]]), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = coef(modelo1)[5], sd = sqrt(vcov(modelo1)[5,5])))+
+  ylab("")+
+  scale_y_continuous(breaks = NULL)+
+  geom_density( color="red")
+
+p1
+
+
+# distribución teórica para sigma^2 bajo normalidad y bootstrap (rojo)
+p2 <- ggplot(data = data.frame(x = 85*boot_df[[2]]/summary(modelo1)$sigma**2), aes(x))+
+  scale_y_continuous(breaks = NULL)+
+  stat_function(fun = dchisq, args = list(df = 85))+
+  geom_density(color="red")
+
+p2
+```
+
+```{r}
+#| echo: false
+#| eval: false
+# NO forma parte de la entrega: solo demostración
+ggplot(data = data.frame(x = 0:40), aes(x))+
+   scale_y_continuous(breaks = NULL)+
+    stat_function(fun = dchisq, args = list(df = 5))+
+    stat_function(fun = dchisq, args = list(df = 10), color="blue")+
+    stat_function(fun = dchisq, args = list(df = 20), color="red")
+
+```
+
+
+c. Comentar BREVEMENTE las diferencias en los intervalos de confianza de ambos apartados.
+
+
+```{r}
+#| echo: false
+#### 3.
+## aunque no hay grande diferencias en las distribuciones,
+## sí existen algunas diferencias sobre todo en el límite inferior del intervalo de confianza
+## podemos infraestimar la incertidumbre sobre la estimación por suponer normalidad
+```
+
+<!--
+Como os he comentado en clase, debéis entregar un ejercicio para antes del jueves 21 de noviembre a las 23:00h.
+-->
+
+#### Notas
+
+* Los resultados de una estimación están almacenados en el objeto creado aplicando `summary()` a la función `lm()`.
+
+```{r}
+#| echo: true
+#| eval: false
+
+sum.modelo1 <- summary(modelo1)
+
+## Para todos los coeficientes (filas)
+## el valor estimado y su error estándar (dos columnas)
+sum.modelo1$coefficients[,1:2]
+
+## Varianza del error del modelo
+sum.modelo1$sigma^2
+
+## R-cuadrado
+sum.modelo1$r.squared
+```
+
+* Intervalo de confianza al 95\% para el coeficiente estimado: $\widehat{\beta} \pm z_{0.975} \cdot \sqrt{\operatorname{Var}(\widehat{\beta})}$, donde $z_{0.975}$ es el valor crítico de la distribución normal estándar .
+
+* Intervalo de confianza al 95\% para la varianza del error: $\left( \frac{(n - k) \cdot s^2}{\chi^2_{0.975, (n - k)}}, \frac{(n - k) \cdot s^2}{\chi^2_{0.025, (n - k)}} \right)$, donde $\chi^2_{0.975, (n - k)}$ y $\chi^2_{0.025, (n - k)}$ son los valores críticos de la distribución $\chi^2$ con $n - k$ grados de libertad, correspondientes a los percentiles del 97.5\% y 2.5\%, respectivamente.
+
+* En R, los valores críticos se obtienen con `qnorm()` y `qchisq()` (mirad la ayuda).
+
+<!--
+    de la siguiente manera:
+
+    * el de una normal estándar que deja a su izquierda una probabilidad $a$, $0<a<1$: `qnorm(a)`
+
+    * el de una $\chi ^2$ con $q$ grados de libertad que deja a su izquierda una probabilidad $a$, $0<a<1$: `qchisq(a, q)`
+-->
+
+
+## Apartado 2
+
+Realizamos un análsis exploratorio de los datos y encontramos la siguiente forma para la relación *no lineal* entre el número de visitantes y la temperatura.
+```{r}
+#| echo: false
+#| eval: true
+#| fig.show: asis
+RailTrail %>% ggplot(aes(x=hightemp, y=volume)) +
+  geom_point() + geom_smooth()
+```
+
+Presentar en una tabla los resultados de estimar la @eq-model1 y añadir primero la temperatura al cuadrado, después también la temperatura al cubo, la temperatura elevada a la cuarta potencia y finalmente elevada a la quinta potencia. Comentar qué modelo elegirías, es decir, qué grado del polinomio en temperatura captura mejor la relación no lineal descrita anteriormente. ¿Podríamos tener una relación no lineal distinta de la descrita por un polinomio?
+
+
+```{r}
+#| echo: false
+modelo1.2 <- lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +
+                    cloudcover + weekday + precip)
+modelo1.3 <- lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +  I(hightemp^3) +
+                    cloudcover + weekday + precip)
+
+modelo1.4 <-  lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +
+                    I(hightemp^3) + I(hightemp^4) +
+                    cloudcover + weekday + precip)
+
+modelo1.5 <- lm(data = RailTrail,
+                volume ~  hightemp + I(hightemp^2) +  I(hightemp^3) +
+                    I(hightemp^4) + I(hightemp^5) +
+                    cloudcover + weekday + precip)
+
+modelsummary(list("Modelo 2" = modelo1,
+                  "Pol. grado 2" = modelo1.2,
+                  "Pol. grado 3" = modelo1.3,
+                  "Pol. grado 4" = modelo1.4),
+                  "Pol. grado 5" = modelo1.5)
+```
+
+
+
+#### Notas sobre tablas de resultados en Quarto
+
+* Podemos combinar `tidy()` (de la biblioteca `broom`) con las funciones de la biblioteca [`kableExtra`](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) para incluir tablas de estadísticos descriptivos o de resultados de regresión. En el documento de Quarto, se debe incluir la opción `results: markup`.
+
+```{r}
+#| echo: true
+#| eval: true
+#| results: hide
+
+library(broom)
+library(kableExtra)
+modelo1 %>% tidy() %>%
+      kbl() %>% kable_classic()
+```
+
+* Notad que tras usar `tidy()` tenemos un conjunto de datos. Por tanto, podemos usar comandos conocidos para manipular la tabla, p.e., no mostrar todas las columnas.
+
+```{r}
+#| eval: true
+#| results: hide
+modelo1 %>% tidy() %>% select(term:std.error) %>%
+  kbl() %>% kable_paper()
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+#| results: hide
+m1 <- modelo1 %>% tidy() %>% select(term:std.error)
+modelo2 %>% tidy() %>% select(term:std.error) %>%
+      full_join(m1, by = "term")
+```
+
+* Con `modelsummary()`, podemos mostrar los resultados de uno o varios modelos en la misma tabla. También debemos incluir la opción `results: markup`.
+
+Consideramos el siguiente modelo:
+$$
+volume = \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip + \beta_5 \cdot spring + \beta_6 \cdot summer + \varepsilon
+$$
+
+```{r}
+#| results: markup
+#| eval: true
+library(modelsummary)
+modelo2 <- lm(data = RailTrail,
+                volume ~ hightemp + cloudcover + weekday + precip +
+                          spring + summer)
+
+modelsummary(list("Modelo 1" = modelo1,
+                  "Modelo 2" = modelo2),
+             gof_map = c("nobs", "r.squared", "adj.r.squared",
+                          "F", "rmse") ,
+             stars = T)
+```
+
+
+## Apartado 3
+
+Realizamos un nuevo análisis exploratorio para la relación entre el número de visitas y la nubosidad (como porcentaje de cielo cubierto por nubes, en una escala continua de 0 a 10).
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig.show: asis
+RailTrail %>% ggplot(aes(y=volume, x=cloudcover)) +
+                geom_point()+geom_smooth()
+```
+
+Dado lo que observamos en el gráfico, vamos a discretizar `cloudcover`. Primero, consideramos solo dos grupos: hasta 7.5 y más de 7.5. Luego, consideramos tres rangos: entre 0 y 5, entre 5 y 7.5, y mayor de 7.5. Finalmente, consideramos cuatro categorías: [0,2.5], (2.5,5], (5, 7.5] y (7.5, 10]. Presentar en una tabla el modelo de la @eq-model1,  con la variable `cloudclover`, y todas las variantes donde la hemos discretizado. Discutir qué especificación preferís y por qué.
+
+#### Notas
+
+* Como hemos visto en las transparencias, se puede discretizar una variable con `cut()` (o `cut_width()`, `cut_interval()`, etc.), generando un factor con categorías dadas por los puntos de corte: ej., `cut(cloudcover, breaks=c(0, 7.5, 10), include.lowest = T)`
+
+* También se podría generar una variable binaria para cada categoria con `ifelse()` (o `if_else()`)
+
+
+<!--   3. Alternativamente, escribiendo directamente la condición que cumple la *dummy* al especificar la fórmula: ej. `volume ~  hightemp  + (cloudcover>7.5) + weekday` -->
+
+
+```{r}
+#| echo: false
+modelo1.C2 <- lm(data = RailTrail,
+                 volume ~  hightemp  + (cloudcover>7.5) +
+                  weekday + precip)
+
+modelo1.C3 <- lm(data = RailTrail,
+                  volume ~  hightemp  + (cloudcover>5 & cloudcover<=7.5) + (cloudcover>7.5) + weekday + precip)
+
+modelo1.C4 <- lm(data = RailTrail,
+                  volume ~  hightemp  + (cloudcover>2.5 & cloudcover<=5) +
+                  (cloudcover>5 & cloudcover<=7.5) + (cloudcover>7.5) +
+                  weekday + precip)
+
+modelo1.C2 <- lm(data = RailTrail,   hightemp  + cut(cloudcover, c(0,7.5,10), include.lowest = T) +
+                  weekday + precip)
+modelo1.C3 <- lm(data = RailTrail,   hightemp  + cut(cloudcover, c(0, 5, 7.5,10), include.lowest = T) +
+                  weekday + precip)
+modelo1.C4 <- lm(data = RailTrail,   hightemp  + cut(cloudcover, c(0,2.5, 5, 7.5,10), include.lowest = T) +
+                  weekday + precip)
+
+modelsummary(list("Modelo 1" = modelo1, "Dos Rangos" = modelo1.C2, "
+                  Tres Rangos" = modelo1.C3, "Cuatro Rangos" = modelo1.C4),
+  stars = T)
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+RailTrail %>% ggplot(aes(y=volume, x=precip)) +
+                geom_point() + geom_smooth()
+
+lm(data = RailTrail,  volume ~  hightemp  + cloudcover + weekday +
+                        I(precip>0)  +
+                        spring + summer) %>% summary()
+
+lm(data = RailTrail, volume ~   hightemp  + cloudcover + weekday +
+                        I(precip>0 & precip<=0.5)  + I(precip>0.5)  +
+     spring + summer) %>% summary()
+
+lm(data = RailTrail,  volume ~  hightemp  + cloudcover + weekday +
+                        I(precip>0 & precip<=0.5) +
+                        I(precip>0.5 & precip<=1)  + I(precip>1)  +
+     spring + summer) %>% summary()
+```
+
+
+## Apartado 4
+
+Finalmente, vamos a considerar otra variante de la ecuación @eq-model1  donde los efectos de la temperatura (`hightemp`) y de la nubosidad (`cloudcover`) no son constantes, sino que su efecto es heterogéneo en función de otros factores, en este caso si es un día laborable (`weekday`). Estimaremos el siguiente modelo
+
+$$
+\begin{aligned}
+volume &= \beta_0 + \beta_1 \cdot hightemp + \beta_2 \cdot cloudcover + \beta_3 \cdot weekday + \beta_4 \cdot precip  \\
+&+ \beta_5 \cdot hightemp \cdot weekday + \beta_4 \cdot  cloudcover \cdot weekday + \varepsilon
+\end{aligned}
+$$ {#eq-model1H}
+
+```{r}
+#| echo: true
+#| eval: true
+modelo1.H <- lm(data = RailTrail,
+                volume ~ (hightemp + cloudcover)*weekday + precip)
+```
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: hide
+modelsummary(list("Modelo 1" = modelo1,
+                  "Efectos Heterogéneos" = modelo1.H),
+             stars = T)
+```
+
+Presentar en una tabla los resultado de estimar la ecuación @eq-model1  y de la ecuación @eq-model1H. Discutir si evidencia de que la temperatura y la nubosidad afectan de manera diferente a las visitas en función de otros factores. ¿Qué modelo preferiría?
+
+<!--
+
+### Apartado 5
+
+Comentar **brevemente** si tiene sentido considerar efectos no lineales y heterogéneos en el Modelo 1. Sin realizar ninguna estimación nueva, discutir **brevemente** si consideraría un modelo que incluye *a la vez* más de una de las variantes consideradas a la vez (ej., no linealidad y efectos heterogéneos en `hightemp`). ¿Cuántas combinaciones consideraría? ¿Cómo decidiría sobre las combinaciones a probar y sobre el mejor modelo?
+
+-->
+
+## Entrega
+
+Rellenad este
+[FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSds_Q4-s7gcn0LKvBuUqQF0fzq1OF1NUTI4u1VKV25ic_BM7w/viewform) con vuestros datos y subid
+
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema05ej1_123456789.qmd
+
+  * Tema05ej1_123456789.zip

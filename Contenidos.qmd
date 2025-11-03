@@ -57,24 +57,31 @@ strip-comments: true
   * [Tema 06 - Ejercicio 1](docs/Tema06ej1.qmd)
     - Fecha límite de entrega: **dom., 08-dic., 23:59h**
 
-## Semana 9
-(4-Nov. a 10-Nov.)
-
-  * [Tema 05 - Ejercicio](docs/Tema05ej1.qmd)
-    - Fecha límite de entrega: **dom., 17-nov., 23:59h**
-  * [Tema 06 - Modelización: métodos estadísticos](docs/Tema06.qmd)
-
 *********************************************************************
 -->
+
+## Semana 9
+(3-Nov. a 9-Nov.)
+
+  * [Tema 05 - Modelización y Aprendizaje Estadístico](docs/Tema05.qmd)
+
+  * [Tema 05 - Ejercicio 1](docs/Tema05ej1.qmd)
+
+
+  * [Tema 04 - Ejercicio 1](docs/Tema04ej1.qmd)
+
+    - Fecha límite de entrega: **dom., 9-nov., 23:59h**
+
+  * [Tema 04 - Ejercicio 2](docs/Tema04ej2.qmd)
+
+    - Ejercicio **voluntario** para subir nota.
+    - Fecha límite de entrega: **dom., 21-dic., 23:59h**
 
 ## Semana 8
 (27-Oct. a 2-Nov.)
 
   * [Tema 04 - Análisis Exploratorio de Datos](docs/Tema04.qmd)
 
-  * [Tema 04 - Ejercicio 1](docs/Tema04ej1.qmd)
-
-  * [Tema 04 - Ejercicio 2](docs/Tema04ej2.qmd)
 
 ## Semana 7
 (20-Oct. a 26-Oct.)
