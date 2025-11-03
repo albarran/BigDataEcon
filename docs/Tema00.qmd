@@ -38,6 +38,7 @@ format:
     colortheme: crane
     section-titles: false
     fontsize: 10pt
+    babel-lang: es
     header-includes: |
         \setbeamertemplate{footline}
         {
