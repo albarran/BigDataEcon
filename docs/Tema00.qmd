@@ -59,17 +59,13 @@ format:
        # - \setbeameroption{show notes}
        # - \setbeameroption{show notes on second screen}
 execute:
-  enabled: true      # (no) ejecutar code chunks
-  eval: false        # por defecto, no evalúa y muestra códido de code chunks
-  echo: true
-  warning: false    # pero no los mensajes ni warnings
-  message: false
-  results: hide
-  fig.show: hide
-knitr:
-  opts_chunk:
-    results: hide     # ni muestra resultados ni figuras
-    fig.show: hide
+  enabled: true      # execute code chunks
+  eval: false        # by default, don't evaluate code chunks
+  echo: true         # show code
+  warning: false     # don't show warnings (redundant to eval: false)
+  message: false     # don't show messages (idem)
+  output: false      # don't show output (idem)
+  fig.show: hide     # don't show figures (idem)
 lang: es
 strip-comments: true
 toc: true
@@ -79,7 +75,8 @@ toc-title: "Contenidos"
 css: styles.css
 ---
 
-```{r setup}
+```{r}
+#| label: setup
 #| include: false
 # se evalua pero no incluye output (mensajes, etc.)
 
@@ -87,7 +84,7 @@ css: styles.css
 rm(list = ls())
 
 # Working directory
-#setwd("/home/albarran/Dropbox/ECMTII/ECMTII/Slides_2023")
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
 
 # Cargo todas las bibliotecas necesarias
 # (se podría hacer cuando cada una sea necesaria)
