@@ -66,7 +66,7 @@ source("Tema05datos.R")
 
 ```
 
-# Introducción
+# Métodos Estadísticos
 
 ## Métodos Estadísticos
 
@@ -265,7 +265,7 @@ mediaFunc <- function(datos,  indices) {
 
 - Aprendizaje automático (*machine learning*, ML) o estadístico (*statiscal learning*): conjunto de técnicas algorítmicas para **extraer información de los datos**
 
-* [Tipos principales](http://eitc.org/research-opportunities/photos6/different-machine-learning-models_010924a/image_large)
+* [Tipos principales](https://vitalflux.com/wp-content/uploads/2020/12/mind_map_machine_learning_3.jpg)
 
 1. **Aprendizaje supervisado**: para cada medida de $X$ hay una *respuesta asociada* $Y$
 
@@ -274,8 +274,6 @@ mediaFunc <- function(datos,  indices) {
 2. **Aprendizaje no supervisado**: no hay una respuesta asociada, aprendemos rasgos no medidos
 
     + ej., observaciones similares organizadas en grupos distintos
-
-3. Aprendizaje por refuerzo
 
 ::::{.notes}
 1. **Aprendizaje supervisado**: escenarios en los que para cada observación de las mediciones $X_i$ hay una *respuesta asociada* $Y_i$ ("supervisa" el aprendizaje)
@@ -363,7 +361,7 @@ $$
 
   - La capacidad predictiva de un modelo mejora si incluimos más variables explicativas (modelo más flexible)
 
-# Regresión Lineal y Logística
+# Regresión Lineal
 
 ## Modelo de regresión lineal
 
@@ -558,7 +556,7 @@ lm(data = descuento, ventas ~ renta + descuento + zona) |> summary()
 
 ## Superando la linealidad
 
-1. Usando **logaritmos**, modelizamos elasticiades (cambios porcentuales) y relaciones no lineales
+1. Usando **logaritmos**, modelizamos elasticiades (cambios porcentuales) y rendimientos decrecientes
 
 ```{r}
 #| echo: true
@@ -585,7 +583,7 @@ Los logaritmos son fundamentales en economía: funciones de producción, demanda
 
 . . .
 
-2. Usando **polinomios** (y otras funciones no lineales), modelizamos relaciones no lineales cuyos efectos varían con el nivel de la variable
+2. Usando **polinomios** (y otras funciones no lineales), modelizamos efectos que varían con el nivel de la variable
 
 ```{r}
 lm(data=descuento, ventas ~ edad + I(edad^2) ) |> summary()
@@ -914,24 +912,23 @@ mod.nnet
 
 # Evaluación de modelos (por su capacidad predictiva)
 
-::::{.notes}
+## Métricas de Error de Predicción (cuantitativa)
 
-**Error de predicción**
+::: {style="font-size: 95%;"}
 
-* Un modelo es mejor si sus predicciones se ajusten mejor a las observaciones
+- Un modelo es mejor cuanto mejor se ajusten sus predicciones a las observaciones
 
-* El error de predicción es $y - \widehat{y} = f(X) - \widehat{f}(X)  + \varepsilon$
+- El error de predicción es $y - \widehat{y} = f(X) - \widehat{f}(X)  + \varepsilon$
 
   + $f - \widehat{f}$ = error reducible (eligiendo modelo)
 
   + $\varepsilon$ = error irreducible (variables no observadas)
 
-* La **función de pérdida (o coste)** evalúa cómo valoramos las desviaciones
 ```{r figures-side}
 #| echo: false
+#| eval: false
 #| layout-ncol: 2
-#| fig.show: hold
-#| eval: true
+# #| fig.show: hold
 
 #
 # #| out.width="50%"
@@ -945,157 +942,122 @@ curve(0 * (x>=0) - x * (x<0), from = -2, to = 2, xlab = TeX("$y-\\hat{y}$"), yla
 curve(0.25 * (x> 0 & x<0.5) + 0.75 * (x>0.5) + 0.75 * (x>1.5) + 0.25 * (x < -1), add = TRUE, col = "black")
 ```
 
-::::
-
-## Métricas de error de predicción (regresión)
-
-::: {style="font-size: 95%;"}
-
-* Un modelo es mejor si sus predicciones se ajustan mejor a las observaciones
-
-* El error de predicción es $y - \widehat{y} = f(X) - \widehat{f}(X)  + \varepsilon$
-
-  + $f - \widehat{f}$ = error reducible (eligiendo modelo)
-
-  + $\varepsilon$ = error irreducible (variables no observadas)
-
 :::
 
-. . .
+. . . 
 
 ::: {style="font-size: 95%;"}
-
-
-* Una **función de pérdida (o coste)** evalúa cómo valoramos las desviaciones
+- Una **función de pérdida (o coste)** evalúa cómo valoramos las desviaciones
 
   1. **Mean Square Error** (Error Cuadrático Medio): $\small \color{blue}{MSE(y,\widehat{y})={\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}}$
   
       + penaliza grandes desviaciones
   
-      + $\small \color{blue}{R^2}$ y $\small \color{blue}{R^2-ajustado}$: variantes solo válidas para comparar modelos con la *misma variable dependiente*.
-  
-  ::::{.notes}  
-  
-  $R^2$-ajustado penaliza por número de variables 
-  
-  ::::
-  
-  2. **Root Mean Square Error**: $\small \color{blue}{RMSE(y,\widehat{y})=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}}$
+      + $\small \color{blue}{R^2}$ y $\small \color{blue}{R^2-ajustado}$: variantes solo para comparar modelos con la *misma variable dependiente*.
+    
+  2. **Root Mean Square Error**: $\small  \color{blue}{RMSE(y,\widehat{y})=\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}}$
   
       + mismas unidades que $\small y$
   
-  3. **Mean Absolute Error**: $\small \color{blue}{MAE(y,\widehat{y})=\frac{1}{n}\sum_{i=1}^{n}\left|y-\widehat{y}\right|}$
+  3. **Mean Absolute Error**: $\small  \color{blue}{MAE(y,\widehat{y})=\frac{1}{n}\sum_{i=1}^{n}\left|y-\widehat{y}\right|}$
+
+  * Otras medidas basadas en distintas funciones de pérdida: verosimilitud del modelo, $\small \color{blue}{AIC}$, $\small \color{blue}{BIC}$, etc
   
-  ::::{.notes} 
-  
-  * *Correlación* lineal o de rangos entre $\small y$ y $\small \widehat{y}$
-  
+::::{.notes}
+
++ $R^2$-ajustado penaliza por número de variables
+
++ también median ABs. error
+
+* *Correlación* lineal o de rangos entre $\small y$ y $\small \widehat{y}$
   
         + lineal ($y$ y $\widehat{y}$ pueden no tener las mismas unidades y escala como con RMSE y MAE)
         + de rangos ($y$ y $\widehat{y}$ solo tiene que tener el mismo orden relativo, no minimizar distancia entre ellas)
   
-  * *Coeficiente de determinación*
+* *Coeficiente de determinación*
+* AIC, BIC ajustan por el número de parámetros 
   
-  
-  AIC, BIC ajustan por el número de parámetros
-  
-  https://yardstick.tidymodels.org/reference/rmse.html
-  
-  
-  ::::
-  
-  * Otras medidas basadas en distintas funciones de pérdida, la verosimilitud del modelo ($\small \color{blue}{AIC}$, $\small \color{blue}{BIC}$), etc
+https://yardstick.tidymodels.org/reference/rmse.html
+
+::::  
 
 :::
 
-## Seleccionar el mejor modelo
 
-```{r}
-#| echo: false
-ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point() +
-  geom_smooth(method = "lm", formula = y ~ poly(x,2), se = FALSE) +
-  coord_cartesian(ylim = c(10,30))
-```
+## Seleccionar el mejor modelo. "Overfitting"
 
-* ¿Podemos predecir el número de visitantes en función de la temperatura?
+::: {style="font-size: 95%;"}
 
+- ¿Cuál es el mejor modelo para predecir el número de visitantes en función de la temperatura?
 ```{r}
 library(mosaicData)
-data(RailTrail)
 RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
   geom_point() +  geom_smooth()
 ```
 
-* ¿Cuál es el mejor modelo?
+$$
+\scriptsize
+\begin{align*}
+volume &= \beta_0 + \beta_1 \, \mathrm{hightemp} + \varepsilon \\
+volume &= \beta_0 + \beta_1 \, \mathrm{hightemp} + \beta_2 \, \mathrm{hightemp}^2 + \varepsilon \\
+&\vdots \\
+volume &= \beta_0 + \beta_1 \, \mathrm{hightemp} + \dots + \beta_{22} \, \mathrm{hightemp}^{22} + \varepsilon
+\end{align*}
+$$
 
-  * $\small volume = \beta_0 + \beta_1 hightemp + \varepsilon$
 
-  * $\small volume = \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \varepsilon$
+- El objetivo de un modelo es **predecir casos nuevos** (no reproducir los datos vistos)
 
-  * ...
+- Las métricas ($\small MSE$, $R^2$) calculadas en los mismos *datos usados para estimar* NO informan de esto: miden *in-sample prediction*, no *out-sample prediction*
 
-  * $\small volume = \beta_0 + \beta_1 hightemp + \dots + \beta_{22} hightemp^{22} + \varepsilon$
+::::{.notes}
+- Las métricas de error ($\small MSE$, $R^2$) calculadas para predicciones de los mismos *datos usados para estimar* el modelo NO informan de esto
+
+::::
+
+
+- Un modelo demasiado flexible puede *aprender el ruido* (características de la muestra concreta) → **sobreajuste (overfitting)**: error casi nulo en los datos que estimamos, pero grande con casos nuevos 
 
 ```{r}
 RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
-  geom_point() +
-  geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) +
+  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) +
   coord_cartesian(ylim = c(100,750))
 ```
+:::
 
 
 
 ## Muestras de entrenamiento y de prueba
 
-* Las métricas de error (ej., $\small MSE$) suelen calcularse para predicciones de los mismos datos usados para ajustar/estimar el modelo (*in-sample prediction*)
+::: {style="font-size: 95%;"}
 
-    + Esta muestra se denomina **muestra de entrenamiento** (*training sample*)
+- Dividimos la muestra para usar datos diferentes para estimar y para calcular las métricas 
 
-* PERO queremos saber qué tal se predicen *casos nuevos* (*out-sample prediction*)
+  1. **Muestra de entrenamiento** (*train*) donde se ajusta el modelo
+  
+  2. **Muestra de prueba** (*test*) donde se calculan métricas con observaciones NO vistas antes por el modelo  → evaluamos el mejor modelo para predecir casos nuevos
 
-* Usar las métricas en muestras de entrenamiento implica problemas de **"overfitting"**: sobreajuste a las características de la muestra concreta
+::::{.notes}
 
-    * <!--escenarios en los que--> Un modelo menos flexible podría tener menor error de predicción con casos nuevos
-
-<!--
-    * Los grados de libertad (número de valores en el modelo que son libres de variar) resume la *flexibilidad* de una curva.
--->
-
-* Debemos calcular las métricas de error con observaciones que el modelo NO ha usado antes: **muestra de prueba** (*test sample*)
-
-![](figure/train_test.png){width=100% fig-align="center"}
-
-## "Overfitting"
-
-::: {style="font-size: 85%;"}
-
-<!--
-
-:::: {.columns}
-
-::: {.column width="45%"}
-![](figure/overfitting2n.png){width=100% fig-align="center"}
-
-:::
-
-::: {.column width="5%"}
-\ \
-:::
-
-::: {.column width="45%"}
-![](figure/overfitting3n.png){width=100% fig-align="center"}
-:::
+![](figure/train_test.png){width=70% fig-align="center"}
 
 ::::
 
--->
+::: 
 
-![](figure/overfitting01c.png){width=70% fig-align="center"}
+. . .
 
-<!--
-* Independientemente de los datos y método, a medida que aumenta la flexibilidad
--->
+::: {style="font-size: 95%;"}
+
+- Un buen modelo tiene equilibrio entre capacidad predictiva y complejidad: ni ajuste insuficiente (*underfitting*) ni *overfitting*
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+
 * Siempre que aumenta la flexibilidad, el MSE
+
     + disminuye en la muestra de entrenamiento
 
     + tiene forma de U en la muestra de prueba
@@ -1104,7 +1066,39 @@ RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
 
 :::
 
-## MSE en la muestra de prueba
+:::{.column width="50%"}
+
+![](figure/overfitting01c.png){width=100% fig-align="center"}
+
+:::
+
+::::
+
+::: {style="margin-top: -1.8em;"}
+- Evitar modelos con *sobre-ajuste*: un modelo menos flexible podría tener menor error de predicción con casos nuevos
+:::
+
+::: notes
+
+- sobre-ajuste: parecen que su error es casi nulo en los datos que estimamos, pero cometen un gran error en observaciones nuevas 
+
+
+- Mostrar ejemplos gráficos de ajuste insuficiente, correcto y sobreajuste.  
+
+![](figure/overfitting2n.png){width=100% fig-align="center"}
+
+![](figure/overfitting3n.png){width=100% fig-align="center"}
+
+* Los grados de libertad (número de valores en el modelo que son libres de variar) resume la *flexibilidad* de una curva.
+::::
+
+::: 
+
+## "Trade-off" Varianza--Sesgo
+
+::::{.notes}
+
+**MSE en la muestra de prueba**
 
 $$
 \small
@@ -1125,194 +1119,215 @@ $$
 
 * $\small (2)=Var\left(\widehat{f}(x)\right)$: sensibilidad a fluctuaciones en el  entrenamiento
     + si el algoritmo modela puro ruido en entrenamiento, ajustará bien allí, pero predecirá mal casos nuevos (*overfit*)
+::::
 
-<!--
-Recuerdo de Econometría I:
-1. sesgo por omisión de variables relevantes
-2. aumento de varianza por inclusión de variable irrelevante
--->
 
-## "Trade-off" Varianza--Sesgo
+::: {style="font-size: 95%;"}
 
-:::: {.columns}
+- $\small MSE$ en la muestra de prueba es la suma de sesgo y varianza de la estimación:
 
-::: {.column width="45%"}
+::: {.columns}
 
-![](figure/biasvariance-tradeoff2.png){width=85% fig-align="center"}
+::: {.column width="50%"}
+
+![](figure/biasvariance-tradeoff2.png){width=65% fig-align="center"}
 
 :::
 
 
-::: {.column width="45%"}
-* El sesgo se reduce y la varianza aumenta con la complejidad del modelo $\Rightarrow$  encontrar un método (ej., flexibilidad) para el que ambos sean bajos
+::: {.column width="50%"}
+
+  - **Sesgo**: error por especificar mal $f$ (ej., omitir variables, forma funcional incorrecta) →  *underfit* al perder relaciones relevantes
+  
+  - **Varianza**: fluctuaciones por *overfit* a características de cada muestra del entrenamiento
 
 
-<!--
-A medida que se añaden más y más parámetros a un modelo, la complejidad del modelo aumenta y la varianza se convierte en nuestra principal preocupación, mientras que el sesgo disminuye constantemente. Por ejemplo, a medida que se añaden más términos polinómicos a una regresión lineal, mayor será la complejidad del modelo resultante.
--->
+- Al aumentar la complejidad ↓ sesgo pero ↑ varianza ⇒ encontrar una flexibilidad intermedia que equilibre ambos
 
-<!--
-![](figure/biasvariance-tradeoff2.png){width=22% fig-align="center"}
-
--->
-
-<!--
-SESGO-VARIANZA VISTO EN ECONOMETRIA I: omitir variable relevante (modelos menos flexible), crea sesgo.
-                                       incluir variable no relevante (mas flexibe), aumenta varianza
--->
-
-<!--
-## "Trade-off" Varianza--Sesgo (cont.)
-
-* Es fácil construir un modelo con bajo sesgo, pero tendrá alta varianza. Y al revés.
--->
-
-<!--
-* El desafío es encontrar un método (ej., flexibilidad del modelo) para el cual tanto la varianza como el sesgo cuadrado sean bajos
--->
-
-
-* NO  es posible minimizar simultáneamente ambas fuentes de error:  *memorización* (en entrenamiento) vs. *generalización* de resultados
+- No pueden minimizarse simultáneamente ambas fuentes de error:  *memorización* (en entrenamiento) vs. *generalización* de resultados
 
 :::
 
 ::::
 
-## Medir el Error en la Clasificación
+:::
 
+::::{.notes}
+
+- Recuerdo de Econometría I:
+1. sesgo por omisión de variables relevantes
+2. aumento de varianza por inclusión de variable irrelevante
+
+- A medida que se añaden más y más parámetros a un modelo, la complejidad del modelo aumenta y la varianza se convierte en nuestra principal preocupación, mientras que el sesgo disminuye constantemente. Por ejemplo, a medida que se añaden más términos polinómicos a una regresión lineal, mayor será la complejidad del modelo resultante.
+
+![](figure/biasvariance-tradeoff2.png){width=22% fig-align="center"}
+
+
+* Es fácil construir un modelo con bajo sesgo, pero tendrá alta varianza. Y al revés.
+
+* El desafío es encontrar un método (ej., flexibilidad del modelo) para el cual tanto la varianza como el sesgo cuadrado sean bajos
+
+::::
+
+## Métricas de Error en la Clasificación
+
+::::{.notes}
 * Los modelos de clasificación NO predicen directamente la categoría, sino la *probabilidad* de que una observación pertenezca a cada categoría
 
-<!--
+
 * Típicamente se asigna la clase predicha como aquella con mayor probabilidad.
 
 * En el caso binario, equivale a fijar un umbral de 0.5, pero se deberían probar varios valores del umbral
--->
-
-* La clase predicha será aquella con mayor probabilidad. En el caso binario, implicar superar el umbral de 0.5 (se deben probar varios valores)
-
-
-```{r}
-censo <- read_csv("data/census.csv") |>
-  mutate(income = parse_factor(income))
-logit <- glm(data = censo, income ~ capital_gain,
-             family = "binomial")
-prob.predict <- predict(logit, type = "response")
-
-umbral <- 0.5
-cat.predict  <- if_else(prob.predict > umbral, 1, 0)
-cbind(censo$income, cat.predict, prob.predict) |> head(10)
-```
 
 * Como no tiene sentido diferencia de clases (variables categóricas), NO se pueden calcular medidas como el MSE y otros relacionados
 
-<!--
+
 * Existen pseudo-$\small R^2$ como la correlación al cuadrado entre
 
--->
-## Matriz de Confusión
+::::
 
-* Tabular categorías observadas frente a las categorías predichas
+- El modelo predice la *probabilidad* de que una observación pertenezca a cada categoría ⇒ se asigna como clase predicha aquella con mayor probabilidad
 
-```{r echo=FALSE, eval=TRUE, results='asis'}
-library(kableExtra)
-library(tidyverse)
-tab <- tibble(` ` = c("POSITIVO (1)", " ", "NEGATIVO (0)", " "),
-              `POSITIVO (1)` = c("Verdadero Positivo [VP]", " ", "Falso Negativo [FN]", "(Error Tipo II)"),
-              `NEGATIVO (0)` = c("Falso Positivo [FP]", "(Error Tipo I)", "Verdadero Negativo [VN]", " "))
+  - en el caso binario, implica superar el umbral de 0.5 (pero deben probarse varios valores)
 
-tab |> kbl(align = "c", col.names = c(".", "POSITIVO (1)", "NEGATIVO (0)")) |>
-  kable_paper("striped", full_width = T) |>
-  add_header_above(c(" " = 1, "CLASE OBSERVADA" = 2), bold = TRUE, font_size = "x-large") |>
-  collapse_rows(columns = 1, valign = "middle")  |>
-  pack_rows("CLASE PREDICHA", 1, 4)
-```
 
 ```{r}
-table(cat.predict, censo$income)
+censo <- read_csv("data/census.csv") |> 
+  mutate(income = parse_factor(income))
+logit <- glm(data = censo, income ~ capital_gain, 
+             family = "binomial")
+prob_predict <- predict(logit, type = "response")
+
+umbral <- 0.5
+cat_predict  <- if_else(prob_predict > umbral, 1, 0)
+cbind(censo$income, cat_predict, prob_predict) |> head(10)
 ```
+
+- NO tiene sentido diferencia de clases  ⇒  no se puede calcular MSE y similares
+
+- **Matriz de Confusión**: tabular categorías observadas frente a las categorías predichas
+
+
+```{r}
+table(cat_predict, censo$income)
+```
+
+
+::::{.notes}
+|  | **CLASE OBSERVADA** || 
+|:---:|:---:|:---:|
+| **CLASE PREDICHA ↓** | **POSITIVO (1)** | **NEGATIVO (0)** |
+| **POSITIVO (1)** | Verdadero Positivo **[VP]** | Falso Positivo **[FP]** <br>(Error Tipo I) |
+| **NEGATIVO (0)** | Falso Negativo **[FN]** <br>(Error Tipo II) | Verdadero Negativo **[VN]** |
+::::
+
+## Métricas basadas en la matriz de confusión
 
 * Existen varias medidas derivadas de la [matriz de confusión](https://en.wikipedia.org/wiki/Confusion_matrix)
 
-<!--
-* Una medida global para datos *imbalanced* es la *exactitud equilibrada*: $\small \frac{TVP+TVN}{2}$
--->
+```{r}
+#| echo: false
+#| eval: true
+#| results: 'asis'
+library(tibble)
+library(kableExtra)
+
+tab_conf <- tibble(
+  `CLASE PREDICHA ↓` = c("POSITIVO (1)", "NEGATIVO (0)"),
+  `POSITIVO (1)`     = c("Verdadero Positivo [VP]",
+                         "Falso Negativo [FN]<br>(Error Tipo II)"),
+  `NEGATIVO (0)`     = c("Falso Positivo [FP]<br>(Error Tipo I)",
+                         "Verdadero Negativo [VN]")
+)
+
+tab_conf |> 
+  kable(
+    format = "html",
+    escape = FALSE,              # para que <br> funcione
+    align  = c("c", "c", "c")
+  ) |> 
+  add_header_above(c(" " = 1, "CLASE OBSERVADA" = 2)) |> 
+  kable_classic(full_width = FALSE)
+
+```
 
 
-
-## Métricas con la matriz de confusión
 
 * **Tasa de observaciones correctamente clasificadas** (exactitud o *accuracy*)
 
 $$
-\scriptsize ACCUR=\frac{VP+VN}{VP+FP+VN+FN}
+\scriptsize \color{blue}{ACCUR=\frac{VP+VN}{VP+FP+VN+FN}}
 $$
 
-<!-- = 1 - TCE$ -->
 
-<!--
-* Su complemento es la *tasa de clasificación errónea*<!-- o de error en la clasificación --><!--: <!-- $\scriptsize  TCE=\frac{FP+FN}{VP+FP+VN+FN}$
--->
+* No es informativo con clases infrecuentes (datos  desequilibrados): con solo 1% de fraude, predecir que nunca hay fraude implica $\scriptsize ACCUR=99\%$, PERO NO detecta fraude
 
-<!--
-<center>
+::::{.notes}
+
+*  ACCUR = 1 - TCE
+
+* Su complemento es la *tasa de clasificación errónea* o de error en la clasificación: 
 $\small TCE=\frac{FP+FN}{VP+FP+VN+FN} = \frac{1}{n}\sum_{i=1}^{n}I\left[y_i \neq \widehat{y}_i\right]$
-</center>
--->
-
-* No es informativo cuando algunas clases son infrecuentes (datos <!--*imbalanced* o--> desequilibrados)
-
-  + si hay poco fraude/enfermos (ej., 5%), predecir que nunca hay fraude implica $\scriptsize ACCUR=95\%$, PERO NO detecta fraude/enfermedad
-
-<!--
-    - si apenas hay fraude/enfermos (ej., 5%), predecir *siempre* que no hay fraude/individuo sano implica una alta ACCUR=95%
-
-    - PERO es incapaz detectar fraude/enfermedad
--->
-
-<!-- fraude o enfermedad -->
 
 
-* El **estadístico Kappa** ($\small \kappa$) es una medida similar, pero que ajusta por lo se esperaría solo por azar (corrigiendo en parte el desequilibrio entre clases).
+* (datos  desequilibrados o *imbalanced* )
 
-<!-- https://en.wikipedia.org/wiki/Cohen's_kappa -->
+* Una medida global para datos *imbalanced* es la *exactitud equilibrada*: $\small \frac{TVP+TVN}{2}$
+
+https://en.wikipedia.org/wiki/Cohen's_kappa
+
+::::
 
 
-## Métricas con la matriz de confusión (cont.)
+* El **estadístico Kappa** ($\small \kappa$) es una medida similar, pero ajusta por el desequilibrio entre clases
 
-* La **tasa de verdaderos positivos** o **sensibilidad** (*recall*) es el porcentaje de verdaderos positivos sobre el total de positivos observados
+::::{.notes}
+que ajusta por lo se esperaría solo por azar (corrigiendo en parte el desequilibrio entre clases).
+::::
+
+
+## Métricas basadas en la matriz de confusión (cont.)
+
+* **Tasa de verdaderos positivos** o **sensibilidad** (*recall*) 
 $$
-\scriptsize TVP=SENSIT=\frac{VP}{VP+FN}
+\scriptsize \color{blue}{TVP=SENSIT=\frac{VP}{VP+FN}}
 $$
 
-    - ej., tasa de fraude/enfermos existentes que se detectan correctamente
 
-
-<!-- probabilidad de detección, potencia  -->
-
-* La **tasa de verdaderos negativos** o **especificidad** es el porcentaje de verdaderos negativos sobre el total de negativos observados
+* **Tasa de verdaderos negativos** o **especificidad** 
 $$
-\scriptsize TVN=ESPECIF=\frac{VN}{VN+FP}
+\scriptsize \color{blue}{TVN=ESPECIF=\frac{VN}{VN+FP}}
 $$
 
-    - ej., tasa de "otras" opciones que se clasifican correctamente
+    - **Tasa de falsos positivos**: $\scriptsize \color{blue}{TFP = 1 - TVN = 1 - ESPECIF}$
 
-    - **Tasa de falsos positivos**: $\scriptsize TFP = 1 - TVN = 1 - ESPECIF$
+::::{.notes}
 
-<!--
+-TVP: es el porcentaje de verdaderos positivos sobre el total de positivos observados
+   ej., tasa de fraude/enfermos existentes que se detectan correctamente
 
-Ejemplo: prueba diagnóstica, sensibilidad cuantos enfermos es capaz de detectar
+- TVN: es el porcentaje de verdaderos negativos sobre el total de negativos observados
 
-especificifciad, cuantos no enfermos es capaz de detectar corre
-
--->
-
+  - ej: ., tasa de "otras" opciones que se clasifican correctamente
 
 
-## Métricas con la matriz de confusión (y 3)
+- Ejemplo: prueba diagnóstica, sensibilidad cuantos enfermos es capaz de detectar
 
-* La **exactitud equilibrada** (*Balanced Accuracy*) es una media <!--(aritmética o geométrica)--> de la sensibilidad y de la especificidad
+      especificifciad, cuantos no enfermos es capaz de detectar corre
+  
+::::
 
-<!-- G-mean = sqrt(sensit * especif ) -->
+
+* **Exactitud equilibrada**: (*Balanced Accuracy*) media <!--(aritmética o geométrica)--> de la sensibilidad y de la especificidad
+
+* **Precisión**: $\scriptsize PREC=\frac{VP}{VP+FP}$
+
+- La familia de **medidas $\small F_{\beta}$**: ratio de la importancia ponderada de la sensibilidad y de la precisión
+
+::::{.notes}
+- (*Balanced Accuracy*) es una media (aritmética o geométrica) de la sensibilidad y de la especificidad
+
+  -  G-mean = sqrt(sensit * especif )
 
 * La **precisión** o valor de predicción positivo es la cantidad de verdaderos positivos sobre el total de positivos predichos
 
@@ -1320,33 +1335,30 @@ $$
 \scriptsize PREC=\frac{VP}{VP+FP}
 $$
 
-<!--
     + Tasa de falso descubrimiento: $\small 1-PREC$
--->
+
+
 
 * La familia de **medidas $\small F_{\beta}$** es una ratio de la importancia ponderada de la sensibilidad y de la precisión: $\scriptsize F_{\beta}=\frac{(1+\beta)^2 \times SENSIT \times PREC}{\beta^2 \times SENSIT + PREC}$
 
   + Para $\scriptsize \beta<1$<!-- ($\scriptsize >1$)-->, se da menos <!--(más)--> importancia a la sensibilidad: los falsos positivos <!--(negativos)--> se consideran más costosos
 
   + Para $\scriptsize \beta>1$, los falsos negativos son más costosos y para $\scriptsize \beta=1$ son igualmente costosos
+  
+::::
+
 
 ## Curva ROC ("Receiver Operating Characteristic")
 
-::: {style="font-size: 88%;"}
+::::{.notes}
 
-<!--
 https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
--->
 
-* Representa TVP (eje y) frente a TFP (eje x) en *diferentes umbrales* <!-- de clasificación*-->: reducir el umbral clasifica más elementos como positivos (verdaderos y falsos)
 
-<!--(es una curva de probabilidad)-->
+* (es una curva de probabilidad)
 
-<!--
 * Reducir el umbral clasifica más elementos como positivos, por lo que aumentan tanto los falsos positivos como los verdaderos positivos.
--->
 
-<!--
 :::: {.columns}
 
 ::: {.column width="45%"}
@@ -1364,22 +1376,10 @@ https://developers.google.com/machine-learning/crash-course/classification/roc-a
 
 ::::
 
--->
+* clasificador aleatorio:  por debajo de 45º el clasificador es pesimo predice más positivos entre los negativos que entre los positivos
 
-![](figure/ROC_AUC_combined.png){width=85% fig-align="center"}
-
-* La curva ROC informa del grado de separabilidad: dado un nivel de TFP, el clasificador es mejor cuanto mayor sea TVP
-
-<!--
-clasificador aleatorio:  por debajo de 45º el clasificador es pesimo predice más positivos entre los negativos que entre los positivos
--->
-
-
-<!--
 * Con datos *imbalanced*  puede ser más informativo graficar TFP frente a precisión
--->
 
-<!--
 
 ![](figure/ROCCurve.svg){width=40% fig-align="center"}
 ![](figure/AUC.svg){width=40% fig-align="center"}
@@ -1387,21 +1387,30 @@ clasificador aleatorio:  por debajo de 45º el clasificador es pesimo predice m�
 https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-classification-in-python/
 
 https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5
--->
 
-:::
+
+::::
+
+* Representa TVP (eje y) frente a TFP (eje x) en *diferentes umbrales* <!-- de clasificación*-->: reducir el umbral clasifica más elementos como positivos (verdaderos y falsos)
+
+
+![](figure/ROC_AUC_combined.png){width=85% fig-align="center"}
+
+* La curva ROC informa del grado de separabilidad: dado un nivel de TFP, el clasificador es mejor cuanto mayor sea TVP
+
 
 ## AUC ("area under the curve")
 
-<!--
+::::{.notes}
+
 * AUC informa del grado de separabilidad: mayor AUC implica que el modelo es capaz de distinguir entre clases (predecir 0s y 1s correctamente)
--->
+
+* AUC provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example.
+
+::::
 
 * La AUC es el área bajo la curva ROC: ofrece una medida agregada de rendimiento entre 0 (todas las clasificaciones incorrectas) y 1 (todas correctas)
 
-<!--
-AUC provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example.
--->
 
 * Resume la curva ROC y permite comparar curvas que se cruzan
 
@@ -1411,47 +1420,43 @@ AUC provides an aggregate measure of performance across all possible classificat
 ## Extensiones. Métricas adicionales
 
 
-* Con más de dos clases, se realiza un análisis AUC-ROC para cada categoría (frente a las demás) <!--: se define una variable binaria para la categoría frente a todas las demás--> y se promedian<!-- la ROC y la AUC--> (ej., ponderando por casos en cada clase) <!--o no-->
+* Con más de dos clases, se realiza un análisis AUC-ROC para cada categoría (frente a las demás) y se promedian (ej., ponderando por casos en cada clase) 
 
-<!--
+::::{.notes}
+
+* Con más de dos clases, se realiza un análisis AUC-ROC para cada categoría (frente a las demás): se define una variable binaria para la categoría frente a todas las demás y se promedian la ROC y la AUC (ej., ponderando por casos en cada clase) o no
+
+
+
 https://yardstick.tidymodels.org/reference/roc_aunp.html
 
 https://yardstick.tidymodels.org/reference/roc_aunu.html
 
--->
-
-
-<!--
 * Cuando la variable de respuesta tiene más de dos clases,
 
     1. Se realiza un análisis AUC-ROC para cada categoría: se define una variable binaria para la categoría frente a todas las demás
 
     2. Se obtiene el promedio de tanto de la ROC como de la AUC, bien dando igual peso a cada categoría o bien ponderando el número de casos de cada una
 
--->
-
-* Con clases desequilibradas, se puede preferir en lugar de la ROC un gráfico de precisión frente sensibilidad (*precision-recall*) y su correspondiente AUC (*PR-AUC*)
-
-<!--
 https://yardstick.tidymodels.org/reference/pr_auc.html
 
 https://yardstick.tidymodels.org/reference/average_precision.html
--->
+
+
++ gain curve: https://yardstick.tidymodels.org/reference/gain_curve.html
+
++ mn_log_loss: https://yardstick.tidymodels.org/reference/mn_log_loss.html
+
+::::
+
+* Con clases desequilibradas, se puede preferir en lugar de la ROC un gráfico de precisión frente sensibilidad (*precision-recall*) y su correspondiente AUC (*PR-AUC*)
+
 
 * Existen múltiples funciones de pérdida (o coste de clasificación) posibles.
 
   + Las relacionadas con la *curva de ganancia* consideran el coste de alcanzar un cierto nivel de sensibilidad
 
   + Otras se basan en la función de verosimilud o la entropía como medidas de pérdida (ej. *mean log loss*)
-
-<!--
-+ gain curve: https://yardstick.tidymodels.org/reference/gain_curve.html
-
-https://yardstick.tidymodels.org/reference/gain_capture.html
-
-+ mn_log_loss: https://yardstick.tidymodels.org/reference/mn_log_loss.html
-
--->
 
 
 ## Evaluación de Modelos: entrenamiento y prueba
@@ -1483,46 +1488,51 @@ https://yardstick.tidymodels.org/reference/gain_capture.html
 
 ## Evaluación de Modelos: Validación cruzada
 
-<!--
-* Los resultados de evaluación puede verse afectados por la partición concreta obtenida (ej. incluir observaciones atípicas en la muestra de prueba)
--->
 
-* Para evitar que los datos sean sensibles a una partición concreta, se usa validación cruzada (*cross-validation* o *rotation estimation*)
+::::{.notes}
+
+* Los resultados de evaluación puede verse afectados por la partición concreta obtenida (ej. incluir observaciones atípicas en la muestra de prueba)
 
 * Se repite varias veces y de forma ordenada el proceso de remuestreo para la partición en grupos de entrenamiento y prueba (similar a *bootstrap*)
 
-* Permite utilizar todas las observaciones de la muestra, tanto para estimar como para evaluar el modelo (aunque no a la vez)
 
-<!--
-![](figure/k-crossVal_split2.png){width=55% fig-align="center"}
--->
-<!--
-* Entre las variantes más habituales se encuentran:
-
-    - Validación cruzada de K iteraciones (*K-fold cross-validation* o K-fold CV)
-
-    - Validación cruzada aleatoria (*Random cross-validation*, RCV)
-
-    - Validación cruzada dejando uno fuera (*Leave-one-out cross-validation*, LOOCV)
-
-    - Validación cruzada dejando p fuera (*Leave-p-out cross-validation*, LpOCV)
--->
-
-<!--
 https://en.wikipedia.org/wiki/Cross-validation_(statistics)
--->
+
+![](figure/k-crossVal_split2.png){width=55% fig-align="center"}
+
+::::
+
+- La validación cruzada (*cross-validation* o *rotation estimation*) repite varias veces y de forma ordenada el proceso de partición en grupos de entrenamiento y prueba (similar a *bootstrap*) 
+
+
+- Este método de evaluación de modelos:
+
+  1. Evita que los resultados sean sensibles a una partición concreta de los datos
+  
+  2. Permite utilizar todas las observaciones de la muestra, tanto para estimar como para evaluar el modelo (aunque no a la vez)
+
+. . .
+
+* Algunas variantes de Validación Cruzada (VC) son:
+
+    - VC de K iteraciones (*K-fold cross-validation* o K-fold CV) (el más habitual)
+
+    - VC aleatoria (*Random cross-validation*, RCV)
+
+    - VC dejando uno fuera (*Leave-one-out cross-validation*, LOOCV)
+
+    - VC dejando p fuera (*Leave-p-out cross-validation*, LpOCV)
+
 
 ## Validación cruzada de K bloques
 
-::: {style="font-size: 95%;"}
 
-* El tipo más habitual de validación cruzada: se divide, aleatoriamente y *ex-ante*, la muestra en K subconjuntos (normalmente, 5 o 10)
+* Se divide, aleatoriamente y *ex-ante*, la muestra en K subconjuntos (normalmente, 5 o 10)
 
 
 :::: {.columns}
 
 ::: {.column width="60%"}
-<!-- De Joan.domenech91 - Trabajo propio, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17616792 -->
 
 ![](figure/K-fold_cross_validation.jpg){heigth=150% fig-align="center"}
 :::
@@ -1536,16 +1546,18 @@ https://en.wikipedia.org/wiki/Cross-validation_(statistics)
 ::::
 
 
-+ Se obtiene una métrica de error en cada iteración; se promedian para obtener un único resultado de evaluación
++ Se obtiene una métrica de error en cada iteración
 
++ Se promedian para obtener un único resultado de evaluación
 
-<!-- * Es el tipo más habitual de validación cruzada -->
+::::{.notes}
 
 * Evita la sensibilidad a una partición concreta de los datos y permite usar todas las observaciones tanto para estimar como para evaluar el modelo
 
-:::
 
-## Validación cruzada aleatoria (RCV) y LOOCV
+- De Joan.domenech91 - Trabajo propio, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=17616792 
+
+**Validación cruzada aleatoria (RCV) y LOOCV**
 
 :::: {.columns}
 
@@ -1562,8 +1574,6 @@ https://en.wikipedia.org/wiki/Cross-validation_(statistics)
 
 ::::
 
-
-
 :::: {.columns}
 
 ::: {.column width="60%"}
@@ -1577,5 +1587,7 @@ https://en.wikipedia.org/wiki/Cross-validation_(statistics)
 
 + Se realizan $n$ iteraciones; se calcula una media sobre $n$ resultados
 :::
+
+::::
 
 ::::
