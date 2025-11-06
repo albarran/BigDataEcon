@@ -1,0 +1,860 @@
+---
+title: "Tema 06 - Selección y Regularización en Modelos Lineales"
+subtitle: "LASSO y Ridge Regression"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:
+        - beige
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    show-notes: false
+    notes-format: html
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+
+# Elimino todo del Entorno
+rm(list = ls())
+
+# Cargo bibliotecas necesarias
+library(tidyverse)
+library(kableExtra)
+library(broom)
+library(modelsummary)
+library(glmnet)
+```
+
+```{r}
+#| label: datos
+#| echo: false
+#| eval: false
+
+# Cargar datos (se generarán si no existen)
+if (!file.exists("data/salarios_tech.rds")) {
+  source("Tema06datos.R")
+}
+salarios <- readRDS("data/salarios_tech.rds")
+churn <- readRDS("data/churn_clientes.rds")
+```
+
+# Conceptos Fundamentales
+
+## El problema: muchas variables
+
+- Escenario típico en economía/empresa: predecir una variables (ventas, salarios, abandono de clientes) con múltiples factores explicativos y/o interacciones y polinomios
+
+- **Desafíos** de MCO para estimar modelos con muchos regresores:
+
+  * ¿Qué variables incluimos?
+  * Con muchas variables, alta varianza
+  * Modelo complejo, difícil de interpretar
+  * Posible **overfitting**
+
+. . .
+
+- **¿Solución?** Tres enfoques complementarios:
+
+  1. **Selección** de variables relevantes y estimar por MCO
+  2. **Regularización** (penalizar coeficientes grandes)  ← **Este tema**
+  3. **Reducción** de dimensionalidad (usar un número menor de variables combinando las originales)
+
+::::{.notes}
+* MCO puede estimar modelos con muchos regresores (ej., polinomios e interacciones para relaciones no lineales), pero ¿qué variables incluimos?
+
+* Cuando crece el número de parámetros $\small k$ relativo al de observaciones $\small n$:
+    - menor **precisión** (+ varianza) $\Rightarrow$ no solución única de MCO con $\small k>n$
+    - modelo complejo y menos **interpretable**$\Rightarrow$ selección de variables
+
+*  **Precisión**: incluso si la verdadera relación es lineal, mayor varianza  cuando crece el número de parámetros/regresores relativo al de observaciones $\Rightarrow$ no solución única de MCO con $\small k>n$ 
+
+
+    + con $\small k>n$ no existe una estimación única de mínimos cuadrados 
+
+
+* **Interpretación**: un modelo con variables irrelevantes <!-- no asociadas a la de respuesta es más complejo y menos interpretable $\Rightarrow$ selección de variables
+
+* Tres enfoques complementarios para mejorar precisión e interpretación:
+
+1. **Selección** de variables: excluir variables irrelevantes y  ajustar ese modelo reducido por mínimos cuadrados ordinarios
+
+2. **Restricción** de los coeficientes estimados puede reducir la varianza, a costa de un aumento insignificante del sesgo (Regresión Regularizada/Penalizada) <!-- *Ridge Regression*/LASSO -->
+
+3. **Reducción de la dimensionalidad**: usar $\small M<k$ combinaciones lineales (proyecciones) y estimar por mínimos cuadrados  (*PCR*, *PLS*)
+
+*Partial Least Square* / PCR: Principal Components Regression 
+
+**Métodos de selección de variables**
+
+* Selección del **mejor subconjunto**: estimar $\small 2^k$ modelos posibles con cada combinación de regresores y elegir aquel con menor error $\Rightarrow$ prohibitivo!
+
+* Alternativas factibles (consideran un menor número de modelos)
+
+    1. Selección paso a paso **hacia adelante**: añadir un regresor cada vez, eligiendo aquel con menor error en cada paso 
+ o eligiendo según p-valor 
+
+    2. Selección paso a paso **hacia atrás** (no factible si $\small k>n$)
+
+    3. **Selección mixta**: en cada paso se añaden variables de forma secuencial, pero también se eliminan algunas (p-valor alto)
+
+* No tienen criterio riguroso, no llevan a la misma solución y no garantizan encontrar el mejor subconjunto (ej., elimina pronto un regresor importante)
+
+* Se pueden usar también en regresión logística
+
+**Selección  del Mejor Subconjunto**
+
+* Debemos estimar $\small 2^k$ modelos posibles con cada combinación de regresores (desde un solo regresor hasta todos a la vez)
+
+* Usar SCR en entrenamiento lleva a elegir el modelo con $\small k$ parámetros
+
+* Procedimiento:
+
+  1. Para cada $\small p=1,\dots,k$, estimar todos los modelos con $p$ parámetros y elegir aquel con menor error (ej., SCR): $\small M^*_p$
+  
+  2. Elegir entre los modelos $\small M^*_1, \dots, M^*_k$ usando validación cruzada o similar
+
+* No validamos todos, pero estimarlos es prohibitivo para $\small k$ moderada
+
+**Selección paso a paso hacia adelante**
+
+* Procedimiento: empezando por modelo sin regresores $\small M_0$
+
+  1. Para cada $\small p=0, 1,\dots,k-1$, estimar todos los modelos que añadan UN regresor a $\small M^f_p$
+  2. Elegir como modelo $\small M^f_{p+1}$ el que tiene menor SCR
+  3. Elegir entre  $\small M_0, M^f_1, \dots, M^f_k$ con validación cruzada o similar
+
+* Muchos menos modelos: $\small k-p$ por iteración, en total $\small 1+\frac{p(p+1)}{2}$
+
+* Solo $\small 1+\frac{k(k+1)}{2}$ modelos
+* Factible aunque $\small k>n$ pero para modelo $M_0,\dots,M^f_{n-1}$
+
+* No se garantiza encontrar el mejor subconjunto, por eliminar pronto un regresor importante
+    + ej. el mejor $\small M^*_2$ no usa el regresor de  mejor modelo de un regresor $\small M^f_1=M^*_1$
+
+
+**Selección paso a paso hacia atrás**
+
+* Procedimiento: empezando por modelo con todos los regresores $\small M_k$
+  1. Para cada $\small p=k, k-1, \dots,1$, estimar todos los modelos que eliminan UN regresor a $\small M^b_p$
+  2. Elegir como modelo $\small M^b_{p-1}$ el que tiene menor SCR
+  3. Elegir entre $\small M_0, M^b_1, \dots, M^b_k$ usando validación cruzada o similar
+
+* Solo $\small 1+\frac{k(k+1)}{2}$ modelos
+* Pero no factible si $\small k>n$ (no se puede ajustar $M_{k}$)
+
+* NADA garantiza acabar con el mejor subconjunto de regresores
+
+**Otros procedimientos**
+
+* **Selección mixta** de subconjuntos: en cada iteración se añaden variables de forma secuencial, pero también se eliminan las que ya no mejoren el ajuste
+
+    + simulan la selección de mejores subconjuntos, con las ventajas computacionales de selección por pasos.
+
+* Estimar *directamente* el error de prueba mediante validación cruzada
+
+* Estimar *indirectamente* el error de prueba mediante **ajustes** en el error de entrenamiento para tener en cuenta el sesgo por "overfitting"
+
+* Todos estos métodos (y los anteriores de selección) se pueden usar también en regresión logística
+
+::::
+
+
+## "Trade-off" Sesgo-Varianza (de nuevo) 
+
+- El dilema fundamental del aprendizaje:
+
+  - Modelos simples → alto sesgo
+  
+  - Modelos complejos → alta varianza
+
+- Objetivo: controlar este trade-off, calculando métricas de error para elegir el mejor modelo
+
+. . .
+
+1. Validación cruzada: estima directamente el error de prueba, pero es costoso (computacionalmente, menor tamaño muestral)
+
+. . .
+
+  
+2. Métodos de ajuste: el error de entrenamiento siempre disminuye para modelos más complejos, pero puede ajustarse y *estimar indirectamente* el error de prueba mediante supuestos (erróneos?)
+
+    - Criterio de Información de Akaike: $\small AIC = \frac{1}{n}\left( SCR^{entrena} + 2 k \widehat{\sigma}^2 \right)$
+      
+    - Criterio de Información Bayesiano: $\small BIC =  \frac{1}{n}\left( SCR^{entrena} + log(n) k \widehat{\sigma}^2 \right)$
+  
+    - $\small R^2-ajustado = 1- \frac{SCR^{entrena}/(n-k-1)}{SCT^{entrena}/(n-1)}$
+  
+  donde $\small \widehat{\sigma}^2$ un estimación de la varianza del error y $\small k$ es el **número de parámetros**
+
+::::{.notes}
+
+* Sea $\small n$ el número de observaciones, $\small k$ el número de parámetros y $\small \widehat{\sigma}^2$ un estimación de la varianza del error $\small \varepsilon$
+
++ Validación cruzada NO necesita estimar $\small \widehat{\sigma}^2$ (difícil en algunos modelos)
+
+* Los métodos de ajuste ofrecen una **estimación indirecta** del error de prueba, en la muestra de entrenamiento mediante supuestos (erróneos?) 
+
+* $\small SCR$ en entrenamiento siempre se reduce si el modelo es más flexible $\Rightarrow$ añadir una penalización por número de parámetros
+
+    * Criterio de Información de Akaike: $\small AIC = \frac{1}{n}\left( SCR + 2 k \widehat{\sigma}^2 \right)$
+    
+        + $\small \widehat{\sigma}^2$ un estimación de la varianza del error
+
+    * Criterio de Información Bayesiano: $\small BIC =  \frac{1}{n}\left( SCR + log(n) k \widehat{\sigma}^2 \right)$
+
+    * $\small R^2-ajustado = 1- \frac{SCR/(n-k-1)}{SCT/(n-1)}$ <!--o $\small SCR/(n-k-1)$ -->
+
+
+** Métodos de regularización**
+
+* Alternativa a mínimos cuadrados con selección de regresores
+
+* Ajustar un modelo que contenga **todos** los regresores, PERO con una técnica que limite las estimaciones de los coeficientes, o las reduzca a cero.
+
+* A priori, NO es obvio por qué esa restricción debería mejorar el ajuste, pero esto reduce su varianza
+
+* Dos enfoques
+    + "Ridge regression": se reducen los coeficientes
+    + LASSO ("least absolute shrinkage and selection operator"): selección automática de regresores
+
+* Regresión de red elástica, incorpora ambos
+
+::::
+
+
+## ¿Qué es la regularización?
+
+**Idea central:** Penalizar coeficientes grandes para reducir la varianza 
+
+:::{style="margin-bottom: -10px;"}
+- En MCO minimizamos:
+:::
+
+$$
+min_{\beta} \quad SCR(\beta) = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 
+$$
+
+
+. . .
+
+:::{style="margin-bottom: -10px;"}
+- **Con regularización** minimizamos:
+:::
+
+$$
+min_{\beta} \quad SCR(\beta) + \lambda \cdot \text{Penalización}(\beta)
+$$
+
+:::{style="margin-bottom: -10px;"}
+donde $\lambda \geq 0$ es el parámetro de regularización (hiperparámetro)
+:::
+
+. . . 
+
+* Castiga coeficientes grandes para forzar modelos más simples: mayor sesgo (peor ajuste), pero reduce la varianza (previene overfitting)
+
+  * **NOTA:** NO se penaliza la constante (media de $\small Y$), solo el impacto de $\small X$
+
+* La regularización funciona mejor cuando MCO tiene alta varianza: intercambia un pequeño aumento de sesgo por una gran reducción de la varianza
+
+
+::::{.notes}
+
+**Métodos de regularización**
+
+* En *MCO*: $\small \min_{\beta} SCR={\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+
+* En Regresión Penalizada o Regularizada, se añade una restricción que limite (reduzca) los coeficientes estimados $$\small \min_{\beta} SCR \text { sujeto a }R(\beta) \leq t$$
+
+  + donde $R(\cdot)$ es <!--una función de penalización--> una medida del tamaño de los coeficientes
+
+  + NO se penaliza a la constante (media de $\small Y$), solo el impacto de $\small X$  
+
+* La restricción limita la importancia de las $\small X$ para explicar $\small Y$: empeora el ajuste (sesgo), pero reduce la varianza $\Rightarrow$ previene "overfitting"
+
+* Permite ajustar un modelo que contenga **todos** los regresores
+
+* Reescribiendo el problema (Lagrangiano): $\small \min_{\beta} SCR+\lambda R(\beta)$
+
+* $\lambda \geq 0$ es un parámetro de ajuste ("tuning parameter")
+
+
+
+* $\lambda = 0$: regresión MCO estándar
+* $\lambda$ grande: coeficientes muy pequeños (modelo simple)
+* Debemos elegir $\lambda$ óptimo mediante validación cruzada
+::::
+
+## Tipos de regularización
+
+**Dos formas principales de penalización:**
+
+:::: {.columns}
+::: {.column width="50%"}
+
+**Ridge Regression**
+$$
+\min_\beta \text{SCR} + \lambda \sum_{j=1}^{k}\beta_j^2
+$$
+
+* Penaliza la suma de los **cuadrados** de $\beta$
+* **Reduce** los coeficientes hacia cero
+* Pero **nunca exactamente cero**
+* Todas las variables se mantienen
+
+:::
+::: {.column width="50%"}
+
+**LASSO** 
+$$
+\min_\beta \text{SCR} + \lambda \sum_{j=1}^{k}|\beta_j|
+$$
+
+* Penaliza la suma de los **valores absolutos** de $\beta$
+* Reduce coeficientes y **fuerza** algunos **a cero**
+* Realiza **selección de variables**
+* Modelo más interpretable
+
+:::
+::::
+
+
+::::{.notes}
+
+**¿Cuál usar?**
+
+* Ridge: muchas variables son relevantes
+* LASSO (*least absolute shrinkage and selection operator*): solo pocas variables son importantes
+* Elastic Net: combina ambos $\small \alpha \left(\sum_{j=1}^{k}|\beta_j|\right) + (1-\alpha)\left(\sum_{j=1}^{k}\beta_j^2\right)$
+
+
+
+|  Método          |  Penalización por tamaño = $R(\boldsymbol{\beta})$                                      |    Norma                                    |
+|:-----------------|:----------------------------------------------------------------------------------------|:--------------------------------------------|
+| MCO              | 0                                                                                       |                                             |
+| LASSO            | $\lVert\boldsymbol{\beta}\rVert_1=\sum_{j=1}^{k}|\beta_j|$                              |$\ell_1$: $||\boldsymbol{\beta}||_1=\sum_{j=1}^{k}|\beta_j|$ |
+| Ridge Regression | $\lVert\boldsymbol{\beta}\rVert_2^2 =\sum_{j=1}^{k}\beta_j^2$                           |$\ell_2$: $||\boldsymbol{\beta}||_2=\sqrt{\sum_{j=1}^{k}\beta_j^2}$     |
+| Red Elásica      | $\alpha\lVert\boldsymbol{\beta}\rVert_1 + (1-\alpha)\lVert\boldsymbol{\beta}\rVert_2^2$ |                                             |
+
+
+  - $\ell_1$-norm: $||\boldsymbol{\beta}||_1=\sum_{j=1}^{k}|\beta_j|$.  
+
+  - $\ell_2$-norm: $||\boldsymbol{\beta}||_2=\left(\sum_{j=1}^{k}|\beta_j|^2\right)^{\frac{1}{2}}$, i.e., Euclidean norm.  
+
+* LASSO = *least absolute shrinkage and selection operator*
+
+
+* En *MCO*: $\small \min_{\beta}=SCR={\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$
+
+* Añadir restricciones para prevenir "overfitting"  $\small \sum_{j=1}^{k}\beta_j^2 \leq c$
+
+* Se obtiene un coeficiente estimado $\small \widehat{\beta}^R_{\lambda}$ que minimiza
+\[
+SCR + \lambda \sum_{j=1}^{k}\beta_j^2 = SCR + \lambda ||\beta||_2^2
+\]
+
+  + $||\beta||_2 = \sqrt{\sum_{j=1}^{k}\beta_j^2}$ es la norma L2 ($\ell_2$) del vector de coeficientes
+
+  + $\lambda \geq 0$ es un parámetro de ajuste ("tuning parameter")
+
+::::
+
+::::{.notes}
+
+**Penalización de contracción**
+
+:::: {.columns}
+
+::: {.column}
+
+* Para un $\small \lambda$ dado:
+
+$\small \widehat{\beta}^R_{\lambda} = \arg \min_\beta SCR + \lambda \sum_{j=1}^{k}\beta_j^2$
+
+:::
+
+::: {.column}
+
+$$
+\small
+\widehat{\beta}^L_{\lambda} = \arg \min_\beta SCR + \lambda \sum_{j=1}^{k}|\beta_j| 
+$$
+
+::: 
+::::
+
+*  Tratamos de ajustarnos a los datos minimizando SCR, PERO se recompensa a los coeficientes cercanos a cero
+
+*  Para que todos los coeficientes estén en la **misma escala** (misma "cercanía a cero), debemos **estandarizar los regresores**: $\small \widetilde{x}_{ij} = \frac{x_{ij}}{\sqrt{ \frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}}$
+
+    * Recordar: en MCO, el coeficiente $\small \beta_j$ cambia si cambiamos las unidades de $\small X_j$
+
+* En MCO, si multiplicamos $\scriptsize X_j$ por $\scriptsize c$, su coeficiente estimado se reescala por $\scriptsize 1/c$: el valor predicho $\scriptsize \widehat{\beta_j}X_j$ no cambia $\Rightarrow$ $SCR$ no cambia
+
+    * En Regresión Regularizada, la penalización sí cambia al reescalar $\Rightarrow$ los coeficientes estimados pueden cambiar drásticamente
+
+* Los coeficientes estimados por regresión regularizada pueden cambiar drásticamente después de reescalar cualquier variable
+
+**"Ridge Regression": penalización de contracción**
+
+\[\small
+\widehat{\beta}^R_{\lambda} = \arg \min_\beta SCR + \lambda \sum_{j=1}^{k}\beta_j^2 
+\]
+
+* Tratamos de ajustarnos a los datos minimizando SCR, PERO se recompensa a los coeficientes cercanos a cero: **penalización de contracción** 
+
+* NO se penaliza a la constante (media de $\small Y$), solo el impacto de $\small X$
+
+* $\small \lambda$= importancia de la penalización (cuanto se contraen los coeficientes)
+
+    + $\small \lambda \approx 0$, cercano a MCO 
+    
+    + $\small \lambda >> 0$, todos los coeficientes se van a cero
+
+* Ventaja sobre la selección de regresores: SOLO necesitamos ajustar un modelo para cada valor de $\small \lambda$
+
+**Advertencia: estandarizar los regresores**
+
+* En MCO los coeficientes estimados son equivariantes a la escala de los regresores. 
+
+  * Si multiplicamos $\small X_j$ por una constante, $\small c$, el coeficiente estimado se reescala por $\small 1/c$ y el valor predicho $\widehat{\beta_j}X_j$ sigue siendo el mismo. 
+
+  * $SCR$ no cambia cuando se reescala un regresor
+
+* En Regresión Regularizada, NO, porque la penalización sí cambia al reescalar $\Rightarrow$ los coeficientes pueden cambiar drásticamente
+
+
+* Los coeficientes estimados por regresión regularizada pueden cambiar drásticamente después de reescalar cualquier variable
+
+
+* Se recomienda ajustar **después de estandarizar** los regresores:
+\[
+\small
+\widetilde{x}_{ij} = \frac{x_{ij}}{\sqrt{ \frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}}
+\]
+
+**Regularización y "Trade-off" sesgo-varianza**
+
+* ¿Por qué la regularización mejoraría el ajuste sobre MCO? 
+
+* $\small \lambda$= importancia de la penalización (cuanto se contraen los coeficientes)
+
+    + $\small \lambda$ pequeño (cercano a MCO): mayor flexibilidad ($-$ sesgo, $+$ varianza)
+    
+    + $\small \lambda >> 0$, todos los coeficientes a cero: menor flexibilidad ($+$ sesgo, $-$ varianza)
+
+* Regularización funciona mejor cuando MCO tiene alta varianza: intercambia un poco más de sesgo por una gran reducción de la varianza
+
+* "Ridge Regression" <!--NO realiza selección de variables:--> sigue incluyendo *todos* los regresores (ningún coeficiente exactamente cero): puede complicar la interpretación con muchos
+
+* LASSO (*least absolute shrinkage and selection operator*): también contrae <!--los coeficientes estimados--> hacia cero, algunos **exactamente cero**  (selección de variables)
+
+**LASSO**
+
+* Idea similar $\small \min_{\beta}=SCR={\sum_{i=1}^{n}\left(y-\widehat{y}\right)^2}$, sujeto a $\small \sum_{j=1}^{k}|\beta_j| \leq c$
+
+* Selección de mejor conjunto impone restricción
+$\small \sum_{j=1}^{k} I(\beta_j \neq 0) \leq s$
+
+Tampoco es factible: requiere considerar todos los modelso que tiene s regresores
+
+LASSO/ridge  más factibles computacionalmente: sustituyen unas restricciones intratablse por alternativas mucho más fáciles de resolver
+
+\[
+\widehat{\beta}^L_{\lambda} = \arg \min_\beta SCR + \lambda \sum_{j=1}^{k}|\beta_j| 
+\]
+
+* LASSO utiliza una penalización basada en la norma L1 ($\small \ell_1$): 
+\[\small
+||\beta||_1 = \sum_{j=1}^{k} |\beta_j|
+\]
+
+* También contrae los coeficientes estimados hacia cero, PERO obliga algunos a ser **exactamente iguales a cero** cuando $\small \lambda$ es grande
+
+* LASSO realiza la selección de variables.
+
+::::
+
+## "Ridge Regression" y LASSO
+
+
+::::{.notes}
+
+
+![](figure/lasso.png){width=100% fig-align="center"}
+
+* "Ridge regression" domina con muchos regresores igualmente importantes
+
+* LASSO con pocos regresores importantes y muchos inútiles
+
+* LASSO es una alternativa a los contrastes de significatividad (sin formalización estadística)
+
+::::
+
+- **¿Cuál usar?**
+
+  * Ridge: cuando muchas variables son relevantes
+  
+  * LASSO: cuando solo pocas variables son importantes
+  
+  * Elastic Net: combina ambos 
+
+$$
+  \scriptsize \alpha \left(\sum_{j=1}^{k}|\beta_j|\right) + (1-\alpha)\left(\sum_{j=1}^{k}\beta_j^2\right)
+$$
+  
+. . .
+
+
+* Recordad que estos métodos están orientado a la predicción: NO usar para afirmaciones de causalidad (los coeficientes están sesgados)
+
+
+* LASSO  (*least absolute shrinkage and selection operator*) es una alternativa a los contrastes de significatividad 
+
+  - sin formalización estadística
+
+
+* Se puede estimar por MCO la especificación de variables seleccionadas por LASSO
+
+  - sí podemos usarlo para causalidad 
+
+
+::::{.notes}
+
+LASSO vs. "Ridge Regression"
+
+* Ambos reducen significativamente la varianza a expensas de un pequeño aumento del sesgo 
+
+* "Ridge regression" domina cuando hay muchos regresores igualmente importantes
+
+* LASSO domina cuando hay un pequeño número de regresores importantes y muchos otros que no son útiles
+
+* Generalización: Regresión de red elástica
+
+\[\scriptsize
+\min_{\beta}=SCR+\lambda \big[ (1-\alpha)||\beta||_2^2/2 + \alpha||\beta||_1\big]
+\]
+
+::::
+
+
+## IMPORTANTE: Estandarización
+
+- Antes de aplicar regularización, **SIEMPRE** estandarizar las variables explicativas
+
+
+- **¿Por qué?**
+
+  * MCO es equivariante a escala. 
+
+  * Con regularización, los coeficientes sí *dependen de las unidades*
+  
+    - Se recompensa a los coeficientes cercanos a cero
+
+    - Deben tener la misma escala (misma "cercanía a cero")
+
+- **Estandarización:**
+
+  * Media = 0
+  * Desviación estándar = 1
+  * Todos los coeficientes en la misma escala
+
+
+$$
+\widetilde{x}_{ij} = \frac{x_{ij} - \bar{x}_j}{\text{sd}(x_j)}
+$$
+
+
+::::{.notes}
+
+  * MCO es equivariante a escala. 
+
+    - Si multiplicamos $X_j$ por $c$, el coeficiente se divide por $c$
+    
+    - Las predicciones no cambian → $SCR$ no cambia
+    
+
+
+Tratamos de ajustarnos a los datos minimizando SCR, PERO se recompensa a los coeficientes cercanos a cero
+
+Para que todos los coeficientes estén en la misma escala (misma “cercanía a cero),
+
+
+Pero con regularización:
+
+    La penalización cambia con la escala
+    Coeficientes en escalas diferentes son penalizados distinto
+    Resultados dependen de las unidades
+
+
+
+**Notas:**
+
+* NO estandarizar la variable dependiente
+* NO estandarizar variables dummy
+* NO estandarizar la constante
+
+::::
+
+## Eligiendo $\lambda$: el hiperparámetro
+
+- $\lambda$ controla cuánta penalización aplicamos:
+
+  * $\lambda = 0$: MCO estándar
+  * $\lambda$ mayor, más regularización ($\lambda \to \infty$, todos los $\beta \to 0$)
+
+. . .
+
+- **¿Cómo elegimos $\lambda$?** 
+
+  1. Elegir un rango de valores para $\small \lambda$ 
+    
+  2. Para cada valor de $\small \lambda$, calcular el error promedio mediante **validación cruzada** 
+  
+  3. Seleccionar $\lambda^*$ con menor error promedio (probar varios rangos para encontrar forma de U)
+    
+  4. Volver a ajustar el modelo completo con $\lambda^*$ en toda la muestra de entrenamiento
+  
+      - **Regla de parsimonia**: si varios $\lambda$ tienen errores similares (dentro de 1 error estándar), elegir el $\lambda$ más grande (modelo más simple)
+  
+  5. Evaluar en muestra de **prueba** (nunca usada antes)
+
+
+::::{.notes}
+- Error de entrenamiento siempre disminuye con menos regularización
+- Error de validación tiene forma de U
+- Queremos el mínimo de validación
+- Regla 1-SE: da preferencia a modelos más simples cuando hay empate
+
+* Ventaja sobre la selección de regresores: SOLO necesitamos ajustar un modelo para cada valor de $\small \lambda$
+
+* **Regla de parquedad paramétrica**<!-- o **de un error estándar**-->: dado un conjunto de modelos igualmente buenos (dentro de un error estándar del menor error), elegir el más simple 
+
+    + seleccionar el modelo con menos variables que esté dentro de un error estándar del menor error de prueba estimado. 
+
+
+::::
+
+# Implementación en R: `glmnet`
+
+## En regresión lineal
+
+::::{.notes}
+
+**Características:**
+
+* Implementación eficiente y rápida
+* Funciona con matrices, no con fórmulas
+* Estandariza automáticamente por defecto
+* Funciona para regresión y clasificación
+
+::::
+
+```{r}
+library(mosaicData)
+library(glmnet)
+```
+
+- Preparar datos y ajustar el modelo
+```{r}
+# 1. Datos como matrices
+x <- model.matrix(data = RailTrail, 
+                  volume ~ cloudcover + weekday + precip + poly(hightemp, 6))
+# 2. Modelo
+fit.lmreg <- glmnet(x = x, y = RailTrail$volume, 
+                    family="gaussian", 
+                    alpha = .5,      # 1=LASSO, 0=Ridge
+                    lambda = 2)      # 0, 2, 10
+fit.lmreg$beta
+```
+
+- Validación cruzada para elegir lambda
+
+```{r}
+set.seed(1)  
+cv_modelo <- cv.glmnet(x, RailTrail$volume, alpha = 1, nfolds = 10)
+cv_modelo 
+cv_modelo |> plot()
+
+mejor_lambda <- cv_modelo$lambda.min  # o lambda.1se
+```
+
+::::{.notes}
+
+**Observad:** Ridge mantiene todas las variables, LASSO elimina algunas
+
+::::
+
+## En regresión logística
+
+```{r}
+censo <- read_csv("data/census.csv") |>
+  mutate(across(where(is.character), ~parse_factor(.x)),
+         income = if_else(income == ">50K", 1,  0))
+```
+
+- Preparar datos y ajustar el modelo
+```{r}
+# 1. Preparar datos como matrices
+x <- model.matrix(data = censo, 
+        income ~ race + poly(age, 3) + log(hours_per_week)*sex + 
+          education*race + occupation)
+# 2. Modelo
+fit.glmreg <- glmnet(x = x, y = censo$income, 
+                     family = "binomial",
+                     lambda=0.001, alpha=1)
+fit.glmreg$beta
+```
+
+- Validación cruzada para elegir lambda
+```{r}
+set.seed(1)  
+cv_modelo <- cv.glmnet(x, censo$income, alpha = 1, nfolds = 10)
+cv_modelo 
+cv_modelo |> plot()
+
+mejor_lambda <- cv_modelo$lambda.min  # o lambda.1se
+```
+
+
+::::{.notes}
+
+**Resumen y Mejores Prácticas**
+
+**Cuándo usar cada método**
+
+| Situación | Método Recomendado | Razón |
+|-----------|-------------------|--------|
+| $k < n$, todas variables relevantes | MCO | Suficientes datos, no necesita regularización |
+| $k$ cercano a $n$ | Ridge o LASSO | Prevenir sobreajuste |
+| $k > n$ | LASSO | MCO no tiene solución única |
+| Pocas variables importantes | **LASSO** | Selección automática |
+| Muchas variables igualmente importantes | **Ridge** | No elimina, solo reduce |
+| Objetivo: predicción | **LASSO** | Mejor balance sesgo-varianza |
+| Objetivo: inferencia | MCO con variables de LASSO | Coeficientes no sesgados |
+
+---
+
+**Checklist: Proceso completo de regularización**
+
+1. **Preparación**
+   - ✓ Limpiar y explorar datos
+   - ✓ Identificar variables numéricas y categóricas
+   - ✓ Crear variables dummy para categóricas
+   
+2. **Estandarización**
+   - ✓ Estandarizar variables numéricas
+   - ✓ NO estandarizar variable dependiente
+   - ✓ NO estandarizar dummies
+
+3. **División de datos**
+   - ✓ Separar entrenamiento y prueba (80/20 o 70/30)
+   - ✓ Nunca usar datos de prueba para ajustar $\lambda$
+
+4. **Ajuste del modelo**
+   - ✓ Usar validación cruzada en entrenamiento
+   - ✓ Probar varios valores de $\lambda$
+   - ✓ Aplicar regla 1-SE para modelos más parsimoniosos
+
+5. **Evaluación**
+   - ✓ Evaluar en datos de prueba
+   - ✓ Comparar con modelo base (MCO)
+   - ✓ Interpretar variables seleccionadas
+
+---
+
+**Errores comunes a evitar**
+
+⚠️ **NO hacer:**
+
+1. **Olvidar estandarizar** variables numéricas
+   - Los coeficientes dependerán de unidades arbitrarias
+
+2. **Usar datos de prueba para elegir $\lambda$**
+   - Contamina la evaluación final
+
+3. **Confiar ciegamente en LASSO para inferencia causal**
+   - Los coeficientes están sesgados
+   - Usar para predicción o selección
+
+4. **Ignorar la regla 1-SE**
+   - Modelos más complejos sin beneficio real
+
+5. **No verificar supuestos básicos**
+   - Regularización no soluciona problemas graves de datos
+
+---
+
+**Recursos y próximos pasos**
+
+**En el próximo tema:**
+
+* Flujo completo con `tidymodels`
+* Automatización del proceso
+* Comparación sistemática de modelos
+* Caso práctico completo de clasificación (churn)
+
+**Para profundizar:**
+
+* [Introduction to Statistical Learning](https://www.statlearning.com/) - Capítulo 6
+* [glmnet vignette](https://glmnet.stanford.edu/articles/glmnet.html)
+* [Regularization Paths for Generalized Linear Models via Coordinate Descent](https://www.jstatsoft.org/article/view/v033i01) - Paper original
+
+---
+
+**Resumen ejecutivo**
+
+**Conceptos clave:**
+
+* La regularización añade una penalización para reducir la complejidad del modelo
+* Ridge (L2) reduce coeficientes pero los mantiene todos
+* LASSO (L1) fuerza algunos coeficientes exactamente a cero (selección automática)
+* $\lambda$ controla el nivel de regularización
+* Elegimos $\lambda$ mediante validación cruzada
+
+**Aplicaciones:**
+
+* Predicción cuando $k$ es grande
+* Selección automática de variables
+* Prevención de sobreajuste
+* Mejora de la generalización
+
+**Próximos pasos:**
+
+* Práctica con datos reales
+* Integración con tidymodels (Tema 07)
+* Extensión a modelos no lineales (temas posteriores)
+
+::::
