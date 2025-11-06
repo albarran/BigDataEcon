@@ -511,32 +511,564 @@
     "text": "Buenas Prácticas (cont.)\nEficiencia:\n\nFiltrar temprano, unir tarde\n\n\nventas_2023 &lt;- ventas |&gt;\n  filter(año == 2023) |&gt;    # reduce tamaño\n  left_join(productos, by = \"id_producto\")\n\nventas_2023_lento &lt;- ventas |&gt;\n  left_join(productos, by = \"id_producto\") |&gt;\n  filter(año == 2023)\n\n\nSeleccionar solo columnas necesarias\n\n\nRecursos Adicionales\n\nDocumentación: ?dplyr, ?tidyr\nCheat Sheets: RStudio &gt; Help &gt; Cheatsheets\nLibros:\n\n“R for Data Science” (Wickham & Grolemund)\n“Advanced R” (Wickham)\n\nComunidad: Stack Overflow, RStudio Community"
   },
   {
-    "objectID": "docs/Tema02ej1.html",
-    "href": "docs/Tema02ej1.html",
-    "title": "Tema 02 - Transformación de Datos",
+    "objectID": "docs/Tema06.html#el-problema-muchas-variables",
+    "href": "docs/Tema06.html#el-problema-muchas-variables",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "El problema: muchas variables",
+    "text": "El problema: muchas variables\n\nEscenario típico en economía/empresa: predecir una variables (ventas, salarios, abandono de clientes) con múltiples factores explicativos y/o interacciones y polinomios\nDesafíos de MCO para estimar modelos con muchos regresores:\n\n¿Qué variables incluimos?\nCon muchas variables, alta varianza\nModelo complejo, difícil de interpretar\nPosible overfitting\n\n\n\n\n¿Solución? Tres enfoques complementarios:\n\nSelección de variables relevantes y estimar por MCO\nRegularización (penalizar coeficientes grandes) ← Este tema\nReducción de dimensionalidad (usar un número menor de variables combinando las originales)\n\n\n\n\nMCO puede estimar modelos con muchos regresores (ej., polinomios e interacciones para relaciones no lineales), pero ¿qué variables incluimos?\nCuando crece el número de parámetros \\(\\small k\\) relativo al de observaciones \\(\\small n\\):\n\nmenor precisión (+ varianza) \\(\\Rightarrow\\) no solución única de MCO con \\(\\small k&gt;n\\)\nmodelo complejo y menos interpretable\\(\\Rightarrow\\) selección de variables\n\nPrecisión: incluso si la verdadera relación es lineal, mayor varianza cuando crece el número de parámetros/regresores relativo al de observaciones \\(\\Rightarrow\\) no solución única de MCO con \\(\\small k&gt;n\\)\n\ncon \\(\\small k&gt;n\\) no existe una estimación única de mínimos cuadrados\n\nInterpretación: un modelo con variables irrelevantes \n\n\nReducción de la dimensionalidad: usar \\(\\small M&lt;k\\) combinaciones lineales (proyecciones) y estimar por mínimos cuadrados (PCR, PLS)\n\nPartial Least Square / PCR: Principal Components Regression\nMétodos de selección de variables\n\nSelección del mejor subconjunto: estimar \\(\\small 2^k\\) modelos posibles con cada combinación de regresores y elegir aquel con menor error \\(\\Rightarrow\\) prohibitivo!\nAlternativas factibles (consideran un menor número de modelos)\n\nSelección paso a paso hacia adelante: añadir un regresor cada vez, eligiendo aquel con menor error en cada paso o eligiendo según p-valor\nSelección paso a paso hacia atrás (no factible si \\(\\small k&gt;n\\))\nSelección mixta: en cada paso se añaden variables de forma secuencial, pero también se eliminan algunas (p-valor alto)\n\nNo tienen criterio riguroso, no llevan a la misma solución y no garantizan encontrar el mejor subconjunto (ej., elimina pronto un regresor importante)\nSe pueden usar también en regresión logística\n\nSelección del Mejor Subconjunto\n\nDebemos estimar \\(\\small 2^k\\) modelos posibles con cada combinación de regresores (desde un solo regresor hasta todos a la vez)\nUsar SCR en entrenamiento lleva a elegir el modelo con \\(\\small k\\) parámetros\nProcedimiento:\n\nPara cada \\(\\small p=1,\\dots,k\\), estimar todos los modelos con \\(p\\) parámetros y elegir aquel con menor error (ej., SCR): \\(\\small M^*_p\\)\nElegir entre los modelos \\(\\small M^*_1, \\dots, M^*_k\\) usando validación cruzada o similar\n\nNo validamos todos, pero estimarlos es prohibitivo para \\(\\small k\\) moderada\n\nSelección paso a paso hacia adelante\n\nProcedimiento: empezando por modelo sin regresores \\(\\small M_0\\)\n\nPara cada \\(\\small p=0, 1,\\dots,k-1\\), estimar todos los modelos que añadan UN regresor a \\(\\small M^f_p\\)\nElegir como modelo \\(\\small M^f_{p+1}\\) el que tiene menor SCR\nElegir entre \\(\\small M_0, M^f_1, \\dots, M^f_k\\) con validación cruzada o similar\n\nMuchos menos modelos: \\(\\small k-p\\) por iteración, en total \\(\\small 1+\\frac{p(p+1)}{2}\\)\nSolo \\(\\small 1+\\frac{k(k+1)}{2}\\) modelos\nFactible aunque \\(\\small k&gt;n\\) pero para modelo \\(M_0,\\dots,M^f_{n-1}\\)\nNo se garantiza encontrar el mejor subconjunto, por eliminar pronto un regresor importante\n\nej. el mejor \\(\\small M^*_2\\) no usa el regresor de mejor modelo de un regresor \\(\\small M^f_1=M^*_1\\)\n\n\nSelección paso a paso hacia atrás\n\nProcedimiento: empezando por modelo con todos los regresores \\(\\small M_k\\)\n\nPara cada \\(\\small p=k, k-1, \\dots,1\\), estimar todos los modelos que eliminan UN regresor a \\(\\small M^b_p\\)\nElegir como modelo \\(\\small M^b_{p-1}\\) el que tiene menor SCR\nElegir entre \\(\\small M_0, M^b_1, \\dots, M^b_k\\) usando validación cruzada o similar\n\nSolo \\(\\small 1+\\frac{k(k+1)}{2}\\) modelos\nPero no factible si \\(\\small k&gt;n\\) (no se puede ajustar \\(M_{k}\\))\nNADA garantiza acabar con el mejor subconjunto de regresores\n\nOtros procedimientos\n\nSelección mixta de subconjuntos: en cada iteración se añaden variables de forma secuencial, pero también se eliminan las que ya no mejoren el ajuste\n\nsimulan la selección de mejores subconjuntos, con las ventajas computacionales de selección por pasos.\n\nEstimar directamente el error de prueba mediante validación cruzada\nEstimar indirectamente el error de prueba mediante ajustes en el error de entrenamiento para tener en cuenta el sesgo por “overfitting”\nTodos estos métodos (y los anteriores de selección) se pueden usar también en regresión logística"
+  },
+  {
+    "objectID": "docs/Tema06.html#trade-off-sesgo-varianza-de-nuevo",
+    "href": "docs/Tema06.html#trade-off-sesgo-varianza-de-nuevo",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "“Trade-off” Sesgo-Varianza (de nuevo)",
+    "text": "“Trade-off” Sesgo-Varianza (de nuevo)\n\nEl dilema fundamental del aprendizaje:\n\nModelos simples → alto sesgo\nModelos complejos → alta varianza\n\nObjetivo: controlar este trade-off, calculando métricas de error para elegir el mejor modelo\n\n\n\nValidación cruzada: estima directamente el error de prueba, pero es costoso (computacionalmente, menor tamaño muestral)\n\n\n\n\nMétodos de ajuste: el error de entrenamiento siempre disminuye para modelos más complejos, pero puede ajustarse y estimar indirectamente el error de prueba mediante supuestos (erróneos?)\n\nCriterio de Información de Akaike: \\(\\small AIC = \\frac{1}{n}\\left( SCR^{entrena} + 2 k \\widehat{\\sigma}^2 \\right)\\)\nCriterio de Información Bayesiano: \\(\\small BIC =  \\frac{1}{n}\\left( SCR^{entrena} + log(n) k \\widehat{\\sigma}^2 \\right)\\)\n\\(\\small R^2-ajustado = 1- \\frac{SCR^{entrena}/(n-k-1)}{SCT^{entrena}/(n-1)}\\)\n\n\ndonde \\(\\small \\widehat{\\sigma}^2\\) un estimación de la varianza del error y \\(\\small k\\) es el número de parámetros\n\n\nSea \\(\\small n\\) el número de observaciones, \\(\\small k\\) el número de parámetros y \\(\\small \\widehat{\\sigma}^2\\) un estimación de la varianza del error \\(\\small \\varepsilon\\)\nValidación cruzada NO necesita estimar \\(\\small \\widehat{\\sigma}^2\\) (difícil en algunos modelos)\nLos métodos de ajuste ofrecen una estimación indirecta del error de prueba, en la muestra de entrenamiento mediante supuestos (erróneos?)\n\\(\\small SCR\\) en entrenamiento siempre se reduce si el modelo es más flexible \\(\\Rightarrow\\) añadir una penalización por número de parámetros\n\nCriterio de Información de Akaike: \\(\\small AIC = \\frac{1}{n}\\left( SCR + 2 k \\widehat{\\sigma}^2 \\right)\\)\n\n\\(\\small \\widehat{\\sigma}^2\\) un estimación de la varianza del error\n\nCriterio de Información Bayesiano: \\(\\small BIC =  \\frac{1}{n}\\left( SCR + log(n) k \\widehat{\\sigma}^2 \\right)\\)\n\\(\\small R^2-ajustado = 1- \\frac{SCR/(n-k-1)}{SCT/(n-1)}\\) \n\n\n** Métodos de regularización**\n\nAlternativa a mínimos cuadrados con selección de regresores\nAjustar un modelo que contenga todos los regresores, PERO con una técnica que limite las estimaciones de los coeficientes, o las reduzca a cero.\nA priori, NO es obvio por qué esa restricción debería mejorar el ajuste, pero esto reduce su varianza\nDos enfoques\n\n“Ridge regression”: se reducen los coeficientes\nLASSO (“least absolute shrinkage and selection operator”): selección automática de regresores\n\nRegresión de red elástica, incorpora ambos"
+  },
+  {
+    "objectID": "docs/Tema06.html#qué-es-la-regularización",
+    "href": "docs/Tema06.html#qué-es-la-regularización",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "¿Qué es la regularización?",
+    "text": "¿Qué es la regularización?\nIdea central: Penalizar coeficientes grandes para reducir la varianza\n\n\nEn MCO minimizamos:\n\n\n\\[\nmin_{\\beta} \\quad SCR(\\beta) = \\sum_{i=1}^{n}(y_i - \\hat{y}_i)^2\n\\]\n\n\n\nCon regularización minimizamos:\n\n\n\\[\nmin_{\\beta} \\quad SCR(\\beta) + \\lambda \\cdot \\text{Penalización}(\\beta)\n\\]\n\ndonde \\(\\lambda \\geq 0\\) es el parámetro de regularización (hiperparámetro)\n\n\n\n\nCastiga coeficientes grandes para forzar modelos más simples: mayor sesgo (peor ajuste), pero reduce la varianza (previene overfitting)\n\nNOTA: NO se penaliza la constante (media de \\(\\small Y\\)), solo el impacto de \\(\\small X\\)\n\nLa regularización funciona mejor cuando MCO tiene alta varianza: intercambia un pequeño aumento de sesgo por una gran reducción de la varianza\n\n\nMétodos de regularización\n\nEn MCO: \\(\\small \\min_{\\beta} SCR={\\sum_{i=1}^{n}\\left(y-\\widehat{y}\\right)^2}\\)\nEn Regresión Penalizada o Regularizada, se añade una restricción que limite (reduzca) los coeficientes estimados \\[\\small \\min_{\\beta} SCR \\text { sujeto a }R(\\beta) \\leq t\\]\n\ndonde \\(R(\\cdot)\\) es una medida del tamaño de los coeficientes\nNO se penaliza a la constante (media de \\(\\small Y\\)), solo el impacto de \\(\\small X\\)\n\nLa restricción limita la importancia de las \\(\\small X\\) para explicar \\(\\small Y\\): empeora el ajuste (sesgo), pero reduce la varianza \\(\\Rightarrow\\) previene “overfitting”\nPermite ajustar un modelo que contenga todos los regresores\nReescribiendo el problema (Lagrangiano): \\(\\small \\min_{\\beta} SCR+\\lambda R(\\beta)\\)\n\\(\\lambda \\geq 0\\) es un parámetro de ajuste (“tuning parameter”)\n\\(\\lambda = 0\\): regresión MCO estándar\n\\(\\lambda\\) grande: coeficientes muy pequeños (modelo simple)\nDebemos elegir \\(\\lambda\\) óptimo mediante validación cruzada"
+  },
+  {
+    "objectID": "docs/Tema06.html#tipos-de-regularización",
+    "href": "docs/Tema06.html#tipos-de-regularización",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "Tipos de regularización",
+    "text": "Tipos de regularización\nDos formas principales de penalización:\n\n\nRidge Regression \\[\n\\min_\\beta \\text{SCR} + \\lambda \\sum_{j=1}^{k}\\beta_j^2\n\\]\n\nPenaliza la suma de los cuadrados de \\(\\beta\\)\nReduce los coeficientes hacia cero\nPero nunca exactamente cero\nTodas las variables se mantienen\n\n\nLASSO \\[\n\\min_\\beta \\text{SCR} + \\lambda \\sum_{j=1}^{k}|\\beta_j|\n\\]\n\nPenaliza la suma de los valores absolutos de \\(\\beta\\)\nReduce coeficientes y fuerza algunos a cero\nRealiza selección de variables\nModelo más interpretable\n\n\n\n¿Cuál usar?\n\nRidge: muchas variables son relevantes\nLASSO (least absolute shrinkage and selection operator): solo pocas variables son importantes\nElastic Net: combina ambos \\(\\small \\alpha \\left(\\sum_{j=1}^{k}|\\beta_j|\\right) + (1-\\alpha)\\left(\\sum_{j=1}^{k}\\beta_j^2\\right)\\)\n\n\n\n\n\n\n\n\n\nMétodo\nPenalización por tamaño = \\(R(\\boldsymbol{\\beta})\\)\nNorma\n\n\n\n\nMCO\n0\n\n\n\nLASSO\n\\(\\lVert\\boldsymbol{\\beta}\\rVert_1=\\sum_{j=1}^{k}|\\beta_j|\\)\n\\(\\ell_1\\): \\(||\\boldsymbol{\\beta}||_1=\\sum_{j=1}^{k}|\\beta_j|\\)\n\n\nRidge Regression\n\\(\\lVert\\boldsymbol{\\beta}\\rVert_2^2 =\\sum_{j=1}^{k}\\beta_j^2\\)\n\\(\\ell_2\\): \\(||\\boldsymbol{\\beta}||_2=\\sqrt{\\sum_{j=1}^{k}\\beta_j^2}\\)\n\n\nRed Elásica\n\\(\\alpha\\lVert\\boldsymbol{\\beta}\\rVert_1 + (1-\\alpha)\\lVert\\boldsymbol{\\beta}\\rVert_2^2\\)\n\n\n\n\n\n\\(\\ell_1\\)-norm: \\(||\\boldsymbol{\\beta}||_1=\\sum_{j=1}^{k}|\\beta_j|\\).\n\\(\\ell_2\\)-norm: \\(||\\boldsymbol{\\beta}||_2=\\left(\\sum_{j=1}^{k}|\\beta_j|^2\\right)^{\\frac{1}{2}}\\), i.e., Euclidean norm.\nLASSO = least absolute shrinkage and selection operator\nEn MCO: \\(\\small \\min_{\\beta}=SCR={\\sum_{i=1}^{n}\\left(y-\\widehat{y}\\right)^2}\\)\nAñadir restricciones para prevenir “overfitting” \\(\\small \\sum_{j=1}^{k}\\beta_j^2 \\leq c\\)\nSe obtiene un coeficiente estimado \\(\\small \\widehat{\\beta}^R_{\\lambda}\\) que minimiza [ SCR + _{j=1}^{k}_j^2 = SCR + ||||_2^2 ]\n\n\\(||\\beta||_2 = \\sqrt{\\sum_{j=1}^{k}\\beta_j^2}\\) es la norma L2 (\\(\\ell_2\\)) del vector de coeficientes\n\\(\\lambda \\geq 0\\) es un parámetro de ajuste (“tuning parameter”)\n\n\n\n\nPenalización de contracción\n\n\n\nPara un \\(\\small \\lambda\\) dado:\n\n\\(\\small \\widehat{\\beta}^R_{\\lambda} = \\arg \\min_\\beta SCR + \\lambda \\sum_{j=1}^{k}\\beta_j^2\\)\n\n\\[\n\\small\n\\widehat{\\beta}^L_{\\lambda} = \\arg \\min_\\beta SCR + \\lambda \\sum_{j=1}^{k}|\\beta_j|\n\\]\n\n\nTratamos de ajustarnos a los datos minimizando SCR, PERO se recompensa a los coeficientes cercanos a cero\nPara que todos los coeficientes estén en la misma escala (misma “cercanía a cero), debemos estandarizar los regresores: \\(\\small \\widetilde{x}_{ij} = \\frac{x_{ij}}{\\sqrt{ \\frac{1}{n}\\sum_{i=1}^n(x_{ij}-\\bar{x}_j)^2}}\\)\n\nRecordar: en MCO, el coeficiente \\(\\small \\beta_j\\) cambia si cambiamos las unidades de \\(\\small X_j\\)\n\nEn MCO, si multiplicamos \\(\\scriptsize X_j\\) por \\(\\scriptsize c\\), su coeficiente estimado se reescala por \\(\\scriptsize 1/c\\): el valor predicho \\(\\scriptsize \\widehat{\\beta_j}X_j\\) no cambia \\(\\Rightarrow\\) \\(SCR\\) no cambia\n\nEn Regresión Regularizada, la penalización sí cambia al reescalar \\(\\Rightarrow\\) los coeficientes estimados pueden cambiar drásticamente\n\nLos coeficientes estimados por regresión regularizada pueden cambiar drásticamente después de reescalar cualquier variable\n\n“Ridge Regression”: penalización de contracción\n[ ^R_{} = SCR + {j=1}^{k}_j^2 ]\n\nTratamos de ajustarnos a los datos minimizando SCR, PERO se recompensa a los coeficientes cercanos a cero: penalización de contracción\nNO se penaliza a la constante (media de \\(\\small Y\\)), solo el impacto de \\(\\small X\\)\n\\(\\small \\lambda\\)= importancia de la penalización (cuanto se contraen los coeficientes)\n\n\\(\\small \\lambda \\approx 0\\), cercano a MCO\n\\(\\small \\lambda &gt;&gt; 0\\), todos los coeficientes se van a cero\n\nVentaja sobre la selección de regresores: SOLO necesitamos ajustar un modelo para cada valor de \\(\\small \\lambda\\)\n\nAdvertencia: estandarizar los regresores\n\nEn MCO los coeficientes estimados son equivariantes a la escala de los regresores.\n\nSi multiplicamos \\(\\small X_j\\) por una constante, \\(\\small c\\), el coeficiente estimado se reescala por \\(\\small 1/c\\) y el valor predicho \\(\\widehat{\\beta_j}X_j\\) sigue siendo el mismo.\n\\(SCR\\) no cambia cuando se reescala un regresor\n\nEn Regresión Regularizada, NO, porque la penalización sí cambia al reescalar \\(\\Rightarrow\\) los coeficientes pueden cambiar drásticamente\nLos coeficientes estimados por regresión regularizada pueden cambiar drásticamente después de reescalar cualquier variable\nSe recomienda ajustar después de estandarizar los regresores: [ _{ij} = ]\n\nRegularización y “Trade-off” sesgo-varianza\n\n¿Por qué la regularización mejoraría el ajuste sobre MCO?\n\\(\\small \\lambda\\)= importancia de la penalización (cuanto se contraen los coeficientes)\n\n\\(\\small \\lambda\\) pequeño (cercano a MCO): mayor flexibilidad (\\(-\\) sesgo, \\(+\\) varianza)\n\\(\\small \\lambda &gt;&gt; 0\\), todos los coeficientes a cero: menor flexibilidad (\\(+\\) sesgo, \\(-\\) varianza)\n\nRegularización funciona mejor cuando MCO tiene alta varianza: intercambia un poco más de sesgo por una gran reducción de la varianza\n“Ridge Regression” sigue incluyendo todos los regresores (ningún coeficiente exactamente cero): puede complicar la interpretación con muchos\nLASSO (least absolute shrinkage and selection operator): también contrae hacia cero, algunos exactamente cero (selección de variables)\n\nLASSO\n\nIdea similar \\(\\small \\min_{\\beta}=SCR={\\sum_{i=1}^{n}\\left(y-\\widehat{y}\\right)^2}\\), sujeto a \\(\\small \\sum_{j=1}^{k}|\\beta_j| \\leq c\\)\nSelección de mejor conjunto impone restricción \\(\\small \\sum_{j=1}^{k} I(\\beta_j \\neq 0) \\leq s\\)\n\nTampoco es factible: requiere considerar todos los modelso que tiene s regresores\nLASSO/ridge más factibles computacionalmente: sustituyen unas restricciones intratablse por alternativas mucho más fáciles de resolver\n[ ^L_{} = SCR + {j=1}^{k}|_j| ]\n\nLASSO utiliza una penalización basada en la norma L1 (\\(\\small \\ell_1\\)): [ ||||1 = {j=1}^{k} |_j| ]\nTambién contrae los coeficientes estimados hacia cero, PERO obliga algunos a ser exactamente iguales a cero cuando \\(\\small \\lambda\\) es grande\nLASSO realiza la selección de variables."
+  },
+  {
+    "objectID": "docs/Tema06.html#ridge-regression-y-lasso",
+    "href": "docs/Tema06.html#ridge-regression-y-lasso",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "“Ridge Regression” y LASSO",
+    "text": "“Ridge Regression” y LASSO\n\n\n\n\n\n\n\n“Ridge regression” domina con muchos regresores igualmente importantes\nLASSO con pocos regresores importantes y muchos inútiles\nLASSO es una alternativa a los contrastes de significatividad (sin formalización estadística)\n\n\n\n¿Cuál usar?\n\nRidge: cuando muchas variables son relevantes\nLASSO: cuando solo pocas variables son importantes\nElastic Net: combina ambos\n\n\n\\[\n  \\scriptsize \\alpha \\left(\\sum_{j=1}^{k}|\\beta_j|\\right) + (1-\\alpha)\\left(\\sum_{j=1}^{k}\\beta_j^2\\right)\n\\]\n\n\nRecordad que estos métodos están orientado a la predicción: NO usar para afirmaciones de causalidad (los coeficientes están sesgados)\nLASSO (least absolute shrinkage and selection operator) es una alternativa a los contrastes de significatividad\n\nsin formalización estadística\n\nSe puede estimar por MCO la especificación de variables seleccionadas por LASSO\n\nsí podemos usarlo para causalidad\n\n\n\nLASSO vs. “Ridge Regression”\n\nAmbos reducen significativamente la varianza a expensas de un pequeño aumento del sesgo\n“Ridge regression” domina cuando hay muchos regresores igualmente importantes\nLASSO domina cuando hay un pequeño número de regresores importantes y muchos otros que no son útiles\nGeneralización: Regresión de red elástica\n\n[ _{}=SCR+]"
+  },
+  {
+    "objectID": "docs/Tema06.html#importante-estandarización",
+    "href": "docs/Tema06.html#importante-estandarización",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "IMPORTANTE: Estandarización",
+    "text": "IMPORTANTE: Estandarización\n\nAntes de aplicar regularización, SIEMPRE estandarizar las variables explicativas\n¿Por qué?\n\nMCO es equivariante a escala.\nCon regularización, los coeficientes sí dependen de las unidades\n\nSe recompensa a los coeficientes cercanos a cero\nDeben tener la misma escala (misma “cercanía a cero”)\n\n\nEstandarización:\n\nMedia = 0\nDesviación estándar = 1\nTodos los coeficientes en la misma escala\n\n\n\\[\n\\widetilde{x}_{ij} = \\frac{x_{ij} - \\bar{x}_j}{\\text{sd}(x_j)}\n\\]\n\n\nMCO es equivariante a escala.\n\nSi multiplicamos \\(X_j\\) por \\(c\\), el coeficiente se divide por \\(c\\)\nLas predicciones no cambian → \\(SCR\\) no cambia\n\n\nTratamos de ajustarnos a los datos minimizando SCR, PERO se recompensa a los coeficientes cercanos a cero\nPara que todos los coeficientes estén en la misma escala (misma “cercanía a cero),\nPero con regularización:\nLa penalización cambia con la escala\nCoeficientes en escalas diferentes son penalizados distinto\nResultados dependen de las unidades\nNotas:\n\nNO estandarizar la variable dependiente\nNO estandarizar variables dummy\nNO estandarizar la constante"
+  },
+  {
+    "objectID": "docs/Tema06.html#eligiendo-lambda-el-hiperparámetro",
+    "href": "docs/Tema06.html#eligiendo-lambda-el-hiperparámetro",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "Eligiendo \\(\\lambda\\): el hiperparámetro",
+    "text": "Eligiendo \\(\\lambda\\): el hiperparámetro\n\n\\(\\lambda\\) controla cuánta penalización aplicamos:\n\n\\(\\lambda = 0\\): MCO estándar\n\\(\\lambda\\) mayor, más regularización (\\(\\lambda \\to \\infty\\), todos los \\(\\beta \\to 0\\))\n\n\n\n\n¿Cómo elegimos \\(\\lambda\\)?\n\nElegir un rango de valores para \\(\\small \\lambda\\)\nPara cada valor de \\(\\small \\lambda\\), calcular el error promedio mediante validación cruzada\nSeleccionar \\(\\lambda^*\\) con menor error promedio (probar varios rangos para encontrar forma de U)\nVolver a ajustar el modelo completo con \\(\\lambda^*\\) en toda la muestra de entrenamiento\n\nRegla de parsimonia: si varios \\(\\lambda\\) tienen errores similares (dentro de 1 error estándar), elegir el \\(\\lambda\\) más grande (modelo más simple)\n\nEvaluar en muestra de prueba (nunca usada antes)\n\n\n\n\nError de entrenamiento siempre disminuye con menos regularización\nError de validación tiene forma de U\nQueremos el mínimo de validación\nRegla 1-SE: da preferencia a modelos más simples cuando hay empate\nVentaja sobre la selección de regresores: SOLO necesitamos ajustar un modelo para cada valor de \\(\\small \\lambda\\)\nRegla de parquedad paramétrica: dado un conjunto de modelos igualmente buenos (dentro de un error estándar del menor error), elegir el más simple\n\nseleccionar el modelo con menos variables que esté dentro de un error estándar del menor error de prueba estimado."
+  },
+  {
+    "objectID": "docs/Tema06.html#en-regresión-lineal",
+    "href": "docs/Tema06.html#en-regresión-lineal",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "En regresión lineal",
+    "text": "En regresión lineal\n\nCaracterísticas:\n\nImplementación eficiente y rápida\nFunciona con matrices, no con fórmulas\nEstandariza automáticamente por defecto\nFunciona para regresión y clasificación\n\n\n\nlibrary(mosaicData)\nlibrary(glmnet)\n\n\nPreparar datos y ajustar el modelo\n\n\n# 1. Datos como matrices\nx &lt;- model.matrix(data = RailTrail, \n                  volume ~ cloudcover + weekday + precip + poly(hightemp, 6))\n# 2. Modelo\nfit.lmreg &lt;- glmnet(x = x, y = RailTrail$volume, \n                    family=\"gaussian\", \n                    alpha = .5,      # 1=LASSO, 0=Ridge\n                    lambda = 2)      # 0, 2, 10\nfit.lmreg$beta\n\n\nValidación cruzada para elegir lambda\n\n\nset.seed(1)  \ncv_modelo &lt;- cv.glmnet(x, RailTrail$volume, alpha = 1, nfolds = 10)\ncv_modelo \ncv_modelo |&gt; plot()\n\nmejor_lambda &lt;- cv_modelo$lambda.min  # o lambda.1se\n\n\nObservad: Ridge mantiene todas las variables, LASSO elimina algunas"
+  },
+  {
+    "objectID": "docs/Tema06.html#en-regresión-logística",
+    "href": "docs/Tema06.html#en-regresión-logística",
+    "title": "Tema 06 - Selección y Regularización en Modelos Lineales",
+    "section": "En regresión logística",
+    "text": "En regresión logística\n\ncenso &lt;- read_csv(\"data/census.csv\") |&gt;\n  mutate(across(where(is.character), ~parse_factor(.x)),\n         income = if_else(income == \"&gt;50K\", 1,  0))\n\n\nPreparar datos y ajustar el modelo\n\n\n# 1. Preparar datos como matrices\nx &lt;- model.matrix(data = censo, \n        income ~ race + poly(age, 3) + log(hours_per_week)*sex + \n          education*race + occupation)\n# 2. Modelo\nfit.glmreg &lt;- glmnet(x = x, y = censo$income, \n                     family = \"binomial\",\n                     lambda=0.001, alpha=1)\nfit.glmreg$beta\n\n\nValidación cruzada para elegir lambda\n\n\nset.seed(1)  \ncv_modelo &lt;- cv.glmnet(x, censo$income, alpha = 1, nfolds = 10)\ncv_modelo \ncv_modelo |&gt; plot()\n\nmejor_lambda &lt;- cv_modelo$lambda.min  # o lambda.1se\n\n\nResumen y Mejores Prácticas\nCuándo usar cada método\n\n\n\n\n\n\n\n\nSituación\nMétodo Recomendado\nRazón\n\n\n\n\n\\(k &lt; n\\), todas variables relevantes\nMCO\nSuficientes datos, no necesita regularización\n\n\n\\(k\\) cercano a \\(n\\)\nRidge o LASSO\nPrevenir sobreajuste\n\n\n\\(k &gt; n\\)\nLASSO\nMCO no tiene solución única\n\n\nPocas variables importantes\nLASSO\nSelección automática\n\n\nMuchas variables igualmente importantes\nRidge\nNo elimina, solo reduce\n\n\nObjetivo: predicción\nLASSO\nMejor balance sesgo-varianza\n\n\nObjetivo: inferencia\nMCO con variables de LASSO\nCoeficientes no sesgados\n\n\n\n\nChecklist: Proceso completo de regularización\n\nPreparación\n\n✓ Limpiar y explorar datos\n✓ Identificar variables numéricas y categóricas\n✓ Crear variables dummy para categóricas\n\nEstandarización\n\n✓ Estandarizar variables numéricas\n✓ NO estandarizar variable dependiente\n✓ NO estandarizar dummies\n\nDivisión de datos\n\n✓ Separar entrenamiento y prueba (80/20 o 70/30)\n✓ Nunca usar datos de prueba para ajustar \\(\\lambda\\)\n\nAjuste del modelo\n\n✓ Usar validación cruzada en entrenamiento\n✓ Probar varios valores de \\(\\lambda\\)\n✓ Aplicar regla 1-SE para modelos más parsimoniosos\n\nEvaluación\n\n✓ Evaluar en datos de prueba\n✓ Comparar con modelo base (MCO)\n✓ Interpretar variables seleccionadas\n\n\n\nErrores comunes a evitar\n⚠️ NO hacer:\n\nOlvidar estandarizar variables numéricas\n\nLos coeficientes dependerán de unidades arbitrarias\n\nUsar datos de prueba para elegir \\(\\lambda\\)\n\nContamina la evaluación final\n\nConfiar ciegamente en LASSO para inferencia causal\n\nLos coeficientes están sesgados\nUsar para predicción o selección\n\nIgnorar la regla 1-SE\n\nModelos más complejos sin beneficio real\n\nNo verificar supuestos básicos\n\nRegularización no soluciona problemas graves de datos\n\n\n\nRecursos y próximos pasos\nEn el próximo tema:\n\nFlujo completo con tidymodels\nAutomatización del proceso\nComparación sistemática de modelos\nCaso práctico completo de clasificación (churn)\n\nPara profundizar:\n\nIntroduction to Statistical Learning - Capítulo 6\nglmnet vignette\nRegularization Paths for Generalized Linear Models via Coordinate Descent - Paper original\n\n\nResumen ejecutivo\nConceptos clave:\n\nLa regularización añade una penalización para reducir la complejidad del modelo\nRidge (L2) reduce coeficientes pero los mantiene todos\nLASSO (L1) fuerza algunos coeficientes exactamente a cero (selección automática)\n\\(\\lambda\\) controla el nivel de regularización\nElegimos \\(\\lambda\\) mediante validación cruzada\n\nAplicaciones:\n\nPredicción cuando \\(k\\) es grande\nSelección automática de variables\nPrevención de sobreajuste\nMejora de la generalización\n\nPróximos pasos:\n\nPráctica con datos reales\nIntegración con tidymodels (Tema 07)\nExtensión a modelos no lineales (temas posteriores)"
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
     "section": "",
-    "text": "NOTA: Este ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\nPodéis encontrar una plantilla para vuestras respuestas aquí."
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
   },
   {
-    "objectID": "docs/Tema02ej1.html#ejercicio-1",
-    "href": "docs/Tema02ej1.html#ejercicio-1",
-    "title": "Tema 02 - Transformación de Datos",
-    "section": "Ejercicio 1",
-    "text": "Ejercicio 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nPara garantizar claridad y accesibilidad, se recomienda dividir las tareas en pasos manejables y utilizar herramientas que permitan una visualización clara de los datos.\n\nApartado 1.a)\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nApartado 1.b)\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nApartado 1.c)\nRepetir el apartado a) para cada empleado de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nApartado 1.d)\n¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?\n\n\nApartado 1.e)\n\nRepresentar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.\nPresentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.\nPresentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010."
+    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
+    "title": "Introducción",
+    "section": "“Datificación” de la vida diaria",
+    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
   },
   {
-    "objectID": "docs/Tema02ej1.html#ejercicio-2",
-    "href": "docs/Tema02ej1.html#ejercicio-2",
-    "title": "Tema 02 - Transformación de Datos",
-    "section": "Ejercicio 2",
-    "text": "Ejercicio 2\nAdemás del archivo del Ejercicio 1, disponemos de este archivo Excel con dos hojas: regiones, con la clave de las regiones donde la empresa tiene sedes y el nombre completo de cada región, y regionEmpleado, con el identificador de cada individuo y la región a la que pertenece.\n\nApartado 2.a)\nMostrar en una tabla el nombre y apellidos del empleado de cada región con mayores ventas totales en el periodo de tiempo analizado.\n\n\nApartado 2.b)\nMostrar el nombre completo de la región con más ventas cada año.\n\n\nApartado 2.c)\nMostrar los nombres y apellidos de los empleados “misteriosos”: es decir, aquellos que no sabemos a qué región pertenecen."
+    "objectID": "docs/0Intro.html#importancia-de-los-datos",
+    "href": "docs/0Intro.html#importancia-de-los-datos",
+    "title": "Introducción",
+    "section": "Importancia de los datos",
+    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
   },
   {
-    "objectID": "docs/Tema02ej1.html#entrega-del-ejercicio",
-    "href": "docs/Tema02ej1.html#entrega-del-ejercicio",
-    "title": "Tema 02 - Transformación de Datos",
+    "objectID": "docs/0Intro.html#objetivos",
+    "href": "docs/0Intro.html#objetivos",
+    "title": "Introducción",
+    "section": "Objetivos",
+    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
+  },
+  {
+    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
+    "title": "Introducción",
+    "section": "Aprendiendo a analizar datos",
+    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
+  },
+  {
+    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
+    "href": "docs/0Intro.html#análitica-cadena-de-valor",
+    "title": "Introducción",
+    "section": "Análitica: Cadena de Valor",
+    "text": "Análitica: Cadena de Valor"
+  },
+  {
+    "objectID": "docs/0Intro.html#tipos-de-análisis",
+    "href": "docs/0Intro.html#tipos-de-análisis",
+    "title": "Introducción",
+    "section": "Tipos de Análisis",
+    "text": "Tipos de Análisis"
+  },
+  {
+    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Ciclo de Vida del Análisis de Datos",
+    "text": "Ciclo de Vida del Análisis de Datos"
+  },
+  {
+    "objectID": "docs/Tema05ej1.html",
+    "href": "docs/Tema05ej1.html",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "",
+    "text": "El siguiente conjunto de datos tiene información sobre el volumen de usuarios de un camino ciclista (“via verde”) en EE.UU. Tenéis más información en la ayuda de RStudio.\n\nlibrary(tidyverse)\nlibrary(mosaicData)\ndata(\"RailTrail\")\n\nLa comisión gestora, PVPC, quiere entender la relación entre el volumen de usuarios y variables explicativas como incluyendo la temperatura, lluvia, nubosidad y el día de la semana. Para esto, estimamos el siguiente modelo de regresión:\n\\[\nvolume = \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip + \\varepsilon\n\\tag{1}\\]\n\nmodelo1 &lt;- lm(data = RailTrail,\n              volume ~ hightemp + cloudcover + weekday + precip)"
+  },
+  {
+    "objectID": "docs/Tema05ej1.html#datos",
+    "href": "docs/Tema05ej1.html#datos",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "",
+    "text": "El siguiente conjunto de datos tiene información sobre el volumen de usuarios de un camino ciclista (“via verde”) en EE.UU. Tenéis más información en la ayuda de RStudio.\n\nlibrary(tidyverse)\nlibrary(mosaicData)\ndata(\"RailTrail\")\n\nLa comisión gestora, PVPC, quiere entender la relación entre el volumen de usuarios y variables explicativas como incluyendo la temperatura, lluvia, nubosidad y el día de la semana. Para esto, estimamos el siguiente modelo de regresión:\n\\[\nvolume = \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip + \\varepsilon\n\\tag{1}\\]\n\nmodelo1 &lt;- lm(data = RailTrail,\n              volume ~ hightemp + cloudcover + weekday + precip)"
+  },
+  {
+    "objectID": "docs/Tema05ej1.html#apartado-1",
+    "href": "docs/Tema05ej1.html#apartado-1",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "Apartado 1",
+    "text": "Apartado 1\nPara este apartado, trabajaréis con un coeficiente concreto de la Ecuación 1 estimada anteriormente. El coeficiente dependerá de la última cifra de vuestro DNI o similar:\n\nsi es 1, 4 o 7, con el de hightemp\nsi es 2, 5 o 8, con el de cloudcover\nsi es 3, 6 o 9, con el de weekday\nsi es 0, con el de precip\n\n\nCalcular el intervalo de confianza al 95% para vuestro coeficiente y el intervalo de confianza al 95% para la varianza del error, bajo el supuesto de que los errores del modelo siguen una distribución normal.\n\n\nNota: bajo normalidad de los errores, \\(\\widehat{\\beta} \\sim N\\left(\\beta, Var(\\widehat{\\beta})\\right)\\) y \\((n-k)*s^2 / Var(\\varepsilon) \\sim \\chi^2_{(n-k)}\\), donde \\(n\\) es el número de observaciones, \\(k\\) es el número de coeficientes (incluida la constante) y \\(s^2\\) es la estimación de la varianza del error.\n\n\nUsar bootstrap para obtener el intervalo de confianza al 95% para vuestro coeficiente y el intervalo de confianza al 95% para la varianza del error. Debéis fijar como semilla vuestro DNI para realizar un bucle como el visto en clase.\n\n\nComentar BREVEMENTE las diferencias en los intervalos de confianza de ambos apartados.\n\n\nNotas\n\nLos resultados de una estimación están almacenados en el objeto creado aplicando summary() a la función lm().\n\n\nsum.modelo1 &lt;- summary(modelo1)\n\n## Para todos los coeficientes (filas)\n## el valor estimado y su error estándar (dos columnas)\nsum.modelo1$coefficients[,1:2]\n\n## Varianza del error del modelo\nsum.modelo1$sigma^2\n\n## R-cuadrado\nsum.modelo1$r.squared\n\n\nIntervalo de confianza al 95% para el coeficiente estimado: \\(\\widehat{\\beta} \\pm z_{0.975} \\cdot \\sqrt{\\operatorname{Var}(\\widehat{\\beta})}\\), donde \\(z_{0.975}\\) es el valor crítico de la distribución normal estándar .\nIntervalo de confianza al 95% para la varianza del error: \\(\\left( \\frac{(n - k) \\cdot s^2}{\\chi^2_{0.975, (n - k)}}, \\frac{(n - k) \\cdot s^2}{\\chi^2_{0.025, (n - k)}} \\right)\\), donde \\(\\chi^2_{0.975, (n - k)}\\) y \\(\\chi^2_{0.025, (n - k)}\\) son los valores críticos de la distribución \\(\\chi^2\\) con \\(n - k\\) grados de libertad, correspondientes a los percentiles del 97.5% y 2.5%, respectivamente.\nEn R, los valores críticos se obtienen con qnorm() y qchisq() (mirad la ayuda)."
+  },
+  {
+    "objectID": "docs/Tema05ej1.html#apartado-2",
+    "href": "docs/Tema05ej1.html#apartado-2",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "Apartado 2",
+    "text": "Apartado 2\nRealizamos un análsis exploratorio de los datos y encontramos la siguiente forma para la relación no lineal entre el número de visitantes y la temperatura.\n\n\n\n\n\n\n\n\n\nPresentar en una tabla los resultados de estimar la Ecuación 1 y añadir primero la temperatura al cuadrado, después también la temperatura al cubo, la temperatura elevada a la cuarta potencia y finalmente elevada a la quinta potencia. Comentar qué modelo elegirías, es decir, qué grado del polinomio en temperatura captura mejor la relación no lineal descrita anteriormente. ¿Podríamos tener una relación no lineal distinta de la descrita por un polinomio?\n\nNotas sobre tablas de resultados en Quarto\n\nPodemos combinar tidy() (de la biblioteca broom) con las funciones de la biblioteca kableExtra para incluir tablas de estadísticos descriptivos o de resultados de regresión. En el documento de Quarto, se debe incluir la opción results: markup.\n\n\nlibrary(broom)\nlibrary(kableExtra)\nmodelo1 %&gt;% tidy() %&gt;%\n      kbl() %&gt;% kable_classic()\n\n\nNotad que tras usar tidy() tenemos un conjunto de datos. Por tanto, podemos usar comandos conocidos para manipular la tabla, p.e., no mostrar todas las columnas.\n\n\nmodelo1 %&gt;% tidy() %&gt;% select(term:std.error) %&gt;%\n  kbl() %&gt;% kable_paper()\n\n\nCon modelsummary(), podemos mostrar los resultados de uno o varios modelos en la misma tabla. También debemos incluir la opción results: markup.\n\nConsideramos el siguiente modelo: \\[\nvolume = \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip + \\beta_5 \\cdot spring + \\beta_6 \\cdot summer + \\varepsilon\n\\]\n\nlibrary(modelsummary)\nmodelo2 &lt;- lm(data = RailTrail,\n                volume ~ hightemp + cloudcover + weekday + precip +\n                          spring + summer)\n\nmodelsummary(list(\"Modelo 1\" = modelo1,\n                  \"Modelo 2\" = modelo2),\n             gof_map = c(\"nobs\", \"r.squared\", \"adj.r.squared\",\n                          \"F\", \"rmse\") ,\n             stars = T)\n\n\n\n    \n\n    \n\n    \n    \n    \n      \n        \n        \n              \n                 \n                Modelo 1\n                Modelo 2\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  76.826\n                  45.483\n                \n                \n                  \n                  (62.710)\n                  (79.724)\n                \n                \n                  hightemp\n                  5.549***\n                  5.696***\n                \n                \n                  \n                  (0.781)\n                  (1.164)\n                \n                \n                  cloudcover\n                  -8.503*\n                  -8.353*\n                \n                \n                  \n                  (3.339)\n                  (3.435)\n                \n                \n                  weekdayTRUE\n                  -35.045\n                  -37.062+\n                \n                \n                  \n                  (21.752)\n                  (22.280)\n                \n                \n                  precip\n                  -106.483*\n                  -98.904*\n                \n                \n                  \n                  (40.720)\n                  (42.137)\n                \n                \n                  spring\n                  \n                  31.239\n                \n                \n                  \n                  \n                  (32.082)\n                \n                \n                  summer\n                  \n                  9.424\n                \n                \n                  \n                  \n                  (47.504)\n                \n                \n                  Num.Obs.\n                  90\n                  90\n                \n                \n                  R2\n                  0.500\n                  0.509\n                \n                \n                  R2 Adj.\n                  0.476\n                  0.473\n                \n                \n                  F\n                  21.208\n                  14.322\n                \n                \n                  RMSE\n                  89.67\n                  88.85"
+  },
+  {
+    "objectID": "docs/Tema05ej1.html#apartado-3",
+    "href": "docs/Tema05ej1.html#apartado-3",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "Apartado 3",
+    "text": "Apartado 3\nRealizamos un nuevo análisis exploratorio para la relación entre el número de visitas y la nubosidad (como porcentaje de cielo cubierto por nubes, en una escala continua de 0 a 10).\n\n\n\n\n\n\n\n\n\nDado lo que observamos en el gráfico, vamos a discretizar cloudcover. Primero, consideramos solo dos grupos: hasta 7.5 y más de 7.5. Luego, consideramos tres rangos: entre 0 y 5, entre 5 y 7.5, y mayor de 7.5. Finalmente, consideramos cuatro categorías: [0,2.5], (2.5,5], (5, 7.5] y (7.5, 10]. Presentar en una tabla el modelo de la Ecuación 1, con la variable cloudclover, y todas las variantes donde la hemos discretizado. Discutir qué especificación preferís y por qué.\n\nNotas\n\nComo hemos visto en las transparencias, se puede discretizar una variable con cut() (o cut_width(), cut_interval(), etc.), generando un factor con categorías dadas por los puntos de corte: ej., cut(cloudcover, breaks=c(0, 7.5, 10), include.lowest = T)\nTambién se podría generar una variable binaria para cada categoria con ifelse() (o if_else())"
+  },
+  {
+    "objectID": "docs/Tema05ej1.html#apartado-4",
+    "href": "docs/Tema05ej1.html#apartado-4",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "Apartado 4",
+    "text": "Apartado 4\nFinalmente, vamos a considerar otra variante de la ecuación Ecuación 1 donde los efectos de la temperatura (hightemp) y de la nubosidad (cloudcover) no son constantes, sino que su efecto es heterogéneo en función de otros factores, en este caso si es un día laborable (weekday). Estimaremos el siguiente modelo\n\\[\n\\begin{aligned}\nvolume &= \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip  \\\\\n&+ \\beta_5 \\cdot hightemp \\cdot weekday + \\beta_4 \\cdot  cloudcover \\cdot weekday + \\varepsilon\n\\end{aligned}\n\\tag{2}\\]\n\nmodelo1.H &lt;- lm(data = RailTrail,\n                volume ~ (hightemp + cloudcover)*weekday + precip)\n\nPresentar en una tabla los resultado de estimar la ecuación Ecuación 1 y de la ecuación Ecuación 2. Discutir si evidencia de que la temperatura y la nubosidad afectan de manera diferente a las visitas en función de otros factores. ¿Qué modelo preferiría?"
+  },
+  {
+    "objectID": "docs/Tema05ej1.html#entrega",
+    "href": "docs/Tema05ej1.html#entrega",
+    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
+    "section": "Entrega",
+    "text": "Entrega\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema05ej1_123456789.qmd\nTema05ej1_123456789.zip"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html",
+    "href": "docs/Tema04ej2.html",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "La biblioteca tidyquant integra análisis financiero con el ecosistema tidyverse, facilitando la obtención, transformación y visualización de datos económicos y financieros.\n\n\nFRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()\n\n\n\n\nPara acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()\n\n\n\n\ntidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
+    "href": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "FRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#obtener-datos-financieros",
+    "href": "docs/Tema04ej2.html#obtener-datos-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Para acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#visualizaciones-especializadas",
+    "href": "docs/Tema04ej2.html#visualizaciones-especializadas",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "tidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
+    "href": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 1: Datos Económicos (FRED)",
+    "text": "Parte 1: Datos Económicos (FRED)\n\nTarea 1.1: Obtener series económicas\nDescarga las siguientes series económicas de la zona euro o países específicos:\n\nTasa de desempleo de la zona euro o un país europeo\nÍndice de precios al consumo (IPC) o inflación\nTipo de interés de referencia del BCE o equivalente\n\n\n\nTarea 1.2: Análisis univariante\n\nPara cada serie económica:\n\nVisualiza su evolución temporal completa\nCalcula estadísticos descriptivos básicos en todo el periodo y en los últimos 5 años\n\n\n\nDescribe brevemente qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-2-datos-financieros",
+    "href": "docs/Tema04ej2.html#parte-2-datos-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 2: Datos Financieros",
+    "text": "Parte 2: Datos Financieros\n\nTarea 2.1: Obtener datos de acciones\nSelecciona 3 empresas europeas de sectores diferentes. Puedes elegir de:\n\nBanca: Santander, BBVA, Deutsche Bank\nEnergía: Iberdrola, Repsol, TotalEnergies\nTecnología: SAP, ASML, Infineon\nConsumo: Inditex, LVMH, Unilever\n\n\n\nTarea 2.2: Análisis de precios\n\nPara cada empresa:\n\nCrea un gráfico de velas para los últimos 6 meses\nAñade medias móviles (50 y 200 días) al gráfico completo\nCalcula estadísticos descriptivos del precio de cierre\nIdentifica períodos de alta/baja volatilidad\n\n\n\n\nTarea 2.3: Rendimientos\n\nCalcula los rendimientos diarios (% cambio en precio de cierre) para cada empresa:\n\n\nAnaliza y compara la distribución de rendimientos\nAnaliza y compara la volatilidad"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
+    "href": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 3: Integración de Datos Económicos y Financieros",
+    "text": "Parte 3: Integración de Datos Económicos y Financieros\n\nTarea 3.1: Preparar datos mensuales\nAgrega tanto datos económicos como financieros a frecuencia mensual:\n\n\nTarea 3.2: Combinar datasets\nUne los datos económicos y financieros por fecha (mes/año):\n\n\nTarea 3.3: Análisis de covariación\nAnaliza las relaciones entre variables económicas y precios de acciones:\n\nMatriz de correlación: ¿Cómo se correlacionan las variables?\n\n\nGráficos de dispersión: Relaciones específicas de interés\n\n\nSeries temporales superpuestas:\n\nVisualiza cómo evolucionan juntas una variable económica y un precio (usando dos ejes Y si es necesario):\n\n¿Qué relaciones observas? ¿Son intuitivas o sorprendentes? ¿Alguna relación inversa?"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#entrega-del-ejercicio",
+    "href": "docs/Tema04ej2.html#entrega-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
     "section": "Entrega del ejercicio",
-    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema02ej1_123456789.R"
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej2_123456789.qmd\nTema04ej2_123456789.html\nTema04ej2_123456789.zip"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
+    "section": "",
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nstartups_fintech.csv\ndiccionario_startups.csv\n\nTema 5:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv"
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+  },
+  {
+    "objectID": "index.html#pedro-albarrán",
+    "href": "index.html#pedro-albarrán",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
+  },
+  {
+    "objectID": "index.html#alberto-pérez",
+    "href": "index.html#alberto-pérez",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
+  },
+  {
+    "objectID": "ProyectoFinal.html#elección-de-tema",
+    "href": "ProyectoFinal.html#elección-de-tema",
+    "title": "Proyecto Final",
+    "section": "Elección de Tema",
+    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
+  },
+  {
+    "objectID": "ProyectoFinal.html#entrega-final",
+    "href": "ProyectoFinal.html#entrega-final",
+    "title": "Proyecto Final",
+    "section": "Entrega Final",
+    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
+  },
+  {
+    "objectID": "ProyectoFinal.html#importante-plagio.",
+    "href": "ProyectoFinal.html#importante-plagio.",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO.",
+    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+  },
+  {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(3-Nov. a 9-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 05 - Ejercicio 1\nTema 04 - Ejercicio 1\n\nFecha límite de entrega: dom., 9-nov., 23:59h\n\nTema 04 - Ejercicio 2\n\nEjercicio voluntario para subir nota.\nFecha límite de entrega: dom., 21-dic., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-9",
+    "href": "Contenidos.html#semana-9",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(3-Nov. a 9-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 05 - Ejercicio 1\nTema 04 - Ejercicio 1\n\nFecha límite de entrega: dom., 9-nov., 23:59h\n\nTema 04 - Ejercicio 2\n\nEjercicio voluntario para subir nota.\nFecha límite de entrega: dom., 21-dic., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-8",
+    "href": "Contenidos.html#semana-8",
+    "title": "Contenidos",
+    "section": "Semana 8",
+    "text": "Semana 8\n(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-7",
+    "href": "Contenidos.html#semana-7",
+    "title": "Contenidos",
+    "section": "Semana 7",
+    "text": "Semana 7\n(20-Oct. a 26-Oct.)\n\nTema 02 - Ejercicio"
+  },
+  {
+    "objectID": "Contenidos.html#semana-6",
+    "href": "Contenidos.html#semana-6",
+    "title": "Contenidos",
+    "section": "Semana 6",
+    "text": "Semana 6\n(13-Oct. a 19-Oct.)\n\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-5",
+    "href": "Contenidos.html#semana-5",
+    "title": "Contenidos",
+    "section": "Semana 5",
+    "text": "Semana 5\n(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto"
+  },
+  {
+    "objectID": "Contenidos.html#semana-4",
+    "href": "Contenidos.html#semana-4",
+    "title": "Contenidos",
+    "section": "Semana 4",
+    "text": "Semana 4\n(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "Semana 3",
+    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 05-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+  },
+  {
+    "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
+    "href": "docs/Tema01.html#por-qué-visualizar-datos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "¿Por qué visualizar datos?",
+    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nBancos Centrales: dashboard de indicadores macroeconómicos\nConsultoras: presentaciones ejecutivas con insights de datos\nInvestigación: trabajos con gráficos que demuestran hipótesis\nMedios: The Economist, Financial Times - visualización como marca\nEmpresas: dashboards de KPIs, segmentación de clientes\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
+  },
+  {
+    "objectID": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
+    "href": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "ggplot2 y la Gramática de Gráficos",
+    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
+  },
+  {
+    "objectID": "docs/Tema01.html#creando-un-ggplot",
+    "href": "docs/Tema01.html#creando-un-ggplot",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Creando un “ggplot”",
+    "text": "Creando un “ggplot”\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n\nSolo ggplot() crea un gráfico vacío\n\n\nggplot(data = ventas)\n\n\naes() define cómo las variables se asignan a propiedades visuales\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\nAñadir capas con +: objeto geométrico geom_point()\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\nNOTAR: datos y estética para todas las capas o solo para una\n\n\nggplot(data = ventas) + \n  geom_point(aes(x = marketing, y = ventas))"
+  },
+  {
+    "objectID": "docs/Tema01.html#objetos-geométricos",
+    "href": "docs/Tema01.html#objetos-geométricos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Objetos Geométricos",
+    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Habitual\n\n\n\n\nPuntos\ngeom_point()\nDispersión\n\n\nLíneas\ngeom_line()\nEvolución temporal\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias\n\n\nTexto\ngeom_text()\nEtiquetas\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
+  },
+  {
+    "objectID": "docs/Tema01.html#asociación-estética-con-aes",
+    "href": "docs/Tema01.html#asociación-estética-con-aes",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Asociación Estética, con aes()",
+    "text": "Asociación Estética, con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\n\n\n\n\n\n\n\nposición: x, y\n|\nforma: shape\n\n\ncolor: color exterior\n|\nrelleno: fill (color interior)\n\n\ntamaño: size\n|\ntipo de línea: linetype\n\n\n\n\n\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\n\n\nAlgunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region))"
+  },
+  {
+    "objectID": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
+    "href": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Asociación Estética vs. Opción Fija",
+    "text": "Asociación Estética vs. Opción Fija\n\nCon aes(), se visualiza una variable con una señal visual\n\n\nFuera de aes(), se establece un valor fijo de la señal visual\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = \"red\"))\n\n\n\nPrincipio: Añadir señal visual para representar información, NO “embellecer”\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(color = norte), shape = \"diamond\")\n\n\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(size = inflacion, color = deuda))\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(shape = \"diamond\", color = \"blue\", size = 3)\n\n\nNota: norte (carácter) se convierte automáticamente a factor: → escala categórica\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-como-objetos",
+    "href": "docs/Tema01.html#gráficos-como-objetos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos como Objetos",
+    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))"
+  },
+  {
+    "objectID": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
+    "href": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Datos (y estéticas) específicas por capa",
+    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
+    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos que muestran datos transformados",
+    "text": "Gráficos que muestran datos transformados\n\nAlgunos gráficos (ej., dispersión) muestran los datos originales directamente\n\n\nPero otros gráficos representan estadísticas calculadas a partir de los datos\ngeom_boxplot(): datos → cuartiles, mediana\n\n\n\n\nggplot(clientes, \n       aes(y = gasto/1000)) +  \n  geom_boxplot()\n\n\n\n\n\n\n\n\n\ngeom_smooth(): regresión → predicción de línea de tendencia\n\n\ngraf_base + geom_smooth()           # con intervalos de confianza\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base"
+  },
+  {
+    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
+    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Gráficos que muestran datos transformados (cont.)",
+    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram(): datos → frecuencias por intervalo\nLa estadística predeterminada en geom_bar() es contar casos (stat_count)\n\nNotad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)\n\n\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas %&gt;% \n  group_by(region) %&gt;% \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")\n\n\n\nEn variables continuas, no hay categorías “naturales” para calcular frecuencias\n\nSe tienen que definir “arbitrariamente” los intervalos\nDistintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico\n\n\n\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)              # Número de grupos\ngraf + geom_histogram(binwidth = 3)           # Ancho de grupos\ngraf + geom_histogram(breaks = seq(10,90,5))  # Rangos"
+  },
+  {
+    "objectID": "docs/Tema01.html#escalas-control-de-asociación-estética",
+    "href": "docs/Tema01.html#escalas-control-de-asociación-estética",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escalas: Control de Asociación Estética",
+    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,\n\n\n\n\n\nEscala\nTipos\nEjemplos\n\n\n\n\n\n\n\n\n\nscale_color_\nidentity\nscale_fill_continuous\n\n\nscale_fill_\nmanual\nscale_color_discrete\n\n\nscale_size_\ncontinuous\nscale_color_manual\n\n\n\ndiscrete\nscale_size_discrete\n\n\n\n\n\n\n\nscale_shape_\ndiscrete\nscale_shape_discrete\n\n\nscale_linetype_\nmanual\nscale_shape_manual\n\n\n\nidentity\nscale_linetype_discrete\n\n\n\n\n\n\n\nscale_x_\ncontinuous\nscale_x_continuous\n\n\nscale_y_\ndiscrete\nscale_y_discrete\n\n\n\nreverse\nscale_y_reverse\n\n\n\nlog10\nscale_x_log10\n\n\n\ndate\nscale_x_date\n\n\n\ndatetime\nscale_y_datetime"
+  },
+  {
+    "objectID": "docs/Tema01.html#escalas-cont.",
+    "href": "docs/Tema01.html#escalas-cont.",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escalas (cont.)",
+    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona de Europa\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: este ejemplo tiene elementos redundantes a efectos ilustrativos\n\n\n\nEj., dos estéticas para una variables\nlimits que no concuerdan con breaks"
+  },
+  {
+    "objectID": "docs/Tema01.html#escala-logarítmica",
+    "href": "docs/Tema01.html#escala-logarítmica",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Escala Logarítmica",
+    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\n\n\nggplot(macro, aes(y = desempleo, x = poblacion)) + \n  scale_x_log10(breaks = seq(0,100,20)) + geom_point()\n\n\nMejor que x = log(pib) porque los ejes se muestran en unidades originales\n\n\n\nEn escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -&gt; incremento de 20 millones de personas en ambos casos\nEn escala logarítmica: misma distancia entre 20 y 40 que entre 40 y 80 -&gt; incremento del 100% en ambos casos\nqué es un logaritmo de euros o de personas\n\n\n\nUsar logs cambia la interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\nNO para “evitar” valores extremos o distribución asimétrica"
+  },
+  {
+    "objectID": "docs/Tema01.html#facetas-sub-gráficos",
+    "href": "docs/Tema01.html#facetas-sub-gráficos",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Facetas (sub-gráficos)",
+    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
+  },
+  {
+    "objectID": "docs/Tema01.html#contexto-con-labs",
+    "href": "docs/Tema01.html#contexto-con-labs",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Contexto con labs()",
+    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
+  },
+  {
+    "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
+    "href": "docs/Tema01.html#otros-elementos-de-contexto",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Otros Elementos de Contexto",
+    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
+  },
+  {
+    "objectID": "docs/Tema01.html#personalizar-el-aspecto-general",
+    "href": "docs/Tema01.html#personalizar-el-aspecto-general",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Personalizar el aspecto general",
+    "text": "Personalizar el aspecto general\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\nCOLOR\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nSe pueden cambiar manualmente colores (p.e., scale_fill_manual()) o la forma (ej., scale_shape_manual())\nPERO es preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + \n          geom_boxplot()\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\n\n\n\nRColorBrewer o viridis \nTambién se puede cambiar la forma con scale_shape_manual()\n\n\n\n\nTEMAS\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\n\nSe puede añadir una capa de tema (estilo general de todos los componentes)\n\n\n\n\ngraf + theme_gray()      \n\n\n\ngraf + theme_minimal()\n\n\n\nTambién existen temas profesionales predefinidos en bibliotecas\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-aplicados",
+    "href": "docs/Tema01.html#ejemplos-aplicados",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos Aplicados",
+    "text": "Ejemplos Aplicados\n\nRelación Gasto Marketing - Ventas\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region)) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(title = \"ROI del Gasto en Marketing por Región\",\n       x = \"Inversión en Marketing (miles €)\",\n       y = \"Ventas (miles €)\",\n       color = \"Región\") +\n  theme_minimal()\n\n\nDistribución de Satisfacción del Cliente\n\n\nggplot(ventas, aes(x = satisfaccion)) +\n  geom_bar(fill = \"steelblue\") +\n  facet_wrap(~producto) +\n  labs(title = \"Distribución de Satisfacción del Cliente por Producto\",\n       x = \"Puntuación de Satisfacción (1-5)\",\n       y = \"Número de Clientes\") +\n  theme_light()"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejemplos-aplicados-1",
+    "href": "docs/Tema01.html#ejemplos-aplicados-1",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Ejemplos Aplicados",
+    "text": "Ejemplos Aplicados\n\n\nComparación de Indicadores UE\n\n\nggplot(macro, aes(x = pais, y = pib)) +\n  geom_col(aes(fill = norte)) +\n  labs(title = \"PIB per cápita en países de la UE\",\n       x = \"País\",\n       y = \"PIB per cápita (miles €)\",\n       fill = \"Norte\") +\n  theme_economist() +\n  scale_fill_economist()\n\n\n\nIndicadores Macroeconómicos\n\n\nggplot(macro, aes(x = desempleo, y = inflacion)) +\n  geom_point(aes(size = deuda, color = norte)) +\n  geom_text_repel(aes(label = pais), size = 3) +\n  labs(title = \"Relación Desempleo-Inflación por País\",\n       x = \"Tasa de Desempleo (%)\",\n       y = \"Tasa de Inflación (%)\",\n       size = \"Deuda Pública (% PIB)\",\n       color = \"Norte de Europa\")\n\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema01.html#comentarios-finales",
+    "href": "docs/Tema01.html#comentarios-finales",
+    "title": "Tema 01 - Visualización de datos",
+    "section": "Comentarios Finales",
+    "text": "Comentarios Finales\n\nGuardar gráficos: en la pestaña de Plots &gt; Export o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R y RStudio\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
+  },
+  {
+    "objectID": "docs/Tema03ej.html",
+    "href": "docs/Tema03ej.html",
+    "title": "Tema 03. Quarto. Ejercicio.",
+    "section": "",
+    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html",
+    "href": "docs/Tema04ej1.html",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.\nLos datos están disponibles en el archivo startups_fintech.csv; una descripción detallada de las variables en diccionario_startups.csv\n\nIMPORTANTE:\n\nMuestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.\nNo basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes."
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#contexto-del-ejercicio",
+    "href": "docs/Tema04ej1.html#contexto-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.\nLos datos están disponibles en el archivo startups_fintech.csv; una descripción detallada de las variables en diccionario_startups.csv\n\nIMPORTANTE:\n\nMuestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.\nNo basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes."
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#pregunta-1.-cargar-explorar-y-limpiar-los-datos",
+    "href": "docs/Tema04ej1.html#pregunta-1.-cargar-explorar-y-limpiar-los-datos",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Pregunta 1. Cargar, Explorar y Limpiar los Datos",
+    "text": "Pregunta 1. Cargar, Explorar y Limpiar los Datos\n\nApartado 1.a.\n\nIdentifica problemas de calidad.\n\n\n\nApartado 1.b.\n\nIdentifica qué variables tienen tipos incorrectos y corrígelos. Justifica por qué necesitan ser convertidas\n\n\n\nApartado 1.c. \n\nDetecta y elimina filas duplicadas.\nDetecta y elimina variables redundantes.\n\n\n\nApartado 1.d. \n\n¿Qué variables tienen valores ausentes y cuántos en cada variable?"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#pregunta-2-análisis-exploratorio-de-datos",
+    "href": "docs/Tema04ej1.html#pregunta-2-análisis-exploratorio-de-datos",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Pregunta 2: Análisis Exploratorio de Datos",
+    "text": "Pregunta 2: Análisis Exploratorio de Datos\n\nApartado 2.a. Distribución de las variables principales\n\nMuestra tablas y/o gráficos de las variables que consideres más relevantes.\n\nPista: en otras, presta atención a subsector, etapa, pais, financiacion_total, valoracion, ltv_cac_ratio, rating_riesgo, tasa_retencion, probabilidad de éxito y empleados.\n\nComenta brevemente las características principales de las variables que se derivan de dichas tablas y/o gráficos.\nEntre otras cosas,\n\n¿Detectas inconsistencias en las categorías de alguna variable? En caso afirmativo, ¿cómo las corriges?\n¿Consideras que se pueden agrupar ciertas categorías para mejorar la interpretación?\n¿Algunas variables tienen distribuciones sesgadas o asimétricas?\n¿Algunas variables tienen valores extremos o “atípicos”?\n\nDiscute la información útil que se puede extraer de las variables analizadas a través de sus distribuciones o principales estadísticos.\n\n\n\nApartado 2.b. Relación entre variables\n\nEstudia las relaciones que consideres más relevantes usando estadísticos y visualizaciones.\nDiscute brevemente cómo es la relación.\n\nPor ejemplo, si es lineal o no, fuerte o débil, positiva o negativa, etc.\n\nEntre otras, tu análisis debería abordar las siguientes cuestiones:\n\nFinanciación por subsector.\nRelación financiación-valoración.\n¿Qué características están relacionadas con el riesgo de las startups? Pista: considera al menos ltv_cac_ratio, burn_rate, runway_meses y tasa_retencion.\n\n\n\nComparar indicadores clave (financiación, valoración, probabilidad de éxito) entre los principales países (los cinco países con más empresas).\nPatrones de madurez: ¿cómo cambian (o no) las características de las startups con la etapa?"
+  },
+  {
+    "objectID": "docs/Tema04ej1.html#entrega-del-ejercicio",
+    "href": "docs/Tema04ej1.html#entrega-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej1_123456789.qmd\nTema04ej1_123456789.html\nTema04ej1_123456789.zip"
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -791,501 +1323,32 @@
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
-    "objectID": "docs/Tema04ej1.html",
-    "href": "docs/Tema04ej1.html",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "objectID": "docs/Tema02ej1.html",
+    "href": "docs/Tema02ej1.html",
+    "title": "Tema 02 - Transformación de Datos",
     "section": "",
-    "text": "Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.\nLos datos están disponibles en el archivo startups_fintech.csv; una descripción detallada de las variables en diccionario_startups.csv\n\nIMPORTANTE:\n\nMuestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.\nNo basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes."
+    "text": "NOTA: Este ejercicio se realizará en clase y NO cuenta para los alumnos de evaluación NO continua (aunque es recomendable como práctica).\nPodéis encontrar una plantilla para vuestras respuestas aquí."
   },
   {
-    "objectID": "docs/Tema04ej1.html#contexto-del-ejercicio",
-    "href": "docs/Tema04ej1.html#contexto-del-ejercicio",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "Una firma de capital riesgo está evaluando startups fintech europeas para identificar oportunidades de inversión. Los datos contienen información financiera, operativa y de riesgo de 350 startups fundadas entre 2014-2023.\nLos datos están disponibles en el archivo startups_fintech.csv; una descripción detallada de las variables en diccionario_startups.csv\n\nIMPORTANTE:\n\nMuestra tu análisis manual (aunque uses herramientas automatizadas como punto de partida), justificando tus decisiones.\nNo basta con mostrar gráficos o tablas, explica qué significan y por qué son relevantes."
+    "objectID": "docs/Tema02ej1.html#ejercicio-1",
+    "href": "docs/Tema02ej1.html#ejercicio-1",
+    "title": "Tema 02 - Transformación de Datos",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\nDescargad este archivo (comprimido) con datos en texto separados por punto y coma con la siguiente información de los empleados de una empresa: el identificador de empleado (ID), sus dos apellidos y su nombre, su género (hombre o mujer) y el valor de las ventas realizadas por dicho empleado en un periodo concreto, dado por año y mes.\nPara garantizar claridad y accesibilidad, se recomienda dividir las tareas en pasos manejables y utilizar herramientas que permitan una visualización clara de los datos.\n\nApartado 1.a)\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nApartado 1.b)\nElige como identificador del empleado las cuatro últimas cifras de tu DNI o similar (Nota: no tener en cuenta los ceros empezando por la izquierda: ej., para 0104 debes usar 104). Encontrar el periodo (año y mes) en el que sus ventas relativas al total de ventas de la empresa en ese periodo (proporción vendida por ese empleado en un periodo) fueron mayores.\n\n\nApartado 1.c)\nRepetir el apartado a) para cada empleado de la empresa, es decir, encontrar el periodo (año y mes) en el que sus ventas totales fueron mayores.\n\n\nApartado 1.d)\n¿En qué periodo (año y mes) hubo más ventas en total en la empresa y cuántas fueron?\n\n\nApartado 1.e)\n\nRepresentar la evolución temporal de las ventas anuales totales realizadas por los hombres y por las mujeres de la empresa.\nPresentar un gráfico de barras con el número de hombres y de mujeres empleados en la empresa en cada año.\nPresentar una tabla con la media de ventas anuales de hombres y de mujeres en los años 2000, 2005 y 2010."
   },
   {
-    "objectID": "docs/Tema04ej1.html#pregunta-1.-cargar-explorar-y-limpiar-los-datos",
-    "href": "docs/Tema04ej1.html#pregunta-1.-cargar-explorar-y-limpiar-los-datos",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Pregunta 1. Cargar, Explorar y Limpiar los Datos",
-    "text": "Pregunta 1. Cargar, Explorar y Limpiar los Datos\n\nApartado 1.a.\n\nIdentifica problemas de calidad.\n\n\n\nApartado 1.b.\n\nIdentifica qué variables tienen tipos incorrectos y corrígelos. Justifica por qué necesitan ser convertidas\n\n\n\nApartado 1.c. \n\nDetecta y elimina filas duplicadas.\nDetecta y elimina variables redundantes.\n\n\n\nApartado 1.d. \n\n¿Qué variables tienen valores ausentes y cuántos en cada variable?"
+    "objectID": "docs/Tema02ej1.html#ejercicio-2",
+    "href": "docs/Tema02ej1.html#ejercicio-2",
+    "title": "Tema 02 - Transformación de Datos",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\nAdemás del archivo del Ejercicio 1, disponemos de este archivo Excel con dos hojas: regiones, con la clave de las regiones donde la empresa tiene sedes y el nombre completo de cada región, y regionEmpleado, con el identificador de cada individuo y la región a la que pertenece.\n\nApartado 2.a)\nMostrar en una tabla el nombre y apellidos del empleado de cada región con mayores ventas totales en el periodo de tiempo analizado.\n\n\nApartado 2.b)\nMostrar el nombre completo de la región con más ventas cada año.\n\n\nApartado 2.c)\nMostrar los nombres y apellidos de los empleados “misteriosos”: es decir, aquellos que no sabemos a qué región pertenecen."
   },
   {
-    "objectID": "docs/Tema04ej1.html#pregunta-2-análisis-exploratorio-de-datos",
-    "href": "docs/Tema04ej1.html#pregunta-2-análisis-exploratorio-de-datos",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Pregunta 2: Análisis Exploratorio de Datos",
-    "text": "Pregunta 2: Análisis Exploratorio de Datos\n\nApartado 2.a. Distribución de las variables principales\n\nMuestra tablas y/o gráficos de las variables que consideres más relevantes.\n\nPista: en otras, presta atención a subsector, etapa, pais, financiacion_total, valoracion, ltv_cac_ratio, rating_riesgo, tasa_retencion, probabilidad de éxito y empleados.\n\nComenta brevemente las características principales de las variables que se derivan de dichas tablas y/o gráficos.\nEntre otras cosas,\n\n¿Detectas inconsistencias en las categorías de alguna variable? En caso afirmativo, ¿cómo las corriges?\n¿Consideras que se pueden agrupar ciertas categorías para mejorar la interpretación?\n¿Algunas variables tienen distribuciones sesgadas o asimétricas?\n¿Algunas variables tienen valores extremos o “atípicos”?\n\nDiscute la información útil que se puede extraer de las variables analizadas a través de sus distribuciones o principales estadísticos.\n\n\n\nApartado 2.b. Relación entre variables\n\nEstudia las relaciones que consideres más relevantes usando estadísticos y visualizaciones.\nDiscute brevemente cómo es la relación.\n\nPor ejemplo, si es lineal o no, fuerte o débil, positiva o negativa, etc.\n\nEntre otras, tu análisis debería abordar las siguientes cuestiones:\n\nFinanciación por subsector.\nRelación financiación-valoración.\n¿Qué características están relacionadas con el riesgo de las startups? Pista: considera al menos ltv_cac_ratio, burn_rate, runway_meses y tasa_retencion.\n\n\n\nComparar indicadores clave (financiación, valoración, probabilidad de éxito) entre los principales países (los cinco países con más empresas).\nPatrones de madurez: ¿cómo cambian (o no) las características de las startups con la etapa?"
-  },
-  {
-    "objectID": "docs/Tema04ej1.html#entrega-del-ejercicio",
-    "href": "docs/Tema04ej1.html#entrega-del-ejercicio",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "objectID": "docs/Tema02ej1.html#entrega-del-ejercicio",
+    "href": "docs/Tema02ej1.html#entrega-del-ejercicio",
+    "title": "Tema 02 - Transformación de Datos",
     "section": "Entrega del ejercicio",
-    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej1_123456789.qmd\nTema04ej1_123456789.html\nTema04ej1_123456789.zip"
-  },
-  {
-    "objectID": "docs/Tema03ej.html",
-    "href": "docs/Tema03ej.html",
-    "title": "Tema 03. Quarto. Ejercicio.",
-    "section": "",
-    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
-  },
-  {
-    "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
-    "href": "docs/Tema01.html#por-qué-visualizar-datos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "¿Por qué visualizar datos?",
-    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nBancos Centrales: dashboard de indicadores macroeconómicos\nConsultoras: presentaciones ejecutivas con insights de datos\nInvestigación: trabajos con gráficos que demuestran hipótesis\nMedios: The Economist, Financial Times - visualización como marca\nEmpresas: dashboards de KPIs, segmentación de clientes\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
-  },
-  {
-    "objectID": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
-    "href": "docs/Tema01.html#ggplot2-y-la-gramática-de-gráficos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "ggplot2 y la Gramática de Gráficos",
-    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
-  },
-  {
-    "objectID": "docs/Tema01.html#creando-un-ggplot",
-    "href": "docs/Tema01.html#creando-un-ggplot",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Creando un “ggplot”",
-    "text": "Creando un “ggplot”\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n\nSolo ggplot() crea un gráfico vacío\n\n\nggplot(data = ventas)\n\n\naes() define cómo las variables se asignan a propiedades visuales\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\nAñadir capas con +: objeto geométrico geom_point()\n\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\nNOTAR: datos y estética para todas las capas o solo para una\n\n\nggplot(data = ventas) + \n  geom_point(aes(x = marketing, y = ventas))"
-  },
-  {
-    "objectID": "docs/Tema01.html#objetos-geométricos",
-    "href": "docs/Tema01.html#objetos-geométricos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Objetos Geométricos",
-    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Habitual\n\n\n\n\nPuntos\ngeom_point()\nDispersión\n\n\nLíneas\ngeom_line()\nEvolución temporal\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias\n\n\nTexto\ngeom_text()\nEtiquetas\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
-  },
-  {
-    "objectID": "docs/Tema01.html#asociación-estética-con-aes",
-    "href": "docs/Tema01.html#asociación-estética-con-aes",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Asociación Estética, con aes()",
-    "text": "Asociación Estética, con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\n\n\n\n\n\n\n\nposición: x, y\n|\nforma: shape\n\n\ncolor: color exterior\n|\nrelleno: fill (color interior)\n\n\ntamaño: size\n|\ntipo de línea: linetype\n\n\n\n\n\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\n\n\nAlgunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region))"
-  },
-  {
-    "objectID": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
-    "href": "docs/Tema01.html#asociación-estética-vs.-opción-fija",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Asociación Estética vs. Opción Fija",
-    "text": "Asociación Estética vs. Opción Fija\n\nCon aes(), se visualiza una variable con una señal visual\n\n\nFuera de aes(), se establece un valor fijo de la señal visual\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = \"red\"))\n\n\n\nPrincipio: Añadir señal visual para representar información, NO “embellecer”\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(color = norte), shape = \"diamond\")\n\n\nNO saturar el gráfico con estéticas fijas o información innecesaria\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(aes(size = inflacion, color = deuda))\n\nggplot(macro, aes(y = desempleo, x = pib)) +\n  geom_point(shape = \"diamond\", color = \"blue\", size = 3)\n\n\nNota: norte (carácter) se convierte automáticamente a factor: → escala categórica\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-como-objetos",
-    "href": "docs/Tema01.html#gráficos-como-objetos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos como Objetos",
-    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))"
-  },
-  {
-    "objectID": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
-    "href": "docs/Tema01.html#datos-y-estéticas-específicas-por-capa",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Datos (y estéticas) específicas por capa",
-    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
-    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos que muestran datos transformados",
-    "text": "Gráficos que muestran datos transformados\n\nAlgunos gráficos (ej., dispersión) muestran los datos originales directamente\n\n\nPero otros gráficos representan estadísticas calculadas a partir de los datos\ngeom_boxplot(): datos → cuartiles, mediana\n\n\n\n\nggplot(clientes, \n       aes(y = gasto/1000)) +  \n  geom_boxplot()\n\n\n\n\n\n\n\n\n\ngeom_smooth(): regresión → predicción de línea de tendencia\n\n\ngraf_base + geom_smooth()           # con intervalos de confianza\ngraf_base + geom_smooth(method = lm, se = FALSE)  \n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base"
-  },
-  {
-    "objectID": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
-    "href": "docs/Tema01.html#gráficos-que-muestran-datos-transformados-cont.",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Gráficos que muestran datos transformados (cont.)",
-    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram(): datos → frecuencias por intervalo\nLa estadística predeterminada en geom_bar() es contar casos (stat_count)\n\nNotad que en Excel un gráfico de barras requiere los datos previamente transformados (datos contados)\n\n\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas %&gt;% \n  group_by(region) %&gt;% \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")\n\n\n\nEn variables continuas, no hay categorías “naturales” para calcular frecuencias\n\nSe tienen que definir “arbitrariamente” los intervalos\nDistintas elecciones pueden revelar distinta información: p.e., no apreciamos un grupo importante de clientes con muy bajos ingresos en el último gráfico\n\n\n\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)              # Número de grupos\ngraf + geom_histogram(binwidth = 3)           # Ancho de grupos\ngraf + geom_histogram(breaks = seq(10,90,5))  # Rangos"
-  },
-  {
-    "objectID": "docs/Tema01.html#escalas-control-de-asociación-estética",
-    "href": "docs/Tema01.html#escalas-control-de-asociación-estética",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escalas: Control de Asociación Estética",
-    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,\n\n\n\n\n\nEscala\nTipos\nEjemplos\n\n\n\n\n\n\n\n\n\nscale_color_\nidentity\nscale_fill_continuous\n\n\nscale_fill_\nmanual\nscale_color_discrete\n\n\nscale_size_\ncontinuous\nscale_color_manual\n\n\n\ndiscrete\nscale_size_discrete\n\n\n\n\n\n\n\nscale_shape_\ndiscrete\nscale_shape_discrete\n\n\nscale_linetype_\nmanual\nscale_shape_manual\n\n\n\nidentity\nscale_linetype_discrete\n\n\n\n\n\n\n\nscale_x_\ncontinuous\nscale_x_continuous\n\n\nscale_y_\ndiscrete\nscale_y_discrete\n\n\n\nreverse\nscale_y_reverse\n\n\n\nlog10\nscale_x_log10\n\n\n\ndate\nscale_x_date\n\n\n\ndatetime\nscale_y_datetime"
-  },
-  {
-    "objectID": "docs/Tema01.html#escalas-cont.",
-    "href": "docs/Tema01.html#escalas-cont.",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escalas (cont.)",
-    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona de Europa\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: este ejemplo tiene elementos redundantes a efectos ilustrativos\n\n\n\nEj., dos estéticas para una variables\nlimits que no concuerdan con breaks"
-  },
-  {
-    "objectID": "docs/Tema01.html#escala-logarítmica",
-    "href": "docs/Tema01.html#escala-logarítmica",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Escala Logarítmica",
-    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\n\n\nggplot(macro, aes(y = desempleo, x = poblacion)) + \n  scale_x_log10(breaks = seq(0,100,20)) + geom_point()\n\n\nMejor que x = log(pib) porque los ejes se muestran en unidades originales\n\n\n\nEn escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -&gt; incremento de 20 millones de personas en ambos casos\nEn escala logarítmica: misma distancia entre 20 y 40 que entre 40 y 80 -&gt; incremento del 100% en ambos casos\nqué es un logaritmo de euros o de personas\n\n\n\nUsar logs cambia la interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\nNO para “evitar” valores extremos o distribución asimétrica"
-  },
-  {
-    "objectID": "docs/Tema01.html#facetas-sub-gráficos",
-    "href": "docs/Tema01.html#facetas-sub-gráficos",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Facetas (sub-gráficos)",
-    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
-  },
-  {
-    "objectID": "docs/Tema01.html#contexto-con-labs",
-    "href": "docs/Tema01.html#contexto-con-labs",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Contexto con labs()",
-    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
-  },
-  {
-    "objectID": "docs/Tema01.html#otros-elementos-de-contexto",
-    "href": "docs/Tema01.html#otros-elementos-de-contexto",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Otros Elementos de Contexto",
-    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
-  },
-  {
-    "objectID": "docs/Tema01.html#personalizar-el-aspecto-general",
-    "href": "docs/Tema01.html#personalizar-el-aspecto-general",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Personalizar el aspecto general",
-    "text": "Personalizar el aspecto general\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\nCOLOR\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nSe pueden cambiar manualmente colores (p.e., scale_fill_manual()) o la forma (ej., scale_shape_manual())\nPERO es preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + \n          geom_boxplot()\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\n\n\n\nRColorBrewer o viridis \nTambién se puede cambiar la forma con scale_shape_manual()\n\n\n\n\nTEMAS\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\n\nSe puede añadir una capa de tema (estilo general de todos los componentes)\n\n\n\n\ngraf + theme_gray()      \n\n\n\ngraf + theme_minimal()\n\n\n\nTambién existen temas profesionales predefinidos en bibliotecas\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejemplos-aplicados",
-    "href": "docs/Tema01.html#ejemplos-aplicados",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Ejemplos Aplicados",
-    "text": "Ejemplos Aplicados\n\nRelación Gasto Marketing - Ventas\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region)) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(title = \"ROI del Gasto en Marketing por Región\",\n       x = \"Inversión en Marketing (miles €)\",\n       y = \"Ventas (miles €)\",\n       color = \"Región\") +\n  theme_minimal()\n\n\nDistribución de Satisfacción del Cliente\n\n\nggplot(ventas, aes(x = satisfaccion)) +\n  geom_bar(fill = \"steelblue\") +\n  facet_wrap(~producto) +\n  labs(title = \"Distribución de Satisfacción del Cliente por Producto\",\n       x = \"Puntuación de Satisfacción (1-5)\",\n       y = \"Número de Clientes\") +\n  theme_light()"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejemplos-aplicados-1",
-    "href": "docs/Tema01.html#ejemplos-aplicados-1",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Ejemplos Aplicados",
-    "text": "Ejemplos Aplicados\n\n\nComparación de Indicadores UE\n\n\nggplot(macro, aes(x = pais, y = pib)) +\n  geom_col(aes(fill = norte)) +\n  labs(title = \"PIB per cápita en países de la UE\",\n       x = \"País\",\n       y = \"PIB per cápita (miles €)\",\n       fill = \"Norte\") +\n  theme_economist() +\n  scale_fill_economist()\n\n\n\nIndicadores Macroeconómicos\n\n\nggplot(macro, aes(x = desempleo, y = inflacion)) +\n  geom_point(aes(size = deuda, color = norte)) +\n  geom_text_repel(aes(label = pais), size = 3) +\n  labs(title = \"Relación Desempleo-Inflación por País\",\n       x = \"Tasa de Desempleo (%)\",\n       y = \"Tasa de Inflación (%)\",\n       size = \"Deuda Pública (% PIB)\",\n       color = \"Norte de Europa\")\n\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
-  },
-  {
-    "objectID": "docs/Tema01.html#comentarios-finales",
-    "href": "docs/Tema01.html#comentarios-finales",
-    "title": "Tema 01 - Visualización de datos",
-    "section": "Comentarios Finales",
-    "text": "Comentarios Finales\n\nGuardar gráficos: en la pestaña de Plots &gt; Export o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R y RStudio\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(3-Nov. a 9-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 05 - Ejercicio 1\nTema 04 - Ejercicio 1\n\nFecha límite de entrega: dom., 9-nov., 23:59h\n\nTema 04 - Ejercicio 2\n\nEjercicio voluntario para subir nota.\nFecha límite de entrega: dom., 21-dic., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-9",
-    "href": "Contenidos.html#semana-9",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(3-Nov. a 9-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 05 - Ejercicio 1\nTema 04 - Ejercicio 1\n\nFecha límite de entrega: dom., 9-nov., 23:59h\n\nTema 04 - Ejercicio 2\n\nEjercicio voluntario para subir nota.\nFecha límite de entrega: dom., 21-dic., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-8",
-    "href": "Contenidos.html#semana-8",
-    "title": "Contenidos",
-    "section": "Semana 8",
-    "text": "Semana 8\n(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-7",
-    "href": "Contenidos.html#semana-7",
-    "title": "Contenidos",
-    "section": "Semana 7",
-    "text": "Semana 7\n(20-Oct. a 26-Oct.)\n\nTema 02 - Ejercicio"
-  },
-  {
-    "objectID": "Contenidos.html#semana-6",
-    "href": "Contenidos.html#semana-6",
-    "title": "Contenidos",
-    "section": "Semana 6",
-    "text": "Semana 6\n(13-Oct. a 19-Oct.)\n\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-5",
-    "href": "Contenidos.html#semana-5",
-    "title": "Contenidos",
-    "section": "Semana 5",
-    "text": "Semana 5\n(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto"
-  },
-  {
-    "objectID": "Contenidos.html#semana-4",
-    "href": "Contenidos.html#semana-4",
-    "title": "Contenidos",
-    "section": "Semana 4",
-    "text": "Semana 4\n(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "Semana 3",
-    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 05-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
-  },
-  {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
-    "section": "",
-    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
-  },
-  {
-    "objectID": "ProyectoFinal.html#elección-de-tema",
-    "href": "ProyectoFinal.html#elección-de-tema",
-    "title": "Proyecto Final",
-    "section": "Elección de Tema",
-    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
-  },
-  {
-    "objectID": "ProyectoFinal.html#entrega-final",
-    "href": "ProyectoFinal.html#entrega-final",
-    "title": "Proyecto Final",
-    "section": "Entrega Final",
-    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
-  },
-  {
-    "objectID": "ProyectoFinal.html#importante-plagio.",
-    "href": "ProyectoFinal.html#importante-plagio.",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO.",
-    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "index.html#pedro-albarrán",
-    "href": "index.html#pedro-albarrán",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
-  },
-  {
-    "objectID": "index.html#alberto-pérez",
-    "href": "index.html#alberto-pérez",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nstartups_fintech.csv\ndiccionario_startups.csv\n\nTema 5:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html",
-    "href": "docs/Tema04ej2.html",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "La biblioteca tidyquant integra análisis financiero con el ecosistema tidyverse, facilitando la obtención, transformación y visualización de datos económicos y financieros.\n\n\nFRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()\n\n\n\n\nPara acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()\n\n\n\n\ntidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
-    "href": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "FRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#obtener-datos-financieros",
-    "href": "docs/Tema04ej2.html#obtener-datos-financieros",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "Para acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#visualizaciones-especializadas",
-    "href": "docs/Tema04ej2.html#visualizaciones-especializadas",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "tidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
-    "href": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Parte 1: Datos Económicos (FRED)",
-    "text": "Parte 1: Datos Económicos (FRED)\n\nTarea 1.1: Obtener series económicas\nDescarga las siguientes series económicas de la zona euro o países específicos:\n\nTasa de desempleo de la zona euro o un país europeo\nÍndice de precios al consumo (IPC) o inflación\nTipo de interés de referencia del BCE o equivalente\n\n\n\nTarea 1.2: Análisis univariante\n\nPara cada serie económica:\n\nVisualiza su evolución temporal completa\nCalcula estadísticos descriptivos básicos en todo el periodo y en los últimos 5 años\n\n\n\nDescribe brevemente qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#parte-2-datos-financieros",
-    "href": "docs/Tema04ej2.html#parte-2-datos-financieros",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Parte 2: Datos Financieros",
-    "text": "Parte 2: Datos Financieros\n\nTarea 2.1: Obtener datos de acciones\nSelecciona 3 empresas europeas de sectores diferentes. Puedes elegir de:\n\nBanca: Santander, BBVA, Deutsche Bank\nEnergía: Iberdrola, Repsol, TotalEnergies\nTecnología: SAP, ASML, Infineon\nConsumo: Inditex, LVMH, Unilever\n\n\n\nTarea 2.2: Análisis de precios\n\nPara cada empresa:\n\nCrea un gráfico de velas para los últimos 6 meses\nAñade medias móviles (50 y 200 días) al gráfico completo\nCalcula estadísticos descriptivos del precio de cierre\nIdentifica períodos de alta/baja volatilidad\n\n\n\n\nTarea 2.3: Rendimientos\n\nCalcula los rendimientos diarios (% cambio en precio de cierre) para cada empresa:\n\n\nAnaliza y compara la distribución de rendimientos\nAnaliza y compara la volatilidad"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
-    "href": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Parte 3: Integración de Datos Económicos y Financieros",
-    "text": "Parte 3: Integración de Datos Económicos y Financieros\n\nTarea 3.1: Preparar datos mensuales\nAgrega tanto datos económicos como financieros a frecuencia mensual:\n\n\nTarea 3.2: Combinar datasets\nUne los datos económicos y financieros por fecha (mes/año):\n\n\nTarea 3.3: Análisis de covariación\nAnaliza las relaciones entre variables económicas y precios de acciones:\n\nMatriz de correlación: ¿Cómo se correlacionan las variables?\n\n\nGráficos de dispersión: Relaciones específicas de interés\n\n\nSeries temporales superpuestas:\n\nVisualiza cómo evolucionan juntas una variable económica y un precio (usando dos ejes Y si es necesario):\n\n¿Qué relaciones observas? ¿Son intuitivas o sorprendentes? ¿Alguna relación inversa?"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#entrega-del-ejercicio",
-    "href": "docs/Tema04ej2.html#entrega-del-ejercicio",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Entrega del ejercicio",
-    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej2_123456789.qmd\nTema04ej2_123456789.html\nTema04ej2_123456789.zip"
-  },
-  {
-    "objectID": "docs/Tema05ej1.html",
-    "href": "docs/Tema05ej1.html",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "",
-    "text": "El siguiente conjunto de datos tiene información sobre el volumen de usuarios de un camino ciclista (“via verde”) en EE.UU. Tenéis más información en la ayuda de RStudio.\n\nlibrary(tidyverse)\nlibrary(mosaicData)\ndata(\"RailTrail\")\n\nLa comisión gestora, PVPC, quiere entender la relación entre el volumen de usuarios y variables explicativas como incluyendo la temperatura, lluvia, nubosidad y el día de la semana. Para esto, estimamos el siguiente modelo de regresión:\n\\[\nvolume = \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip + \\varepsilon\n\\tag{1}\\]\n\nmodelo1 &lt;- lm(data = RailTrail,\n              volume ~ hightemp + cloudcover + weekday + precip)"
-  },
-  {
-    "objectID": "docs/Tema05ej1.html#datos",
-    "href": "docs/Tema05ej1.html#datos",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "",
-    "text": "El siguiente conjunto de datos tiene información sobre el volumen de usuarios de un camino ciclista (“via verde”) en EE.UU. Tenéis más información en la ayuda de RStudio.\n\nlibrary(tidyverse)\nlibrary(mosaicData)\ndata(\"RailTrail\")\n\nLa comisión gestora, PVPC, quiere entender la relación entre el volumen de usuarios y variables explicativas como incluyendo la temperatura, lluvia, nubosidad y el día de la semana. Para esto, estimamos el siguiente modelo de regresión:\n\\[\nvolume = \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip + \\varepsilon\n\\tag{1}\\]\n\nmodelo1 &lt;- lm(data = RailTrail,\n              volume ~ hightemp + cloudcover + weekday + precip)"
-  },
-  {
-    "objectID": "docs/Tema05ej1.html#apartado-1",
-    "href": "docs/Tema05ej1.html#apartado-1",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "Apartado 1",
-    "text": "Apartado 1\nPara este apartado, trabajaréis con un coeficiente concreto de la Ecuación 1 estimada anteriormente. El coeficiente dependerá de la última cifra de vuestro DNI o similar:\n\nsi es 1, 4 o 7, con el de hightemp\nsi es 2, 5 o 8, con el de cloudcover\nsi es 3, 6 o 9, con el de weekday\nsi es 0, con el de precip\n\n\nCalcular el intervalo de confianza al 95% para vuestro coeficiente y el intervalo de confianza al 95% para la varianza del error, bajo el supuesto de que los errores del modelo siguen una distribución normal.\n\n\nNota: bajo normalidad de los errores, \\(\\widehat{\\beta} \\sim N\\left(\\beta, Var(\\widehat{\\beta})\\right)\\) y \\((n-k)*s^2 / Var(\\varepsilon) \\sim \\chi^2_{(n-k)}\\), donde \\(n\\) es el número de observaciones, \\(k\\) es el número de coeficientes (incluida la constante) y \\(s^2\\) es la estimación de la varianza del error.\n\n\nUsar bootstrap para obtener el intervalo de confianza al 95% para vuestro coeficiente y el intervalo de confianza al 95% para la varianza del error. Debéis fijar como semilla vuestro DNI para realizar un bucle como el visto en clase.\n\n\nComentar BREVEMENTE las diferencias en los intervalos de confianza de ambos apartados.\n\n\nNotas\n\nLos resultados de una estimación están almacenados en el objeto creado aplicando summary() a la función lm().\n\n\nsum.modelo1 &lt;- summary(modelo1)\n\n## Para todos los coeficientes (filas)\n## el valor estimado y su error estándar (dos columnas)\nsum.modelo1$coefficients[,1:2]\n\n## Varianza del error del modelo\nsum.modelo1$sigma^2\n\n## R-cuadrado\nsum.modelo1$r.squared\n\n\nIntervalo de confianza al 95% para el coeficiente estimado: \\(\\widehat{\\beta} \\pm z_{0.975} \\cdot \\sqrt{\\operatorname{Var}(\\widehat{\\beta})}\\), donde \\(z_{0.975}\\) es el valor crítico de la distribución normal estándar .\nIntervalo de confianza al 95% para la varianza del error: \\(\\left( \\frac{(n - k) \\cdot s^2}{\\chi^2_{0.975, (n - k)}}, \\frac{(n - k) \\cdot s^2}{\\chi^2_{0.025, (n - k)}} \\right)\\), donde \\(\\chi^2_{0.975, (n - k)}\\) y \\(\\chi^2_{0.025, (n - k)}\\) son los valores críticos de la distribución \\(\\chi^2\\) con \\(n - k\\) grados de libertad, correspondientes a los percentiles del 97.5% y 2.5%, respectivamente.\nEn R, los valores críticos se obtienen con qnorm() y qchisq() (mirad la ayuda)."
-  },
-  {
-    "objectID": "docs/Tema05ej1.html#apartado-2",
-    "href": "docs/Tema05ej1.html#apartado-2",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "Apartado 2",
-    "text": "Apartado 2\nRealizamos un análsis exploratorio de los datos y encontramos la siguiente forma para la relación no lineal entre el número de visitantes y la temperatura.\n\n\n\n\n\n\n\n\n\nPresentar en una tabla los resultados de estimar la Ecuación 1 y añadir primero la temperatura al cuadrado, después también la temperatura al cubo, la temperatura elevada a la cuarta potencia y finalmente elevada a la quinta potencia. Comentar qué modelo elegirías, es decir, qué grado del polinomio en temperatura captura mejor la relación no lineal descrita anteriormente. ¿Podríamos tener una relación no lineal distinta de la descrita por un polinomio?\n\nNotas sobre tablas de resultados en Quarto\n\nPodemos combinar tidy() (de la biblioteca broom) con las funciones de la biblioteca kableExtra para incluir tablas de estadísticos descriptivos o de resultados de regresión. En el documento de Quarto, se debe incluir la opción results: markup.\n\n\nlibrary(broom)\nlibrary(kableExtra)\nmodelo1 %&gt;% tidy() %&gt;%\n      kbl() %&gt;% kable_classic()\n\n\nNotad que tras usar tidy() tenemos un conjunto de datos. Por tanto, podemos usar comandos conocidos para manipular la tabla, p.e., no mostrar todas las columnas.\n\n\nmodelo1 %&gt;% tidy() %&gt;% select(term:std.error) %&gt;%\n  kbl() %&gt;% kable_paper()\n\n\nCon modelsummary(), podemos mostrar los resultados de uno o varios modelos en la misma tabla. También debemos incluir la opción results: markup.\n\nConsideramos el siguiente modelo: \\[\nvolume = \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip + \\beta_5 \\cdot spring + \\beta_6 \\cdot summer + \\varepsilon\n\\]\n\nlibrary(modelsummary)\nmodelo2 &lt;- lm(data = RailTrail,\n                volume ~ hightemp + cloudcover + weekday + precip +\n                          spring + summer)\n\nmodelsummary(list(\"Modelo 1\" = modelo1,\n                  \"Modelo 2\" = modelo2),\n             gof_map = c(\"nobs\", \"r.squared\", \"adj.r.squared\",\n                          \"F\", \"rmse\") ,\n             stars = T)\n\n\n\n    \n\n    \n\n    \n    \n    \n      \n        \n        \n              \n                 \n                Modelo 1\n                Modelo 2\n              \n        \n        + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n        \n                \n                  (Intercept)\n                  76.826\n                  45.483\n                \n                \n                  \n                  (62.710)\n                  (79.724)\n                \n                \n                  hightemp\n                  5.549***\n                  5.696***\n                \n                \n                  \n                  (0.781)\n                  (1.164)\n                \n                \n                  cloudcover\n                  -8.503*\n                  -8.353*\n                \n                \n                  \n                  (3.339)\n                  (3.435)\n                \n                \n                  weekdayTRUE\n                  -35.045\n                  -37.062+\n                \n                \n                  \n                  (21.752)\n                  (22.280)\n                \n                \n                  precip\n                  -106.483*\n                  -98.904*\n                \n                \n                  \n                  (40.720)\n                  (42.137)\n                \n                \n                  spring\n                  \n                  31.239\n                \n                \n                  \n                  \n                  (32.082)\n                \n                \n                  summer\n                  \n                  9.424\n                \n                \n                  \n                  \n                  (47.504)\n                \n                \n                  Num.Obs.\n                  90\n                  90\n                \n                \n                  R2\n                  0.500\n                  0.509\n                \n                \n                  R2 Adj.\n                  0.476\n                  0.473\n                \n                \n                  F\n                  21.208\n                  14.322\n                \n                \n                  RMSE\n                  89.67\n                  88.85"
-  },
-  {
-    "objectID": "docs/Tema05ej1.html#apartado-3",
-    "href": "docs/Tema05ej1.html#apartado-3",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "Apartado 3",
-    "text": "Apartado 3\nRealizamos un nuevo análisis exploratorio para la relación entre el número de visitas y la nubosidad (como porcentaje de cielo cubierto por nubes, en una escala continua de 0 a 10).\n\n\n\n\n\n\n\n\n\nDado lo que observamos en el gráfico, vamos a discretizar cloudcover. Primero, consideramos solo dos grupos: hasta 7.5 y más de 7.5. Luego, consideramos tres rangos: entre 0 y 5, entre 5 y 7.5, y mayor de 7.5. Finalmente, consideramos cuatro categorías: [0,2.5], (2.5,5], (5, 7.5] y (7.5, 10]. Presentar en una tabla el modelo de la Ecuación 1, con la variable cloudclover, y todas las variantes donde la hemos discretizado. Discutir qué especificación preferís y por qué.\n\nNotas\n\nComo hemos visto en las transparencias, se puede discretizar una variable con cut() (o cut_width(), cut_interval(), etc.), generando un factor con categorías dadas por los puntos de corte: ej., cut(cloudcover, breaks=c(0, 7.5, 10), include.lowest = T)\nTambién se podría generar una variable binaria para cada categoria con ifelse() (o if_else())"
-  },
-  {
-    "objectID": "docs/Tema05ej1.html#apartado-4",
-    "href": "docs/Tema05ej1.html#apartado-4",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "Apartado 4",
-    "text": "Apartado 4\nFinalmente, vamos a considerar otra variante de la ecuación Ecuación 1 donde los efectos de la temperatura (hightemp) y de la nubosidad (cloudcover) no son constantes, sino que su efecto es heterogéneo en función de otros factores, en este caso si es un día laborable (weekday). Estimaremos el siguiente modelo\n\\[\n\\begin{aligned}\nvolume &= \\beta_0 + \\beta_1 \\cdot hightemp + \\beta_2 \\cdot cloudcover + \\beta_3 \\cdot weekday + \\beta_4 \\cdot precip  \\\\\n&+ \\beta_5 \\cdot hightemp \\cdot weekday + \\beta_4 \\cdot  cloudcover \\cdot weekday + \\varepsilon\n\\end{aligned}\n\\tag{2}\\]\n\nmodelo1.H &lt;- lm(data = RailTrail,\n                volume ~ (hightemp + cloudcover)*weekday + precip)\n\nPresentar en una tabla los resultado de estimar la ecuación Ecuación 1 y de la ecuación Ecuación 2. Discutir si evidencia de que la temperatura y la nubosidad afectan de manera diferente a las visitas en función de otros factores. ¿Qué modelo preferiría?"
-  },
-  {
-    "objectID": "docs/Tema05ej1.html#entrega",
-    "href": "docs/Tema05ej1.html#entrega",
-    "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
-    "section": "Entrega",
-    "text": "Entrega\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema05ej1_123456789.qmd\nTema05ej1_123456789.zip"
-  },
-  {
-    "objectID": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "href": "docs/0Intro.html#datificación-de-la-vida-diaria",
-    "title": "Introducción",
-    "section": "“Datificación” de la vida diaria",
-    "text": "“Datificación” de la vida diaria\n\n\n\n\nIBM: en 2025 más de 175 zettabytes (175 billones de gigas) requerirán de distintos análisis\nForbes: 2,5 trillones de bytes de datos cada día\nThe 4 Vs of big data: Volume, Velocity, Variety, Veracity"
-  },
-  {
-    "objectID": "docs/0Intro.html#importancia-de-los-datos",
-    "href": "docs/0Intro.html#importancia-de-los-datos",
-    "title": "Introducción",
-    "section": "Importancia de los datos",
-    "text": "Importancia de los datos\n\nNeelie Kroes (Comisaria Europea para la Agenda Digital): “Data is the oil of the new economy, […], the new oil for the digital era”\n\n\nNuevas oportunidades para las empresas: analítica de negocios para la toma de decisiones.\nMcKinsey: “aquellas organizaciones que adoptan analítica de negocios como cultura tienen 23 veces más probabilidades de adquirir clientes, seis veces más probabilidades de retener a esos clientes y 19 veces más probabilidades de ser rentables” (Bokman et al., 2018).\nMás ejemplos importancia del análisis de datos en economía, aquí y aquí, y en la empresa"
-  },
-  {
-    "objectID": "docs/0Intro.html#objetivos",
-    "href": "docs/0Intro.html#objetivos",
-    "title": "Introducción",
-    "section": "Objetivos",
-    "text": "Objetivos\n\nAprender a extraer información de los datos\n\n\n\n\n\nUsando técnicas computacionales y estadísticas"
-  },
-  {
-    "objectID": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "href": "docs/0Intro.html#aprendiendo-a-analizar-datos",
-    "title": "Introducción",
-    "section": "Aprendiendo a analizar datos",
-    "text": "Aprendiendo a analizar datos\n\nEs una inversión de futuro en el trabajo aquí y aquí\nDebemos conocer las técnicas y NO esperar magia"
-  },
-  {
-    "objectID": "docs/0Intro.html#análitica-cadena-de-valor",
-    "href": "docs/0Intro.html#análitica-cadena-de-valor",
-    "title": "Introducción",
-    "section": "Análitica: Cadena de Valor",
-    "text": "Análitica: Cadena de Valor"
-  },
-  {
-    "objectID": "docs/0Intro.html#tipos-de-análisis",
-    "href": "docs/0Intro.html#tipos-de-análisis",
-    "title": "Introducción",
-    "section": "Tipos de Análisis",
-    "text": "Tipos de Análisis"
-  },
-  {
-    "objectID": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "href": "docs/0Intro.html#ciclo-de-vida-del-análisis-de-datos",
-    "title": "Introducción",
-    "section": "Ciclo de Vida del Análisis de Datos",
-    "text": "Ciclo de Vida del Análisis de Datos"
-  },
-  {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Introducción a R. Ejercicio 1",
-    "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla aquí\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema02ej1_123456789.R"
   },
   {
     "objectID": "docs/Tema01ej.html",
