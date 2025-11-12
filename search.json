@@ -823,14 +823,21 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(10-Nov. a 16-Nov.)\n\nTema 05 - Ejercicio 1\nTema 06 - Selección y Regularización"
+    "text": "(17-Nov. a 23-Nov.)\n\nTema 06 - Selección y Regularización"
+  },
+  {
+    "objectID": "Contenidos.html#semana-11",
+    "href": "Contenidos.html#semana-11",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(17-Nov. a 23-Nov.)\n\nTema 06 - Selección y Regularización"
   },
   {
     "objectID": "Contenidos.html#semana-10",
     "href": "Contenidos.html#semana-10",
     "title": "Contenidos",
-    "section": "",
-    "text": "(10-Nov. a 16-Nov.)\n\nTema 05 - Ejercicio 1\nTema 06 - Selección y Regularización"
+    "section": "Semana 10",
+    "text": "Semana 10\n(10-Nov. a 16-Nov.)\n\nTema 05 - Ejercicio 1\n\nFecha límite de entrega: dom., 16-nov., 23:59h"
   },
   {
     "objectID": "Contenidos.html#semana-9",
@@ -1607,14 +1614,14 @@
     "href": "docs/Tema05.html#seleccionar-el-mejor-modelo.-overfitting",
     "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
     "section": "Seleccionar el mejor modelo. “Overfitting”",
-    "text": "Seleccionar el mejor modelo. “Overfitting”\n\n\n¿Cuál es el mejor modelo para predecir el número de visitantes en función de la temperatura?\n\n\nlibrary(mosaicData)\nRailTrail |&gt; ggplot(aes(x = hightemp, y = volume)) +\n  geom_point() +  geom_smooth()\n\n\\[\n\\scriptsize\n\\begin{align*}\nvolume &= \\beta_0 + \\beta_1 \\, \\mathrm{hightemp} + \\varepsilon \\\\\nvolume &= \\beta_0 + \\beta_1 \\, \\mathrm{hightemp} + \\beta_2 \\, \\mathrm{hightemp}^2 + \\varepsilon \\\\\n&\\vdots \\\\\nvolume &= \\beta_0 + \\beta_1 \\, \\mathrm{hightemp} + \\dots + \\beta_{22} \\, \\mathrm{hightemp}^{22} + \\varepsilon\n\\end{align*}\n\\]\n\nEl objetivo de un modelo es predecir casos nuevos (no reproducir los datos vistos)\nLas métricas (\\(\\small MSE\\), \\(R^2\\)) calculadas en los mismos datos usados para estimar NO informan de esto: miden in-sample prediction, no out-sample prediction\n\n\n\nLas métricas de error (\\(\\small MSE\\), \\(R^2\\)) calculadas para predicciones de los mismos datos usados para estimar el modelo NO informan de esto\n\n\n\nUn modelo demasiado flexible puede aprender el ruido (características de la muestra concreta) → sobreajuste (overfitting): error casi nulo en los datos que estimamos, pero grande con casos nuevos\n\n\nRailTrail |&gt; ggplot(aes(x = hightemp, y = volume)) +\n  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) +\n  coord_cartesian(ylim = c(100,750))"
+    "text": "Seleccionar el mejor modelo. “Overfitting”\n\n\n¿Cuál es el mejor modelo para predecir el número de visitantes en función de la temperatura?\n\n\nlibrary(mosaicData)\nRailTrail |&gt;  ggplot(aes(x = hightemp, y = volume)) + geom_point() +  geom_smooth()\n\n\\[\n\\scriptsize\n\\begin{align*}\nvolume &= \\beta_0 + \\beta_1 \\, \\mathrm{hightemp} + \\varepsilon \\\\\nvolume &= \\beta_0 + \\beta_1 \\, \\mathrm{hightemp} + \\beta_2 \\, \\mathrm{hightemp}^2 + \\varepsilon \\\\\n&\\cdots \\\\\nvolume &= \\beta_0 + \\beta_1 \\, \\mathrm{hightemp} + \\dots + \\beta_{22} \\, \\mathrm{hightemp}^{22} + \\varepsilon\n\\end{align*}\n\\]\n\nEl objetivo de un modelo es predecir casos nuevos (no reproducir los datos vistos)\nLas métricas (\\(\\small MSE\\), \\(R^2\\)) calculadas en los mismos datos usados para estimar NO informan de esto: miden in-sample prediction, no out-sample prediction\n\n\n\nLas métricas de error (\\(\\small MSE\\), \\(R^2\\)) calculadas para predicciones de los mismos datos usados para estimar el modelo NO informan de esto\n\n\n\nUn modelo demasiado flexible puede aprender el ruido (características de la muestra concreta) → sobreajuste (overfitting): error casi nulo en los datos que estimamos, pero grande con casos nuevos\n\n\nRailTrail |&gt; ggplot(aes(x = hightemp, y = volume)) + ylim(100,750) + \n  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) \n\n\nUn buen modelo tiene equilibrio entre capacidad predictiva y complejidad: ni ajuste insuficiente (underfitting) ni overfitting"
   },
   {
     "objectID": "docs/Tema05.html#muestras-de-entrenamiento-y-de-prueba",
     "href": "docs/Tema05.html#muestras-de-entrenamiento-y-de-prueba",
     "title": "Tema 05 - Modelización y Aprendizaje Estadístico",
     "section": "Muestras de entrenamiento y de prueba",
-    "text": "Muestras de entrenamiento y de prueba\n\n\nDividimos la muestra para usar datos diferentes para estimar y para calcular las métricas\n\nMuestra de entrenamiento (train) donde se ajusta el modelo\nMuestra de prueba (test) donde se calculan métricas con observaciones NO vistas antes por el modelo → evaluamos el mejor modelo para predecir casos nuevos\n\n\n\n\n\n\n\n\n\n\n\n\n\nUn buen modelo tiene equilibrio entre capacidad predictiva y complejidad: ni ajuste insuficiente (underfitting) ni overfitting\n\n\n\n\nSiempre que aumenta la flexibilidad, el MSE\n\ndisminuye en la muestra de entrenamiento\ntiene forma de U en la muestra de prueba\n\nNota: el MSE en entrenamiento es siempre menor que en prueba\n\n\n\n\n\n\n\n\n\n\nEvitar modelos con sobre-ajuste: un modelo menos flexible podría tener menor error de predicción con casos nuevos\n\n\n\n\nsobre-ajuste: parecen que su error es casi nulo en los datos que estimamos, pero cometen un gran error en observaciones nuevas\nMostrar ejemplos gráficos de ajuste insuficiente, correcto y sobreajuste.\n\n\n\n\n\n\n\n\n\n\n\n\nLos grados de libertad (número de valores en el modelo que son libres de variar) resume la flexibilidad de una curva."
+    "text": "Muestras de entrenamiento y de prueba\n\n\nDividimos la muestra para usar datos diferentes para estimar y para calcular las métricas\n\nMuestra de entrenamiento (train) donde se ajusta el modelo\nMuestra de prueba (test) donde se calculan métricas con observaciones NO vistas antes por el modelo → evaluamos el mejor modelo para predecir casos nuevos\n\n\n\n\n\n\n\n\n\n\n\n\n\nCuando aumenta la flexibilidad, el MSE siempre disminuye en la muestra de entrenamiento…\nPERO el MSE tiene forma de U en la muestra de prueba → modelo óptimo evita sobre-ajuste (modelo menos flexible con menor error de predicción para casos nuevos)\n\n\n\n\n\n\n\n\n\n\\(\\scriptsize MSE^{train} &lt; MSE^{test}\\)\n\n\n\nsobre-ajuste: parecen que su error es casi nulo en los datos que estimamos, pero cometen un gran error en observaciones nuevas\nMostrar ejemplos gráficos de ajuste insuficiente, correcto y sobreajuste.\n\n\n\n\n\n\n\n\n\n\n\n\nLos grados de libertad (número de valores en el modelo que son libres de variar) resume la flexibilidad de una curva."
   },
   {
     "objectID": "docs/Tema05.html#trade-off-varianzasesgo",
