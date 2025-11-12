@@ -45,20 +45,19 @@ strip-comments: true
 
   * [Tema 08 - Ejemplo 1](docs/Tema08ej1.qmd)
 
-## Semana 11
-(18-Nov. a 24-Nov.)
-
-  * [Tema 07 - Selección y Regularización](docs/Tema07.qmd)
   * [Tema 08 - Modelización con `tidymodels`](docs/Tema08.qmd)
-
 *********************************************************************
 -->
+## Semana 11
+(17-Nov. a 23-Nov.)
+
+  * [Tema 06 - Selección y Regularización](docs/Tema06.qmd)
+
 ## Semana 10
 (10-Nov. a 16-Nov.)
 
   * [Tema 05 - Ejercicio 1](docs/Tema05ej1.qmd)
-
-  * [Tema 06 - Selección y Regularización](docs/Tema06.qmd)
+    - Fecha límite de entrega: **dom., 16-nov., 23:59h**
 
 ## Semana 9
 (3-Nov. a 9-Nov.)

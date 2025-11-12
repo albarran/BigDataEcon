@@ -486,10 +486,11 @@ cbind(descuento$ventas, pred$fit, pred$se.fit) |> head()
 
 ```{r}
 #| echo: false
+#| eval: false
 ventas_pred <- predict(modelo, type = "response", se.fit = T)
 
-(a <- predict(modelo, type = "response", interval = "confidence"))
-(b <- predict(modelo, type = "response", interval = "prediction"))
+(a <- predict(modelo, type = "response", interval = "confidence") |> head())
+(b <- predict(modelo, type = "response", interval = "prediction") |> head())
 ```
 
 
@@ -985,13 +986,13 @@ https://yardstick.tidymodels.org/reference/rmse.html
 
 ## Seleccionar el mejor modelo. "Overfitting"
 
-::: {style="font-size: 95%;"}
+::: {style="font-size: 92%;"}
 
 - ¿Cuál es el mejor modelo para predecir el número de visitantes en función de la temperatura?
+
 ```{r}
 library(mosaicData)
-RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
-  geom_point() +  geom_smooth()
+RailTrail |>  ggplot(aes(x = hightemp, y = volume)) + geom_point() +  geom_smooth()
 ```
 
 $$
@@ -999,11 +1000,10 @@ $$
 \begin{align*}
 volume &= \beta_0 + \beta_1 \, \mathrm{hightemp} + \varepsilon \\
 volume &= \beta_0 + \beta_1 \, \mathrm{hightemp} + \beta_2 \, \mathrm{hightemp}^2 + \varepsilon \\
-&\vdots \\
+&\cdots \\
 volume &= \beta_0 + \beta_1 \, \mathrm{hightemp} + \dots + \beta_{22} \, \mathrm{hightemp}^{22} + \varepsilon
 \end{align*}
 $$
-
 
 - El objetivo de un modelo es **predecir casos nuevos** (no reproducir los datos vistos)
 
@@ -1018,17 +1018,18 @@ $$
 - Un modelo demasiado flexible puede *aprender el ruido* (características de la muestra concreta) → **sobreajuste (overfitting)**: error casi nulo en los datos que estimamos, pero grande con casos nuevos 
 
 ```{r}
-RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
-  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) +
-  coord_cartesian(ylim = c(100,750))
+RailTrail |> ggplot(aes(x = hightemp, y = volume)) + ylim(100,750) + 
+  geom_point() + geom_smooth(method = 'lm', formula = y ~ poly(x,22) ) 
 ```
-:::
 
+- Un buen modelo tiene equilibrio entre capacidad predictiva y complejidad: ni ajuste insuficiente (*underfitting*) ni *overfitting*
+
+:::
 
 
 ## Muestras de entrenamiento y de prueba
 
-::: {style="font-size: 95%;"}
+::: {style="font-size: 92%;"}
 
 - Dividimos la muestra para usar datos diferentes para estimar y para calcular las métricas 
 
@@ -1046,38 +1047,23 @@ RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
 
 . . .
 
-::: {style="font-size: 95%;"}
+::: {style="font-size: 92%;"}
 
-- Un buen modelo tiene equilibrio entre capacidad predictiva y complejidad: ni ajuste insuficiente (*underfitting*) ni *overfitting*
+- Cuando aumenta la flexibilidad, el MSE siempre disminuye en la muestra de entrenamiento...
 
-::::{.columns}
+- PERO el MSE tiene forma de U en la muestra de prueba → modelo óptimo evita *sobre-ajuste* (modelo menos flexible con menor error de predicción para casos nuevos)
 
-:::{.column width="50%"}
-
-
-* Siempre que aumenta la flexibilidad, el MSE
-
-    + disminuye en la muestra de entrenamiento
-
-    + tiene forma de U en la muestra de prueba
-
-* Nota: el MSE en entrenamiento es siempre menor que en prueba
-
+:::: {.columns}
+::: {.column width="70%"}
+![](figure/overfitting01c.png){width=80% fig-align="center"}
 :::
-
-:::{.column width="50%"}
-
-![](figure/overfitting01c.png){width=100% fig-align="center"}
-
+::: {.column width="0.5%"}
+$\scriptsize MSE^{train} < MSE^{test}$
 :::
-
 ::::
 
-::: {style="margin-top: -1.8em;"}
-- Evitar modelos con *sobre-ajuste*: un modelo menos flexible podría tener menor error de predicción con casos nuevos
-:::
 
-::: notes
+::::{.notes}
 
 - sobre-ajuste: parecen que su error es casi nulo en los datos que estimamos, pero cometen un gran error en observaciones nuevas 
 
@@ -1089,6 +1075,7 @@ RailTrail |> ggplot(aes(x = hightemp, y = volume)) +
 ![](figure/overfitting3n.png){width=100% fig-align="center"}
 
 * Los grados de libertad (número de valores en el modelo que son libres de variar) resume la *flexibilidad* de una curva.
+
 ::::
 
 ::: 
