@@ -679,228 +679,11 @@
     "text": "Entrega\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema05ej1_123456789.qmd\nTema05ej1_123456789.zip"
   },
   {
-    "objectID": "docs/Tema04ej2.html",
-    "href": "docs/Tema04ej2.html",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "objectID": "docs/Tema03ej.html",
+    "href": "docs/Tema03ej.html",
+    "title": "Tema 03. Quarto. Ejercicio.",
     "section": "",
-    "text": "La biblioteca tidyquant integra análisis financiero con el ecosistema tidyverse, facilitando la obtención, transformación y visualización de datos económicos y financieros.\n\n\nFRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()\n\n\n\n\nPara acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()\n\n\n\n\ntidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
-    "href": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "FRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#obtener-datos-financieros",
-    "href": "docs/Tema04ej2.html#obtener-datos-financieros",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "Para acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#visualizaciones-especializadas",
-    "href": "docs/Tema04ej2.html#visualizaciones-especializadas",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "",
-    "text": "tidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
-    "href": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Parte 1: Datos Económicos (FRED)",
-    "text": "Parte 1: Datos Económicos (FRED)\n\nTarea 1.1: Obtener series económicas\nDescarga las siguientes series económicas de la zona euro o países específicos:\n\nTasa de desempleo de la zona euro o un país europeo\nÍndice de precios al consumo (IPC) o inflación\nTipo de interés de referencia del BCE o equivalente\n\n\n\nTarea 1.2: Análisis univariante\n\nPara cada serie económica:\n\nVisualiza su evolución temporal completa\nCalcula estadísticos descriptivos básicos en todo el periodo y en los últimos 5 años\n\n\n\nDescribe brevemente qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#parte-2-datos-financieros",
-    "href": "docs/Tema04ej2.html#parte-2-datos-financieros",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Parte 2: Datos Financieros",
-    "text": "Parte 2: Datos Financieros\n\nTarea 2.1: Obtener datos de acciones\nSelecciona 3 empresas europeas de sectores diferentes. Puedes elegir de:\n\nBanca: Santander, BBVA, Deutsche Bank\nEnergía: Iberdrola, Repsol, TotalEnergies\nTecnología: SAP, ASML, Infineon\nConsumo: Inditex, LVMH, Unilever\n\n\n\nTarea 2.2: Análisis de precios\n\nPara cada empresa:\n\nCrea un gráfico de velas para los últimos 6 meses\nAñade medias móviles (50 y 200 días) al gráfico completo\nCalcula estadísticos descriptivos del precio de cierre\nIdentifica períodos de alta/baja volatilidad\n\n\n\n\nTarea 2.3: Rendimientos\n\nCalcula los rendimientos diarios (% cambio en precio de cierre) para cada empresa:\n\n\nAnaliza y compara la distribución de rendimientos\nAnaliza y compara la volatilidad"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
-    "href": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Parte 3: Integración de Datos Económicos y Financieros",
-    "text": "Parte 3: Integración de Datos Económicos y Financieros\n\nTarea 3.1: Preparar datos mensuales\nAgrega tanto datos económicos como financieros a frecuencia mensual:\n\n\nTarea 3.2: Combinar datasets\nUne los datos económicos y financieros por fecha (mes/año):\n\n\nTarea 3.3: Análisis de covariación\nAnaliza las relaciones entre variables económicas y precios de acciones:\n\nMatriz de correlación: ¿Cómo se correlacionan las variables?\n\n\nGráficos de dispersión: Relaciones específicas de interés\n\n\nSeries temporales superpuestas:\n\nVisualiza cómo evolucionan juntas una variable económica y un precio (usando dos ejes Y si es necesario):\n\n¿Qué relaciones observas? ¿Son intuitivas o sorprendentes? ¿Alguna relación inversa?"
-  },
-  {
-    "objectID": "docs/Tema04ej2.html#entrega-del-ejercicio",
-    "href": "docs/Tema04ej2.html#entrega-del-ejercicio",
-    "title": "Tema 04 - Análisis Exploratorio de Datos",
-    "section": "Entrega del ejercicio",
-    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej2_123456789.qmd\nTema04ej2_123456789.html\nTema04ej2_123456789.zip"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nstartups_fintech.csv\ndiccionario_startups.csv\n\nTema 5:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv"
-  },
-  {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "index.html#pedro-albarrán",
-    "href": "index.html#pedro-albarrán",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
-  },
-  {
-    "objectID": "index.html#alberto-pérez",
-    "href": "index.html#alberto-pérez",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
-    "section": "",
-    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
-  },
-  {
-    "objectID": "ProyectoFinal.html#elección-de-tema",
-    "href": "ProyectoFinal.html#elección-de-tema",
-    "title": "Proyecto Final",
-    "section": "Elección de Tema",
-    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
-  },
-  {
-    "objectID": "ProyectoFinal.html#entrega-final",
-    "href": "ProyectoFinal.html#entrega-final",
-    "title": "Proyecto Final",
-    "section": "Entrega Final",
-    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
-  },
-  {
-    "objectID": "ProyectoFinal.html#importante-plagio.",
-    "href": "ProyectoFinal.html#importante-plagio.",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO.",
-    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(17-Nov. a 23-Nov.)\n\nTema 06 - Selección y Regularización"
-  },
-  {
-    "objectID": "Contenidos.html#semana-11",
-    "href": "Contenidos.html#semana-11",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(17-Nov. a 23-Nov.)\n\nTema 06 - Selección y Regularización"
-  },
-  {
-    "objectID": "Contenidos.html#semana-10",
-    "href": "Contenidos.html#semana-10",
-    "title": "Contenidos",
-    "section": "Semana 10",
-    "text": "Semana 10\n(10-Nov. a 16-Nov.)\n\nTema 05 - Ejercicio 1\n\nFecha límite de entrega: dom., 16-nov., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-9",
-    "href": "Contenidos.html#semana-9",
-    "title": "Contenidos",
-    "section": "Semana 9",
-    "text": "Semana 9\n(3-Nov. a 9-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 04 - Ejercicio 1\n\nFecha límite de entrega: dom., 9-nov., 23:59h\n\nTema 04 - Ejercicio 2\n\nEjercicio voluntario para subir nota.\nFecha límite de entrega: dom., 21-dic., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-8",
-    "href": "Contenidos.html#semana-8",
-    "title": "Contenidos",
-    "section": "Semana 8",
-    "text": "Semana 8\n(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-7",
-    "href": "Contenidos.html#semana-7",
-    "title": "Contenidos",
-    "section": "Semana 7",
-    "text": "Semana 7\n(20-Oct. a 26-Oct.)\n\nTema 02 - Ejercicio"
-  },
-  {
-    "objectID": "Contenidos.html#semana-6",
-    "href": "Contenidos.html#semana-6",
-    "title": "Contenidos",
-    "section": "Semana 6",
-    "text": "Semana 6\n(13-Oct. a 19-Oct.)\n\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-5",
-    "href": "Contenidos.html#semana-5",
-    "title": "Contenidos",
-    "section": "Semana 5",
-    "text": "Semana 5\n(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto"
-  },
-  {
-    "objectID": "Contenidos.html#semana-4",
-    "href": "Contenidos.html#semana-4",
-    "title": "Contenidos",
-    "section": "Semana 4",
-    "text": "Semana 4\n(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "Semana 3",
-    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 05-oct., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
   },
   {
     "objectID": "docs/Tema01.html#por-qué-visualizar-datos",
@@ -1043,11 +826,445 @@
     "text": "Comentarios Finales\n\nGuardar gráficos: en la pestaña de Plots &gt; Export o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R y RStudio\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
   },
   {
-    "objectID": "docs/Tema03ej.html",
-    "href": "docs/Tema03ej.html",
-    "title": "Tema 03. Quarto. Ejercicio.",
+    "objectID": "docs/Tema07ej2.html",
+    "href": "docs/Tema07ej2.html",
+    "title": "Tema 07 - Modelización con tidymodels",
     "section": "",
-    "text": "Apartado a)\n\nIniciar un nuevo proyecto de Quarto y crear un nuevo documento .qmd. Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe un breve frase introductoria general, una lista que enumere las dos variables que elegiste para el ejercicio de Visualización de Datos, incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema03ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.\n\n\n\nApartado b)\n\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar las bibliotecas AER y Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.\n\n\n\n\nApartado c)\n\nCrear una celda con el código para mostrar un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo).\n\nAñadir en la celda de código (no usando ggplot) un título del gráfico (aparece en la parte inferior).\n\nCrear una nueva celda de código que incluya dos gráficos de caja, para disp y para mpg, que se muestren uno al lado del otro.\n\n\n\nApartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_styling()\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_styling()\n\nmtcars %&gt;% kbl()  %&gt;%\n  kable_classic(full_width = F)\nsummary(mtcars) %&gt;% kbl()  %&gt;%\n  kable_minimal()\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.\n\n\nApartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema03ej_123456789.qmd\nTema03ej_123456789.zip"
+    "text": "Usamos datos del Censo de EE.UU. con la siguiente información\n\nlibrary(tidyverse)\ncenso &lt;- read_csv(\"data/census.csv\") |&gt; select(-1) \n\n\n\n\nage\nedad\n\n\nworkclass\ntipo de trabajo del individuo\n\n\nfnlwgt\npeso en el censo (no relevante)\n\n\neducation\nnivel educativo\n\n\neducation_1\naños de educación\n\n\nmarital_status\nestado civil\n\n\noccupation\nprofesión de la persona\n\n\nrelationship\nrelación con el principal miembro del hogar\n\n\nrace\norigen racial de la persona\n\n\nsex\ngénero\n\n\ncapital_gain\nganancias de capital\n\n\ncapital_loss\npérdidas de capital\n\n\nhours_per_week\nhoras trabajadas a la semana\n\n\nnative_country\npaís de origen\n\n\nIncome\nrenta mayor o menor de 50 mil dólares"
+  },
+  {
+    "objectID": "docs/Tema07ej2.html#datos",
+    "href": "docs/Tema07ej2.html#datos",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "",
+    "text": "Usamos datos del Censo de EE.UU. con la siguiente información\n\nlibrary(tidyverse)\ncenso &lt;- read_csv(\"data/census.csv\") |&gt; select(-1) \n\n\n\n\nage\nedad\n\n\nworkclass\ntipo de trabajo del individuo\n\n\nfnlwgt\npeso en el censo (no relevante)\n\n\neducation\nnivel educativo\n\n\neducation_1\naños de educación\n\n\nmarital_status\nestado civil\n\n\noccupation\nprofesión de la persona\n\n\nrelationship\nrelación con el principal miembro del hogar\n\n\nrace\norigen racial de la persona\n\n\nsex\ngénero\n\n\ncapital_gain\nganancias de capital\n\n\ncapital_loss\npérdidas de capital\n\n\nhours_per_week\nhoras trabajadas a la semana\n\n\nnative_country\npaís de origen\n\n\nIncome\nrenta mayor o menor de 50 mil dólares"
+  },
+  {
+    "objectID": "docs/Tema07ej2.html#paso-0-partición-en-entrenamiento-y-prueba",
+    "href": "docs/Tema07ej2.html#paso-0-partición-en-entrenamiento-y-prueba",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 0: Partición en Entrenamiento y Prueba",
+    "text": "Paso 0: Partición en Entrenamiento y Prueba\n\nUsamos initial_split() para generar el objeto que almacena las dos particiones\n\n\nlibrary(tidymodels)\nset.seed(8697)\ncensoPart &lt;- censo |&gt; initial_split(prop = .8)"
+  },
+  {
+    "objectID": "docs/Tema07ej2.html#paso-1-preparar-los-datos-y-especificación",
+    "href": "docs/Tema07ej2.html#paso-1-preparar-los-datos-y-especificación",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\nEn este ejercicio, vamos a considerar modelos de regresión logística y de regresión logística regularizada mediante LASSO. Usaremos la misma especificación inicial en todos los casos: la categoría de renta va a depender de la raza, la edad (un polinomio de grado 6), horas de trabajo (un polinomio de grado 6), el género, la educación (education_1), ganancias de capital, pérdidas de capital, ocupación y estado civil; además, incluiremos interacciones de la raza y el género entre ellas y con el resto de variables.\nEn general, debería justificarse las variables incluidas (p.e., por los resultados del análisis exploratorio) y considerar variantes de las especificaciones (variables incluidas) para el caso de la regresión logística al menos. En el caso de LASSO, esto no es importante porque siempre podemos incluir la especificación más general y el propio algoritmo selecciona las variables a incluir.\nPreparamos las recetas con la especificación para estos modelos. Nota: agrupamos las categorías minoritarias de estado civil, raza y ocupación en una categoría de “Otros” con un umbral (threshold) del 6%.\n\nPara regresión logística:\n\n\nreceta &lt;- censoPart |&gt; training() |&gt; \n          recipe(income ~ race + age + hours_per_week + \n                    sex + education_1 + capital_gain + capital_loss + \n                    occupation + marital_status ) |&gt;\n          step_naomit() |&gt; \n          step_poly(age, degree = 6) |&gt;\n          step_poly(hours_per_week, degree = 6) |&gt;\n          step_other(marital_status, race, occupation, threshold = 0.06) |&gt;\n          step_dummy(all_nominal(), -all_outcomes()) |&gt; \n          step_interact(~ starts_with(\"race\"):(starts_with(\"age\") + starts_with(\"hours_per_week\") + \n                    starts_with(\"sex\") + education_1 + capital_gain + capital_loss +\n                    starts_with(\"occupation\") + starts_with(\"marital_status\"))) |&gt; \n          step_interact(~ starts_with(\"sex\"):(starts_with(\"age\") + starts_with(\"hours_per_week\")+\n                    education_1 + capital_gain + capital_loss +\n                    starts_with(\"occupation\") + starts_with(\"marital_status\")))\n\n\nPara regresión logística regularizada mediante LASSO:\n\n\nrecetaReg &lt;- censoPart |&gt; training() |&gt; \n          recipe(income ~ race + age + hours_per_week + \n                    sex + education_1 + capital_gain + capital_loss + \n                    occupation + marital_status ) |&gt;\n          step_naomit() |&gt; \n          step_scale(all_predictors(), -all_nominal()) |&gt;\n          step_poly(age, degree = 6) |&gt;\n          step_poly(hours_per_week, degree = 6) |&gt;\n          step_other(marital_status, race, occupation, threshold = 0.06) |&gt;\n          step_dummy(all_nominal(), -all_outcomes()) |&gt; \n          step_interact(~ starts_with(\"race\"):(starts_with(\"age\") + starts_with(\"hours_per_week\") + \n                    starts_with(\"sex\") + education_1 + capital_gain + capital_loss +\n                    starts_with(\"occupation\") + starts_with(\"marital_status\"))) |&gt; \n          step_interact(~ starts_with(\"sex\"):(starts_with(\"age\") + starts_with(\"hours_per_week\")+\n                    education_1 + capital_gain + capital_loss +\n                    starts_with(\"occupation\") + starts_with(\"marital_status\")))\n\n\nPodéis comprobar que nuestro modelo tiene muchas variables, es decir, muchos parámetros:\n\n\nreceta |&gt; prep() |&gt; bake(censoPart |&gt; training()) |&gt; dim()"
+  },
+  {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(17-Nov. a 23-Nov.)\n\nTema 06 - Selección y Regularización\nTema 07 - Modelización con tidymodels\nTema 07 - Ejemplo 1\n\nFecha límite de entrega: dom., 23-nov., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-11",
+    "href": "Contenidos.html#semana-11",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(17-Nov. a 23-Nov.)\n\nTema 06 - Selección y Regularización\nTema 07 - Modelización con tidymodels\nTema 07 - Ejemplo 1\n\nFecha límite de entrega: dom., 23-nov., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-10",
+    "href": "Contenidos.html#semana-10",
+    "title": "Contenidos",
+    "section": "Semana 10",
+    "text": "Semana 10\n(10-Nov. a 16-Nov.)\n\nTema 05 - Ejercicio 1\n\nFecha límite de entrega: dom., 16-nov., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-9",
+    "href": "Contenidos.html#semana-9",
+    "title": "Contenidos",
+    "section": "Semana 9",
+    "text": "Semana 9\n(3-Nov. a 9-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 04 - Ejercicio 1\n\nFecha límite de entrega: dom., 9-nov., 23:59h\n\nTema 04 - Ejercicio 2\n\nEjercicio voluntario para subir nota.\nFecha límite de entrega: dom., 21-dic., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-8",
+    "href": "Contenidos.html#semana-8",
+    "title": "Contenidos",
+    "section": "Semana 8",
+    "text": "Semana 8\n(27-Oct. a 2-Nov.)\n\nTema 04 - Análisis Exploratorio de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-7",
+    "href": "Contenidos.html#semana-7",
+    "title": "Contenidos",
+    "section": "Semana 7",
+    "text": "Semana 7\n(20-Oct. a 26-Oct.)\n\nTema 02 - Ejercicio"
+  },
+  {
+    "objectID": "Contenidos.html#semana-6",
+    "href": "Contenidos.html#semana-6",
+    "title": "Contenidos",
+    "section": "Semana 6",
+    "text": "Semana 6\n(13-Oct. a 19-Oct.)\n\nTema 03 - Ejercicio\n\nFecha límite de entrega: dom., 19-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-5",
+    "href": "Contenidos.html#semana-5",
+    "title": "Contenidos",
+    "section": "Semana 5",
+    "text": "Semana 5\n(06-Oct. a 12-Oct.)\n\nTema 03 - Introducción a Quarto"
+  },
+  {
+    "objectID": "Contenidos.html#semana-4",
+    "href": "Contenidos.html#semana-4",
+    "title": "Contenidos",
+    "section": "Semana 4",
+    "text": "Semana 4\n(29-Sept. a 5-Oct.)\n\nTema 02 - Limpieza y Tratamiento de Datos"
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "Semana 3",
+    "text": "Semana 3\n(22-Sept. a 28-Sept.)\n\nTema 01 - Visualización de Datos\nTema 01 - Ejercicio\n\nFecha límite de entrega: dom., 05-oct., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(15-Sept. a 21-Sept.)\n\nTema 0 - Ejercicio 1\n\nFecha límite de entrega: dom., 21-sep., 23:59h"
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(08-Sept. a 14-Sept.)\n\nIntroducción\nTema 0 - Introducción a R y a RStudio"
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
+  },
+  {
+    "objectID": "ProyectoFinal.html#elección-de-tema",
+    "href": "ProyectoFinal.html#elección-de-tema",
+    "title": "Proyecto Final",
+    "section": "Elección de Tema",
+    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
+  },
+  {
+    "objectID": "ProyectoFinal.html#entrega-final",
+    "href": "ProyectoFinal.html#entrega-final",
+    "title": "Proyecto Final",
+    "section": "Entrega Final",
+    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
+  },
+  {
+    "objectID": "ProyectoFinal.html#importante-plagio.",
+    "href": "ProyectoFinal.html#importante-plagio.",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO.",
+    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+  },
+  {
+    "objectID": "index.html#pedro-albarrán",
+    "href": "index.html#pedro-albarrán",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
+  },
+  {
+    "objectID": "index.html#alberto-pérez",
+    "href": "index.html#alberto-pérez",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+  },
+  {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
+    "section": "",
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nstartups_fintech.csv\ndiccionario_startups.csv\n\nTema 5:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "docs/Tema07.html#proceso-de-modelización",
+    "href": "docs/Tema07.html#proceso-de-modelización",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Proceso de modelización",
+    "text": "Proceso de modelización\n\ntidymodels es una colección de paquetes para el proceso de modelización (NO implementa modelos) con los principios de tidyverse\n\n\nlibrary(tidymodels)\n\n\n\n\n\nOtros paquetes “similares”: mlr3, caret, H2O\ntidymodels se llama vetiver en python"
+  },
+  {
+    "objectID": "docs/Tema07.html#partición-inicial",
+    "href": "docs/Tema07.html#partición-inicial",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Partición inicial",
+    "text": "Partición inicial\n\nNO usamos todos los datos para estimar\ninitial_split(): particionar los datos en prueba y entrenamiento.\n\nprimer argumento: datos (se pasa por tubería |&gt;)\nsegundo argumento: proporción de datos dedicados a entrenamiento\n\n\n\ntidymodels crea objetos (listas) con toda la información y ofrece funciones para acceder a ella\n\n\nlibrary(mosaicData)\nlibrary(tidyverse)\nset.seed(101)\nrailtrailPart &lt;- RailTrail |&gt; \n                    mutate(dayType = parse_factor(dayType)) |&gt; \n                    initial_split(prop = .8)\n\n\nLas funciones training() y testing() acceden a cada submuestra"
+  },
+  {
+    "objectID": "docs/Tema07.html#recetas-de-transformación",
+    "href": "docs/Tema07.html#recetas-de-transformación",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Recetas de transformación",
+    "text": "Recetas de transformación\n\nAunque ya hemos limpiado los datos de forma general, podemos considerar transformaciones específicas para algunas estimaciones\n\nAlgunos modelos necesitan que las variables sean transformadas de una forma concreta (ej., estandarizar)\nIncluso para un mismo modelo, podemos considerar diferentes especificaciones diferentes: sin usar NA o imputándolos, usando distintas variables (ej., con o sin interacciones)\n\n\n\n\nLas recetas, recipe(), definen las transformaciones a aplicar:\n\nSu principal argumento es una fórmula, que define el rol de las variables: variable dependiente y predictores\nSe encadenan (con |&gt;) pasos con step_* para las transformaciones\n\nUna referencia completa aquí y aquí"
+  },
+  {
+    "objectID": "docs/Tema07.html#algunos-pasos-habituales",
+    "href": "docs/Tema07.html#algunos-pasos-habituales",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Algunos pasos habituales",
+    "text": "Algunos pasos habituales\n\nPara un modelo concreto, podemos realizar cambios (como en tidyverse): step_select(), step_filter(), step_mutate(), …\n\nTambién transformaciones directas: step_log()\n\n\n\n¿Cómo tratar los valores ausentes en este modelo?\n\nelimina las observaciones con valores ausentes: step_naomit()\nimputar los valores ausentes de los predictores: step_impute_mean(), step_impute_linear(), step_impute_knn(), etc..\n\n\n\n\nEstandarizar variables para que tengan media cero, step_center(), varianza uno, step_scale(), o ambas step_normalize()\n\n\nCrear polinomios, step_poly(), y discretizar, step_cut()"
+  },
+  {
+    "objectID": "docs/Tema07.html#algunos-pasos-habituales-cont.",
+    "href": "docs/Tema07.html#algunos-pasos-habituales-cont.",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Algunos pasos habituales (cont.)",
+    "text": "Algunos pasos habituales (cont.)\n\nPara variables cualitativas, podemos agrupar categorías poco frecuentes: step_other()\nEn general, tidymodels exige crear explícitamente variables binarias (dummy) para las categorías de las variables cualitativas: step_dummy()\n\nalgunos modelos necesitan dummies para todas las categorías: se añade la opcion one_hot = TRUE\n\n\n\n\nNOTA: algunas fuentes (ej., chatGPT) sugieren eliminar variables con poca variabilidad, step_zv() y step_nzv(), o con alta correlación, step_corr(). Esto NO es estrictamente necesario para ningún modelo\n\nEsto lo debemos haber detectado en el AED."
+  },
+  {
+    "objectID": "docs/Tema07.html#algunos-pasos-habituales-y-3",
+    "href": "docs/Tema07.html#algunos-pasos-habituales-y-3",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Algunos pasos habituales (y 3)",
+    "text": "Algunos pasos habituales (y 3)\n\nLas interacciones también funcionan de forma diferente en tidymodels\nPara variables cuantitativas, x1 y x2, step_interact(~ x2:x1) añade solo una nueva variable: la inteacción x2:x1\n\ncon step_interact(~ (x2 + x3):x1) creamos múltiples interacciones\n\nPara variables binarias, step_interact(~ d1:d2) añade la interacción\nPara variables cualitativas, hemos debido crear antes las dummies. Para evitar escribir manualmente cada combinación podemos usar start_with():\n\nstep_interact(~ starts_with(\"F1\"):x1) para una variable categórica F1 y una continua x1\nstep_interact(~ starts_with(\"F1_\"):starts_with(\"F2_\")) para dos variables categóricas F1 y F2"
+  },
+  {
+    "objectID": "docs/Tema07.html#preparando-la-receta",
+    "href": "docs/Tema07.html#preparando-la-receta",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Preparando la receta",
+    "text": "Preparando la receta\n\n\nTODOS los pasos se pueden aplicar a una variable o varias con all_outcomes(), all_predictors(), all_numeric(), all_nominal(), all_nominal_predictors(), all_numeric_predictors(), all_of(c(\"var1\", \"var2\"), contains(), etc.\n\n\n\nSe crea un objeto de receta para usarlo después con otras partes del proceso\n\n\nreceta1 &lt;-railtrailPart |&gt; training() |&gt;             \n  recipe(volume ~ cloudcover + precip + hightemp + dayType) |&gt;\n  step_scale(all_predictors(), -all_nominal()) |&gt;\n# step_scale(all_numeric(), -all_outcomes()) |&gt; \n  step_dummy(dayType) |&gt; \n  step_poly(hightemp, degree = 6)  \n\n\nPodría prep()ararse y aplicar las transformaciones con juice() o bake() (veremos otra alternativa más general)"
+  },
+  {
+    "objectID": "docs/Tema07.html#definir-el-modelo",
+    "href": "docs/Tema07.html#definir-el-modelo",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Definir el modelo",
+    "text": "Definir el modelo\n\ntidymodels define un modelo de un tipo con una interfaz unificada para distintas bibliotecas \n\n\nUna función que define el tipo de modelo, con argumentos específicos de ese modelo (la lista de funciones/modelos aquí)\nSe fija el tipo de problema (mode): regresión o clasificación\nSe establece la biblioteca (engine) con la que se implementará\n\n\nmodelo_lm1  &lt;- linear_reg(mode= \"regression\", engine = \"lm\", \n                             penalty = 0)\n\nmodelo_glm1 &lt;- linear_reg(mode= \"regression\", engine = \"glmnet\", \n                             penalty = 0)\n\n\nSe puede estimar (entrenar) el modelo con fit()"
+  },
+  {
+    "objectID": "docs/Tema07.html#flujos-de-trabajo-workflow",
+    "href": "docs/Tema07.html#flujos-de-trabajo-workflow",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Flujos de trabajo: workflow()",
+    "text": "Flujos de trabajo: workflow()\n\nUn flujo de trabajo combina la receta de preprocesado y la definición del modelo en un único objeto para su uso posterior\n\n\nflujo_lm1 &lt;- workflow() |&gt;\n  add_recipe(receta1) |&gt;      \n  add_model(modelo_lm1)\n\n\nPodríamos modificar un flujo existente con update_recipe() , update_model(), etc.\n\n\n\nUsando la función fit() con unos datos y un flujo de trabajo,\n\nla receta aplica el preprocesado a los datos definidos aquí\nse estima el modelo definido con los datos procesados\n\n\n\nflujo_lm1_est &lt;- flujo_lm1 |&gt; \n                   fit(data = railtrailPart |&gt; training())"
+  },
+  {
+    "objectID": "docs/Tema07.html#flujo-de-trabajo-estimado",
+    "href": "docs/Tema07.html#flujo-de-trabajo-estimado",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Flujo de trabajo estimado",
+    "text": "Flujo de trabajo estimado\n\nEl objeto del flujo estimado almacena información previa (receta, modelo, datos), resultados (estimaciones, predicciones) para usar de varias formas\n\n\nExtraer la receta y aplicar la transformación a unos datos\n\n\nreceta_extr &lt;- flujo_lm1_est |&gt; extract_recipe() \n\nreceta_extr |&gt; bake(railtrailPart |&gt; training()) \nreceta_extr |&gt; bake(railtrailPart |&gt; testing())\n\n\nExtraer los resultados de la estimación; pueden convertirse a conjunto de datos (y mostrar en tablas con kable())\n\n\nestim_extraida &lt;- flujo_lm1_est |&gt; extract_fit_parsnip() \n\nestim_extraida |&gt; tidy()      # resultados de la estimación\nestim_extraida |&gt; glance()    # otros detalles de la estimación"
+  },
+  {
+    "objectID": "docs/Tema07.html#flujo-de-trabajo-estimado-cont.",
+    "href": "docs/Tema07.html#flujo-de-trabajo-estimado-cont.",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Flujo de trabajo estimado (cont.)",
+    "text": "Flujo de trabajo estimado (cont.)\n\n\nEl proceso es igual para problemas de clasificación.\n\n\ncenso &lt;- read_csv(\"data/census.csv\") |&gt; select(-1) |&gt; \n  mutate(across(where(is.character),~as.factor(.x)))\nset.seed(8697)\ncensoPart &lt;- censo |&gt; initial_split(prop = .8)\n\nreceta_log1 &lt;- training(censoPart) |&gt;\n  recipe(income ~ age + education_1 + capital_gain)\nmodelo_log1 &lt;- logistic_reg(mode= \"classification\", engine = \"glm\", \n                             penalty = 0)\n\nflujo_log1 &lt;- workflow() |&gt;\n  add_recipe(receta_log1) |&gt;      \n  add_model(modelo_log1)\n\nflujo_log1_est &lt;- flujo_log1 |&gt; \n                   fit(data = censoPart |&gt; training()) \n\n\nestim_extraida_log &lt;- flujo_log1_est |&gt; extract_fit_parsnip() \n\nestim_extraida_log |&gt; tidy() \nestim_extraida_log |&gt; glance()"
+  },
+  {
+    "objectID": "docs/Tema07.html#predicción",
+    "href": "docs/Tema07.html#predicción",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Predicción",
+    "text": "Predicción\n\n\nLa función predict() (de parsnip) tiene dos argumentos principales: un flujo de trabajo estimado y un conjunto de datos (nuevo como los datos de prueba u otros valores)\n\nEl flujo estimado almacena la receta para transformar los datos\nTambién contiene los resultados de la estimación (“parámetros” del modelo) que se aplican a los datos transformados para predecir\n\n\n\nflujo_lm1_est |&gt; \n  predict(new_data = railtrailPart |&gt; testing())\n\n\nDevuelve un conjunto de datos (tibble) con predicciones:\n\npara problemas de regresión: valores numéricos (type = \"numeric\", por defecto), intervalos de confianza (type = \"conf_int\"), etc.\npara problemas de clasificación: clases/categorías (type = \"class\", por defecto), las probabilidades de cada categoría (type = \"prob\")"
+  },
+  {
+    "objectID": "docs/Tema07.html#métricas-de-error",
+    "href": "docs/Tema07.html#métricas-de-error",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Métricas de error",
+    "text": "Métricas de error\n\n\nLa función last_fit() ajusta el flujo en los datos de entrenamiento y obtiene predicciones en los de prueba, para calcular las métricas (ver listado):\n\n\nflujo_lm1_finalfit &lt;- flujo_lm1 |&gt; \n                    last_fit(split = railtrailPart,\n                             metrics = metric_set(rmse, mae)) \nflujo_lm1_finalfit |&gt; collect_metrics()\n\nflujo_log1_finalfit &lt;- flujo_log1 |&gt; \n                      last_fit(split = censoPart,\n                             metrics = metric_set(accuracy, roc_auc))\nflujo_log1_finalfit |&gt; collect_metrics()\n\n\nTambién podemos trabajar con las predicciones en la muestra de prueba:\n\n\npredic_log1 &lt;- flujo_log1_finalfit |&gt; collect_predictions() \npredic_log1 |&gt; roc_auc(income, `.pred_&lt;=50K`) \npredic_log1 |&gt; roc_curve(income, `.pred_&lt;=50K`) |&gt; autoplot()\n\n\nNOTA: con más de dos clases, la matriz de confusión tiene dimensión \\(\\small k \\times k\\) y se calcula una ROC-AUC para cada clase frente a las demás"
+  },
+  {
+    "objectID": "docs/Tema07.html#validación-cruzada",
+    "href": "docs/Tema07.html#validación-cruzada",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Validación cruzada",
+    "text": "Validación cruzada\n\nEn lugar de initial_split(), podemos usar vfold_cv() para crear particiones\n\n\nset.seed(101)\nrailtrailPartCV &lt;- RailTrail |&gt; \n                    mutate(dayType = parse_factor(dayType)) |&gt; \n                    vfold_cv(v=10) \n\n\nPodemos acceder a la información de cada bloque (splits)\n\n\nEl flujo de trabajo puede ser el mismo que ya hemos visto \nLa estimación del modelo se realiza usando fit_resamples() \n\n\nflujo_lm1_CVest &lt;- flujo_lm1  |&gt; fit_resamples(\n                      resamples = railtrailPartCV, \n                      metrics   = metric_set(rmse, mae) )\n\n\n… y el objeto creado contiene los valores de las métricas\n\n\nflujo_lm1_CVest |&gt; collect_metrics()      # promedio"
+  },
+  {
+    "objectID": "docs/Tema07.html#selección-de-hiperparámetros-tuning",
+    "href": "docs/Tema07.html#selección-de-hiperparámetros-tuning",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Selección de hiperparámetros: tuning",
+    "text": "Selección de hiperparámetros: tuning\n\nLos hiperparámetros (ej., \\(\\small \\lambda\\) en LASSO) no se aprenden junto con el resto de parámetos sino mediante un proceso de ajuste (tuning), dividiendo la muestra de entrenamiento en dos\n\n\n\n\nEn una se ajusta el modelo dado un valor del hiperparámetro\nEn la otra se mide el error asociado a cada valor para elegir el hiperparámetro con mejor métrica\n\n\n\n\n\\(\\Downarrow\\)\n\n\n\n\nEn la muestra de entrenamiento usaremos validación cruzada:"
+  },
+  {
+    "objectID": "docs/Tema07.html#proceso-de-tuning",
+    "href": "docs/Tema07.html#proceso-de-tuning",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Proceso de tuning",
+    "text": "Proceso de tuning\n\nUsamos una partición de initial_split() y la misma receta anterior (aunque no era necesario antes, el pre-procesado ya estandarizaba los regresores)\nEn la definición del modelo debemos identificar los hiperparámetros a ajustar\n\n\nmodelo_LASSO &lt;- linear_reg(mode= \"regression\", engine = \"glmnet\",\n                           penalty = tune(), mixture = 1 ) \n\nflujo_LASSO &lt;- workflow() |&gt;\n  add_recipe(receta1) |&gt; \n  add_model(modelo_LASSO)\n\nflujo_LASSO |&gt; extract_parameter_set_dials()\n\n\nDefinimos un conjunto de valores a probar (grid); p.e., con grid_regular() buscamos en un intervalo un número de valores (otras opciones aquí)\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 15), trans = NULL), \n                                   levels = 51)"
+  },
+  {
+    "objectID": "docs/Tema07.html#proceso-de-tuning-cont.",
+    "href": "docs/Tema07.html#proceso-de-tuning-cont.",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Proceso de tuning (cont.)",
+    "text": "Proceso de tuning (cont.)\n\nSe usa tune_grid() de forma a similar a fit_resamples(), usando una sub-partición de la muestra de entrenamiento por validación cruzada\n\n\nset.seed(9753)\nrailtrail_entrenCV &lt;- railtrailPart |&gt; training() |&gt; \n                          vfold_cv(v=10)\nflujo_LASSO_ajust &lt;- flujo_LASSO |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\n\nPodemos visualizar el ajuste y obtener los mejores valores (por la variabilidad, varios son igualmente aceptables)\n\n\nflujo_LASSO_ajust |&gt; autoplot()\nflujo_LASSO_ajust |&gt; show_best(metric = \"mae\")\nmejor_lambda &lt;- flujo_LASSO_ajust |&gt; select_best(metric = \"rmse\")\n\n\nNOTA: debemos probar manualmente varios rangos y valores buscando la U"
+  },
+  {
+    "objectID": "docs/Tema07.html#finalizando-y-evaluando-el-modelo",
+    "href": "docs/Tema07.html#finalizando-y-evaluando-el-modelo",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Finalizando y evaluando el modelo",
+    "text": "Finalizando y evaluando el modelo\n\n\nActualizamos el flujo de trabajo para dar un valor a los hiperparámetros\n\n\nflujo_LASSO_final &lt;- flujo_LASSO |&gt; \n        finalize_workflow(mejor_lambda)  \n        # finalize_workflow(parameters = list(penalty=8.5))\n\n\nDebemos estimar el modelo en los datos completos de entrenamiento, para mostrar resultados de estimación o predecir\n\n\nflujo_LASSO_final_est &lt;-  flujo_LASSO_final |&gt;  \n              fit(data = railtrailPart |&gt; training())\nflujo_LASSO_final_est |&gt;  extract_fit_parsnip() |&gt; tidy()\n\n\nPara obtener las métricas, usamos last_fit()\n\n\nLASSO_final_fit &lt;- flujo_LASSO_final |&gt; \n                    last_fit(split = railtrailPart,\n                             metrics = metric_set(rmse, mae)) \nLASSO_final_fit |&gt; collect_metrics()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html",
+    "href": "docs/Tema04ej2.html",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "La biblioteca tidyquant integra análisis financiero con el ecosistema tidyverse, facilitando la obtención, transformación y visualización de datos económicos y financieros.\n\n\nFRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()\n\n\n\n\nPara acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()\n\n\n\n\ntidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
+    "href": "docs/Tema04ej2.html#obtener-datos-económicos-de-fred",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "FRED (Federal Reserve Economic Data) proporciona miles de series económicas. Ejemplo: PIB de España.\n\n# Obtener datos de PIB español\npib_esp &lt;- tq_get(\"CLVMNACSCAB1GQES\",\n                  get = \"economic.data\",\n                  from = \"2000-01-01\")\n\n# Visualizar evolución\nggplot(pib_esp, aes(x = date, y = price)) +\n  geom_line()\n\nCómo encontrar series FRED:\n\nBusca en fred.stlouisfed.org\nIdentifica el “símbolo” o código de la serie (ej: “UNRATE” para tasa de desempleo USA)\nUsa ese código en tq_get()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#obtener-datos-financieros",
+    "href": "docs/Tema04ej2.html#obtener-datos-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "Para acciones, identifica el símbolo en Yahoo Finance.\n\n# Obtener datos de dos empresas tecnológicas (Apple y Microsoft)\ntech_stocks &lt;- tq_get(c(\"AAPL\", \"MSFT\"),\n                      get = \"stock.prices\",\n                      from = \"2020-01-01\")\n\n# Gráfico de precios de cierre\ntech_stocks %&gt;%\n  ggplot(aes(x = date, y = close, color = symbol)) +\n  geom_line()"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#visualizaciones-especializadas",
+    "href": "docs/Tema04ej2.html#visualizaciones-especializadas",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "",
+    "text": "tidyquant incluye gráficos financieros específicos:\n\n\nMuestran apertura, cierre, máximo y mínimo diarios:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) == 2024) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close))\n\n\n\n\nSuavizan tendencias de corto y largo plazo:\n\ntech_stocks %&gt;%\n  filter(symbol == \"AAPL\", year(date) &gt;= 2023) %&gt;%\n  ggplot(aes(x = date, y = close)) +\n  geom_candlestick(aes(open = open, high = high,\n                       low = low, close = close)) +\n  geom_ma(ma_fun = SMA, n = 50, color = \"blue\") +  # Media móvil 50 días\n  geom_ma(ma_fun = SMA, n = 200, color = \"red\")    # Media móvil 200 días"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
+    "href": "docs/Tema04ej2.html#parte-1-datos-económicos-fred",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 1: Datos Económicos (FRED)",
+    "text": "Parte 1: Datos Económicos (FRED)\n\nTarea 1.1: Obtener series económicas\nDescarga las siguientes series económicas de la zona euro o países específicos:\n\nTasa de desempleo de la zona euro o un país europeo\nÍndice de precios al consumo (IPC) o inflación\nTipo de interés de referencia del BCE o equivalente\n\n\n\nTarea 1.2: Análisis univariante\n\nPara cada serie económica:\n\nVisualiza su evolución temporal completa\nCalcula estadísticos descriptivos básicos en todo el periodo y en los últimos 5 años\n\n\n\nDescribe brevemente qué patrones observas en cada serie: ¿tendencias? ¿estacionalidad? ¿cambios bruscos?"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-2-datos-financieros",
+    "href": "docs/Tema04ej2.html#parte-2-datos-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 2: Datos Financieros",
+    "text": "Parte 2: Datos Financieros\n\nTarea 2.1: Obtener datos de acciones\nSelecciona 3 empresas europeas de sectores diferentes. Puedes elegir de:\n\nBanca: Santander, BBVA, Deutsche Bank\nEnergía: Iberdrola, Repsol, TotalEnergies\nTecnología: SAP, ASML, Infineon\nConsumo: Inditex, LVMH, Unilever\n\n\n\nTarea 2.2: Análisis de precios\n\nPara cada empresa:\n\nCrea un gráfico de velas para los últimos 6 meses\nAñade medias móviles (50 y 200 días) al gráfico completo\nCalcula estadísticos descriptivos del precio de cierre\nIdentifica períodos de alta/baja volatilidad\n\n\n\n\nTarea 2.3: Rendimientos\n\nCalcula los rendimientos diarios (% cambio en precio de cierre) para cada empresa:\n\n\nAnaliza y compara la distribución de rendimientos\nAnaliza y compara la volatilidad"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
+    "href": "docs/Tema04ej2.html#parte-3-integración-de-datos-económicos-y-financieros",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Parte 3: Integración de Datos Económicos y Financieros",
+    "text": "Parte 3: Integración de Datos Económicos y Financieros\n\nTarea 3.1: Preparar datos mensuales\nAgrega tanto datos económicos como financieros a frecuencia mensual:\n\n\nTarea 3.2: Combinar datasets\nUne los datos económicos y financieros por fecha (mes/año):\n\n\nTarea 3.3: Análisis de covariación\nAnaliza las relaciones entre variables económicas y precios de acciones:\n\nMatriz de correlación: ¿Cómo se correlacionan las variables?\n\n\nGráficos de dispersión: Relaciones específicas de interés\n\n\nSeries temporales superpuestas:\n\nVisualiza cómo evolucionan juntas una variable económica y un precio (usando dos ejes Y si es necesario):\n\n¿Qué relaciones observas? ¿Son intuitivas o sorprendentes? ¿Alguna relación inversa?"
+  },
+  {
+    "objectID": "docs/Tema04ej2.html#entrega-del-ejercicio",
+    "href": "docs/Tema04ej2.html#entrega-del-ejercicio",
+    "title": "Tema 04 - Análisis Exploratorio de Datos",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema04ej2_123456789.qmd\nTema04ej2_123456789.html\nTema04ej2_123456789.zip"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html",
+    "href": "docs/Tema07ej1.html",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "",
+    "text": "Usaremos el conjunto de datos RailTrail, que ya usamos previamente, sobre el volumen de usuarios de un camino ciclista (“via verde”).\n\nlibrary(tidyverse)\nlibrary(mosaicData)\nlibrary(kableExtra)\ndata(\"RailTrail\")"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#datos",
+    "href": "docs/Tema07ej1.html#datos",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "",
+    "text": "Usaremos el conjunto de datos RailTrail, que ya usamos previamente, sobre el volumen de usuarios de un camino ciclista (“via verde”).\n\nlibrary(tidyverse)\nlibrary(mosaicData)\nlibrary(kableExtra)\ndata(\"RailTrail\")"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-0-partición-en-entrenamiento-y-prueba",
+    "href": "docs/Tema07ej1.html#paso-0-partición-en-entrenamiento-y-prueba",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 0: Partición en Entrenamiento y Prueba",
+    "text": "Paso 0: Partición en Entrenamiento y Prueba\nPartición en Entrenamiento y Prueba\n\nUsamos initial_split() para generar el objeto que almacena las dos particiones\n\n\nlibrary(tidymodels)\nset.seed(9753)\nrailtrailPart &lt;- railtrail |&gt; \n                    initial_split(prop = .8)\n\n\nPodríamos extraer los data frame con cada conjunto de datos, de entrenamiento y de prueba. Pero esto no es necesario porque siempre podemos llamar a las funciones training() y testing().\n\n\nrailtrailEntren  &lt;- railtrailPart |&gt; training()\nrailtrailPrueba  &lt;- railtrailPart |&gt; testing()"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-1-preparar-los-datos-y-especificación",
+    "href": "docs/Tema07ej1.html#paso-1-preparar-los-datos-y-especificación",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\nEn principio, consideraremos la siguiente especificación, es decir, variables incluidas en el modelo. Dado lo que hemos discutido anteriormente (que habríamos visto en el análisis exploratorio de datos), incluimos un polinomio para temperatura, una relación no lineal con la nubosidad e interacciones entre todas las variables continuas y el tipo de día de la semana.\n\\[\n\\begin{aligned}\nvolumen &= \\beta_0 + \\beta_1 hightemp + \\beta_2 hightemp^2 + \\dots + \\beta_{21} hightemp^{21}  \\\\\n        & + \\beta_{22} D_{cloudclover \\in (2.5,5]}+\\beta_{23} D_{cloudclover \\in (5,7.5]}+\\beta_{24} D_{cloudclover \\in (7.5,10]} \\\\\n        &+ \\beta_{25} precip + \\beta_{26} dayType + \\beta_{27} precip \\times dayType + u\n\\end{aligned}\n\\]\nEsta especificación se corresponde con la siguiente receta:\n\nreceta1 &lt;-railtrailPart |&gt; training() |&gt;             \n  recipe(volume ~  hightemp + cloudcover + precip +  dayType) |&gt;\n  step_dummy(dayType) |&gt; \n  step_poly(hightemp, degree = 21) |&gt;   \n  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), \n           include_outside_range = T)  |&gt; \n  step_dummy(cloudcover) |&gt; \n  step_interact(~precip:starts_with(\"dayType_\"))\n\nPodemos ver cómo quedan los datos preprocesados para usarlos luego en el modelo de esta forma:\n\ndatosPrep &lt;- receta1 |&gt;  prep() |&gt; bake(railtrailEntren)\ndatosPrep |&gt; slice_head() |&gt; kbl() |&gt; kable_paper()"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-2-entrenamiento",
+    "href": "docs/Tema07ej1.html#paso-2-entrenamiento",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 2: Entrenamiento",
+    "text": "Paso 2: Entrenamiento\n\nPaso 2.A: Definición del modelo\nDefinimos un modelo lineal\n\nmodelo_lm1  &lt;- linear_reg(mode= \"regression\", engine = \"lm\", \n                             penalty = 0)\n\n\n\nPaso 2.B: Creación del flujo de trabajo\nCreamos el flujo de trabajo combinando la receta y modelo\n\nflujo_lm1 &lt;- workflow() |&gt;\n  add_recipe(receta1) |&gt;      \n  add_model(modelo_lm1)\n\n\n\nPaso 2.C: Estimación del flujo\n\nEstimamos el flujo\n\n\nflujo_lm1_est &lt;- flujo_lm1 |&gt; \n                   fit(data = railtrailPart |&gt; training()) \n\n\nLos resultados de esta estimación son:\n\n\nflujo_lm1_est |&gt; extract_fit_parsnip() |&gt; \n  tidy() |&gt; kbl() |&gt; kable_paper()\n\n\n\nPredicción\n¿Cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?\n\nvalores &lt;- tibble(hightemp = 80, cloudcover = 8.5, \n                  precip = 0.02, dayType = \"weekend\")\npred &lt;- flujo_lm1_est |&gt; predict(new_data = valores)\nCI   &lt;- flujo_lm1_est |&gt; predict(new_data = valores, type = \"conf_int\")\n\npred |&gt; bind_cols(CI) |&gt; kbl() |&gt; kable_classic()"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-1-preparar-los-datos-y-especificación-1",
+    "href": "docs/Tema07ej1.html#paso-1-preparar-los-datos-y-especificación-1",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\nDefinimos la nueva receta:\n\nreceta2 &lt;-receta1 |&gt;\n  step_log(volume) \n\nPodemos ver que efectivamente los nuevos datos incluyen la transformación en logaritmos:\n\ndatosPrep2 &lt;- receta2 |&gt;  prep() |&gt; bake(railtrailEntren)\ndatosPrep2 |&gt; slice_head() |&gt; kbl() |&gt; kable_paper()"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-2-entrenamiento-1",
+    "href": "docs/Tema07ej1.html#paso-2-entrenamiento-1",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 2: Entrenamiento",
+    "text": "Paso 2: Entrenamiento\n\nPaso 2.A: Definición del modelo\n\nVamos a usar el mismo modelo anterior\n\n\n\nPaso 2.B: Creación del flujo de trabajo\n\nActualizamos el flujo de trabajo con la nueva receta, bien añadiendo cada paso o bien actualizando la receta\n\n\nflujo_lm2 &lt;- workflow() |&gt;\n  add_recipe(receta2) |&gt;      \n  add_model(modelo_lm1)\n\nflujo_lm2 &lt;- flujo_lm1 |&gt; \n  update_recipe(receta2) \n\n\n\nPaso 2.C: Estimación del flujo\n\nEstimamos el nuevo flujo\n\n\nflujo_lm2_est &lt;- flujo_lm2 |&gt; \n                   fit(data = railtrailPart |&gt; training()) \n\n\nLos resultados de esta estimación son:\n\n\nflujo_lm2_est |&gt; extract_fit_parsnip() |&gt; \n  tidy() |&gt; kbl() |&gt; kable_paper()"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-1-preparar-los-datos-y-especificación-2",
+    "href": "docs/Tema07ej1.html#paso-1-preparar-los-datos-y-especificación-2",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 1: Preparar los datos y Especificación",
+    "text": "Paso 1: Preparar los datos y Especificación\n\nDebemos estandarizar las variables y debe ser antes de transformaciones no lineales de los regresores, como polinomios o interacciones. Por tanto, NO podemos simplemente añadir un paso de estandarización a la receta anterior.\nAdemás debemos tener cuidado con el orden de los pasos. Si se discretiza una variable continua, debemos hacerlo antes de estandarizar (o bien los puntos de corte deben ser con los nuevos valores, estandarizados). La estandarización debe ser antes de la transformación en polinomios.\n\n\nreceta1LASSO &lt;- railtrailPart |&gt; training() |&gt;             \n  recipe(volume ~  hightemp + cloudcover + precip +  dayType) |&gt;\n  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), \n           include_outside_range = T)  |&gt; \n  step_scale(all_predictors(), -all_nominal()) |&gt;\n  step_poly(hightemp, degree = 21) |&gt;   \n  step_dummy(cloudcover) |&gt; \n  step_dummy(dayType) |&gt; \n  step_interact(~precip:starts_with(\"dayType_\"))\n\nreceta2LASSO &lt;- receta1LASSO |&gt; \n  step_log(volume)"
+  },
+  {
+    "objectID": "docs/Tema07ej1.html#paso-2-entrenamiento-2",
+    "href": "docs/Tema07ej1.html#paso-2-entrenamiento-2",
+    "title": "Tema 07 - Modelización con tidymodels",
+    "section": "Paso 2: Entrenamiento",
+    "text": "Paso 2: Entrenamiento\n\nPaso 2.A: Definición del modelo\n\nDefinimos el modelo con el hiperparámetro para ajustar:\n\n\nmodelo_LASSO  &lt;- linear_reg(mode= \"regression\", engine = \"glmnet\", \n                             penalty = tune(), mixture = 1)\n\n\n\nPaso 2.B: Creación del flujo de trabajo\n\nCreamos los flujos de trabajo combinando las recetas y el modelo\n\n\nflujo_LASSO1 &lt;- workflow() |&gt;\n  add_recipe(receta1LASSO) |&gt;      \n  add_model(modelo_LASSO)\n\nflujo_LASSO2 &lt;- flujo_LASSO1  |&gt;\n  update_recipe(receta2LASSO)\n\n\nPodemos comprobar que el flujo depende un parámetro a ajustar:\n\n\nflujo_LASSO1 |&gt; extract_parameter_set_dials()\n\n\n\nPaso 2.C: Estimación del flujo\n\nPaso 2.C.1: Ajuste del hiperparámetros\n\nEn este caso, la estimación del flujo requiere más pasos, ya que debemos ajustar el hiperparámetro del modelo LASSO.\nDefinimos las particiones de validación cruzada en la muestra de entrenamiento que vamos a utilizar, para ambos casos:\n\n\nset.seed(9753)\nrailtrail_entrenCV &lt;- railtrailPart |&gt; training() |&gt; \n                          vfold_cv(v=10)\n\n\n\nProceso de ajuste del primer modelo\n\nDefinimos un primer rango y valores de búsqueda del hiperparámetro:\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 20), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO1_ajust &lt;- flujo_LASSO1 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO1_ajust |&gt; autoplot()\n\n\nDado que lo que observamos, ampliamos el rango por la derecha probando muchos valores:\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(18, 68), trans = NULL), \n                                   levels = 51)\n\n\nflujo_LASSO1_ajust &lt;- flujo_LASSO1 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO1_ajust |&gt; autoplot()\n\n\nNos centramos en un rango plausible probando más valores:\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(24, 29), trans = NULL), \n                                   levels = 51)\n\n\nflujo_LASSO1_ajust &lt;- flujo_LASSO1 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO1_ajust |&gt; autoplot()\n\n\nNotad que hay varios valores con métricas muy similares. Nos quedamos con el mejor, pero serían igualmente válidos:\n\n\nflujo_LASSO1_ajust |&gt; show_best(metric = \"rmse\")\nmejor_lambda1 &lt;- flujo_LASSO1_ajust |&gt; select_best(metric = \"rmse\")\n\n\n\nProceso de ajuste del segundo modelo\n\nProbamos un primer rango\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 5), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust |&gt; autoplot()\n\n\nVemos un cambio fuerte entorno a 0.2 miramos que pasa a su izquierda\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0, 0.2), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust |&gt; autoplot()\n\n\n… y a su derecha\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0.1, 1.1), trans = NULL), \n                                   levels = 21)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust |&gt; autoplot()\n\n\nFocalizamos más en la parte a la izquierda de 0.3 (porque a la derecha, la métrica no varía: la penalización no hace cambiar el modelo)\n\n\nLASSO_grid &lt;- grid_regular(penalty(range = c(0.09, 0.11), trans = NULL), \n                                   levels = 51)\n\n\nflujo_LASSO2_ajust &lt;- flujo_LASSO2 |&gt; \n                        tune_grid(resamples = railtrail_entrenCV, \n                                  metrics   = metric_set(rmse, mae),\n                                  grid      = LASSO_grid            )\n\nflujo_LASSO2_ajust |&gt; autoplot()\n\n\nNos quedamos con el mejor\n\n\nmejor_lambda2 &lt;- flujo_LASSO2_ajust |&gt; select_best(metric = \"rmse\")\n\n\n\nPaso 2.C.2: Finalizando y estimando\n\nPara el primer modelo\n\n\nflujo_LASSO_final1 &lt;- flujo_LASSO1 |&gt; \n        finalize_workflow(mejor_lambda1)  \n\n\nflujo_LASSO_final1_est &lt;-  flujo_LASSO_final1 |&gt;  \n              fit(data = railtrailPart |&gt; training())\nflujo_LASSO_final1_est |&gt;  extract_fit_parsnip() |&gt; tidy() |&gt; \n  kbl() |&gt; kable_styling()\n\n\nPara el segundo modelo\n\n\nflujo_LASSO_final2 &lt;- flujo_LASSO2 |&gt; \n        finalize_workflow(mejor_lambda2)  \n\n\nflujo_LASSO_final2_est &lt;-  flujo_LASSO_final2 |&gt;  \n              fit(data = railtrailPart |&gt; training())\nflujo_LASSO_final2_est |&gt;  extract_fit_parsnip() |&gt; tidy() |&gt; \n  kbl() |&gt; kable_styling()\n\n\nNota: también podríamos poner los dos modelos juntos en la misma tabla, en columnas diferentes."
   },
   {
     "objectID": "docs/Tema04ej1.html",
