@@ -522,4 +522,31 @@ lm1 |> inner_join(lm2) |>
 
 Los resultados de las métricas indican que los modelos en logaritmos son mejores para predicción. En este caso, LASSO tiene un rendimiento claramente superior al del modelo de regresión lineal; si tuvieramos menos variables que se puedan eliminar, el rendimiento podría ser similar y quizás habría que probar cómo funciona "Ridge regression".
 
+# Vuestro ejercicio
+
+<!--
 Si nuestro objetivo es predecir, podemos utilizar LASSO: aunque sus coeficientes están sesgados, la mejora en varianza implica que el error cuadrático medio es menor. Si nuestro objetivo es interpretar, podemos utilizar el modelo de regresión lineal en logaritmos pero incluyendo **solo** las variables seleccionadas por LASSO.
+-->
+
+Responded **brevemente** a las siguientes dos preguntas, justificando vuestras respuestas
+
+<!--1. ¿Qué modelo es mejor para predecir el número de visitantes?-->
+
+1. Usando el mejor modelo, ¿cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?
+  
+2. La comisión gestora quiere saber el impacto de un incremento de la temperatura sobre el número de visitantes. Usando informes científicos sobre el calentamiento global, se sabe que la temperatura máxima aumentará 5º Fahrenheit en verano (cuando la media de la temperatura máxima es 82.8º) y 3º Fahrenheit en otoño (cuando la media de la temperatura máxima es 55.8º). ¿Qué cambios se espera que ocurran en el número de visitantes debido al calentamiento global?
+
+# Entrega
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSco7YXUPYbh4ZkSzr4jwXNRflioR9OTCOrix_FIJ79QCARUqg/viewform) con vuestros datos y subid 
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema07ej1_123456789.qmd
+  
+  * Tema07ej1_123456789.zip

@@ -27,6 +27,8 @@ params:
 ---
 <!-- markdownlint-disable-file MD013 -->
 
+
+
 # Introducción
 
 ## Datos
@@ -41,8 +43,11 @@ censo <- read_csv("data/census.csv") |> select(-1)
 
 ```{r}
 #| echo: false
+#| eval: true
+#| results: hide
 library(tidyverse)
-censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") |> select(-1) 
+#censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") |> select(-1) 
+censo <- read_csv("data/census.csv") |> select(-1) 
 ```
 
 <!--
@@ -99,6 +104,8 @@ censo <- censo |>
 * Usamos `initial_split()` para generar el objeto que almacena las dos particiones
 
 ```{r}
+#| eval: true
+#| results: hide
 library(tidymodels)
 set.seed(8697)
 censoPart <- censo |> initial_split(prop = .8)
@@ -124,6 +131,7 @@ Preparamos las recetas con la especificación para estos modelos. Nota: agrupamo
 * Para regresión logística:
 
 ```{r}
+#| eval: true
 receta <- censoPart |> training() |> 
           recipe(income ~ race + age + hours_per_week + 
                     sex + education_1 + capital_gain + capital_loss + 
@@ -144,6 +152,7 @@ receta <- censoPart |> training() |>
 * Para regresión logística regularizada mediante LASSO<!-- y "Ridge regression"-->:
 
 ```{r}
+#| eval: true
 recetaReg <- censoPart |> training() |> 
           recipe(income ~ race + age + hours_per_week + 
                     sex + education_1 + capital_gain + capital_loss + 
@@ -165,6 +174,7 @@ recetaReg <- censoPart |> training() |>
 * Podéis comprobar que nuestro modelo tiene muchas variables, es decir,  muchos parámetros:
 
 ```{r}
+#| eval: true
 receta |> prep() |> bake(censoPart |> training()) |> dim()
 ```
 
@@ -179,12 +189,11 @@ a) Definir los modelos y estimarlos, eligiendo adecuadamente los hiperparámetro
 
 ### Respuesta
 
-
-```{r echo=params$soln, eval=FALSE}
-
 ```{r}
 #| echo: false
 #| eval: true
+
+if (params$soln) {
 
 ### Paso 2.A: Definición del modelo
 modelo_log  <- logistic_reg(mode= "classification", engine = "glm", 
@@ -195,12 +204,15 @@ modelo_log  <- logistic_reg(mode= "classification", engine = "glm",
 
 modelo_logLASSO <- logistic_reg(mode= "classification", engine = "glmnet", 
                              penalty = tune(), mixture = 1)
+}
+
 ```
 
 ```{r}
 #| echo: false
 #| eval: true
 
+if (params$soln) {
 ### Paso 2.B: Creación del flujo de trabajo
 flujo_log <- workflow() |>
   add_recipe(receta) |>      
@@ -213,12 +225,14 @@ flujo_log <- workflow() |>
 flujo_logLASSO <- workflow() |>
   add_recipe(recetaReg) |>      
   add_model(modelo_logLASSO)
+}
 ```
 
 ```{r}
 #| echo: false
 #| eval: true
 
+if (params$soln) {
 ### Paso 2.C: Estimación del flujo
 
 #### Regresión Logística
@@ -257,13 +271,14 @@ flujo_logLASSO_ajust <- flujo_logLASSO |>
 flujo_logLASSO_ajust |> autoplot()
 
 mejor_lambdaLASSO <- flujo_logLASSO_ajust |> select_best(metric = "roc_auc")
-
+}
 ```
 
 ```{r}
 #| echo: false
 #| eval: true
 
+if (params$soln) {
 #### Paso 2.C.2: Finalizando y estimando
 
 flujo_logLASSO_final <- flujo_logLASSO |> 
@@ -271,12 +286,13 @@ flujo_logLASSO_final <- flujo_logLASSO |>
 
 flujo_logLASSO_final_est <-  flujo_logLASSO_final |>  
               fit(data = censoPart |> training())
-
+}
 ```
 
 ```{r}
 #| echo: false
 #| eval: true
+if (params$soln) {
 library(kableExtra)
 logist_est <- flujo_log_est |> extract_fit_parsnip() |> 
                   tidy() |> select(term:estimate)
@@ -284,8 +300,9 @@ LASSO_est  <- flujo_logLASSO_final_est |>  extract_fit_parsnip() |>
                   tidy() |> select(term:estimate) 
 
 logist_est |> full_join(LASSO_est, by = "term") |> kbl() |> kable_styling()
-
+}
 ```
+
 
 `r if(!params$soln) {"-->"}`
 
@@ -296,12 +313,10 @@ b) Evaluar los modelos y compararlos, considerando las métricas adecuadas ("acc
 
 ### Respuesta
 
-```{r echo=params$soln, eval=FALSE}
-
 ```{r}
 #| echo: false
 #| eval: true
-
+if (params$soln) {
 log_final_fit <- flujo_log |>
                     last_fit(split = censoPart,
                              metrics = metric_set(accuracy, roc_auc,
@@ -314,7 +329,9 @@ logLASSO_final_fit <- flujo_logLASSO_final |>
 log_final_fit |> collect_metrics()
 
 logLASSO_final_fit |> collect_metrics()
+}
 ```
+
 
 `r if(!params$soln) {"-->"}`
 
@@ -324,11 +341,10 @@ c) Usando todos los modelos, determinar si un individuo puede clasificarse como 
 
 ### Respuesta
 
-```{r echo=params$soln, eval=FALSE}
-
 ```{r}
 #| echo: false
 #| eval: true
+if (params$soln) {
 valores1 <- tibble(race = "White", age = 49, hours_per_week = 40, sex = "Male", 
                    education_1 = 16, capital_gain = 0, capital_loss = 0, 
                    occupation = "Sales", marital_status = "Separated")
@@ -357,7 +373,9 @@ predC1
 predC2
 predP1
 predP2
+}
 ```
+
 
 `r if(!params$soln) {"-->"}`
 
@@ -385,6 +403,6 @@ Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSeDCAi9CtQvZ
 
 IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
 
-  * Tema08ej2_123456789.qmd
+  * Tema07ej2_123456789.qmd
   
-  * Tema08ej2_123456789.zip
+  * Tema07ej2_123456789.zip
