@@ -46,8 +46,13 @@ censo <- read_csv("data/census.csv") |> select(-1)
 #| eval: true
 #| results: hide
 library(tidyverse)
-#censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") |> select(-1) 
-censo <- read_csv("data/census.csv") |> select(-1) 
+
+censo <- tryCatch(
+    read_csv("data/census.csv") |> select(-1),
+    error = function(e) 
+      read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") |> 
+      select(-1)
+  )
 ```
 
 <!--

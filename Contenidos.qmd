@@ -52,11 +52,11 @@ strip-comments: true
 
   * [Tema 06 - Selección y Regularización](docs/Tema06.qmd)
 
-    * [Tema 06 - Ejercicio 1](docs/Tema06ej1.qmd)
-
   * [Tema 07 - Modelización con `tidymodels`](docs/Tema07.qmd)
 
-    * [Tema 07 - Ejemplo 1](docs/Tema07ej1.qmd)
+  * [Tema 07 - Ejemplo 1](docs/Tema07ej1.qmd)
+
+    - Fecha límite de entrega: **dom., 23-nov., 23:59h**
 
 ## Semana 10
 (10-Nov. a 16-Nov.)
