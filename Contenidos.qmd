@@ -19,39 +19,44 @@ strip-comments: true
 <!--
 
 ## Semana 14
-(16-Dic. a 22-Dic.)
+(15-Dic. a 21-Dic.)
 
   * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 ## Semana 14
-(09-Dic. a 15-Dic.)
+(08-Dic. a 14-Dic.)
 
-  * [Tema 10 - Más algoritmos de aprendizaje supervisado](docs/Tema10.qmd)
-
-  * [Tema 10 - Ejemplo 1](docs/Tema10ej1.qmd)
+  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 ## Semana 13
-(02-Dic. a 08-Dic.)
+(01-Dic. a 07-Dic.)
 
-  * [Tema 08 - Ejercicio 2](docs/Tema08ej2.qmd)
-    - Fecha límite de entrega: **dom., 15-dic., 23:59h**
-
-  * [Tema 09 - Métodos basados en árboles](docs/Tema09.qmd)
+  * [Tema 09 - Más algoritmos de aprendizaje supervisado](docs/Tema09.qmd)
 
   * [Tema 09 - Ejemplo 1](docs/Tema09ej1.qmd)
 
 ## Semana 12
-(25-Nov. a 01-Dic.)
+(24-Nov. a 30-Nov.)
+
+  * [Tema 07 - Ejercicio 2](docs/Tema07ej2.qmd)
+    - Fecha límite de entrega: **dom., 15-dic., 23:59h**
+
+  * [Tema 08 - Métodos basados en árboles](docs/Tema08.qmd)
 
   * [Tema 08 - Ejemplo 1](docs/Tema08ej1.qmd)
 
-  * [Tema 08 - Modelización con `tidymodels`](docs/Tema08.qmd)
 *********************************************************************
 -->
 ## Semana 11
 (17-Nov. a 23-Nov.)
 
   * [Tema 06 - Selección y Regularización](docs/Tema06.qmd)
+
+    * [Tema 06 - Ejercicio 1](docs/Tema06ej1.qmd)
+
+  * [Tema 07 - Modelización con `tidymodels`](docs/Tema07.qmd)
+
+    * [Tema 07 - Ejemplo 1](docs/Tema07ej1.qmd)
 
 ## Semana 10
 (10-Nov. a 16-Nov.)
@@ -70,13 +75,13 @@ strip-comments: true
 
   * [Tema 04 - Ejercicio 2](docs/Tema04ej2.qmd)
 
-    - Ejercicio **voluntario** para subir nota.
-    - Fecha límite de entrega: **dom., 21-dic., 23:59h**
+    * Ejercicio **voluntario** para subir nota.
+    * Fecha límite de entrega: **dom., 21-dic., 23:59h**
 
 ## Semana 8
 (27-Oct. a 2-Nov.)
 
-  * [Tema 04 - Análisis Exploratorio de Datos](docs/Tema04.qmd)
+* [Tema 04 - Análisis Exploratorio de Datos](docs/Tema04.qmd)
 
 ## Semana 7
 (20-Oct. a 26-Oct.)

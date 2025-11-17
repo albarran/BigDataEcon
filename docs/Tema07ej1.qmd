@@ -1,0 +1,525 @@
+---
+title: "Tema 07 - Modelización con `tidymodels`"
+subtitle: "Ejemplo 1"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- markdownlint-disable-file MD013 -->
+
+# Introducción
+
+## Datos
+
+Usaremos el conjunto de datos `RailTrail`, que ya usamos previamente, sobre el volumen de usuarios de un camino ciclista ("via verde").
+
+```{r}
+#| eval: true
+library(tidyverse)
+library(mosaicData)
+library(kableExtra)
+data("RailTrail")
+```
+
+# Análisis exploratorio de los datos
+
+Aquí NO vamos a desarrollar explícitamente el análisis exploratorio de datos. Pero **siempre** debemos conocer las características de nuestros datos, incluidas la distribución de valores de las variables y las relaciones entre ellas. Además, deberíamos haber realizado un proceso de **limpieza y transformación** de los datos, en parte sugerido por este análisis exploratorio.
+
+En este caso, convertimos las variables categóricas a factores y eliminamos las variables redundantes.
+
+```{r}
+railtrail <- RailTrail |> 
+              mutate(dayType = parse_factor(dayType)) |> 
+              select(-c(weekday, lowtemp, avgtemp)) 
+
+rm(RailTrail)
+```
+
+# Modelización I
+
+## Paso 0: Partición en Entrenamiento y Prueba
+Partición en Entrenamiento y Prueba
+
+* Usamos `initial_split()` para generar el objeto que almacena las dos particiones
+
+```{r}
+library(tidymodels)
+set.seed(9753)
+railtrailPart <- railtrail |> 
+                    initial_split(prop = .8)
+```
+
+* Podríamos extraer los *data frame* con cada conjunto de datos, de entrenamiento y de prueba. Pero esto no es necesario porque siempre podemos llamar a las funciones `training()` y `testing()`. 
+
+```{r}
+railtrailEntren  <- railtrailPart |> training()
+railtrailPrueba  <- railtrailPart |> testing()
+```
+
+```{r}
+#| echo: false
+#| eval: false
+intersect(railtrailEntren, railtrailPrueba)
+```
+
+## Paso 1: Preparar los datos y Especificación
+
+En principio, consideraremos la siguiente especificación, es decir, variables incluidas en el modelo. Dado lo que hemos discutido anteriormente (que habríamos visto en el análisis exploratorio de datos), incluimos un polinomio para temperatura, una relación no lineal con la nubosidad e interacciones entre todas las variables continuas y el tipo de día de la semana.
+
+$$
+\begin{aligned}
+volumen &= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{21} hightemp^{21}  \\
+        & + \beta_{22} D_{cloudclover \in (2.5,5]}+\beta_{23} D_{cloudclover \in (5,7.5]}+\beta_{24} D_{cloudclover \in (7.5,10]} \\
+        &+ \beta_{25} precip + \beta_{26} dayType + \beta_{27} precip \times dayType + u
+\end{aligned}
+$$
+
+Esta especificación se corresponde con la siguiente receta:
+
+```{r}
+receta1 <-railtrailPart |> training() |>             
+  recipe(volume ~  hightemp + cloudcover + precip +  dayType) |>
+  step_dummy(dayType) |> 
+  step_poly(hightemp, degree = 21) |>   
+  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
+           include_outside_range = T)  |> 
+  step_dummy(cloudcover) |> 
+  step_interact(~precip:starts_with("dayType_"))
+```
+
+Podemos ver cómo quedan los datos preprocesados para usarlos luego en el modelo de esta forma:
+
+```{r}
+#| results: markup
+datosPrep <- receta1 |>  prep() |> bake(railtrailEntren)
+datosPrep |> slice_head() |> kbl() |> kable_paper()
+```
+
+## Paso 2: Entrenamiento
+
+### Paso 2.A: Definición del modelo
+
+Definimos un modelo lineal 
+
+```{r}
+modelo_lm1  <- linear_reg(mode= "regression", engine = "lm", 
+                             penalty = 0)
+```
+
+### Paso 2.B: Creación del flujo de trabajo
+
+Creamos el flujo de trabajo combinando la receta y modelo
+
+```{r}
+flujo_lm1 <- workflow() |>
+  add_recipe(receta1) |>      
+  add_model(modelo_lm1)
+```
+
+### Paso 2.C: Estimación del flujo
+
+* Estimamos el flujo
+
+```{r}
+flujo_lm1_est <- flujo_lm1 |> 
+                   fit(data = railtrailPart |> training()) 
+```
+
+* Los resultados de esta estimación son:
+
+```{r}
+#| results: markup
+flujo_lm1_est |> extract_fit_parsnip() |> 
+  tidy() |> kbl() |> kable_paper()
+```
+
+
+### Predicción
+
+¿Cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?
+
+```{r}
+#| results: markup
+valores <- tibble(hightemp = 80, cloudcover = 8.5, 
+                  precip = 0.02, dayType = "weekend")
+pred <- flujo_lm1_est |> predict(new_data = valores)
+CI   <- flujo_lm1_est |> predict(new_data = valores, type = "conf_int")
+
+pred |> bind_cols(CI) |> kbl() |> kable_classic()
+
+```
+
+# Modelización II
+
+Consideramos un modelo alternativo donde la variable dependiente esté en logaritmos. 
+
+## Paso 1: Preparar los datos y Especificación
+
+Definimos la nueva receta:
+
+
+```{r}
+receta2 <-receta1 |>
+  step_log(volume) 
+```
+
+Podemos ver que efectivamente los nuevos datos incluyen la transformación en logaritmos:
+
+
+```{r}
+#| results: markup
+datosPrep2 <- receta2 |>  prep() |> bake(railtrailEntren)
+datosPrep2 |> slice_head() |> kbl() |> kable_paper()
+```
+
+## Paso 2: Entrenamiento
+
+### Paso 2.A: Definición del modelo
+
+* Vamos a usar el mismo modelo anterior
+
+### Paso 2.B: Creación del flujo de trabajo
+
+* Actualizamos el flujo de trabajo con la nueva receta, bien añadiendo cada paso o bien actualizando la receta
+
+```{r}
+flujo_lm2 <- workflow() |>
+  add_recipe(receta2) |>      
+  add_model(modelo_lm1)
+
+flujo_lm2 <- flujo_lm1 |> 
+  update_recipe(receta2) 
+```
+
+
+### Paso 2.C: Estimación del flujo
+
+* Estimamos el nuevo flujo
+
+```{r}
+flujo_lm2_est <- flujo_lm2 |> 
+                   fit(data = railtrailPart |> training()) 
+```
+
+* Los resultados de esta estimación son:
+
+```{r}
+#| results: markup
+flujo_lm2_est |> extract_fit_parsnip() |> 
+  tidy() |> kbl() |> kable_paper()
+```
+
+# Modelos LASSO
+
+Vamos a estimar mediante LASSO los dos modelos anteriores.
+
+## Paso 1: Preparar los datos y Especificación
+
+* Debemos estandarizar las variables y debe ser **antes** de transformaciones no lineales de los regresores, como  polinomios o interacciones. Por tanto, NO podemos simplemente añadir un paso de estandarización a la receta anterior.
+
+* Además debemos tener cuidado con el orden de los pasos. Si se discretiza una variable continua, debemos hacerlo antes de estandarizar (o bien los puntos de corte deben ser con los nuevos valores, estandarizados). La estandarización debe ser antes de la transformación en polinomios. 
+
+```{r}
+receta1LASSO <- railtrailPart |> training() |>             
+  recipe(volume ~  hightemp + cloudcover + precip +  dayType) |>
+  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
+           include_outside_range = T)  |> 
+  step_scale(all_predictors(), -all_nominal()) |>
+  step_poly(hightemp, degree = 21) |>   
+  step_dummy(cloudcover) |> 
+  step_dummy(dayType) |> 
+  step_interact(~precip:starts_with("dayType_"))
+
+receta2LASSO <- receta1LASSO |> 
+  step_log(volume)
+```
+
+## Paso 2: Entrenamiento
+
+### Paso 2.A: Definición del modelo
+
+* Definimos el modelo con el hiperparámetro para ajustar:
+
+```{r}
+modelo_LASSO  <- linear_reg(mode= "regression", engine = "glmnet", 
+                             penalty = tune(), mixture = 1)
+```
+
+
+### Paso 2.B: Creación del flujo de trabajo
+
+* Creamos los flujos de trabajo combinando las recetas y el modelo
+
+```{r}
+flujo_LASSO1 <- workflow() |>
+  add_recipe(receta1LASSO) |>      
+  add_model(modelo_LASSO)
+
+flujo_LASSO2 <- flujo_LASSO1  |>
+  update_recipe(receta2LASSO)
+```
+
+* Podemos comprobar que el flujo depende un parámetro a ajustar:
+
+```{r}
+flujo_LASSO1 |> extract_parameter_set_dials()
+```
+
+
+### Paso 2.C: Estimación del flujo
+
+#### Paso 2.C.1: Ajuste del hiperparámetros
+
+* En este caso, la estimación del flujo requiere más pasos, ya que debemos ajustar el hiperparámetro del modelo LASSO.
+
+* Definimos las particiones de validación cruzada en la muestra de entrenamiento que vamos a utilizar, para ambos casos:
+
+```{r}
+set.seed(9753)
+railtrail_entrenCV <- railtrailPart |> training() |> 
+                          vfold_cv(v=10)
+```
+
+#### Proceso de ajuste del primer modelo
+
+* Definimos un primer rango y valores de búsqueda del hiperparámetro:
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(0, 20), trans = NULL), 
+                                   levels = 21)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO1_ajust <- flujo_LASSO1 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO1_ajust |> autoplot()
+```
+
+* Dado que lo que observamos, ampliamos el rango por la derecha probando muchos valores:
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(18, 68), trans = NULL), 
+                                   levels = 51)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO1_ajust <- flujo_LASSO1 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO1_ajust |> autoplot()
+```
+
+
+* Nos centramos en un rango plausible probando más valores:
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(24, 29), trans = NULL), 
+                                   levels = 51)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO1_ajust <- flujo_LASSO1 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO1_ajust |> autoplot()
+```
+
+
+* Notad que hay varios valores con métricas muy similares. Nos quedamos con el mejor, pero serían igualmente válidos:
+
+```{r}
+flujo_LASSO1_ajust |> show_best(metric = "rmse")
+mejor_lambda1 <- flujo_LASSO1_ajust |> select_best(metric = "rmse")
+```
+
+#### Proceso de ajuste del segundo modelo
+
+* Probamos un primer rango 
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(0, 5), trans = NULL), 
+                                   levels = 21)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO2_ajust <- flujo_LASSO2 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO2_ajust |> autoplot()
+```
+
+
+* Vemos un cambio fuerte entorno a 0.2 miramos que pasa a su izquierda 
+
+
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(0, 0.2), trans = NULL), 
+                                   levels = 21)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO2_ajust <- flujo_LASSO2 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO2_ajust |> autoplot()
+```
+
+* ... y a su derecha
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(0.1, 1.1), trans = NULL), 
+                                   levels = 21)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO2_ajust <- flujo_LASSO2 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO2_ajust |> autoplot()
+```
+
+
+
+* Focalizamos más en la parte a la izquierda de 0.3 (porque a la derecha, la métrica no varía: la penalización no hace cambiar el modelo)
+
+```{r}
+LASSO_grid <- grid_regular(penalty(range = c(0.09, 0.11), trans = NULL), 
+                                   levels = 51)
+```
+
+```{r}
+#| fig-show: asis
+flujo_LASSO2_ajust <- flujo_LASSO2 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO2_ajust |> autoplot()
+```
+
+* Nos quedamos con el mejor 
+
+```{r}
+mejor_lambda2 <- flujo_LASSO2_ajust |> select_best(metric = "rmse")
+```
+
+#### Paso 2.C.2: Finalizando y estimando
+
+* Para el primer modelo
+
+```{r}
+flujo_LASSO_final1 <- flujo_LASSO1 |> 
+        finalize_workflow(mejor_lambda1)  
+```
+
+
+```{r}
+#| results: markup
+flujo_LASSO_final1_est <-  flujo_LASSO_final1 |>  
+              fit(data = railtrailPart |> training())
+flujo_LASSO_final1_est |>  extract_fit_parsnip() |> tidy() |> 
+  kbl() |> kable_styling()
+```
+
+* Para el segundo modelo
+
+```{r}
+flujo_LASSO_final2 <- flujo_LASSO2 |> 
+        finalize_workflow(mejor_lambda2)  
+```
+
+
+```{r}
+#| results: markup
+flujo_LASSO_final2_est <-  flujo_LASSO_final2 |>  
+              fit(data = railtrailPart |> training())
+flujo_LASSO_final2_est |>  extract_fit_parsnip() |> tidy() |> 
+  kbl() |> kable_styling()
+```
+
+* Nota: también podríamos poner los dos modelos juntos en la misma tabla, en columnas diferentes.
+
+# Evaluación de modelos
+
+* Usamos `final_fit()` en cada modelo para calcular las métricas de error:
+
+```{r}
+lm1_final_fit <- flujo_lm1 |>
+                    last_fit(split = railtrailPart,
+                             metrics = metric_set(rmse, mae)) 
+
+lm2_final_fit <- flujo_lm2 |> 
+                    last_fit(split = railtrailPart,
+                             metrics = metric_set(rmse, mae))  
+
+LASSO1_final_fit <- flujo_LASSO_final1 |> 
+                    last_fit(split = railtrailPart,
+                             metrics = metric_set(rmse, mae)) 
+
+LASSO2_final_fit <- flujo_LASSO_final2 |> 
+                    last_fit(split = railtrailPart,
+                             metrics = metric_set(rmse, mae)) 
+
+```
+
+* Recopilamos las métricas y las presentamos en una tabla
+
+```{r}
+#| results: markup
+lm1 <- lm1_final_fit |> collect_metrics() |> 
+              select(.metric, .estimate) |> rename(lm1 = .estimate)
+lm2 <- lm2_final_fit |> collect_metrics() |> 
+              select(.metric, .estimate) |> rename(lm2 = .estimate)
+LASSO1 <- LASSO1_final_fit |> collect_metrics() |> 
+              select(.metric, .estimate) |> rename(LASSO1 = .estimate)
+LASSO2 <- LASSO2_final_fit |> collect_metrics() |> 
+              select(.metric, .estimate) |> rename(LASSO2 = .estimate)
+
+lm1 |> inner_join(lm2) |> 
+  inner_join(LASSO1) |> inner_join(LASSO2) |> 
+  kbl() |> kable_classic()
+```
+
+# Conclusiones
+
+Los resultados de las métricas indican que los modelos en logaritmos son mejores para predicción. En este caso, LASSO tiene un rendimiento claramente superior al del modelo de regresión lineal; si tuvieramos menos variables que se puedan eliminar, el rendimiento podría ser similar y quizás habría que probar cómo funciona "Ridge regression".
+
+Si nuestro objetivo es predecir, podemos utilizar LASSO: aunque sus coeficientes están sesgados, la mejora en varianza implica que el error cuadrático medio es menor. Si nuestro objetivo es interpretar, podemos utilizar el modelo de regresión lineal en logaritmos pero incluyendo **solo** las variables seleccionadas por LASSO.

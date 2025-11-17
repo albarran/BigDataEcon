@@ -1,0 +1,390 @@
+---
+title: "Tema 07 - Modelización con `tidymodels`"
+subtitle: "Ejercicio Práctico 2"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+params:
+  soln: false
+---
+<!-- markdownlint-disable-file MD013 -->
+
+# Introducción
+
+## Datos
+
+Usamos datos del Censo de EE.UU. con la siguiente información 
+
+```{r}
+#| eval: false
+library(tidyverse)
+censo <- read_csv("data/census.csv") |> select(-1) 
+```
+
+```{r}
+#| echo: false
+library(tidyverse)
+censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") |> select(-1) 
+```
+
+<!--
+https://medium.com/analytics-vidhya/machine-learning-application-census-income-prediction-868227debf12
+-->
+
+|                  |                                        |
+|------------------|----------------------------------------|
+|  age             |  edad                                  |
+|  workclass       |  tipo de trabajo del individuo         |
+|  fnlwgt          |  peso en el censo (no relevante)       |
+|  education       |  nivel educativo                       |
+|  education_1     |  años  de educación                    |
+|  marital_status  |  estado civil                          |
+|  occupation      |  profesión de la persona               |
+|  relationship    |  relación con el principal miembro del hogar |
+|  race            |  origen racial de la persona           |
+|  sex             |  género                                |
+|  capital_gain    |  ganancias de capital                  |
+|  capital_loss    |  pérdidas de capital                   |
+|  hours_per_week  |  horas trabajadas a la semana          |
+|  native_country  |  país de origen                        |
+|  Income          |  renta mayor o menor de 50 mil dólares |
+
+# Análisis exploratorio de los datos
+
+Aquí NO vamos a desarrollar explícitamente el análisis exploratorio de datos. Pero **siempre** debemos conocer las características de nuestros datos, incluidas la distribución de valores de las variables y las relaciones entre ellas. Además, deberíamos haber realizado un proceso de **limpieza y transformación** de los datos, en parte sugerido por este análisis exploratorio.
+
+En este caso, convertimos las variables categóricas a factores y eliminamos las variables redundantes.
+
+```{r}
+censo <- censo |> 
+  mutate(across(where(is.character),~as.factor(.x)))
+```
+
+Como única muestra menor del análisis exploratorio, mostramos aquí (como que no haríamos en un informe) la salida de `datasummary_skim()`:
+
+```{r}
+#| results: hide 
+library(modelsummary)
+datasummary_skim(censo)
+```
+Notad que prodríamos agrupar algunas categorías aquí o hacerlo luego para considerar distintas especificaciones de los modelos o hacer ambas cosas, según el caso. También podéis apreciar que algunas variables tienen valores ausentes "implícitos": están marcados como "?" y deberíamos como `NA`. Vamos a cambiarlos a valores ausentes explícitos; esto se consigue de forma sencilla para **todas** las variables con el siguiente código:
+
+```{r}
+censo <- censo |> 
+  mutate(across(everything(), ~ if_else(. == "?", NA, .)))
+```
+
+# Modelización
+
+## Paso 0: Partición en Entrenamiento y Prueba
+
+* Usamos `initial_split()` para generar el objeto que almacena las dos particiones
+
+```{r}
+library(tidymodels)
+set.seed(8697)
+censoPart <- censo |> initial_split(prop = .8)
+```
+
+<!--
+* Extraemos los *data frame* con cada conjunto de datos, de entrenamiento y de prueba:
+
+```{r}
+censoEntren  <- censoPart |> training()
+censoPrueba  <- censoPart |> testing()
+```
+-->
+
+## Paso 1: Preparar los datos y Especificación
+
+En este ejercicio, vamos a considerar modelos de regresión logística y de regresión logística regularizada mediante LASSO<!-- y mediante "Ridge regression"-->. Usaremos la misma especificación inicial en todos los casos: la categoría de renta va a depender de la raza, la  edad (un polinomio de grado 6), horas de trabajo (un polinomio de grado 6), el género, la educación (*education_1*), ganancias de capital, pérdidas de capital, ocupación y estado civil; además, incluiremos interacciones de la raza y el género entre ellas y con el resto de variables.
+
+En general, debería justificarse las variables incluidas (p.e., por los resultados del análisis exploratorio) y considerar variantes de las especificaciones (variables incluidas) para el caso de la regresión logística al menos. En el caso de LASSO, esto no es importante porque siempre podemos incluir la especificación más general y el propio algoritmo selecciona las variables a incluir. 
+
+Preparamos las recetas con la especificación para estos modelos. Nota: agrupamos las categorías minoritarias de estado civil, raza y ocupación en una categoría de "Otros" con un umbral (*threshold*) del 6%.
+
+* Para regresión logística:
+
+```{r}
+receta <- censoPart |> training() |> 
+          recipe(income ~ race + age + hours_per_week + 
+                    sex + education_1 + capital_gain + capital_loss + 
+                    occupation + marital_status ) |>
+          step_naomit() |> 
+          step_poly(age, degree = 6) |>
+          step_poly(hours_per_week, degree = 6) |>
+          step_other(marital_status, race, occupation, threshold = 0.06) |>
+          step_dummy(all_nominal(), -all_outcomes()) |> 
+          step_interact(~ starts_with("race"):(starts_with("age") + starts_with("hours_per_week") + 
+                    starts_with("sex") + education_1 + capital_gain + capital_loss +
+                    starts_with("occupation") + starts_with("marital_status"))) |> 
+          step_interact(~ starts_with("sex"):(starts_with("age") + starts_with("hours_per_week")+
+                    education_1 + capital_gain + capital_loss +
+                    starts_with("occupation") + starts_with("marital_status")))
+```
+
+* Para regresión logística regularizada mediante LASSO<!-- y "Ridge regression"-->:
+
+```{r}
+recetaReg <- censoPart |> training() |> 
+          recipe(income ~ race + age + hours_per_week + 
+                    sex + education_1 + capital_gain + capital_loss + 
+                    occupation + marital_status ) |>
+          step_naomit() |> 
+          step_scale(all_predictors(), -all_nominal()) |>
+          step_poly(age, degree = 6) |>
+          step_poly(hours_per_week, degree = 6) |>
+          step_other(marital_status, race, occupation, threshold = 0.06) |>
+          step_dummy(all_nominal(), -all_outcomes()) |> 
+          step_interact(~ starts_with("race"):(starts_with("age") + starts_with("hours_per_week") + 
+                    starts_with("sex") + education_1 + capital_gain + capital_loss +
+                    starts_with("occupation") + starts_with("marital_status"))) |> 
+          step_interact(~ starts_with("sex"):(starts_with("age") + starts_with("hours_per_week")+
+                    education_1 + capital_gain + capital_loss +
+                    starts_with("occupation") + starts_with("marital_status")))
+```
+
+* Podéis comprobar que nuestro modelo tiene muchas variables, es decir,  muchos parámetros:
+
+```{r}
+receta |> prep() |> bake(censoPart |> training()) |> dim()
+```
+
+
+# Vuestro ejercicio
+
+a) Definir los modelos y estimarlos, eligiendo adecuadamente los hiperparámetros en el caso de los modelos regularizados. Presentar los resultados de todos los modelos en una tabla. Nota: usad el ROC-AUC como para elegir los hiperparámetros.
+
+
+
+`r if(!params$soln) {"<!--"}`
+
+### Respuesta
+
+
+```{r echo=params$soln, eval=FALSE}
+
+```{r}
+#| echo: false
+#| eval: true
+
+### Paso 2.A: Definición del modelo
+modelo_log  <- logistic_reg(mode= "classification", engine = "glm", 
+                             penalty = 0)
+
+# modelo_logRidge <- logistic_reg(mode= "classification", engine = "glmnet",
+#                              penalty = tune(), mixture = 0)
+
+modelo_logLASSO <- logistic_reg(mode= "classification", engine = "glmnet", 
+                             penalty = tune(), mixture = 1)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+### Paso 2.B: Creación del flujo de trabajo
+flujo_log <- workflow() |>
+  add_recipe(receta) |>      
+  add_model(modelo_log)
+
+# flujo_logRidge <- workflow() |>
+#   add_recipe(recetaReg) |>
+#   add_model(modelo_logRidge)
+
+flujo_logLASSO <- workflow() |>
+  add_recipe(recetaReg) |>      
+  add_model(modelo_logLASSO)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+### Paso 2.C: Estimación del flujo
+
+#### Regresión Logística
+flujo_log_est <- flujo_log |> 
+                   fit(data = censoPart |> training()) 
+
+#### Paso 2.C.1: Ajuste del hiperparámetros
+set.seed(9753)
+censo_entrenCV <- censoPart |> training() |> 
+                          vfold_cv(v=10)
+
+# #### Ridge Regression
+# Ridge_grid <- grid_regular(penalty(range = c(0, 0.1), trans = NULL),
+#                                    levels = 51)
+# 
+# flujo_logRidge_ajust <- flujo_logRidge |>
+#                         tune_grid(resamples = censo_entrenCV,
+#                                   metrics   = metric_set(roc_auc),
+#                                   grid      = Ridge_grid            )
+# 
+# 
+# flujo_logRidge_ajust |> autoplot()
+# 
+# mejor_lambdaRidge <- flujo_logRidge_ajust |> select_best(metric = "roc_auc")
+
+#### LASSO
+LASSO_grid <- grid_regular(penalty(range = c(0, 0.001), trans = NULL), 
+                           levels = 51)
+
+flujo_logLASSO_ajust <- flujo_logLASSO |> 
+  tune_grid(resamples = censo_entrenCV,  
+            metrics   = metric_set(roc_auc),   
+            grid      = LASSO_grid            )
+
+
+flujo_logLASSO_ajust |> autoplot()
+
+mejor_lambdaLASSO <- flujo_logLASSO_ajust |> select_best(metric = "roc_auc")
+
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+#### Paso 2.C.2: Finalizando y estimando
+
+flujo_logLASSO_final <- flujo_logLASSO |> 
+        finalize_workflow(mejor_lambdaLASSO)  
+
+flujo_logLASSO_final_est <-  flujo_logLASSO_final |>  
+              fit(data = censoPart |> training())
+
+```
+
+```{r}
+#| echo: false
+#| eval: true
+library(kableExtra)
+logist_est <- flujo_log_est |> extract_fit_parsnip() |> 
+                  tidy() |> select(term:estimate)
+LASSO_est  <- flujo_logLASSO_final_est |>  extract_fit_parsnip() |> 
+                  tidy() |> select(term:estimate) 
+
+logist_est |> full_join(LASSO_est, by = "term") |> kbl() |> kable_styling()
+
+```
+
+`r if(!params$soln) {"-->"}`
+
+
+b) Evaluar los modelos y compararlos, considerando las métricas adecuadas ("accuracy", ROC-AUC, "recall" y "specificity").
+
+`r if(!params$soln) {"<!--"}`
+
+### Respuesta
+
+```{r echo=params$soln, eval=FALSE}
+
+```{r}
+#| echo: false
+#| eval: true
+
+log_final_fit <- flujo_log |>
+                    last_fit(split = censoPart,
+                             metrics = metric_set(accuracy, roc_auc,
+                                                  recall, specificity)) 
+
+logLASSO_final_fit <- flujo_logLASSO_final |>
+                    last_fit(split = censoPart,
+                             metrics = metric_set(accuracy, roc_auc,
+                                                  recall, specificity)) 
+log_final_fit |> collect_metrics()
+
+logLASSO_final_fit |> collect_metrics()
+```
+
+`r if(!params$soln) {"-->"}`
+
+c) Usando todos los modelos, determinar si un individuo puede clasificarse como de renta alta (>50K) si es de raza blanca, tiene 49 años, trabaja 40 horas, es hombre, tiene 16 años de educación, no tiene ganancias ni pérdidas de capital, trabaja en ventas ("Sales") y está separado. ¿Y si fuera una mujer de 32 años con el resto de características iguales?  En ambos casos, ofrecer tanto la predicción de la clase como de la probabilidad de ser de renta alta. Comentar brevemente.
+
+`r if(!params$soln) {"<!--"}`
+
+### Respuesta
+
+```{r echo=params$soln, eval=FALSE}
+
+```{r}
+#| echo: false
+#| eval: true
+valores1 <- tibble(race = "White", age = 49, hours_per_week = 40, sex = "Male", 
+                   education_1 = 16, capital_gain = 0, capital_loss = 0, 
+                   occupation = "Sales", marital_status = "Separated")
+
+predC1 <- flujo_log_est |> predict(new_data = valores1, type = "class")
+predP1 <- flujo_log_est |> predict(new_data = valores1, type = "prob")
+
+predC2 <- flujo_logLASSO_final_est |> predict(new_data = valores1, type = "class")
+predP2 <- flujo_logLASSO_final_est |> predict(new_data = valores1, type = "prob")
+predC1
+predC2
+predP1
+predP2
+
+
+valores2 <- tibble(race = "White", age = 32, hours_per_week = 40, sex = "Female", 
+                   education_1 = 16, capital_gain = 0, capital_loss = 0, 
+                   occupation = "Sales", marital_status = "Separated")
+
+predC1 <- flujo_log_est |> predict(new_data = valores2, type = "class")
+predP1 <- flujo_log_est |> predict(new_data = valores2, type = "prob")
+
+predC2 <- flujo_logLASSO_final_est |> predict(new_data = valores2, type = "class")
+predP2 <- flujo_logLASSO_final_est |> predict(new_data = valores2, type = "prob")
+predC1
+predC2
+predP1
+predP2
+```
+
+`r if(!params$soln) {"-->"}`
+
+<!--
+d) ¿Qué variables (incluyendo transformaciones y/o interacciones) son importantes para explicar la categoría de renta de un individuo? Discutir brevemente el signo de las principales variables y qué modelo utilizaría. 
+
+
+```{r}
+#| echo: false
+#| eval: true
+
+```
+-->
+
+d) Repetir los apartados anteriores imputando los valores ausentes con `step_impute_knn()`. Comentar brevemente los resultados.
+
+# Entrega
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSeDCAi9CtQvZVOk7DiWeZKevOBDO_4uvWrKTbTR5xEaMrtarg/viewform) con vuestros datos y subid 
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema08ej2_123456789.qmd
+  
+  * Tema08ej2_123456789.zip
