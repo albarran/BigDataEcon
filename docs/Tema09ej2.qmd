@@ -1,0 +1,440 @@
+---
+title: "Tema 09 - Más algoritmos de aprendizaje supervisado"
+subtitle: "Ejercicio Práctico 2"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+params:
+  soln: false
+---
+<!-- markdownlint-disable-file MD013 -->
+
+# Introducción
+
+## Datos
+
+Usamos datos del Censo de EE.UU. con la siguiente información 
+
+```{r}
+#| eval: false
+library(tidyverse)
+censo <- read_csv("data/census.csv") |> select(-1) 
+```
+
+```{r}
+#| echo: false
+library(tidyverse)
+censo <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/census.csv") |> select(-1) 
+```
+
+<!--
+https://medium.com/analytics-vidhya/machine-learning-application-census-income-prediction-868227debf12
+-->
+
+|                  |                                        |
+|------------------|----------------------------------------|
+|  age             |  edad                                  |
+|  workclass       |  tipo de trabajo del individuo         |
+|  fnlwgt          |  peso en el censo (no relevante)       |
+|  education       |  nivel educativo                       |
+|  education_1     |  años  de educación                    |
+|  marital_status  |  estado civil                          |
+|  occupation      |  profesión de la persona               |
+|  relationship    |  relación con el principal miembro del hogar |
+|  race            |  origen racial de la persona           |
+|  sex             |  género                                |
+|  capital_gain    |  ganancias de capital                  |
+|  capital_loss    |  pérdidas de capital                   |
+|  hours_per_week  |  horas trabajadas a la semana          |
+|  native_country  |  país de origen                        |
+|  Income          |  renta mayor o menor de 50 mil dólares |
+
+# Análisis exploratorio de los datos
+
+Aquí NO vamos a desarrollar explícitamente el análisis exploratorio de datos. Pero **siempre** debemos conocer las características de nuestros datos, incluidas la distribución de valores de las variables y las relaciones entre ellas. Además, deberíamos haber realizado un proceso de **limpieza y transformación** de los datos, en parte sugerido por este análisis exploratorio.
+
+En este caso, convertimos las variables categóricas a factores y eliminamos las variables redundantes.
+
+```{r}
+censo <- censo |> 
+  mutate(across(where(is.character),~as.factor(.x)))
+```
+
+
+# Ejercicio 1: kNN
+
+## Apartado a) 
+
+* Preparar los datos según las necesidades para estimar el modelo kNN. 
+
+NOTA: podemos usar `step_dummy()` con la opción `one_hot = TRUE` para que NO se omita un grupo por defecto en los factores
+
+```{r echo=params$soln, eval=FALSE}
+censo_receta_knn <- training(censo_part) |>
+  recipe(income ~ age + education_1 +  capital_gain + hours_per_week + sex + race) |> 
+  step_dummy(all_nominal(), -all_outcomes(), one_hot = T) |> 
+  step_scale(all_numeric(), -all_outcomes()) |> step_center(all_numeric(), -all_outcomes()) 
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+Notad que en este algoritmo NO es necesario realizar transformaciones no lineales (polinomio) de edad.
+`r if(!params$soln) {"-->"}`
+
+
+## Apartado b)
+
+* Obtener mediante validación cruzada el ajuste óptimo del número de vecinos. Nota: usaremos como distancia la norma L2 (`dist_power = 2`) y como motor la biblioteca `kknn`.
+
+```{r eval=FALSE}
+modelo_knn_tuned <- nearest_neighbor(mode= "classification", 
+                                     neighbors = tune(), dist_power = 2) |> 
+                set_engine("kknn")
+```
+
+```{r echo=params$soln, eval=FALSE}
+flujo_knn_tuned <- workflow() |>  add_recipe(censo_receta_knn) |>
+                      add_model(modelo_knn_tuned)
+```
+
+* Probad primero con un rango de valores para los vecinos entre 60 y 100 en incrementos de 10 y mostrar el resultado. 
+
+* Ajustar vuestro rango de búsqueda del valor óptimo, teniendo siempre en cuenta que kNN es muy muy lento.
+
+```{r echo=params$soln, eval=FALSE}
+knn_grid <- grid_regular(neighbors(range = c(60, 100), trans = NULL), levels = 5)
+
+set.seed(9753)
+censo_ent_cv <- training(censo_part) |> vfold_cv(v=10)
+
+knn_tuned <- flujo_knn_tuned |> tune_grid( resamples = censo_ent_cv, 
+                                                metrics   = metric_set(roc_auc),
+                                                grid      = knn_grid           )
+knn_tuned |> autoplot()
+```
+
+NOTA: puede ser resultar conveniente hacer pruebas sin renderizar el documento .Qmd. 
+
+```{r echo=params$soln, eval=FALSE}
+knn_grid <- grid_regular(neighbors(range = c(120, 160), trans = NULL), levels = 5)
+
+knn_tuned <- flujo_knn_tuned |> tune_grid( resamples = censo_ent_cv, 
+                                                metrics   = metric_set(accuracy, roc_auc),
+                                                grid      = knn_grid               )
+
+knn_tuned |> autoplot()
+knn_tuned |> show_best("roc_auc")
+mejor_k <- knn_tuned |> select_best("roc_auc")
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+En el primer ajuste, vemos que el valor del hiperparámetro NO está en este rango: debemos extenderlo más allá de 100 vecinos. 
+
+<center>
+![](figure/Tema13_Ejerc_sol_1b1.png)
+</center>
+
+Tras varias pruebas intentando buscar la típica forma de U invertida en este caso encontraríamos el óptimo del hiperparámetro entre 130 y 150. (Preferimos los resultados de la AUC-ROC dado que es más general y no tiene los problemas de la *accuracy* con datos desbalanceados.)
+
+<center>
+![](figure/Tema13_Ejerc_sol_1b2.png)
+</center>
+
+`r if(!params$soln) {"-->"}`
+
+## Apartado c)
+
+* Estimar el modelo con el hiperparámetro elegido y mostrar las métricas de error en la muestra de prueba. ¿Qué interpretación podemos extraer sobre los resultados? ¿Qué ventajas y desventajas tiene este método respecto al anterior?
+
+```{r echo=params$soln, eval=FALSE}
+flujo_knn_final <- flujo_knn_tuned |> finalize_workflow(mejor_k)
+
+knn_final_fit <- flujo_knn_final |> last_fit(censo_part)
+knn_final_fit |> collect_metrics()  |> 
+  kbl() |> kable_classic()
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+Como ya sabemos kNN es un algoritmo no paramétrico, luego no necesitamos ningún tipo de supuesto sobre la relación entre la variable dependiente y las características.
+
+En este caso, vemos una mejora en la capacidad de clasificación del modelo con una AUC-ROC de 0.8538103 que es mayor que la de la regresión logística. Sin embargo, las diferencias en este caso son pequeña. (Esto será una constante porque el modelo es muy simple: pocas variables.). La ganancia en capacidad de predicción se produce a costa de menor interpretabilidad: no podemos saber qué características son más importante para clasificar como renta alta y cuánto afectan a la clasificación. 
+`r if(!params$soln) {"-->"}`
+
+# Ejercicio 2: Árboles de clasificación
+
+## Apartado a)
+
+* Preparar los datos según las necesidades para estimar este modelo. 
+
+```{r echo=params$soln, eval=FALSE}
+censo_receta_arbol <- training(censo_part) |>
+  recipe(income ~ age + education_1 +  capital_gain + hours_per_week + sex + race) 
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+En este algorimo, no necesitamos hacer transformaciones no lineales ni centrar ni escalar variables numéricas ni generara dummies para las categorias de los factores
+`r if(!params$soln) {"-->"}`
+
+## Apartado b)
+
+* Obtener mediante validación cruzada el ajuste óptimo del coste de complejidad.
+
+```{r eval=FALSE}
+modelo_arbol <- decision_tree(mode= "classification", cost_complexity = tune()) |> 
+  set_engine("rpart")
+```
+
+```{r echo=params$soln, eval=FALSE}
+flujo_arbol <- workflow() |>  add_recipe(censo_receta_arbol) |> add_model(modelo_arbol)
+```
+
+* Nuevamente elegid cuidadosamente el rango de valores para el hiperparámetro y mostrar un gráfico final donde se aprecie con claridad que tenemos un óptimo.
+
+```{r echo=params$soln, eval=FALSE}
+arbol_grid <- grid_regular(cost_complexity(range = c(0, 0.01), trans = NULL), levels = 11)
+
+set.seed(9753)
+censo_ent_cv <- training(censo_part) |> vfold_cv(v=10)
+
+arbol_tuned <- flujo_arbol |> tune_grid( resamples = censo_ent_cv, 
+                                          metrics   = metric_set(roc_auc),
+                                          grid      = arbol_grid                     )
+
+arbol_tuned |> autoplot()
+arbol_tuned |> show_best("roc_auc")
+mejor_alpha <- arbol_tuned |> select_best("roc_auc")
+```
+
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+Nuevamente deberíamos repetir el proceso con distintos rangos y distintos incrementos en el rango relevante. Pero en este caso vemos que el óptimo del hiperparámetro se produce cuando no se penaliza la complejidad del árbol; por tanto, no se podará el árbol.
+
+<center>
+![](figure/Tema13_Ejerc_sol_2b.png)
+</center>
+
+`r if(!params$soln) {"-->"}`
+
+## Apartado c)
+
+* Estimar el modelo con el hiperparámetro elegido.
+
+* Representar gráficamente el árbol obtenido y la importancia de cada variables. 
+
+* Interpretar los resultados y discutir las diferencias, ventajas y desventajas respecto a los resultados de los métodos anteriores.
+
+```{r echo=params$soln, eval=FALSE}
+flujo_arbol_final <- flujo_arbol |> finalize_workflow(mejor_alpha)
+
+flujo_arbol_est <- flujo_arbol_final |>  fit(data = training(censo_part)) 
+#flujo_arbol_est |> extract_fit_parsnip()
+
+arbol <- flujo_arbol_est |> extract_fit_parsnip() 
+rpart.plot(arbol$fit) 
+
+library(vip)
+arbol |> vip()
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+El árbol obtenido es bastante complicado (dado que no hemos podado).
+
+<center>
+![](figure/Tema13_Ejerc_sol_2c1.png)
+</center>
+
+Por tanto, resulta complicado obtener una fácil interpretación de los resultados, que es una de las ventajas de este algoritmo además de ser noparamétrico. Por ello, resulta útil analizar la importancia. 
+
+<center>
+![](figure/Tema13_Ejerc_sol_2c2.png)
+</center>
+
+Vemos que nuevamente las ganancias de capital son la información más importante para clasificar como de renta alta, seguidas a distancia de educación y de edad. A diferencia de la regresión logística en este caso horas trabajadas y sexo tienen una importancia menor. La raza es igualmente la variable menos relevante.
+
+Como kNN este es un método no paramétrico. Además permite capturar relaciones no lineales entre la variable dependiente y las variables explicativas a diferencia de la regresión logística. También podríamos tener una representación sencilla del proceso de clasificación para interpretar fácilmente lo que pasa. Aunque en este caso, no sucede porque el árbol es demasiado complejo.
+
+`r if(!params$soln) {"-->"}`
+
+## Apartado d)
+
+* Mostrar las métricas de error en la muestra de prueba.
+
+```{r echo=params$soln, eval=FALSE}
+arbol_final_fit <- flujo_arbol_final |> last_fit(censo_part)
+arbol_final_fit |> collect_metrics()
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+En este caso, la ROC-AUC es 0.8474778: mejora a la regresión logística, pero no a kNN.
+`r if(!params$soln) {"-->"}`
+
+
+# Ejercicio 3: "Random Forests"
+
+
+## Apartado a)
+
+* Preparar los datos según las necesidades para estimar este modelo. 
+
+```{r echo=params$soln, eval=FALSE}
+censo_receta_arbol <- training(censo_part) |>
+  recipe(income ~ age + education_1 +  capital_gain + hours_per_week + sex + race) 
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+Como en los árboles, no necesitamos hacer transformaciones no lineales ni centrar ni escalar variables numéricas ni generara dummies para las categorias de los factores
+`r if(!params$soln) {"-->"}`
+
+
+## Apartado b)
+
+* Obtener mediante validación cruzada el ajuste óptimo del número de variables seleccionadas aleatoriamente para hacer la partición en cada nodo. Usamos cien árboles para este método (esto es, se toman cien re-muestras de boostrap) y usamos la biblioteca `ranger`.
+
+```{r eval=FALSE}
+modelo_RF <- rand_forest(mode= "classification", mtry = tune(), trees = 100) |> 
+  set_engine("ranger", importance = "impurity")
+```
+
+```{r echo=params$soln, eval=FALSE}
+flujo_RF <- workflow() |>  add_recipe(censo_receta_arbol) |> add_model(modelo_RF)
+```
+
+* Nuevamente elegid cuidadosamente el rango de valores para el hiperparámetro y mostrar un gráfico final donde se aprecie con claridad que tenemos un óptimo.
+
+```{r echo=params$soln, eval=FALSE}
+RF_grid <- grid_regular(mtry(range = c(1, 5), trans = NULL), levels = 5)
+
+set.seed(9753)
+censo_ent_cv <- training(censo_part) |> vfold_cv(v=10)
+
+RF_tuned <- flujo_RF |> tune_grid( resamples = censo_ent_cv, 
+                                    metrics   = metric_set(accuracy, roc_auc),
+                                    grid      = RF_grid                     )
+
+RF_tuned |> autoplot()
+RF_tuned |> show_best("roc_auc")
+mejor_hiper <- RF_tuned |> select_best("roc_auc")
+```
+
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+El valor óptimo del hiperparámetro es 2, aunque 1 también entraría dentro de una desviación estándar de la ROC-AUC media. 
+
+<center>
+![](figure/Tema13_Ejerc_sol_3b.png)
+</center>
+
+`r if(!params$soln) {"-->"}`
+
+## Apartado c)
+
+* Estimar el modelo con el hiperparámetro elegido.
+
+* Representar la importancia de cada variables. 
+
+* Interpretar los resultados y discutir las diferencias, ventajas y desventajas respecto a los resultados de los métodos anteriores.
+
+```{r echo=params$soln, eval=FALSE}
+flujo_RF_final <- flujo_RF |> finalize_workflow(mejor_hiper)
+
+flujo_RF_est <- flujo_RF_final |>  fit(data = training(censo_part)) 
+
+library(vip)
+flujo_RF_est |> extract_fit_parsnip() |> vip()
+
+flujo_RF_est_fit <- extract_fit_parsnip(flujo_RF_est)$fit
+flujo_RF_est_fit$variable.importance
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+<center>
+![](figure/Tema13_Ejerc_sol_3c.png)
+</center>
+
+Este modelo añade a las ventajas de los árboles una mayor precisión en la clasificación dado que utiliza 100 árboles (aunque más sencillos) en lugar de uno. En principio, perderíamos respecto a los árboles la posibilidad de interpretar fácilmente el proceso, pero en este caso el árbol óptimo no era muy interpretable. Podemos recurrir a la importancia como forma alternativa de interpretación. El ránking de importancia es similar pero las diferencias relativas son diferente. Vemos que las ganancias de capital siguen siendo la información más importante, su importancia es menor que los modelos anteriores. Esto en parte es esperable dado que este algoritmo precisamente intenta evitar que una variable sea demasiado relevante. También el sexo es relativamente menos importante que las horas trabajadas en este modelo que en los árboles.
+
+`r if(!params$soln) {"-->"}`
+
+
+## Apartado d)
+
+* Mostrar las métricas de error en la muestra de prueba.
+
+```{r echo=params$soln, eval=FALSE}
+RF_final_fit <- flujo_RF_final |> last_fit(censo_part)
+RF_final_fit |> collect_metrics()
+```
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+Este algoritmo tiene la mejor métrica de error de los considerados, 0.8628203, aunque como se ha discutido antes las diferencias son pequeñas porque estamos considerando modelos sencillos en cuanto al número de variables y sus interacciones.
+`r if(!params$soln) {"-->"}`
+
+
+# Ejercicio 4
+
+* ¿Qué modelo eligiría? ¿Por qué?
+
+`r if(!params$soln) {"<!--"}`
+### Respuesta
+
+Recordamos los resultados de la métrica de error (AUC-ROC en este caso, dado que es preferible a la *accuracy* por varios motivos)
+
+|Logit      | kNN      | árboles    | RandomForest  |
+|:---------:|:--------:|:----------:|:-------------:|
+|0.8403095  | 0.8538103| 0.8474778  | 0.8632864     |
+
+En cuanto a la capacidad de clasificación el mejor modelo es *Random Forest*. Este algoritmo además tiene ventajas porque permite modelizar la relación sin supuestos paramétricos y permite relaciones muy flexibles. Sin embargo, no ofrece muchas posibilidades de interpretación más allá de la importancia de las variables. Este desventaja la comparte con el resto de modelos, excepto regresión logística: aunque es menos flexible, nos permite interpretar el signo y en parte la magnitud con que cada variable afecta a la variable independiente. Si necesitasemos usar el modelo para intepretar en este caso la escasa menor capacidad predictiva de la regresión logística, podría estar justificada.
+`r if(!params$soln) {"-->"}`
+
+
+
+# Entrega
+
+Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLScdUSU4_aYrcKMf-Qjo5WbI1K7kHyNgkEw8_LFTZC6FDfFJOA/viewform) con vuestros datos y subid 
+
+  - vuestro archivo de .qmd
+
+  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+
+
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+
+  * Tema09ej2_123456789.qmd
+  
+  * Tema09ej2_123456789.zip

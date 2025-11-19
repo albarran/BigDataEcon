@@ -1,0 +1,243 @@
+---
+title: "Tema 09 - Más algoritmos de aprendizaje supervisado"
+subtitle: "Ejemplo 1"
+author:
+    - "Pedro Albarrán"
+    - "Alberto Pérez"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+params:
+  soln: false
+---
+<!-- markdownlint-disable-file MD013 -->
+
+# Introducción
+
+En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos información de las ventas realizadas a un cliente y algunas características de éste:
+
+| Variable  | Tipo       | Descripción                                        |
+|-----------|------------|----------------------------------------------------|
+| ventas    | Numérica   | Ventas registradas (en euros).                     |
+| renta     | Numérica   | Renta disponible del cliente (en euros).           |
+| descuento | Categórica | ¿Ha recibido descuento? (1 = sí, 0 = no).          |
+| zona      | Categórica | Zona de residencia: "ciudad", "capital" o "pueblo".|
+| edad      | Numérica   | Edad del cliente (en años).                        |
+| mujer     | Categórica | Género del cliente (1 = mujer, 0 = hombre).        |
+| educ      | Numérica   | Nivel educativo del cliente (en años).             |
+
+## Carga de datos
+
+* Cargamos los datos y les damos el tipo de variable adecuado
+
+```{r}
+#| eval: false
+library(tidyverse)
+descuento <- read_csv("data/descuento.csv") |> 
+        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+```
+
+```{r}
+#| echo: false
+library(tidyverse)
+descuento <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv") |> 
+        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+```
+
+# Modelos kNN
+
+## Paso 0: Partición en Entrenamiento y Prueba
+
+* Usamos `initial_split()` para generar el objeto que almacena las dos particiones
+
+```{r}
+library(tidymodels)
+
+set.seed(123)
+descuentoPart <- initial_split(descuento, prop = 0.8)
+```
+
+## Paso 1: Preparar los datos y Especificación
+
+
+* Para kNN, debemos estandarizar las variables numéricas continuas. NO tenemos que incluir transformaciones no lineales (ni es necesario discretizar), puesto que este es un método no paramétrico que permite una relación general entre la variable dependiente y los predictores, sin suponer una forma funcional específica.
+
+* Respecto a las variables categóricas, debemos crear una variable binaria (*dummy*) para **cada categoría** (es decir, no tenemos un grupo omitido),
+
+```{r}
+recetakNN1 <- descuentoPart |> training() |> 
+  recipe(ventas ~ renta + descuento + zona + edad + mujer + educ) |> 
+  step_normalize(all_numeric_predictors()) |>
+  step_dummy(all_nominal_predictors(), one_hot = TRUE)
+
+recetakNN2 <- recetakNN1 |> 
+  step_log(ventas)
+```
+
+
+## Paso 2: Entrenamiento
+
+### Paso 2.A: Definición del modelo
+
+* Definimos un modelo de kNN, preparando para ajustar los hiperparámetros. Es igual para ambas especificaciones.
+
+* Con la biblioteca `kknn`, podemos ajustar el hiperparámetro de número de vecinos. También podríamos probar distintas formas de medir la distancia entre los puntos. En este caso usamos la distancia al cuadrado, `dist_power = 2`; también se puede usar la distancia como valor absoluto, `dist_power = 1`.
+
+```{r}
+modelo_knn <- nearest_neighbor(mode= "regression", engine = "kknn",
+                               neighbors = tune(), dist_power = 2) 
+```
+
+### Paso 2.B: Creación del flujo de trabajo
+
+Creamos los flujos de trabajo combinando la receta y modelo
+
+```{r}
+flujo_knn1 <- workflow() |>
+  add_recipe(recetakNN1) |>      
+  add_model(modelo_knn)
+```
+
+
+```{r}
+flujo_knn2 <- workflow() |>
+  add_recipe(recetakNN2) |>      
+  add_model(modelo_knn)
+```
+
+### Paso 2.C: Estimación del flujo
+
+#### Paso 2.C.1: Ajuste del hiperparámetros
+
+* Definimos las particiones de validación cruzada en la muestra de entrenamiento que vamos a utilizar, para ambos casos:
+
+```{r}
+set.seed(9753)
+descuento_entrenCV <- descuentoPart |> training() |> 
+                          vfold_cv(v=10)
+```
+
+#### Proceso de ajuste para la especificación en niveles
+
+* Deberíamos realizar una búsqueda probando varios rangos y valores para el hiperparámetro. 
+
+```{r}
+knn_grid1 <- grid_regular(neighbors(range = c(1, 20), trans = NULL), 
+                                   levels = 20)
+```
+
+```{r}
+#| fig-show: asis
+flujo_knn1_ajust <- flujo_knn1 |> 
+                        tune_grid(resamples = descuento_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = knn_grid1            )
+
+flujo_knn1_ajust |> autoplot()
+```
+
+
+* Elegimos el mejor hiperparámetro según el error cuadrático medio
+
+```{r}
+flujo_knn1_ajust |> show_best(metric = "rmse")
+mejor_nn1 <- flujo_knn1_ajust |> select_best(metric = "rmse")
+```
+
+#### Proceso de ajuste para la especificación en logaritmos
+
+```{r}
+knn_grid2 <- grid_regular(neighbors(range = c(1, 20), trans = NULL), 
+                                   levels = 20)
+```
+
+```{r}
+#| fig-show: asis
+flujo_knn2_ajust <- flujo_knn2 |> 
+                        tune_grid(resamples = descuento_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = knn_grid2            )
+
+flujo_knn2_ajust |> autoplot()
+```
+
+```{r}
+flujo_knn2_ajust |> show_best(metric = "rmse")
+mejor_nn2 <- flujo_knn2_ajust |> select_best(metric = "rmse")
+```
+
+#### Paso 2.C.2: Finalizando y estimando
+
+* Finalizamos los flujos
+
+
+```{r}
+flujo_knn1_final <- flujo_knn1 |> 
+        finalize_workflow(mejor_nn1)  
+
+flujo_knn2_final <- flujo_knn2 |> 
+        finalize_workflow(mejor_nn2) 
+```
+
+* En este caso, NO tiene mucho sentido estimar el modelo del flujo finalizado  con los datos de entrenamiento. Como este modelo es no paramétrico NO  tenemos coeficientes estimados que mostrar. Tampoco hay una forma fácil de calcular la importancia de las variables u otras formas de interpretar el modelo.
+
+
+```{r}
+flujo_knn1_final_est <-  flujo_knn1_final |>  
+              fit(data = descuentoPart |> training())
+
+flujo_knn2_final_est <-  flujo_knn2_final |>  
+              fit(data = descuentoPart |> training())
+```
+
+
+
+# Evaluación de modelos
+
+* Usamos `final_fit()` en cada modelo para calcular las métricas de error:
+
+```{r}
+knn1_final_fit <- flujo_knn1_final |>
+                    last_fit(split = descuentoPart,
+                             metrics = metric_set(rmse, mae)) 
+
+knn2_final_fit <- flujo_knn2_final |> 
+                    last_fit(split = descuentoPart,
+                             metrics = metric_set(rmse, mae))  
+
+```
+
+
+* Recopilamos las métricas y las presentamos en una tabla
+
+```{r}
+#| results: markup
+library(kableExtra)
+knn1 <- knn1_final_fit |> collect_metrics() |> 
+              select(.metric, .estimate) |> rename(knn1 = .estimate)
+knn2 <- knn2_final_fit |> collect_metrics() |> 
+              select(.metric, .estimate) |> rename(knn2 = .estimate)
+
+knn1 |> inner_join(knn2) |> 
+  kbl() |> kable_classic()
+```
+
+
+* Podemos comparar estos resultados con los obtenidos anteriormente en el mismo conjunto de datos usando otros métodos; en concreto, hemos estimados árboles de decisión y "random forests" y podríamos haber estimado también modelos de regresión lineal y LASSO.
+
+* Nuevamente, el modelo con la variable dependiente en logaritmos predice mejor que en niveles. Sin embargo, kNN predice peor que los otros métodos.

@@ -35,18 +35,20 @@ strip-comments: true
 
   * [Tema 09 - Ejemplo 1](docs/Tema09ej1.qmd)
 
+*********************************************************************
+-->
+
 ## Semana 12
 (24-Nov. a 30-Nov.)
 
   * [Tema 07 - Ejercicio 2](docs/Tema07ej2.qmd)
-    - Fecha límite de entrega: **dom., 15-dic., 23:59h**
+
+    - Fecha límite de entrega: **dom., 07-dic., 23:59h**
 
   * [Tema 08 - Métodos basados en árboles](docs/Tema08.qmd)
 
   * [Tema 08 - Ejemplo 1](docs/Tema08ej1.qmd)
 
-*********************************************************************
--->
 ## Semana 11
 (17-Nov. a 23-Nov.)
 
@@ -56,7 +58,7 @@ strip-comments: true
 
   * [Tema 07 - Ejemplo 1](docs/Tema07ej1.qmd)
 
-    - Fecha límite de entrega: **dom., 23-nov., 23:59h**
+    - Fecha límite de entrega: **dom., 30-nov., 23:59h**
 
 ## Semana 10
 (10-Nov. a 16-Nov.)
