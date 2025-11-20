@@ -76,10 +76,10 @@ source("Tema07datos.R")
 ```{r}
 #| echo: false
 #| eval: false
-regiones <- tryCatch({
-  Boston <- read_csv("data/BostonHousing.csv")
-}, error = function(e) {
-  read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/BostonHousing.csv")
+Boston  <- tryCatch({
+            read_csv("data/BostonHousing.csv")
+          }, error = function(e) {
+            read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/BostonHousing.csv")
 })
 ```
 
@@ -90,11 +90,11 @@ regiones <- tryCatch({
 ```{r}
 #| echo: false
 #| eval: true
-regiones <- tryCatch({
-  descuento <- read.csv("data/descuento.csv") 
-}, error = function(e) {
-  descuento <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv")
-})
+ descuento <- tryCatch({
+                read.csv("data/descuento.csv") 
+              }, error = function(e) {
+                read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv")
+              })
 ```
 
 
