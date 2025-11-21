@@ -21,8 +21,6 @@ strip-comments: true
 ## Semana 14
 (15-Dic. a 21-Dic.)
 
-  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
-
 ## Semana 14
 (08-Dic. a 14-Dic.)
 
@@ -41,6 +39,10 @@ strip-comments: true
 ## Semana 12
 (24-Nov. a 30-Nov.)
 
+  * [Tema 07 - Ejemplo 1](docs/Tema07ej1.qmd)
+
+    - Fecha límite de entrega: **dom., 30-nov., 23:59h**
+
   * [Tema 07 - Ejercicio 2](docs/Tema07ej2.qmd)
 
     - Fecha límite de entrega: **dom., 07-dic., 23:59h**
@@ -56,9 +58,6 @@ strip-comments: true
 
   * [Tema 07 - Modelización con `tidymodels`](docs/Tema07.qmd)
 
-  * [Tema 07 - Ejemplo 1](docs/Tema07ej1.qmd)
-
-    - Fecha límite de entrega: **dom., 30-nov., 23:59h**
 
 ## Semana 10
 (10-Nov. a 16-Nov.)
