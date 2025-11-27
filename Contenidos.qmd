@@ -18,8 +18,13 @@ strip-comments: true
 
 <!--
 
+*********************************************************************
+-->
+
 ## Semana 14
 (15-Dic. a 21-Dic.)
+
+  * [Ejemplo de **Proyecto Final**](docs/Proyect01.qmd)
 
 ## Semana 14
 (08-Dic. a 14-Dic.)
@@ -29,12 +34,11 @@ strip-comments: true
 ## Semana 13
 (01-Dic. a 07-Dic.)
 
+  * [Tema 08 - Ejemplo 1](docs/Tema08ej1.qmd)
+
   * [Tema 09 - Más algoritmos de aprendizaje supervisado](docs/Tema09.qmd)
 
   * [Tema 09 - Ejemplo 1](docs/Tema09ej1.qmd)
-
-*********************************************************************
--->
 
 ## Semana 12
 (24-Nov. a 30-Nov.)
@@ -48,8 +52,6 @@ strip-comments: true
     - Fecha límite de entrega: **dom., 07-dic., 23:59h**
 
   * [Tema 08 - Métodos basados en árboles](docs/Tema08.qmd)
-
-  * [Tema 08 - Ejemplo 1](docs/Tema08ej1.qmd)
 
 ## Semana 11
 (17-Nov. a 23-Nov.)

@@ -124,9 +124,8 @@ source("Tema07datos.R")
 
 ::: {}
 
-<center>
-![](figure/knn_cropped-1.png){width=80%}
-</center>
+![](figure/knn_cropped-1.png){width=80% fig-align="center"}
+
 
 :::
 
@@ -364,16 +363,14 @@ en 2D
 :::: {style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 10px; "}
 
 ::: {}
-<center>
-![](./figure/SVM_hiper.png){width="70%"}
-</center>
+![](figure/SVM_hiper.png){width="70%" fig-align="center"}
+
 
 :::
 
 ::: {}
-<center>
-![](./figure/SVM_margin.png){width="70%"}
-</center>
+![](figure/SVM_margin.png){width="70%" fig-align="center"}
+
 
 :::
 ::::
@@ -404,9 +401,8 @@ en 2D
 
 <!-- similar a la idea de la función $\Lambda(z)$ en regresión logística -->
 
-<center>
-![](./figure/SVM_nonlinear.png){width="60%"}
-</center>
+![](figure/SVM_nonlinear.png){width="60%" fig-align="center"}
+
 
 
 * Para regresión SVM usa el "truco del kernel"  para realizar un análisis de regresión lineal en el espacio de mayor dimensionalidad

@@ -151,15 +151,12 @@ mejor_k <- knn_tuned |> select_best("roc_auc")
 
 En el primer ajuste, vemos que el valor del hiperparámetro NO está en este rango: debemos extenderlo más allá de 100 vecinos. 
 
-<center>
-![](figure/Tema13_Ejerc_sol_1b1.png)
-</center>
+![](figure/Tema13_Ejerc_sol_1b1.png){fig-align="center"}
+
 
 Tras varias pruebas intentando buscar la típica forma de U invertida en este caso encontraríamos el óptimo del hiperparámetro entre 130 y 150. (Preferimos los resultados de la AUC-ROC dado que es más general y no tiene los problemas de la *accuracy* con datos desbalanceados.)
 
-<center>
-![](figure/Tema13_Ejerc_sol_1b2.png)
-</center>
+![](figure/Tema13_Ejerc_sol_1b2.png){fig-align="center"}
 
 `r if(!params$soln) {"-->"}`
 
@@ -235,9 +232,7 @@ mejor_alpha <- arbol_tuned |> select_best("roc_auc")
 
 Nuevamente deberíamos repetir el proceso con distintos rangos y distintos incrementos en el rango relevante. Pero en este caso vemos que el óptimo del hiperparámetro se produce cuando no se penaliza la complejidad del árbol; por tanto, no se podará el árbol.
 
-<center>
-![](figure/Tema13_Ejerc_sol_2b.png)
-</center>
+![](figure/Tema13_Ejerc_sol_1b2b.png){fig-align="center"}
 
 `r if(!params$soln) {"-->"}`
 
@@ -267,15 +262,11 @@ arbol |> vip()
 
 El árbol obtenido es bastante complicado (dado que no hemos podado).
 
-<center>
-![](figure/Tema13_Ejerc_sol_2c1.png)
-</center>
+![](figure/Tema13_Ejerc_sol_2c1.png){fig-align="center"}
 
 Por tanto, resulta complicado obtener una fácil interpretación de los resultados, que es una de las ventajas de este algoritmo además de ser noparamétrico. Por ello, resulta útil analizar la importancia. 
 
-<center>
-![](figure/Tema13_Ejerc_sol_2c2.png)
-</center>
+![](figure/Tema13_Ejerc_sol_2c2.png){fig-align="center"}
 
 Vemos que nuevamente las ganancias de capital son la información más importante para clasificar como de renta alta, seguidas a distancia de educación y de edad. A diferencia de la regresión logística en este caso horas trabajadas y sexo tienen una importancia menor. La raza es igualmente la variable menos relevante.
 
@@ -352,9 +343,7 @@ mejor_hiper <- RF_tuned |> select_best("roc_auc")
 
 El valor óptimo del hiperparámetro es 2, aunque 1 también entraría dentro de una desviación estándar de la ROC-AUC media. 
 
-<center>
-![](figure/Tema13_Ejerc_sol_3b.png)
-</center>
+![](figure/Tema13_Ejerc_sol_3b.png){fig-align="center"}
 
 `r if(!params$soln) {"-->"}`
 
@@ -381,9 +370,7 @@ flujo_RF_est_fit$variable.importance
 `r if(!params$soln) {"<!--"}`
 ### Respuesta
 
-<center>
-![](figure/Tema13_Ejerc_sol_3c.png)
-</center>
+![](figure/Tema13_Ejerc_sol_3c.png){fig-align="center"}
 
 Este modelo añade a las ventajas de los árboles una mayor precisión en la clasificación dado que utiliza 100 árboles (aunque más sencillos) en lugar de uno. En principio, perderíamos respecto a los árboles la posibilidad de interpretar fácilmente el proceso, pero en este caso el árbol óptimo no era muy interpretable. Podemos recurrir a la importancia como forma alternativa de interpretación. El ránking de importancia es similar pero las diferencias relativas son diferente. Vemos que las ganancias de capital siguen siendo la información más importante, su importancia es menor que los modelos anteriores. Esto en parte es esperable dado que este algoritmo precisamente intenta evitar que una variable sea demasiado relevante. También el sexo es relativamente menos importante que las horas trabajadas en este modelo que en los árboles.
 

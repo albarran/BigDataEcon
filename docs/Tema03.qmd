@@ -1,6 +1,6 @@
 ---
 title: "Tema 03 - Introducción a Quarto"
-author:  
+author:
     - "Pedro Albarrán"
     - "Alberto Pérez"
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
@@ -8,7 +8,7 @@ format:
   revealjs:
     logo: figure/by-nc-sa2.png
     titlegraphic: figure/by-nc-sa.png
-    theme:  
+    theme:
         - beige
         - custom.scss
     smaller: true
@@ -43,8 +43,10 @@ toc-expand: false
 toc-title: "Contenidos"
 css: styles.css
 ---
+<!-- markdownlint-disable-file MD013 -->
 
-```{r setup}
+```{r}
+#| label: setup
 #| include: false
 # se evalua pero no incluye output (mensajes, etc.)
 
@@ -62,22 +64,21 @@ library(kableExtra)
 library(rmarkdown)
 ```
 
-## El sistema de publicaciones [Quarto](https://quarto.org/) 
+## El sistema de publicaciones [Quarto](https://quarto.org/)
 
 :::: {.columns}
 
 ::: {.column width="50%"}
--   Orientado al análisis de datos **reproducible**: combina código, resultados y comentarios
 
--   Útil como cuaderno de trabajo del código y para **comunicar** resultados en un documento final para tomar decisiones
+- Orientado al análisis de datos **reproducible**: combina código, resultados y comentarios
+
+- Útil como cuaderno de trabajo del código y para **comunicar** resultados en un documento final para tomar decisiones
 
 :::
 
 ::: {.column width="50%"}
-<center>
-![](figure/data-science-communicate.svg)
 
-</center>
+![](figure/data-science-communicate.svg){fig-align="center"}
 
 :::
 
@@ -90,7 +91,7 @@ library(rmarkdown)
 -   Un documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc.
 
 ::::{.notes}
-- Estas y otras chuletas disponibles en http://rstudio.com/resources/cheatsheets. 
+- Estas y otras chuletas disponibles en http://rstudio.com/resources/cheatsheets.
 
 ::::
 
@@ -102,7 +103,7 @@ library(rmarkdown)
     - Ignoramos el documento que se crea por defecto
 
 *  Creamos un nuevo documento a partir de una plantilla en RStudio con ![](figure/Mas2.jpg){width="7%" .center} o  *File > New File > Quarto Document*
-  
+
     -   Podemos elegir Título, Autor/a y formato de salida (HTML, por defecto)
 
 * Se guarda con ![](figure/Guardar.jpg){width="5%" .center} o con *File > Save*, con extensión `.qmd`
@@ -129,10 +130,10 @@ quarto install tool tinytex
 
 ## Documentos de Quarto: Texto con Markdown
 
-* Los componentes de texto están escritos en Markdown: un conjunto ligero de convenciones para archivos de texto sin formato. Por ejemplo, 
+* Los componentes de texto están escritos en Markdown: un conjunto ligero de convenciones para archivos de texto sin formato. Por ejemplo,
 
-    - todo lo escrito entre dos \* como `**Hola**` se renderiza en negritas 
-    
+    - todo lo escrito entre dos \* como `**Hola**` se renderiza en negritas
+
     - se utiliza \# para indicar encabezados de secciones
 
 * En el menú de ayuda tenemos una descripción completa (*Markdown quick reference*) y "chuletas" (*Cheatsheets*)
@@ -205,7 +206,7 @@ quarto install tool tinytex
 
 **Notas a pie de página**
 
-    Esto es un texto con nota al pie [^nota1] 
+    Esto es un texto con nota al pie [^nota1]
     y esta es otra nota [^2]
 
     [^nota1]: Esto es una nota al pie de página.
@@ -277,14 +278,14 @@ Con alineación de columnas
     ; también se pueden incluir diagramas UML.
 
     - ecuación en texto entre `$ $` o en editor visual ![](figure/InsertVisual.png){width=5% .center}, *Inline Math*
-    - ecuación aparte entre `$$ $$` -o en editor visual ![](figure/InsertVisual.png){width=5% .center}, *Displayed Math* 
-    
+    - ecuación aparte entre `$$ $$` -o en editor visual ![](figure/InsertVisual.png){width=5% .center}, *Displayed Math*
+
 * Los comentarios se escriben entre
-   
+
 
 * La barra \\ delante de un símbolo de formato o enlace: muestra el símbolo, no aplica el formato: ej.,\\\* muestra *, no empieza lista (idem para  \\\[ o \\\$ ), enlace o ecuación
 
-  provoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\\* 
+  provoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\\*
 
 ::::
 
@@ -297,7 +298,7 @@ Con alineación de columnas
 
 * En documentos .qmd, se puede elegir entre editar la fuente (*source*) de Markdown, como texto sencillo, o editar el documento de forma Visual en  ![](figure/Visual.jpg){width=15% .center}
 
-* En el modo visual, en esa misma **barra de herramientas** se tienen accesos a 
+* En el modo visual, en esa misma **barra de herramientas** se tienen accesos a
 
     + formatos de texto (negritas, cursivas, encabezamientos) y listas
     + insertar enlaces, imágenes, notas a pie de página, tablas
@@ -312,7 +313,7 @@ Con alineación de columnas
 
 ## Formato en la cabecera: el bloque `YAML`
 
-* Al **principio del documento**, entre dos líneas con `---`, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida 
+* Al **principio del documento**, entre dos líneas con `---`, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida
 
 <!--
     - también se puede crear en *Insert* y elegir *YAML Block*
@@ -324,7 +325,7 @@ Con alineación de columnas
 
         ---
         title: "Título"
-        author: Autor 
+        author: Autor
         date: 15-octubre-2025
         format:
           html:
@@ -350,7 +351,7 @@ Con alineación de columnas
     * Se puede personalizar cómo se muestran varios aspectos del código y de sus resultados
 
     + bien para una celda concreta de código, incluyendo [opciones de celda](https://quarto.org/docs/reference/cells/cells-knitr.html)
-    
+
     + o para todo el documento en la cabecera: las opciones de `html` están en la sección de código de [su referencia](https://quarto.org/docs/reference/formats/html.html) (y similar para otros formatos)
 
 ## Opciones para una celda de código
@@ -364,8 +365,8 @@ Con alineación de columnas
 * `eval: true` ejecuta el código (o no con `eval: false`)
 
     - Si un fragmento no se evalúa, sus resultados no se muestran y ni están para otras celdas posteriores (p.e., cargar datos o una biblioteca para usar luego)
-    
-* `output: true` incluye los resultados del código 
+
+* `output: true` incluye los resultados del código
 
 * `include: false` no incluye ni el código ni su resultado, pero se evalúa
 
@@ -381,9 +382,9 @@ Con alineación de columnas
 
 ::: {.smaller-output}
 
-* `code-fold: true` oculta el código pero da opción a mostrarlo 
+* `code-fold: true` oculta el código pero da opción a mostrarlo
 
-* *Cómo* mostrar resultados de texto y numéricos: 
+* *Cómo* mostrar resultados de texto y numéricos:
     - `results: hide` (no mostrar)
     - `results: hold` (mostrar todo, no el resultado de cada línea)
 
@@ -392,7 +393,7 @@ Con alineación de columnas
 * *Cómo* mostrar los gráficos: `fig-show`
 
   - `hide` y `hold` son como en `results`
-  - `asis` muestra el gráfico como se generó 
+  - `asis` muestra el gráfico como se generó
   - `animate` concatena varios gráficos en una animación
 
 * `fig-width` y `fig-height`: dimensiones (reales, en pulgadas) de una figura
@@ -440,10 +441,10 @@ ggplot(data = cars) + geom_histogram(aes(x = dist))
           warning: false
         ---
 
-::::{.notes} 
+::::{.notes}
 También enabled: false y freeze
 
-Ver sección de ejecución en 
+Ver sección de ejecución en
 https://quarto.org/docs/computations/r.html
 
 ::::
@@ -465,7 +466,7 @@ https://quarto.org/docs/computations/r.html
 
   - si no estamos en un proyecto, el directorio de trabajo puede ser diferente
 
-* Comprobamos los resultados del código del .qmd ejecutándolo **sin renderizar**: línea a línea, la celda completa con ![](figure/RunChunk.jpg){width=5% .center} o todas las anteriores con ![](figure/RunPrevChunk.jpg){width=5% .center} 
+* Comprobamos los resultados del código del .qmd ejecutándolo **sin renderizar**: línea a línea, la celda completa con ![](figure/RunChunk.jpg){width=5% .center} o todas las anteriores con ![](figure/RunPrevChunk.jpg){width=5% .center}
 
   * así, el código pasa a la consola y *sí* forma parte del espacio de la sesión actual
 
@@ -474,7 +475,7 @@ https://quarto.org/docs/computations/r.html
 * Para garantizar que la sesión actual incluye sólo resultados de las celdas del .qmd, incluimos una celda inicial con `include: false` con
 
     - `rm(list = ls())`: al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos
-    
+
     - Todas las bibliotecas (ej., `tidyverse`) que utilizaremos en varias celdas
 
 ## Mejorar la salida de tablas
@@ -486,9 +487,9 @@ https://quarto.org/docs/computations/r.html
 * La biblioteca `kableExtra` ofrece [más opciones](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html).
 
 + `broom::tidy()` convierte muchos objetos de R (como listas con resultados de comandos) en *tibbles*
-    
-+ La biblioteca `modelsummary()` tiene funciones para 
-    
+
++ La biblioteca `modelsummary()` tiene funciones para
+
     + convertir modelos en tablas (`modelsummary()`) o gráficos
 
     + crear tablas de estadísticos descriptivos con `datasummary()` o `datasummary_crosstab()`
@@ -519,7 +520,7 @@ https://quarto.org/docs/computations/r.html
 
     * Ejemplos de sus capacidades usando el paquete [shiny](https://shiny.rstudio.com/gallery/), [shinydashboards](https://rstudio.github.io/shinydashboard/) o [flexdashboard](https://pkgs.rstudio.com/flexdashboard/articles/examples.html)
 
-* **Jupyter Notebook**: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para `Python`, admiten varios lenguajes de programación (como Quarto)  
+* **Jupyter Notebook**: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para `Python`, admiten varios lenguajes de programación (como Quarto)
 
   * se crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, [localmente](https://jupyter.org/install) u online en [**JupyterLab**](https://jupyter.org/try) o con [Google Colab](https://colab.research.google.com/)
 

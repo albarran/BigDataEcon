@@ -18,22 +18,31 @@ execute:
   echo: true
   warning: false
   message: false
+  output: false      
+  fig.show: hide     
 lang: es
 strip-comments: true
 ---
 
-```{r setup}
+```{r}
+#| label: setup
 #| include: false
-knitr::opts_chunk$set(eval = FALSE, echo = TRUE, 
-                      warning = FALSE, message = FALSE,
-                      results = "hide", fig.show="hide")
-rm(list = ls())       
+#| eval: true
+# se evalua pero no incluye output (mensajes, etc.)
+
+# Elimino todo del Entorno (del documento)
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+
+# Cargo todas las bibliotecas necesarias
+# (se podría hacer cuando cada una sea necesaria)
 library(tidyverse)
 library(rio)
 library(kableExtra)
 library(ggrepel)
 library(scales)
-library(rmarkdown)
 ```
 
 ```{r}
@@ -76,9 +85,7 @@ El fichero [pwt.csv](https://raw.githubusercontent.com/albarran/00datos/main/pwt
 
 Usando otras **DOS variables económicas** que tengan sentido relacionar, debes reproducir aproximadamente [este gráfico](http://www.economist.com/node/21541178) de The Economist sobre Corrupción y Desarrollo Humano:
 
-<center>
-![](figure/Economist1.png)
-</center>
+![](figure/Economist1.png){fig-align="center"}
 
 - Sugerencias de pares de variables:
 
@@ -256,15 +263,119 @@ Identifica qué variables están más relacionadas con la satisfacción general.
 ### Apartado 4b: Segmentación Regional
 Analiza si existen diferencias significativas en satisfacción entre regiones y categorías de producto. ¿Qué estrategias regionales recomendarías?
 
+
+# Caso 2: Análisis Empresarial - Performance Sectorial
+
+## Contexto del Problema
+
+Como consultor en una firma de estrategia, necesitas analizar el performance de diferentes sectores industriales para un cliente que busca oportunidades de inversión.
+
+## Datos
+
+```{r carga-datos-sectores}
+datos_sectores <- rio::import("https://raw.githubusercontent.com/albarran/00datos/main/sector_performance.csv")
+
+glimpse(datos_sectores)
+```
+
+**Variables:**
+- `company`: Empresa
+- `sector`: Sector industrial
+- `year`: Año
+- `revenue`: Ingresos (millones €)
+- `profit_margin`: Margen de beneficio (%)
+- `employees`: Número de empleados
+- `rd_spending`: Gasto en I+D (millones €)
+- `market_cap`: Capitalización bursátil (millones €)
+
+## Ejercicio 2.1: Análisis de Rentabilidad
+
+### a) Rentabilidad por Sector
+
+1. Crea un boxplot de márgenes de beneficio por sector
+2. Ordena sectores por mediana de rentabilidad
+3. Identifica outliers y etiquétalos con nombre de empresa
+
+```{r ejercicio-2-1-a}
+# Pistas:
+# - reorder(sector, profit_margin, median)
+# - geom_text_repel() para outliers
+```
+
+### b) Evolución Temporal
+
+1. Muestra la evolución de la rentabilidad promedio por sector (2015-2023)
+2. Destaca el impacto de COVID-19 (2020-2021)
+3. ¿Qué sectores fueron más resilientes?
+
+```{r ejercicio-2-1-b}
+# Pistas:
+# - group_by(year, sector) |> summarise(avg_margin = mean(profit_margin))
+# - annotate() para marcar período COVID
+```
+
+## Ejercicio 2.2: Relación Tamaño-Performance
+
+### a) Escala y Eficiencia
+
+1. Analiza la relación entre tamaño (empleados) y rentabilidad
+2. Usa facetas por sector
+3. ¿Existen economías de escala evidentes?
+
+```{r ejercicio-2-2-a}
+# Pistas:
+# - geom_point() con scale_x_log10() si los datos son muy dispersos
+# - facet_wrap(~sector, scales = "free")
+```
+
+### b) Productividad Laboral
+
+1. Calcula ingresos por empleado para cada empresa-año
+2. Crea un ranking de top 20 empresas más productivas
+3. Visualiza con gráfico de barras horizontal
+
+```{r ejercicio-2-2-b}
+# Pistas:
+# - mutate(revenue_per_employee = revenue / employees)
+# - slice_max(revenue_per_employee, n = 20)
+# - coord_flip() para barras horizontales
+```
+
+## Ejercicio 2.3: Innovación y Crecimiento
+
+### a) Intensidad en I+D
+
+1. Calcula el ratio I+D/Ingresos por empresa
+2. Compara distribuciones por sector con violin plots
+3. ¿Qué sectores invierten más en innovación?
+
+```{r ejercicio-2-3-a}
+# Pistas:
+# - mutate(rd_intensity = rd_spending / revenue * 100)
+# - geom_violin() con geom_boxplot() superpuesto
+```
+
+### b) I+D y Crecimiento Futuro
+
+1. Correlaciona I+D con crecimiento de ingresos a 2 años
+2. Usa scatter plot con línea de tendencia
+3. Diferencia por sectores usando color
+
+```{r ejercicio-2-3-b}
+# Pistas:
+# - lead() para calcular crecimiento futuro
+# - geom_smooth() con se = FALSE
+```
+
+
 -->
 
-# Entrega del ejercicio
+## Entrega del ejercicio
 
-Rellenad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSccdbd-7YhwJ2jSEEYbu9tWg4cjkw2run1wBioaiza5B-f6kQ/viewform) con vuestros datos y subid 
+Rellenad este [FORMULARIO](https://forms.gle/NfkzPd4VshWHMK5g6) con vuestros datos y subid 
 
-  * vuestro archivo de R 
+  - vuestro archivo de R 
 
-IMPORTANTE: el nombre de los ficheros que subáis DEBE  seguir el  siguiente formato que incluye vuestro número de DNI: ej.,
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
 
- * Tema01ej_123456789.R
-  
+  - Tema01ej_123456789.R

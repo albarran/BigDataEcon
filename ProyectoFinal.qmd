@@ -11,9 +11,7 @@ Para realizar este proyecto final, debéis proponer un *tema* de estudio usando 
   
 El resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (**"business analytics"**). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:
 
-<center>
-![](docs/figure/data-science-model.png)
-</center>
+![](docs/figure/data-science-model.png){fig-align="center"}
 
 Por tanto, debe explicarse claramente:
 

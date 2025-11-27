@@ -193,9 +193,7 @@ Un ejemplo de árbol con dos variables numéricas $X_1$ y $X_2$ sería
 ## Árboles de decisión (cont.)
 -->
 
-<center>
-![](figure/tree.png){width=90%}
-</center>
+![](figure/tree.png){width=90% fig-align="center"}
 
 <!-- En el caso de una variable también tenemos un árbol:
 
@@ -540,9 +538,7 @@ y = g0 + g1*educ +g2*female + g3*educ^2
       
 * La variación muestral en las condiciones de "entrenamiento" se genera mediante "bootstrap"
 
-<center>      
-![](./figure/random-forest.png){width=55%}
-</center>
+![](./figure/random-forest.png){width=55% fig-align="center"}
 
 <!--
 
@@ -559,11 +555,8 @@ predictions from those trees that did not use the given out-of-bag prediction, t
 <!--
 ## Agregando árboles (cont.)
 
-<center>      
-![](./figure/random-forest-machine-learning.png){width=40%}
-</center>      
-
-
+![](./figure/random-forest-machine-learning.png){width=40% fig-align="center"}
+    
 -->
 
 ## "Random forest"

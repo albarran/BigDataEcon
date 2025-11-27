@@ -78,9 +78,8 @@ source("Tema07datos.R")
 library(tidymodels)
 ```
 
-<center>
-![](figure/tidymodels_process.png){width=90%}
-</center>
+![](figure/tidymodels_process.png){width=90% fig-align="center"}
+
 
 
 
@@ -806,20 +805,18 @@ Si eligieramos usando la muestra de prueba, habríamos "aprendido" el hiperpará
 
 ::: {.column width="50%"}
 
-<center>
-![](figure/train_test.png){width=90%} 
+![](figure/train_test.png){width=90% fig-align="center"}
 
 $\Downarrow$
 
-![](figure/train_validate.png){width=90%}
-</center>
+![](figure/train_validate.png){width=90% fig-align="center"}
+
 
 <!--
 $\hspace{0.1cm}$
 
-<center>
-![](figure/train_cross_validate.png){width=90%}
-</center>
+![](figure/train_cross_validate.png){width=90% fig-align="center"}
+
 -->
 ::: 
 ::::
@@ -827,19 +824,16 @@ $\hspace{0.1cm}$
 
 <!--
 
-<center>
-![](figure/resampling.svg){width=70%}
-</center>
+![](figure/resampling.svg){width=90% fig-align="center"}
 
 -->
 
 * En la muestra de entrenamiento usaremos validación cruzada:
-<center>
-![](figure/train_cross_validate.png){width=45%}
-</center>
+
+![](figure/train_cross_validate.png){width=45% fig-align="center"}
 
 
-## Proceso de *tuning* 
+## Proceso de *tuning*
 
 * Usamos una partición de *initial_split()* y la misma receta anterior (aunque no era necesario antes, el pre-procesado ya estandarizaba los regresores)
 

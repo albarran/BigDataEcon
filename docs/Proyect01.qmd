@@ -1,56 +1,47 @@
 ---
-# subtitle: "Análisis de Datos Multivariantes aplicado al Marketing"
-# subtitle: "Muestreo y Análisis de Datos"
-# subtitle: "Técnicas para 'Big Data' en Economía - Curso 2023/24 \n\n Universidad de Alicante"
 title: "Predicción de precios de las casas en Boston"
-author:  
+author:
     - "Pedro Albarrán"
-#    - "Teresa Molina"
-# institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-   
-# institute: 
-#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
-#     - "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
-  html: 
+  html:
     embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
 execute:
-  enabled: true      # (no) ejecutar code chunks
-  eval: false        # por defecto, evalúa y muestra códido de code chunks
+  enabled: true
+  eval: true
   echo: true
-  warning: false    # pero no los mensajes ni warnings
+  warning: false
   message: false
-knitr:
-  opts_chunk:
-    results: hide     # ni muestra resultados ni figuras
-    fig.show: hide
+  output: false
+  fig.show: hide
 lang: es
 strip-comments: true
-toc: false
-css: styles.css
 params:
   soln: false
 ---
 
-```{r setup, message=FALSE, warning=FALSE}
-#| echo: false
+
+```{r}
+#| label: setup
+#| include: false
 #| eval: true
-# Opciones por defecto para los fragmentos de código
-knitr::opts_chunk$set(eval = TRUE, echo = TRUE, 
-                      warning = FALSE, message = FALSE,
-                      results = "hide", fig.show="hide")
-# se muestra y evalúa el código,
-# no se muestran mensajes, ni avisos (warnings)
-# no se muestran los resultados de código (tampoco gráficos)
-#     en los códigos que considere necesarios los mostraré
+# se evalua pero no incluye output (mensajes, etc.)
 
 # Elimino todo del Entorno (del documento)
-rm(list = ls())       
+rm(list = ls())
+
+# Working directory
+#setwd("/home/albarran/Dropbox/MAD/00.TEC")
 
 # Cargo todas las bibliotecas necesarias
 # (se podría hacer cuando cada una sea necesaria)
 library(tidyverse)
 library(tidymodels)
+library(rio)
 library(printr)
 library(skimr)
 library(dlookr)
@@ -58,9 +49,6 @@ library(broom)
 library(kableExtra)
 library(rpart.plot)
 library(vip)
-
-#fijo el directorio de trabajo
-#setwd("/home/albarran/Dropbox/MAD/00.TEC")
 ```
 
 
@@ -101,19 +89,15 @@ En este trabajo vamos a utilizar un conjunto de datos, "The Boston Housing Price
 Boston <- read_tsv("http://lib.stat.cmu.edu/datasets/boston", 
                    skip = 22,
                    col_names = c("crim","zn","indus","chas","nox","rm","age","dis","rad","tax","ptratio","b","lstat","medv"))
-
-Boston <- read_csv("https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv")
 ```
 
 ```{r datos}
-#| eval: false
-Boston <- read_csv("data/BostonHousing.csv")
-```
-
-```{r datos1}
 #| eval: true
 #| echo: false
-Boston <- read_csv("https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv")
+Boston <- tryCatch(
+  read_csv("data/BostonHousing.csv"),
+  error = function(e) read_csv("https://raw.githubusercontent.com/albarran/00datos/main/BostonHousing.csv")
+)
 ```
 
 Los datos tienen `r dim(Boston)[1]` observaciones y `r dim(Boston)[2]` variables. (NOTA: <!--esta información se ha incluido usando el código de R en línea "r dim(Boston)[1]" y "r dim(Boston)[2]") y también se puede obtener con el siguiente código; --> NO está claro que queráis mostrar este código.)
@@ -133,12 +117,12 @@ Debemos considerar si los datos están listos para trabajar o requieren algún t
 #| results: markup
 glimpse(Boston)
 
-head(Boston) %>% kbl() %>% kable_paper("hover")
+head(Boston) |> kbl() |> kable_paper("hover")
 ```
 
 
 ```{r factor-chas}
-Boston <- Boston %>% mutate(chas = factor(chas, 
+Boston <- Boston |> mutate(chas = factor(chas, 
                          levels=c(0,1), labels = c("No", "Yes")))
 ```
 
@@ -159,18 +143,18 @@ o usando `dlookr`
 
 ```{r describe1}
 #| results: markup
-Boston %>% 
-  describe() %>%
-  select(described_variables:kurtosis) %>% 
-  kbl(digits = 2) %>% kable_paper("hover")
+Boston |> 
+  describe() |>
+  select(described_variables:kurtosis) |> 
+  kbl(digits = 2) |> kable_paper("hover")
 ```
 
 ```{r describe2}
 #| results: markup
-Boston %>% 
-  describe() %>%
-  select(described_variables, p00:p100) %>% 
-  kbl(digits = 2) %>% kable_paper("hover")
+Boston |> 
+  describe() |>
+  select(described_variables, p00:p100) |> 
+  kbl(digits = 2) |> kable_paper("hover")
 ```
 
 En este caso, el conjunto de datos está ya bastante limpio, por lo que apenas necesitamos realizar cambios y podemos dedicar más tiempo al resto del proceso. En otros casos, deberemos realizar más trabajo en esta parte; en particular, relacionado con valores ausentes, errores en los datos, etc. como hemos visto a lo largo del curso y, en particular, en el tema de análisis exploratorio de datos.
@@ -182,7 +166,7 @@ Como primer elemento a destacar, estos datos no contiene valores ausentes en nin
 Podemos centrarnos en describir con más detalles algunas distribuciones. Esto nuevamente es un EJEMPLO dependiendo de las variables que tengamos y de qué observemos. En general, caracterizar la variable dependiente suele ser una buena idea. Visualizamos la distribución y densidad del precio mediano de las viviendas. La curva negra representa la densidad. Vemos que el valor medio del precio de la vivienda está sesgado a la derecha. Es decir, observamos precios muy altos con una frecuencia mayor de la esperada en una distribución simétrica donde existiría la misma proporción por encima y debajo de la media.
 
 ```{r graf-precio, fig.show='asis', fig.cap="Figura 1. Distribución del precio de la vivienda"}
-Boston %>%  ggplot(aes(x=medv)) + geom_histogram(aes(y=..density..))+ geom_density() + ggtitle("Distribución del Precio") + xlab("Precio de las casas") + ylab("Densidad")
+Boston |>  ggplot(aes(x=medv)) + geom_histogram(aes(y=..density..))+ geom_density() + ggtitle("Distribución del Precio") + xlab("Precio de las casas") + ylab("Densidad")
 ```
 
 <!-- 
@@ -195,26 +179,26 @@ También podemos representar gráficamente o en un tabla la única variable cate
 
 ```{r tabla-rio}
 #| results: markup
-Boston %>%  count(chas) %>% 
-  mutate(freq=n/sum(n)) %>% 
+Boston |>  count(chas) |> 
+  mutate(freq=n/sum(n)) |> 
   kbl(col.names=c("Casa cercana al río","Número de casos", "Frecuencia"),
-                  caption = "Tabla 1. Distribución de Casas según cercanía al río") %>% kable_paper("hover")
+                  caption = "Tabla 1. Distribución de Casas según cercanía al río") |> kable_paper("hover")
 ```
 
 
 En el caso de variables binarias las podemos representar de varias maneras: como una distribución o con una sola barra (NOTA: los gráficos siguientes son redundantes en esta caso, con uno de ellos sería más que suficiente en caso de considerar relevante esta información.)
 ```{r graf-rio, fig.show='hold', fig.cap="Figura 2. Distribución de la cercanía al río", out.width="50%"}
-Boston %>%  ggplot() + geom_bar(aes(x=chas)) +  xlab("Zona cercana al río") +ylab("Número de casos")
+Boston |>  ggplot() + geom_bar(aes(x=chas)) +  xlab("Zona cercana al río") +ylab("Número de casos")
 
-Boston %>%  ggplot() + geom_bar(aes(x="",fill=chas)) + labs(fill="Zona cercana al río") +ylab("Número de casos")
+Boston |>  ggplot() + geom_bar(aes(x="",fill=chas)) + labs(fill="Zona cercana al río") +ylab("Número de casos")
 ```
 
 También podemos mostrar algunas otras características interesantes mediante gráficos y/o tablas de estadísticos descriptivos. Algunas variables como el número de habitaciones tienen distribuciones bastante simétricas. Mientras que otras, como la edad o el porcentaje de población desfavorecida muestran claras asimetrías: hay una alta concentración de casas "viejas" y de zonas no desfavorecidas. NOTA: Recordad que habría que probar varios anchos de intervalos (*binwidth*) para asegurarnos de entender la forma de la distribución. También debéis poner nombres suficientemente descriptivos e informativos a los gráficos, los ejes, la leyenda, etc. (Quizás no es el caso en algunos de los que presento aquí).
 
 ```{r graf-varias, fig.show='hold', fig.cap="Figura 3. Distribuciones", out.width="50%"}
-Boston %>%  ggplot(aes(x=age)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Edad") + ylab("Densidad")
+Boston |>  ggplot(aes(x=age)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Edad") + ylab("Densidad")
 
-Boston %>%  ggplot(aes(x=lstat)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Porcentaje de población desfavorecida") + ylab("Densidad")
+Boston |>  ggplot(aes(x=lstat)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Porcentaje de población desfavorecida") + ylab("Densidad")
 ```
 
 Notad que en la variable edad nuevamente hay una concentración de valores en 100; en la salida `describe()` mostrada anteriormente, se aprecia mejor que ese valor exacto está en los datos originales, no resulta de que se agrupen valores en el gráfico.
@@ -224,33 +208,33 @@ El caso de la distancia a los centros de empleo es similar a las dos anteriores:
 Otra variable en principio relacionada, el índice de accesibilidad, muestra una distribución "poco continua": además de un cúmulo de valores en la cola derecha, hay muchos huecos vacíos. Si probáis un transformación logarítmica, veréis que no cambia en esencia. Las variables con este forma en su distribución suelen ser candidatas a ser discretizadas.
 
 ```{r graf-dists, fig.show='hold', fig.cap="Figura 4. Distribuciones", out.width="50%"}
-Boston %>%  ggplot(aes(x=dis)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Distancia a centro de trabajo") + ylab("Densidad")
+Boston |>  ggplot(aes(x=dis)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Distancia a centro de trabajo") + ylab("Densidad")
 
-Boston %>%  ggplot(aes(x=rad)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Índice de accesibilidad") + ylab("Densidad")
+Boston |>  ggplot(aes(x=rad)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Índice de accesibilidad") + ylab("Densidad")
 ```
 
 Algunas variables tienen distribuciones con características poco reseñables: unas con valores distribuidos de forma relativamente homogénea, otras dispersas, con concentraciones en valores aislados en medio o en los extremos de la distribución, pero no aportan mucho información (se podrían omitir). En este caso, quizás se podría notar una concentración de zonas con altos impuestos, muy diferenciadas del resto.
 
 ```{r graf-varias2, fig.show='hold', fig.cap="Figura 5. Distribuciones", out.width="33.33%"}
-Boston %>%  ggplot(aes(x=nox)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Concentración de óxidos nítricos") + ylab("Densidad")
+Boston |>  ggplot(aes(x=nox)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Concentración de óxidos nítricos") + ylab("Densidad")
 
-Boston %>%  ggplot(aes(x=ptratio)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Ratio de alumnos por profesor") + ylab("Densidad")
+Boston |>  ggplot(aes(x=ptratio)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Ratio de alumnos por profesor") + ylab("Densidad")
 
-Boston %>%  ggplot(aes(x=tax)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Impuesto de la propiedad") + ylab("Densidad")
+Boston |>  ggplot(aes(x=tax)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Impuesto de la propiedad") + ylab("Densidad")
 
 ```
 
 Algo más interesantes son algunas variables que muestran polaridad en sus valores o una excesiva acumulación en algunos. Por ejemplo, la criminalidad y el porcentaje de población de color tienen distribuciones muy asimétricas y, en el segundo caso, persiste incluso tras transformar en logaritmos.
 
 ```{r graf-varias3, fig.show='hold', fig.cap="Figura 6a. Distribuciones", out.width="50%"}
-Boston %>%  ggplot(aes(x=crim)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Criminalidad") + ylab("Densidad")
-Boston %>%  ggplot(aes(x=crim)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Criminalidad") + ylab("Densidad") + scale_x_log10()
+Boston |>  ggplot(aes(x=crim)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Criminalidad") + ylab("Densidad")
+Boston |>  ggplot(aes(x=crim)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Criminalidad") + ylab("Densidad") + scale_x_log10()
 
 ```
 
 ```{r graf-varias4, fig.show='hold', fig.cap="Figura 6b. Distribuciones", out.width="50%"}
-Boston %>%  ggplot(aes(x=b)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Población de color") + ylab("Densidad") 
-Boston %>%  ggplot(aes(x=b)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Población de color") + ylab("Densidad") + scale_x_log10()
+Boston |>  ggplot(aes(x=b)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Población de color") + ylab("Densidad") 
+Boston |>  ggplot(aes(x=b)) + geom_histogram(aes(y=..density..))+ geom_density() + xlab("Población de color") + ylab("Densidad") + scale_x_log10()
 
 ```
 
@@ -265,25 +249,25 @@ NO mostréis todos los gráficos o tablas que se os ocurran o solo porque los ve
 Empezamos analizando la relación entre nuestra variable de interés y la única variable categórica que tenemos inicialmente, para lo que podríamos presentar alguna (NO todas) de las siguientes figuras
 
 ```{r graf-precio-rio, fig.show='hold', fig.cap="Figura 7a. Distribución del precio por cercanía al rio", out.width="50%"}
-Boston %>% ggplot(aes(y = medv, x = chas)) +  geom_boxplot() + ylab("Densidad") + xlab("Cerca del río") + ylab("Precio") 
-Boston %>% ggplot(aes(x = medv)) + geom_density(mapping = aes(colour = chas)) + xlab("Precio") + ylab("Densidad")  + labs(color = "Cerca del río")
+Boston |> ggplot(aes(y = medv, x = chas)) +  geom_boxplot() + ylab("Densidad") + xlab("Cerca del río") + ylab("Precio") 
+Boston |> ggplot(aes(x = medv)) + geom_density(mapping = aes(colour = chas)) + xlab("Precio") + ylab("Densidad")  + labs(color = "Cerca del río")
 ```
 
 ```{r graf-precio-riob, fig.show='hold', fig.cap="Figura 7b. Distribución del precio, según cercanía al rio"}
-Boston %>% ggplot(aes(x = medv)) + geom_density() + facet_wrap(~chas) + ylab("Densidad")  + xlab("Precio")
+Boston |> ggplot(aes(x = medv)) + geom_density() + facet_wrap(~chas) + ylab("Densidad")  + xlab("Precio")
 ```
 
 Parece que las casa cercanas al río tienen un precio superior, aunque la diferencia no parece grande. Ambas distribuciones son asimétricas, aunque en el caso de casas cercanas al río la cola derecha no es tan larga. Mediante una regresión simple o calculando las medias podemos comprobar si existen diferencias en media y si son significativas:
 
 ```{r precio-rio1}
 #| results: asis
-lm(data = Boston, medv ~ chas) %>% broom::tidy() %>%  kbl(digits = 2, caption = "Tabla 2a. Precio según cercanía al río") %>% kable_paper("hover")
+lm(data = Boston, medv ~ chas) |> broom::tidy() |>  kbl(digits = 2, caption = "Tabla 2a. Precio según cercanía al río") |> kable_paper("hover")
 ```
 
 
 ```{r precio-rio2}
 #| results: asis
-Boston %>% group_by(chas) %>% describe(medv) %>% select(described_variables:n, mean, se_mean) %>%  kbl(digits = 2, caption = "Tabla 2b. Precio según cercanía al río") %>% kable_paper("hover")
+Boston |> group_by(chas) |> describe(medv) |> select(described_variables:n, mean, se_mean) |>  kbl(digits = 2, caption = "Tabla 2b. Precio según cercanía al río") |> kable_paper("hover")
 ```
 
 También podríamos analizar si la variable binaria de cercanía al río está relacionada. (NOTA: esto nuevamente es un código de ejemplo para hacer de forma fácil este proceso. NO es necesario que vosotros lo hagáis así.)
@@ -292,13 +276,13 @@ También podríamos analizar si la variable binaria de cercanía al río está r
 #| results: asis
 dif.rio <- function(var) {
   formula <- paste0(var," ~ chas")
-  lm(data = Boston, formula) %>% tidy() %>% filter(term=="chasYes") %>% select(estimate, p.value)
+  lm(data = Boston, formula) |> tidy() |> filter(term=="chasYes") |> select(estimate, p.value)
 }
 
 vars <- c("crim", "zn", "indus", "nox", "rm", "age", "dis", "rad", "tax", "ptratio", "b", "lstat")
 
-tabla <- vars %>% map_df(dif.rio)
-bind_cols(Variable=vars, tabla) %>%  kbl(digits = 2, caption = "Tabla 2c. Diferencias en variable por cercanía al río") %>% kable_paper("hover")
+tabla <- vars |> map_df(dif.rio)
+bind_cols(Variable=vars, tabla) |>  kbl(digits = 2, caption = "Tabla 2c. Diferencias en variable por cercanía al río") |> kable_paper("hover")
 ```
 
 ```{r regresores-rio-con-for}
@@ -308,10 +292,10 @@ vars <- c("crim", "zn", "indus", "nox", "rm", "age", "dis", "rad", "tax", "ptrat
 tabla <-list()
 for (var in vars) {
   formula <- paste0(var," ~ chas")
-  tabla[[var]] <- lm(data = Boston, formula) %>% tidy() %>% filter(term=="chasYes") %>% select(estimate, p.value)
+  tabla[[var]] <- lm(data = Boston, formula) |> tidy() |> filter(term=="chasYes") |> select(estimate, p.value)
 }
 
-tabla %>% bind_rows(.id="Variable")  %>%  kbl(digits = 2, caption = "Tabla 2c. Diferencias en variable por cercanía al río") %>% kable_paper("hover")
+tabla |> bind_rows(.id="Variable")  |>  kbl(digits = 2, caption = "Tabla 2c. Diferencias en variable por cercanía al río") |> kable_paper("hover")
 ```
 
 Vemos que las casas cercanas al rio son más antiguas, con más habitaciones, más cercanas al centro de trabajo, con más contaminación y mejores condiciones escolares.
@@ -319,15 +303,15 @@ Vemos que las casas cercanas al rio son más antiguas, con más habitaciones, m�
 A continuación podemos analizar rápidamente si las variables continuas están relacionadas con nuestra variable de interés, precio de la vivienda, y entre ellas. Lo podemos hacer mediante distintos análisis de correlación, en una tabla (excesivamente larga) o visualmente.
 
 ```{r tabla-correl}
-Boston %>% correlate() %>% 
-  filter(as.integer(var1) > as.integer(var2)) %>% 
-  kbl(digits = 2, caption = "Tabla 3. Correlaciones") %>% kable_paper("hover")
+Boston |> correlate() |> 
+  filter(as.integer(var1) > as.integer(var2)) |> 
+  kbl(digits = 2, caption = "Tabla 3. Correlaciones") |> kable_paper("hover")
 ```
 
 ```{r graf-correl, fig.show='hold', out.width="50%", fig.cap="Figura 8. Correlaciones entre variables continuas"}
-Boston %>% correlate() %>% plot() 
+Boston |> correlate() |> plot() 
 
-Boston %>% mutate(logmedv=log(medv)) %>% select(-medv) %>% correlate() %>% plot()
+Boston |> mutate(logmedv=log(medv)) |> select(-medv) |> correlate() |> plot()
 ```
 
 Hemos considerado la correlación tanto con el precio como con su logaritmo, dado lo discutido anteriormente. Sin embargo, apenas se aprecian diferencias.
@@ -341,13 +325,13 @@ Sin embargo, esto no considera posibles relaciones no lineales. Para ello vamos 
 vars <- c("crim", "zn", "indus", "nox", "rm", "age", "dis", "rad", "tax", "ptratio", "b", "lstat")
 
 migraf <- function(v) {
-  Boston %>% 
+  Boston |> 
       ggplot(aes_string(x = v, y = "medv")) +
       geom_point() +  geom_smooth() +
       labs(x = v, y = "Precio de las casas ($1000s)") 
 }
 
-vars %>% map(migraf)
+vars |> map(migraf)
 ```
 
 
@@ -355,7 +339,7 @@ vars %>% map(migraf)
 vars <- c("crim", "zn", "indus", "nox", "rm", "age", "dis", "rad", "tax", "ptratio", "b", "lstat")
 
 for (v in vars){
-  graf <- Boston %>% 
+  graf <- Boston |> 
             ggplot(aes_string(x = v, y = "medv")) +
             geom_point() +  geom_smooth() +
             labs(x = v, y = "Precio de las casas ($1000s)")
@@ -368,14 +352,14 @@ for (v in vars){
 vars <- c("crim", "zn", "indus", "nox", "rm", "age", "dis", "rad", "tax", "ptratio", "b", "lstat")
 
 migraf <- function(v) {
-  Boston %>% 
+  Boston |> 
       ggplot(aes_string(x = v, y = "medv")) +
       geom_point() +  geom_smooth() +
       labs(x = v, y = "Precio de las casas ($1000s)")  +
       scale_y_log10()
 }
 
-vars %>% map(migraf)
+vars |> map(migraf)
 ```
 
 
@@ -383,7 +367,7 @@ vars %>% map(migraf)
 vars <- c("crim", "zn", "indus", "nox", "rm", "age", "dis", "rad", "tax", "ptratio", "b", "lstat")
 
 for (v in vars) {
-  migraf <-  Boston %>% 
+  migraf <-  Boston |> 
               ggplot(aes_string(x = v, y = "medv")) +
               geom_point() +  geom_smooth() +
               labs(x = v, y = "Precio de las casas ($1000s)")  +
@@ -395,9 +379,9 @@ for (v in vars) {
 
 <!--
 ```{r, echo=FALSE, eval=FALSE}
-Boston %>%
-  select(-chas) %>%
-  pivot_longer(cols = -medv, names_to = "variable", values_to = "value") %>%
+Boston |>
+  select(-chas) |>
+  pivot_longer(cols = -medv, names_to = "variable", values_to = "value") |>
   ggplot(aes(x = value, y = medv, colour = variable)) +
   geom_point() +
   geom_smooth(colour = "black") +
@@ -414,61 +398,105 @@ También se podrían haber probado si este análisis de covariación es distinto
 Podemos probar discretizando algunas de las variables comentadas anteriormente. Por ejemplo, hacemos dos grupos de criminalidad; los umbrales para discretizar no tienen una justificación muy formal: se basan en lo que aproximadamente hemos visto. 
 
 ```{r graf-crim, fig.cap="Figura 10. Gráficos Criminalidad Discreta", fig.show='hold', out.width="50%"}
-  Boston %>% 
+  Boston |> 
       mutate(crim.alta = cut(crim, breaks = c(0,1,Inf), 
                              include.lowest = TRUE,
-                             labels = c("Baja","Alta") ) ) %>% 
+                             labels = c("Baja","Alta") ) ) |> 
       ggplot(aes(y = medv, x = crim.alta)) +  geom_boxplot() + ylab("Densidad") + xlab("Criminalidad alta") + ylab("Precio") 
+```
+
+
+```{r precio-crimalta1}
+#| results: asis
+#| echo: false
+#| eval: false
+
+Boston |> 
+  mutate(crim.alta = cut(crim, breaks = c(0,1,Inf), 
+                         include.lowest = TRUE,
+                         labels = c("Baja","Alta"))) |> 
+  {\(data) lm(medv ~ crim.alta, data = data)}() |> 
+  tidy() |>  
+  kbl(digits = 2, caption = "Tabla 4. Precio según criminalidad") |> 
+  kable_paper("hover")
 ```
 
 ```{r precio-crimalta}
 #| results: asis
-  Boston %>% 
-      mutate(crim.alta = cut(crim, breaks = c(0,1,Inf), 
-                             include.lowest = TRUE,
-                             labels = c("Baja","Alta") ) ) %>% 
-  lm(data = ., medv ~ crim.alta) %>% tidy() %>%  kbl(digits = 2, caption = "Tabla 4. Precio según criminalidad") %>% kable_paper("hover")
+#| echo: true
+#| eval: true
+
+Boston_temp <- 
+  Boston |> 
+    mutate(crim.alta = cut(crim, breaks = c(0,1,Inf), 
+                         include.lowest = TRUE,
+                         labels = c("Baja","Alta"))) 
+
+lm(data = Boston_temp, medv ~ crim.alta) |> 
+  tidy() |>  
+  kbl(digits = 2, caption = "Tabla 4. Precio según criminalidad") |> 
+  kable_paper("hover")
+
+rm(Boston_temp)
 ```
+
+Nota: existe una forma alternativa más limpia (para no tener que borrar un objeto temporal). El símbolo `_` se refiere al "data frame" que viene de la tubería. En general, NO es necesario (sobre todo con funciones de `tidyverse`), pero con `lm()` sí.
+
+```{r precio-crimalta2}
+#| results: asis
+#| echo: false
+#| eval: false
+
+Boston |> 
+  mutate(crim.alta = cut(crim, breaks = c(0,1,Inf), 
+                         include.lowest = TRUE,
+                         labels = c("Baja","Alta"))) |> 
+  lm(data = _, medv ~ crim.alta) |> 
+  tidy() |>  
+  kbl(digits = 2, caption = "Tabla 4. Precio según criminalidad") |> 
+  kable_paper("hover")
+```
+
 Tanto el gráfico como la regresión apuntan a un efecto significativo de la criminalidad sobre los precios. En principio deberíamos probar con otros puntos de corte para discretizar, pero por simplicidad utilizaremos este obtenido a partir del análisis exploratorio.
 
 Podemos proceder de manera similar con otras variables. Nuevamente, tanto el número de grupos como los valores de corte no se derivan de forma super rigurosa, sino en base al análisis exploratorio. Debería probarse con otras variantes.
 
 ```{r precio-otras.discretizadas}
 #| results: asis
-Boston %>% 
+Boston |> 
   mutate(dis.alta = cut(dis, breaks = c(0,3,Inf), 
                         include.lowest = TRUE,
-                        labels = c("Baja","Alta") ) ) %>% 
-  lm(data = ., medv ~ dis.alta) %>% tidy() %>%
-  kbl(digits = 2, caption = "Tabla 5. Precio según distancia") %>% kable_paper("hover")
+                        labels = c("Baja","Alta") ) ) |> 
+  lm(data = _, medv ~ dis.alta) |> tidy() |>
+  kbl(digits = 2, caption = "Tabla 5. Precio según distancia") |> kable_paper("hover")
 
-Boston %>% 
+Boston |> 
   mutate(rad.alta = cut(dis, breaks = c(0,10,Inf), 
                         include.lowest = TRUE,
-                        labels = c("Baja","Alta") ) ) %>% 
-  lm(data = ., medv ~ rad.alta) %>% tidy() %>%  
-  kbl(digits = 2, caption = "Tabla 6. Precio según accesibilidad") %>% kable_paper("hover")
+                        labels = c("Baja","Alta") ) ) |> 
+  lm(data = _, medv ~ rad.alta) |> tidy() |>  
+  kbl(digits = 2, caption = "Tabla 6. Precio según accesibilidad") |> kable_paper("hover")
 
-Boston %>% 
+Boston |> 
   mutate(tax.alta = cut(tax, breaks = c(0,350,500,Inf), 
                         include.lowest = TRUE, 
-                        labels = c("Baja","Media","Alta")) ) %>%
-  lm(data = ., medv ~ tax.alta) %>% tidy() %>%  
-  kbl(digits = 2, caption = "Tabla 7. Precio según impuestos") %>% kable_paper("hover")
+                        labels = c("Baja","Media","Alta")) ) |>
+  lm(data = _, medv ~ tax.alta) |> tidy() |>  
+  kbl(digits = 2, caption = "Tabla 7. Precio según impuestos") |> kable_paper("hover")
 
-Boston %>% 
+Boston |> 
   mutate(black.cat = cut(b, breaks = c(0,100, 395,Inf), 
                          include.lowest = TRUE,
-                         labels = c("Baja","Media","Alta")) ) %>%
-  lm(data = ., medv ~ black.cat) %>% tidy() %>%  
-  kbl(digits = 2, caption = "Tabla 8. Precio según población de color") %>% kable_paper("hover")
+                         labels = c("Baja","Media","Alta")) ) |>
+  lm(data = _, medv ~ black.cat) |> tidy() |>  
+  kbl(digits = 2, caption = "Tabla 8. Precio según población de color") |> kable_paper("hover")
 
-Boston %>% 
+Boston |> 
   mutate(black.alta = cut(b, breaks = c(0, 100,Inf), 
                           include.lowest = TRUE,
-                          labels = c("Baja","Alta")) ) %>% 
-  lm(data = ., medv ~ black.alta) %>% tidy() %>%  
-  kbl(digits = 2, caption = "Tabla 8b. Precio según población de color") %>% kable_paper("hover")
+                          labels = c("Baja","Alta")) ) |> 
+  lm(data = _, medv ~ black.alta) |> tidy() |>  
+  kbl(digits = 2, caption = "Tabla 8b. Precio según población de color") |> kable_paper("hover")
 ```
 
 (NOTA: estas tablas se podrían haber hecho con un bucle. También notad que NO he mantenido la variable discretizada en los datos, aunque podría haberlo hecho.)
@@ -491,7 +519,7 @@ Pero **sobre todo** esta fase tiene como objetivo aprender de los datos de cara 
 En general, hemos usuado habitualmente `step_log()` para transformar en logaritmos la variable dependiente de los modelos. Si al final queremos **predecir** la variable dependiente es preferible generar la variable en logaritmos y usarla directamente en los modelos.
 
 ```{r logs}
-Boston <- Boston %>% mutate(lmedv = log(medv))
+Boston <- Boston |> mutate(lmedv = log(medv))
 ```
 
 
@@ -504,7 +532,7 @@ A continuación, hacemos la partición de los datos reservando una proporción d
 
 ```{r particion}
 set.seed(1)
-bostonPart <- Boston %>% initial_split(prop = .8)
+bostonPart <- Boston |> initial_split(prop = .8)
 ```
 
 
@@ -518,21 +546,21 @@ En general, no haremos esto, pero aquí probaremos un modelo de regresión linea
 
 ```{r modelo-lineal1}
 #| results: asis
-lm1_receta <- training(bostonPart) %>%            
+lm1_receta <- training(bostonPart) |>            
   recipe(medv ~ chas + crim + zn + indus + nox + rm + 
            age + dis + rad + tax + ptratio + b + lstat) 
 
-lm1_modelo <- linear_reg(mode= "regression", penalty = 0) %>%
+lm1_modelo <- linear_reg(mode= "regression", penalty = 0) |>
                     set_engine("lm")
 
-lm1_flujo <- workflow() %>%
-  add_recipe(lm1_receta) %>%
+lm1_flujo <- workflow() |>
+  add_recipe(lm1_receta) |>
   add_model(lm1_modelo)
 
-lm1_flujo_est <- lm1_flujo %>% fit(data = training(bostonPart)) 
+lm1_flujo_est <- lm1_flujo |> fit(data = training(bostonPart)) 
 
-lm1_flujo_est %>% extract_fit_parsnip() %>% tidy() %>% 
-   kbl(digits = 2, caption = "Tabla 9. Modelo de Regresión") %>% kable_paper("hover")
+lm1_flujo_est |> extract_fit_parsnip() |> tidy() |> 
+   kbl(digits = 2, caption = "Tabla 9. Modelo de Regresión") |> kable_paper("hover")
 ```
 
 Los resultados del modelo con todas las variables son similares a los anteriores con solo una variable cada vez, aunque la edad NO es significativa (*ceteris paribus*). <!--Notad que se ha quitado la variable de impuestos por estar muy correlacionada con otras. -->
@@ -541,9 +569,9 @@ Los resultados del modelo con todas las variables son similares a los anteriores
 Finalmente, calculamos las métricas de error de este modelo.
 ```{r modelo-lineal1-metrics}
 #| results: asis
-lm_metricas <- lm1_flujo %>% 
+lm_metricas <- lm1_flujo |> 
                     last_fit(split = bostonPart,
-                             metrics = metric_set(rmse, mae)) %>%
+                             metrics = metric_set(rmse, mae)) |>
                     collect_metrics()
 lm_metricas
 ```
@@ -551,32 +579,32 @@ lm_metricas
 
 ```{r modelo-lineal2}
 #| results: asis
-lm2_receta <- training(bostonPart) %>%            
+lm2_receta <- training(bostonPart) |>            
                 recipe(medv ~ chas + crim + zn + indus + nox + rm + 
-                    age + dis + rad + tax + ptratio + b + lstat) %>% 
+                    age + dis + rad + tax + ptratio + b + lstat) |> 
                 step_log(medv)
 
-lm2_flujo <- workflow() %>%
-  add_recipe(lm2_receta) %>%
+lm2_flujo <- workflow() |>
+  add_recipe(lm2_receta) |>
   add_model(lm1_modelo)
 
-lm2_flujo_est <- lm2_flujo %>% fit(data = training(bostonPart)) 
+lm2_flujo_est <- lm2_flujo |> fit(data = training(bostonPart)) 
 
-lm2_flujo_est %>% extract_fit_parsnip() %>% tidy() %>% 
-   kbl(digits = 3, caption = "Tabla 10. Modelo de Regresión (en logaritmos)") %>% kable_paper("hover")
+lm2_flujo_est |> extract_fit_parsnip() |> tidy() |> 
+   kbl(digits = 3, caption = "Tabla 10. Modelo de Regresión (en logaritmos)") |> kable_paper("hover")
 ```
 
 <!--
-lm_metricas[[2]] <- lm2_flujo %>% 
+lm_metricas[[2]] <- lm2_flujo |> 
                     last_fit(split = bostonPart,
-                             metrics = metric_set(rmse, mae)) %>%
+                             metrics = metric_set(rmse, mae)) |>
                     collect_metrics()
 -->
 
 Notad que la edad sigue sin ser significativa. Pero esto puede deberse a que la relación es no lineal en edad.
 
 <!--
-step_poly(age, lstat, degree = 4) %>% 
+step_poly(age, lstat, degree = 4) |> 
 -->
 
 <!--
@@ -588,32 +616,32 @@ Ahora vamos a incluir versiones discretas de algunas variables, bien nuevas o bi
 #| echo: false
 #| eval: false
 #| results: asis
-lm3_receta <- training(bostonPart) %>%            
+lm3_receta <- training(bostonPart) |>            
                 recipe(medv ~ chas + crim + zn + indus + nox + rm + 
-                    age + dis + rad + tax + ptratio + b + lstat) %>% 
-                step_log(medv) %>%
-                step_poly(lstat, degree = 4) %>% 
+                    age + dis + rad + tax + ptratio + b + lstat) |> 
+                step_log(medv) |>
+                step_poly(lstat, degree = 4) |> 
                 step_cut(dis, breaks = c(0,3,Inf), 
-                         include_outside_range = TRUE) %>% 
+                         include_outside_range = TRUE) |> 
                 step_cut(b, breaks = c(0,375, 395,Inf), 
-                         include_outside_range = TRUE) %>% 
+                         include_outside_range = TRUE) |> 
                 step_cut(age, breaks = c(0,25,75,Inf), 
-                         include_outside_range = TRUE) %>% 
-                step_dummy(dis, b, age, chas) %>% 
+                         include_outside_range = TRUE) |> 
+                step_dummy(dis, b, age, chas) |> 
                 step_interact(terms = ~ rm:nox + starts_with("b"):starts_with("age"))
 
-lm3_flujo <- workflow() %>%
-  add_recipe(lm3_receta) %>%
+lm3_flujo <- workflow() |>
+  add_recipe(lm3_receta) |>
   add_model(lm1_modelo)
 
-lm3_flujo_est <- lm3_flujo %>% fit(data = training(bostonPart)) 
+lm3_flujo_est <- lm3_flujo |> fit(data = training(bostonPart)) 
 
-lm3_flujo_est %>% extract_fit_parsnip() %>% tidy() %>% 
-   kbl(digits = 2, caption = "Tabla 11. Modelo de Regresión (var. discretas e interacciones)") %>% kable_paper("hover")
+lm3_flujo_est |> extract_fit_parsnip() |> tidy() |> 
+   kbl(digits = 2, caption = "Tabla 11. Modelo de Regresión (var. discretas e interacciones)") |> kable_paper("hover")
 
-lm_metricas[[3]] <- lm3_flujo %>% 
+lm_metricas[[3]] <- lm3_flujo |> 
                     last_fit(split = bostonPart,
-                             metrics = metric_set(rmse, mae)) %>%
+                             metrics = metric_set(rmse, mae)) |>
                     collect_metrics()
 ```
 
@@ -621,32 +649,32 @@ lm_metricas[[3]] <- lm3_flujo %>%
 #| echo: false
 #| eval: false
 #| results: asis
-lm3_receta <- training(bostonPart) %>%            
+lm3_receta <- training(bostonPart) |>            
                 recipe(medv ~ chas + crim + zn + indus + nox + rm + 
-                    age + dis + rad + tax + ptratio + b + lstat) %>% 
-                step_log(medv) %>%
-                step_poly(lstat, degree = 4) %>% 
+                    age + dis + rad + tax + ptratio + b + lstat) |> 
+                step_log(medv) |>
+                step_poly(lstat, degree = 4) |> 
                 step_cut(dis, breaks = c(0,3,Inf), 
-                         include_outside_range = TRUE) %>% 
+                         include_outside_range = TRUE) |> 
                 step_cut(b, breaks = c(0,100, 395,Inf), 
-                         include_outside_range = TRUE) %>% 
+                         include_outside_range = TRUE) |> 
                 step_cut(age, breaks = c(0,25,75,Inf), 
-                         include_outside_range = TRUE) %>% 
-                step_dummy(dis, b, age) %>% 
+                         include_outside_range = TRUE) |> 
+                step_dummy(dis, b, age) |> 
                 step_interact(terms = ~ rm:nox + starts_with("lstat"):nox + crim:starts_with("b_") )
 
-lm3_flujo <- workflow() %>%
-  add_recipe(lm3_receta) %>%
+lm3_flujo <- workflow() |>
+  add_recipe(lm3_receta) |>
   add_model(lm1_modelo)
 
-lm3_flujo_est <- lm3_flujo %>% fit(data = training(bostonPart)) 
+lm3_flujo_est <- lm3_flujo |> fit(data = training(bostonPart)) 
 
-lm3_flujo_est %>% extract_fit_parsnip() %>% tidy() %>% 
-   kbl(digits = 2, caption = "Tabla 11. Modelo de Regresión (var. discretas e interacciones)") %>% kable_paper("hover")
+lm3_flujo_est |> extract_fit_parsnip() |> tidy() |> 
+   kbl(digits = 2, caption = "Tabla 11. Modelo de Regresión (var. discretas e interacciones)") |> kable_paper("hover")
 
-lm_metricas[[3]] <- lm3_flujo %>% 
+lm_metricas[[3]] <- lm3_flujo |> 
                     last_fit(split = bostonPart,
-                             metrics = metric_set(rmse, mae)) %>%
+                             metrics = metric_set(rmse, mae)) |>
                     collect_metrics() 
 ```
 
@@ -658,10 +686,10 @@ Si comparamos las métricas de los tres modelos, vemos que el mejor modelo es el
 #| echo: false
 #| eval: false
 #| results: asis
-lm_metricas %>% bind_rows(.id = "modelo") %>% 
-  pivot_wider(names_from = .metric, values_from=.estimate) %>% 
-  select(-.estimator) %>% 
-  kbl(digits = 4, caption = "Tabla 12. Métricas de los Modelos de Regresión Lineal") %>% kable_paper("hover")
+lm_metricas |> bind_rows(.id = "modelo") |> 
+  pivot_wider(names_from = .metric, values_from=.estimate) |> 
+  select(-.estimator) |> 
+  kbl(digits = 4, caption = "Tabla 12. Métricas de los Modelos de Regresión Lineal") |> kable_paper("hover")
 ```
 
 También podemos ver la importancia que cada variable tiene en los distintos modelos.
@@ -673,13 +701,13 @@ También podemos ver la importancia que cada variable tiene en los distintos mod
 #| out.width: "33.33%"
 #| fig.show: asis
 #| fig.cap: "Figura 11. Imporancia en los tres modelos de regresión lineal"
-lm1_flujo_est %>% extract_fit_parsnip() %>% 
+lm1_flujo_est |> extract_fit_parsnip() |> 
   vip(num_features = 14)
 
-lm2_flujo_est %>% extract_fit_parsnip() %>% 
+lm2_flujo_est |> extract_fit_parsnip() |> 
   vip(num_features = 14)
 
-lm3_flujo_est %>% extract_fit_parsnip() %>% 
+lm3_flujo_est |> extract_fit_parsnip() |> 
   vip(num_features = 14)
 ```
 
@@ -704,47 +732,47 @@ Además de especificar las variables dependiente y explicativas del modelo, la r
 
 ```{r modelos-LASSO}
 #| results: asis
-recetaLASSO1 <- training(bostonPart) %>%            
+recetaLASSO1 <- training(bostonPart) |>            
   recipe(lmedv ~ chas + crim + zn + indus + nox + rm + 
-           age + dis + rad + tax + ptratio + b + lstat) %>% 
+           age + dis + rad + tax + ptratio + b + lstat) |> 
   step_cut(b, breaks = c(0, 350, 395, 500), 
-           include_outside_range = TRUE) %>% 
-  step_normalize(all_predictors(), -all_nominal()) %>%
-  step_poly(lstat, age, degree = 8) %>% 
-  step_dummy(b, chas) %>% 
-  step_interact(terms = ~ rm:(nox + starts_with("age_") + starts_with("lstat_"))) %>%  
-  step_interact(terms = ~ nox:(crim + starts_with("age_") + starts_with("lstat_"))) %>% 
+           include_outside_range = TRUE) |> 
+  step_normalize(all_predictors(), -all_nominal()) |>
+  step_poly(lstat, age, degree = 8) |> 
+  step_dummy(b, chas) |> 
+  step_interact(terms = ~ rm:(nox + starts_with("age_") + starts_with("lstat_"))) |>  
+  step_interact(terms = ~ nox:(crim + starts_with("age_") + starts_with("lstat_"))) |> 
   step_interact(terms = ~ starts_with("b_"):(crim + starts_with("age_")))
 
-recetaLASSO2 <- training(bostonPart) %>%            
+recetaLASSO2 <- training(bostonPart) |>            
                 recipe(lmedv ~ chas + crim + zn + indus + nox + rm + 
-                    age + dis + rad + tax + ptratio + b + lstat) %>% 
+                    age + dis + rad + tax + ptratio + b + lstat) |> 
                 step_cut(age, breaks = seq(0,100,10), 
-                         include_outside_range = TRUE) %>% 
+                         include_outside_range = TRUE) |> 
                 step_cut(dis, breaks = c(0, 3, 10), 
-                         include_outside_range = TRUE) %>% 
+                         include_outside_range = TRUE) |> 
                 step_cut(b, breaks = c(0, 350, 395, 500), 
-                         include_outside_range = TRUE) %>% 
-                step_normalize(all_predictors(), -all_nominal()) %>%
-                step_poly(lstat, degree = 8) %>% 
-                step_dummy(age, dis, b, chas)  %>% 
-                step_interact(terms = ~ rm:(nox + starts_with("age_") + starts_with("lstat_"))) %>%  
-                step_interact(terms = ~ nox:(crim + starts_with("age_") + starts_with("lstat_"))) %>% 
+                         include_outside_range = TRUE) |> 
+                step_normalize(all_predictors(), -all_nominal()) |>
+                step_poly(lstat, degree = 8) |> 
+                step_dummy(age, dis, b, chas)  |> 
+                step_interact(terms = ~ rm:(nox + starts_with("age_") + starts_with("lstat_"))) |>  
+                step_interact(terms = ~ nox:(crim + starts_with("age_") + starts_with("lstat_"))) |> 
                 step_interact(terms = ~ starts_with("b_"):(crim + starts_with("age_")))
 ```
 
 Definimos los modelos, con el hiperparámetro de penalización para ajustar, y combinamos la receta y el modelo en un flujo.
 
 ```{r modelo-LASSO1}
-modeloLASSO <- linear_reg(mode= "regression", penalty = tune()) %>%
+modeloLASSO <- linear_reg(mode= "regression", penalty = tune()) |>
                     set_engine("glmnet")
 
-flujoLASSO1 <- workflow() %>%
-  add_recipe(recetaLASSO1) %>%
+flujoLASSO1 <- workflow() |>
+  add_recipe(recetaLASSO1) |>
   add_model(modeloLASSO)
 
-flujoLASSO2<- workflow() %>%
-  add_recipe(recetaLASSO1) %>%
+flujoLASSO2<- workflow() |>
+  add_recipe(recetaLASSO1) |>
   add_model(modeloLASSO)
 ```
 
@@ -753,42 +781,42 @@ La estimación del modelo implica ajustar el hiperparámetro $\lambda$ mediante 
 
 ```{r modelo-lasso1, results='asis',fig.show='hold', fig.cap="Figura 11. Ajuste de lamdba, modelo 1"}
 set.seed(9753)
-Boston_cv <- training(bostonPart) %>% vfold_cv(v=10)
+Boston_cv <- training(bostonPart) |> vfold_cv(v=10)
 
 LASSO_grid <- grid_regular(penalty(range = c(0, 1), trans = NULL),   
                           levels = 51)                     
 
 set.seed(1)
-lasso1_flujo_tuned <- flujoLASSO1 %>% 
+lasso1_flujo_tuned <- flujoLASSO1 |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = LASSO_grid                          
                           ) 
-lasso1_flujo_tuned %>% autoplot()
+lasso1_flujo_tuned |> autoplot()
 
 ####
 LASSO_grid <- grid_regular(penalty(range = c(0, 0.02), trans = NULL),   
                           levels = 51)                     
 
 set.seed(1)
-lasso1_flujo_tuned <- flujoLASSO1 %>% 
+lasso1_flujo_tuned <- flujoLASSO1 |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = LASSO_grid                          
                           ) 
 
-lasso1_flujo_tuned %>% autoplot()
+lasso1_flujo_tuned |> autoplot()
 ```
 
 <!--
-lasso1_flujo_tuned %>% collect_metrics() %>% 
+lasso1_flujo_tuned |> collect_metrics() |> 
   ggplot(aes(x=penalty, y=mean)) + 
               geom_line() + geom_point(color="red") + 
               geom_errorbar(aes(ymin=mean-std_err, ymax=mean+std_err), color="gray") 
 
-lasso1_flujo_tuned %>% collect_metrics() %>% 
+lasso1_flujo_tuned |> collect_metrics() |> 
   ggplot(aes(x=penalty, y=mean)) + 
               geom_line() + geom_point(color="red") + 
               geom_errorbar(aes(ymin=mean-std_err, ymax=mean+std_err), color="gray") 
@@ -800,10 +828,10 @@ lasso1_flujo_tuned %>% collect_metrics() %>%
 
 ```{r modelo-lasso1b}
 #| results: asis
-lasso1_flujo_tuned %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 11. Mejores lambdas en el Modelo 1 de LASSO") %>% kable_paper("hover")
+lasso1_flujo_tuned |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 11. Mejores lambdas en el Modelo 1 de LASSO") |> kable_paper("hover")
 # lambda1 <- 0 #
-lambda1 <- lasso1_flujo_tuned %>% select_best(metric = "rmse")
+lambda1 <- lasso1_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 Notad que muestro dos búsquedas de valores, refinando en la segunda la zona que aparecía como más probable en la primera. En general, se deberían probar varios rangos para el hiper-parámetro buscando una forma de U para el valor con mínimo error; se puede empezar con rangos amplios y luego buscar valores en un rango más fino, entorno al valor donde se ve el mínimo. NO está claro que queráis mostrarlos todos o incluso que queráis mostrar más de uno.
@@ -813,38 +841,38 @@ LASSO_grid <- grid_regular(penalty(range = c(0, 0.2), trans = NULL),
                           levels = 51)                     
 
 set.seed(1)
-lasso2_flujo_tuned <- flujoLASSO2 %>% 
+lasso2_flujo_tuned <- flujoLASSO2 |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = LASSO_grid                          
                           ) 
 
-lasso2_flujo_tuned %>% autoplot()
+lasso2_flujo_tuned |> autoplot()
 
 ####
 LASSO_grid <- grid_regular(penalty(range = c(0, 0.02), trans = NULL),   
                           levels = 51)                     
 
 set.seed(1)
-lasso2_flujo_tuned <- flujoLASSO2 %>% 
+lasso2_flujo_tuned <- flujoLASSO2 |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = LASSO_grid                          
                           ) 
 
-lasso2_flujo_tuned %>% autoplot()
+lasso2_flujo_tuned |> autoplot()
 
 ```
 
 
 ```{r modelo-lasso2b}
 #| results: asis
-lasso2_flujo_tuned  %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 12. Mejores lambdas en el Modelo 2 de LASSO") %>% kable_paper("hover")
+lasso2_flujo_tuned  |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 12. Mejores lambdas en el Modelo 2 de LASSO") |> kable_paper("hover")
 # lambda2 <- 0 
-lambda2 <- lasso2_flujo_tuned %>% select_best(metric = "rmse")
+lambda2 <- lasso2_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 Vamos a finalizar los modelos y ver sus métricas en la muestra de prueba.
@@ -853,20 +881,20 @@ Vamos a finalizar los modelos y ver sus métricas en la muestra de prueba.
 ```{r modelos-LASSO-final}
 #| results: asis
 LASSO_final <- list() 
-LASSO_final[[1]] <- flujoLASSO1 %>% 
-                    finalize_workflow(lambda1) %>% 
-                    last_fit(bostonPart)  %>% 
+LASSO_final[[1]] <- flujoLASSO1 |> 
+                    finalize_workflow(lambda1) |> 
+                    last_fit(bostonPart)  |> 
                     collect_metrics()
 
-LASSO_final[[2]] <- flujoLASSO2 %>% 
-                    finalize_workflow(lambda2) %>% 
-                    last_fit(bostonPart)  %>% 
+LASSO_final[[2]] <- flujoLASSO2 |> 
+                    finalize_workflow(lambda2) |> 
+                    last_fit(bostonPart)  |> 
                     collect_metrics()
 
-LASSO_final %>% bind_rows(.id = "modelo") %>% 
-  pivot_wider(names_from = .metric, values_from=.estimate) %>% 
-  select(-.estimator) %>% 
-  kbl(digits = 4, caption = "Tabla 13. Métricas de LASSO") %>% kable_paper("hover")
+LASSO_final |> bind_rows(.id = "modelo") |> 
+  pivot_wider(names_from = .metric, values_from=.estimate) |> 
+  select(-.estimator) |> 
+  kbl(digits = 4, caption = "Tabla 13. Métricas de LASSO") |> kable_paper("hover")
 ```
 
 En este caso, ambos modelos tienen un comportamiento predictivo muy similar. Esto puede deberse a que ambos son muy similares, salvo por usar polinomios en lugar de discretizaciones. No es raro que ambos tengan un comportamiento predictivo similar, puesto que ambas formas aproximan (aunque de forma ligeramente distinta) relaciones no lineales.
@@ -879,88 +907,88 @@ NOTA: como vemos aquí, conviene empezar con un rango amplio de valores para el 
 
 ```{r modelo-knn1, results='hold',fig.show='asis', fig.cap="Figura 13. Ajuste de k vecinos, modelo 1"}
 
-knn1_receta <- training(bostonPart) %>%            
+knn1_receta <- training(bostonPart) |>            
   recipe(medv ~ chas + crim + zn + indus + nox + rm + 
-           age + dis + rad + tax + ptratio + b + lstat) %>% 
-  step_normalize(all_predictors(), -all_nominal()) %>%
+           age + dis + rad + tax + ptratio + b + lstat) |> 
+  step_normalize(all_predictors(), -all_nominal()) |>
   step_dummy(all_nominal_predictors())
   
 knn1_modelo <- nearest_neighbor(mode = "regression",
-                  neighbors = tune(), dist_power = 2) %>% 
+                  neighbors = tune(), dist_power = 2) |> 
                 set_engine("kknn")
 
-knn1_flujo <- workflow() %>%
-  add_recipe(knn1_receta) %>%
+knn1_flujo <- workflow() |>
+  add_recipe(knn1_receta) |>
   add_model(knn1_modelo)
 
 knn_grid <- grid_regular(neighbors(range = c(1, 21), trans = NULL),   
                           levels = 11)                     
 
 set.seed(1)
-knn1_flujo_tuned <- knn1_flujo %>% 
+knn1_flujo_tuned <- knn1_flujo |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = knn_grid                          
                           ) 
 
-knn1_flujo_tuned  %>% autoplot()
+knn1_flujo_tuned  |> autoplot()
 
 knn_grid <- grid_regular(neighbors(range = c(1, 11), trans = NULL),   
                           levels = 11)                     
 ###########
 set.seed(1)
-knn1_flujo_tuned <- knn1_flujo %>% 
+knn1_flujo_tuned <- knn1_flujo |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = knn_grid                          
                           ) 
 
-knn1_flujo_tuned  %>% autoplot()
+knn1_flujo_tuned  |> autoplot()
 
 ```
 
 ```{r modelo-knn1b}
 #| results: asis
-knn1_flujo_tuned  %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 14. k-vecinos óptimo en el Modelo 1") %>% kable_paper("hover")
-k1 <- knn1_flujo_tuned %>% select_best(metric = "rmse")
+knn1_flujo_tuned  |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 14. k-vecinos óptimo en el Modelo 1") |> kable_paper("hover")
+k1 <- knn1_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 
 ```{r modelo-knn2, results='asis',fig.show='asis', fig.cap="Figura 14. Ajuste de k vecinos, modelo 2"}
 
-knn2_receta <- training(bostonPart) %>%            
+knn2_receta <- training(bostonPart) |>            
   recipe(lmedv ~ chas + crim + zn + indus + nox + rm + 
-           age + dis + rad + tax + ptratio + b + lstat) %>% 
-  step_normalize(all_predictors(), -all_nominal()) %>%
+           age + dis + rad + tax + ptratio + b + lstat) |> 
+  step_normalize(all_predictors(), -all_nominal()) |>
   step_dummy(all_nominal_predictors())
 
-knn2_flujo <- workflow() %>%
-  add_recipe(knn2_receta) %>%
+knn2_flujo <- workflow() |>
+  add_recipe(knn2_receta) |>
   add_model(knn1_modelo)
 
 knn_grid <- grid_regular(neighbors(range = c(1, 11), trans = NULL),   
                           levels = 11)  
 
 set.seed(1)
-knn2_flujo_tuned <- knn2_flujo %>% 
+knn2_flujo_tuned <- knn2_flujo |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = knn_grid                          
                           ) 
 
-knn2_flujo_tuned  %>% autoplot()
+knn2_flujo_tuned  |> autoplot()
 
 ```
 
 ```{r modelo-knn2b}
 #| results: asis
-knn2_flujo_tuned  %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 15. k-vecinos óptimo en el Modelo 2") %>% kable_paper("hover")
-k2 <- knn2_flujo_tuned %>% select_best(metric = "rmse")
+knn2_flujo_tuned  |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 15. k-vecinos óptimo en el Modelo 2") |> kable_paper("hover")
+k2 <- knn2_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 El número óptimo de vecinos es `r k1` para el primer modelo y `r k2` en el segundo. Vamos a finalizar los modelos y ver sus métricas en la muestra de prueba.
@@ -969,20 +997,20 @@ El número óptimo de vecinos es `r k1` para el primer modelo y `r k2` en el seg
 ```{r modelos-knn1-final}
 #| results: asis
 knn_final <- list() 
-knn_final[[1]] <- knn1_flujo %>% 
-                    finalize_workflow(k1) %>% 
-                    last_fit(bostonPart)  %>% 
+knn_final[[1]] <- knn1_flujo |> 
+                    finalize_workflow(k1) |> 
+                    last_fit(bostonPart)  |> 
                     collect_metrics()
 
-knn_final[[2]] <- knn2_flujo %>% 
-                    finalize_workflow(k2) %>% 
-                    last_fit(bostonPart)  %>% 
+knn_final[[2]] <- knn2_flujo |> 
+                    finalize_workflow(k2) |> 
+                    last_fit(bostonPart)  |> 
                     collect_metrics()
 
-knn_final %>% bind_rows(.id = "modelo") %>% 
-  pivot_wider(names_from = .metric, values_from=.estimate) %>% 
-  select(-.estimator) %>% 
-  kbl(digits = 4, caption = "Tabla 16. Métricas de kNN") %>% kable_paper("hover")
+knn_final |> bind_rows(.id = "modelo") |> 
+  pivot_wider(names_from = .metric, values_from=.estimate) |> 
+  select(-.estimator) |> 
+  kbl(digits = 4, caption = "Tabla 16. Métricas de kNN") |> kable_paper("hover")
 ```
 
 Comparando estos resultados con los de la Tabla para LASSO, queda claro que kNN tiene una mejor capacidad predictiva, tanto para la variable de precio como usando el logaritmo del precio. Sin embargo, estos modelos no nos dicen mucho sobre qué factores afectan a esa predicción (no tenemos ni modelo paramétrico y contrastes, ni representación gráficas o medidas de importancia).
@@ -993,55 +1021,55 @@ Pasamos a considerar modelos de árboles de decisión. Notad que para ajustar el
 
 ```{r modelo-arbol2, results='asis',fig.show='asis', fig.cap="Figura 15. Ajuste de árboles, modelo 2"}
 
-arbol2_receta <- training(bostonPart) %>%            
+arbol2_receta <- training(bostonPart) |>            
   recipe(lmedv ~ chas + crim + zn + indus + nox + rm + 
            age + dis + rad + tax + ptratio + b + lstat) 
 
 arbol2_modelo <-  decision_tree(mode = "regression", 
-                                     cost_complexity = tune()) %>% 
+                                     cost_complexity = tune()) |> 
                           set_engine("rpart") 
 
-arbol2_flujo <- workflow() %>%
-  add_recipe(arbol2_receta) %>%
+arbol2_flujo <- workflow() |>
+  add_recipe(arbol2_receta) |>
   add_model(arbol2_modelo)
 
 arbol_grid <- grid_regular(cost_complexity(range = c(0, 0.01), trans = NULL),   
                           levels = 11)                     
 set.seed(1)
-arbol2_flujo_tuned <- arbol2_flujo %>% 
+arbol2_flujo_tuned <- arbol2_flujo |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = arbol_grid                          
                           ) 
 
-arbol2_flujo_tuned  %>% autoplot()
+arbol2_flujo_tuned  |> autoplot()
 ```
 
 ```{r modelo-arbol2b}
 #| results: asis
-arbol2_flujo_tuned  %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 17. Coste de complejidad  en el Modelo 1") %>% kable_paper("hover")
-cost2 <- arbol2_flujo_tuned %>% select_best(metric = "rmse")
+arbol2_flujo_tuned  |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 17. Coste de complejidad  en el Modelo 1") |> kable_paper("hover")
+cost2 <- arbol2_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 ```{r modelos-arbol-final}
 #| results: asis
-arbol_final <- arbol2_flujo %>% 
-                    finalize_workflow(cost2) %>% 
+arbol_final <- arbol2_flujo |> 
+                    finalize_workflow(cost2) |> 
                     last_fit(bostonPart)  
 
-arbol_final %>%  collect_metrics() %>%  
-  pivot_wider(names_from = .metric, values_from=.estimate) %>% 
-  select(-.estimator) %>% 
-  kbl(digits = 4, caption = "Tabla 18. Métricas del árbol") %>% kable_paper("hover")
+arbol_final |>  collect_metrics() |>  
+  pivot_wider(names_from = .metric, values_from=.estimate) |> 
+  select(-.estimator) |> 
+  kbl(digits = 4, caption = "Tabla 18. Métricas del árbol") |> kable_paper("hover")
 ```
 
 
 Vemos que el mejor árbol de regresión es mejor que LASSO y similar a kNN (en logaritmos). Además podemos ver el flujo del árbol para hacernos una idea de qué factores están afectando a la predicción
 
 ```{r modelos-arbol-final2, results='asis', fig.show='asis', fig.cap="Figura 16a. Mejor árbol de regresión, modelo 2"}
-arb <- arbol_final$.workflow[[1]] %>%   
+arb <- arbol_final$.workflow[[1]] |>   
   extract_fit_parsnip() 
 
 rpart.plot(arb$fit)
@@ -1050,8 +1078,8 @@ rpart.plot(arb$fit)
 También podemos recurrir a medidas de importancia de las variables.
 
 ```{r modelos-arbol-final3, results='asis', fig.show='asis', fig.cap="Figura 16b. Importancia en el mejor árbol de regresión, modelo 2"}
-arbol_final$.workflow[[1]] %>%   
-  extract_fit_parsnip() %>% 
+arbol_final$.workflow[[1]] |>   
+  extract_fit_parsnip() |> 
   vip(num_features = 14)
 ```
 
@@ -1066,31 +1094,31 @@ Intentamos ver si un modelo de "random forests" puede mejorar al árbol de regre
 rf2_receta <- arbol2_receta 
 
 rf2_modelo <-  rand_forest(mode = "regression",
-                                       mtry = tune(), trees = 100) %>% 
+                                       mtry = tune(), trees = 100) |> 
                           set_engine("ranger", importance = "impurity")
 
-rf2_flujo <- workflow() %>%
-  add_recipe(rf2_receta) %>%
+rf2_flujo <- workflow() |>
+  add_recipe(rf2_receta) |>
   add_model(rf2_modelo)
 
 rf_grid <- grid_regular(mtry(range = c(1, 12), trans = NULL),   
                           levels = 12)                     
 
-rf2_flujo_tuned <- rf2_flujo %>% 
+rf2_flujo_tuned <- rf2_flujo |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = rf_grid                          
                           ) 
 
-rf2_flujo_tuned %>% autoplot()
+rf2_flujo_tuned |> autoplot()
 ```
 
 ```{r modelo-rf2b}
 #| results: asis
-rf2_flujo_tuned  %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 19. Ajuste de Random Forest  en el Modelo 2") %>% kable_paper("hover")
-mtry2 <- rf2_flujo_tuned %>% select_best(metric = "rmse")
+rf2_flujo_tuned  |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 19. Ajuste de Random Forest  en el Modelo 2") |> kable_paper("hover")
+mtry2 <- rf2_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 El número óptimo de variables a usar (aleatoriamente) en cada nodo son `r mtry2`, aunque podría ser alguna menos o algunas más, dado que los valores de la métrica de error no son significativamente diferentes.
@@ -1100,21 +1128,21 @@ Por último finalizamos el modelo
 
 ```{r modelos-rf-final}
 #| results: asis
-rf_final <- rf2_flujo %>% 
-                    finalize_workflow(mtry2) %>% 
+rf_final <- rf2_flujo |> 
+                    finalize_workflow(mtry2) |> 
                     last_fit(bostonPart)  
 
-rf_final %>%  collect_metrics() %>%  
-  pivot_wider(names_from = .metric, values_from=.estimate) %>% 
-  select(-.estimator) %>% 
-  kbl(digits = 4, caption = "Tabla 20. Métricas de RF") %>% kable_paper("hover")
+rf_final |>  collect_metrics() |>  
+  pivot_wider(names_from = .metric, values_from=.estimate) |> 
+  select(-.estimator) |> 
+  kbl(digits = 4, caption = "Tabla 20. Métricas de RF") |> kable_paper("hover")
 ```
 
 El modelo de "Random Forest" incluso mejora claramente a "kNN". En este caso, podemos ver qué variables han resultados mejores predictores del precio.
 
 ```{r RF-vip, results='asis', fig.show='asis', fig.cap="Figura 18. Importancia en el mejor RF, modelo 2"}
-rf_final$.workflow[[1]] %>%   
-  extract_fit_parsnip() %>% 
+rf_final$.workflow[[1]] |>   
+  extract_fit_parsnip() |> 
   vip(num_features = 14)
 ```
 
@@ -1130,24 +1158,24 @@ svm2_receta <- knn2_receta
 
 library(kernlab)
 svmlin2_modelo <-  svm_linear(mode = "regression",
-                                 cost = tune()) %>% 
+                                 cost = tune()) |> 
                           set_engine("kernlab")
 
-svmlin2_flujo <- workflow() %>%
-  add_recipe(svm2_receta) %>%
+svmlin2_flujo <- workflow() |>
+  add_recipe(svm2_receta) |>
   add_model(svmlin2_modelo)
 
 svmlin2_grid <- grid_regular(cost(range = c(0, 2), trans = NULL),   
                           levels = 4)                     
 
-svmlin2_flujo_tuned <- svmlin2_flujo %>% 
+svmlin2_flujo_tuned <- svmlin2_flujo |> 
                         tune_grid(
                           resamples = Boston_cv,
                           metrics   = metric_set(rmse),
                           grid      = svmlin2_grid                          
                           ) 
 
-svmlin2_flujo_tuned %>% collect_metrics() %>% 
+svmlin2_flujo_tuned |> collect_metrics() |> 
   ggplot(aes(x=cost, y=mean)) + 
               geom_line() + geom_point(color="red") + 
               geom_errorbar(aes(ymin=mean-std_err, ymax=mean+std_err), color="gray") 
@@ -1155,9 +1183,9 @@ svmlin2_flujo_tuned %>% collect_metrics() %>%
 
 ```{r modelo-svmlin2b, echo=FALSE, eval=FALSE}
 #| results: asis
-svmlin2_flujo_tuned  %>% show_best(metric = "rmse") %>% 
-  kbl(digits = 4, caption = "Tabla 21. Ajuste de SVM Lineal  en el Modelo 2") %>% kable_paper("hover")
-costlin2 <- svmlin2_flujo_tuned %>% select_best(metric = "rmse")
+svmlin2_flujo_tuned  |> show_best(metric = "rmse") |> 
+  kbl(digits = 4, caption = "Tabla 21. Ajuste de SVM Lineal  en el Modelo 2") |> kable_paper("hover")
+costlin2 <- svmlin2_flujo_tuned |> select_best(metric = "rmse")
 ```
 
 El número óptimo de variables a usar (aleatoriamente) en cada nodo son `r mtry2`, aunque podría ser alguna menos o algunas más, dado que los valores de la métrica de error no son significativamente diferentes.
@@ -1167,21 +1195,21 @@ Por último finalizamos el modelo
 
 ```{r modelos-svmlin-final, echo=FALSE, eval=FALSE}
 #| results: asis
-svmlin2_final <- svmlin2_flujo %>% 
-                    finalize_workflow(costlin2) %>% 
+svmlin2_final <- svmlin2_flujo |> 
+                    finalize_workflow(costlin2) |> 
                     last_fit(bostonPart)  
 
-smvlin2_final %>%  collect_metrics() %>%  
-  pivot_wider(names_from = .metric, values_from=.estimate) %>% 
-  select(-.estimator) %>% 
-  kbl(digits = 4, caption = "Tabla 22. Métricas de SVM lineal") %>% kable_paper("hover")
+smvlin2_final |>  collect_metrics() |>  
+  pivot_wider(names_from = .metric, values_from=.estimate) |> 
+  select(-.estimator) |> 
+  kbl(digits = 4, caption = "Tabla 22. Métricas de SVM lineal") |> kable_paper("hover")
 ```
 
 El modelo de "Random Forest" incluso mejora claramente a "kNN". En este caso, podemos ver qué variables han resultados mejores predictores del precio.
 
 ```{r SVMlin-vip, echo=FALSE, eval=FALSE, results='asis', fig.show='asis', fig.cap="Figura 20. Importancia en el mejor SVM lineal, modelo 2"}
-svmlin2_final$.workflow[[1]] %>%   
-  extract_fit_parsnip() %>% 
+svmlin2_final$.workflow[[1]] |>   
+  extract_fit_parsnip() |> 
   vip(num_features = 14)
 ```
 
@@ -1197,11 +1225,11 @@ Por otro lado estos resultados también se podrían utilizar para predecir el pr
 
 ```{r predic-final}
 #| results: asis
-rf_final$.workflow[[1]] %>% 
+rf_final$.workflow[[1]] |> 
   predict(new_data = tibble(chas = "Yes", crim = 0.03,  zn = 0,
                             indus = 7, nox = 0.5, rm = 2,
                             age = 10,  dis = 6, rad = 5,  
-                            tax = 290, ptratio = 20, b = 390, lstat=9)) %>% 
+                            tax = 290, ptratio = 20, b = 390, lstat=9)) |> 
   exp()
 ```
 
@@ -1237,4 +1265,3 @@ Como se ha comentado, nuestro conjunto de datos dispone de 506 observaciones y 1
 |    LSTAT   |    porcentaje de población desfavorecida (bajo estatus social)
 |    MEDV    |    valor mediano de las viviendas ocupadas por sus propietarios 
 |            |       (en miles de dólares)
-
