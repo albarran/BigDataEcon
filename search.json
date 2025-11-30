@@ -1383,49 +1383,35 @@
     "href": "index.html",
     "title": "Técnicas para ‘Big Data’ en Economía (UA)",
     "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
-  },
-  {
-    "objectID": "index.html#pedro-albarrán",
-    "href": "index.html#pedro-albarrán",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud"
-  },
-  {
-    "objectID": "index.html#alberto-pérez",
-    "href": "index.html#alberto-pérez",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud"
+    "text": "Profesores:\n\nPedro AlbarránAlberto Pérez\n\n\n\nDespacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nDespacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)\ne-mail: alberto.perezbernabeu@ua.es\nTutorias: Miércoles de 11:00 a 13:00\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nANTES DE comenzar las clases, vuestro ordenador deberá tener instalados los siguientes programas de software (totalmente gratuitos): el lenguaje de programación R y el interfaz-editor para trabajar con R llamado RStudio.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizados antes de instalar nada.\n\nPodéis descargar R desde https://cran.r-project.org/ siguiendo las instrucciones para vuestro sistema operativo.\n\npara Windows, entrad en “Download R for Windows”, luego en “base” y allí encontraréis la versión actual “Download R-4.5.1 for Windows”.\npara MacOS, entrad en “Download R for (Mac) OS X”, y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS “R-4.5.1-x86_64.pkg” o “R-4.5.1-arm64.pkg”, según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.\npara Linux, seguid las instrucciones (típicamente a través de vuestro sistema de instalación).\n\nPodéis descargar RStudio desde https://posit.co/download/rstudio-desktop/\n\nDesplazaros hacia abajo en la página hasta encontrar una tabla con enlaces para descargas\nElegid el enlace de descarga para vuestro sistema.\n\nEn Windows, usad el instalador ejecutable .EXE (no .ZIP) y durante la instalación elegid la opción de 64 bits.\n\n\nNOTA: existe la posibilidad de usar R y RStudio de forma online, sin instalar nada en el ordenador (o incluso usando una tablet). Se puede encontrar en https://posit.cloud/ . Sin embargo, no la recomendamos para su uso habitual; en particular, algunas cosas son ligeramente diferentes, es más lenta, depende de conexión a internet y, aunque es gratuita, requiere registrarse.\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
   },
   {
     "objectID": "ProyectoFinal.html",
     "href": "ProyectoFinal.html",
     "title": "Proyecto Final",
     "section": "",
-    "text": "Para realizar este proyecto final, debéis proponer un tema de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.\nEl resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (“business analytics”). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se analiza y su importancia\nDatos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis\nProcesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis\nAnálisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos\nProceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final\nComunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo."
+    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis partir las sugerencias sobre datos y temas que aparecen más abajo o plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio de datos: qué información aprendemos de los datos y cómo ayudan a especificar los modelos.\nProceso de modelización: cómo se especifican los modelos para alcanzar el objetivo del estudio, cómo se elige el modelo final.\nComunicar de forma efectiva los resultados (mediante gráfico, tablas, etc.), discutiendo qué implican respecto al objetivo económico, financiero o de empresa planteado."
   },
   {
     "objectID": "ProyectoFinal.html#elección-de-tema",
     "href": "ProyectoFinal.html#elección-de-tema",
     "title": "Proyecto Final",
     "section": "Elección de Tema",
-    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro los objetivos/utilidad de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)\nOs recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase.\nDebéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nEn cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula."
+    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro\n\nlos objetivos/utilidad de hacer del análisis que proponéis (entre otras cosas, esto implica comentar brevemente si el modelo se usará para predecir, para establecer efectos de una variable sobre otra, y cómo se usará el modelo en la práctica para conseguir ese objetivo).\ncomentar brevemente cómo pensáis hacerlo: si haréis regresión o clasificación, tipo de algoritmos, etc.\nqué datos usaréis y cómo se adecuadan al objetivo.\n\nEnviad vuestra propuesta lo antes posible, PERO debéis esperar a mi visto bueno para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nPodéis consultarme cualquier duda relativa al trabajo."
   },
   {
     "objectID": "ProyectoFinal.html#entrega-final",
     "href": "ProyectoFinal.html#entrega-final",
     "title": "Proyecto Final",
     "section": "Entrega Final",
-    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del lunes, 3 de febrero de 2025 (hora límite 23:55h de la noche) por medio de este FORMULARIO"
+    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del miércoles, 26 de enero de 2026 (hora límite 23:55h de la noche) por medio de este FORMULARIO."
   },
   {
     "objectID": "ProyectoFinal.html#importante-plagio.",
     "href": "ProyectoFinal.html#importante-plagio.",
     "title": "Proyecto Final",
     "section": "IMPORTANTE: PLAGIO.",
-    "text": "IMPORTANTE: PLAGIO.\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+    "text": "IMPORTANTE: PLAGIO.\n\nLa detección de cualquier forma de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
   },
   {
     "objectID": "Contenidos.html",
