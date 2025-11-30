@@ -7,25 +7,26 @@ strip-comments: true
 
 # Objetivos
 
-Para realizar este proyecto final, debéis proponer un *tema* de estudio usando datos y las técnicas que hemos visto en el curso. Más abajo os indico unas propuestas tanto de temas como de fuentes para obtener datos. También podéis proponerme un tema de estudio, usando datos de que dispongáis por trabajo, contactos, búsqueda propia, etc.
   
-El resultado final debe ser un proyecto de análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. (**"business analytics"**). Se aplicarán los conocimientos adquiridos en el curso, quedando claras todas las etapas del análisis de datos:
+Para el proyecto final debéis **proponer un tema** de estudio usando datos y las técnicas vistas en el curso. Podéis partir las sugerencias sobre datos y temas que aparecen más abajo o plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia.
+
+El resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (**"business analytics"**): 
 
 ![](docs/figure/data-science-model.png){fig-align="center"}
 
 Por tanto, debe explicarse claramente:
 
-1. **Objetivo** del análisis: qué cuestión se analiza y su importancia
+1. **Objetivo** del análisis: qué cuestión se estudia y por qué es importante.
 
-2. Datos: qué datos se utilizan, su origen, por qué son adecuados para el objetivo del análisis
+2. Datos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.
 
-3. Procesamiento de los datos (importación, limpieza y transformación): por qué es necesario para el análisis
+3. Procesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.
 
-4. Análisis exploratorio de datos: qué información básica aprendemos de los datos y cómo esto ayuda a especificar los modelos
+4. Análisis exploratorio de datos: qué información aprendemos de los datos y cómo ayudan a especificar los modelos.
 
-5. Proceso de Modelización: cómo se especifican distintos modelos que ayudan a responder al objetivo y cómo se validan para obtener el mejor modelo final
+5. Proceso de modelización: cómo se especifican los modelos para alcanzar el objetivo del estudio, cómo se elige el modelo final.
 
-6. Comunicar de manera efectiva mediante gráficos, resultados de estimación, etc. las implicaciones de los resultados obtenidos en el análisis para el objetivo. En particular, explicar cómo los resultados responden a la cuestión económica, financiera o decisión de empresa que se plantea cómo objetivo.
+6. Comunicar de forma efectiva los resultados (mediante gráfico, tablas, etc.), discutiendo qué implican respecto al **objetivo** económico, financiero o de empresa planteado.
 
 <!--
 **LA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO**
@@ -35,7 +36,7 @@ Por tanto, debe explicarse claramente:
 
 # Resultado final
 
-Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. Por favor, intentad que el trabajo sea **mínimamente presentable** y profesional. No se trata de “amontonar” resultados, sino de presentar una historia que los datos cuentan usando vuestros conocimientos como *universitarios*.
+Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. El trabajo debe ser **mínimamente presentable**: no se trata de “amontonar” resultados, sino de presentar una historia que los datos cuentan usando vuestros conocimientos como *universitarios*.
 
 Como es habitual, deberéis entregar un archivo .qmd y el resultado de renderizarlo (un archivo .html, .pdf o .docx). También se adjuntarán otros archivos que fueran necesarios para **reproducir** totalmente el documento o archivos complementarios que consideréis importantes (ej., archivos de datos, archivos de código R complementario, etc.).
 
@@ -51,13 +52,17 @@ Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye 
 
 ## Elección de Tema
 
-* Por favor, cumplimentad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSeXKdPGtTpsXfSh3XZXn3JKN1Q8bx_qMy-Z4w9DQ0IrIPLHHA/viewform) con vuestra **propuesta de tema** para el proyecto. 
+* Por favor, cumplimentad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSe7GzAtkQXj52uFFMuCuBnvDObBbxgLLY6RKoKYiWTWtoPFGw/viewform) con vuestra **propuesta de tema** para el proyecto. 
 
-* Deben queda claro los **objetivos/utilidad** de hacer del análisis que proponéis; debéis indicar qué datos usaréis y comentar brevemente cómo pensáis hacerlo (si haréis regresión o clasificación, tipo de algoritmos, etc.)
+* Deben queda claro 
 
-* Os recomiendo hacer esto cuanto antes, preferiblemente tras discutirlo en clase. 
-
-* Debéis esperar a mi visto bueno sobre vuestra propuesta, para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
+  1. los **objetivos/utilidad** de hacer del análisis que proponéis (entre otras cosas, esto implica comentar brevemente si el modelo se usará para predecir, para establecer efectos de una variable sobre otra, y cómo se usará el modelo en la práctica para conseguir ese objetivo).
+  
+  2. comentar brevemente cómo pensáis hacerlo: si haréis regresión o clasificación, tipo de algoritmos, etc.
+  
+  3. qué datos usaréis y cómo se adecuadan al objetivo.
+  
+* Enviad vuestra propuesta lo antes posible, PERO debéis esperar a mi visto bueno para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
 
 <!--
 --------------------------------------------------------------------------------
@@ -91,24 +96,29 @@ QUIZÁS
 --------------------------------------------------------------------------------
 -->
 
-* En cualquier momento podéis consultarme dudas relativas al trabajo. Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.
+* Podéis consultarme cualquier duda relativa al trabajo. <!-- Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.-->
 
 ## Entrega Final
 
-* El trabajo en su formato final deberá entregarse antes del **lunes, 3 de febrero de 2025** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSdYMg3LtT4SaxIIMhVt2BDOyZfO2oeY578RPcWO8XYWvCiBIQ/viewform)
+* El trabajo en su formato final deberá entregarse antes del **miércoles, 26 de enero de 2026** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSfz4LmVzPTvGt5oo6BC0Gqr_FItooLuH6LdkrtkatvWIDEcJg/viewform).
+
 
 # Evaluación
 
-En la nota de trabajo se valorará la complejidad de **todo el proceso** del análisis. No es lo mismo usar unos datos ya preparados u otros que requieran mucha limpieza, necesitar combinar varias fuentes de datos, etc.  Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación se tendrá en cuenta; hacer los más básico visto en clase con unos datos similares a los de clase es válido, pero incluso estando perfecto no podéis esperar la máxima nota.
+La nota final valorará **todo el proceso** del análisis, teniendo en cuenta que algunos datos apenas requieren procesamiento mientras que otros requieren mucha limpieza, combinar varias fuentes de datos, etc.  Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación puede ser diferente según los trabajos.
 
-Notad que es MUY IMPORTANTE que el trabajo incluya comentarios adecuados. Por un lado, esto implica NO meramente describir lo obvio que se ve en una tabla o gráfico, sino explicar por qué es importante, qué implica, qué se puede inferir, etc. Por otro lado, todos los comentarios deben ser coherentes con el objetivo del análisis y con el contexto de los datos.
+Hacer lo más básico visto en clase con unos datos similares a los de clase es válido, pero no esperéis una nota alta incluso estando perfecto.
+
+Es MUY IMPORTANTE que el trabajo incluya comentarios adecuados. Por un lado, esto implica NO meramente describir lo obvio que se ve en una tabla o gráfico, sino explicar por qué es importante, qué implica, qué se puede inferir, etc. Por otro lado, todos los comentarios deben ser coherentes con el objetivo del análisis y con el contexto de los datos.
 
 ## IMPORTANTE: PLAGIO. 
 
+<!--
 
-  * Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. *Yo también*. 
-  
-  * La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la **apertura de un expediente**.
+* Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. *Yo también*. 
+-->
+
+  * La detección de cualquier forma de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la **apertura de un expediente**.
 
 <!--
 
@@ -119,7 +129,7 @@ No es la primera vez que estos datos u otros que me propongáis vosotros se han 
 
 
 
-# Algunas propuestas de temas y fuentes de datos
+# Algunas sugerencias sobre temas y fuentes de datos
 
 
 <!--

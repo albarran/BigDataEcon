@@ -6,6 +6,8 @@ strip-comments: true
 
 # Profesores: 
 
+::: {.panel-tabset}
+
 ## [Pedro Albarrán](https://sites.google.com/site/pedroalbarran)
 
 * Despacho 19, Segundo (último) piso, Edificio 31
@@ -41,6 +43,8 @@ strip-comments: true
     (solicitada previamente con al menos 24 horas de antelación, por UACloud o email)
 
 * También podéis usar la herramienta de tutorías de UACloud
+
+:::
 
 ***
 
