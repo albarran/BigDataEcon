@@ -4190,9 +4190,10 @@ scrollbar-width: thin;
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>railtrail <span class="ot">&lt;-</span> RailTrail <span class="sc">|&gt;</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">dayType =</span> <span class="fu">parse_factor</span>(dayType)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(weekday, lowtemp, avgtemp)) </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(RailTrail)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(weekday, lowtemp, avgtemp))  <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">log_volume =</span> <span class="fu">log</span>(volume))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(RailTrail)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="modelización-i" class="level1">
@@ -4229,7 +4230,7 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 \]</span></p>
 <p>Esta especificación se corresponde con la siguiente receta:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>receta1 <span class="ot">&lt;-</span>railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>() <span class="sc">|&gt;</span>             </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>receta1 <span class="ot">&lt;-</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>() <span class="sc">|&gt;</span>             </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(volume <span class="sc">~</span>  hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> precip <span class="sc">+</span>  dayType) <span class="sc">|&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(dayType) <span class="sc">|&gt;</span> </span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_poly</span>(hightemp, <span class="at">degree =</span> <span class="dv">21</span>) <span class="sc">|&gt;</span>   </span>
@@ -4299,15 +4300,19 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <p>Consideramos un modelo alternativo donde la variable dependiente esté en logaritmos.</p>
 <section id="paso-1-preparar-los-datos-y-especificación-1" class="level2">
 <h2 class="anchored" data-anchor-id="paso-1-preparar-los-datos-y-especificación-1">Paso 1: Preparar los datos y Especificación</h2>
-<p>Definimos la nueva receta:</p>
+<p>Para definir la nueva receta, NO es necesario repetir (copiar y pegar) todos los pasos de la receta anterior.</p>
+<p>Podemos simplemente incluir un paso donde se incluye la transformación en logaritmos de la variable dependiente (no habríamos necesitado crear la variable transformada en logaritmo antes).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>receta2 <span class="ot">&lt;-</span>receta1 <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_log</span>(volume) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>receta2 <span class="ot">&lt;-</span> receta1 <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_log</span>(volume)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Podemos ver que efectivamente los nuevos datos incluyen la transformación en logaritmos:</p>
+<p>PERO los pasos no funcionan aplicados a variable dependiente cuando aplicamos la receta en nuevos datos. En este caso, sí lo haremos, por lo que usamos</p>
+<p>Sin embargo, podemos reutilizar los pasos de la receta anterior:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>datosPrep2 <span class="ot">&lt;-</span> receta2 <span class="sc">|&gt;</span>  <span class="fu">prep</span>() <span class="sc">|&gt;</span> <span class="fu">bake</span>(railtrailEntren)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>datosPrep2 <span class="sc">|&gt;</span> <span class="fu">slice_head</span>() <span class="sc">|&gt;</span> <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_paper</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>receta2 <span class="ot">&lt;-</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(log_volume <span class="sc">~</span>  hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> precip <span class="sc">+</span>  dayType)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>receta2<span class="sc">$</span>steps <span class="ot">&lt;-</span> receta1<span class="sc">$</span>steps</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="paso-2-entrenamiento-1" class="level2">
@@ -4369,10 +4374,13 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_poly</span>(hightemp, <span class="at">degree =</span> <span class="dv">21</span>) <span class="sc">|&gt;</span>   </span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(cloudcover) <span class="sc">|&gt;</span> </span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(dayType) <span class="sc">|&gt;</span> </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_interact</span>(<span class="sc">~</span>precip<span class="sc">:</span><span class="fu">starts_with</span>(<span class="st">&quot;dayType_&quot;</span>))</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>receta2LASSO <span class="ot">&lt;-</span> receta1LASSO <span class="sc">|&gt;</span> </span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_log</span>(volume)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_interact</span>(<span class="sc">~</span>precip<span class="sc">:</span><span class="fu">starts_with</span>(<span class="st">&quot;dayType_&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>receta2LASSO <span class="ot">&lt;-</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(log_volume <span class="sc">~</span>  hightemp <span class="sc">+</span> cloudcover <span class="sc">+</span> precip <span class="sc">+</span>  dayType)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>receta2LASSO<span class="sc">$</span>steps <span class="ot">&lt;-</span> receta1LASSO<span class="sc">$</span>steps</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="paso-2-entrenamiento-2" class="level2">
@@ -4383,8 +4391,8 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li>Definimos el modelo con el hiperparámetro para ajustar:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>modelo_LASSO  <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode=</span> <span class="st">&quot;regression&quot;</span>, <span class="at">engine =</span> <span class="st">&quot;glmnet&quot;</span>, </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>modelo_LASSO  <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode=</span> <span class="st">&quot;regression&quot;</span>, <span class="at">engine =</span> <span class="st">&quot;glmnet&quot;</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="paso-2.b-creación-del-flujo-de-trabajo-2" class="level3">
@@ -4393,18 +4401,18 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li>Creamos los flujos de trabajo combinando las recetas y el modelo</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1 <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(receta1LASSO) <span class="sc">|&gt;</span>      </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(modelo_LASSO)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2 <span class="ot">&lt;-</span> flujo_LASSO1  <span class="sc">|&gt;</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_recipe</span>(receta2LASSO)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1 <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(receta1LASSO) <span class="sc">|&gt;</span>      </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(modelo_LASSO)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2 <span class="ot">&lt;-</span> flujo_LASSO1  <span class="sc">|&gt;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_recipe</span>(receta2LASSO)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Podemos comprobar que el flujo depende un parámetro a ajustar:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1 <span class="sc">|&gt;</span> <span class="fu">extract_parameter_set_dials</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1 <span class="sc">|&gt;</span> <span class="fu">extract_parameter_set_dials</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="paso-2.c-estimación-del-flujo-2" class="level3">
@@ -4416,9 +4424,9 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li><p>Definimos las particiones de validación cruzada en la muestra de entrenamiento que vamos a utilizar, para ambos casos:</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9753</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>railtrail_entrenCV <span class="ot">&lt;-</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">vfold_cv</span>(<span class="at">v=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9753</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>railtrail_entrenCV <span class="ot">&lt;-</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">vfold_cv</span>(<span class="at">v=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="proceso-de-ajuste-del-primer-modelo" class="level4">
@@ -4427,53 +4435,53 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li>Definimos un primer rango y valores de búsqueda del hiperparámetro:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Dado que lo que observamos, ampliamos el rango por la derecha probando muchos valores:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">68</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">51</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">68</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">51</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Nos centramos en un rango plausible probando más valores:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">29</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">51</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">29</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">51</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Notad que hay varios valores con métricas muy similares. Nos quedamos con el mejor, pero serían igualmente válidos:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">show_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>mejor_lambda1 <span class="ot">&lt;-</span> flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">show_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>mejor_lambda1 <span class="ot">&lt;-</span> flujo_LASSO1_ajust <span class="sc">|&gt;</span> <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="proceso-de-ajuste-del-segundo-modelo" class="level4">
@@ -4482,67 +4490,67 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li>Probamos un primer rango</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Vemos un cambio fuerte entorno a 0.2 miramos que pasa a su izquierda</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>… y a su derecha</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">1.1</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">1.1</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Focalizamos más en la parte a la izquierda de 0.3 (porque a la derecha, la métrica no varía: la penalización no hace cambiar el modelo)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.09</span>, <span class="fl">0.11</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">51</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>LASSO_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(<span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.09</span>, <span class="fl">0.11</span>), <span class="at">trans =</span> <span class="cn">NULL</span>), </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> <span class="dv">51</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">tune_grid</span>(<span class="at">resamples =</span> railtrail_entrenCV, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">metrics   =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">grid      =</span> LASSO_grid            )</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">autoplot</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Nos quedamos con el mejor</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mejor_lambda2 <span class="ot">&lt;-</span> flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mejor_lambda2 <span class="ot">&lt;-</span> flujo_LASSO2_ajust <span class="sc">|&gt;</span> <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="paso-2.c.2-finalizando-y-estimando" class="level4">
@@ -4551,27 +4559,27 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li>Para el primer modelo</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final1 <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">finalize_workflow</span>(mejor_lambda1)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final1 <span class="ot">&lt;-</span> flujo_LASSO1 <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">finalize_workflow</span>(mejor_lambda1)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final1_est <span class="ot">&lt;-</span>  flujo_LASSO_final1 <span class="sc">|&gt;</span>  </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">fit</span>(<span class="at">data =</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>())</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final1_est <span class="sc">|&gt;</span>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_styling</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final1_est <span class="ot">&lt;-</span>  flujo_LASSO_final1 <span class="sc">|&gt;</span>  </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">fit</span>(<span class="at">data =</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>())</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final1_est <span class="sc">|&gt;</span>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_styling</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Para el segundo modelo</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final2 <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">finalize_workflow</span>(mejor_lambda2)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final2 <span class="ot">&lt;-</span> flujo_LASSO2 <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">finalize_workflow</span>(mejor_lambda2)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final2_est <span class="ot">&lt;-</span>  flujo_LASSO_final2 <span class="sc">|&gt;</span>  </span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">fit</span>(<span class="at">data =</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>())</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final2_est <span class="sc">|&gt;</span>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_styling</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final2_est <span class="ot">&lt;-</span>  flujo_LASSO_final2 <span class="sc">|&gt;</span>  </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">fit</span>(<span class="at">data =</span> railtrailPart <span class="sc">|&gt;</span> <span class="fu">training</span>())</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>flujo_LASSO_final2_est <span class="sc">|&gt;</span>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">|&gt;</span> <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_styling</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Nota: también podríamos poner los dos modelos juntos en la misma tabla, en columnas diferentes.</li>
@@ -4586,38 +4594,38 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <li>Usamos <code>final_fit()</code> en cada modelo para calcular las métricas de error:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>lm1_final_fit <span class="ot">&lt;-</span> flujo_lm1 <span class="sc">|&gt;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae)) </span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>lm2_final_fit <span class="ot">&lt;-</span> flujo_lm2 <span class="sc">|&gt;</span> </span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae))  </span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>LASSO1_final_fit <span class="ot">&lt;-</span> flujo_LASSO_final1 <span class="sc">|&gt;</span> </span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae)) </span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>LASSO2_final_fit <span class="ot">&lt;-</span> flujo_LASSO_final2 <span class="sc">|&gt;</span> </span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae)) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>lm1_final_fit <span class="ot">&lt;-</span> flujo_lm1 <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae)) </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>lm2_final_fit <span class="ot">&lt;-</span> flujo_lm2 <span class="sc">|&gt;</span> </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae))  </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>LASSO1_final_fit <span class="ot">&lt;-</span> flujo_LASSO_final1 <span class="sc">|&gt;</span> </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae)) </span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>LASSO2_final_fit <span class="ot">&lt;-</span> flujo_LASSO_final2 <span class="sc">|&gt;</span> </span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">last_fit</span>(<span class="at">split =</span> railtrailPart,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>                             <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae)) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Recopilamos las métricas y las presentamos en una tabla</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> lm1_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">lm1 =</span> .estimate)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> lm2_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">lm2 =</span> .estimate)</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>LASSO1 <span class="ot">&lt;-</span> LASSO1_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">LASSO1 =</span> .estimate)</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>LASSO2 <span class="ot">&lt;-</span> LASSO2_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">LASSO2 =</span> .estimate)</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>lm1 <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(lm2) <span class="sc">|&gt;</span> </span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(LASSO1) <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(LASSO2) <span class="sc">|&gt;</span> </span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_classic</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> lm1_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">lm1 =</span> .estimate)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> lm2_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">lm2 =</span> .estimate)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>LASSO1 <span class="ot">&lt;-</span> LASSO1_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">LASSO1 =</span> .estimate)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>LASSO2 <span class="ot">&lt;-</span> LASSO2_final_fit <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(.metric, .estimate) <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">LASSO2 =</span> .estimate)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>lm1 <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(lm2) <span class="sc">|&gt;</span> </span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(LASSO1) <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(LASSO2) <span class="sc">|&gt;</span> </span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">|&gt;</span> <span class="fu">kable_classic</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="conclusiones" class="level1">
@@ -4628,8 +4636,18 @@ volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{
 <h1>Vuestro ejercicio</h1>
 <p>Responded <strong>brevemente</strong> a las siguientes dos preguntas, justificando vuestras respuestas</p>
 <ol type="1">
-<li><p>Usando el mejor modelo, ¿cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?</p></li>
-<li><p>La comisión gestora quiere saber el impacto de un incremento de la temperatura sobre el número de visitantes. Usando informes científicos sobre el calentamiento global, se sabe que la temperatura máxima aumentará 5º Fahrenheit en verano (cuando la media de la temperatura máxima es 82.8º) y 3º Fahrenheit en otoño (cuando la media de la temperatura máxima es 55.8º). ¿Qué cambios se espera que ocurran en el número de visitantes debido al calentamiento global?</p></li>
+<li>Considera el mejor modelo para predecir el número de visitantes. Vuelve a estimarlo, PERO usando un polinomio en <code>hightemp</code> de orden 18. <span class="math display">\[
+\begin{aligned}
+volumen &amp;= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{21} hightemp^{18}  \\
+     &amp; + \beta_{22} D_{cloudclover \in (2.5,5]}+\beta_{23} D_{cloudclover \in (5,7.5]}+\beta_{24} D_{cloudclover \in (7.5,10]} \\
+     &amp;+ \beta_{25} precip + \beta_{26} dayType + \beta_{27} precip \times dayType + u
+\end{aligned}
+\]</span></li>
+</ol>
+<p>Nota: para ajustar el hiperparámetro, buscar en el mismo rango que usamos para ese mejor modelo el final: 51 valores entre 0.09 y 0.11.</p>
+<p>¿Cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?</p>
+<ol start="2" type="1">
+<li>La comisión gestora quiere saber el impacto de un incremento de la temperatura sobre el número de visitantes. Usando informes científicos sobre el calentamiento global, se sabe que la temperatura máxima aumentará 5º Fahrenheit en verano (cuando la media de la temperatura máxima es 82.8º) y 3º Fahrenheit en otoño (cuando la media de la temperatura máxima es 55.8º). ¿Qué cambios se espera que ocurran en el número de visitantes debido al calentamiento global?</li>
 </ol>
 </section>
 <section id="entrega" class="level1">
