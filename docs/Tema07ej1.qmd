@@ -22,6 +22,8 @@ execute:
   fig.show: hide
 lang: es
 strip-comments: true
+params:
+  soln: false
 ---
 <!-- markdownlint-disable-file MD013 -->
 
@@ -48,7 +50,8 @@ En este caso, convertimos las variables categóricas a factores y eliminamos las
 ```{r}
 railtrail <- RailTrail |> 
               mutate(dayType = parse_factor(dayType)) |> 
-              select(-c(weekday, lowtemp, avgtemp)) 
+              select(-c(weekday, lowtemp, avgtemp))  |>
+              mutate(log_volume = log(volume))
 
 rm(RailTrail)
 ```
@@ -95,7 +98,7 @@ $$
 Esta especificación se corresponde con la siguiente receta:
 
 ```{r}
-receta1 <-railtrailPart |> training() |>             
+receta1 <- railtrailPart |> training() |>             
   recipe(volume ~  hightemp + cloudcover + precip +  dayType) |>
   step_dummy(dayType) |> 
   step_poly(hightemp, degree = 21) |>   
@@ -173,22 +176,52 @@ Consideramos un modelo alternativo donde la variable dependiente esté en logari
 
 ## Paso 1: Preparar los datos y Especificación
 
-Definimos la nueva receta:
-
+Para definir la nueva receta, NO es necesario repetir (copiar y pegar) todos los pasos de la receta anterior.
 
 ```{r}
-receta2 <-receta1 |>
-  step_log(volume) 
+#| echo: false
+#| eval: false
+receta2 <- railtrailPart |> training() |> 
+  recipe(log_volume ~  hightemp + cloudcover + precip +  dayType) |>
+  step_dummy(dayType) |> 
+  step_poly(hightemp, degree = 21) |>   
+  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
+           include_outside_range = T)  |> 
+  step_dummy(cloudcover) |> 
+  step_interact(~precip:starts_with("dayType_"))
 ```
 
-Podemos ver que efectivamente los nuevos datos incluyen la transformación en logaritmos:
+Podemos simplemente incluir un paso donde se incluye la transformación en logaritmos de la variable dependiente (no habríamos necesitado crear la variable transformada en logaritmo antes).
 
+```{r}
+receta2 <- receta1 |> 
+  step_log(volume)
+```
+
+PERO los pasos no funcionan aplicados a variable dependiente cuando aplicamos la receta en nuevos datos. En este caso, sí lo haremos, por lo que usamos 
+
+Sin embargo, podemos reutilizar los pasos de la receta anterior:
+
+```{r}
+receta2 <- railtrailPart |> training() |> 
+  recipe(log_volume ~  hightemp + cloudcover + precip +  dayType)
+
+receta2$steps <- receta1$steps
+```
+
+
+<!--
+Podemos ver que efectivamente los nuevos datos incluyen la transformación en logaritmos:
 
 ```{r}
 #| results: markup
+#| echo: false
+#| eval: false
+
 datosPrep2 <- receta2 |>  prep() |> bake(railtrailEntren)
 datosPrep2 |> slice_head() |> kbl() |> kable_paper()
 ```
+-->
 
 ## Paso 2: Entrenamiento
 
@@ -247,9 +280,36 @@ receta1LASSO <- railtrailPart |> training() |>
   step_dummy(cloudcover) |> 
   step_dummy(dayType) |> 
   step_interact(~precip:starts_with("dayType_"))
+```
 
+
+```{r}
+#| echo: false
+#| eval: false
 receta2LASSO <- receta1LASSO |> 
   step_log(volume)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+receta2LASSO <- railtrailPart |> training() |> 
+  recipe(log_volume ~  hightemp + cloudcover + precip +  dayType) |>
+  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
+           include_outside_range = T)  |> 
+  step_scale(all_predictors(), -all_nominal()) |>
+  step_poly(hightemp, degree = 21) |>   
+  step_dummy(cloudcover) |> 
+  step_dummy(dayType) |> 
+  step_interact(~precip:starts_with("dayType_"))
+```
+
+
+```{r}
+receta2LASSO <- railtrailPart |> training() |> 
+  recipe(log_volume ~  hightemp + cloudcover + precip +  dayType)
+
+receta2LASSO$steps <- receta1LASSO$steps
 ```
 
 ## Paso 2: Entrenamiento
@@ -532,9 +592,200 @@ Responded **brevemente** a las siguientes dos preguntas, justificando vuestras r
 
 <!--1. ¿Qué modelo es mejor para predecir el número de visitantes?-->
 
-1. Usando el mejor modelo, ¿cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?
+1. Considera el mejor modelo para predecir el número de visitantes. Vuelve a estimarlo, PERO usando un polinomio en `hightemp` de orden 18. 
+$$
+\begin{aligned}
+volumen &= \beta_0 + \beta_1 hightemp + \beta_2 hightemp^2 + \dots + \beta_{21} hightemp^{18}  \\
+        & + \beta_{22} D_{cloudclover \in (2.5,5]}+\beta_{23} D_{cloudclover \in (5,7.5]}+\beta_{24} D_{cloudclover \in (7.5,10]} \\
+        &+ \beta_{25} precip + \beta_{26} dayType + \beta_{27} precip \times dayType + u
+\end{aligned}
+$$
+
+Nota: para ajustar el hiperparámetro, buscar en el mismo rango que usamos para ese mejor modelo el final: 51 valores entre 0.09 y 0.11.
+
+¿Cuál es el número de visitantes esperado un día con una temperatura máxima de 80ºF, con un nubosidad de 8.5, con una precipitación de 0.02 y que es fin de semana? ¿Cuál es un intervalo de confianza para la predicción?
+
+`r if(!params$soln) {"<!--"}`
+
+
+
+```{r}
+# Reutilizamos algunos objetos y 
+# Receta
+receta2LASSO <- railtrailPart |> training() |> 
+  recipe(log_volume ~  hightemp + cloudcover + precip +  dayType) |>
+  step_cut(cloudcover, breaks = c(0, 2.5, 5, 7.5, 10), 
+           include_outside_range = T)  |> 
+  step_scale(all_predictors(), -all_nominal()) |>
+  step_poly(hightemp, degree = 18) |>   
+  step_dummy(cloudcover) |> 
+  step_dummy(dayType) |> 
+  step_interact(~precip:starts_with("dayType_"))
   
+flujo_LASSO2 <- flujo_LASSO1  |>
+  update_recipe(receta2LASSO)
+```
+
+
+```{r}
+# Ajuste del hiperparámetro
+LASSO_grid <- grid_regular(penalty(range = c(0.09, 0.11), trans = NULL), 
+                                   levels = 51)
+flujo_LASSO2_ajust <- flujo_LASSO2 |> 
+                        tune_grid(resamples = railtrail_entrenCV, 
+                                  metrics   = metric_set(rmse, mae),
+                                  grid      = LASSO_grid            )
+
+flujo_LASSO2_ajust |> autoplot()
+
+mejor_lambda2 <- flujo_LASSO2_ajust |> select_best(metric = "rmse")
+```
+
+```{r}
+# Estimación final
+flujo_LASSO_final2 <- flujo_LASSO2 |> 
+        finalize_workflow(mejor_lambda2)  
+        
+flujo_LASSO_final2_est <-  flujo_LASSO_final2 |>  
+              fit(data = railtrailPart |> training())
+        
+```
+
+
+
+Para la predicción puntual:
+```{r}
+#| results: markup
+valores <- tibble(hightemp = 80, cloudcover = 8.5, 
+                  precip = 0.02, dayType = "weekend")
+pred <- flujo_LASSO_final2_est |> predict(new_data = valores) 
+
+pred |> exp() |>  
+  kbl(digits = 1) |> kable_classic()
+```
+
+Para modelos LASSO no podemos usar los intervalos de confianza directamente, pero podemos usar bien supuestos de normalidad/TCL o bootstrap para obtenerlos.
+
+Dos formas de hacerlo: suponiendo normalidad (no es directo para lo que saben) o usando bootstrap (adaptación mínima de lo que ya saben). NO SE ESPERA QUE ENTREGUEN ESTO, solo comentar.
+
+* Suponiendo normalidad (asintótica): una *aproximación* al intervalo de confianza para la predicción en escala logarítmica es:
+
+$$IC \approx \hat{y} \pm z_{\alpha/2} \cdot \hat{\sigma}$$
+donde $\hat{\sigma}$ = desviación típica de los residuos (en entrenamiento).
+
+Luego transformamos el intervalo a la escala original con la exponencial:
+
+```{r}
+#| results: markup
+
+# Necesitamos una medida de la variabilidad de los errores de predicción: la estimamos en la muestra de entrenamiento
+train_pred <- flujo_LASSO_final2_est |>
+  predict(new_data = railtrailPart |> training())
+
+resid <- railtrailPart |> training() |> select(log_volume) - train_pred$.pred
+
+sigma_hat <- sd(resid |> pull(log_volume), na.rm = TRUE)
+
+# Intervalo de confianza
+alpha <- 0.05
+z <- qnorm(1 - alpha / 2)
+
+pred_CI <- pred$.pred + c(-1, 1) * z * sigma_hat 
+
+pred_CI |> exp() |>  
+  kbl(digits = 1) |> kable_classic()
+```
+
+
+* Usando bootstrap:
+
+```{r}
+#| results: markup
+#| eval: false
+
+set.seed(123)
+remuestras <- bootstraps(railtrailPart |> training(), times = 100)
+
+distrib <- list()
+for (r in 1:100) {
+  remuestra <- remuestras$splits[[r]] |> as_tibble()
+  
+  # ajustar el MISMO workflow LASSO en CADA remuestra
+  mod_r <- flujo_LASSO_final2 |>
+    fit(data = remuestra)
+  
+  pred_r <- predict(mod_r, new_data = valores) |> pull(.pred)
+  # pred_r0 <- predict(mod_r, new_data = valores)
+  # pred_r  <- pred_ro$.pred
+  
+  distrib[[r]] <- list(preds = pred_r)
+}
+
+distribDF <- distrib |> bind_rows()
+
+predIC_log <- distribDF |> pull(preds) |> quantile(c(0.025, 0.975))
+
+predIC <- exp(predIC_log)
+predIC
+
+## NOTA: también se podría hacer con `map()` pero no lo han visto...
+
+```
+
+
+`r if(!params$soln) {"-->"}`
+
 2. La comisión gestora quiere saber el impacto de un incremento de la temperatura sobre el número de visitantes. Usando informes científicos sobre el calentamiento global, se sabe que la temperatura máxima aumentará 5º Fahrenheit en verano (cuando la media de la temperatura máxima es 82.8º) y 3º Fahrenheit en otoño (cuando la media de la temperatura máxima es 55.8º). ¿Qué cambios se espera que ocurran en el número de visitantes debido al calentamiento global?
+
+`r if(!params$soln) {"<!--"}`
+
+El mejor modelo para predicción NO es adecuado para interpretar coeficientes que nos informen de efectos causales. En particular, los coeficientes de los modelos LASSO están sesgados. 
+
+Podemos usar los resultados de LASSO para seleccionar variables para un modelo que estimaremos por MCO. Notad que puede ser tanto el modelo en niveles como en logaritmos: los resultados de LASSO NO son informativos para efectos causales.
+
+
+* El modelo LASSO en niveles indica que deberíamos usar solamente las variables: precip, hightemp (polinomio de grado 3), cloudcover (discretizada entre 7.5 y 10) y dayType (dummies). Estimamos usando TODOS los datos.
+
+```{r}
+lm(data = railtrail, volume ~ precip + 
+     hightemp + I(hightemp^2) + I(hightemp^3) + 
+     cut(cloudcover, breaks = c(0, 7.5, 10), 
+         include.lowest = T, right = T) + 
+     dayType) |> summary()
+
+```
+
+Por tanto, el efecto de un cambio de un grado en la temperatura sobre los visitantes es 
+$5*((-1.432e+02) + 2*(2.389e+00)*82.8 + 3*(-1.232e-02)*82.8^2) = -4.87$ en verano y
+$3*((-1.432e+02) + 2*(2.389e+00)*55.8 + 3*(-1.232e-02)*55.8^2) = 24.99$ en otoño.  
+
+
+El modelo LASSO en logaritmos indica que deberíamos usar solamente las variables: precip, hightemp (polinomio de grado 2), cloudcover (discretizada entre 7.5 y 10).
+
+
+```{r}
+lm(data = railtrail, log(volume) ~ precip + 
+     hightemp + I(hightemp^2) + 
+     cut(cloudcover, breaks = c(0, 7.5, 10), 
+         include.lowest = T, right = T)) |> summary()
+
+```
+
+Por tanto, el efecto de un cambio de un grado en la temperatura sobre los visitantes es 
+$5*100* ((0.0750435) + 2*(-0.0004158)*82.8 )=3.09\%$ en verano y 
+$3*100* ((0.0750435) + 2*(-0.0004158)*55.8 )= 14.32\%$ en otoño.
+Dado el número medio de visitantes en cada estación:
+
+```{r}
+railtrail |> filter(summer ==1) |> pull(volume) |> mean()
+
+railtrail |> filter(fall ==1) |> pull(volume) |> mean()
+
+```
+
+$421.88*.0309 = 13.03$ y $295.0833*.1432=42.26$ visitantes adicionales, respectivamente.
+
+`r if(!params$soln) {"-->"}`
 
 # Entrega
 

@@ -160,7 +160,6 @@ railtrailPart <- RailTrail |>
   
 -->
 
-
 * ¿Cómo tratar los valores ausentes en *este modelo*?
 
   - elimina las observaciones con valores ausentes: `step_naomit()`
@@ -274,6 +273,8 @@ receta2 <- training(RailTrail_part) |>            # Datos: NO crucial
 ```
 
 * Podría `prep()`ararse y aplicar las transformaciones con `juice()` o `bake()` (veremos otra alternativa más general)
+
+* NOTA: los pasos no funcionan aplicados a variable dependiente cuando aplicamos la receta en nuevos datos
 
 <!-- los datos de la receta NO son importantes: se definirán al usarla luego -->
 
