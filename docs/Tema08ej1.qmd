@@ -48,7 +48,9 @@ En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos inform
 #| eval: false
 library(tidyverse)
 descuento <- read_csv("data/descuento.csv") |> 
-        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+        mutate(zona = parse_factor(zona), 
+               mujer = as.factor(mujer),
+               log_ventas = log(ventas))
 ```
 
 ```{r}
@@ -90,6 +92,16 @@ receta1 <- descuentoPart |> training() |>
 receta2 <- receta1 |> 
   step_log(ventas)
 ```
+
+* Nota: si luego usamos el modelo para predecir, la segunda receta debería ser
+
+```{r}
+#| eval: false
+receta2 <- descuentoPart |> training() |> 
+  recipe(log_ventas ~ renta + descuento + zona + edad + mujer + educ)
+```
+
+
 
 ## Paso 2: Entrenamiento
 
@@ -425,6 +437,7 @@ flujo_RF2_final_est <-  flujo_RF2_final |>
 ```{r}
 #| fig-show: asis
 #| results: asis
+library(kableExtra)
 RF2 <- flujo_RF2_final_est |> extract_fit_parsnip() 
 library(vip)
 RF2 |> vi() |> kbl() |> kable_styling()
@@ -459,7 +472,7 @@ RF2_final_fit <- flujo_RF2_final |>
 
 ```{r}
 #| results: markup
-library(kableExtra)
+
 arbol1 <- arbol1_final_fit |> collect_metrics() |> 
               select(.metric, .estimate) |> rename(arbol1 = .estimate)
 arbol2 <- arbol2_final_fit |> collect_metrics() |> 

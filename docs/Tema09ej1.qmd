@@ -49,14 +49,20 @@ En este ejemplo, utilizamos el conjunto de datos `descuento.csv`. Tenemos inform
 #| eval: false
 library(tidyverse)
 descuento <- read_csv("data/descuento.csv") |> 
-        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+        mutate(zona = parse_factor(zona), 
+               mujer = as.factor(mujer),
+               log_ventas = log(ventas))
 ```
 
 ```{r}
 #| echo: false
 library(tidyverse)
-descuento <- read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv") |> 
-        mutate(zona = parse_factor(zona), mujer = as.factor(mujer))
+
+descuento <- tryCatch(read_csv("data/descuento.csv"),
+                      error = function(e) read_csv("https://raw.githubusercontent.com/albarran/00datos/refs/heads/main/descuento.csv")) |>
+        mutate(zona = parse_factor(zona), 
+               mujer = as.factor(mujer),
+               log_ventas = log(ventas))
 ```
 
 # Modelos kNN
@@ -87,6 +93,17 @@ recetakNN1 <- descuentoPart |> training() |>
 
 recetakNN2 <- recetakNN1 |> 
   step_log(ventas)
+```
+
+* Nota: si luego usamos el modelo para predecir, la segunda receta debería ser
+
+```{r}
+#| eval: false
+recetakNN2 <- descuentoPart |> training() |> 
+  recipe(log_ventas ~ renta + descuento + zona + edad + mujer + educ)
+
+
+recetakNN2$steps <- recetakNN1$steps
 ```
 
 
