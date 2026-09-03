@@ -6,6 +6,11 @@ strip-comments: true
 ---
 
 <!--
+CURSO 2026-27: todo el contenido queda comentado. Para abrir una semana,
+mueve la marca de cierre --> hacia arriba, justo encima de la semana más
+antigua que quieras mostrar (las semanas están ordenadas de nueva a vieja,
+Semana 1 al final). Actualiza también las fechas de cada semana.
+
 
   * [Tema 11 - Aprendizaje No Supervisado](docs/Tema11.qmd)
 
@@ -14,12 +19,9 @@ strip-comments: true
   * [Tema 12 - Análisis de Texto](docs/Tema12.qmd)
 
 
--->
 
-<!--
 
 *********************************************************************
--->
 
 ## Semana 14
 (15-Dic. a 21-Dic.)
@@ -128,7 +130,5 @@ strip-comments: true
 
   * [Introducción](docs/0Intro.qmd)
   * [Tema 0 - Introducción a R y a RStudio](docs/Tema00.qmd)
-
-<!--
 
 -->
