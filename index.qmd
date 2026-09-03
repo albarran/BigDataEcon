@@ -39,7 +39,7 @@ strip-comments: true
 
 ## Luis Pérez
 
-* e-mail: por confirmar al inicio del curso
+* e-mail: [luis.perez@ua.es](mailto:luis.perez@ua.es)
 
 * Despacho y tutorías: por confirmar al inicio del curso
 
