@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Proyecto Final</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -32,15 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0b90554db41e1e94df75aa9c52e681fd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-989357bbfd8f5ca15a0cc9c404c3fc04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -204,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Enviad vuestra propuesta lo antes posible, PERO debéis esperar a mi visto bueno para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)</p></li>
 </ul>
 <ul>
-<li>Podéis consultarme cualquier duda relativa al trabajo. </li>
+<li>Podéis consultarme cualquier duda relativa al trabajo.</li>
 </ul>
 </section>
 <section id="entrega-final" class="level2">
@@ -229,33 +234,34 @@ ul.task-list li input[type="checkbox"] {
 <section id="algunas-sugerencias-sobre-temas-y-fuentes-de-datos" class="level1">
 <h1>Algunas sugerencias sobre temas y fuentes de datos</h1>
 <ol type="1">
-<li><p><strong>Ventas de “Big Mart”</strong>. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están <a href="https://drive.google.com/file/d/1Tcr85g-zl_i1XdgAmljcvrB3Dq3_L9d4/view?usp=sharing">aquí</a> </p></li>
-<li><p><strong>Black Friday</strong>. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&amp;dl=0) </p></li>
-<li><p><strong>Concesión de préstamos</strong>. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción <a href="https://www.dropbox.com/s/5h7g2vped3qpbkk/03loan.zip?dl=0">aquí</a> </p></li>
-<li><p><strong>Clasificación de la calidad crediticia</strong>. Datos de una compañía de tarjetas de crédito alemana, <a href="https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29">aquí</a> </p></li>
+<li><p><strong>Ventas de “Big Mart”</strong>. Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana “Big Mart”. Además, se han definido determinados atributos de cada producto y tienda. El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están <a href="https://drive.google.com/file/d/1Tcr85g-zl_i1XdgAmljcvrB3Dq3_L9d4/view?usp=sharing">aquí</a></p></li>
+<li><p><strong>Black Friday</strong>. “ABC Private Limited” quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&amp;dl=0)</p></li>
+<li><p><strong>Concesión de préstamos</strong>. “Dream Housing Finance” desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción <a href="https://www.dropbox.com/s/5h7g2vped3qpbkk/03loan.zip?dl=0">aquí</a></p></li>
+<li><p><strong>Clasificación de la calidad crediticia</strong>. Datos de una compañía de tarjetas de crédito alemana, <a href="https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29">aquí</a></p></li>
 <li><p><strong>Servicio de bicicletas</strong>. La empresa “Capital BikeShare” ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana se realizan más viajes. Información <a href="https://www.capitalbikeshare.com/system-data">aquí</a></p></li>
 </ol>
 <ol start="6" type="1">
 <li><p><strong>Precios de las casas</strong></p>
 <ol type="a">
-<li><p>Disponemos de información describiendo (casi) todos los aspectos de las casas residenciales en <strong>Ames, Iowa</strong>, para predecir el precio final de cada casa. Datos y descripción <a href="https://www.dropbox.com/s/zvvfs88xn8dt4no/07houses.zip?dl=0">aquí</a>. </p></li>
-<li><p>Datos extraídos de la <em>American Community Survey</em> de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en <strong>California y Pennsylvania</strong>. Datos e información <a href="https://www.dropbox.com/s/qic1yskj2gurcu3/08calif.zip?dl=0">aquí</a>. </p></li>
+<li><p>Disponemos de información describiendo (casi) todos los aspectos de las casas residenciales en <strong>Ames, Iowa</strong>, para predecir el precio final de cada casa. Datos y descripción <a href="https://www.dropbox.com/s/zvvfs88xn8dt4no/07houses.zip?dl=0">aquí</a>.</p></li>
+<li><p>Datos extraídos de la <em>American Community Survey</em> de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en <strong>California y Pennsylvania</strong>. Datos e información <a href="https://www.dropbox.com/s/qic1yskj2gurcu3/08calif.zip?dl=0">aquí</a>.</p></li>
 <li><p>Datos se han extraído de los resultados públicos publicados cada semana en <a href="http://domain.com.au" class="uri">http://domain.com.au</a> con información sobre precios de las casa en <strong>Melbourne, Australia</strong>. Datos e información <a href="https://drive.google.com/file/d/1zz8kjIhEGSfKOS6YQOnSOEAoDKivQl0m/view?usp=sharing">aquí</a></p></li>
-<li><p>Datos de <a href="https://www.zillow.com/research/data/"><strong>Zillow</strong></a> sobre precios de las casas en <strong>EE.UU.</strong> a diferentes niveles de desagregación. También existe el paquete de R, <em>ZillowR</em>, para descargar estos datos directamente. </p></li>
+<li><p>Datos de <a href="https://www.zillow.com/research/data/"><strong>Zillow</strong></a> sobre precios de las casas en <strong>EE.UU.</strong> a diferentes niveles de desagregación. También existe el paquete de R, <em>ZillowR</em>, para descargar estos datos directamente.</p></li>
 </ol></li>
 <li><p><strong>Delitos</strong>.</p>
 <ol type="a">
 <li><p>Datos e información <a href="https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2">aquí</a> sobre los crímenes cometidos en <strong>Chicago</strong> desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).</p></li>
-<li><p>También existe información para Boston <a href="https://data.boston.gov/dataset/crime-incident-reports-july-2012-august-2015-source-legacy-system">aquí</a> y <a href="https://data.boston.gov/dataset/crime-incident-reports-august-2015-to-date-source-new-system">aquí</a> y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) </p></li>
-</ol></li>
-<li><p><strong>Propinas en taxis de NY</strong>. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos <a href="https://www.dropbox.com/s/zaptbme1txrhdhi/10taxis.zip?dl=0">aquí</a>. </p></li>
+<li><p>También existe información para Boston <a href="https://data.boston.gov/dataset/crime-incident-reports-july-2012-august-2015-source-legacy-system">aquí</a> y <a href="https://data.boston.gov/dataset/crime-incident-reports-august-2015-to-date-source-new-system">aquí</a> y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios) &lt;!– <a href="#(https://geodacenter.github.io/data-and-lab//comarea_vars/)">//</a>: # (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)</p></li>
+</ol>
+<p>–&gt;</p></li>
+<li><p><strong>Propinas en taxis de NY</strong>. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos <a href="https://www.dropbox.com/s/zaptbme1txrhdhi/10taxis.zip?dl=0">aquí</a>.</p></li>
 <li><p><strong>Airbnb</strong>. En este <a href="https://insideairbnb.com/get-the-data/">enlace</a> están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades. Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. También se pueden encontrar datos de Airbnb en <a href="https://www.kaggle.com/datasets">Kaggle</a>.</p>
 <p>Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos “demasiado” similares) como porque, como con otros datos, se pueden analizar más de una cosa.</p></li>
 </ol>
 <ol start="10" type="1">
-<li><p><strong>Precio de las acciones</strong>. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar <a href="http://www.usfundamentals.com/download/">estos datos</a> o buscar vuestros propios datos de otras empresas (por ejemplo, españolas). </p></li>
-<li><p><strong>Predicción de Respuesta del Cliente</strong> y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción <a href="https://www.dropbox.com/s/9hfftmdbgrerv6h/13respuesta.zip?dl=0">aquí</a>. </p></li>
-<li><p><strong>Stock pairs</strong> es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver <a href="https://en.wikipedia.org/wiki/Pairs_trade">aquí</a>). Si dos precios de acciones o índices bursátiles como Dow Jones y S&amp;P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto. </p></li>
+<li><p><strong>Precio de las acciones</strong>. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar <a href="http://www.usfundamentals.com/download/">estos datos</a> o buscar vuestros propios datos de otras empresas (por ejemplo, españolas).</p></li>
+<li><p><strong>Predicción de Respuesta del Cliente</strong> y maximización de beneficios. Datos de una campaña de “mailing” directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción <a href="https://www.dropbox.com/s/9hfftmdbgrerv6h/13respuesta.zip?dl=0">aquí</a>.</p></li>
+<li><p><strong>Stock pairs</strong> es un estrategia de “trading” desarrollada por “Morgan Stanley” en los años 1980 (ver <a href="https://en.wikipedia.org/wiki/Pairs_trade">aquí</a>). Si dos precios de acciones o índices bursátiles como Dow Jones y S&amp;P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto.</p></li>
 <li><p><a href="https://github.com/datawookie/trundler">Este paquete</a> de R acceso a los datos de productos y precios históricos de una serie de minoristas en línea.</p></li>
 <li><p><a href="https://www.kaggle.com/aungpyaeap/supermarket-sales">Este conjunto de datos</a> contiene información sobre las ventas históricas de una compañía de supermercados.</p></li>
 <li><p>Se pueden utilizar encuestas oficiales para <strong>predecir la pobreza</strong> de los hogares. Si os interesa, preguntadme.</p></li>
