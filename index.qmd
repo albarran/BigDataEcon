@@ -29,20 +29,22 @@ strip-comments: true
 
 * También podéis usar UACloud
 
-## [Alberto Pérez](https://sites.google.com/view/alberto-perez-bernabeu)
+## Henry Redondo
 
-* Despacho 70, Segundo (último) piso, Edificio 34 (Ciencias Sociales)
+* e-mail: [henry.redondo@ua.es](mailto:henry.redondo@ua.es)
 
-
-* e-mail: [alberto.perezbernabeu@ua.es](mailto:alberto.perezbernabeu@ua.es)
-
-
-
-* Tutorias: Miércoles de 11:00 a 13:00
-
-    (solicitada previamente con al menos 24 horas de antelación, por UACloud o email)
+* Despacho y tutorías: por confirmar al inicio del curso
 
 * También podéis usar la herramienta de tutorías de UACloud
+
+## Luis Pérez
+
+* e-mail: por confirmar al inicio del curso
+
+* Despacho y tutorías: por confirmar al inicio del curso
+
+* También podéis usar la herramienta de tutorías de UACloud
+
 
 :::
 
@@ -64,7 +66,7 @@ strip-comments: true
 
 -   Más detalles a lo largo del curso y en 
 <!-- para **Economía** -->
-[la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2025-26)
+[la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2026-27)
 
 
 ***
