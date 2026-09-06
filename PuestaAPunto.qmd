@@ -1,0 +1,59 @@
+---
+title: "Puesta a punto"
+lang: es
+strip-comments: true
+---
+
+<!-- VÍDEOS (pipeline transversal de pendientes: screencast automatizado en VM limpia):
+     insertar aquí, cuando estén, un vídeo corto por sistema:
+     [VIDEO: instalación en Windows] [VIDEO: instalación en macOS] [VIDEO: instalación en Linux].
+     Mismo pipeline genera después los vídeos pre-clase de cada tema. -->
+
+# Instalación del software del curso
+
+Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente
+(todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus
+instaladores. Al final hay una comprobación rápida.
+
+* OJO: conviene tener el sistema operativo actualizado antes de instalar nada.
+* Considerad traer una regleta a clase si vuestra batería dura poco.
+
+## 1. R (versión 4.6 o superior)
+
+* Descargad R desde [https://cran.r-project.org/](https://cran.r-project.org/):
+  * Windows: "Download R for Windows" > "base" > "Download R-4.6.1 for Windows".
+  * macOS: "Download R for macOS"; elegid el .pkg de vuestra arquitectura (arm64 para Apple
+    Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.
+  * Linux: seguid las instrucciones de vuestra distribución.
+
+## 2. Positron (el editor)
+
+* En este curso usamos **Positron**, el entorno de Posit (los creadores de RStudio): funciona
+  igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os
+  será útil en el futuro.
+* Descargad desde [https://positron.posit.co/download.html](https://positron.posit.co/download.html)
+  el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta solo vuestra
+  instalación de R.
+
+* **Si ya usáis VS Code**: podéis seguir perfectamente con él. Instalad las extensiones "R" y
+  "Quarto" y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga
+  para Positron aplica igual.
+
+* **Si ya usáis RStudio**: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí,
+  las instrucciones y capturas de clase serán con Positron.
+
+El resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo
+instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora.
+
+# Comprobación (2 minutos)
+
+1. Abrid Positron.
+2. Localizad la **Consola** (panel inferior): debe aparecer una consola de **R** indicando la
+   versión (algo como `R 4.6.1`). Si dice 4.6 o superior, bien.
+3. Escribid en la consola `2 + 2` y pulsad Enter. Si responde `[1] 4`, TODO CORRECTO.
+
+Si algo falla, no os atasquéis: traed el mensaje de error EXACTO a clase (o preguntad antes
+por UACloud).
+
+<!-- Quitado el "Plan B" de posit.cloud (6-sep): es RStudio online, incoherente con recomendar
+Positron. Si alguien no consigue instalar, se le ayuda en clase. -->

@@ -4,380 +4,184 @@ lang: es
 strip-comments: true
 ---
 
+<!-- BORRADOR 2026-27 (Claude, 4-sep). Cambios clave vs 25-26: rúbrica explícita de la propuesta
+     (extraída del feedback real de Pedro a las propuestas de dic-2025), ejemplo de propuesta
+     aceptable vs no aceptable (anonimizados), enlace al informe ejemplar, fechas por fijar. -->
 
 # Objetivos
 
-  
-Para el proyecto final debéis **proponer un tema** de estudio usando datos y las técnicas vistas en el curso. Podéis partir las sugerencias sobre datos y temas que aparecen más abajo o plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia.
+Para el proyecto final debéis **proponer un tema** de estudio usando datos y las técnicas vistas
+en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos
+o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.
 
-El resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (**"business analytics"**): 
+El resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa,
+negocios o finanzas (**"business analytics"**):
 
 ![](docs/figure/data-science-model.png){fig-align="center"}
 
 Por tanto, debe explicarse claramente:
 
 1. **Objetivo** del análisis: qué cuestión se estudia y por qué es importante.
-
 2. Datos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.
-
 3. Procesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.
+4. Análisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.
+5. Modelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.
+6. Comunicación efectiva de los resultados, discutiendo qué implican respecto al **objetivo** planteado.
 
-4. Análisis exploratorio de datos: qué información aprendemos de los datos y cómo ayudan a especificar los modelos.
-
-5. Proceso de modelización: cómo se especifican los modelos para alcanzar el objetivo del estudio, cómo se elige el modelo final.
-
-6. Comunicar de forma efectiva los resultados (mediante gráfico, tablas, etc.), discutiendo qué implican respecto al **objetivo** económico, financiero o de empresa planteado.
-
-<!--
-**LA INFORMACIÓN SOBRE EL PROYECTO FINAL SE IRÁ ACTUALIZANDO A LO LARGO DEL CURSO**
-
---------------------------------------------------------------------------------
+<!-- Pendiente de publicar el informe ejemplar (LabFin00 renderizado); al hacerlo, descomentar:
+* Podéis ver un **informe ejemplar completo** (así se ve un trabajo bien hecho) [aquí](docs/Proyect01_ejemplo_LabFin00.html).
 -->
 
-# Resultado final
+# La propuesta: qué tiene que tener SÍ o SÍ
 
-Se debe crear un informe con Quarto con un título adecuado, vuestro nombre completo en el campo de autor, etc. Debe incluir secciones y cualquier elemento habitual en un documento que consideréis necesario (listas, imágenes, ...) además del código cuando sea oportuno. El trabajo debe ser **mínimamente presentable**: no se trata de “amontonar” resultados, sino de presentar una historia que los datos cuentan usando vuestros conocimientos como *universitarios*.
+Uno de los objetivos de pediros una propuesta es que PENSÉIS CUIDADOSAMENTE lo que vais a hacer
+y lo plasméis en un texto breve pero claro y concreto. Así evitamos que, cuando esté a punto de
+acabar el plazo, las cosas no cuadren (porque no están pensadas) y surjan el agobio o la
+imposibilidad de entregar.
 
-Como es habitual, deberéis entregar un archivo .qmd y el resultado de renderizarlo (un archivo .html, .pdf o .docx). También se adjuntarán otros archivos que fueran necesarios para **reproducir** totalmente el documento o archivos complementarios que consideréis importantes (ej., archivos de datos, archivos de código R complementario, etc.).
+Una propuesta aceptable responde con CONCRECIÓN a estas cuatro cosas:
 
-Los nombres de los TODOS archivos DEBEN seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+1. **OBJETIVO claro y para qué.** El objetivo NO es "predecir" o "identificar factores" a secas:
+   es para qué quieres predecir o identificar, a quién le sirve (empresa, inversor, política) y
+   cómo se usará el resultado. Si no sabes el objetivo, no sabes qué datos necesitas, cómo
+   limpiarlos ni qué modelos utilizar.
 
-  * Final_123456789.qmd
- 
-  * Final_123456789.html
+2. **Nada de trivialidades.** Es obvio que hay que limpiar, explorar, visualizar y concluir; eso
+   ya se sabe. Lo importante es CÓMO en concreto, y eso depende de tu objetivo.
 
-  * Final_123456789.zip
+3. **DATOS concretos.** Qué variables exactamente, cuántas observaciones, con qué frecuencia,
+   y si ya has comprobado que están disponibles. "Buscaré datos de X" no es un plan de datos.
+   Piensa si el tamaño muestral es suficiente para lo que quieres hacer.
 
-# Plazos
+4. **MODELADO concreto.** ¿Tu problema es de REGRESIÓN o de CLASIFICACIÓN? ¿Quieres PREDECIR o
+   IDENTIFICAR FACTORES? Son objetivos distintos que usan los modelos de forma distinta (y si
+   quieres ambos, explica cómo se integran). ¿Qué modelos piensas usar y por qué encajan con tu
+   objetivo? "Y si es necesario, otras técnicas" no es concreto.
 
-## Elección de Tema
+5. **APLICACIÓN.** El trabajo NO termina obteniendo una predicción o unos coeficientes: debe
+   incluir una breve aplicación de cómo tus resultados determinan una decisión concreta
+   (aprobar o denegar, a quién dirigir la campaña, qué umbral usar según los costes de cada
+   error...). Piensa quién usaría tu modelo y para decidir qué.
 
-* Por favor, cumplimentad este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSe7GzAtkQXj52uFFMuCuBnvDObBbxgLLY6RKoKYiWTWtoPFGw/viewform) con vuestra **propuesta de tema** para el proyecto. 
+<!-- DESVELAR cuando se abra el plazo de propuestas (los ejemplos tienen más sentido entonces):
 
-* Deben queda claro 
+### Ejemplo de propuesta NO aceptable
 
-  1. los **objetivos/utilidad** de hacer del análisis que proponéis (entre otras cosas, esto implica comentar brevemente si el modelo se usará para predecir, para establecer efectos de una variable sobre otra, y cómo se usará el modelo en la práctica para conseguir ese objetivo).
-  
-  2. comentar brevemente cómo pensáis hacerlo: si haréis regresión o clasificación, tipo de algoritmos, etc.
-  
-  3. qué datos usaréis y cómo se adecuadan al objetivo.
-  
-* Enviad vuestra propuesta lo antes posible, PERO debéis esperar a mi visto bueno para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
+> "Me gustaría analizar el precio de las acciones para ver si están sobrevaloradas. Buscaría
+> datos de las empresas que me interesan (unas 16, podría añadir alguna más). Haría limpieza,
+> exploración y visualización con lo visto en clase y usaría los modelos del último mes para
+> predecir el precio o clasificar las acciones."
 
-<!--
---------------------------------------------------------------------------------
--->
+Falla en todo: objetivo difuso (¿predecir? ¿clasificar? ¿respecto a qué criterio?), se centra en
+trivialidades, datos sin concretar (¿qué empresas? ¿qué variables? ¿bastan 16 observaciones?) y
+modelado vago.
 
-<!--
+### Ejemplo de propuesta aceptable
 
-QUIZÁS
-* Aunque no pondré plazo formal, os recomiendo hacer esto cuanto antes y, como fecha orientativa, del **viernes, 27 de diciembre de 2024**.
+> "Objetivo: ayudar a una cadena minorista a decidir a qué clientes dirigir una campaña de
+> retención. Con los datos de X (~7.000 clientes, variables de compra, antigüedad, quejas y una
+> indicadora de baja en el último año, disponibilidad comprobada), plantearé un problema de
+> CLASIFICACIÓN (baja sí/no). Tras explorar qué variables se asocian con la baja, compararé
+> regresión logística y random forest evaluando en muestra de prueba, y elegiré el umbral de
+> clasificación según el coste de perder un cliente frente al coste de la campaña."
 
-    + Cuanto antes lo hagáis, antes podéis empezar a organizaros y trabajar
+FIN DEL BLOQUE A DESVELAR -->
 
-    + PERO debéis esperar a que os dé mi visto bueno sobre vuestra propuesta para asegurarme de que vuestra propuesta tiene sentido y, por ejemplo, que dos estudiantes diferentes NO hacen el mismo trabajo (los datos pueden ser los mismos, pero NO con el mismo objetivo.)
-
---------------------------------------------------------------------------------
--->
-
-<!--
-
-QUIZÁS
-
-* El día asignado oficialmente para el examen de la asignatura haréis una *breve* presentación del estado de vuestro proyecto. Debéis enviar vuestra presentación el día antes en este [formulario](https://docs.google.com/forms/d/e/1FAIpQLSdET7RvNdwAaG4f2nO7_qnhbcymqmUoluybtQ8zQsOEel5X_w/viewform). En esta presentación explicaréis el objetivo del análisis y el estado de vuestro proyecto. En particular, podéis mostrar partes del trabajo ya completadas y presentar esquemáticamente vuestro plan de trabajo previsto. El objetivo de esta presentación NO es evaluar lo que lleváis hecho, sino que os pueda ayudar con comentarios por si tenéis que cambiar, añadir, rectificar, etc. 
-
-* En particular, el día reservado para el examen de la asignatura (que no realizamos) sería un momento propicio puesto que ya disponemos de un aula asignada.
-* Por favor, avisadme con suficiente antelación.
-
--->
-
-
-<!--
---------------------------------------------------------------------------------
--->
-
-* Podéis consultarme cualquier duda relativa al trabajo. <!-- Si fuera necesario, en enero podemos tener tanto tutorías presenciales, preferentemente coordinadas entre varios, para poder reservar un aula.-->
-
-## Entrega Final
-
-* El trabajo en su formato final deberá entregarse antes del **miércoles, 28 de enero de 2026** (hora límite 23:55h de la noche) por medio de este [FORMULARIO](https://docs.google.com/forms/d/e/1FAIpQLSfz4LmVzPTvGt5oo6BC0Gqr_FItooLuH6LdkrtkatvWIDEcJg/viewform).
-
-
-# Evaluación
-
-La nota final valorará **todo el proceso** del análisis, teniendo en cuenta que algunos datos apenas requieren procesamiento mientras que otros requieren mucha limpieza, combinar varias fuentes de datos, etc.  Asimismo, la profundidad tanto del análisis exploratorio como de los modelos finales y su evaluación puede ser diferente según los trabajos.
-
-Hacer lo más básico visto en clase con unos datos similares a los de clase es válido, pero no esperéis una nota alta incluso estando perfecto.
-
-Es MUY IMPORTANTE que el trabajo incluya comentarios adecuados. Por un lado, esto implica NO meramente describir lo obvio que se ve en una tabla o gráfico, sino explicar por qué es importante, qué implica, qué se puede inferir, etc. Por otro lado, todos los comentarios deben ser coherentes con el objetivo del análisis y con el contexto de los datos.
-
-## IMPORTANTE: PLAGIO. 
-
-<!--
-
-* Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. *Yo también*. 
--->
-
-  * La detección de cualquier forma de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la **apertura de un expediente**.
-
-<!--
-
-No es la primera vez que estos datos u otros que me propongáis vosotros se han utilizado. Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. **Yo también**. 
-
---------------------------------------------------------------------------------
--->
-
-
+* Enviad la propuesta cuanto antes (el canal para enviarla se anunciará durante el curso), PERO
+  debéis esperar a mi visto bueno para asegurar que tiene sentido y que los trabajos son
+  diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo).
 
 # Algunas sugerencias sobre temas y fuentes de datos
 
+**OJO**: estas sugerencias NO son "opciones" que se eligen tal cual. Sugieren ideas: con los
+mismos datos y en el mismo contexto se pueden plantear objetivos muy distintos. Tendréis que
+concretar y desarrollar la vuestra (ver los cuatro puntos de la propuesta).
+
+1. **Ventas de "Big Mart"**. Datos de ventas de 1.559 productos durante 2013 en 10 tiendas de
+   la cadena americana "Big Mart", con atributos de cada producto y tienda. Se puede construir
+   un modelo predictivo o de clasificación de las ventas de cada producto en una tienda, y
+   entender qué propiedades de productos y tiendas juegan un papel clave. Los datos están
+   [aquí](https://drive.google.com/file/d/1Tcr85g-zl_i1XdgAmljcvrB3Dq3_L9d4/view?usp=sharing).
+
+2. **Black Friday**. "ABC Private Limited" quiere comprender el comportamiento de compra de
+   varios productos y categorías. Hay un resumen de compras de clientes con sus datos
+   demográficos. Un modelo para predecir compras (o clasificar compras de gran volumen) ayuda a
+   crear ofertas personalizadas. Los datos
+   [aquí](https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0).
+
+3. **Concesión de préstamos**. "Dream Housing Finance" quiere automatizar la decisión de
+   elegibilidad de préstamos con los datos del formulario de solicitud, identificando los
+   segmentos de clientes susceptibles de recibirlos. Datos y descripción
+   [aquí](https://www.dropbox.com/s/5h7g2vped3qpbkk/03loan.zip?dl=0).
+
+4. **Clasificación de la calidad crediticia**. Datos de una compañía de crédito alemana,
+   [aquí](https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29).
+
+5. **Servicio de bicicletas**. "Capital BikeShare" ofrece bicicletas compartidas: a dónde van
+   sus usuarios, cuándo viajan, qué paradas son más populares, qué días hay más viajes.
+   Información [aquí](https://www.capitalbikeshare.com/system-data).
+
+6. **Renta de los individuos**. Con características demográficas del Censo de EE.UU., construir
+   un modelo predictivo del nivel de renta (mayor o menor de 50 mil dólares anuales), usable
+   por ejemplo para detección de fraude. Datos
+   [aquí](https://www.dropbox.com/s/vho16xw59qczqpa/06census.zip?dl=0).
+
+7. **Airbnb**. En este [enlace](https://insideairbnb.com/get-the-data/) hay datos de Airbnb
+   para muchas ciudades; se pueden analizar, por ejemplo, los determinantes de la satisfacción
+   de los usuarios. También hay datos de Airbnb en [Kaggle](https://www.kaggle.com/datasets).
+
+8. **Predicción de respuesta del cliente**. Datos de una campaña de "mailing" directo con
+   características demográficas e historial de los clientes: predecir su respuesta al contacto
+   para maximizar el importe de una donación. Datos y descripción
+   [aquí](https://www.dropbox.com/s/9hfftmdbgrerv6h/13respuesta.zip?dl=0).
+
+<!-- Sugerencias RETIRADAS de la vista (revisar/repensar antes de desvelar):
+- Precios de las casas, Delitos, Propinas en taxis NY (revisar links y enfoque).
+- Precio de las acciones (usfundamentals.com posiblemente caído; además atrae propuestas vagas,
+  ver feedback 25-26).
+- Stock pairs (complejo: exigía consultar antes; y ahora coincide con el TFG de un estudiante).
+El resto del material antiguo está en el historial git del repo y en legacy2025-26/. -->
+
+# Resultado final
+
+El resultado será un **informe reproducible** elaborado con las herramientas del curso (las
+veremos en clase). El trabajo debe ser **mínimamente presentable**: no se trata de "amontonar"
+resultados, sino de presentar una historia que los datos cuentan usando vuestros conocimientos
+como *universitarios*. En particular: NO mostréis salidas en bruto en un documento para un jefe
+o cliente, NO pongáis tablas que exceden los márgenes ni gráficos ilegibles, y COMENTAD lo que
+aporta cada resultado al objetivo (no lo obvio).
+
+Los detalles del formato de entrega y los **plazos** (de la propuesta y de la entrega final) se
+anunciarán durante el curso con suficiente antelación.
+
+<!-- REPENSAR (Pedro, 6-sep): mecánica de entrega (formulario de Google u otro), formato de los
+ficheros y nombres con DNI, fechas concretas. No publicar detalles hasta decidirlo.
+Pendiente también: revisar los Responses/feedback del formulario del año pasado en Gmail para
+afinar la orientación (el borrador actual usa el corpus local 0admin/valoracion-proyectos). -->
 
 <!--
-(https://www.analyticsvidhya.com/blog/2019/01/big-announcement-your-favourite-hackathons-now-open-for-practice-on-datahack/?utm_source=sendinblue&utm_campaign=Big_Announcement_Hackathons_now_Open&utm_medium=email&utm_source=sendy&utm_medium=datahack&utm_campaign=datahack_practice_announcement)
-
-(https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
+# Plazos
+* Propuesta de tema: antes del [FECHA POR FIJAR: última semana de clases].
+* Entrega final: antes del [FECHA POR FIJAR: finales de enero de 2027].
 -->
 
-<!-- OJO -------------------------------------------------------------------->
-<!-- https://data.world/datasets/bike-sharing -->
-<!-- PASAR el de loans a ejercicio de ejemplo y buscar otros de loans ------->
+# Evaluación
 
+La nota final valorará **todo el proceso** del análisis, teniendo en cuenta que algunos datos
+apenas requieren procesamiento mientras que otros requieren mucha limpieza o combinar fuentes.
+Hacer lo más básico visto en clase con unos datos similares a los de clase es válido, pero no
+esperéis una nota alta incluso estando perfecto.
 
-<!--
+Es MUY IMPORTANTE que el trabajo incluya comentarios adecuados: NO describir lo obvio de una
+tabla o gráfico, sino explicar por qué es importante, qué implica y qué se puede inferir,
+siempre en coherencia con el objetivo.
 
-FUENTE DE DATOS
+En la evaluación no continua (y en una submuestra aleatoria de la continua) el trabajo se
+**defiende presencialmente**: hay que saber explicar cada decisión del propio análisis.
 
-https://crd150.github.io/bigopendata.html
--->
+## IMPORTANTE: PLAGIO
 
-
-
-1. **Ventas de "Big Mart"**.  Se han recopilado datos de ventas de 1.559 productos para el 2013 en 10 tiendas en diferentes ciudades para la cadena de tiendas americana "Big Mart". Además, se han definido determinados atributos de cada producto y tienda.  El objetivo es construir un modelo predictivo o de clasificación para conocer las ventas de cada producto en una tienda concreta. Con este modelo, se intentará comprender las propiedades de los productos y tiendas que juegan un papel clave en las ventas. Los datos están [aquí](https://drive.google.com/file/d/1Tcr85g-zl_i1XdgAmljcvrB3Dq3_L9d4/view?usp=sharing)
-<!--
-   (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
-
-   (https://www.analyticsvidhya.com/blog/2016/02/bigmart-sales-solution-top-20/)
-   (https://github.com/MichaelPluemacher/Big-Mart-Sales)
-   (https://github.com/devarajphukan/BigMart-Sales-Prediction-AnalyticsVidya)
-
-   (https://www.kaggle.com/devashish0507/big-mart-sales-prediction)
--->
-2. **Black Friday**. "ABC Private Limited" quiere comprender el comportamiento de compra para varios productos de diferentes categorías. Se dispone de un resumen de compras de varios clientes y sus datos demográficos. Un modelo para predecir comprar o clasificar compras de gran volumen del cliente ayudará a crear una oferta personalizada para los clientes. Los datos [aquí]https://www.dropbox.com/scl/fi/7097vyravm1nmgtq3hu8d/02black.zip?rlkey=qy9jqypyhzcpiav01i9b4jg9k&dl=0)
-<!--
-   (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
--->
-
-3. **Concesión de préstamos**. "Dream Housing Finance" desea automatizar el proceso de elegibilidad del préstamo a partir de datos del cliente proporcionados al llenar el formulario de solicitud en línea. Para automatizar este proceso, han planteado un problema a la hora de identificar los segmentos de clientes, que son susceptibles de recibir préstamos para poder dirigirse específicamente a estos clientes. Los datos y su descripción [aquí](https://www.dropbox.com/s/5h7g2vped3qpbkk/03loan.zip?dl=0)
-<!--
-   (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
-
-   (https://rstudio-pubs-static.s3.amazonaws.com/270415_08d6cfdc6a2242f9a4e597e63ceabd69.html)
-
-   (https://rpubs.com/renrele/loanpred)
-
-   (https://rstudio-pubs-static.s3.amazonaws.com/406118_9671536399c843c7a5945e0ab1a42a9d.html)
-
-   (de la version 2, descargado)
-   (https://github.com/devarajphukan/Loan-Prediction-AnalyticsVidya)
--->
-<!--
-    b. Datos de concesión de préstamos de la empresa "Lending club". Información y descarga, previo regristro, [aquí](https://www.lendingclub.com/info/download-data.action)
-<!--
-   (https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
--->
-
-4. **Clasificación de la calidad crediticia**. Datos de una compañía de tarjetas de crédito alemana, [aquí](https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29)
-<!--
-   (https://www.r-bloggers.com/predicting-creditability-using-logistic-regression-in-r-part-1/)
--->
-
-5. **Servicio de bicicletas**. La empresa "Capital BikeShare" ofrece un servicio de bicicletas compartidas. Quiere saber a dónde van sus usuarios, cuándo viajan, qué paradas son las más populares, en qué días de la semana  se realizan más viajes. Información [aquí](https://www.capitalbikeshare.com/system-data)
-
-<!--
-    b. Otras fuentes de datos de servicios de bicicletas compartidas son: 
-
-      -   [San Francisco](https://www.lyft.com/bikes/bay-wheels/system-data)  
-      -   [New York City](https://www.citibikenyc.com/system-data)
-      -   [Chicago](https://www.divvybikes.com/system-data)
-      -   [Washington D.C.](https://www.capitalbikeshare.com/system-data)
--->
-
-<!--
-   (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
-
-   (https://www.capitalbikeshare.com/system-data)
-   (https://s3.amazonaws.com/capitalbikeshare-data/index.html)
-   (https://www.analyticsvidhya.com/blog/2015/06/solution-kaggle-competition-bike-sharing-demand/)
--->
-<!-- 
-6. **Renta de los individuos**. Con información del Censo de EE.UU. sobre varias características demográficas de una persona, queremos construir un modelo predictivo para determinar su nivel de renta (mayor o menor de 50 mil dólares anuales). El modelo se usará para detectar fraude. Datos [aquí](https://www.dropbox.com/s/vho16xw59qczqpa/06census.zip?dl=0).
-<!--
-   (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
-  
-   (https://cloudxlab.com/blog/predicting-income-level-case-study-r/)
-   (http://archive.ics.uci.edu/ml/machine-learning-databases/adult/)
-  
-   (otra fuente de datos similares)
-   (http://archive.ics.uci.edu/ml/machine-learning-databases/census-income-mld/census-income.html)
-   (http://archive.ics.uci.edu/ml/machine-learning-databases/census-income-mld/census-income.html)
--->
-
-6. **Precios de las casas**
-
-    a. Disponemos de información describiendo (casi) todos los aspectos de las casas residenciales en **Ames, Iowa**, para predecir el precio final de cada casa. Datos y descripción [aquí](https://www.dropbox.com/s/zvvfs88xn8dt4no/07houses.zip?dl=0).
-<!--
-  [//]: # (https://www.kaggle.com/c/house-prices-advanced-regression-techniques/)
-  [//]: # (https://www.r-bloggers.com/kaggles-advanced-regression-competition-predicting-housing-prices-in-ames-iowa/)
--->
-
-    b. Datos extraídos de la *American Community Survey* de 2011 con información sobre el parque de viviendas y las circunstancias económicas de cada área en **California y Pennsylvania**. Datos e información [aquí](https://www.dropbox.com/s/qic1yskj2gurcu3/08calif.zip?dl=0).
-<!--
-  [//]: # (http://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf)
-  [//]: # (housing <- read.csv("http://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/data/calif_penn_2011.csv"))
--->
-
-    c. Datos se han extraído de los resultados públicos publicados cada semana en <http://domain.com.au> con información sobre precios de las casa en **Melbourne, Australia**. Datos e información [aquí](https://drive.google.com/file/d/1zz8kjIhEGSfKOS6YQOnSOEAoDKivQl0m/view?usp=sharing)
-
-    d. Datos de [**Zillow**](https://www.zillow.com/research/data/) sobre precios de las casas en **EE.UU.** a diferentes niveles de desagregación. También existe el paquete de R, *ZillowR*, para descargar estos datos directamente. <!--https://cran.r-project.org/web/packages/ZillowR/index.html-->
-    
-7. **Delitos**. 
-
-    a. Datos e información [aquí](https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2) sobre los crímenes cometidos en **Chicago** desde 2001. Se puede utilizar para predecir el tipo de crimen, incidencia de crímenes por tipo y zona, etc. Esta información se puede complementar con otras fuentes del mismo portal de datos de Chicago (en particular, datos de socioeconomicos de los vecindarios).
-
-    b. También existe información para Boston [aquí](https://data.boston.gov/dataset/crime-incident-reports-july-2012-august-2015-source-legacy-system) y [aquí](https://data.boston.gov/dataset/crime-incident-reports-august-2015-to-date-source-new-system) y más información en el mismo sitio (p.e., datos socioeconomicos de los vecindarios)
-<!--
-  [//]: # (https://www.analyticsvidhya.com/blog/2016/10/17-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/)
-
-   [//]: #(https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2)
-   
-   [//]: #(Otros datos de Chicago para combinar)
-   [//]: #(https://data.cityofchicago.org/Health-Human-Services/Chicago-poverty-and-crime/fwns-pcmk)
-   [//]: #(https://geodacenter.github.io/data-and-lab//comarea_vars/)
--->
-
-8. **Propinas en taxis de NY**. Analizar los determinantes de que la propina sea alta, en función del lugar de origen, destino, etc. Los datos [aquí](https://www.dropbox.com/s/zaptbme1txrhdhi/10taxis.zip?dl=0).
-<!--
-   [//]: # (https://padamson.github.io/rwml-R/Chapter6.html)
-   [//]: # (este son varios gigas, un subset mas manejable en Kaggle)
-
-   [//]: # (https://www.kaggle.com/dhimananubhav/2015-nyc-taxi-trips-subset-12-million-rows/home)
-
-   [//]: # (datos originales, según el pdf, del yellow, no se lo que seran green taxis ni FHV) 
-   [//]: # (http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml)
-
-   [//]: # (dos competiciones de kaggle, con ejemplos resueltos por ahi)
-   [//]: # (https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/data)
-   [//]: # (https://www.kaggle.com/c/nyc-taxi-trip-duration)
--->
-
-
-9. **Airbnb**. En este [enlace](https://insideairbnb.com/get-the-data/) están disponibles conjuntos de datos obtenidos de la web de Airbnb para diferentes ciudades<!-- (Alicante no está incluida, pero podéis hacer el "web scraping" si queréis...)-->. Entre otras cosas, se puede analizar los determinantes de la satisfación de los usuarios. También se pueden encontrar datos de Airbnb en [Kaggle](https://www.kaggle.com/datasets).
-
-    Notad que esta fuente da para varios trabajos, tanto por usar distintas ciudades (cuidado con trabajos "demasiado" similares) como porque, como con otros datos, se pueden analizar más de una cosa.
-
-<!--
-
-[enlace](http://tomslee.net/airbnb-data-collection-get-the-data)
-https://github.com/tomslee/airbnb-data-collection
-
-  [//]: # (https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
--->
-
-<!--
-
-Datos de Yelp: is a subset of our businesses, reviews, and user data for use in connection with academic research. Available as JSON files, use it to teach students about databases, to learn NLP, or for sample production data while you learn how to make mobile apps.
-
-[Yelp](https://www.yelp.com/dataset). A public use dataset put together by Yelp specifically for personal and educational purposes, but has been used in academic and applied research. You can use the Yelp API, and here is a [tutorial](https://billpetti.github.io/2017-12-23-use-yelp-api-r-rstats/), and [another](https://www.youtube.com/watch?v=qyGYItbMKkM), but there are some restrictions, specifically getting an access ID and creating your own app. Here is another [tutorial](https://github.com/richierocks/yelp) for a specific R package that uses the Yelp API.
-
-
--->
-
-
-10. **Precio de las acciones**. Usando información sobre fundamentales de las acciones, se puede predecir el valor o determinar (clasificar) si están sobrevaloradas o infravaloradas. Podéis utilizar [estos datos](http://www.usfundamentals.com/download/) o buscar vuestros propios datos de otras empresas (por ejemplo, españolas).
-<!--
-  [//]: # (https://elitedatascience.com/machine-learning-projects-for-beginners)
-  [//]: # (http://www.usfundamentals.com/download/)
--->
-
-11. **Predicción de Respuesta del Cliente** y maximización de beneficios. Datos de una campaña de "mailing" directo a clientes con información sobre características demográficas de los clientes y su historial. El objetivo es predecir la respuesta de los clientes en caso de ser contactados para fines de donación. Al clasificar a los clientes, se puede maximizar el importe de la donación. Datos y descripción [aquí](https://www.dropbox.com/s/9hfftmdbgrerv6h/13respuesta.zip?dl=0).
-<!--
-  [//]: # (r data mining libro descargado con datos de KDD CUP: https://kdd.ics.uci.edu/databases/kddcup98/kddcup98.html)
--->
-
-12. **Stock pairs** es un estrategia de "trading" desarrollada por "Morgan Stanley" en los años 1980 (ver [aquí](https://en.wikipedia.org/wiki/Pairs_trade)). Si dos precios de acciones o índices bursátiles como Dow Jones y S&P 500 están históricamente correlados, la ratio de precios tiene un valor estable. Si la ratio de precio se desvía significativamente de ese valor indica que una está infravalorada y deberá subir. El objetivo es desarrollar un modelo que prediga una subida en función de valores pasados de la ratio. Se podrían utilizar dos series de precios de acciones cualquiera, PERO este trabajo es más complejo de lo que parece: se requiere información adicional de fundamentales, una modelización ARIMA apropiada, etc. Consultad conmigo ANTES de elegir esto.
-<!--
-  [//]: # (http://rdatasciencecases.org/Data.html)
-  [//]: # (data-science-in-r.pdf descargado)
--->
-
-13. [Este paquete](https://github.com/datawookie/trundler) de R  acceso a los datos de productos y precios históricos de una serie de minoristas en línea.
-
-14. [Este conjunto de datos](https://www.kaggle.com/aungpyaeap/supermarket-sales) contiene información sobre las ventas históricas de una compañía de supermercados.
-
-15. Se pueden utilizar encuestas oficiales para **predecir la pobreza** de los hogares. Si os interesa, preguntadme.
-
-<!--
-Se pueden encontrar otras fuentes con información sobre datos en Internet. Por ejemplos, distintas organizaciones y empresas celebran "hackatones" de análisis de datos y aprendizaje automático; por ejemplo, [aquí](https://www.zaratalent.com/data.html).
-<!--y [aquí](https://hackathonspain.com/calendario/hackathon-inditex/)), BBVA (entre otros, [aquí](https://openinnovation.bbva.com/es/evento/hackathon-bbva-2020) y [aquí]())
-
-  * 
-  
-  * https://openinnovation.bbva.com/es/evento/hackathon-bbva-2020
--->
-
-
-<!--
-
-[Twitter](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets). Twitter provides access to a sample of their tweets. You’ll need to register for an API. Here are some guides to collect and manage tweets in R: [here](https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/), [here](https://info5940.infosci.cornell.edu/notes/webdata/twitter-api-practice/), and [here](https://cran.r-hub.io/web/packages/rtweet/vignettes/intro.html).
-
--->
-
-Otras fuentes generales son:
-
-  * https://www.kaggle.com/datasets
-  
-  * https://github.com/caesar0301/awesome-public-datasets
-  
-  * https://www.kdnuggets.com/datasets/index.html
-  
-  * https://github.com/rfordatascience/tidytuesday
-  
-  * https://data.worldbank.org/
-  
-  * https://github.com/fivethirtyeight/data
-  
-  * https://aws.amazon.com/datasets/
-  
-  * https://cloud.google.com/bigquery/public-data/
-  
-  * https://www.quandl.com/
-
-
-<!--
--   Esri provides a repository that many of its members use to store various big and open data all in shapefile format. Check out what’s available [here](http://hub.arcgis.com/pages/open-data).
-    
--   [Awesome Public Datasets](https://github.com/awesomedata/awesome-public-datasets)
-    
--   [Amazon AWS Public Data Sets](https://registry.opendata.aws/)
--->
-
-Directorios de portables de datos abiertos:
-
-  -   [Data.gov](https://www.data.gov/open-gov/)
-    
-  -   [Open Data Inception](https://opendatainception.io/)
-    
-  -   [Open Knowledge Foundation](https://dataportals.org/)
-
-
-Muchos gobiernos locales, regionales y nacionales también tienen portales de datos abiertos. 
-
-<!--
-  * https://www.gapminder.org/data/  
-  
-  [//]: # (https://www.analyticsvidhya.com/blog/2016/11/25-websites-to-find-datasets-for-data-science-projects/)
-
-  [//]: # (https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
-
-  [//]: # (http://research.pomona.edu/johardin/datasources/)
--->
+* Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de
+  estudiantes de cursos anteriores. *Yo también.*
+* La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la
+  asignatura en este curso académico y el inicio de la apertura de un expediente.

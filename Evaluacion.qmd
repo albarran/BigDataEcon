@@ -4,69 +4,89 @@ lang: es
 strip-comments: true
 ---
 
+<!-- BORRADOR 2026-27 (Claude, 4-sep). Basado en la guía docente oficial 26-27 (35/50/15).
+     Sustituye a Evaluacion.qmd en las tres webs; ajustar el enlace scaca por asignatura. -->
+
 # Dos opciones de evaluación (primera convocatoria)
 
-* Nota: información adicional sobre segunda convocatoria y posibles contingencias en [la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2024-25)
+* Nota: información adicional sobre segunda convocatoria y posibles contingencias en [la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2026-27)
 
-## Evaluación Continua:
+* **IMPORTANTE**: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) **antes de la fecha del primer ejercicio largo** (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.
 
-  * Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases
+## Evaluación Continua
 
-  * Trabajo empírico final (50%)
+* Ejercicios durante el periodo de clases (35%). Incluyen:
 
-  * Participación (15%): preguntas y pequeños ejercicios en clase
-  
-  * Requisito: asistir al menos a un 80% de las clases.
+  * Dos **ejercicios largos** individuales, para hacer fuera de clase (11% cada uno). Los
+    detalles se darán con suficiente antelación.
+    <!-- INTERNO (no publicar aún): 1º tratamiento de datos y AED; 2º modelización aplicada;
+    variante propia por estudiante (datos y preguntas propios). Ver
+    evaluacion2627/plan-ejercicios-largos-y-bloques.md -->
 
+  * Una **prueba presencial** breve (6%). Se avisará con antelación.
+    <!-- INTERNO: conceptos de aprendizaje estadístico (qué modelo y por qué, evaluación,
+    interpretación), semana 12. Alternativa para otros años: dos pruebas, la primera (más corta)
+    de fundamentos. R/informes van a mini-tests; visualización se evalúa aplicada en el trabajo
+    de clase (critica y rehaz). -->
 
-## Evaluación No Continua:
+  * El **trabajo desarrollado en clase** (7%): lo que produzcáis en las sesiones prácticas
+    podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la
+    comprensión, no la perfección.
+    <!-- INTERNO: recogida MUESTRAL, no diaria: unas 4-6 sesiones sin anunciar cuáles. -->
 
-  * Trabajo empírico final (65%)
+* Trabajo empírico final (50%): ver [Proyecto Final](ProyectoFinal.html).
 
-  * Ejercicios teórico-prácticos (35%)
+* Participación (15%). Incluye:
 
+  * **Mini-tests** breves en clase: preguntas de comprensión sobre el material que habréis
+    trabajado ANTES de cada sesión (ver "Cómo funciona el curso" más abajo).
 
-***
-<!--
+  * Preguntas y pequeños ejercicios en clase.
 
-# Examen Final
+* Requisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los
+  ejercicios de clase NO es recuperable en el segundo periodo de evaluación.
 
-El examen final se realizará en la fecha asignada oficialmente. Constará de dos partes: preguntas tipo test con múltiples opciones y preguntas breves a desarrollar (con espacio limitado). 
+## Evaluación No Continua
 
-* Ejemplo de preguntas tipo test para el examen, [aquí](ExamTest.pdf)
+* Ejercicios teórico-prácticos (35%). Incluyen:
 
-* Ejemplo de preguntas de desarrollar, [aquí](ExamPreg.pdf)
+  * Los mismos dos **ejercicios largos** que en la continua (14,5% cada uno), PERO cada
+    ejercicio se **defiende presencialmente en el despacho**: tendréis que explicar qué habéis
+    hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.
 
--->
+  * La misma **prueba presencial** que en la continua (6%), realizada en la cita de la defensa
+    del segundo ejercicio largo.
 
-# Proyecto Final
+* Trabajo empírico final (65%), también con defensa presencial.
 
-<!--
-* Información sobre la evaluación el proyecto final [aquí](Info01.html)
--->
-
-
-* A lo largo del curso, tendréis información más detallada sobre este ejercicio empírico.
-
-* El objetivo será un análisis de datos que tenga sentido en el ámbito de economía, empresa, negocios, finanzas, etc. aplicando los conocimientos adquiridos en el curso.
-
-* Tendréis que proponer un tema de estudio. Los datos podéis haberlos obtenido por vuestra cuenta (por trabajo, contactos, búsqueda propia, etc.) o bien podéis elegirlos a partir de fuentes de datos que os popondré.
-
-
-* Información preliminar sobre plazos:
-
-  * Debéis proponer un tema antes de que concluyan las clases (diciembre)
-  
-  * La entrega del proyecto final será a principios de febrero (con tiempo suficiente para su corrección antes del cierre de actas). 
-
-<br>
-
-
-* IMPORTANTE: **plagio**
-
-  * Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también. 
-  
-  * La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente.
-
+* Sin mini-tests semanales ni trabajo de clase.
 
 ***
+
+# Cómo funciona el curso (leed esto)
+
+* ANTES de cada sesión tendréis disponible un material breve (lectura corta o vídeo). Hay que
+  venir a clase habiéndolo trabajado.
+
+* En clase: un repaso corto de dudas (como mucho media hora), un mini-test, y el resto del
+  tiempo TRABAJANDO: implementando lo aprendido con datos, con el profesor ayudando.
+
+* Venir a clase sin el material previo trabajado es perder la clase (y el mini-test).
+
+# Sobre el uso de inteligencia artificial
+
+* El objetivo del curso es que ENTENDÁIS lo que hacéis. Copiar código (de internet o de una IA)
+  sin entenderlo se nota: en los mini-tests, al circular por clase, y en las defensas.
+
+* En los ejercicios largos cada estudiante tiene datos y variantes propias; en clase se os
+  puede pedir en cualquier momento que expliquéis vuestro propio código.
+
+* Nadie os va a contratar por saber copiar y pegar. <!-- frase de Pedro en feedback real -->
+
+# IMPORTANTE: plagio
+
+* Seguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de
+  estudiantes de cursos anteriores. Yo también.
+
+* La detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la
+  asignatura en este curso académico y el inicio de la apertura de un expediente.
