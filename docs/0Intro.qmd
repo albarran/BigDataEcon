@@ -37,111 +37,99 @@ toc: false
 
 ## Objetivos
 
-- Aprender a **extraer información** de los datos
+- Aprender a **extraer información** de los datos usando técnicas computacionales y estadísticas
 
-![](figure/feedback-loop.png){ width=25% fig-align="center"}
+![](figure/figure03_Conway.png){width=50% fig-align="center"}
 
-- Usando técnicas computacionales y estadísticas
+<!-- ALTERNATIVA (pirámide realidad->datos->información->conocimiento); elegir una u otra:
+![](figure/feedback-loop.png){width=45% fig-align="center"}
+-->
 
-![](figure/figure03_Conway.png){fig-align="center"}
+- Enfoque práctico: usar la información para crear valor (**analítica de negocios**)
 
-## “Datificación” de la vida diaria
 
-![](figure/datificacion.png){ width=70% }
+## La vida diaria se "datifica"
 
-## The 4 Vs of big data:  
+![](figure/datificacion.png){ width=60% fig-align="center"}
 
-+ Volume - Scale of data.  
-+ Velocity - Analysis of streaming data.  
-+ Variety - Different forms of data.  
-+ Veracity - Uncertainty of data.  
+- Y esos datos tienen mucho **Volumen** (escala), llegan con **Velocidad** (en tiempo real),
+  con gran **Variedad** (números, texto, mapas, imágenes) y **Veracidad** dudosa (errores, sesgos)
+
+- La V que importa: **Valor**. Y NO está en los datos: está en saber analizarlos
+
 
 ## Importancia de los datos
 
+- Clive Humby (2006), el original de la frase famosa:
 
--   Neelie Kroes (Comisaria Europea para la Agenda Digital): 
-
-  > > “Data is the oil of the new economy, [...], the new oil for the digital era”
+  > > "Data is the new oil. It's valuable, but if unrefined it cannot really be used."
 
 <!--
--   Mark Garrett, director financiero de Adobe [en WSJ](https://www.wsj.com/articles/stop-using-excel-finance-chiefs-tell-staffs-1511346601)
-  
+-   Neelie Kroes (Comisaria Europea para la Agenda Digital, 2013):
 
-  > >   “No quiero que mi equipo de financieros pierda tiempo importando, exportando y manipulando datos, quiero que se centren en lo que los datos nos dicen”
-
+  > > "Data is the oil of the new economy, [...], the new oil for the digital era"
 -->
 
-- Múltiples ejemplos de la importancia del análisis de datos en economía, [aquí](https://elpais.com/elpais/2017/03/24/ciencia/1490358953_071638.html#?ref=rss&format=simple&link=link) y [aquí](https://elpais.com/economia/2017/04/30/actualidad/1493562507_239457.html), y en la [empresa](https://www.thoughtspot.com/data-chief/5-ways-machine-learning-can-make-your-bi-better) 
+- Ahora el "refinado" importa más que nunca: la IA existe porque se analizaron
+  cantidades masivas de datos
+
+- Si caben en tu ordenador, NO es "Big Data". Las técnicas y la forma de pensar
+  de lo que haremos son las mismas
 
 
-- Si caben en tu ordenador, NO es "Big Data"
+## Tipos de análisis de datos
+
+![](figure/tiposAnalisis.png){width=90% fig-align="center"}
+
+- Este es el mapa del curso: **descriptivo y diagnóstico** (datos, exploración, KPIs, el mundo
+  del "Business Intelligence"), **predictivo** (modelos de aprendizaje) y **prescriptivo**
+  (de la predicción a la DECISIÓN)
 
 
-<!--    
--   Análisis de Datos y Business Intelligence
+## Aprender a analizar datos
 
+- Es una inversión de futuro en el trabajo: [El País, 08/2023](https://elpais.com/educacion/2023-08-08/el-forzoso-viraje-de-los-economistas-para-no-quedar-arrinconados-por-matematicos-e-ingenieros.html)
 
-![](figure/bi.png){ width=70% }
+- Pero NO es magia, y requiere saber lo que se hace
 
+![](figure/170306.bigdata.jpg){width=55% fig-align="center"}
 
--->
+- [Dan Ariely](https://es.wikipedia.org/wiki/Dan_Ariely) (2013): *"Big data is like teenage sex:
+  everyone talks about it, nobody really knows how to do it, everyone thinks everyone else is
+  doing it, so everyone claims they are doing it."*
 
-## Aprendiendo a analizar datos
-
-- Aprender técnicas de análisis de datos es una inversión de futuro  en el trabajo [aquí](http://www.eleconomista.es/empleo/noticias/8592679/09/17/Cientifico-de-datos-la-profesion-mas-atractiva-del-siglo-XXI-por-el-auge-del-Big-Data.html) o en [El País, 08 de agosto de 2023](https://elpais.com/educacion/2023-08-08/el-forzoso-viraje-de-los-economistas-para-no-quedar-arrinconados-por-matematicos-e-ingenieros.html)
-
-
-- Pero esto NO es magia
-
-![](figure/170306.bigdata.jpg){width=75% }
-
-
-## Aprendiendo a analizar datos (y 2)
-
-- Y requiere saber lo que sé hace
-![](figure/140113.bigdata.jpg)
-
-- [Dan Ariely](https://es.wikipedia.org/wiki/Dan_Ariely) sobre Big Data: [aquí](https://twitter.com/observer1896/status/725596722257367040)
+<!-- viñeta alternativa: ![](figure/140113.bigdata.jpg){width=60%} -->
 
 
 ## Proceso de Análisis de Datos
 
 ![](figure/data-science.svg){ width=105% }
 
-<!--
-## Programación y pensamiento algorítmico
-
-* Pensamiento algorítmico son un conjunto de habilidades que se relacionan con con la construcción y comprensión de [algoritmos](https://es.wikipedia.org/wiki/Algoritmo)
-
-* Estas capacidades son un componente necesario pero no suficiente del "pensamiento computacional" y de la ciencia de datos.
-
-## Capacidades para el pensamiento algorítmico
- 
-1. Capacidad de analizar un problema dado
-2. Capacidad de especificar con precisión un problema
-3. Capacidad de encontrar las acciones básicas que son adecuadas para resolver un problema
-4. Capacidad de construir un algoritmo correcto para un problema dado utilizando acciones básicas
-5. Capacidad de pensar en todos los posibles casos especiales y normales de un problema
-6. Capacidad de mejorar la eficacia de un algoritmo
-
-<!--
-## Empezando el curso con R ...
-
-* Además de durante las clase, vamos a aprender los fundamentos de R siguiendo este [curso interactivo online](https://www.datacamp.com/community/open-courses/introduccion-a-r)
-
-* Por favor, inscribiros en la plataforma usando vuestras cuentas de @alu.ua.es
-
-* Deberéis haber terminado el curso después de la clase de prácticas de la próxima semana.
+- Cada caja es parte del curso: importar y limpiar datos, explorarlos y visualizarlos,
+  modelizar y COMUNICAR resultados
 
 
-## Recursos de Ayuda sobre R
+## Pensamiento algorítmico
 
-* Además de la ayuda incorporada en R y RStudio, existen muchos recursos "online" con información sobre R, en general en inglés
+* Se programa, pero lo importante NO es memorizar código: es saber
 
-    + un gran recurso es la plataforma Stackoverflow
+  1. especificar CON PRECISIÓN un problema
 
-* Usar con CUIDADO: existen muchas (demasiadas) formas de hacer las cosas en R y hay que ENTENDER qué se pregunta y qué solución se ofrece
+  2. descomponerlo en pasos que un ordenador pueda ejecutar
 
-* Un recurso útil son las "chuletas" disponibles [aquí](https://rstudio.com/resources/cheatsheets/)
+  3. pensar en los casos especiales (¿datos que faltan? ¿duplicados?)
 
--->
+* Una IA puede escribir código por ti: tu trabajo es saber QUÉ pedir, POR QUÉ
+  y COMPROBAR el resultado. Eso se entrena aquí, y eso se evalúa
+
+
+## Cómo funciona el curso
+
+* Leed en la web de la asignatura:
+
+  + [Evaluación](../Evaluacion.qmd): cómo funcionan las clases (venir con el material trabajado)
+    y cómo se evalúa
+
+  + [Puesta a punto](../PuestaAPunto.qmd): qué instalar LO ANTES POSIBLE (R y Positron)
+
+  + [Contenidos](../Contenidos.qmd): el material de cada semana, siempre actualizado
