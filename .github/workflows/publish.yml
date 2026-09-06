@@ -24,7 +24,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           version: 1.10.18
-          # tinytex: true   # descomentar si en algún momento se genera PDF
+          tinytex: true   # necesario: los Tema*.qmd declaran también formato beamer (PDF)
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
