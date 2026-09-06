@@ -4,63 +4,399 @@
     "href": "Evaluacion.html",
     "title": "Evaluación",
     "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\n\n\n\n\nEjercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases.\n\n\n\n\n\nTrabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
   },
   {
     "objectID": "Evaluacion.html#evaluación-continua",
     "href": "Evaluacion.html#evaluación-continua",
     "title": "Evaluación",
     "section": "",
-    "text": "Ejercicios teórico-prácticos (35%): prácticas a entregar durante el periodo de clases\nTrabajo empírico final (50%)\nParticipación (15%): preguntas y pequeños ejercicios en clase\nRequisito: asistir al menos a un 80% de las clases."
+    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
   },
   {
     "objectID": "Evaluacion.html#evaluación-no-continua",
     "href": "Evaluacion.html#evaluación-no-continua",
     "title": "Evaluación",
     "section": "",
-    "text": "Trabajo empírico final (65%)\nEjercicios teórico-prácticos (35%)"
+    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "objectID": "docs/0Intro.html#objetivos",
+    "href": "docs/0Intro.html#objetivos",
+    "title": "Introducción",
+    "section": "Objetivos",
+    "text": "Objetivos\n\nAprender a extraer información de los datos usando técnicas computacionales y estadísticas\n\n\n\nEnfoque práctico: usar la información para crear valor (analítica de negocios)"
+  },
+  {
+    "objectID": "docs/0Intro.html#la-vida-diaria-se-datifica",
+    "href": "docs/0Intro.html#la-vida-diaria-se-datifica",
+    "title": "Introducción",
+    "section": "La vida diaria se “datifica”",
+    "text": "La vida diaria se “datifica”\n\n\nY esos datos tienen mucho Volumen (escala), llegan con Velocidad (en tiempo real), con gran Variedad (números, texto, mapas, imágenes) y Veracidad dudosa (errores, sesgos)\nLa V que importa: Valor. Y NO está en los datos: está en saber analizarlos"
+  },
+  {
+    "objectID": "docs/0Intro.html#importancia-de-los-datos",
+    "href": "docs/0Intro.html#importancia-de-los-datos",
+    "title": "Introducción",
+    "section": "Importancia de los datos",
+    "text": "Importancia de los datos\n\nClive Humby (2006), el original de la frase famosa:\n\n\n“Data is the new oil. It’s valuable, but if unrefined it cannot really be used.”\n\n\n\n\nAhora el “refinado” importa más que nunca: la IA existe porque se analizaron cantidades masivas de datos\nSi caben en tu ordenador, NO es “Big Data”. Las técnicas y la forma de pensar de lo que haremos son las mismas"
+  },
+  {
+    "objectID": "docs/0Intro.html#tipos-de-análisis-de-datos",
+    "href": "docs/0Intro.html#tipos-de-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Tipos de análisis de datos",
+    "text": "Tipos de análisis de datos\n\n\nEste es el mapa del curso: descriptivo y diagnóstico (datos, exploración, KPIs, el mundo del “Business Intelligence”), predictivo (modelos de aprendizaje) y prescriptivo (de la predicción a la DECISIÓN)"
+  },
+  {
+    "objectID": "docs/0Intro.html#aprender-a-analizar-datos",
+    "href": "docs/0Intro.html#aprender-a-analizar-datos",
+    "title": "Introducción",
+    "section": "Aprender a analizar datos",
+    "text": "Aprender a analizar datos\n\nEs una inversión de futuro en el trabajo: El País, 08/2023\nPero NO es magia, y requiere saber lo que se hace\n\n\n\nDan Ariely (2013): “Big data is like teenage sex: everyone talks about it, nobody really knows how to do it, everyone thinks everyone else is doing it, so everyone claims they are doing it.”"
+  },
+  {
+    "objectID": "docs/0Intro.html#proceso-de-análisis-de-datos",
+    "href": "docs/0Intro.html#proceso-de-análisis-de-datos",
+    "title": "Introducción",
+    "section": "Proceso de Análisis de Datos",
+    "text": "Proceso de Análisis de Datos\n\n\nCada caja es parte del curso: importar y limpiar datos, explorarlos y visualizarlos, modelizar y COMUNICAR resultados"
+  },
+  {
+    "objectID": "docs/0Intro.html#pensamiento-algorítmico",
+    "href": "docs/0Intro.html#pensamiento-algorítmico",
+    "title": "Introducción",
+    "section": "Pensamiento algorítmico",
+    "text": "Pensamiento algorítmico\n\nSe programa, pero lo importante NO es memorizar código: es saber\n\nespecificar CON PRECISIÓN un problema\ndescomponerlo en pasos que un ordenador pueda ejecutar\npensar en los casos especiales (¿datos que faltan? ¿duplicados?)\n\nUna IA puede escribir código por ti: tu trabajo es saber QUÉ pedir, POR QUÉ y COMPROBAR el resultado. Eso se entrena aquí, y eso se evalúa"
+  },
+  {
+    "objectID": "docs/0Intro.html#cómo-funciona-el-curso",
+    "href": "docs/0Intro.html#cómo-funciona-el-curso",
+    "title": "Introducción",
+    "section": "Cómo funciona el curso",
+    "text": "Cómo funciona el curso\n\nLeed en la web de la asignatura:\n\nEvaluación: cómo funcionan las clases (venir con el material trabajado) y cómo se evalúa\nPuesta a punto: qué instalar LO ANTES POSIBLE (R y Positron)\nContenidos: el material de cada semana, siempre actualizado"
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
     "section": "",
-    "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nDespacho 19, Segundo (último) piso, Edificio 31 (Facultad de Ciencias Económicas y Empresariales)\ne-mail: albarran@ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nANTES DE comenzar las clases, vuestro ordenador deberá tener instalados los siguientes programas de software (totalmente gratuitos): el lenguaje de programación R y el interfaz-editor para trabajar con R llamado RStudio.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizados antes de instalar nada.\n\nPodéis descargar R desde https://cran.r-project.org/ siguiendo las instrucciones para vuestro sistema operativo.\n\npara Windows, entrad en “Download R for Windows”, luego en “base” y allí encontraréis la versión actual “Download R-4.5.1 for Windows”.\npara MacOS, entrad en “Download R for (Mac) OS X”, y allí la versión correspondiente a vuestra versión (para las últimas versiones de MacOS “R-4.5.1-x86_64.pkg” o “R-4.5.1-arm64.pkg”, según vuestro ordenador). NOTAD que puede ser necesario instalar XQuartz.\npara Linux, seguid las instrucciones (típicamente a través de vuestro sistema de instalación).\n\nPodéis descargar RStudio desde https://posit.co/download/rstudio-desktop/\n\nDesplazaros hacia abajo en la página hasta encontrar una tabla con enlaces para descargas\nElegid el enlace de descarga para vuestro sistema.\n\nEn Windows, usad el instalador ejecutable .EXE (no .ZIP) y durante la instalación elegid la opción de 64 bits.\n\n\nNOTA: existe la posibilidad de usar R y RStudio de forma online, sin instalar nada en el ordenador (o incluso usando una tablet). Se puede encontrar en https://posit.cloud/ . Sin embargo, no la recomendamos para su uso habitual; en particular, algunas cosas son ligeramente diferentes, es más lenta, depende de conexión a internet y, aunque es gratuita, requiere registrarse.\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional &lt;!– : PowerBI, Tableau, Python, etc."
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear un proyecto de RStudio y guardar el archivo Ventas1.xlsx en la carpeta.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar en la ayuda de RStudio mtcars para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
   },
   {
     "objectID": "ProyectoFinal.html",
     "href": "ProyectoFinal.html",
     "title": "Proyecto Final",
     "section": "",
-    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis partir las sugerencias sobre datos y temas que aparecen más abajo o plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio de datos: qué información aprendemos de los datos y cómo ayudan a especificar los modelos.\nProceso de modelización: cómo se especifican los modelos para alcanzar el objetivo del estudio, cómo se elige el modelo final.\nComunicar de forma efectiva los resultados (mediante gráfico, tablas, etc.), discutiendo qué implican respecto al objetivo económico, financiero o de empresa planteado."
+    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
   },
   {
-    "objectID": "ProyectoFinal.html#elección-de-tema",
-    "href": "ProyectoFinal.html#elección-de-tema",
+    "objectID": "ProyectoFinal.html#importante-plagio",
+    "href": "ProyectoFinal.html#importante-plagio",
     "title": "Proyecto Final",
-    "section": "Elección de Tema",
-    "text": "Elección de Tema\n\nPor favor, cumplimentad este FORMULARIO con vuestra propuesta de tema para el proyecto.\nDeben queda claro\n\nlos objetivos/utilidad de hacer del análisis que proponéis (entre otras cosas, esto implica comentar brevemente si el modelo se usará para predecir, para establecer efectos de una variable sobre otra, y cómo se usará el modelo en la práctica para conseguir ese objetivo).\ncomentar brevemente cómo pensáis hacerlo: si haréis regresión o clasificación, tipo de algoritmos, etc.\nqué datos usaréis y cómo se adecuadan al objetivo.\n\nEnviad vuestra propuesta lo antes posible, PERO debéis esperar a mi visto bueno para asegurar que tiene sentido y que los trabajos son diferentes (los datos pueden ser los mismos, pero NO con el mismo objetivo.)\n\n\nPodéis consultarme cualquier duda relativa al trabajo."
+    "section": "IMPORTANTE: PLAGIO",
+    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
   },
   {
-    "objectID": "ProyectoFinal.html#entrega-final",
-    "href": "ProyectoFinal.html#entrega-final",
-    "title": "Proyecto Final",
-    "section": "Entrega Final",
-    "text": "Entrega Final\n\nEl trabajo en su formato final deberá entregarse antes del miércoles, 28 de enero de 2026 (hora límite 23:55h de la noche) por medio de este FORMULARIO."
+    "objectID": "PuestaAPunto.html",
+    "href": "PuestaAPunto.html",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta solo vuestra instalación de R.\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
   },
   {
-    "objectID": "ProyectoFinal.html#importante-plagio.",
-    "href": "ProyectoFinal.html#importante-plagio.",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO.",
-    "text": "IMPORTANTE: PLAGIO.\n\nLa detección de cualquier forma de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+    "objectID": "PuestaAPunto.html#r-versión-4.6-o-superior",
+    "href": "PuestaAPunto.html#r-versión-4.6-o-superior",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
+  },
+  {
+    "objectID": "PuestaAPunto.html#positron-el-editor",
+    "href": "PuestaAPunto.html#positron-el-editor",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta solo vuestra instalación de R.\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nWeb: https://albarran.github.io\n\n\ne-mail: albarran@ua.es o albarran@gcloud.ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nWeb: https://henryredondo.github.io/\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nNecesitaréis tener instalado en vuestro ordenador software (totalmente gratuito) para trabajar en el curso. Instaladlo LO ANTES POSIBLE siguiendo las instrucciones paso a paso de la página Puesta a punto.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizado antes de instalar nada.\n\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
   },
   {
     "objectID": "Datos.html",
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 1:\n\ndatosVisualizacion.RData\n\nTema 2:\n\nretail_data.RData\nVentasTabla\nDosTablas\nEmpleados\nregionEmpleado\n\nTema 4:\n\npymes_europa.csv\ndiccionario_pymes.csv\nstartups_fintech.csv\ndiccionario_startups.csv\n\nTema 5:\n\ndescuento.csv\ncensus.csv\nhealth_insurance.csv\n\nEjemplo de Proyecto\n\nBostonHousing.csv"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData"
+  },
+  {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(07-Sept. a 11-Sept.)\n\nAntes de la primera clase: Puesta a punto (instalar R y Positron)\nIntroducción al curso\nTema 00 - Introducción a R\nTema 00 - Ejercicios"
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(07-Sept. a 11-Sept.)\n\nAntes de la primera clase: Puesta a punto (instalar R y Positron)\nIntroducción al curso\nTema 00 - Introducción a R\nTema 00 - Ejercicios"
+  },
+  {
+    "objectID": "docs/Tema00.html#introducción",
+    "href": "docs/Tema00.html#introducción",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Introducción",
+    "text": "Introducción\n\nDebéis tener instalados los programas gratuitos R y RStudio\nNos familiarizaremos con los conceptos y comandos básicos de programación en R\nR es un lenguaje interpretado: ejecuta las instrucciones directamente en la consola\n\n\nRStudio es un entorno de desarrollo integrado (IDE) que combina varias herramientas para facilitar el uso de R: consola, editor para escribir comandos, ayuda, etc.\n\n\n\nUn editor de texto NO es un procesador de texto (como Word): solo importa el texto sin formato (negrita, etc.)"
+  },
+  {
+    "objectID": "docs/Tema00.html#r-studio",
+    "href": "docs/Tema00.html#r-studio",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "R Studio",
+    "text": "R Studio"
+  },
+  {
+    "objectID": "docs/Tema00.html#empezando-con-r",
+    "href": "docs/Tema00.html#empezando-con-r",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Empezando con R",
+    "text": "Empezando con R\n\nEscribimos comandos en la consola y se ejecutan pulsando Enter:\n\nLa tecla de tabulador  ofrece opciones de autocompletado\nEjecutar algo que no es un comando de R devuelve un error\n\n\n\n2 + 2\n3 * (1 - 4)^2\nsqrt(log(5/2))\npi\nhola\n\n\n\nOperadores aritméticos habituales: +,-,*,/, %/%, %%\nFunciones o constantes incorporadas: log, sqrt, abs, exp, round, pi\n\nabs(-5)\n9 %/% 4\n9 %% 4\n\nSi intentamos evaluar algo que NO es un comando de R o no está correctamente escrito, tendremos un ERROR\nEs NORMAL cometer errores\n\n\n\nO en el Editor de RStudio y se envían a la consola la o las líneas seleccionadas para ser evaluadas con el icono  o con el atajo de teclado Ctrl+Enter\nNOTA: en MacOS, usad la tecla Command en lugar de Ctrl"
+  },
+  {
+    "objectID": "docs/Tema00.html#archivos-de-guion-scripts",
+    "href": "docs/Tema00.html#archivos-de-guion-scripts",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Archivos de guion (“scripts”)",
+    "text": "Archivos de guion (“scripts”)\n\nEs preferible incluir varios comandos en un archivo de texto para ejecutarlos\nSe puede replicar el proceso de cálculos paso a paso (no como Excel)\nCreamos un nuevo archivo con el icono  o en el menú File &gt; New File &gt; R script (atajo Ctrl + Mays + N)\nGuardamos el archivo con  o en File &gt; Save (atajo Ctrl + S), eligiendo un directorio y nombre de extensión “.R” (por defecto) o “.r”\nEn un archivo de guion (guardado), RStudio marca las líneas con error y muestra el mensaje de error al pasar el puntero"
+  },
+  {
+    "objectID": "docs/Tema00.html#trabajar-con-ficheros-de-guion",
+    "href": "docs/Tema00.html#trabajar-con-ficheros-de-guion",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Trabajar con ficheros de guion",
+    "text": "Trabajar con ficheros de guion\n\nCada comando es “una” línea y se ejecutan secuencialmente\nUn comando se puede extender visualmente más de una línea hasta completarse: p.e., hasta cerrar los paréntesis.\n\nEscribimos log(, en otra línea 9 y ejecutamos: la consola cambia de &gt; a +\nNo hace “nada” esperando que completemos el comando.\n\n\n\n\nNO LO VEREMOS: se pueden incluir más de un comando por línea, separados por “;”, pero el código es menos legible\nPodemos ejecutar todo el archivo:\n\nseleccionando todas las líneas Ctrl + A y luego \n\n\nusando  con “echo” o sin “echo” (no muestra resultados en consola)\n\nEn ambos casos, se para la ejecución cuando encuentra error\n\n\n\nEl carácter # marca el inicio de un comentario: lo que sigue se “ignora” (no se ejecuta) en R\n\n\n# Pueden ir al principio de la línea \n2 + 2 # o después de una instrucción\n\n\nComentar es un buen hábito: ayuda a entender/recordar qué hacemos\nNotad que RStudio tiene resaltado de sintaxis: distinto color para comentarios, números, funciones, etc."
+  },
+  {
+    "objectID": "docs/Tema00.html#directorio-de-trabajo.-proyectos.",
+    "href": "docs/Tema00.html#directorio-de-trabajo.-proyectos.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Directorio de Trabajo. Proyectos.",
+    "text": "Directorio de Trabajo. Proyectos.\n\nConviene organizar los archivos relacionados con un mismo tema en una estructura de (sub)directorios a partir de un directorio de trabajo principal\n\n\nRStudio permite definir proyectos para gestionarlo fácilmente a través del menú File o desplegando el icono en la parte superior derecha \n\n\n\nPara conocer el directorio de trabajo actual\n\n\ngetwd()\n\n\nInicialmente el directorio de trabajo es el directorio por defecto del usuario del SO (“~”), donde “/” es el separador de directorios\n\nen Windows: C:/Users/nombre/Documents\nen MacOS: /Users/nombre\nen Linux: /home/nombre\n\n\n\nWindows usa la barra invertida “\\” (‘backward slash’ en lugar de ‘forward slash’) como separador de directorio en una ruta\n\n\nPERO “\\” tiene una función “especial” para cadenas de caracteres en programación: denotar caracteres especiales (“escapar”)\n\n\nSi “insistimos” en usarla, será su versión “escapada”: (C:\\\\Usuarios\\\\nombre\\\\Mis Documentos)\nEn el explorador de archivos (de Windows y de MacOS) la ruta “~” está en castellano (p.e., C:\\Usuarios\\nombre\\Documentos), pero internamente en inglés\n\n\n\nDesde el menú File &gt; New Proyect o desde el icono, creamos un nuevo proyecto:\n\nPodemos usar un Nuevo Directorio o elegir una ubicación ya existente\nEl nombre del proyecto será el nombre del directorio\nTambién se crea un archivo con el mismo nombre y extensión “.Rproj”\n\nAl abrir RStudio, tenemos activo el último proyecto abierto: ej., \nTanto desde el menú como desde el icono de gestión de proyectos, podemos\n\ncerrar el proyecto actual, File &gt; Close Projects,\nabrir otros proyectos guardados: File &gt; Open Project o File &gt; Recent Projects"
+  },
+  {
+    "objectID": "docs/Tema00.html#proyectos-cont.",
+    "href": "docs/Tema00.html#proyectos-cont.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Proyectos (cont.)",
+    "text": "Proyectos (cont.)\n\nPara trabajar con un archivo, usamos la ruta relativa al directorio de trabajo:\n\nsi están en el raíz del directorio: codigo.R, misdatos.Rdata\nsi están en un subdirectorio, indicamos la ruta separando directorios por /: datos/ventas.Rdata, datos/ano2020/ingresos.Rdata\n\nLa pestaña  en el cuadrante inferior-derecho ofrece una forma visual de abrir, crear, copiar, mover o eliminar archivos o directorios, etc.\n\n\nEvitad caracteres “raros” (acentos, espacios, etc.) en directorios y ficheros\nNOTA. El Explorador de Archivos de Windows y Finder de MacOS, no muestran defecto las extensiones de los archivos.\n\nPuede ser confuso para distinguir entre dos archivos con el mismo nombre y diferente extensión: proyecto.R y proyecto.Rproj\nConsultad cómo mostrarlas: p.e., para Windows y MacOS"
+  },
+  {
+    "objectID": "docs/Tema00.html#funciones-en-r",
+    "href": "docs/Tema00.html#funciones-en-r",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Funciones en R",
+    "text": "Funciones en R\n\nLas expresiones que aceptan argumentos se denominan funciones.\n\n\nexp(2)\nceiling(5.2)\n\n\n\n\n\nAlgunos argumentos son obligatorios, otros tienen valores por defecto que se pueden omitir\nLos argumentos se pueden especificar por nombre o por orden.\n\n\nlog(2, base=2)\nlog(2, 10)\nlog(base = 10, x = 2)\n\n\n¿Cómo sabemos la manera de usar una función (ej. argumentos necesarios) o comando de R?\n\n\n\nNO omitir los argumentos tiene ventajas\n\nClaridad\nLos argumentos no tienen que especificarse en orden (sin nombre del argumento debe seguirse el orden establecido)"
+  },
+  {
+    "objectID": "docs/Tema00.html#ayuda-en-r-y-rstudio",
+    "href": "docs/Tema00.html#ayuda-en-r-y-rstudio",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Ayuda en R y RStudio",
+    "text": "Ayuda en R y RStudio\n\nRStudio tiene autocompletado y ayuda flotante para funciones y otros elementos de R\n\nP.e., si empezamos a escribir la función log, se muestra la forma esperada de trabajar con esa función\n\nRStudio también tiene una pestaña para buscar ayuda\n\n\nLas búsquedas online o las IAs (como chatGPT, Gemini o Copilot) pueden ser útiles.\nPERO debemos tener un conocimiento mínimo para aprovechar realmente una solución\n\nhay muchas formas de hacer lo mismo en R: una respuesta correcta puede no ajustarse a lo que ya sabemos\n\nNO uséis copiar-pegar sin entender el código: copiar-pensar-adaptar\n\n\n\nSe puede usar ?? para buscar ayuda en la consola sobre algo de lo que se desconoce el nombre concreto de la función\n\n\nNO siempre estará la solución exacta a nuestro problema\nLas soluciones pueden utilizar enfoques que requieren conocer comandos de extensiones (bibliotecas) de R"
+  },
+  {
+    "objectID": "docs/Tema00.html#el-operador-de-asignación",
+    "href": "docs/Tema00.html#el-operador-de-asignación",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "El operador de asignación",
+    "text": "El operador de asignación\n\nEl operador &lt;- almacena un contenido en un objeto con un nombre,1 que incluye letras, números y algunos carácteres especiales (“.”, “_”)\n\n\n\nalt - = &lt;-\nUn objeto es simplemente algo almacenado en la memoria de R\nImportante: recordar almacenar nuestros cálculos y resultados en objetos para poder reutilizarlos.\n\na menudo no es “recomendado”, es una necesidad\n\n\n\n\nx &lt;- 2*3    # asignación, no muestra resultado\nx           # ejecutamos mostrar la variable   \nprint(x)\n(x &lt;- 2)    # asignación e impresión a la vez\n\n\nR es “case-sensitive”: x y X son dos objetos distintos\nLos objetos asignados pueden usarse posteriormente, p.e., para generar otros a partir de ellos\n\n\ny &lt;- x + 5  # asignamos y a partir del VALOR de x\n(x &lt;- x*3)  # re-asignamos x a partir de ella misma\ny           # NO cambia (en Excel, sí)\n\n\n\nSe prefiere &lt;- para diferenciar asignación de objetos (NO solo asignaremos números) del concepto de igualdad matemática\nY se evita la confusión con = usado para dar valores a un argumento, log(2, base=10), y con la igualdad en comparaciones (==)\nTambién se puede mostrar con print(x) o con show(x)\nUn error habitual: object not found. Porque hemos creado x y luego queremos usar X…\nCuando se asigna a partir del objeto x, en la expresión aparece el contenido x en ese momento (no x propiamente dicho)\nEn Excel, si cambia un valor en una celda, cambian aquellas que la referencian.\n\n\nTambién se puede asignar con ="
+  },
+  {
+    "objectID": "docs/Tema00.html#el-espacio-de-trabajo-en-r",
+    "href": "docs/Tema00.html#el-espacio-de-trabajo-en-r",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "El Espacio de Trabajo en R",
+    "text": "El Espacio de Trabajo en R\n\nEl espacio de trabajo es el conjunto de objetos activos en memoria, resultado de todos los comandos ejecutados previamente\nEn RStudio, la pestaña  muestra los objetos y su valor\nLas funciones ls() y rm() muestran y eliminan respectivamente objetos del espacio de trabajo\n\n\n\n#| echo: false\nls()        # mostrar objetos\nrm(y)       # eliminar el objeto \"y\"\nrm(a,b,c)   # eliminar varios objetos (separados por comas)\n\n\n\nBorramos todos los objetos con  en el Environment o el comando\n\n\nrm( list=ls() )  # eliminar todos los objetos\nrm(y, x)         # eliminar solo algunos objetos\n\n\nGuardamos el contenido del entorno de trabajo con  (o al cerrar RStudio), pero es innecesario: ejecutando los comandos guardados en un archivo .R recuperamos los objetos\n\n\n\nNotar que el Environment también tiene una pestaña de History con todos los comandos ejecutados durante la sesión.\nVeremos cómo guardar datos en R con más detalle"
+  },
+  {
+    "objectID": "docs/Tema00.html#mensajes-de-error-y-warning",
+    "href": "docs/Tema00.html#mensajes-de-error-y-warning",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Mensajes de “Error” y “Warning”",
+    "text": "Mensajes de “Error” y “Warning”\n\nEn programación, cometer errores es normal\nEn muchos errores, R se “quejará” mostrando mensajes en rojo\n\nAviso: R ofrece un resultado (y continuará al siguiente comando), PERO indica que puede haber algo “no deseado”\nError: para la ejecución, sin resultado, e “informa” de la razón\n\nAlgunos mensajes son claros, pero otros requieren más investigación\n\n\nPeor que un mensaje de error: escribimos (copiamos) un código que funciona pero no hace lo que queremos…\nEl ordenador NO se equivoca: hace lo que le pedimos según unas reglas bien definidas por R, que debemos conocer\n\nSed cuidadosos, pensad y entended cada paso del código\n\n\n\n\nAlgunos mensajes son intimidantes (en rojo!) … e indescifrables\nAviso: “He hecho lo que he podido para entender lo que pides (log. de un número negativo!), pero a lo mejor no es lo que quieres”\nConocer las “reglas” es saber programar (hablar) en ese lenguaje\nComo toda convención, algunas reglas de R pueden ser “arbitrarias”\n\np.e., log(-1) podría ser error y seq(from = 10, to = 2, by = 1) interpretado como una cuenta atrás\n\nR ha ejecutado lo que le decimos, cumpliendo sus reglas:\n\nel argumento from se puede omitir\ntodo en R es un objeto: podemos pasar al argumento from un número o un objeto que contenga un número\npasamos un objeto lógico (from == 1) y lo convierte a la clase esperada, entero\n\nPor eso es importante la diferencia entre &lt;-, = y =="
+  },
+  {
+    "objectID": "docs/Tema00.html#tipos-de-objetos-en-r",
+    "href": "docs/Tema00.html#tipos-de-objetos-en-r",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Tipos de Objetos en R",
+    "text": "Tipos de Objetos en R\n\nTODO en R es un objeto, cada uno con distintas propiedades y, por tanto, distintas formas de trabajar con él\n\n\n\nR es un lenguaje orientado a objetos\n\n\n\nAdemás de las funciones, los principales objetos con los que trabajaremos son:\n\nvectores\nfactores\nconjuntos de datos (“data frames”)\nlistas\n\nEstos objetos pueden contener varios tipos de datos o variables:\n\nentero\nnumérico (números reales)\nlógico (valores verdadero/falso)\ncaracteres &lt;!–\n\n\n\nfechas\nfunciones –&gt;"
+  },
+  {
+    "objectID": "docs/Tema00.html#vectores",
+    "href": "docs/Tema00.html#vectores",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Vectores",
+    "text": "Vectores\n\nUn vector es una secuencia de datos elementales, creados con el operador “c()” (combinar)\n\n\nx &lt;- c(2.5,-4.1,6.4,8.2)           # vector numérico\ny &lt;- c(3,0,-1,2)                   # vector de enteros\nw &lt;- c(\"hola\", 'adios')            # vector de caracteres \nz &lt;- c(FALSE, TRUE, T, F)          # vector lógico\n\n\n\nLos caracteres puede ir entre comillas simples ` o dobles \"\nT y F atajo para TRUE y FALSE\n\n\n\nPodemos crear vectores a partir de otros vectores o usando comandos\n\n\nz &lt;- c(x, y)\nx &lt;- rep(1, times=4)\ny &lt;- seq(from = 10, to = 1, by = -1)\nz &lt;- 1:10       # equivale a z &lt;- seq(1,10,1)\n\n\nUn vector sólo puede contener objetos de un único tipo elemental, que podemos conocer en el Environment o con str()"
+  },
+  {
+    "objectID": "docs/Tema00.html#vectores-cont.",
+    "href": "docs/Tema00.html#vectores-cont.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Vectores (cont.)",
+    "text": "Vectores (cont.)\n\nSi se mezclan tipos distintos, R busca una clase que “acomode” a todos\n\n\nvcr &lt;- c(\"lunes\", 2) \n\n\nForzamos que un objeto sea tratado con una clase concreta, con as.integer(), as.numeric(), as.character() y as.logical()\n\nSi no se puede convertir a número, devuelve NA (con un “warning”)\n\n\n\n\n“lunes” no puede ser un número pero “2” sí se puede representar como carácter\n\nel carácter “2” NO es lo mismo que el número 2: no se pueden hacer operaciones matemáticas\n\nLas funciones is.numeric(), is.numeric(), is.logical() e is.character() comprueban si un objeto es del tipo indicado, devolviendo un valor lógico.\nDebemos diferenciar entre la clase de un objeto y como se muestra (formatea): ver la función format()\n\n\n\nNO se pueden realizar operaciones incompatibles entre clases\n\nCuidado con las comillas: NO es lo mismo un objeto (su contenido) que el carácter de su nombre\n\n\n\na &lt;- 4\nc &lt;- 'a' + 1\n\n\n\nLa clase de un objeto es única (solo un tipo de elementales) y puede conocerse en el Environment o con str()\n\n\nstr(y)\n\n\ncon class()\nTambién se puede conocer la clase/modo con is() o mode()\n\n\nstr() sirve para cualquier tipo de objeto: p.e., funciones: str(log)\n\n\n\nLos vectores pueden tener nombres (una “etiqueta” única para cada elemento): un vector de caracteres de la misma longitud asignado con names()\n\n\n\nLos nombres de un vector son un vector de caracteres de la misma longitud\n\n\naltura &lt;- c(176, 165, 189, 155, 168)\naltura\nnames(altura) &lt;- c(\"Jose\", \"Maria\", \"Juan\", \"Elena\", \"Rosa\")\nnames(altura)\naltura\n\n\n\n\nObviamente podemos asignar el vector creándolo con c() o a partir de un vector existente\nNotad cómo cambian las propiedades (cómo se ve el vector) tras aplicarle un nombre"
+  },
+  {
+    "objectID": "docs/Tema00.html#aritmética-de-vectores",
+    "href": "docs/Tema00.html#aritmética-de-vectores",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Aritmética de vectores",
+    "text": "Aritmética de vectores\n\nLa mayoría de los operadores se aplican elemento-a-elemento\n\n\n\n\na &lt;- seq(1,3,1)\nb &lt;- seq(6,8,1)\n\n\n\n\n\na+b\na*b\n\n\n\nCon diferentes longitudes, se repite el vector corto cuanto sea necesario\n\n\n\n\nb &lt;- 6:9\na + b\na + 1  # lo que queremos!\n\n\n\n\n\n\n\nAlgunas funciones relevantes\n\n\n\n\n\nlength(x)   # longitud\nsort(x)     # ordenar\nmax(x)      # máximo\nmin(x)      # mínimos\nsum(x)      # suma \nprod(x)     # producto \n\n\n\n\n\nmean(x)     # media \nvar(x)      # varianza\ntable(x)    # frecuencias\n\nsummary(x)  # estadísticos \n\n\n\n\nEs MUY CONVENIENTE revisar cuidadosamente las dimensiones de los vectores antes de una operación, aunque R va a proceder de una forma bien definida…"
+  },
+  {
+    "objectID": "docs/Tema00.html#vectores-lógicos",
+    "href": "docs/Tema00.html#vectores-lógicos",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Vectores lógicos",
+    "text": "Vectores lógicos\n\nObtenemos un objeto lógico enunciando una relación que puede ser cierta o falsa , como comparaciones básicas de igualdad o desigualdad\n\n\n\n\n1 == 1  # TRUE\n1 != 3  # TRUE\n1 &gt; 2   # FALSE\n\n\n\n\n\na &lt;- 3 \na &gt;= 3       # TRUE\na + 1 &lt;= 10  # FALSE\n\n\n\nCombinamos varios enunciados con operadores Y (&), O (|) y NO (!)\n\n\nPara conjuntos, x %in% Y es cierto cuando x es un elemento de Y\n\n\n\nNotad la doble igualdad == para el operador lógico de igualdad\nNuevamente podemos confundir los objetos hola y adios con sus caracteres\n\n\n\naltura &lt;- c(176, 165, 189, 155, 168)\n\naltura &gt;= c(175, 165, 195, 165, 168)  # elemento a elemento\naltura == 155                         # elemento a elemento\naltura &gt; 160 & altura &lt;= 180\naltura &lt; 160 | altura &gt;= 180\nc(165,179) %in% altura\ncondicion &lt;- !(altura &lt;= 170)\n\n\n\nR ha ejecutado lo que le decimos, cumpliendo sus reglas:\n\nel argumento from se puede omitir\ntodo en R es un objeto: podemos pasar al argumento from un número o un objeto que contenga un número\npasamos un objeto lógico (from == 1) y lo convierte a la clase esperada, entero\n\nPor eso es importante la diferencia entre &lt;-, = y ==\naprender lógico para selección: paro de hombre,paro de hombre jovenes\ncondiciones compuesta: venta media de hombres de valencia y alicante en realidad es un enunciado formal con OR\n(recordad que esto también pasaba en gretl y en general aprender lógica)"
+  },
+  {
+    "objectID": "docs/Tema00.html#acceso-a-los-elementos-de-un-vector",
+    "href": "docs/Tema00.html#acceso-a-los-elementos-de-un-vector",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Acceso a los elementos de un vector",
+    "text": "Acceso a los elementos de un vector\n\nSe utiliza el operador [] (paréntesis cuadrado)1 y\n\n\n\nCon [[ ]] se enfatiza acceso a un elemento: esto es importante en otros objetos (listas, datos) pero no en vectores (ambas formas son equivalentes)\n\n\n\nPosiciones de los elementos, usando un vector de enteros\n\n\naltura[3]\naltura[c(1,3,5)]\n\n\nCon enteros negativos, indicamos posiciones que NO queremos\n\n\naltura[-c(2,4)] \n\n\n\nimporta el orden de las posiciones: altura[c(3,1)] frente altura[c(1,3)]\n\n\n\nCondición que satisfacen los elementos, usando un vector lógico\n\n\naltura[altura &gt; 180 | altura &lt; 160]\n\n\n(Si lo tienen) Nombres de los elementos, usando un vector de caracteres\n\n\n\nerror por comillas se puede hablar diferencias de altura[pos] y altura[“pos”] y altura[“Juan”]: confusió de comillas y diferencia entre objeto y caracter de nombre de objeto\nLa función which() también puede ser útil para posiciones lógicas\n\n\n\n\nLos vectores de selección pueden ser un objeto previamente asignado en los tres casos; p.e.,\n\n\npos &lt;- (altura &gt; 180 | altura &lt; 160)\naltura[pos]\n\n\nPodemos seleccionar un subconjunto del vector para trabajar con él\n\n\nalturaExtremo &lt;- altura[pos]\nmean(alturaExtremo)\n\n\nCon la asignación se pueden cambiar elementos específicos de un vector (o añadir nuevos)\n\n\naltura[3] &lt;- 196\n\naltura[c(\"María\", \"Luis\")] &lt;- c(169, 175)\n\n\nTambién con [[ ]]"
+  },
+  {
+    "objectID": "docs/Tema00.html#factores",
+    "href": "docs/Tema00.html#factores",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Factores",
+    "text": "Factores\n\nLa información cualitativa se suele codificar como texto o números, pero NO tiene sentido numérico (ni de “texto”): representan clases o categorías\n\n\nPara destacar la naturaleza distinta de estos datos, existe un tipo de objeto específico en R: los factores\nAdemás de otras ventajas que veremos, permiten separar la representación original de las categorías (niveles) de cómo queremos mostrarlas (etiquetas)\n\n\ngenero   &lt;- c(2, 1, 2, 2, 2)\ngenero_f &lt;- factor(genero, levels = c(1, 2), \n                           labels = c(\"Mujer\", \"Hombre\"))\n\n\nSe asocia nivel 1 con “Mujer”, 2 con “Hombre”, etc.\nLas operaciones con factores se realiza con las etiquetas, no con los niveles\n\n\ngenero_f == 1       # NO existe valor 1\ngenero_f == \"Mujer\"\n\n\n\nNotar que el comando factor() se extiende en el editor en varias lineas (no es “una” línea por comando)\nEn la consola, se indica que sigue siendo el mismo comando en múltiples líneas con + en lugar de &gt;"
+  },
+  {
+    "objectID": "docs/Tema00.html#factores-cont.",
+    "href": "docs/Tema00.html#factores-cont.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Factores (cont.)",
+    "text": "Factores (cont.)\n\nTambién podemos usar as.factor() para convertir un vector en un factor\nPERO es conveniente especificar los niveles y las categorías porque si no, R los asigna alfabéticamente\n\n\ng &lt;- factor(genero)  # as.factor(genero) hace lo mismo\ng\n\n\nEn este caso la etiqueta del primer nivel encontrado en los datos (el número 2) es “1” y la del siguiente nivel (el número 1) es “2”\nTambién podemos tener factores con orden con la opción order = TRUE y enumerando los niveles en orden\n\n\nsatisf   &lt;- c(\"A\", \"B\", \"A\", \"B\", \"M\")\nsatisf_f &lt;- factor(satisf, order = TRUE, \n                    levels = c(\"B\", \"M\", \"A\"),\n                    labels = c(\"Bajo\", \"Medio\", \"Alto\"))\n\n\n\nSi etiquetas y niveles coinciden, no es necesario especificarlos\n\n\nsatisf   &lt;- c(\"Alto\", \"Bajo\", \"Alto\", \"Bajo\", \"Medio\")\nsatisf_f &lt;- factor(satisf, order = TRUE,\n                        levels = c(\"Bajo\", \"Medio\", \"Alto\"))"
+  },
+  {
+    "objectID": "docs/Tema00.html#resumiendo-un-vector-numérico-o-un-factor",
+    "href": "docs/Tema00.html#resumiendo-un-vector-numérico-o-un-factor",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "“Resumiendo” un vector numérico o un factor",
+    "text": "“Resumiendo” un vector numérico o un factor\n\nLa función summary() devuelve los principales estadísticos descriptivos de un vector numérico\n\n\nsummary(altura)\n\n\n\nEl “resultado” de summary() también es un objeto de R: se puede asignar y trabajar con él\n\na &lt;- summary(altura)\nstr(a)\na[1:2]\n\n\nPara información cualitativa, la media y otros estadísticos no tienen sentido\n\n\nsummary(genero)\ngenero  &lt;- c(1, 20, 20, 1, 1)  # dos categorías igualmente\nsummary(genero)\n\n\nLa función summary() ofrece resultados diferentes según el tipo de objeto (porque tiene distintas propiedades)\n\n\nsummary(genero_f)\n\n\nMatrices\n\nLas matrices son una extensión de vectores a dos dimensiones.\nSe pueden crear con matrix(), a partir de un vector con todos los valores,  rellenando por columnas (argumentobyrow = FALSE) y conocemos su dimensión condim()`\n\n\nSe pueden crear con matrix() o uniendo vectores filas o vectores []: # nas (de las mismas dimensiones) con cbind() y rbind()\n\n\n\n\nr1 &lt;- 1:4\nr2 &lt;- c(4, 8, 5, 10)\nM1 &lt;- rbind(r1, r2)\n\n\n\n\n\nc1 &lt;- 11:12\nc2 &lt;- 25:26\nc3 &lt;- c(14, 25)\nM2 &lt;- cbind(c1, c2, c3)\n\n\n\nPodemos usarlos para añadir nuevas filas, columnas u otra matriz\n\n\nSi no tienen dimensiones compatibles, R repetirá (como ya vimos en aritmética de vectores)\n\nM1 &lt;- cbind(matrx, c(90,95))\nM2 &lt;- rbind(matrx, c(40, -20, 25))\nA &lt;- cbind(c(40,30), c(70, 75))\ncbind(M1, A)\nB &lt;- cbind(c(40, 2), c(-20, 1), c(25, 1))\nrbind(matrx, B)\n\nPodemos dar nombres a columnas y filas\n\n\ncolnames(M2) &lt;- c(\"ene\", \"feb\", \"mar\")\nrownames(M2) &lt;- c(\"gast\", \"ingr\")\n\nPodemos dar nombres a columnas y filas\n\nNotad que NO podemos usar la función names() vista anteriormente porque solo aplica a vectores\nTambién se puede especificar los nombres al crear con matrix con argumento dimnames\n\nmeses &lt;- c(\"ene\", \"feb\", \"mar\")\nmatrx &lt;- matrix(data = c(100, 60, 55, 75, 110, 85),\nnrow = 2,dimnames=list(c(\"gast\", \"ingr\"), meses))\n\nUsamos los paréntesis cuadrados para acceder a los elementos (o una sub-matriz) por posición, nombre o condición lógica\n\n\n\n\nM2[1,3]                 \nM2[\"ingr\", \"ene\"]      \nM2[c(1:2),c(1,3)]\n\n\n\n\n\nM2[2,]      # fila entera\nM2[,\"feb\"]  # columna entera\n\n\n\nNotad que en matrices tiene más sentido el doble paréntesis cuadrado [[ ]] (debería preferirse para acceder a un elemento por su posición sobre el total)\nTambién se pueden extraer filas o columnas enteras\n\nAritmética de Matrices\n\nLas operaciones habituales son elemento a elemento: la matrices deben tener las mismas []: # siones (o R repetirá elementos)\n\n\n\n\nmatrx + M2\nmatrx * M2\n\n\n\n\n\nmatrx - 3\nmatrx * 10 \n\n\n\nComo en el caso de vectores, si las dimensiones no son iguales, se repiten elementos\nEn las operaciones con escalares , realmente se han “expandido” los escalares a una matriz de []: ensiones equivalentes (una matriz con todos los elementos iguales al escalar)\nSe pueden hacer todo tipo operaciones matriciales con R como multiplicación matricial, %*%, []: # poner, t(M1), invertir, solve(A), etc.\nTambién existen funciones para matrices: diag(), rowSums(), colMeans(), etc.\n\nFunciones para Matrices\n\nPara crear la matriz identidad de dimensiones \\(n\\times n\\)\n\n\n#| echo: false\ndiag(n)     \n\n\nPara crear un matriz con los elementos del vector vec en la diagonal\n\n\n#| echo: false\ndiag(vec)   \n\n\nSe pueden calcular sumas o medias de las filas o columnas de una matriz\n\n\nNotar que mean(matrx) calcula la media de todos los elementos de la matriz (como si fuera un vector)\nTambién, se puede operar con un subconjunto de la matriz (que puede ser otra matriz o un vector)\n\n“Arrays”\n\nUn “Array” es un vector de “n” dimensiones. Se crea con la función array\n\n\nx &lt;- array(c(1:8), dim =c(2,2,2) )\nx\n\n\nSe puede acceder a los elementos con paréntesis cuadrados\n\n\nx[2,1,2]\nx[,,1]\n\n\nLos nombres de todas las dimensiones de un “array” (includas matrices) se manejan con la función dimnames, además de al crearlos.\n\nEs un tipo de objetos nuevos conocidos como listas."
+  },
+  {
+    "objectID": "docs/Tema00.html#data-frames",
+    "href": "docs/Tema00.html#data-frames",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "“Data Frames”",
+    "text": "“Data Frames”\n\nEs un tipo de objetos específico para facilitar el análisis de datos: una colección de variables por columnas y observaciones por filas.\n\n\nCada columna es un vector con un nombre y tipos de datos (quizás) diferentes\n\n\naltura &lt;- c(177, 178, 168, 164, 186, 162, 160)\npeso   &lt;- c(75, 85, 70, 60, 80, 65, 54)\ngenero   &lt;- c(2, 1, 2, 2, 2, 1, 1)\ngenero_f &lt;- factor(genero, levels = c(1, 2), \n                           labels = c(\"Mujer\", \"Hombre\"))\ndatos &lt;- data.frame(\"Altura\"=altura, \"Peso\"=peso, \"Genero\"= genero_f)\n\n\n\nLos “data frames” son una colección (técnicamente, una lista) de vectores que corresponde a cada variable.\nPor ser listas, pueden tener columnas de tipos de diferentes, a diferencia de las matrices\n\n\n\nSe visualizan con View(datos) o en “Enviroment” o una parte con head()\n\n\nSeleccionamos columnas por nombre con $ o por nombre o posición con [[ ]]\n\n\nvectAltura &lt;- datos$Altura    # objeto resultante = vector\ndatos[[2]] == datos[[\"Peso\"]]"
+  },
+  {
+    "objectID": "docs/Tema00.html#data-frames-cont.",
+    "href": "docs/Tema00.html#data-frames-cont.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "“Data Frames” (cont.)",
+    "text": "“Data Frames” (cont.)\n\n\nnotar\n\naltura_vect[1] == datos$altura[1]\ndatos[[2]][1] == datos[[\"peso\"]][1]\n\n\nTambién podemos usar [] para seleccionar filas y columnas por posición, nombre y/o condición lógica\n\n\ndatos1 &lt;- datos[datos$Genero == \"Hombre\", 1:2]  # Altura y Peso de hombres        \n\n\n\n\n\nSuele ser mejor usar subset() que devuelve siempre un “data frame”\n\n\nD1 &lt;- subset(datos, Altura &gt; 165)   \nD2 &lt;- subset(datos, subset = Altura %in% c(177,178),\n                    select = c(Altura, Peso)) \n\n\nGeneramos nuevas variables con el vector de asignación\n\n\ndatos$Altura_m &lt;- datos$Altura / 100\n\n\n\nTambién se puede usar (pero NO recomendable) attach(): carga un objeto en el “Global Environment” y no es necesario poner su nombre para acceder a las variables con $\n\n\nÚtil con solo un conjunto de datos o si no hay lugar de confusión (no hay el mismo nombre de variable en diferentes conjuntos de datos)\nSe deja de vincular con detach()\n\n\nPara ordenar un conjunto de datos por una variable, order() crea un vector de posiciones de orden\n\n\n\nSe pueden añadir filas y columnas a un data frame con rbind() y cbind(), respectivamente, a partir de vectores u otros data frames"
+  },
+  {
+    "objectID": "docs/Tema00.html#listas",
+    "href": "docs/Tema00.html#listas",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Listas",
+    "text": "Listas\n\nUna lista es una colección de objetos de distinto tipo (a diferencia de un vector)\n\n\n\nVeremos que muchos objetos de R son listas\nTambién vemos las propiedades del objeto en el Environment\n\n\n\nLos elementos de una lista suelen tener nombres\n\n\nmiLista &lt;- list(saludo=\"hola\", vec=x, lista=list(1:4, \"X\"), \n                datos=datos)\n\n\nCon [[ ]] (por posición o por nombre) o con $(solo por nombre) extraemos los elementos en su clase original\n\n\nmiLista$vec\nmiLista[[2]] + 3\n\n\nTambién podemos usar [], pero devuelve una lista\n\n\n\nNota: el uso de [ ] y [[ ]] también se aplica a “data frames”\nEs importante entender el tipo de objeto de obtenemos con una forma de acceso u otra, por las operaciones que podemos realizar y por las transformaciones que se permiten\nP.e., podemos acceder a elementos individuales de la (sub-)lista con [[ ]], pero no con [ ]:\n\nmiLista[[2]][2]\nmiLista[2][2]   # lista de longitud 1\n\n\nunlist() convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales)"
+  },
+  {
+    "objectID": "docs/Tema00.html#bibliotecas-libraries",
+    "href": "docs/Tema00.html#bibliotecas-libraries",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Bibliotecas (“libraries”)",
+    "text": "Bibliotecas (“libraries”)\n\nUna biblioteca contiene nuevos objetos de R: funciones, datos, etc.\nPara instalar una nueva biblioteca (se hace una vez), en Tools &gt; Install packages o en  o con el comando\n\n\ninstall.packages(\"AER\")\n\n\nMantenemos actualizados los paquetes, en el menú Tools o en \nLa biblioteca solo está disponible si se carga en la sesión actual\n\n\nlibrary(AER)\n\n\nNota: en adelante, la bibliotecas que carguemos se suponen instaladas\nEn  vemos las bibliotecas instaladas y las cargadas aparecen marcadas \n\n\n\nR puede extenderse con capacidades adicionales instalando paquetes con bibliotecas\nSe instala UNA VEZ, se carga en cada sesión que se usa\nPodemos ver las bibliotecas cargadas en \n\nmirarlo antes y después de library(AER)\no por línea de comandos\n\n\n\nLa ayuda contiene información sobre las funciones de una biblioteca, incluyendo ejemplos de uso (“vignettes”) en algunos casos\n\nlibrary(help=utils)\n\nPodemos descargar una biblioteca de memoria con detach()\nLa función require() es “similar” a library()"
+  },
+  {
+    "objectID": "docs/Tema00.html#bibliotecas-cont.",
+    "href": "docs/Tema00.html#bibliotecas-cont.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Bibliotecas (cont.)",
+    "text": "Bibliotecas (cont.)\n\nEl nombre completo de un objeto es biblioteca::nombre\n\nLa nombre de la biblioteca solo es necesaria si no se ha cargado o dos objetos diferentes tienen el mismo nombre en bibliotecas distintas\n\n\n\n\n\nbase::log(1)\nlog(1)\n\n\n\n\n\nlibrary(Hmisc)\nfind(\"units\")\n\n\n\n\nEn la Ayuda, vemos la biblioteca a la que pertenece una función (entre llaves)\nEl nombre completo es necesario si hay conflicto entre bibliotecas: contienen objetos con el mismo nombre\n\n\nTambién se usa nombre completo si no se ha cargado la biblioteca\n\n\n\nPara mostrar todos los datos de las bibliotecas cargadas\n\n\ndata()\n\n\nLos podemos cargar en el “Environment” y obtener información detallada en la ayuda (ej., nombre de variables)\n\n\ndata(\"Affairs\")\nhelp(\"Affairs\")"
+  },
+  {
+    "objectID": "docs/Tema00.html#datos-nativos-en-r",
+    "href": "docs/Tema00.html#datos-nativos-en-r",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Datos “nativos” en R",
+    "text": "Datos “nativos” en R\n\nGuardamos objetos del espacio de trabajo con save() (en una ruta relativa al directorio de trabajo)\n\n\nx &lt;- 1:20\ny &lt;- 2 * x ^ 2 + 1\nsave(x, file=\"x.RData\")      # un objeto, o varios\nsave(x, y, file=\"data/xy.RData\")  #   separados por comas\n\n\n\nExtensiones .RData, .rda, .rds, …\nO todo el workspace con save.image() (= icono )\n\n\n\nPara cargar datos al espacio de trabajo, con load() (= icono )\n\n\nload(\"data/xy.RData\")\n\n\nEn la pestaña de : doble-clic carga un archivo de datos\nNota: este tipo de archivo puede contener varios objetos, incluidas varios conjuntos de datos\n\n\n\nEs posible cargar directamente desde internet:\n\nload(url(\"https://github.com/albarran/BigDataEcon/raw/main/data/altura.RData\"))\n\nTambién se eliminan archivos con la función unlink()"
+  },
+  {
+    "objectID": "docs/Tema00.html#datos-en-otros-formatos-externos-a-r",
+    "href": "docs/Tema00.html#datos-en-otros-formatos-externos-a-r",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Datos en otros formatos externos a R",
+    "text": "Datos en otros formatos externos a R\n\nVarias bibliotecas permiten trabajar con distintos formatos de datos, p.e.:\n\nTexto, con delimitadores o de ancho fijo: utils (R base), readr\nHojas de cálculo: readxl, openxlsx\nFormatos de software estadístico: haven, foreign\n\n\n\n\nDos bibliotecas a veces ofrecen comandos distintos que hacen lo mismo\nPero tienen distintas opciones y sus opciones por defecto son diferentes (p.e., cómo tratan los caracteres: ¿se convierten a factores?)\n\n\n\nDescargad estos ejemplos (UA cloud): renta.txt, sex_data.csv, beauty.xls, nsw.dta\nEn  de RStudio, tenemos acceso visual para cargar algunos formatos (con la biblioteca necesaria instalada)\nrio es un meta-paquete (instala otras bibliotecas) para importar y exportar varios formatos de datos de forma sencilla\n\nA partir de la extensión del archivo, detecta el formato y, por tanto, la biblioteca necesaria"
+  },
+  {
+    "objectID": "docs/Tema00.html#importar-y-exportar-con-rio",
+    "href": "docs/Tema00.html#importar-y-exportar-con-rio",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Importar y exportar con rio",
+    "text": "Importar y exportar con rio\n\nrio permite trabajar con el mismo comando para todos los formatos, pero las opciones por defecto pueden no ser adecuadas\n\nEn la Ayuda se incluye una presentación completa del paquete\n\nEl comando import() se usa para leer los datos\n\n\nlibrary(rio)\nsex   &lt;- import(\"data/sex_data.csv\")\nrenta &lt;- import(\"data/renta.txt\")\nbeauty &lt;- import(\"data/beauty.xls\")\nnsw    &lt;- import(\"data/nsw.dta\")    # formato Stata\n\n\nPodemos exportar datos a un tipo de formato con export()\n\n\nexport(nsw, \"data/nsw.csv\")\n\n\nO convertir un archivo del disco a otro formato con convert()"
+  },
+  {
+    "objectID": "docs/Tema00.html#otras-fuentes-de-datos",
+    "href": "docs/Tema00.html#otras-fuentes-de-datos",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Otras fuentes de datos",
+    "text": "Otras fuentes de datos\n\nBibliotecas con datos muy utilizados: pwt (“Penn World Tables”)\nBibliotecas con funciones para obtener datos online (con APIs públicas)\n\ndatos de las OECD y eurostat (incluye datos del INE español)\nrdbnomics para los datos gratuitos de https://db.nomics.world/\ndatos económicos y financieros con quantmod y tidyquant\nquandl (de pago)\n\nqualtRics trabaja con software de encuestas qualtrics\nDescarga de páginas web y webscraping con las bibliotecas rvest y httr (función GET())\ngooglesheets4\nDBI accede con Bases de Datos relaciones (SQL)"
+  },
+  {
+    "objectID": "docs/Tema00.html#gráficos-básicos",
+    "href": "docs/Tema00.html#gráficos-básicos",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Gráficos Básicos",
+    "text": "Gráficos Básicos\n\nPodemos representar gráficos de dos variables o funciones\n\n\n\n\nx &lt;- c(3, 4, 5, 6, 7, 8)\ny &lt;- c(5, 3, 7, 7, 5, 10)\n\n\n\n\n\nplot(x,y)\n\n\n\nEl resultado aparece en la pestaña Plots de RStudio\n\n\n\n\n\nPodemos cambiar opciones (ver Ayuda de plot.default) como type (puntos, líneas, etc.), símbolo de punto (pch), tipo de línea (lty), ancho de línea (lwd), color (col), título, etiquetas de los ejes, etc.\n\n\nplot(x, y, type=\"b\", pch=3)\nplot(x, y, type=\"l\", lty=2, lwd=2)\nplot(x, y, xlab=\"Eje X\", ylab=\"Eje Y\", main=\"Mi título\")\n\n\nSe pueden cambiar más opciones con par(), combinar gráficos, añadir líneas, texto, etc. y exportar los gráficos"
+  },
+  {
+    "objectID": "docs/Tema00.html#estadísticos-descriptivos-variables-discretas",
+    "href": "docs/Tema00.html#estadísticos-descriptivos-variables-discretas",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Estadísticos descriptivos: variables discretas",
+    "text": "Estadísticos descriptivos: variables discretas\n\nPara variables discretas (factores), table() calcula distribuciones de frecuencias de una variable o conjuntas: el resultado es un objeto\n\n\ndata(\"PSID1982\", package = \"AER\")\n(frec  &lt;- table(PSID1982$occupation) )\n(frec2 &lt;- table(PSID1982$occupation, PSID1982$ethnicity))\n\n\n\nEl objeto es una “tabla” es una variante de vector o matrices con nombres\nSe podría opera con él: table(PSID1982$occupation) / sum(table(PSID1982$occupation)))\n\n\n\nPodemos mostrar frecuencias relativas con prop.table()\n\n\n\n\nprop.table(frec)\nprop.table(frec2)\n\n\n\n\n\nprop.table(frec2, margin = 1)\nprop.table(frec2, margin = 2)\n\n\n\n\nRecordad: conceptos de distribución marginal (probabilidad de un valor en X), distribución conjunta (prob. de un valor de X Y uno de Y ) y distribución condicional (prob. de Y dado un valor de X)\n(In)dependencia y distribuciones conjunta y marginal: p.e., la distribución de trabajos es distinta en general o condicional a ser afroamericano\n\nsabiendo que una persona es afroamericano, es más probable que sea cualificado (mayor renta, etc.)\n\n\n\n\nTambién es informativa su representación con gráficos de barras\n\n\nbarplot(frec, horiz = T)\nbarplot(prop.table(frec2), beside = T)\n\n\n\nbarplot(prop.table(frec2)) en otros casos puede ser más informativo que aquí\nTambién se puede representar con gráficos de tarta: pie(frec)\nLos gráficos admiten (casi) todas las opciones de plot() como títulos, etc. y otras específicas"
+  },
+  {
+    "objectID": "docs/Tema00.html#estadísticos-descriptivos-variables-continuas",
+    "href": "docs/Tema00.html#estadísticos-descriptivos-variables-continuas",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Estadísticos descriptivos: variables continuas",
+    "text": "Estadísticos descriptivos: variables continuas\n\ndata(ceosal1, package='wooldridge')\n\n\nYa hemos visto funciones de estadísticos como mean(), var(), etc.\n\n\nmedian(ceosal1$salary)\nvar(ceosal1$salary)\n\n\nquantile(ceosal1$salary, \n         probs=c(0.25, 0.75) ) # 1er y 3er cuartil\n\nsummary(ceosal1$salary)  # de una variable (vector)\nsummary(ceosal1)         # de todo el conjunto de datos  \n\ncov(ceosal1$salary, ceosal1$roe)  # covarianza\ncor(ceosal1$salary, ceosal1$roe)  # correlación\n\n\n\nRecordad el tratamiento diferente de factores en summary()\nOtras funciones de estadísticos: min(), max(), range(), sum()"
+  },
+  {
+    "objectID": "docs/Tema00.html#estadísticos-descriptivos-variables-continuas-cont.",
+    "href": "docs/Tema00.html#estadísticos-descriptivos-variables-continuas-cont.",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Estadísticos descriptivos: variables continuas (cont.)",
+    "text": "Estadísticos descriptivos: variables continuas (cont.)\n\nPara variables continuas, las frecuencias de valores en un intervalo se pueden tabular o graficar en un histograma\n\n\n\nEn teoría, cada obervación de una variable continua tiene valores distinto; en la práctica se repiten pero no tanto como en las discretas\n\n\n\nhist(ceosal1$roe)   # intervalos automáticos\nhist(ceosal1$roe, freq=F,       # densidad, no casos\n     breaks=c(0,5,10,20,30,60)) # intervalos explícitos\n\n\nO la densidad (versión suavizada del histograma)\n\n\nplot(density(ceosal1$roe))\n\n\n\nSe pueden combinar histograma y densidad ejecutando hist(x) y luego lines(density(x))\n\n\nLa función de distribución acumulada empírica es otra representación de la distribución de una variable (en especial, continua)\n\nplot(ecdf(ceosal1$roe))\n\nLa definición de valor atípico/extremo es “arbitraria”. Aquí es 1.5 veces el rango intercuartículo por encima/debajo de la caja.\n\n\n\nUn gráfico de caja ofrece información resumida de la distribución: mediana, 1er y 3er cuartil, y valores “extremos”\n\n\nboxplot(ceosal1$roe, horizontal=T)\nboxplot(ceosal1$roe~ceosal1$consprod)\n\n\n\nEl símbolo \\~ en R indica que una variable es función de otras: en este caso, la distribución de roe se reprensenta en función de los valores de otra"
+  },
+  {
+    "objectID": "docs/Tema00.html#valores-ausentes-missing-values-na",
+    "href": "docs/Tema00.html#valores-ausentes-missing-values-na",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Valores ausentes (“missing values”): NA",
+    "text": "Valores ausentes (“missing values”): NA\n\nMuchos conjuntos de datos tienen valores ausentes de ciertas observaciones para algunas variables: ej., descargad (UA Cloud) earn.RData\n\n\nSabemos si una observación es NA y la frecuencia total:\n\n\n\n\nload(\"data/earn.RData\")\nx &lt;- earn$earnings\n\n\n\n\n\nis.na(x)\ntable(is.na(x))\n\n\n\n\nRecordemos también any(is.na(x)) (hay algun NAs?) o which(is.na(x)) (qué elementos son NA)\n\n\n\nPor defecto en R, un cálculo con NAs es NA: debemos decir que los elimine explícitamente (y ser conscientes de lo que implica)\n\n\n\n\nmean(x)\n\n\n\n\n\nmean(x, na.rm=TRUE)\n\n\n\n\nsum(), quantile() y otras tienen la opción de na.rm=TRUE\nen cor() la opción es diferente: cor(x, earn$age, use=\"complete.obs\")\n\n\n\nna.omit() elimina observaciones con NAs de una o varias variables\n\n\nearn2 &lt;- na.omit(earn)\n\n\n¿Cómo tratar los NAs? Eliminarlos implica selección muestral y la alternativa de imputar valores implica supuestos sobre éstos\n\n\n\nTambién podemos filtrar y &lt;- x[!is.na(x)] u otras formas\nOtra función útil complete.cases()\n\ns &lt;- complete.cases(x)\nearnComplete &lt;- earn[s,]\n\nPara reemplazar valores (si pensamos que tiene sentido): y &lt;- replace(x, which(is.na(x)), -1)\nLos estadísticos con la muestra sin NA pueden no ser representativos de la población total: solo muestrear en barrio pobre es igual de poco representativo que haya menos respuestas en el barrio rico\nsuponer que podemos imputar renta solo con edad, genero y educación es restrictivo…"
+  },
+  {
+    "objectID": "docs/Tema00.html#nota-sobre-programación-avanzada",
+    "href": "docs/Tema00.html#nota-sobre-programación-avanzada",
+    "title": "Tema 0: Introducción a R y RStudio (Posit)",
+    "section": "Nota sobre programación “avanzada”",
+    "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
     "objectID": "about.html",
