@@ -128,8 +128,8 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#instalación-del-software-del-curso" id="toc-instalación-del-software-del-curso" class="nav-link active" data-scroll-target="#instalación-del-software-del-curso">Instalación del software del curso</a>
   <ul class="collapse">
-  <li><a href="#r-versión-4.6-o-superior" id="toc-r-versión-4.6-o-superior" class="nav-link" data-scroll-target="#r-versión-4.6-o-superior">1. R (versión 4.6 o superior)</a></li>
-  <li><a href="#positron-el-editor" id="toc-positron-el-editor" class="nav-link" data-scroll-target="#positron-el-editor">2. Positron (el editor)</a></li>
+  <li><a href="#primero-r-versión-4.6-o-superior" id="toc-primero-r-versión-4.6-o-superior" class="nav-link" data-scroll-target="#primero-r-versión-4.6-o-superior">1. Primero, R (versión 4.6 o superior)</a></li>
+  <li><a href="#después-positron-el-editor" id="toc-después-positron-el-editor" class="nav-link" data-scroll-target="#después-positron-el-editor">2. Después, Positron (el editor)</a></li>
   </ul></li>
   <li><a href="#comprobación-2-minutos" id="toc-comprobación-2-minutos" class="nav-link" data-scroll-target="#comprobación-2-minutos">Comprobación (2 minutos)</a></li>
   </ul>
@@ -160,13 +160,13 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="instalación-del-software-del-curso" class="level1">
 <h1>Instalación del software del curso</h1>
-<p>Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. Al final hay una comprobación rápida.</p>
+<p>Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. <strong>El orden importa: primero R y después Positron</strong> (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.</p>
 <ul>
 <li>OJO: conviene tener el sistema operativo actualizado antes de instalar nada.</li>
 <li>Considerad traer una regleta a clase si vuestra batería dura poco.</li>
 </ul>
-<section id="r-versión-4.6-o-superior" class="level2">
-<h2 class="anchored" data-anchor-id="r-versión-4.6-o-superior">1. R (versión 4.6 o superior)</h2>
+<section id="primero-r-versión-4.6-o-superior" class="level2">
+<h2 class="anchored" data-anchor-id="primero-r-versión-4.6-o-superior">1. Primero, R (versión 4.6 o superior)</h2>
 <ul>
 <li>Descargad R desde <a href="https://cran.r-project.org/">https://cran.r-project.org/</a>:
 <ul>
@@ -176,11 +176,11 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 </section>
-<section id="positron-el-editor" class="level2">
-<h2 class="anchored" data-anchor-id="positron-el-editor">2. Positron (el editor)</h2>
+<section id="después-positron-el-editor" class="level2">
+<h2 class="anchored" data-anchor-id="después-positron-el-editor">2. Después, Positron (el editor)</h2>
 <ul>
 <li><p>En este curso usamos <strong>Positron</strong>, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.</p></li>
-<li><p>Descargad desde <a href="https://positron.posit.co/download.html">https://positron.posit.co/download.html</a> el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta solo vuestra instalación de R.</p></li>
+<li><p>Descargad desde <a href="https://positron.posit.co/download.html">https://positron.posit.co/download.html</a> el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).</p></li>
 <li><p><strong>Si ya usáis VS Code</strong>: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.</p></li>
 <li><p><strong>Si ya usáis RStudio</strong>: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.</p></li>
 </ul>
@@ -191,9 +191,10 @@ ul.task-list li input[type="checkbox"] {
 <h1>Comprobación (2 minutos)</h1>
 <ol type="1">
 <li>Abrid Positron.</li>
-<li>Localizad la <strong>Consola</strong> (panel inferior): debe aparecer una consola de <strong>R</strong> indicando la versión (algo como <code>R 4.6.1</code>). Si dice 4.6 o superior, bien.</li>
+<li>Localizad la <strong>Consola</strong> (panel inferior). La primera vez hay que <strong>elegir el intérprete</strong>: pulsad el selector de la esquina superior derecha y elegid <strong>R</strong> (algo como <code>R 4.6.1</code>; si dice 4.6 o superior, bien). OJO: si os aparece <strong>Python</strong>, no es un error, pero no es lo que usamos: cambiad a R en ese mismo selector.</li>
 <li>Escribid en la consola <code>2 + 2</code> y pulsad Enter. Si responde <code>[1] 4</code>, TODO CORRECTO.</li>
 </ol>
+<p>Un aviso para más adelante: cuando abráis una carpeta en Positron por primera vez (lo haremos en clase), preguntará si confiáis en sus archivos (“Do you trust the authors?”): contestad <strong>“Yes, I trust the authors”</strong>; si no, Positron queda en modo restringido y no funciona casi nada.</p>
 <p>Si algo falla, no os atasquéis: traed el mensaje de error EXACTO a clase (o preguntad antes por UACloud).</p>
 
 
