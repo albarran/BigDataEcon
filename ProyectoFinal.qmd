@@ -28,7 +28,8 @@ Por tanto, debe explicarse claramente:
 5. Modelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.
 6. Comunicación efectiva de los resultados, discutiendo qué implican respecto al **objetivo** planteado.
 
-<!-- Pendiente de publicar el informe ejemplar (LabFin00 renderizado); al hacerlo, descomentar:
+<!-- Pendiente de publicar el informe ejemplar (LabFin00 renderizado; fuente en
+     legacy2025-26/Proyect01_ejemplo_LabFin00.Rmd desde el 8-sep); al hacerlo, descomentar:
 * Podéis ver un **informe ejemplar completo** (así se ve un trabajo bien hecho) [aquí](docs/Proyect01_ejemplo_LabFin00.html).
 -->
 

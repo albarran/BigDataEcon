@@ -1,5 +1,5 @@
 ---
-title    :  "Tema 0: Introducción a R y RStudio (Posit)"
+title    :  "Tema 0: Introducción a R y Positron (Posit)"
 
 author:  
     - "Pedro Albarrán"
@@ -95,17 +95,43 @@ rm(list = ls())
 
 ## Introducción
 
--   Debéis tener instalados los programas gratuitos
-    [R](https://cran.r-project.org/) y
-    [RStudio](https://posit.co/download/rstudio-desktop/)
-
+<!-- VERSIÓN DENSA anterior (por si Pedro quiere volver a ella):
+-   Debéis tener instalados R y Positron: instrucciones paso a paso en la página
+    [Puesta a punto](../PuestaAPunto.qmd) de la web (si no, hacedlo LO ANTES POSIBLE)
 -   Nos familiarizaremos con los conceptos y comandos básicos de programación en R
-
 -   R es un lenguaje interpretado: ejecuta las instrucciones directamente en la consola
+-   Positron es un entorno de desarrollo integrado (IDE) que combina varias herramientas para facilitar el uso de R: consola, editor para escribir comandos, ayuda, etc.
+-   Positron es un derivado ("fork") de VS Code, uno de los editores más usados: misma interfaz y manejo, con añadidos específicos para R y Python que facilitan el análisis de datos
+    + Se puede usar VS Code "puro" de forma muy similar, aunque algunas cosas están menos adaptadas
+-   Este tema ocupa las primeras sesiones del curso: de los primeros comandos hasta empezar a trabajar con datos
+-   El material de cada sesión está en Contenidos: cuando se indique, traedlo trabajado de casa y en clase repaso corto y a IMPLEMENTAR
+-->
 
-<!--    -   La consola es la forma más "primitiva" de interactuar con R -->
+-   **R** es el lenguaje: ejecuta instrucciones directamente en una consola (es *interpretado*)
 
--   RStudio es un entorno de desarrollo integrado (IDE) que combina varias herramientas para facilitar el uso de R: consola, **editor** para escribir comandos, ayuda, etc.
+-   **Positron** es el entorno de trabajo (IDE): derivado de VS Code, uno de los editores más
+    usados
+
+    + Misma interfaz y manejo, con añadidos específicos para el análisis de datos en R y Python
+
+    + Se puede usar VS Code "puro" de forma muy similar
+
+
+-   Instalación: página [Puesta a punto](../PuestaAPunto.qmd) de la web (si no lo tenéis, LO ANTES POSIBLE)
+
+-   Este tema: de los primeros comandos hasta empezar a trabajar con datos; el material de cada
+    sesión, siempre en [Contenidos](../Contenidos.qmd)
+
+::: {.notes}
+- VS Code "puro" también vale, muy similar, aunque algunas cosas están menos adaptadas.
+- Cuando se indique en Contenidos, el material se trae trabajado de casa; en clase, repaso corto y a IMPLEMENTAR.
+:::
+
+<!-- REFERENCIA INTERNA (no prometer sesiones exactas a los alumnos por si no llego):
+  Sesión 1 (hoy): Positron, primeros comandos, scripts, carpeta del curso, errores
+  Sesión 2: objetos y vectores, tipos de datos, factores, "errores sin error"
+  Sesión 3 (cierre, semana 2): data frames, bibliotecas e importación de datos
+-->
 
 <!--
     -   consola de R,
@@ -120,12 +146,31 @@ rm(list = ls())
 
 :::
 
-## R Studio
+## Positron
 
-![](figure/RStudioGUIes.png){width="95%"}
+![](figure/positron-gui.png){width="72%" fig-align="center"}
+
+* **Editor** (scripts) y **Consola** (ejecutar comandos y ver resultados); a la derecha, **Variables** (objetos en memoria) y **Gráficos**; a la izquierda, el **Explorador** de archivos
+
+::: {.notes}
+Captura del blog oficial de Positron (posit.co); el ejemplo es con Python, pero con R el aspecto es idéntico.
+
+La barra vertical de la izquierda (actividad) tiene más herramientas (extensiones, asistente de IA, control de versiones): son para más adelante.
+:::
 
 
-## Empezando con R 
+## Empezando: elegir el intérprete de R
+
+-   Al abrir Positron aparece la zona de **consola** (panel inferior), PERO hay que **elegir el
+    intérprete**: pulsad en el selector de la esquina superior derecha y elegid **R** (versión 4.6.x)
+
+![](figure/positron-selector.png){width="60%" fig-align="center"}
+
+-   OJO: si aparece **Python**, NO es un error vuestro, pero NO es lo que usamos: cambiad a R
+    en ese mismo selector (*New Console Session...*)
+
+
+## La Consola
 
 -   Escribimos *comandos* en la **consola**  y se ejecutan pulsando `Enter`:
 
@@ -167,34 +212,21 @@ abs(-5)
 :::
 
 
-- O en el **Editor de RStudio** y se envían a la consola la o las líneas seleccionadas para ser evaluadas con el icono ![](figure/run.png){width="10%" .center} o con el atajo de teclado `Ctrl+Enter`
+## Archivos de guion ("scripts")
 
-- NOTA: en MacOS, usad la tecla `Command` en lugar de `Ctrl`
-
-## Archivos de guion ("scripts") 
-
--  Es preferible incluir varios comandos en un archivo de texto para ejecutarlos 
+-  Es preferible incluir varios comandos en un archivo de texto para ejecutarlos
 
 -  Se puede replicar el proceso <!--completo--> de cálculos paso a paso (no como Excel) <!--y ejecutar todo o solo parte -->
 
--   Creamos un nuevo archivo con el icono ![](figure/Mas.jpg){width="5%" .center} o en el menú *File \> New File \> R script* (atajo `Ctrl + Mays + N`)
+-   Creamos un nuevo archivo en el menú *File \> New File...* eligiendo *R File*
 
--   Guardamos el archivo con ![](figure/guardar.png){width="5%" .center} o en *File \> Save* (atajo `Ctrl + S`), eligiendo un directorio y nombre de extensión ".R" (por defecto) o ".r"
+-   Guardamos el archivo en *File \> Save* (atajo `Ctrl + S`), eligiendo un directorio y nombre con extensión ".R" (por defecto) o ".r"
 
-* En un archivo de guion (guardado), RStudio marca las líneas con error y muestra el mensaje de error al pasar el puntero
+-   Desde el editor, `Ctrl+Enter` envía a la consola la línea actual o las líneas seleccionadas (en MacOS, la tecla `Command` en lugar de `Ctrl`)
 
-:::: {.columns}
+* En un archivo de guion (guardado), Positron marca las líneas con error y muestra el mensaje de error al pasar el puntero
 
-::: {.column width="20%"}
-
-
-:::
-
-::: {.column width="80%"}
-![](figure/Error.jpg){width="60%"}
-:::
-
-::::
+![](figure/positron-error.png){width="42%" fig-align="center"}
 
 
 ## Trabajar con ficheros de guion 
@@ -213,11 +245,9 @@ abs(-5)
 
 * Podemos ejecutar **todo el archivo**:
 
-    + seleccionando todas las líneas `Ctrl + A` y luego ![](figure/run.png){width="10%"} 
-    
-    <!--(`Ctrl+Enter`)-->
+    + seleccionando todas las líneas (`Ctrl + A`) y luego `Ctrl + Enter`
 
-    + usando ![](figure/source.jpg){width="14%"} con "echo" o sin "echo" (no muestra resultados en consola)
+    + o con el botón de "play" (▶) en la esquina superior derecha del editor (ejecuta con `source()`)
 
 * En ambos casos, se para la ejecución cuando encuentra error
 
@@ -236,18 +266,30 @@ abs(-5)
 
 - Comentar es un buen hábito: ayuda a entender/recordar qué hacemos 
     
-- Notad que RStudio tiene *resaltado de sintaxis*: distinto color para comentarios, números, funciones, etc.
+- Notad que Positron tiene *resaltado de sintaxis*: distinto color para comentarios, números, funciones, etc.
 
 
-## Directorio de Trabajo. Proyectos. 
+## Directorio de Trabajo. Proyectos.
 
 -   Conviene **organizar los archivos** relacionados con un mismo tema en una estructura de (sub)directorios <!--y subdirectorios--> a partir de un **directorio de trabajo** principal <!--, que se puede fijar "manualmente"  con `setwd()` -->
 
-<!--
--  Esto puede hacerse manualmente, pero RStudio permite definir **proyectos** para gestionarlo fácilmente a través del menú *File* o desplegando el icono en la parte superior derecha ![](figure/Project.png){width="15%" .center} 
--->
+:::: {.columns}
 
--  RStudio permite definir **proyectos** para gestionarlo fácilmente a través del menú *File* o desplegando el icono en la parte superior derecha ![](figure/Project.png){width="15%" .center}
+::: {.column width="63%"}
+
+-   En la programación moderna (Positron, VS Code y la mayoría de editores actuales), un **proyecto** ES simplemente una **carpeta**
+
+-  Cread una carpeta para el curso (p.e. `AnalisisDatos`) con subcarpetas para datos, código, etc., y abridla con *File \> Open Folder*
+
+-  Sin carpeta abierta, el **Explorador** (barra izquierda) solo ofrece precisamente eso: *Open Folder*
+
+:::
+
+::: {.column width="35%"}
+![](figure/positron-open-folder.png){width="95%"}
+:::
+
+::::
 
 <!--
 * Organizar los directorio y archivos es habitual: ej., directorios diferentes para asignaturas, subdirectorios por temas, etc.
@@ -310,21 +352,32 @@ getwd()
 
 :::
 
--  Desde el menú *File > New Proyect* o desde el icono, creamos un nuevo proyecto:
+## La primera vez que abrís la carpeta
 
-    + Podemos usar un *Nuevo Directorio* o elegir una ubicación ya existente
-  
-    + El **nombre del proyecto será el nombre del directorio**
-    
-    + También se crea un archivo con el mismo nombre y extensión ".Rproj"
+:::: {.columns}
 
-- Al abrir RStudio, tenemos activo el último proyecto abierto: ej., ![](figure/openProject.png){width="10%" .center}
+::: {.column width="55%"}
 
-- Tanto desde el menú como desde el icono de gestión de proyectos, podemos 
+* Al abrir una carpeta por primera vez, Positron pregunta si **confiáis** en sus archivos:
+  pulsad **"Yes, I trust the authors"** (es vuestra carpeta: la acabáis de crear)
 
-    + cerrar el proyecto actual, *File > Close Projects*, 
-    
-    + abrir otros proyectos guardados: *File > Open Project* o *File > Recent Projects*
+* Si contestáis que no, Positron queda en **modo restringido**: sin consola de R, sin
+  resaltado, sin casi nada; se arregla pulsando en *Restricted Mode* (abajo a la izquierda)
+  y confiando la carpeta
+
+:::
+
+::: {.column width="43%"}
+![](figure/positron-trust.png){width="95%"}
+:::
+
+::::
+
+-  Con la carpeta abierta, esa carpeta es vuestro **directorio de trabajo**: R busca y guarda
+   los archivos ahí (usad rutas RELATIVAS, como veremos)
+
+-  Al abrir Positron se recupera la última carpeta usada; con *File \> Open Recent* podéis
+   cambiar entre carpetas (p.e., otra asignatura u otro proyecto)
     
 
  <!-- ![](figure/newProject.png){width="20%" .center} -->
@@ -357,14 +410,14 @@ getwd()
     setwd("C:/Users/usuario/Documents/miproyecto")
     ```
 
--   Se puede establecer de forma permanente (por defecto, para cada nueva sesión de RStudio) en el menú *Tools \> Global Options*: General
+-   Se puede establecer de forma permanente (por defecto, para cada nueva sesión de R) en el menú *Tools \> Global Options*: General
 
 -->
 
 ## Proyectos (cont.) 
 
 <!--
-- Cuando cerramos y volvemos a abrir RStudio, tendremos activo el último proyecto abierto: ej., ![](figure/openProject.png){width="10%" .center}
+- Cuando cerramos y volvemos a abrir Positron, tendremos activo el último proyecto abierto: ej., ![](figure/openProject.png){width="10%" .center}
 
 - Tanto desde el menú como desde el icono de gestión de proyectos, podemos 
 
@@ -373,13 +426,28 @@ getwd()
     + abrir otros proyectos guardados: *File > Open Project* o *File > Recent Projects*
 -->
 
-* Para trabajar <!--en  R--> con un archivo, usamos la **ruta relativa** al directorio de trabajo: 
+* Para trabajar <!--en  R--> con un archivo, usamos la **ruta relativa** al directorio de trabajo:
 
     + si están en el raíz del directorio: `codigo.R`, `misdatos.Rdata`
-    
+
     + si están en un subdirectorio, indicamos la ruta separando directorios por `/`: `datos/ventas.Rdata`, `datos/ano2020/ingresos.Rdata`
 
-* La **pestaña** ![](figure/Files.jpg){width="7%"} en el cuadrante inferior-derecho ofrece una forma visual de <!-- realizar operaciones de archivos: --> abrir, crear, copiar, mover o eliminar archivos o directorios, etc.
+* Las rutas relativas son otra idea general de la programación: el proyecto funciona igual en cualquier ordenador (la ruta completa `C:/Users/minombre/...` solo existe en el vuestro)
+
+
+## El Explorador y la barra lateral
+
+* El **Explorador** (icono de archivos en la barra lateral izquierda) ofrece una forma visual de abrir, crear, copiar, mover o eliminar archivos y carpetas
+
+* El Explorador solo muestra **lo que está DENTRO de la carpeta abierta**: lo de fuera no se ve ni se puede tocar desde aquí
+
+    + Por eso hay que pensar QUÉ pertenece al proyecto (datos, scripts...) y traerlo a la carpeta (arrastrándolo al Explorador, o copiándolo con el explorador del sistema)
+
+* Esa barra lateral tiene mucho más (extensiones, asistente de IA, control de versiones, búsqueda): NO lo necesitáis por ahora; la ayuda y la IA integradas las iremos usando poco a poco
+
+::: {.notes}
+- (No decirlo así en clase) A diferencia de RStudio, aquí no hay un panel Files con el que navegar por TODO el disco: el ámbito es siempre la carpeta del proyecto. Es una restricción sana: obliga a decidir qué forma parte del proyecto.
+:::
 
 <!--
     - Navegar por directorios: p.e., *Files \> More*: *Go to Working Directory*
@@ -389,19 +457,19 @@ getwd()
 * Nota: para navegar fuera del directorio por defecto del usuario, "\~", pulsar en los tres puntos
 
 
-* RStudio facilita el trabajo permitiendo realizar "gráficamente" algunas acciones equivalentes a comandos:
+* Positron facilita el trabajo permitiendo realizar "gráficamente" algunas acciones equivalentes a comandos:
 
     + *Files \> More*: *Set as Working Directory*
 
 * El comando equivalente aparece en la consola: debemos **acostumbrarnos a usar comandos**
 -->
 
-* <!--Nota: aunque no suele dar problemas, --> Evitad caracteres "raros" (acentos, espacios, etc.) en directorios y ficheros
+* Evitad caracteres "raros" (acentos, espacios, etc.) en directorios y ficheros
 
-* NOTA. El Explorador de Archivos de Windows y Finder de MacOS, no muestran defecto las extensiones de los archivos.
+* NOTA. El Explorador de Archivos de Windows y Finder de MacOS no muestran por defecto las extensiones de los archivos.
 
-  + Puede ser confuso para distinguir entre dos archivos con el mismo nombre y diferente extensión: `proyecto.R` y `proyecto.Rproj`
-  
+  + Puede ser confuso para distinguir entre dos archivos con el mismo nombre y diferente extensión: `proyecto.R` y `proyecto.qmd`
+
   + Consultad cómo mostrarlas: p.e., para  [Windows](https://support.microsoft.com/es-es/windows/extensiones-de-nombre-de-archivo-comunes-en-windows-da4a4430-8e76-89c5-59f7-1cdbbc75cb01) y [MacOS](https://support.apple.com/es-es/guide/script-editor/scpedt1025/mac)
 
 ## Funciones en R 
@@ -446,13 +514,13 @@ log(base = 10, x = 2)
 :::
 
 
-## Ayuda en R y RStudio 
+## Ayuda en R y Positron
 
--   RStudio tiene autocompletado y ayuda flotante para funciones y otros elementos de R
+-   Positron tiene autocompletado (tecla tabulador) y ayuda flotante para funciones y otros elementos de R
 
-    -   P.e., si empezamos a escribir la función `log`, se muestra la forma esperada de trabajar con esa función
+![](figure/positron-autocompletado.png){width="32%" fig-align="center"}
 
--   RStudio también tiene una **pestaña** para buscar ayuda
+-   Positron también tiene un panel de **Ayuda** (Help): `F1` sobre una función, o `?min` / `help(min)` en la consola
 
 <!--
 -   Se puede obtener ayuda también en la consola: `help(min)` o `?min`
@@ -466,15 +534,26 @@ help(min)
 
 -->
 
--   Las búsquedas online o las IAs (como chatGPT, Gemini o Copilot) pueden ser útiles.
+## La IA como ayuda (usada con cabeza)
 
--   PERO debemos tener un conocimiento mínimo para aprovechar realmente una solución
+-   Positron incluye un **asistente de IA** (icono de chat en la barra lateral), que se conecta a
+    proveedores como Copilot o Claude; también en VS Code, y siempre están las IAs externas
+    (ChatGPT, Gemini...)
 
-    + hay muchas formas de hacer lo mismo en R: una
-    respuesta correcta puede no ajustarse a lo que ya sabemos
+-   Usos LEGÍTIMOS que os harán mejores: pedir que os **explique** un mensaje de error, recordar
+    la sintaxis de una función, entender un código ajeno
 
--   NO uséis copiar-pegar **sin entender** el código:
-    copiar-pensar-adaptar
+-   Uso que os hará PEORES: dejar que **reescriba vuestro código sin entenderlo**: no aprendéis,
+    no detectáis sus errores... y en la evaluación se nota
+
+-   La disciplina es la misma que el *pensamiento algorítmico* del primer día:
+
+    1. especificar CON PRECISIÓN el problema (también al preguntar a una IA)
+    2. descomponerlo en pasos
+    3. COMPROBAR el resultado (¿hace lo que quería? ¿con qué casos falla?)
+
+-   Ante un error: leer el mensaje, localizar la línea, formular una hipótesis, probar; la IA
+    ayuda a *entender*, la solución tenéis que entenderla vosotros: copiar-pensar-adaptar
 
 ::: {.notes}
 
@@ -549,11 +628,11 @@ y           # NO cambia (en Excel, sí)
 
 
 
-## El Espacio de Trabajo en R <!-- y RStudio --> 
+## El Espacio de Trabajo en R <!-- y Positron --> 
 
 -   El espacio de trabajo es el conjunto de objetos activos en memoria, resultado de todos los comandos ejecutados previamente
 
--   En RStudio, la pestaña ![](figure/Environment.jpg){width="15%"} muestra los objetos y su valor
+-   En Positron, el panel **Variables** muestra los objetos y su valor
 
 -   Las funciones `ls()` y `rm()` muestran y eliminan respectivamente objetos del espacio de trabajo
 
@@ -569,18 +648,18 @@ rm(a,b,c)   # eliminar varios objetos (separados por comas)
 
 :::
 
--   Borramos *todos* los objetos con ![](figure/escoba.jpg){width="5%"} en el `Environment` <!--de RStudio--> o el comando
+-   Borramos *todos* los objetos desde el panel Variables o con el comando
 
 ```{r}
 rm( list=ls() )  # eliminar todos los objetos
 rm(y, x)         # eliminar solo algunos objetos
 ```
 
--  Guardamos el contenido del entorno de trabajo con ![](figure/guardar.png){width="5%" .center} <!--en el `Environment`--> (o al cerrar RStudio), pero es **innecesario**: ejecutando los comandos guardados en  un archivo `.R` recuperamos los objetos
+-  Guardar el contenido del entorno de trabajo al cerrar es **innecesario**: ejecutando los comandos guardados en un archivo `.R` recuperamos los objetos
 
 ::: {.notes}
 
-- Notar que el `Environment` también tiene una pestaña de `History` con todos los comandos ejecutados durante la sesión.
+- El historial de comandos de la sesión se recupera en la consola con las flechas ↑/↓.
 
 - Veremos cómo guardar datos en R con más detalle
 
@@ -600,7 +679,8 @@ rm(y, x)         # eliminar solo algunos objetos
     -   *Error*: para la ejecución, *sin resultado*, e "informa" de la razón    
 
 
-- Algunos mensajes son claros, pero otros requieren más investigación
+- Algunos mensajes son claros, pero otros requieren más investigación: pegarlos a una IA y pedir
+  que os los EXPLIQUE es un buen uso; que os reescriba el código sin entenderlo, no
 
 ```{r}
 #| echo: false
@@ -648,91 +728,24 @@ seq(from == 1, to = 5, by = 1)   # ¿por qué?
 :::
 
 
+<!-- ===== SESIÓN 2 (referencia interna): objetos, vectores y tipos de datos ===== -->
+
 # Objetos en R
 
-<!--
+## Un ejemplo para toda esta parte
+
+* A partir de aquí nos acompaña un mini-caso: las **fichas de clientes** de un pequeño gimnasio: nombre, altura, peso, si es socio, gasto mensual, género, satisfacción
+
+* Iremos como en un análisis real: de una variable suelta (un **vector**) a la información cualitativa (**factores**) y a la tabla completa (**data frame**)
+
+* Habrá varias **PRÁCTICAS en clase** sobre este caso: implementar vosotros es donde se aprende
+
+* NO hay que memorizar cada comando: hay que entender la IDEA de cada uno; los detalles se consultan (Ayuda, IA)
+
+* Y aprenderemos a **leer los fallos**: los mensajes de error, y los casos peores en que no hay mensaje pero el resultado no es el que queríamos
+
 
 ## Tipos de Objetos en R
-
--  TODO en R es un objeto, cada uno con distintas propiedades y, por tanto, distintas formas de trabajar con él
-
-::: {.notes}
-
-- R es un lenguaje orientado a objetos
-
-:::
-
-$\Longrightarrow$ **Tipos primitivos** (elementales) de objetos: (son atómicos/indivisibles)
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-* 
-    1. entero
-    2. numérico (números reales) (double, floating point representation)
-    3. lógico (valores verdadero/falso)
-
-:::
-
-::: {.column width="50%"}
-
-* 
-    4. caracteres
-    5. fechas
-    6. funciones
-
-:::
-
-::::
-
-
-$\Longrightarrow$ **Objetos con formas** (dimensiones)
-
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-* 
-    1. escalar
-    2. vectores
-    3. factores
-    4. matrices (2 dimensiones)
-
-:::
-
-::: {.column width="50%"}
-
-* 
-    5. "arrays" (n dimensiones)
-    6. listas
-    7. conjunto de datos (*data frame*)
-:::
-
-::::
-
-
-
-::: {.notes}
-
-- Realmente los factores son vectores con propiedades adicionales
-
-- Existen otros objetos que son variantes con propiedades adicionales (o restringidas o diferentes) de otros objetos
-
-    - Los *data frames* son realmente listas y a su vez existen variantes de listas o *data frames* para almacenar datos rectangulars: *tibbles*, *data.table*
-
-
-- Las listas son colecciones irregulares de cualquier tipo de objeto y pueden anidarse
-
-- Las listas son un tipo de objeto "comodín" o "cajón desastre" que permiten definir nuevos objetos con diferentes "propiedades" o características
-
-:::
-
--->
-
-
-## Tipos de Objetos en R 
 
 -  TODO en R es un objeto, cada uno con **distintas propiedades** y, por tanto, distintas formas de trabajar con él
 
@@ -754,24 +767,21 @@ $\Longrightarrow$ **Objetos con formas** (dimensiones)
 
 
     + entero
-    + numérico (números reales) <!--(double, floating point representation) -->
+    + numérico (números reales)
     + lógico (valores verdadero/falso)
     + caracteres
-<!--    
-    5. fechas
-    6. funciones 
--->
 
 
 ## Vectores
 
 -   Un vector es una secuencia de datos elementales, creados con el operador "`c()`" (combinar)
 
+-   Empezamos nuestras fichas: cada *variable* de los 5 clientes es un vector
+
 ```{r}
-x <- c(2.5,-4.1,6.4,8.2)           # vector numérico
-y <- c(3,0,-1,2)                   # vector de enteros
-w <- c("hola", 'adios')            # vector de caracteres 
-z <- c(FALSE, TRUE, T, F)          # vector lógico
+altura  <- c(176, 165, 189, 155, 168)                 # numérico
+cliente <- c("Jose", "Maria", "Juan", "Elena", "Rosa") # caracteres
+socio   <- c(TRUE, FALSE, TRUE, TRUE, FALSE)           # lógico
 ```
 
 ::: {.notes}
@@ -783,13 +793,13 @@ z <- c(FALSE, TRUE, T, F)          # vector lógico
 :::
 
 
--   Podemos crear vectores a partir de otros vectores o usando comandos 
+-   Podemos crear vectores a partir de otros vectores o usando comandos
 
 ```{r}
-z <- c(x, y)
+z <- c(altura, 170)   # añadir un dato
 x <- rep(1, times=4)
 y <- seq(from = 10, to = 1, by = -1)
-z <- 1:10       # equivale a z <- seq(1,10,1)
+z <- 1:10             # equivale a z <- seq(1,10,1)
 ```
 
 <!--
@@ -830,7 +840,7 @@ z <- 1:10       # equivale a z <- seq(1,10,1)
 -->
 
 
-* Un vector sólo puede contener objetos de un **único tipo** elemental, que podemos conocer en el `Environment` o con `str()`
+* Un vector sólo puede contener objetos de un **único tipo** elemental, que podemos conocer con `str()` o `class()` (el panel Variables muestra los valores)
 
 
 ## Vectores (cont.)
@@ -889,7 +899,7 @@ c <- 'a' + 1
 
 ::: {.notes}
 
--   La clase de un objeto es *única* (solo un tipo de <!--objetos--> elementales) y puede conocerse <!--con `class()` o--> en el `Environment` <!-- de RStudio--> o con `str()`
+-   La clase de un objeto es *única* (solo un tipo de elementales) y puede conocerse con `str()` o `class()`
 
 ```{r}
 
@@ -945,16 +955,17 @@ log(5, base="mibase")
 -   Los vectores pueden tener *nombres* (una "etiqueta" única para cada elemento): un vector de caracteres de la misma longitud
 asignado con `names()`
 
+```{r}
+names(altura) <- cliente   # etiquetamos cada altura con su cliente
+altura
+```
+
 ::: {.notes}
 -   Los nombres de un vector son un vector de caracteres de la misma
     longitud
 
 ```{r}
-altura <- c(176, 165, 189, 155, 168)
-altura
-names(altura) <- c("Jose", "Maria", "Juan", "Elena", "Rosa")
 names(altura)
-altura
 ```
 
 ```{r}
@@ -1019,31 +1030,13 @@ d <- paste(a,b,c,sep=",")
 
 ## Aritmética de vectores
 
--   La mayoría de los operadores se aplican *elemento-a-elemento*
-
-
-:::: {.columns}
-
-::: {.column width="40%"}
+-   La mayoría de los operadores se aplican *elemento-a-elemento*: p.e., el IMC de CADA cliente
+    a partir de su peso y su altura
 
 ```{r}
-a <- seq(1,3,1)
-b <- seq(6,8,1)
+peso <- c(75, 85, 70, 60, 80)
+imc  <- peso / (altura/100)^2   # un cálculo, 5 resultados
 ```
-:::
-
-::: {.column width="5%"}
-
-:::
-
-::: {.column width="40%"}
-```{r}
-a+b
-a*b
-```
-:::
-
-::::
 
 -   Con diferentes longitudes, se repite el vector corto cuanto
     sea necesario
@@ -1053,14 +1046,8 @@ a*b
 ::: {.column width="45%"}
 
 ```{r}
-b <- 6:9
-a + b
-a + 1  # lo que queremos!
-```
-
-```{r}
-#| echo: false
-a * 2
+altura + c(1, 2, 3, 4, 5)
+altura + 1   # se "recicla" el 1
 ```
 :::
 
@@ -1070,11 +1057,16 @@ a * 2
 
 ::: {.column width="45%"}
 
+```{r}
+#| echo: false
+altura * 2
+```
+
 <!--
 - Si las dimensiones no son múltiplos exactos...
 ```{r}
-b <- 1:12  
-a+b   # Warning!     
+b <- 1:12
+altura + b   # Warning!
 ```
 -->
 
@@ -1092,12 +1084,11 @@ a+b   # Warning!
 ::: {.column width="45%"}
 
 ```{r}
-length(x)   # longitud
-sort(x)     # ordenar
-max(x)      # máximo
-min(x)      # mínimos
-sum(x)      # suma 
-prod(x)     # producto 
+length(altura)   # longitud
+sort(altura)     # ordenar
+max(altura)      # máximo
+min(altura)      # mínimo
+sum(peso)        # suma
 ```
 :::
 
@@ -1108,11 +1099,11 @@ prod(x)     # producto
 ::: {.column width="45%"}
 
 ```{r}
-mean(x)     # media 
-var(x)      # varianza
-table(x)    # frecuencias
+mean(altura)     # media
+var(altura)      # varianza
+table(socio)     # frecuencias
 
-summary(x)  # estadísticos 
+summary(altura)  # estadísticos
 ```
 :::
 
@@ -1126,7 +1117,7 @@ summary(x)  # estadísticos
 
 ## Vectores lógicos
 
--   Obtenemos  un objeto lógico  enunciando una relación<!--(con operadores lógicos básicos)--> que puede ser cierta <!--(`TRUE`)--> o falsa <!--(`FALSE`)-->, como comparaciones básicas de igualdad o desigualdad
+-   Obtenemos  un objeto lógico  enunciando una relación<!--(con operadores lógicos básicos)--> que puede ser cierta <!--(`TRUE`)--> o falsa <!--(`FALSE`)-->, como comparaciones básicas de igualdad o desigualdad: p.e., ¿qué clientes miden más de 165 cm?
 
 :::: {.columns}
 
@@ -1232,10 +1223,8 @@ condicion <- !(altura <= 170)
 -->
 
 ```{r}
-altura <- c(176, 165, 189, 155, 168)
-
+altura > 165                          # ¿qué clientes miden más de 165?
 altura >= c(175, 165, 195, 165, 168)  # elemento a elemento
-altura == 155                         # elemento a elemento
 altura > 160 & altura <= 180
 altura < 160 | altura >= 180
 c(165,179) %in% altura
@@ -1558,11 +1547,39 @@ seq(from == 1, to = 5, by = 1)   # ¿por qué?
 :::
 -->
 
+## PRÁCTICA en clase: las fichas (1)
+
+Con los vectores `cliente`, `altura`, `peso` y `socio` de nuestras fichas:
+
+1. Cread el vector `gasto` con el gasto mensual de cada cliente: 45, 60, 30, 75, 50
+
+2. Calculad el gasto medio mensual y el gasto TOTAL anual del negocio
+
+3. Obtened el gasto de los clientes que NO son socios; ¿su media es mayor o menor que la de los socios?
+
+4. ¿QUÉ clientes (sus nombres) gastan más de 40 al mes?
+
+5. Elena se hace socia: corregid el dato
+
+6. Llega un cliente nuevo (Luis, 172 cm, 68 kg, no socio, gasto 55): actualizad los vectores. ¿Qué puede salir mal si olvidáis uno?
+
+* Primero SIN ayuda; luego comparad con lo que sugiere una IA: ¿entendéis las diferencias?
+
+<!-- INTERNO (soluciones):
+gasto <- c(45, 60, 30, 75, 50); mean(gasto); sum(gasto)*12
+gasto[!socio]; mean(gasto[!socio]) vs mean(gasto[socio])
+cliente[gasto > 40]
+socio[cliente == "Elena"] <- TRUE  (o socio[4] <- TRUE)
+cliente <- c(cliente,"Luis"); altura <- c(altura,172); peso <- c(peso,68);
+socio <- c(socio,FALSE); gasto <- c(gasto,55)  # riesgo: vectores de distinta longitud
+-->
+
+
 ## Factores
 
 <!-- -   Los factores son un tipo de objeto de R específico para trabajar con **información cualitativa** -->
 
-- La **información cualitativa** se suele codificar como texto o números, pero NO tiene sentido numérico (ni de "texto"): *representan* clases o **categorías**
+- En nuestras fichas, el género o la satisfacción son **información cualitativa**: se suele codificar como texto o números, pero NO tiene sentido numérico (ni de "texto"): *representan* clases o **categorías**
   
 <!-- -   Los datos originales pueden estar codificados de forma poco clara para el análisis (género como número o abreviatura) -->
 
@@ -1601,14 +1618,14 @@ genero_f == "Mujer"
 
 - También podemos usar `as.factor()` para convertir un vector <!--existente--> en un factor
 
-- PERO es conveniente especificar los niveles y las categorías porque si no, R los asigna alfabéticamente
+- PERO es conveniente especificar niveles y etiquetas: si no, R usa como niveles los valores únicos **ordenados** (numérica o alfabéticamente) y como etiquetas esos mismos valores
 
 ```{r}
 g <- factor(genero)  # as.factor(genero) hace lo mismo
-g
+g                    # niveles: "1" < "2"
 ```
 
-* En este caso la etiqueta del primer nivel encontrado en los datos (el número 2) es "1" y la del siguiente nivel (el número 1) es "2"
+* Las etiquetas resultantes ("1", "2") no son informativas: no sabemos cuál es "Mujer" y cuál "Hombre"
 
 
 -   También podemos tener factores con orden con la opción `order = TRUE` y enumerando los niveles  en orden
@@ -1697,7 +1714,7 @@ genero_f[2] > genero_f[4]
 
 -->
 
-## "Resumiendo" un vector numérico o un factor
+## El tipo importa: `summary()` con vector y factor
 
 -   La función `summary()` devuelve los principales estadísticos
     descriptivos de un vector numérico
@@ -1736,7 +1753,7 @@ summary(genero_f)
 #| echo: false
 
 satisf   <- c(3, 1, 1, 1, 1, 1, 1, 1, 1)
-satisf_f <- factor(satisfaccion, order = TRUE,
+satisf_f <- factor(satisf, order = TRUE,
                     labels = c("Bajo", "Medio", "Alto"),
                     levels = c(1,2,3))
 summary(satisf)
@@ -2024,38 +2041,47 @@ x[,,1]
 ::::
 
 
+## PRÁCTICA en clase: las fichas (2): el tipo importa
+
+1. Cread `satisf <- c(2, 3, 2, 1, 3)` (la satisfacción de los 5 clientes: 1=Baja, 2=Media, 3=Alta)
+   y pedid `summary(satisf)`: ¿tiene sentido "una satisfacción media de 2.2"?
+
+2. Convertidlo en factor **ordenado** con esas etiquetas y repetid `summary()`: ¿qué cambia y por qué?
+
+3. Probad `satisf_f >= "Media"` para localizar clientes satisfechos; ¿funcionaría con un factor
+   SIN orden, como el género?
+
+* Moraleja: el MISMO dato con tipo distinto se analiza distinto; elegir bien el tipo es parte
+  del análisis
+
+<!-- INTERNO (soluciones):
+satisf <- c(2, 3, 2, 1, 3); summary(satisf)  # media sin sentido
+satisf_f <- factor(satisf, order=TRUE, levels=c(1,2,3), labels=c("Baja","Media","Alta"))
+summary(satisf_f)  # frecuencias
+satisf_f >= "Media"  # TRUE FALSE...; con genero_f (sin orden) da NA + warning
+-->
+
+
+<!-- ===== SESIÓN 3, cierre (referencia interna): data frames, bibliotecas y datos ===== -->
+
 ## "Data Frames"
 
 -   Es un tipo de objetos específico para facilitar el análisis de
     datos: una colección de variables por columnas y observaciones por
     filas.
 
-
-<!-- -   Se pueden crear con `data.frame()` a partir de vectores existentes, dando nombres a las variables, o de matrices -->
-
-<!--     + A diferencia de las matrices, las columnas pueden ser de tipo diferentes     -->
-
 - Cada columna es un vector con un **nombre** y tipos de datos (quizás) diferentes
+
+- Nuestras fichas de clientes son EXACTAMENTE eso: las juntamos en una tabla
+
+```{r}
+datos <- data.frame(cliente, altura, peso, genero_f, gasto)
+```
 
 ```{r}
 #| echo: false
-
-altura <- c(177, 178, 168, 164, 186, 162, 160)
-peso   <- c(75, 85, 70, 60, 80, 65, 54)
-genero_f <- factor(c(1,2,2,2,1,1,2), 
-                labels = c("Mujer", "Hombre"))
-datos <- data.frame("Altura"=altura, "Peso"=peso, "Genero"= genero)
-class(datos) 
-```
-
-
-```{r}
-altura <- c(177, 178, 168, 164, 186, 162, 160)
-peso   <- c(75, 85, 70, 60, 80, 65, 54)
-genero   <- c(2, 1, 2, 2, 2, 1, 1)
-genero_f <- factor(genero, levels = c(1, 2), 
-                           labels = c("Mujer", "Hombre"))
-datos <- data.frame("Altura"=altura, "Peso"=peso, "Genero"= genero_f)
+class(datos)
+str(datos)
 ```
 
 
@@ -2091,12 +2117,12 @@ datos <- as.data.frame(mat)
 :::
 -->
 
--   Se visualizan con `View(datos)` o en "Enviroment" o una parte con `head()` <!--y `tail()`-->
+-   Se visualizan con `View(datos)` (abre el **Data Explorer** de Positron, con filtros y ordenación), desde el panel Variables, o una parte con `head()` <!--y `tail()`-->
 
 
 <!--
 
--   Se puede visualizar con `View(datos)` o en "Enviroment" de RStudio
+-   Se puede visualizar con `View(datos)` o en "Enviroment" de Positron
 
 ```{r}
 #| echo: false
@@ -2154,8 +2180,8 @@ names(vector)        # solo para vectores
 
 
 ```{r}
-vectAltura <- datos$Altura    # objeto resultante = vector
-datos[[2]] == datos[["Peso"]]
+vectAltura <- datos$altura    # objeto resultante = vector
+datos[[3]] == datos[["peso"]]
 ```
 
 
@@ -2175,8 +2201,8 @@ datos[[2]] == datos[["Peso"]]
 ```{r}
 #| echo: false
 
-vectAltura <- datos$Altura    # objeto resultante = vector
-datos[[2]] == datos[["Peso"]]
+vectAltura <- datos$altura    # objeto resultante = vector
+datos[[3]] == datos[["peso"]]
 ```
 
 ::: {.notes}
@@ -2195,7 +2221,7 @@ datos[[2]] == datos[["Peso"]]
 ```{r}
 #| echo: false
 datos[,1]           # 1ª columna  = vector
-datos[1,c("Altura", "Genero")]   # data frame
+datos[1,c("altura", "genero_f")]   # data frame
 datos[1:3,1:2]                   # data frame
 ```
 
@@ -2203,8 +2229,8 @@ datos[1:3,1:2]                   # data frame
 #| echo: false
 datos[,1]           # 1ª columna  = vector
 datos[2,]           # 2ª fila    = vector
-datos[3,"Altura"]   # 3ª fila de variable "Altura" = escalar
-datos[1,c("Altura", "Genero")]   # data frame
+datos[3,"altura"]   # 3ª fila de variable "altura" = escalar
+datos[1,c("altura", "genero_f")]   # data frame
 datos[1:3,1:2]                   # data frame
 ```
 
@@ -2226,13 +2252,13 @@ datos[3,2]            # 3ª fila, 2ª columna = vector (escalar)
 
 ```{r}
 #| echo: false
-d1 <- datos[datos$Altura > 165,]                    # data.frame
-d2 <- datos[datos$Altura %in% c(177,178), "Altura"] # vector
-d3 <- datos[datos$Genero == "Hombre", 2]         
+d1 <- datos[datos$altura > 165,]                    # data.frame
+d2 <- datos[datos$altura %in% c(176,189), "altura"] # vector
+d3 <- datos[datos$genero_f == "Hombre", 3]         
 ```
 
 ```{r}
-datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres        
+datos1 <- datos[datos$genero_f == "Hombre", 2:3]  # altura y peso de hombres        
 ```
 
 
@@ -2241,8 +2267,8 @@ datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres
 ```{r}
 #| echo: false
 
-datos1 <- datos[datos$Genero == "Hombre", 1:2]  # Altura y Peso de hombres        
-datos1 <- datos[datos$Genero == "Hombre", c("Altura", "Peso")] 
+datos1 <- datos[datos$genero_f == "Hombre", 2:3]  # altura y peso de hombres        
+datos1 <- datos[datos$genero_f == "Hombre", c("altura", "peso")] 
 
 ```
 
@@ -2252,13 +2278,13 @@ datos1 <- datos[datos$Genero == "Hombre", c("Altura", "Peso")]
 
 ```{r}
 #| echo: false
-datos$Altura_m <- datos$Altura / 100
+datos$altura_m <- datos$altura / 100
 ```
 
 ```{r}
 #| echo: false
 
-datos$IMC <- datos$Peso / datos$Altura_m^2
+datos$imc <- datos$peso / datos$altura_m^2
 ```
 
 
@@ -2272,15 +2298,15 @@ datos$IMC <- datos$Peso / datos$Altura_m^2
 
 
 ```{r}
-D1 <- subset(datos, Altura > 165)   
-D2 <- subset(datos, subset = Altura %in% c(177,178),
-                    select = c(Altura, Peso)) 
+D1 <- subset(datos, altura > 165)   
+D2 <- subset(datos, subset = altura %in% c(176,189),
+                    select = c(altura, peso)) 
 ```
 
 -   Generamos nuevas variables con el vector de asignación
 
 ```{r}
-datos$Altura_m <- datos$Altura / 100
+datos$altura_m <- datos$altura / 100
 ```
 
 
@@ -2288,11 +2314,11 @@ datos$Altura_m <- datos$Altura / 100
 
 ```{r}
 #| echo: false
-with(datos, mean(Peso / (Altura/100)^2))
-within(datos,  IMC <-Peso / (Altura/100)^2 )
+with(datos, mean(peso / (altura/100)^2))
+within(datos,  imc <- peso / (altura/100)^2 )
 datos <- within(datos, {
-                  peso2 <- Peso^2
-                  altura2 <-Altura^2
+                  peso2 <- peso^2
+                  altura2 <- altura^2
                 })
 ```
 
@@ -2303,7 +2329,7 @@ datos <- within(datos, {
 ```{r}
 #| echo: false
 
-search()           # (ver también en RStudio)
+search()           # (ver también en Positron)
 head(age)          # no se encuentra
 head(Affairs$age)
 attach(Affairs)
@@ -2331,7 +2357,7 @@ detach(Affairs)
 ```{r}
 #| echo: false
 
-pos <- order(datos$Altura)
+pos <- order(datos$altura)
 datos[pos,]
 ```
 
@@ -2342,13 +2368,48 @@ datos[pos,]
 
 <!-- * En general, incorporaremos los datos como objetos a R de varias formas.  -->
 
-* Se pueden añadir filas y columnas a un *data frame* con `rbind()` y `cbind()`, respectivamente, a partir de vectores u otros *data frames*
+::: {.notes}
+
+* Se pueden añadir filas y columnas a un *data frame* con `rbind()` y `cbind()`, respectivamente, a partir de vectores u otros *data frames* (no lo necesitaremos por ahora)
+
+:::
+
+## PRÁCTICA en clase: las fichas (y 3)
+
+1. Reconstruid el *data frame* `datos` con `cliente`, `altura`, `peso`, `genero_f` y `gasto`, y añadid la columna `imc`
+
+2. Extraed las fichas de los clientes con `imc > 25`: ¿data frame o vector?
+
+3. ¿Gastan más los hombres o las mujeres? (media de `gasto` por grupo)
+
+4. Abrid la tabla con `View(datos)` (Data Explorer) y comprobad los tipos con `str()`: ¿coincide cada columna con lo que esperabais?
+
+<!-- INTERNO (soluciones):
+datos <- data.frame(cliente, altura, peso, genero_f, gasto)
+datos$imc <- datos$peso / (datos$altura/100)^2
+datos[datos$imc > 25, ]           # data frame
+mean(datos$gasto[datos$genero_f=="Hombre"]) vs "Mujer"  (o subset)
+View(datos); str(datos)
+-->
+
 
 ## Listas
 
 <!-- -   Una lista es una colección <!--genérica--> <!--de objetos de distinto tipo. Es *similar* a un vectores, pero los objetos pueden ser de distintos tipos -->
 
 -   Una lista es una colección <!--genérica--> de objetos de distinto tipo (a diferencia de un vector)
+
+-   Muchas funciones de R devuelven sus **resultados como una lista**: guardan cosas diversas
+    (coeficientes, residuos, opciones...) en un único objeto
+
+    + por eso importa entender cómo se ACCEDE a sus elementos: cuando ejecutemos un contraste
+      o una regresión, extraeremos de ahí lo que necesitemos
+
+```{r}
+res <- t.test(altura)   # el resultado es una lista
+names(res)              # qué contiene
+res$p.value             # accedemos a un elemento
+```
 
 <!--
 ```{r}
@@ -2369,7 +2430,7 @@ str(miLista)
 ::: {.notes}
 -   Veremos que muchos objetos de R son listas
 
--   También vemos las propiedades del objeto en el `Environment`
+-   También vemos el objeto en el panel Variables
 :::
 
 <!-- -   Podemos añadir nombres a los elementos de una lista o dáreselos al generarla: -->
@@ -2467,18 +2528,21 @@ miLista[2][2]   # lista de longitud 1
 
 ## Bibliotecas ("libraries")
 
+:::: {.columns}
+
+::: {.column width="60%"}
+
 -   Una biblioteca contiene nuevos objetos de R: funciones, datos, etc.
 
--   Para instalar una nueva biblioteca (se hace **una vez**), en <!-- el menú --> *Tools \> Install packages* o en <!--la pestaña --> ![](figure/Packages.jpg){width="12%"} o con el comando <!-- `install.packages()`-->
-
+-   Para instalar una nueva biblioteca (se hace **una vez**), con el comando
 
 ```{r}
 install.packages("AER")
 ```
 
-- Mantenemos actualizados los paquetes, en el menú *Tools* o en ![](figure/Packages.jpg){width="9%"}
+-   O visualmente en el panel **Packages** (icono en la barra de la izquierda): botón *Install Package*; ahí también se actualizan (filtro *Outdated*)
 
--   La biblioteca solo está disponible si se carga en la *sesión actual* 
+-   La biblioteca solo está disponible si se carga en la *sesión actual*
 
 ```{r}
 library(AER)
@@ -2486,7 +2550,15 @@ library(AER)
 
 - Nota: en adelante, la bibliotecas que carguemos se suponen instaladas
 
-- En ![](figure/Packages.jpg){width="12%"} vemos las bibliotecas instaladas y las cargadas aparecen marcadas ![](figure/librerias.jpg){width="10%"}
+- El panel Packages muestra las instaladas y marca las cargadas ("attached")
+
+:::
+
+::: {.column width="38%"}
+![](figure/positron-packages.png){width="88%"}
+:::
+
+::::
 
 
 ::: {.notes}
@@ -2495,7 +2567,7 @@ library(AER)
 
 * Se instala UNA VEZ, se carga en cada sesión que se usa
 
-* Podemos ver las bibliotecas cargadas en ![Global Environment](figure/GlobalEnvironment.jpg){width="20%"}
+* Podemos ver las bibliotecas cargadas en el panel Packages (marcadas como "attached")
 
     + mirarlo antes y después de `library(AER)`
     + o por línea de comandos
@@ -2582,7 +2654,7 @@ find("units")
 data()
 ```
 
--  Los podemos cargar en el "Environment" y obtener información detallada en la ayuda (ej., nombre de variables)
+-  Los podemos cargar (aparecen en el panel Variables) y obtener información detallada en la ayuda (ej., nombre de variables)
 
 ```{r}
 data("Affairs")
@@ -2605,12 +2677,10 @@ save(x, y, file="data/xy.RData")  #   separados por comas
 
 -   Extensiones .RData, .rda, .rds, ...
 
--   O todo el workspace con `save.image()` (= icono
-    ![Guardar](figure/guardar.png){width="7%" .center})
+-   O todo el workspace con `save.image()` (no suele ser buena idea: mejor replicar con el script)
 :::
 
--   Para cargar datos al espacio de trabajo, con `load()` (= icono
-    ![Cargar_Load](figure/Cargar.jpg){width="7%"})
+-   Para cargar datos al espacio de trabajo, con `load()`
 
 ```{r}
 #| echo: false
@@ -2620,8 +2690,6 @@ rm( list=ls() )
 ```{r}
 load("data/xy.RData")
 ```
-
--   En la pestaña de ![](figure/Files.jpg){width="8%"}: doble-clic carga un archivo de datos
 
 -  Nota: este tipo de archivo puede contener varios objetos, incluidas varios conjuntos de datos
 
@@ -2660,7 +2728,9 @@ unlink("xy.RData")
 
 -   Descargad estos ejemplos (UA cloud): [renta.txt](https://raw.githubusercontent.com/albarran/00datos/main/renta.txt), [sex_data.csv](https://raw.githubusercontent.com/albarran/00datos/main/sex_data.csv), [beauty.xls](https://raw.githubusercontent.com/albarran/00datos/main/beauty.xls), [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)
 
-- En ![Import Dataset](figure/Import.jpg){width="15%"} de RStudio, tenemos acceso visual para cargar algunos formatos (con la biblioteca necesaria instalada)
+- Positron NO tiene menú visual de importación: los datos se cargan con **comandos** (mejor: quedan en el script y el proceso es replicable)
+
+- PERO el **Data Explorer** de Positron permite *ver* un archivo de datos (p.e., un `.csv`) como tabla, con filtros y ordenación: doble clic en el Explorador
 
 - `rio` es un meta-paquete (instala otras bibliotecas) para importar y exportar varios formatos de datos de forma sencilla
 
@@ -2696,7 +2766,7 @@ unlink("xy.RData")
     o tienen un ancho fijo 
     
 
--   Se pueden leer en un editor, por ejemplo, el de RStudio: en ![Files](figure/Files.jpg){width="8%"} encontrar, p.e., `sex_data.csv`, hacer clic y elegir *View File* <!--![View File](figure/ViewFile.jpg){width="15%"}
+-   Se pueden leer en un editor, por ejemplo, el de Positron: en ![Files](figure/Files.jpg){width="8%"} encontrar, p.e., `sex_data.csv`, hacer clic y elegir *View File* <!--![View File](figure/ViewFile.jpg){width="15%"}
 -->
 
 <!--
@@ -2925,701 +2995,7 @@ export(nsw, "data/nsw.csv")
 
 * O convertir un archivo del disco a otro formato con `convert()`
 
-## Otras fuentes de datos
-
-
--   Bibliotecas con datos muy utilizados: `pwt` ("Penn World
-    Tables")
-
--   Bibliotecas con funciones para obtener datos online
-    (con
-    [APIs](https://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones) públicas)
-
-    -   datos de las `OECD` y `eurostat`
-        (incluye datos del INE español)
-
-    -   `rdbnomics` para los datos gratuitos de
-        <https://db.nomics.world/>
-
-    -   datos económicos y financieros con `quantmod` y `tidyquant`
-    
-    -   [`quandl`](https://www.rdocumentation.org/packages/Quandl/versions/2.11.0)
-        (de pago)
-
-    
-    <!-- -  `MicroDatosEs` con microdatos del INE (ej., EPA) -->
-
--   [`qualtRics`](https://cran.r-project.org/web/packages/qualtRics/vignettes/qualtRics.html) trabaja con software de encuestas `qualtrics`
-
--   Descarga de páginas web y *webscraping* con las bibliotecas `rvest` y `httr` (función `GET()`)
-
--   [`googlesheets4`](https://github.com/tidyverse/googlesheets4)
-
--   `DBI` accede con Bases de Datos relaciones (SQL) 
-
-    
-
-<!--
-## Formatos de software estadístico con `haven`
-
--   Usando en ![](figure/ImportDataset.jpg){width="10%"} para importar formatos de SAS,
-    STATA y SPSS
-
-```{r}
-library(haven)
-sales <- read_sas("./data/sales.sas7bdat")  # no convierte caracteres a factores
-```
-
--   Las variables se importan como vectores con etiquetas.
-
--   Es conveniente convertir a una estructura propia de R como factores
-
-```{r}
-sugar <- read_stata("./data/trade.dta")        # read_dta() es lo mismo
-sugar$Date <- as.Date(as_factor(sugar$Date))
-
-work <- read_sav("./data/employee.sav")        # formata SPSS
-work$GENDER <- as_factor(work$GENDER)
-```
-
--   También `read_por()` para otro tipo de fichero de SPSS
-
--   Más detalles y opciones en la Ayuda
-
-## Formatos de software estadístico con `foreign`
-
--   Importa archivo de STATA y .sav de SPSS
-
--   Por defecto intenta convertir las clases de variables, que no
-    siempre es conveniente
-
--   Entre otras opciones para .dta: `convert.dates`, `convert.factors`,
-    `missing.type`, etc.
-
-```{r}
-library(foreign)
-read.dta("./data/nsw.dta", convert.factors=F)
-```
-
--   Para .sav, la opción `use.value.labels` establece si las variables
-    con etiquetas en SPSS se convierten a factores
-
-```{r}
-earn <- read.spss("data/earnings_data.sav",
-                  to.data.frame=TRUE, use.value.labels=FALSE)
-```
-
-## Más formatos
-
--   [`googlesheets4`](https://github.com/tidyverse/googlesheets4) de
-    `tidyverse` accede a archivos de hojas de cálculo online de Google
-
-    -   permite trabajar fácilmente con encuestas realizadas con Google
-        Forms
-
-```{=html}
-https://www.garrickadenbuie.com/blog/use-google-forms-and-r-to-track-data-easily/
-
-https://www.r-bloggers.com/2016/05/5-min-how-to-on-new-google-forms/
-
-https://datascienceplus.com/how-to-use-googlesheets-to-connect-r-to-google-sheets/
-
-<https://beanumber.github.io/mdsr2e/ch-dataII.html#tidy-data>
-
-https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-import.pdf
-
-```
-
--   [`qualtRics`](https://cran.r-project.org/web/packages/qualtRics/vignettes/qualtRics.html)
-    permite trabajar con el software de encuestas `qualtrics`
-
--   Para trabajar con Bases de Datos relaciones
-    (SQL), muy usado, en particular en el contexto empresarial:
-    `DBI`
-
--   Para trabajar con el formato JSON (usado en páginas web): `jsonlite`
-
-    -   Más adelante veremos formas de obtener datos de páginas Web.
-
--   La biblioteca `httr` tiene la función `GET()` para descargar una
-    página web 
-
-
-```{=html}
-        ver datacamp
-
-        url <- "http://www.example.com/"
-        resp <- GET(url)
-```
--   NOTA: se puede acceder directamente a ficheros (sin descarga) o
-
-    descargarlos con `download.file()`
-
-```{r echo=F, eval=F}
-url_rdata <- "https://s3.amazonaws.com/assets.datacamp.com/production/course_1478/datasets/wine.RData"
-download.file(url_rdata, destfile = "wine_local.RData")
-```
-
-## Otras fuentes de datos
-
--   Bibliotecas con datos utilizados frecuentemente: `pwt` ("Penn World
-    Tables")
-
--   Bibliotecas con funciones puede acceder directamente a datos online
-    (con
-    [APIs](https://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones)
-    públicos)
-
-    -   `rdbnomics` para los datos gratuitos de
-        <https://db.nomics.world/>
-
-    -   `OECD` para los datos de la OCDE
-
-    -   `eurostat`
-        (incluye datos del INE español)
-
-    -   [`quandl`](https://www.rdocumentation.org/packages/Quandl/versions/2.11.0)
-        (de pago)
-
-    -   `quantmod`
-
-```{r}
-library(quantmod)
-help(quantmod)
-help(getSymbols)
-```
-
-```{=html}
-
-<https://www.r-bloggers.com/reproduce-economic-indicators-from-the-economist/> <https://www.r-bloggers.com/2020/10/access-the-free-economic-database-dbnomics-with-r-4/>
-<https://raw.githubusercontent.com/rstudio/cheatsheets/master/eurostat.pdf>
-```
-## `quantmod`: datos macroeconómicos
-
--   En [FRED](https://fred.stlouisfed.org/) se puede acceder a datos
-    macroeconomicos de muchos países
-
-1.  Se busca un dato (concreto) de, por ejemplo, inflación en España
-
-    -   "Inflation, consumer prices for Spain; Percent, Annual, Not
-        Seasonally Adjusted"
-
-2.  Averiguamos el "symbol" o nombre interno de la variable
-
-```{r}
-getSymbols("FPCPITOTLZGESP",src='FRED')
-plot(FPCPITOTLZGESP)
-
-str(FPCPITOTLZGESP)
-
-plot(FPCPITOTLZGESP[1:20,])
-```
-
-## `quantmod`: datos Financieros
-
--   Se pueden obtener datos de [Yahoo
-    Finance](https://es.finance.yahoo.com/)
-
--   Averiguamos el símbolo de una acción: ej., "Telefonica, Equity -
-    NYQ"
-
-```{r}
-getSymbols('TEF',src='yahoo')
-dim(TEF)
-plot(TEF$TEF.Close)
-```
-
--   Incluye funciones específicas de análisis, p.e., gráficos
-
-```{r}
-candleChart(TEF[-(1:3650),], up.col = "black", dn.col = "red",
-            theme = "white")
-
-```
-
-```{r}
-#| echo: false
-getSymbols('^IBEX',src='yahoo')
-candleChart(IBEX[1:20,], up.col = "black", dn.col = "red", theme = "white")
-
-candleChart(IBEX[-(1:3150),], up.col = "black", dn.col = "red", theme = "white")
-```
--->
-
-<!--
-## Más análisis con `quantmod`
-
-* Conviene renombrar las variables para que sean más descriptivas
-
-```{r}
-getSymbols('MKTGDPESA646NWDB',
-           src='FRED')        #  Gross Domestic Product for Spain
-                              # Current U.S. Dollars, Annual, Not Seasonally Adjusted
-
-inf <- FPCPITOTLZGESP
-gdp <- MKTGDPESA646NWDB       # rm(FPCPITOTLZGESP, MKTGDPESA646NWDB)
-```
-
-* Podemos hacer estadísticas descriptivas
-
-```{r}
-cor(inf, gdp)
-```
-
-* Cuidado con NAs y que las longitudes de los vectores sean iguales
-
-```{r}
-dim(inf)
-dim(gdp)
-cor(inf[1:56,], gdp[1:56,])
-
-plot(as.numeric(inf), as.numeric(gdp))
-```
-
-```{r}
-#| echo: false
-
-# tidyquant: https://github.com/business-science/tidyquant  ver video.
-
-getSymbols("GDP", src = "FRED")
-getSymbols("MEHOINUSA672N", src = "FRED")
-
-
-gdp <- tq_get("GDP")   # esto es una acciónr
-gdp <- tq_get("GDP", get = "economic.data")
-
-
-plot(as.numeric(inf), as.numeric(gdp))
-
-#data <- as.data.frame(cbind(inf,gdp))
-data <- tibble(x = x, y = y)
-data <- cbind(x,y) |> as_tibble()
-plot(x = data[1:56,1], y = data[1:56,2])
-
-#data <- as_data_frame(bind_cols(inf,gdp))
-#plot(data[1:56,"...1"], data[1:56,"...2"])
-
-#ggplot(data = data) +
-#  geom_point(aes(y = ...1, x = ...2))
-
-# https://datos.gob.es/es
-```
-
-```{r eval=F, echo=F}
-cor(inf[1:10], gdp[1:10])
-
-cor(inf[1:10], gdp[2:11]) # misma dimension,
-                          # cuidado porque es correlación retardos
-
-
-```
-
--->
-
-## Gráficos Básicos
-
--   Podemos representar gráficos de dos variables o funciones
-
-:::: {.columns}
-
-::: {.column width="45%"}
-
-```{r}
-x <- c(3, 4, 5, 6, 7, 8)
-y <- c(5, 3, 7, 7, 5, 10)
-```
-
-
-:::
-
-::: {.column width="5%"}
-
-
-:::
-
-::: {.column width="45%"}
-
-```{r}
-#| echo: false
-plot(x,y)
-curve(x^2, from=-2, to=2)
-```
-
-```{r}
-plot(x,y)
-```
-
-:::
-
-::::
-
-
--   El resultado aparece en la pestaña *Plots* de RStudio
-
-
-::: {.notes}
-```{r}
-#| echo: false
-plot(sin, -pi, 2*pi)
-plot(log, 1, 10)
-
-a <- 1:10
-plot(a)    # a frente a un índice
-```
-
-:::
-
-- Podemos cambiar opciones (ver Ayuda de `plot.default`) como *type* (puntos, líneas, etc.), símbolo de punto (*pch*), tipo de línea (*lty*), ancho de línea (*lwd*), color (*col*), título, etiquetas de los ejes, etc.
-
-```{r}
-plot(x, y, type="b", pch=3)
-plot(x, y, type="l", lty=2, lwd=2)
-plot(x, y, xlab="Eje X", ylab="Eje Y", main="Mi título")
-```
-
-* Se pueden cambiar más opciones con `par()`, combinar gráficos, añadir líneas, texto, etc. y exportar los gráficos
-
-<!--
-* También se pueden cambiar estas y otras opciones con el comando `par()`, *antes* del gráfico
-
-## Gráficos Básicos (cont.)
-
-- Podemos tener gráficos superpuestos con  `add=TRUE` (ejecutando todas las líneas juntas) e incluir leyendas con `legend()`
-
-```{r}
-curve(dnorm(x, 0, 1), -10, 10 , lwd=1, lty=1 )
-curve(dnorm(x, 0, 2), add=TRUE, lwd=2, lty=2 )
-curve(dnorm(x, 0, 3), add=TRUE, lwd=3, lty=3 )
-legend(legend=c("sigma=1", "sigma=2", "sigma=3"),
-        x="topright", lwd=1:3, lty=1:3)
-```
-
--  También se pueden añadir elementos como puntos (con `points()`), líneas (con `lines()` o `abline()`), texto y flechas
-
-```{r}
-plot(x,y)
-abline(a=3.57, b=0.64, lty=2)
-text(6,6, "atípico", pos=3)
-arrows(6.5,6,7,5)
-```
-
-```{r}
-#| echo: false
-plot(x,y)
-points(7,5)                   
-abline(a=3.57, b=0.64, lty=2)
-text(6,6, "atípico", pos=3)
-arrows(6.5,6,7,5)
-```
-
-
-:::{.notes}
-
-- También se pueden tener gráficos supuestos con `matplot()`: representa una variable (eje x) frente a las columnas de una matriz (eje y)
-
-```{r}
-#| echo: false
-year <- 2011:2015
-producto1 <- c(12, 15, 14, 16, 17)
-producto2 <- c(9, 10, 11, 14, 14)
-producto3 <- c(14, 15, 12, 14, 17)
-ventas <- cbind(producto1, producto2, producto3)
-matplot(year, ventas, type="b", lwd = c(1, 2, 3))
-```
-
-
--   La leyenda y el texto pueden incluir expresiones con letras griegas con el comando `expression()` (ver Ayuda de `plotmath`)
-
-```{r}
-#| echo: false
-# en el gráfico anterior de distribuciones
-legend(position="topright", 
-        legend=c("sigma==1", "sigma==2", "sigma==3"),
-        lwd=1:3, lty=1:3)
-text(6,.3,
-     expression(f(x))==frac(1,sqrt(2*pi)*sigma)*e^(-frac(x^2,2*sigma^2)))
-```
-
-
-:::
-
-##  Exportar un gráfico
-
--   Exportamos un gráfico con distintas funciones según el formato: `pdf()`, `png()`, `jpeg()`, etc.
-
--   Esa función debe ir **antes** de los comandos del gráfico y se indica el final de estos con `dev.off()`
-
-```{r}
-pdf(file="figure/distrib.pdf", width = 4, height = 3)
-curve(dnorm(x, 0, 1), -10, 10 , lwd=1, lty=1 )
-curve(dnorm(x, 0, 2), add=TRUE, lwd=2, lty=2 )
-curve(dnorm(x, 0, 3), add=TRUE, lwd=3, lty=3 )
-dev.off()
-```
-
-- También se puede exportar (o copiar al portapapeles) desde la pestaña *Plots*
-
--->
-
-# R para análisis de datos
-
-## Estadísticos descriptivos: variables discretas
-
--   Para variables discretas (factores), `table()` calcula distribuciones de frecuencias de una variable o conjuntas: el resultado es un **objeto**
-
-```{r}
-data("PSID1982", package = "AER")
-(frec  <- table(PSID1982$occupation) )
-(frec2 <- table(PSID1982$occupation, PSID1982$ethnicity))
-```
-
-::: {.notes}
-
--   El objeto es una "tabla" es una variante de vector o matrices con nombres
-
--  Se podría opera con él: `table(PSID1982$occupation) / sum(table(PSID1982$occupation))`)
-
-:::
-
--   Podemos mostrar frecuencias relativas con `prop.table()`
-
-:::: {.columns}
-
-::: {.column width="35%"}
-```{r}
-prop.table(frec)
-prop.table(frec2)
-```
-
-
-:::
-
-::: {.column width="5%"}
-
-:::
-
-::: {.column width="55%"}
-
-```{r}
-prop.table(frec2, margin = 1)
-prop.table(frec2, margin = 2)
-```
-
-
-:::
-::::
-
-::: {.notes}
-
-- Recordad: conceptos de distribución marginal (probabilidad de un valor en X), distribución conjunta (prob. de un valor de X Y uno de Y ) y distribución condicional (prob. de Y dado un valor de X)
-
-- (In)dependencia y distribuciones conjunta y marginal: p.e., la distribución de trabajos es distinta en general o condicional a ser afroamericano
-
-  - sabiendo que una persona es afroamericano, es más probable que sea cualificado (mayor renta, etc.)
-  
-
-:::
-
--   También es informativa su representación con gráficos de barras
-
-<!--
-:::: {.columns}
-
-::: {.column width="28%"}
-```{r}
-barplot(frec)
-barplot(frec, horiz = T)
-```
-
-
-:::
-
-::: {.column width="3%"}
-
-:::
-
-::: {.column width="65%"}
-
-```{r}
-barplot(prop.table(frec2), beside = T)
-```
-
-
-:::
-::::
-
--->
-
-```{r}
-barplot(frec, horiz = T)
-barplot(prop.table(frec2), beside = T)
-```
-
-
-::: {.notes}
-
-- `barplot(prop.table(frec2))` en otros casos puede ser más informativo que aquí
-
-- También se puede representar con gráficos de tarta: `pie(frec)`
-
-- Los gráficos admiten (casi) todas las opciones de `plot()` como títulos, etc. y otras específicas
-
-:::
-
-## Estadísticos descriptivos: variables continuas
-
-```{r}
-#| echo: false
-library(wooldridge)
-```
-
-```{r}
-data(ceosal1, package='wooldridge')
-```
-
-* Ya hemos visto funciones de estadísticos como `mean()`, `var()`, etc.
-
-<!--
-:::: {.columns}
-
-::: {.column width="40%"}
-```{r}
-mean(ceosal1$salary)
-median(ceosal1$salary)
-```
-
-
-:::
-
-::: {.column width="8%"}
-
-:::
-
-::: {.column width="40%"}
-
-```{r}
-sd(ceosal1$salary)
-var(ceosal1$salary)
-```
-
-:::
-
-::::
--->
-
-```{r}
-median(ceosal1$salary)
-var(ceosal1$salary)
-```
-
-```{r}
-quantile(ceosal1$salary, 
-         probs=c(0.25, 0.75) ) # 1er y 3er cuartil
-
-summary(ceosal1$salary)  # de una variable (vector)
-summary(ceosal1)         # de todo el conjunto de datos  
-
-cov(ceosal1$salary, ceosal1$roe)  # covarianza
-cor(ceosal1$salary, ceosal1$roe)  # correlación
-```
-
-
-::: {.notes}
-
-* Recordad el tratamiento diferente de factores en `summary()`
-
-*  Otras funciones de estadísticos: `min()`, `max()`, `range()`, `sum()`
-
-:::
-
-<!--
-* ¿Cómo obtendríamos la moda? Tu respuesta [aquí](https://docs.google.com/forms/d/e/1FAIpQLSc2dYxHSuTLF-aGuVkusM3UevEKkCu6Iky2HC7aL6wkcP3r0g/viewform)
-
-```{r}
-#| echo: false
-# Pensamiento algoritmico
-# 2. moda(x) = valor más frecuente de la distribución de x
-# 3-4.
-# a calcular la distribcion
-# tabla <- table(wage); tabla
-# b. calcular el máximo
-# ma <- max(tabla); ma
-# c. seleccionar valor cuya freq es igual a maxima
-# m <- tabla[tabla==ma]; str(m); m
-# m <- which(tabla==ma); str(m); m
-# alternativa:
-# b'. ordenar freq descendientes
-# tabla.ord <- sort(tabla, decreasing = T)
-# c'. seleccionar primer elemento
-# m2 <- tabla.ord[1]
-#
-# moda <- as. numeric(names(m)); moda
-#
-# 6. tabla[tabla==max(tabla)]
-
-```{r}
-#| echo: false
-# https://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode
-Mode <- function(x) {
-  ux <- unique(x)
-  ux[which.max(tabulate(match(x, ux)))]
-}
-```
--->
-
-## Estadísticos descriptivos: variables continuas (cont.)
-
--   Para variables continuas, las frecuencias de valores en un *intervalo* se pueden tabular o graficar en un histograma 
-
-:::{.notes}
-
-- En teoría, cada obervación de una variable continua tiene valores distinto; en la práctica se repiten pero no tanto como en las discretas
-:::
-
-```{r}
-hist(ceosal1$roe)   # intervalos automáticos
-hist(ceosal1$roe, freq=F,       # densidad, no casos
-     breaks=c(0,5,10,20,30,60)) # intervalos explícitos
-```
-
--   O la densidad (versión suavizada del histograma)
-
-```{r}
-plot(density(ceosal1$roe))
-```
-
-
-:::{.notes}
-
-- Se pueden combinar histograma y densidad ejecutando `hist(x)` y luego `lines(density(x))`
-
-```{r}
-#| echo: false
-hist(ceosal1$roe, breaks=c(0,5,10,20,30,60) )
-lines(density(ceosal1$roe))
-```
-
-- La función de distribución acumulada empírica es otra representación de la distribución de una variable (en especial, continua)
-
-`plot(ecdf(ceosal1$roe))`
-
--   La definición de valor atípico/extremo es "arbitraria". Aquí es 1.5 veces el rango intercuartículo por encima/debajo de la caja.
-
-:::
-
-- Un gráfico de caja ofrece información resumida de la distribución: mediana, 1er y 3er cuartil, y valores "extremos"
-
-```{r}
-boxplot(ceosal1$roe, horizontal=T)
-boxplot(ceosal1$roe~ceosal1$consprod)
-```
-
-:::{.notes}
-
-- El símbolo `\~` en R indica que una variable es función de otras: en este caso, la distribución de `roe` se reprensenta en función de los valores de otra
-
-:::
-
+# Para terminar
 
 ## Valores ausentes ("missing values"): `NA`
 
@@ -3710,287 +3086,6 @@ earn2 <- na.omit(earn)
 
 :::
 
-<!--
-## El meta-paquete `tidyverse`
-
--   Muchos datos de ejemplo están ya preparados para el análisis. 
-
--   En la vida real, los datos se tiene que recolectar, unir, limpiar, recodificar, etc.
-
--   `tidyverse` incluye una colección de biblitecas para todo el proceso "tratamiento de datos" y su visualización (para obtener información)
-
--   El núcleo de `tidyverse` lo componen (una descripción [aquí](https://www.tidyverse.org/packages/)):
-
-:::: {.columns}
-
-::: {.column width="40%"}
--   `readr`
--   `tibble`
--   `ggplot2`
--   `tidyr`
--   `purrr`
--   `dplyr`
-
-::: 
-::: {.column width="40%"}
-
-![](figure/tidyverse_full.jpg){width="70%"}
-:::
-::::
-
-::: {.notes}
-
-- En Econometría II, los datos de ejemplo ya están limpios y preparados
-
-- Para trabajar en la vida real, conviene aprender `tidyverse`
-
-:::
--->
-
-<!--
-## *data frame* (R `base`) vs *tibble* (`tidyverse`)
-
-::: {.notes} 
-
-- https://blog.rstudio.com/2016/03/24/tibble-1-0-0/#tibbles-vs-data-frames
-
--   Es un ejemplo de una biblioteca ofreciendo objetos o funciones ya existentes, pero modificados/mejorados
-
-:::
-
--   Los `tibbles` son *data frames* con propiedades mejoradas, especialmente para conjuntos de datos grandes: p.e., su visualización
-
-:::: {.columns}
-
-::: {.column width="40%"}
-```{r}
-library(tidyverse)
-```
-
-:::
-
-::: {.column width="20%"}
-
-:::
-
-::: {.column width="40%"}
-```{r}
-mtcars
-as_tibble(mtcars)
-```
-
-:::
-
-::::
-
-
-::: {.notes}
-
-- Algunas mejoras ya se incorporan en R `base`: p.e., el uso de `[[]]` antes solo existía en `tibbles`, no en *data frames*
-
-- También distintos comportamiento: 
-
-  + en *data frames*,  df[,1] y df[[1]] son vectores y df[1] es un data frame
-  
-  + en *tibbles*, solo df[[1]] es vector, df[,1] y df[1] son tibbles
-
-- `median(iris[,1])` ok, median espera vector, pero no si tibble
-
-:::
-
--   Se pueden crear con la función `tibble()`
-
-```{r}
-tibble(x = 1:5, y = 1, z = x ^ 2 + y)
-```
-
-::: {.notes}
-
-- Notar que `tibble()` no usa comillas para generar los nombres
-
-- Tampoco convierte caracteres a factores por defecto (r4ds)
-
-- Para crear por filas, ver `tribble()`
-
-- tibble es un data frame que permite complejos listas en las columnas ver nest() unnest()
-:::
-
--->
-
-<!--
-
-## Estadísticas por grupos: `aggregate`
-
-* Para obtener estadísticas de una variable por grupos definidos por otra, podemos filtrar los datos
-
-```{r}
-#| echo: false
-mean(ceosal1$roe[ceosal1$indus==1])
-with(subset(ceosal1, indus==0), mean(roe))
-```
-
-```{r}
-mean(ceosal1$roe[ceosal1$indus==1])
-mean(subset(ceosal1, indus==0)$roe)
-```
-
-
-* Pero la función `aggregate()` lo hace más sencillo y devuelve un *data frame*
-
-```{r}
-aggregate(roe ~ indus, data=ceosal1,  FUN=mean)
-```
-
-- También en función de varias variables
-
-```{r}
-aggregate(roe ~ indus + finance, data=ceosal1,  FUN=mean)
-```
-
-- Notar la notación de formulas en R: `~` indica "en función de", separando las variables con `+` 
-
-::: {.notes}
-
--     PREGUNTA: cómo se haría con regresión?
-
-`lm(data=ceosal1, roe ~ indus)`
-
-- También `aggregate(ceosal1$roe, by=list(ceosal1$indus), FUN=mean)`
-
-- Variaas variables en función de otra: 
-
-`aggregate( cbind(earnings, age) ~ year, data=earn2, FUN=mean )`
-
--   O de varias variables en función de varias variables
-
-`a <- aggregate( cbind(earnings, age) ~ year + degree, data=earnComplete, mean )`
-
-`str(a) # 'a' es un data frame!`
-:::
-
-
-## Funciones para distribuciones de probabilidad
-
-- Densidad (variables continuas) o de masa (variables discretas) de probabilidad de un valor `x`:
-  - `dbinom()`, `dunif()`, `dlogis()`, `dnorm()`, `dchisq()`, `dt()`, `dF()`
-  
-:::{.notes}
-- Para una variabla discreto la fmp da la probabilidad de la variable aleatoria `X` tome exactamente el valor `x`
-
-`x <- 0:10`
-
-`fx <- dbinom(x, 10, 0.2)`
-
-`plot(x,fx)`
-
-- `curve(dnorm(x), -5, 5)`: un punto de la campana
-
-
-:::
-  
-- Distribución acumulada por debajo de `x`
-
-    + `pbinom()`, `punif()`, `plogis()`, `pnorm()`, `pchisq()`, `pt()`, `pF()`
-
-:::{.notes}
-
--todo el área acumlada por debajo de un valor en la campana normal
-- `pnorm(1.96)-pnorm(-1.96)` = 0.95 : 
-
-- notar que `pnorm(1.96)=0.975` y qnorm(0.975)=1.96
-
-:::
-
--  Valor cuya probabilidad acumulada es el cuartil `q`
-
-    + `qbinom()`, `qunif()`, `qlogis()`, `qnorm()`, `qchisq()`, `qt()`, `qF()`
-
--  Generador de números (pseudo)aleatorios:
-
-    + `rbinom()`, `runif()`, `rlogis()`, `rnorm()`, `rchisq()`, `rt()`, `rF()`
-
-```{r}
-set.seed(7675)
-rnorm(5)
-```
-
-
-:::{.notes}
-
-- Un ordenador (no cuántico) ofrece números de un secuencia determinista tan compleja que no es distinguible de la aleatoriedad
-:::
-
-<!--
-## Inferencia Estadística
-
--   Intervalos de confianza (para una media)
-
-:::: {.columns}
-
-::: {.column width="40%"}
-```{r}
-data("audit", package='wooldridge')
-(medy <- mean(audit$y))
-(n    <- length(audit$y))
-(sdy  <- sd(audit$y))
-```
-
-
-:::
-::: {.column width="10%"}
-
-
-:::
-::: {.column width="40%"}
-```{r}
-(se   <- sdy/sqrt(n))
-(c    <- qnorm(.975))
-
-medy + c * c(-se,+se)
-```
-
-
-:::
-::::
-
-- Contraste de la t para $H_0: \mu=0$
-
-```{r}
-(t <- medy/se)
-alpha.una.cola = c(0.1, 0.05, 0.025, 0.01, 0.005, .001)
-VC <- -qt(1-alpha.una.cola, n-1) # valores críticos n-1 g.l.
-cbind(alpha.una.cola, VC)
-```
-
-- p-valor: `p <- pt(t,240)`
-
-:::{.notes}
-
--   probabilidad de que, bajo los supuestos con los que se deriva la distribución del estadístico de contraste ($H_0$), una muestra aleatoria diferente genere valores más extremos del estadístico
-:::
-
-
-## Inferencia Estadística (cont.)
-
-- El comando `t.test()` ofrece todo lo anterior:
-
-```{r}
-t.test(audit$y)                     # dos colas
-t.test(audit$y, alternative="less") # una cola
-```
-
-- El resultado es un objeto de tipo lista que puede guardarse y acceder a cada elemento
-
-```{r}
-testres <- t.test(audit$y)
-testres
-names(testres)
-testres$p.value
-```
-
--->
-
-
 ## Nota sobre programación "avanzada"
 
 -   Como en todo lenguaje de programación R, tiene funciones para
@@ -4031,237 +3126,3 @@ if (p<=0.05) {
 :::
 
 
-<!--
-
-## Simulaciones
-
-- En la realidad, los datos se consideran una muestra de una población con parámetros desconocidos: estimamos para inferir sus valores
-
-- Un ordenador permite razonar "a la inversa": fijar los parámetros de la población, generar una muestra aleatoria de esa distribución y estimar
-
-- "Vemos" la variabilidad muestral de los estimadores: p.e., las medias de muestras obtenidas de la *misma* distribución son distintas
-
-:::: {.columns}
-
-::: {.column width="40%"}
-
-```{r}
-set.seed(543210)
-sample1 <- rnorm(100,10,2)
-mean(sample1)
-```
-
-
-:::
-
-::: {.column width="5%"}
-
-
-:::
-
-::: {.column width="45%"}
-
-```{r}
-#
-sample2 <- rnorm(100,10,2)
-mean(sample2)
-```
-:::
-::::
-
-- No debe sorprendernos y, de hecho, sabemos cómo es esa variabilidad: si $Y_i \sim N(\mu, \sigma^2)$, entonces $\bar{Y}=\frac{1}{n} \sum_{i=1}^n Y_i \sim N(\mu, \frac{\sigma^2}{n})$
-
-## Simulaciones (cont.)
-
-- Los bucles `for` permiten repetir el proceso muchas veces
-
-:::: {.columns}
-
-::: {.column width="35%"}
-```{r}
-set.seed(123456)
-r <- 10000
-ybar <- numeric(r)
-```
-:::
-
-
-::: {.column width="4%"}
-
-:::
-
-::: {.column width="50%"}
-```{r}
-for (j in 1:r) {
-  sample <- rnorm(100,10,2)
-  ybar[j] <- mean(sample)
-}
-```
-:::
-::::
-
-- Y comprobar si se cumple la teoría estadística
-
-:::: {.columns}
-
-::: {.column width="35%"}
-```{r}
-ybar[1:20]
-mean(ybar)
-var(ybar)
-```
-:::
-
-
-::: {.column width="4%"}
-
-:::
-
-::: {.column width="50%"}
-```{r}
-plot(density(ybar))
-curve(dnorm(x,10, 2/sqrt(100)), 
-       add=TRUE,lty=2)
-```
-
-:::
-::::
-
-## Propiedades asintóticas
-
--   El análisis asintótico se ocupa del comportamiento de los estimadores cuando el tamaño muestral es grande
-
-- Para una muestra de tamaño $n$ de una población (de **"cualquier" distribución**) $Y\sim (\mu, \sigma^2)$, 
-
-  - según la ley de los grandes números, $E(\bar{Y}) \to \mu$  cuando $n \to \infty$ 
-
-  - según el teorema central del límite, $\bar{Y} \overset{a}{\sim} N(\mu, \sigma^2/n)$
-
-:::: {.columns}
-
-::: {.column width="40%"}
-```{r}
-set.seed(123456)
-r <- 10000
-ybar <- numeric(r) 
-n <- 10  # 10, 50, 100, 1000
-```
-
-:::
-
-::: {.column width="5%"}
-
-::: 
-
-::: {.column width="40%"}
-
-```{r}
-for (j in 1:r) {  
-  sample <- rchisq(n,1) 
-  ybar[j] <- mean(sample) 
-}
-plot(density(ybar))
-```
-
-:::
-
-::::
-
--   Más ejemplos en [esta aplicación](https://gallery.shinyapps.io/CLT_mean/_w_f533c061/) escrita totalmente en R
-
-::: {.notes}
-
-- segun LGN, también  $Var(\bar{Y})\to 0$
-
-:::
-
-<!--
-
-## Regresión en R
-
--   La función `lm()` usa la notación de fórmula en R para crear un objeto de regresión: una lista con varios resultados almacenados
-
--   Usamos `summary()` para obtener la representación habitual
-
-:::: {.columns}
-
-::: {.column width="40%"}
-```{r}
-data(PSID1982, package="AER")
-res <- lm(data=PSID1982, 
-          wage ~ experience)
-```
-:::
-
-::: {.column width="10%"}
-
-:::
-
-::: {.column width="40%"}
-```{r}
-summary(res)
-resum  <- summary(res) 
-resum$r.squared
-```
-:::
-
-::::
-
-::: {.notes}
-- summary(res) tambien es una lista
-:::
-
--   En regresión múltiple, incluimos variables separadas por `+`
-
-```{r}
-summary(lm(data=PSID1982, wage ~ experience + gender))
-```
-
--   Se pueden incluir directamente transformaciones de las variables:
-
-```{r}
-summary(lm(data=PSID1982, 
- log(wage)~experience+I(experience^2)+education*gender))
-```
-
-::: {.notes}
-
--   Otra forma de escribir polinomios: 
-`summary(lm(data=PSID1982, wage ~ poly(experience,2) + gender))`
-
-pero estandariza los polinomios (los coefcientes son diferentes)
-
-:::
-
-
-## Regresión en R (cont.)
-
--   Ya sabemos que es importante tratar la información cualitativa adecuadamente: la interpretación es distinta
-
-```{r}
-data("Affairs", package = "AER")
-summary(lm(data=Affairs, 
-           affairs ~ yearsmarried + religiousness ))
-Affairs$relig_f <- as.factor(Affairs$religiousness)
-summary(lm(data=Affairs, affairs ~ yearsmarried + relig_f))
-```
-
-::: {.notes}
-
-- NO hay un efecto linea de "religiosidad": un aumento de un punto no siempre tiene el mismo efecto
-
-:::
-
-- Cambiamos el grupo de referencia en un factor con `relevel()`, con la opción `ref` igual al nuevo nivel o la nueva etiqueta de referencia
-
-```{r}
-Affairs$relig_f <- relevel(Affairs$relig_f, ref = 5)
-summary(lm(data=Affairs, affairs ~ yearsmarried + relig_f))
-```
-
-::: {.notes}
-
-`Affairs$gender2 <- relevel(Affairs$gender, ref = "female")`
-
-:::
--->

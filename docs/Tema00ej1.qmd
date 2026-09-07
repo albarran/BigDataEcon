@@ -102,7 +102,7 @@ export(datos1, "datos/Ventas1.xlsx", overwrite = TRUE)
 
 El archivo [`Ventas1.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas1.xlsx) contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.
 
-NOTA: se recomienda crear un proyecto de RStudio y guardar el archivo `Ventas1.xlsx` en la carpeta.
+NOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (*File \> Open Folder*) y guardar el archivo `Ventas1.xlsx` en ella.
 
 ```{r ej1}
 #| echo: false
@@ -359,7 +359,7 @@ class(comparar_clientes)
 
 # Problema 3
 
-a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar en la ayuda de RStudio `mtcars` para conocer las variables que incluye. Comprobar la estructura con `str()` y visualizar las primeras observaciones con `head()`.
+a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar `mtcars` en la ayuda (`?mtcars` o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con `str()` y visualizar las primeras observaciones con `head()`.
 
     * Generar la variable (escalar) `Datsun710_CV` con los caballos de potencia del coche modelo Datsun 710.
 

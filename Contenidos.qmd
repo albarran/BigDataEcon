@@ -136,7 +136,17 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 ## Semana 1
 (07-Sept. a 11-Sept.)
 
-  * **Antes de la primera clase**: [Puesta a punto](PuestaAPunto.qmd) (instalar R y Positron)
+  * [Puesta a punto](PuestaAPunto.qmd): instalar primero R y después Positron
   * [Introducción al curso](docs/0Intro.qmd)
-  * [Tema 00 - Introducción a R](docs/Tema00.qmd)
+  * [Tema 00 - Introducción a R y Positron](docs/Tema00.qmd)
+
+<!-- DESVELAR cuando Pedro decida (ejercicio del tema, pendiente de revisión anti-duplicados):
   * [Tema 00 - Ejercicios](docs/Tema00ej1.qmd)
+-->
+
+<!-- DESVELAR TRAS LA PRIMERA CLASE (regla: no anunciar compromisos de sesiones ex ante):
+  * **Antes de la próxima clase**: leer las transparencias del Tema 00 desde
+    "Objetos en R" hasta "Acceso a los elementos de un vector" (unos 20 minutos), y traer
+    la carpeta del curso creada y R funcionando en Positron.
+  * Ejercicios: id trabajando los problemas 1 y 2 (los retomaremos en clase).
+-->

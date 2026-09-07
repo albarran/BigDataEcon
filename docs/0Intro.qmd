@@ -39,11 +39,17 @@ toc: false
 
 - Aprender a **extraer información** de los datos usando técnicas computacionales y estadísticas
 
-![](figure/figure03_Conway.png){width=50% fig-align="center"}
+:::: {.columns}
 
-<!-- ALTERNATIVA (pirámide realidad->datos->información->conocimiento); elegir una u otra:
-![](figure/feedback-loop.png){width=45% fig-align="center"}
--->
+::: {.column width="48%"}
+![](figure/feedback-loop.png){width=95% fig-align="center"}
+:::
+
+::: {.column width="48%"}
+![](figure/figure03_Conway.png){width=85% fig-align="center"}
+:::
+
+::::
 
 - Enfoque práctico: usar la información para crear valor (**analítica de negocios**)
 
