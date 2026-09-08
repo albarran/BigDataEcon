@@ -150,3 +150,11 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
     la carpeta del curso creada y R funcionando en Positron.
   * Ejercicios: id trabajando los problemas 1 y 2 (los retomaremos en clase).
 -->
+
+<!-- SEMANA 2 (preparada, DESVELAR cuando toque; decidir si instalar Quarto va antes):
+## Semana 2
+(14-Sept. a 18-Sept.)
+
+  * [Tema 01 - Informes reproducibles con Quarto](docs/Tema01.qmd)
+  * [Tema 01 - Ejercicio de Quarto](docs/Tema01ej.qmd)
+-->
