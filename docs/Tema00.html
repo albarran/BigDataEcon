@@ -1093,7 +1093,6 @@ Pedro Albarrán
 <li><a href="#/conceptos-básicos" id="/toc-conceptos-básicos">Conceptos básicos</a></li>
 <li><a href="#/objetos-en-r" id="/toc-objetos-en-r">Objetos en R</a></li>
 <li><a href="#/extendiendo-r" id="/toc-extendiendo-r">Extendiendo R</a></li>
-<li><a href="#/para-terminar" id="/toc-para-terminar">Para terminar</a></li>
 </ul>
 </nav>
 </section>
@@ -2527,24 +2526,13 @@ display:block!important;
 <li><p>Extraed las fichas de los clientes con <code>imc &gt; 25</code>: ¿data frame o vector?</p></li>
 <li><p>¿Gastan más los hombres o las mujeres? (media de <code>gasto</code> por grupo)</p></li>
 <li><p>Abrid la tabla con <code>View(datos)</code> (Data Explorer) y comprobad los tipos con <code>str()</code>: ¿coincide cada columna con lo que esperabais?</p></li>
-<li><p>Guardad las fichas en <code>datos/fichas.RData</code> (con <code>save()</code>); borrad TODO el espacio de trabajo y recuperadlas con <code>load()</code>: ¿está todo?</p></li>
-<li><p>Exportad las fichas a <code>datos/fichas.csv</code> (con <code>export()</code> de <code>rio</code>), abridlo con doble clic en el Explorador (Data Explorer) y volved a importarlo con <code>import()</code> a un objeto nuevo; comparad con <code>str()</code> los dos objetos: ¿qué le ha pasado al factor?</p></li>
 </ol>
 </section>
 <section id="listas" class="slide level2">
 <h2>Listas</h2>
 <ul>
-<li><p>Una lista es una colección de objetos de distinto tipo (a diferencia de un vector)</p></li>
-<li><p>Muchas funciones de R devuelven sus <strong>resultados como una lista</strong>: guardan cosas diversas (coeficientes, residuos, opciones…) en un único objeto</p>
-<ul>
-<li>por eso importa entender cómo se ACCEDE a sus elementos: cuando ejecutemos un contraste o una regresión, extraeremos de ahí lo que necesitemos</li>
-</ul></li>
+<li>Una lista es una colección de objetos de distinto tipo (a diferencia de un vector)</li>
 </ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-label="1"></a>res <span class="ot">&lt;-</span> <span class="fu">t.test</span>(altura)   <span class="co"># el resultado es una lista</span></span>
-<span id="cb54-2"><a aria-label="2"></a><span class="fu">names</span>(res)              <span class="co"># qué contiene</span></span>
-<span id="cb54-3"><a aria-label="3"></a>res<span class="sc">$</span>p.value             <span class="co"># accedemos a un elemento</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <aside class="notes">
 <ul>
 <li><p>Veremos que muchos objetos de R son listas</p></li>
@@ -2565,15 +2553,15 @@ display:block!important;
 <li>Los elementos de una lista suelen tener nombres</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a>miLista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">saludo=</span><span class="st">&quot;hola&quot;</span>, <span class="at">vec=</span>x, <span class="at">lista=</span><span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="st">&quot;X&quot;</span>), </span>
-<span id="cb55-2"><a aria-label="2"></a>                <span class="at">datos=</span>datos)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-label="1"></a>miLista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">saludo=</span><span class="st">&quot;hola&quot;</span>, <span class="at">vec=</span>x, <span class="at">lista=</span><span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="st">&quot;X&quot;</span>), </span>
+<span id="cb54-2"><a aria-label="2"></a>                <span class="at">datos=</span>datos)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Con <code>[[ ]]</code> (por posición o por nombre) o con <code>$</code>(solo por nombre) extraemos los elementos en su clase original</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-label="1"></a>miLista<span class="sc">$</span>vec</span>
-<span id="cb56-2"><a aria-label="2"></a>miLista[[<span class="dv">2</span>]] <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a>miLista<span class="sc">$</span>vec</span>
+<span id="cb55-2"><a aria-label="2"></a>miLista[[<span class="dv">2</span>]] <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>También podemos usar <code>[]</code>, pero devuelve una lista</li>
@@ -2600,6 +2588,18 @@ display:block!important;
 <ul>
 <li><code>unlist()</code> convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales)</li>
 </ul>
+</section>
+<section id="las-listas-guardan-resultados-de-funciones" class="slide level2">
+<h2>Las listas guardan resultados de funciones</h2>
+<ul>
+<li><p>Muchas funciones de R devuelven sus <strong>resultados como una lista</strong>: guardan cosas diversas (estadísticos, opciones, datos…) en un único objeto</p></li>
+<li><p>Por eso importa saber ACCEDER a sus elementos: cuando ejecutemos un contraste o una regresión, extraeremos de ahí lo que necesitemos</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-label="1"></a>res <span class="ot">&lt;-</span> <span class="fu">t.test</span>(altura)   <span class="co"># el resultado es una lista</span></span>
+<span id="cb56-2"><a aria-label="2"></a><span class="fu">names</span>(res)              <span class="co"># qué contiene</span></span>
+<span id="cb56-3"><a aria-label="3"></a>res<span class="sc">$</span>p.value             <span class="co"># accedemos a un elemento</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section></section>
 <section>
 <section id="extendiendo-r" class="title-slide slide level1 center">
@@ -2833,11 +2833,15 @@ display:block!important;
 <ul>
 <li>O convertir un archivo del disco a otro formato con <code>convert()</code></li>
 </ul>
-</section></section>
-<section>
-<section id="para-terminar" class="title-slide slide level1 center">
-<h1>Para terminar</h1>
-
+</section>
+<section id="práctica-en-clase-las-fichas-4-guardar-cargar-importar" class="slide level2 scrollable">
+<h2>PRÁCTICA en clase: las fichas (4): guardar, cargar, importar</h2>
+<p>Ahora que hemos visto <code>save()</code>/<code>load()</code> y <code>rio</code>:</p>
+<ol type="1">
+<li><p>Guardad las fichas en <code>datos/fichas.RData</code> (con <code>save()</code>); borrad TODO el espacio de trabajo y recuperadlas con <code>load()</code>: ¿está todo?</p></li>
+<li><p>Exportad las fichas a <code>datos/fichas.csv</code> (con <code>export()</code> de <code>rio</code>), abrid el csv con doble clic en el Explorador (Data Explorer) y volved a importarlo con <code>import()</code> a un objeto NUEVO</p></li>
+<li><p>Comparad con <code>str()</code> el objeto original y el importado: ¿qué le ha pasado al factor? ¿Por qué?</p></li>
+</ol>
 </section>
 <section id="valores-ausentes-missing-values-na" class="slide level2">
 <h2>Valores ausentes (“missing values”): <code>NA</code></h2>

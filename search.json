@@ -361,14 +361,21 @@
     "href": "docs/Tema00.html#práctica-en-clase-las-fichas-y-3",
     "title": "Tema 0: Introducción a R y Positron (Posit)",
     "section": "PRÁCTICA en clase: las fichas (y 3)",
-    "text": "PRÁCTICA en clase: las fichas (y 3)\n\nReconstruid el data frame datos con cliente, altura, peso, genero_f y gasto, y añadid la columna imc\nExtraed las fichas de los clientes con imc &gt; 25: ¿data frame o vector?\n¿Gastan más los hombres o las mujeres? (media de gasto por grupo)\nAbrid la tabla con View(datos) (Data Explorer) y comprobad los tipos con str(): ¿coincide cada columna con lo que esperabais?\nGuardad las fichas en datos/fichas.RData (con save()); borrad TODO el espacio de trabajo y recuperadlas con load(): ¿está todo?\nExportad las fichas a datos/fichas.csv (con export() de rio), abridlo con doble clic en el Explorador (Data Explorer) y volved a importarlo con import() a un objeto nuevo; comparad con str() los dos objetos: ¿qué le ha pasado al factor?"
+    "text": "PRÁCTICA en clase: las fichas (y 3)\n\nReconstruid el data frame datos con cliente, altura, peso, genero_f y gasto, y añadid la columna imc\nExtraed las fichas de los clientes con imc &gt; 25: ¿data frame o vector?\n¿Gastan más los hombres o las mujeres? (media de gasto por grupo)\nAbrid la tabla con View(datos) (Data Explorer) y comprobad los tipos con str(): ¿coincide cada columna con lo que esperabais?"
   },
   {
     "objectID": "docs/Tema00.html#listas",
     "href": "docs/Tema00.html#listas",
     "title": "Tema 0: Introducción a R y Positron (Posit)",
     "section": "Listas",
-    "text": "Listas\n\nUna lista es una colección de objetos de distinto tipo (a diferencia de un vector)\nMuchas funciones de R devuelven sus resultados como una lista: guardan cosas diversas (coeficientes, residuos, opciones…) en un único objeto\n\npor eso importa entender cómo se ACCEDE a sus elementos: cuando ejecutemos un contraste o una regresión, extraeremos de ahí lo que necesitemos\n\n\n\nres &lt;- t.test(altura)   # el resultado es una lista\nnames(res)              # qué contiene\nres$p.value             # accedemos a un elemento\n\n\n\nVeremos que muchos objetos de R son listas\nTambién vemos el objeto en el panel Variables\n\n\n\nLos elementos de una lista suelen tener nombres\n\n\nmiLista &lt;- list(saludo=\"hola\", vec=x, lista=list(1:4, \"X\"), \n                datos=datos)\n\n\nCon [[ ]] (por posición o por nombre) o con $(solo por nombre) extraemos los elementos en su clase original\n\n\nmiLista$vec\nmiLista[[2]] + 3\n\n\nTambién podemos usar [], pero devuelve una lista\n\n\n\nNota: el uso de [ ] y [[ ]] también se aplica a “data frames”\nEs importante entender el tipo de objeto de obtenemos con una forma de acceso u otra, por las operaciones que podemos realizar y por las transformaciones que se permiten\nP.e., podemos acceder a elementos individuales de la (sub-)lista con [[ ]], pero no con [ ]:\n\nmiLista[[2]][2]\nmiLista[2][2]   # lista de longitud 1\n\n\nunlist() convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales)"
+    "text": "Listas\n\nUna lista es una colección de objetos de distinto tipo (a diferencia de un vector)\n\n\n\nVeremos que muchos objetos de R son listas\nTambién vemos el objeto en el panel Variables\n\n\n\nLos elementos de una lista suelen tener nombres\n\n\nmiLista &lt;- list(saludo=\"hola\", vec=x, lista=list(1:4, \"X\"), \n                datos=datos)\n\n\nCon [[ ]] (por posición o por nombre) o con $(solo por nombre) extraemos los elementos en su clase original\n\n\nmiLista$vec\nmiLista[[2]] + 3\n\n\nTambién podemos usar [], pero devuelve una lista\n\n\n\nNota: el uso de [ ] y [[ ]] también se aplica a “data frames”\nEs importante entender el tipo de objeto de obtenemos con una forma de acceso u otra, por las operaciones que podemos realizar y por las transformaciones que se permiten\nP.e., podemos acceder a elementos individuales de la (sub-)lista con [[ ]], pero no con [ ]:\n\nmiLista[[2]][2]\nmiLista[2][2]   # lista de longitud 1\n\n\nunlist() convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales)"
+  },
+  {
+    "objectID": "docs/Tema00.html#las-listas-guardan-resultados-de-funciones",
+    "href": "docs/Tema00.html#las-listas-guardan-resultados-de-funciones",
+    "title": "Tema 0: Introducción a R y Positron (Posit)",
+    "section": "Las listas guardan resultados de funciones",
+    "text": "Las listas guardan resultados de funciones\n\nMuchas funciones de R devuelven sus resultados como una lista: guardan cosas diversas (estadísticos, opciones, datos…) en un único objeto\nPor eso importa saber ACCEDER a sus elementos: cuando ejecutemos un contraste o una regresión, extraeremos de ahí lo que necesitemos\n\n\nres &lt;- t.test(altura)   # el resultado es una lista\nnames(res)              # qué contiene\nres$p.value             # accedemos a un elemento"
   },
   {
     "objectID": "docs/Tema00.html#bibliotecas-libraries",
@@ -404,6 +411,13 @@
     "title": "Tema 0: Introducción a R y Positron (Posit)",
     "section": "Importar y exportar con rio",
     "text": "Importar y exportar con rio\n\nrio permite trabajar con el mismo comando para todos los formatos, pero las opciones por defecto pueden no ser adecuadas\n\nEn la Ayuda se incluye una presentación completa del paquete\n\nEl comando import() se usa para leer los datos\n\n\nlibrary(rio)\nsex   &lt;- import(\"data/sex_data.csv\")\nrenta &lt;- import(\"data/renta.txt\")\nbeauty &lt;- import(\"data/beauty.xls\")\nnsw    &lt;- import(\"data/nsw.dta\")    # formato Stata\n\n\nPodemos exportar datos a un tipo de formato con export()\n\n\nexport(nsw, \"data/nsw.csv\")\n\n\nO convertir un archivo del disco a otro formato con convert()"
+  },
+  {
+    "objectID": "docs/Tema00.html#práctica-en-clase-las-fichas-4-guardar-cargar-importar",
+    "href": "docs/Tema00.html#práctica-en-clase-las-fichas-4-guardar-cargar-importar",
+    "title": "Tema 0: Introducción a R y Positron (Posit)",
+    "section": "PRÁCTICA en clase: las fichas (4): guardar, cargar, importar",
+    "text": "PRÁCTICA en clase: las fichas (4): guardar, cargar, importar\nAhora que hemos visto save()/load() y rio:\n\nGuardad las fichas en datos/fichas.RData (con save()); borrad TODO el espacio de trabajo y recuperadlas con load(): ¿está todo?\nExportad las fichas a datos/fichas.csv (con export() de rio), abrid el csv con doble clic en el Explorador (Data Explorer) y volved a importarlo con import() a un objeto NUEVO\nComparad con str() el objeto original y el importado: ¿qué le ha pasado al factor? ¿Por qué?"
   },
   {
     "objectID": "docs/Tema00.html#valores-ausentes-missing-values-na",
