@@ -745,6 +745,24 @@ seq(from == 1, to = 5, by = 1)   # ¿por qué?
 * Y aprenderemos a **leer los fallos**: los mensajes de error, y los casos peores en que no hay mensaje pero el resultado no es el que queríamos
 
 
+## Cómo se entrega el trabajo de clase
+
+* Todo lo que hagáis en clase va a UN único guion del tema: cread el archivo `Tema00_DNI.R`
+  (con VUESTRO DNI: p.e., `Tema00_12345678X.R`) en la carpeta del curso, e id añadiendo ahí
+  cada práctica, con un comentario que la separe (`# --- Práctica 1 ---`)
+
+* Algunos días, al final de la clase, se os pedirá SUBIR ese archivo mediante un formulario
+  cuyo enlace se dará en clase en ese momento
+
+* Cuenta el TRABAJO, no la perfección: se valora que lo habéis ido haciendo y razonando
+  (los comentarios con vuestras respuestas breves también cuentan)
+
+::: {.notes}
+El formulario es el de "trabajo de clase del tema" (TemaNN_clase), distinto del formulario
+del ejercicio del tema (TemaNNej). El enlace/QR se proyecta solo cuando hay recogida.
+:::
+
+
 ## Tipos de Objetos en R
 
 -  TODO en R es un objeto, cada uno con **distintas propiedades** y, por tanto, distintas formas de trabajar con él
