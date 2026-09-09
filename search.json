@@ -266,6 +266,13 @@
     "text": "Un ejemplo para toda esta parte\n\nA partir de aquí nos acompaña un mini-caso: las fichas de clientes de un pequeño gimnasio: nombre, altura, peso, si es socio, gasto mensual, género, satisfacción\nIremos como en un análisis real: de una variable suelta (un vector) a la información cualitativa (factores) y a la tabla completa (data frame)\nHabrá varias PRÁCTICAS en clase sobre este caso: implementar vosotros es donde se aprende\nNO hay que memorizar cada comando: hay que entender la IDEA de cada uno; los detalles se consultan (Ayuda, IA)\nY aprenderemos a leer los fallos: los mensajes de error, y los casos peores en que no hay mensaje pero el resultado no es el que queríamos"
   },
   {
+    "objectID": "docs/Tema00.html#cómo-se-entrega-el-trabajo-de-clase",
+    "href": "docs/Tema00.html#cómo-se-entrega-el-trabajo-de-clase",
+    "title": "Tema 0: Introducción a R y Positron (Posit)",
+    "section": "Cómo se entrega el trabajo de clase",
+    "text": "Cómo se entrega el trabajo de clase\n\nTodo lo que hagáis en clase va a UN único guion del tema: cread el archivo Tema00_DNI.R (con VUESTRO DNI: p.e., Tema00_12345678X.R) en la carpeta del curso, e id añadiendo ahí cada práctica, con un comentario que la separe (# --- Práctica 1 ---)\nAlgunos días, al final de la clase, se os pedirá SUBIR ese archivo mediante un formulario cuyo enlace se dará en clase en ese momento\nCuenta el TRABAJO, no la perfección: se valora que lo habéis ido haciendo y razonando (los comentarios con vuestras respuestas breves también cuentan)\n\n\nEl formulario es el de “trabajo de clase del tema” (TemaNN_clase), distinto del formulario del ejercicio del tema (TemaNNej). El enlace/QR se proyecta solo cuando hay recogida."
+  },
+  {
     "objectID": "docs/Tema00.html#tipos-de-objetos-en-r",
     "href": "docs/Tema00.html#tipos-de-objetos-en-r",
     "title": "Tema 0: Introducción a R y Positron (Posit)",
