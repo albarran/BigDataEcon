@@ -2384,21 +2384,12 @@ datos[pos,]
 
 4. Abrid la tabla con `View(datos)` (Data Explorer) y comprobad los tipos con `str()`: ¿coincide cada columna con lo que esperabais?
 
-5. Guardad las fichas en `datos/fichas.RData` (con `save()`); borrad TODO el espacio de trabajo y recuperadlas con `load()`: ¿está todo?
-
-6. Exportad las fichas a `datos/fichas.csv` (con `export()` de `rio`), abridlo con doble clic en el Explorador (Data Explorer) y volved a importarlo con `import()` a un objeto nuevo; comparad con `str()` los dos objetos: ¿qué le ha pasado al factor?
-
 <!-- INTERNO (soluciones):
 datos <- data.frame(cliente, altura, peso, genero_f, gasto)
 datos$imc <- datos$peso / (datos$altura/100)^2
 datos[datos$imc > 25, ]           # data frame
 mean(datos$gasto[datos$genero_f=="Hombre"]) vs "Mujer"  (o subset)
 View(datos); str(datos)
-save(datos, file="datos/fichas.RData"); rm(list=ls()); load("datos/fichas.RData")
-export(datos, "datos/fichas.csv"); datos2 <- import("datos/fichas.csv"); str(datos2)
-  # el factor vuelve como character: el csv no guarda tipos -> enlaza con "el tipo importa"
-Puntos 5-6 = guardar/cargar/importar DENTRO del running example (antes solo estaba en el
-ejercicio de reserva; anotado por Pedro 9-sep).
 -->
 
 
@@ -2407,18 +2398,6 @@ ejercicio de reserva; anotado por Pedro 9-sep).
 <!-- -   Una lista es una colección <!--genérica--> <!--de objetos de distinto tipo. Es *similar* a un vectores, pero los objetos pueden ser de distintos tipos -->
 
 -   Una lista es una colección <!--genérica--> de objetos de distinto tipo (a diferencia de un vector)
-
--   Muchas funciones de R devuelven sus **resultados como una lista**: guardan cosas diversas
-    (coeficientes, residuos, opciones...) en un único objeto
-
-    + por eso importa entender cómo se ACCEDE a sus elementos: cuando ejecutemos un contraste
-      o una regresión, extraeremos de ahí lo que necesitemos
-
-```{r}
-res <- t.test(altura)   # el resultado es una lista
-names(res)              # qué contiene
-res$p.value             # accedemos a un elemento
-```
 
 <!--
 ```{r}
@@ -2528,6 +2507,21 @@ miLista[2][2]   # lista de longitud 1
 :::
 
 -    `unlist()` convierte una lista en vector, usando la clase que pueda ajustarse a todos los objetos (elementales) <!-- típicamente, caracteres -->
+
+
+## Las listas guardan resultados de funciones
+
+-   Muchas funciones de R devuelven sus **resultados como una lista**: guardan cosas diversas
+    (estadísticos, opciones, datos...) en un único objeto
+
+-   Por eso importa saber ACCEDER a sus elementos: cuando ejecutemos un contraste o una
+    regresión, extraeremos de ahí lo que necesitemos
+
+```{r}
+res <- t.test(altura)   # el resultado es una lista
+names(res)              # qué contiene
+res$p.value             # accedemos a un elemento
+```
 
 
 
@@ -3004,7 +2998,25 @@ export(nsw, "data/nsw.csv")
 
 * O convertir un archivo del disco a otro formato con `convert()`
 
-# Para terminar
+
+## PRÁCTICA en clase: las fichas (4): guardar, cargar, importar
+
+Ahora que hemos visto `save()`/`load()` y `rio`:
+
+1. Guardad las fichas en `datos/fichas.RData` (con `save()`); borrad TODO el espacio de trabajo y recuperadlas con `load()`: ¿está todo?
+
+2. Exportad las fichas a `datos/fichas.csv` (con `export()` de `rio`), abrid el csv con doble clic en el Explorador (Data Explorer) y volved a importarlo con `import()` a un objeto NUEVO
+
+3. Comparad con `str()` el objeto original y el importado: ¿qué le ha pasado al factor? ¿Por qué?
+
+<!-- INTERNO (soluciones):
+save(datos, file="datos/fichas.RData"); rm(list=ls()); load("datos/fichas.RData")
+export(datos, "datos/fichas.csv"); datos2 <- import("datos/fichas.csv"); str(datos2)
+  # el factor vuelve como character/entero: el csv no guarda tipos -> enlaza "el tipo importa"
+Práctica creada 9-sep: guardar/cargar/importar DENTRO del running example (antes solo
+estaba en el ejercicio de reserva), y COLOCADA tras las slides de save/load y rio
+(regla: nunca pedir en práctica lo aún no visto).
+-->
 
 ## Valores ausentes ("missing values"): `NA`
 
