@@ -361,7 +361,7 @@
     "href": "docs/Tema00.html#práctica-en-clase-las-fichas-y-3",
     "title": "Tema 0: Introducción a R y Positron (Posit)",
     "section": "PRÁCTICA en clase: las fichas (y 3)",
-    "text": "PRÁCTICA en clase: las fichas (y 3)\n\nReconstruid el data frame datos con cliente, altura, peso, genero_f y gasto, y añadid la columna imc\nExtraed las fichas de los clientes con imc &gt; 25: ¿data frame o vector?\n¿Gastan más los hombres o las mujeres? (media de gasto por grupo)\nAbrid la tabla con View(datos) (Data Explorer) y comprobad los tipos con str(): ¿coincide cada columna con lo que esperabais?"
+    "text": "PRÁCTICA en clase: las fichas (y 3)\n\nReconstruid el data frame datos con cliente, altura, peso, genero_f y gasto, y añadid la columna imc\nExtraed las fichas de los clientes con imc &gt; 25: ¿data frame o vector?\n¿Gastan más los hombres o las mujeres? (media de gasto por grupo)\nAbrid la tabla con View(datos) (Data Explorer) y comprobad los tipos con str(): ¿coincide cada columna con lo que esperabais?\nGuardad las fichas en datos/fichas.RData (con save()); borrad TODO el espacio de trabajo y recuperadlas con load(): ¿está todo?\nExportad las fichas a datos/fichas.csv (con export() de rio), abridlo con doble clic en el Explorador (Data Explorer) y volved a importarlo con import() a un objeto nuevo; comparad con str() los dos objetos: ¿qué le ha pasado al factor?"
   },
   {
     "objectID": "docs/Tema00.html#listas",
