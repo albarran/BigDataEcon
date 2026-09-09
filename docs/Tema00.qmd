@@ -2384,12 +2384,21 @@ datos[pos,]
 
 4. Abrid la tabla con `View(datos)` (Data Explorer) y comprobad los tipos con `str()`: ¿coincide cada columna con lo que esperabais?
 
+5. Guardad las fichas en `datos/fichas.RData` (con `save()`); borrad TODO el espacio de trabajo y recuperadlas con `load()`: ¿está todo?
+
+6. Exportad las fichas a `datos/fichas.csv` (con `export()` de `rio`), abridlo con doble clic en el Explorador (Data Explorer) y volved a importarlo con `import()` a un objeto nuevo; comparad con `str()` los dos objetos: ¿qué le ha pasado al factor?
+
 <!-- INTERNO (soluciones):
 datos <- data.frame(cliente, altura, peso, genero_f, gasto)
 datos$imc <- datos$peso / (datos$altura/100)^2
 datos[datos$imc > 25, ]           # data frame
 mean(datos$gasto[datos$genero_f=="Hombre"]) vs "Mujer"  (o subset)
 View(datos); str(datos)
+save(datos, file="datos/fichas.RData"); rm(list=ls()); load("datos/fichas.RData")
+export(datos, "datos/fichas.csv"); datos2 <- import("datos/fichas.csv"); str(datos2)
+  # el factor vuelve como character: el csv no guarda tipos -> enlaza con "el tipo importa"
+Puntos 5-6 = guardar/cargar/importar DENTRO del running example (antes solo estaba en el
+ejercicio de reserva; anotado por Pedro 9-sep).
 -->
 
 
