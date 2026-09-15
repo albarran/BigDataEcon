@@ -152,6 +152,19 @@ library(kableExtra)
 - LaTeX sigue siendo mejor si hacen falta ecuaciones complejas o una plantilla académica concreta; para un informe normal, typst sobra.
 :::
 
+## Elegir el formato desde **Preview**
+
+* **Preview** es un **desplegable**: su flecha abre *Preview Format...*, que lista los formatos y renderiza al que se elija, sin tocar la cabecera
+
+* Aparecen el **declarado** en el YAML (*Declared Formats*) y los demás (*Other Formats*): PDF con typst, PDF con LaTeX y Word
+
+![](figure/positron-quarto-preview-formato.png){width="50%" fig-align="center"}
+
+::: {.notes}
+- Comprobado en Positron el 15-sep con un .qmd que solo declaraba `format: html`: el desplegable ofrecía Preview HTML bajo "Declared Formats", y typst, pdf y docx bajo "Other Formats".
+- Útil para el apartado a) del ejercicio, que pide renderizar a dos formatos: se puede hacer desde aquí sin editar el YAML, aunque en el ejercicio se pide cambiar la cabecera.
+:::
+
 
 ::: {.callout-note}
 **Ahora el ejercicio: apartado a)**, donde se crea la carpeta, el .qmd, la cabecera y se renderiza a dos formatos.
