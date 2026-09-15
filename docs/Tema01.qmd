@@ -115,7 +115,9 @@ library(kableExtra)
 
 * Lo guardamos con *File > Save* (o con el icono de la barra del editor, el segundo), poniéndole nombre **con extensión `.qmd`**
 
-* Se renderiza con **Preview**: el resultado sale en el **visor** de la derecha, y el fichero `.html` aparece en el **Explorador** (doble clic para abrirlo)
+* Se renderiza con **Preview**: el resultado sale en el **visor** de la derecha y, a la vez, se crea el fichero `.html` en la carpeta, donde lo vemos en el **Explorador**
+
+    + para verlo **como lo verá quien lo reciba**, hay que abrirlo desde el **explorador de archivos del sistema**, haciendo doble clic: así el `.html` se abre en el **navegador**, y un `.pdf` o un `.docx` en su programa
 
 ![](figure/positron-quarto-guia.png){width="78%" fig-align="center"}
 
@@ -323,9 +325,21 @@ Con alineación de columnas
 
 * Un `.qmd` se puede editar de dos formas: viendo el **texto** tal cual (modo *source*), que es lo que hemos hecho hasta ahora, o en **modo visual**, donde se ve ya con su formato, como en un procesador de textos
 
-* Para pasar al modo visual: el menú **`...`** (*More Actions*) de la barra del editor, arriba a la derecha, y elegir **Edit in Visual Mode**
+* **Edit in Visual Mode** está en el menú `...` del editor, arriba a la derecha, y también en el menú del **botón derecho** sobre el documento
 
-    + para volver, el mismo menú, que entonces dice *Edit in Source Mode*
+![](figure/positron-quarto-menu-modo.png){width="72%" fig-align="center"}
+
+::: {style="font-size: 70%;"}
+Para volver, la misma entrada dice *Edit in Source Mode*. Atajo en los dos sentidos: `Ctrl+Shift+F4`. También está en la paleta de comandos (`Ctrl+Shift+P`), que busca cualquier orden por su nombre
+:::
+
+::: {.notes}
+- Comprobado en Positron (extensión Quarto 1.138.0): el comando `quarto.editInVisualMode` está en el menú del editor (`...`), en el menú contextual del botón derecho y en la paleta, con el atajo Ctrl+Shift+F4. NO está en los menús File/View/Run de arriba: no buscarlo ahí en clase.
+- El mismo menú `...` lleva *Insert Code Cell* (Ctrl+Shift+I) y *Preview* (Ctrl+Shift+K), que se usan enseguida.
+- HACERLO en pantalla, no solo enseñar la imagen.
+:::
+
+## La barra del editor visual
 
 * Solo **en modo visual** aparece esta **barra de herramientas**:
 
@@ -341,9 +355,7 @@ Con alineación de columnas
 * Lo que se escribe en modo visual **es el mismo fichero**: al volver a *source* se ve el Markdown que ha generado
 
 ::: {.notes}
-- SEÑALAR en pantalla: el menú ..., dónde aparece la barra, y que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.
-- Comprobado en Positron el 15-sep: el menú ... contiene "Edit in Source Mode / Visual Mode" con el atajo `Ctrl+Shift+F4`, y también "Preview" (`Ctrl+Shift+K`). En modo source NO hay barra de herramientas: aparece al entrar en visual.
-- El atajo y la paleta existen, pero el menú es lo que van a usar; no conviene abrir la paleta aquí, que da para mucho más y despista.
+- SEÑALAR en pantalla que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.
 - Corrección ortográfica: en Positron se instala una extensión aparte (p.e. "Code Spell Checker" con diccionario de español); no viene de serie como en RStudio.
 :::
 
@@ -372,22 +384,19 @@ Con alineación de columnas
 
 ## Fragmentos o celdas de código
 
-* El documento no solo lleva texto: lleva **código de R que Quarto ejecuta al renderizar** y cuyo resultado se incorpora al documento de salida. Hay dos formas, según dónde deba aparecer ese resultado
+* El documento lleva **código de R que Quarto ejecuta al renderizar**; hay dos formas, según dónde deba salir el resultado
 
-* Una **celda** (o fragmento): un bloque de código aparte, para un cálculo, una tabla o un gráfico; el resultado aparece **debajo** del bloque
+* Una **celda**: bloque de código aparte, el resultado sale **debajo** (*Insert > Executable Cell > R*)
 
-    + en **modo visual**, menú **Insert**: *Executable Cell > R*
+![](figure/positron-quarto-insert-cell.png){width="50%" fig-align="center"}
 
-![](figure/positron-quarto-insert-cell.png){width="55%" fig-align="center"}
-
-* **Código en línea**: para que un valor calculado salga **en medio de una frase** (p.e., "la media es 20.09"), y así se actualice solo si cambian los datos
-
-    + en **modo visual**, el icono `</>` de la barra, o *Insert > Any...* (`Ctrl+/`) y escribir `inline`
+* **Código en línea**: un valor **dentro de una frase** ("la media es 20.09"); icono `</>` de la barra, o *Insert > Any...* (`Ctrl+/`) y escribir `inline`
 
 * En **modo source** ambas se escriben a mano: la celda, entre ```` ```{r} ```` y ```` ``` ````; el código en línea, con `` `r ` `` y dentro el código
 
 ::: {.notes}
 - Hacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.
+- La celda también se inserta con `Ctrl+Shift+I`, y desde el menú `...` del editor (*Insert Code Cell*); comprobado en Positron.
 - La distinción que hay que dejar clara es DONDE sale el resultado: debajo (celda) o dentro de la frase (en línea).
 - El código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: `La media es `r mean(mtcars$mpg)`.`
 :::
