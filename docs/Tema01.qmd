@@ -101,7 +101,7 @@ library(kableExtra)
 
 -   Un documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc.
 
-::::{.notes}
+::: {.notes}
 - Chuletas de Quarto y de Markdown en la web de Quarto (https://quarto.org/docs/guide/).
 
 ::::
@@ -111,14 +111,16 @@ library(kableExtra)
 
 * Como siempre en Positron, el proyecto es una **carpeta**: cread una carpeta para el informe (o una subcarpeta en la del curso) y abridla con *File > Open Folder*
 
-* Creamos un nuevo documento en *File > New File...* eligiendo *Quarto Document*, y lo guardamos con extensión `.qmd`
+* Creamos un nuevo documento en *File > New File...* eligiendo *Quarto Document*
 
-* Se guarda con el **disquete** y se renderiza con **Preview**; el resultado sale en el **visor** de la derecha, y el fichero `.html` aparece en el **Explorador** (doble clic para abrirlo)
+* Lo guardamos con *File > Save* (o con el icono de la barra del editor, el segundo), poniéndole nombre **con extensión `.qmd`**
+
+* Se renderiza con **Preview**: el resultado sale en el **visor** de la derecha, y el fichero `.html` aparece en el **Explorador** (doble clic para abrirlo)
 
 ![](figure/positron-quarto-guia.png){width="78%" fig-align="center"}
 
 ::: {style="font-size: 70%;"}
-También con atajos (`Ctrl+S`, `Ctrl+Shift+K`) o desde la **Terminal**: `quarto render informe.qmd`
+Atajos: `Ctrl+S` guarda, `Ctrl+Shift+K` renderiza. Y desde la **Terminal**, `quarto render informe.qmd`
 :::
 
 ::: {.notes}
@@ -164,7 +166,7 @@ También con atajos (`Ctrl+S`, `Ctrl+Shift+K`) o desde la **Terminal**: `quarto 
 * Una descripción completa, en [la web de Quarto](https://quarto.org/docs/authoring/markdown-basics.html) (Markdown Basics); también es útil este [libro online](https://bookdown.org/yihui/rmarkdown/).
 
 
-::::{.notes}
+:::::{.notes}
 - Markdown está diseñado para ser fácil de leer y fácil de escribir. También es muy fácil de aprender. La siguiente guía muestra cómo usar el Markdown de Pandoc, una versión ligeramente extendida de Markdown que R Markdown entiende.
 
 
@@ -310,7 +312,7 @@ Con alineación de columnas
 
   provoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\\*
 
-::::
+:::::
 
 * Positron incorpora un **editor visual** de documentos de Quarto, similar a un procesador de texto
 
@@ -369,21 +371,13 @@ Con alineación de columnas
 
 ## Fragmentos o celdas de código
 
-::::{.notes}
-"code chunks"
-::::
 * En **modo visual**, menú **Insert**: *Executable Cell > R*
 
-:::: {.columns}
-::: {.column width="50%"}
-![](figure/positron-quarto-insert.png){width="98%"}
-:::
-::: {.column width="50%"}
-![](figure/positron-quarto-insert-cell.png){width="98%"}
-:::
-::::
+![](figure/positron-quarto-insert-cell.png){width="62%" fig-align="center"}
 
-* En **modo source** se escribe a mano: entre ```` ```{r} ```` y ```` ``` ````; y el código **en medio del texto**, con `` `r ` `` y el código dentro
+* Para **código dentro del texto** (que el resultado salga en medio de una frase): *Insert > Any...* (`Ctrl+/`) y escribir `inline`, o el icono `</>` de la barra
+
+* En **modo source**, lo mismo se escribe a mano: el fragmento entre ```` ```{r} ```` y ```` ``` ````; el código en línea, con `` `r ` `` y el código dentro
 
 * Lo que aparece en el documento (el código, su resultado, los dos o ninguno) se controla con **opciones**: en una celda concreta, o para todo el documento desde la cabecera
 
@@ -415,7 +409,6 @@ mean(mtcars$mpg)
 
 ::: {.notes}
 - El error de todos los años: escribir `#` en vez de `#|`. Provocarlo en vivo.
-- Otras que salen en la slide siguiente: `output: false` oculta solo el resultado, `include: false` no muestra nada pero SÍ ejecuta, y `message`/`warning`/`error` controlan lo que R va contando.
 - Si un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iii del ejercicio.
 - Las opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí).
 :::
@@ -424,11 +417,27 @@ mean(mtcars$mpg)
 
 ::: {.smaller-output}
 
+* `output: false` oculta **solo el resultado**; `include: false` no muestra nada, pero **sí ejecuta**
+
+* `message`, `warning` y `error`: si se muestra lo que R va contando por el camino
+
+* `label`: una etiqueta para identificar la celda
+
 * `code-fold: true` oculta el código pero da opción a mostrarlo
 
 * *Cómo* mostrar resultados de texto y numéricos:
     - `results: hide` (no mostrar)
     - `results: hold` (mostrar todo, no el resultado de cada línea)
+
+:::
+
+::: {.notes}
+- Ninguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que `include: false` ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo.
+:::
+
+## Opciones de presentación
+
+::: {.smaller-output}
 
 * `fig-cap` y `tbl-cap` para los títulos de las figuras y tablas
 
@@ -441,6 +450,8 @@ mean(mtcars$mpg)
 * `fig-width` y `fig-height`: dimensiones (reales, en pulgadas) de una figura
 
 * `out-width` y `out-height`: ídem en el documento de salida (% de las reales)
+
+* Lista completa de opciones [aquí](https://quarto.org/docs/reference/cells/cells-knitr.html)
 
 :::
 
@@ -481,14 +492,6 @@ ggplot(cars) + geom_histogram(aes(x = dist))
           warning: false
         ---
 
-::::{.notes}
-También enabled: false y freeze
-
-Ver sección de ejecución en
-https://quarto.org/docs/computations/r.html
-
-::::
-
   * También otras opciones que ya hemos visto ([aquí listado completo para `html`](https://quarto.org/docs/reference/formats/html.html))
 
         ---
@@ -499,6 +502,11 @@ https://quarto.org/docs/computations/r.html
             fig-align: center
             df-print: paged      # cómo visualizar tablas
         ---
+
+::: {.notes}
+- También existen `enabled: false` y `freeze`. Sección de ejecución en
+  <https://quarto.org/docs/computations/r.html>
+:::
 
 <!-- PRACTICA COMENTADA (15-sep, decision de Pedro): en este tema NO hace falta hacer
 practicas en clase, porque el ejercicio del tema se va haciendo apartado a apartado
@@ -533,7 +541,7 @@ tablas, pero ningún trozo de código. ¿Qué ponéis en la cabecera?
 **Para contestar en una frase**: ¿por qué conviene poner las opciones en la cabecera en lugar de
 repetirlas celda a celda?
 
-<!-- INTERNO (guion del profesor). Respuestas: (1) no se ve el código, sí el resultado, sí se
+INTERNO (guion del profesor). Respuestas: (1) no se ve el código, sí el resultado, sí se
 ejecuta: es el caso del informe para un cliente. (2) se ve el código, no se ejecuta y por tanto no
 hay resultado: es el caso de enseñar una instrucción que no se quiere lanzar, como install.packages.
 (3) gana la celda: lo específico manda sobre lo global, igual que en CSS. (4) execute: echo: false
@@ -542,7 +550,7 @@ La confusión clásica, y hay que provocarla: echo controla si se VE el código,
 Muchos creen que echo: false también impide ejecutar, y entonces no entienden por qué sigue
 saliendo el gráfico. Merece la pena preguntarlo en voz alta antes de dar la respuesta.
 Esta práctica es de cinco minutos y va antes de la de montar el informe: cuando lleguen a la 2 ya
-saben qué opciones poner y no se atascan ahí. -->
+saben qué opciones poner y no se atascan ahí.
 -->
 
 ## Ejecución de código en un documento .qmd
@@ -608,9 +616,9 @@ Convertid el análisis de las **fichas de clientes** del Tema 0 en un informe re
 
 * El informe es el formato de los **ejercicios largos** y del **proyecto final**: lo que aprendéis hoy es el envoltorio de todo lo que viene
 
-<!-- INTERNO (guion del profesor): errores típicos a provocar/mostrar: objeto usado antes de
+INTERNO (guion del profesor): errores típicos a provocar/mostrar: objeto usado antes de
 definirse en el qmd (funciona en consola, falla al renderizar), biblioteca no cargada en el
-documento, ruta absoluta que solo existe en un ordenador. -->
+documento, ruta absoluta que solo existe en un ordenador.
 -->
 
 ## Comentarios finales

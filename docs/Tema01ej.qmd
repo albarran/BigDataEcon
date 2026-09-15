@@ -126,12 +126,17 @@ ii. Incluye la opción `code-fold: true` en la cabecera. Comprobar cómo cambia 
 
 iii. Elige un tema entre [estos](https://bootswatch.com/3/) y aplícalo al documento.
 
+<!-- ENTREGA COMENTADA (15-sep-2026). Pedro: de momento fuera; se pondra cuando exista el
+formulario de 2026-27. El enlace que habia (https://forms.gle/j5dQJwrhDqyoaKRf9) es del CURSO
+PASADO: en el inventario de Drive, `Tema01ej` figura modificado el 19-oct-2025, asi que las
+entregas de este curso habrian ido a la carpeta del anterior.
+OJO al recuperarlo: NO se anuncia por UACloud (eso me lo invente yo).
+
 ## Entrega del ejercicio
 
 ::: {.callout-important}
-El formulario de entrega se publicará aquí y se anunciará por UACloud antes de la fecha límite.
 El ejercicio se va haciendo **durante las clases del tema**, apartado a apartado, y se entrega al
-terminarlo.
+terminarlo. El formulario de entrega se publicará aquí.
 :::
 
 <!-- INTERNO (15-sep-2026): retirado el enlace https://forms.gle/j5dQJwrhDqyoaKRf9 porque ese
@@ -152,3 +157,4 @@ IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente forma
   * Tema01ej_123456789.html
 
   * Tema01ej_123456789.zip
+-->
