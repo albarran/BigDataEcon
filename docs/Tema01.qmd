@@ -323,11 +323,11 @@ Con alineación de columnas
 
 * Un `.qmd` se puede editar de dos formas: viendo el **texto** tal cual (modo *source*), que es lo que hemos hecho hasta ahora, o en **modo visual**, donde se ve ya con su formato, como en un procesador de textos
 
-* Se cambia de uno a otro con el icono **⇄** de la barra del editor (arriba a la derecha), con `Ctrl+Shift+F4`, o desde la paleta (`Ctrl+Shift+P`) con *Quarto: Edit in Visual Mode*
+* Para pasar al modo visual: el menú **`...`** (*More Actions*) de la barra del editor, arriba a la derecha, y elegir **Edit in Visual Mode**
 
-    + la primera vez avisa de que el fichero se reescribirá con el formato de Pandoc: aceptar
+    + para volver, el mismo menú, que entonces dice *Edit in Source Mode*
 
-* Al pasar a modo visual aparece esta **barra de herramientas**:
+* Solo **en modo visual** aparece esta **barra de herramientas**:
 
 ![](figure/positron-quarto-barra-visual.png){width="85%" fig-align="center"}
 
@@ -341,8 +341,9 @@ Con alineación de columnas
 * Lo que se escribe en modo visual **es el mismo fichero**: al volver a *source* se ve el Markdown que ha generado
 
 ::: {.notes}
-- SEÑALAR en pantalla: dónde está la barra, y que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.
-- Comprobado en la extensión Quarto 1.137.0: el comando es `quarto.editInVisualMode` y el atajo `Ctrl+Shift+F4`.
+- SEÑALAR en pantalla: el menú ..., dónde aparece la barra, y que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.
+- Comprobado en Positron el 15-sep: el menú ... contiene "Edit in Source Mode / Visual Mode" con el atajo `Ctrl+Shift+F4`, y también "Preview" (`Ctrl+Shift+K`). En modo source NO hay barra de herramientas: aparece al entrar en visual.
+- El atajo y la paleta existen, pero el menú es lo que van a usar; no conviene abrir la paleta aquí, que da para mucho más y despista.
 - Corrección ortográfica: en Positron se instala una extensión aparte (p.e. "Code Spell Checker" con diccionario de español); no viene de serie como en RStudio.
 :::
 
@@ -371,19 +372,24 @@ Con alineación de columnas
 
 ## Fragmentos o celdas de código
 
-* En **modo visual**, menú **Insert**: *Executable Cell > R*
+* El documento no solo lleva texto: lleva **código de R que Quarto ejecuta al renderizar** y cuyo resultado se incorpora al documento de salida. Hay dos formas, según dónde deba aparecer ese resultado
 
-![](figure/positron-quarto-insert-cell.png){width="62%" fig-align="center"}
+* Una **celda** (o fragmento): un bloque de código aparte, para un cálculo, una tabla o un gráfico; el resultado aparece **debajo** del bloque
 
-* Para **código dentro del texto** (que el resultado salga en medio de una frase): *Insert > Any...* (`Ctrl+/`) y escribir `inline`, o el icono `</>` de la barra
+    + en **modo visual**, menú **Insert**: *Executable Cell > R*
 
-* En **modo source**, lo mismo se escribe a mano: el fragmento entre ```` ```{r} ```` y ```` ``` ````; el código en línea, con `` `r ` `` y el código dentro
+![](figure/positron-quarto-insert-cell.png){width="55%" fig-align="center"}
 
-* Lo que aparece en el documento (el código, su resultado, los dos o ninguno) se controla con **opciones**: en una celda concreta, o para todo el documento desde la cabecera
+* **Código en línea**: para que un valor calculado salga **en medio de una frase** (p.e., "la media es 20.09"), y así se actualice solo si cambian los datos
+
+    + en **modo visual**, el icono `</>` de la barra, o *Insert > Any...* (`Ctrl+/`) y escribir `inline`
+
+* En **modo source** ambas se escriben a mano: la celda, entre ```` ```{r} ```` y ```` ``` ````; el código en línea, con `` `r ` `` y dentro el código
 
 ::: {.notes}
 - Hacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.
-- El código en línea es el que más les sorprende: una frase con un número que se recalcula solo.
+- La distinción que hay que dejar clara es DONDE sale el resultado: debajo (celda) o dentro de la frase (en línea).
+- El código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: `La media es `r mean(mtcars$mpg)`.`
 :::
 
 ## Opciones de una celda
@@ -559,7 +565,7 @@ saben qué opciones poner y no se atascan ahí.
 
   - si no estamos en la carpeta correcta, el directorio de trabajo puede ser diferente
 
-* Comprobamos los resultados del código del .qmd ejecutándolo **sin renderizar**: línea a línea (`Ctrl + Enter`), con el enlace *Run Cell* que aparece sobre cada celda, o *Run All Cells Above*
+* Comprobamos los resultados del código del .qmd ejecutándolo **sin renderizar**: línea a línea (`Ctrl + Enter`), o con los enlaces que aparecen **sobre cada celda**: *Run Cell* (esa celda), *Run Above* (todas las anteriores) y *Run Next Cell*
 
   * así, el código pasa a la consola y *sí* forma parte del espacio de la sesión actual
 
@@ -570,6 +576,11 @@ saben qué opciones poner y no se atascan ahí.
     - `rm(list = ls())`: al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos
 
     - Todas las **bibliotecas** que se usen en varias celdas (con `library()`, como en el Tema 00)
+
+::: {.notes}
+- Comprobado en Positron el 15-sep: los enlaces sobre las celdas son *Run Cell*, *Run Next Cell* y *Run Above* (esta última no aparece en la primera celda, porque no hay nada encima). *Run Above* NO ejecuta la celda actual.
+- La demostración que convence: definir un objeto en la consola y usarlo en una celda del .qmd. Ejecutando la celda funciona; al renderizar, falla. De ahí sale casi todo el "a mí me funciona y no me renderiza".
+:::
 
 ## Mejorar la salida de tablas
 
@@ -590,9 +601,35 @@ knitr::kable(head(mtcars[, 1:5]))
 :::
 
 ::: {.notes}
-- Para ir más lejos: `broom::tidy()` convierte resultados de modelos en tablas; `modelsummary` genera tablas de regresión y de descriptivos; también existen `printr`, `pander`, `stargazer` y `xtable`.
+- Para ir más lejos: `broom::tidy()` convierte resultados de modelos en tablas; `modelsummary` genera tablas de regresión y de descriptivos; también existen `printr`, `pander`, `stargazer` y `xtable`. La versión completa de esta lista está en el comentario de debajo.
 - No nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.
 :::
+
+<!-- CONSERVADO 15-sep-2026: contenido que esta slide tenia antes y que se retiro de la
+transparencia (no del fichero) para que cupiera. Nada de esto se pide en el ejercicio del
+tema, que solo usa kbl() / kableExtra (apartado d) y las opciones de cabecera (apartado e).
+Si algun ano se quiere recuperar, esta aqui entero:
+
+* Como las salidas de muchas funciones no son visualmente "profesionales", algunas
+  bibliotecas las mejoran (`printr`) u ofrecen funciones para hacerlo
+
+* Un enfoque "facil": crear *data frames* con resultados (usando `tidyverse`) y mostrarlo
+  como una tabla con `knitr::kable()`
+
+* `broom::tidy()` convierte muchos objetos de R (como listas con resultados de comandos)
+  en *tibbles*
+
+* La biblioteca `modelsummary` tiene funciones para
+    + convertir modelos en tablas (`modelsummary()`) o graficos
+    + crear tablas de estadisticos descriptivos con `datasummary()` o `datasummary_crosstab()`
+
+Notas del profesor que acompanaban a la slide:
+- `stargazer`: https://zief0002.github.io/book-8252/pretty-printing-tables-in-markdown.html
+- `printr`
+- `pander` (avanzado): la funcion `pandoc.table()` convierte objetos de R a tablas en codigo
+  de Markdown, con muchas opciones; requiere `results = 'as.is'`
+- `xtable`
+-->
 
 <!-- PRACTICA COMENTADA (15-sep, decision de Pedro): en este tema NO hace falta hacer
 practicas en clase, porque el ejercicio del tema se va haciendo apartado a apartado
