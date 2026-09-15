@@ -93,10 +93,7 @@ library(kableExtra)
 
 ::::
 
--   Instalar Quarto para vuestro sistema operativo desde [aquí](https://quarto.org/docs/get-started/)
-    <!-- INTERNO: decidir con Luis/Pedro si la instalación de Quarto se pide ANTES (añadir a
-         Puesta a punto y a Contenidos de la semana 2) o se hace juntos al empezar la clase.
-         Es un instalador simple; 5 min de clase si se hace en vivo. -->
+-   Instalar Quarto para vuestro sistema operativo desde [aquí](https://quarto.org/docs/get-started/). La web pide después elegir un editor: **en Positron no hay que hacer nada más**, porque ya trae la extensión de Quarto incorporada
 
 -   La [guía](https://quarto.org/docs/guide/) y [referencia](https://quarto.org/docs/reference/) completa de Quarto están en su Web
 
@@ -112,16 +109,20 @@ library(kableExtra)
 
 * Como siempre en Positron, el proyecto es una **carpeta**: cread una carpeta para el informe (o una subcarpeta en la del curso) y abridla con *File > Open Folder*
 
-* Creamos un nuevo documento en *File > New File...* eligiendo *Quarto Document*, y lo guardamos (`Ctrl + S`) con extensión `.qmd`
+* Creamos un nuevo documento en *File > New File...* eligiendo *Quarto Document*, y lo guardamos con extensión `.qmd`
 
-* Se renderiza con el botón **Preview** (arriba del editor, atajo `Ctrl + Shift + K`): el resultado aparece al lado, en el visor
+* Se renderiza con el botón **Preview**, arriba a la derecha del editor
 
 ![](figure/positron-quarto-preview.png){width="62%" fig-align="center"}
 
-* También desde la **Terminal** (pestaña junto a la consola): `quarto render informe.qmd` o `quarto preview informe.qmd`
+* El resultado aparece **al lado, en el visor** (el panel de la derecha)
+
+* Y en el **Explorador** (barra de la izquierda) aparece un **archivo nuevo** en la carpeta: el `.html` generado. Doble clic sobre él para abrirlo
 
 ::: {.notes}
-- La extensión de Quarto viene incluida en Positron: no hay que instalar nada aparte (Quarto sí: ver Puesta a punto / lo instalamos juntos en clase).
+- Señalar con el ratón las TRES cosas: el botón Preview, el panel del visor y el fichero nuevo en el Explorador. Que lo vean en pantalla, no en la slide.
+- Al doble clic sobre el .html, Positron lo abre en su propio visor.
+- Atajos y Terminal: NO insistir, van a usar los botones. Están en las notas por si alguien pregunta (`Ctrl+Shift+K` para Preview; `quarto render fichero.qmd` en la pestaña Terminal, junto a la consola).
 :::
 
 ## Documentos de Quarto: formato de salida
@@ -132,11 +133,19 @@ library(kableExtra)
 
   + solo podemos visualizar correctamente el archivo .html en cualquier navegador si copiamos a otro lugar tanto el .html como el subdirectorio
 
-* Para crear PDFs, se necesita una distribución de [LaTeX](https://es.wikipedia.org/wiki/LaTeX):  instala una escribiendo en la pestaña de "Terminal" (a la derecha de la consola):
+* Para crear **PDF** hay dos caminos:
 
-```{r tinytex-Quarto, eval=FALSE}
-quarto install tool tinytex
-```
+  + `format: pdf` usa [LaTeX](https://es.wikipedia.org/wiki/LaTeX), que hay que instalar una vez (en la pestaña **Terminal**, a la derecha de la consola): `quarto install tool tinytex`
+
+  + `format: typst` **no necesita instalar nada**: Quarto ya lo trae incorporado, y es mucho más rápido
+
+* Para este curso, con `html` basta. Si alguien quiere PDF, **typst** es el camino corto
+
+::: {.notes}
+- Comprobado en la documentación de Quarto (15-sep-2026): "Quarto includes the Typst CLI so no separate installation of Typst is required".
+- Señalar dónde está la pestaña Terminal antes de escribir nada ahí.
+- LaTeX sigue siendo mejor si hacen falta ecuaciones complejas o una plantilla académica concreta; para un informe normal, typst sobra.
+:::
 
 
 ::: {.callout-note}
@@ -309,17 +318,23 @@ Con alineación de columnas
 
 ## Editor Visual de Quarto en Positron
 
-* En documentos .qmd, se puede elegir entre editar la fuente (*source*) de Markdown, como texto sencillo, o editar de forma visual: comando *Quarto: Edit in Visual Mode* (paleta `Ctrl+Shift+P`, o atajo `Ctrl+Shift+F4`)
+* Un `.qmd` se puede editar de dos formas: viendo el **texto** tal cual (modo *source*), que es lo que hemos hecho hasta ahora, o en **modo visual**, donde se ve ya con su formato, como en un procesador de textos
 
-* En el modo visual, en esa misma **barra de herramientas** se tienen accesos a
+* Para cambiar de uno a otro: botón derecho sobre el documento y *Edit in Visual Mode*, o `Ctrl+Shift+F4`
+
+* Al pasar a modo visual aparece arriba una **barra de herramientas**, con accesos a
 
     + formatos de texto (negritas, cursivas, encabezamientos) y listas
     + insertar enlaces, imágenes, notas a pie de página, tablas
     + incluir ecuaciones (en [LaTeX](https://www.latex4technics.com/))
     + también insertar directamente código HTML, comentarios, etc.
 
+* Lo que se escribe en modo visual **es el mismo fichero**: al volver a *source* se ve el Markdown que ha generado
+
 ::: {.notes}
-- Corrección ortográfica: en Positron/VS Code se instala una extensión (p.e. "Spell Right" o "Code Spell Checker" con diccionario de español); no viene de serie como en RStudio.
+- SEÑALAR en pantalla: dónde está la barra, y que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.
+- Comprobado en la extensión Quarto 1.137.0: el comando es `quarto.editInVisualMode` y el atajo `Ctrl+Shift+F4`.
+- Corrección ortográfica: en Positron se instala una extensión aparte (p.e. "Code Spell Checker" con diccionario de español); no viene de serie como en RStudio.
 :::
 
 ## Formato en la cabecera: el bloque `YAML`
@@ -351,17 +366,24 @@ Con alineación de columnas
 ::::{.notes}
 "code chunks"
 ::::
-* Insertamos **código en medio del texto** escribiendo `` `r ` `` con el código dentro: el documento de salida incluirá el resultado de ejecutarlo
+* En **modo visual**, con el botón **Insert** de la barra de herramientas:
+
+    + *Code Cell > R* inserta un **fragmento** (varias líneas de código)
+    + *Inline Code* inserta **código dentro del texto**, para que el resultado salga en medio de la frase
 
 . . .
 
-* Podemos incluir un **fragmento de código** (de varias líneas) con el botón *Insert Code Cell* (arriba del editor) o escribiendo la celda a mano (```` ```{r} ````  ...  ```` ``` ````)
+* En **modo source**, lo mismo se escribe a mano:
 
-    * Se puede personalizar cómo se muestran varios aspectos del código y de sus resultados
+    + el fragmento, entre ```` ```{r} ```` y ```` ``` ````
+    + el código en línea, con `` `r ` `` y el código dentro
 
-    + bien para una celda concreta de código, incluyendo [opciones de celda](https://quarto.org/docs/reference/cells/cells-knitr.html)
+* Lo que aparece en el documento (el código, su resultado, los dos o ninguno) se controla con **opciones**: en una celda concreta, o para todo el documento desde la cabecera
 
-    + o para todo el documento en la cabecera: las opciones de `html` están en la sección de código de [su referencia](https://quarto.org/docs/reference/formats/html.html) (y similar para otros formatos)
+::: {.notes}
+- Hacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.
+- El código en línea es el que más les sorprende: una frase con un número que se recalcula solo.
+:::
 
 ## Cómo se escriben las opciones de una celda
 
@@ -385,18 +407,13 @@ mean(mtcars$mpg)
 
 * `echo: false` con `eval: true` es el informe para quien no programa: ve los resultados, no el código
 
-* `echo: true` con `eval: false` es enseñar una instrucción sin lanzarla (p.e. `install.packages()`)
-
-* **¿Hay un menú para poner esto sin teclearlo?** En **RStudio** sí: cada celda lleva una rueda dentada que abre un diálogo con las opciones más comunes. En **Positron**, las opciones se escriben a mano
-
-    + también en el modo visual: el bloque se ve con su formato, pero las opciones siguen siendo texto dentro de la celda
-
-    + no es un problema: son dos líneas y se escriben antes de darse cuenta
-
-<!-- INTERNO: comprobado el 15-sep en la extension Quarto 1.137.0 instalada en Positron. No hay
-ningun comando ni icono para opciones de celda: el unico $(gear) de la extension es el del
-dialogo de crear proyecto. Si alguien ve una rueda en Positron, sera la del editor de NOTEBOOKS
-(.ipynb), que es otra cosa. Verificar de nuevo si cambia la version de la extension. -->
+::: {.notes}
+- Las opciones se escriben SIEMPRE a mano, también en modo visual: no hay menú para ellas en
+  Positron (comprobado en la extensión Quarto 1.137.0; RStudio sí tiene una rueda por celda).
+  No merece una slide: si alguien pregunta, se contesta y se sigue.
+- La tabla es exactamente lo que pide el apartado b.ii del ejercicio.
+- El error de todos los años: escribir `#` en vez de `#|`. Conviene provocarlo en vivo.
+:::
 
 ::: {.callout-note}
 **Ahora el ejercicio: apartado b)**, donde se piden estas tres combinaciones sobre `summary(mtcars)`.
@@ -464,23 +481,16 @@ no pasa nada. La tabla de combinaciones es literalmente lo que pide el apartado 
 
 * `fig-align`: mostrar la figura centrada o alineada a derecha o izquierda
 
-* `layout-ncol`: en cuantas columnas se componen los resultados
-
-```{{r}}
-#| layout-ncol: 2
-#| fig-show: hold
-ggplot(data = cars) + geom_histogram(aes(x = speed))  # izquierda
-ggplot(data = cars) + geom_histogram(aes(x = dist))   # derecha
-```
+* `layout-ncol`: en cuántas columnas se componen los resultados
 
 ```{r}
-#| echo: false
+#| echo: true
 #| eval: true
 #| fig-show: hold
 #| layout-ncol: 2
 library(ggplot2)
-ggplot(data = cars) + geom_histogram(aes(x = speed))
-ggplot(data = cars) + geom_histogram(aes(x = dist))
+ggplot(cars) + geom_histogram(aes(x = speed))
+ggplot(cars) + geom_histogram(aes(x = dist))
 ```
 
 :::
@@ -521,6 +531,10 @@ https://quarto.org/docs/computations/r.html
             df-print: paged      # cómo visualizar tablas
         ---
 
+<!-- PRACTICA COMENTADA (15-sep, decision de Pedro): en este tema NO hace falta hacer
+practicas en clase, porque el ejercicio del tema se va haciendo apartado a apartado
+durante las sesiones. Se conserva aqui por si algun ano se quiere recuperar.
+
 ## PRÁCTICA en clase (1): leer opciones antes de escribirlas
 
 Aquí no se escribe código: se **predice** lo que hace. Contestad en el cuaderno y lo comparamos.
@@ -560,7 +574,7 @@ Muchos creen que echo: false también impide ejecutar, y entonces no entienden p
 saliendo el gráfico. Merece la pena preguntarlo en voz alta antes de dar la respuesta.
 Esta práctica es de cinco minutos y va antes de la de montar el informe: cuando lleguen a la 2 ya
 saben qué opciones poner y no se atascan ahí. -->
-
+-->
 
 ## Ejecución de código en un documento .qmd
 
@@ -578,7 +592,7 @@ saben qué opciones poner y no se atascan ahí. -->
 
     - `rm(list = ls())`: al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos
 
-    - Todas las bibliotecas (ej., `tidyverse`) que utilizaremos en varias celdas
+    - Todas las **bibliotecas** que se usen en varias celdas (con `library()`, como en el Tema 00)
 
 ## Mejorar la salida de tablas
 
@@ -623,6 +637,10 @@ saben qué opciones poner y no se atascan ahí. -->
 ::: {.callout-note}
 **Ahora el ejercicio: apartado e)**, las opciones de cabecera: `df-print: paged`, `code-fold` y el tema.
 :::
+<!-- PRACTICA COMENTADA (15-sep, decision de Pedro): en este tema NO hace falta hacer
+practicas en clase, porque el ejercicio del tema se va haciendo apartado a apartado
+durante las sesiones. Se conserva aqui por si algun ano se quiere recuperar.
+
 ## PRÁCTICA en clase (2): vuestro primer informe
 
 Convertid el análisis de las **fichas de clientes** del Tema 0 en un informe reproducible:
@@ -644,7 +662,7 @@ Convertid el análisis de las **fichas de clientes** del Tema 0 en un informe re
 <!-- INTERNO (guion del profesor): errores típicos a provocar/mostrar: objeto usado antes de
 definirse en el qmd (funciona en consola, falla al renderizar), biblioteca no cargada en el
 documento, ruta absoluta que solo existe en un ordenador. -->
-
+-->
 
 ## Comentarios finales
 
