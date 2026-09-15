@@ -109,14 +109,18 @@ library(kableExtra)
 
 ## Documentos de Quarto: Crear y Guardar
 
-* Abrid la **carpeta** del informe (*File > Open Folder*) y cread el documento en *File > New File... > Quarto Document*; guardadlo **con extensión `.qmd`**
+* Como en el Tema 00, se trabaja dentro de la **carpeta del proyecto** (*File > Open Folder*); el documento se crea en *File > New File... > Quarto Document* y se guarda **con extensión `.qmd`**
 
-![](figure/positron-quarto-guia.png){width="98%" fig-align="center"}
+* **Renderizar** es procesar el documento —ejecutar su código y dar formato al texto— para producir el fichero final; en Positron, el botón **Preview**
 
-::: {style="font-size: 78%;"}
-**1** *Preview* renderiza · **2** guardar · **3** el `.html` creado, en la carpeta · **4** el **visor**, donde sale el resultado
+* El resultado sale en el **visor** de la derecha y, a la vez, se crea el fichero en la carpeta del proyecto
 
-Para verlo **como lo verá quien lo reciba**, abridlo con doble clic desde el **explorador de archivos del sistema**: el `.html` se abre en el navegador, y un `.pdf` o `.docx` en su programa
+* Para verlo **como lo verá quien lo reciba**, abridlo con doble clic desde el **explorador de archivos del sistema**: el `.html` se abre en el navegador, y un `.pdf` o `.docx` en su programa
+
+![](figure/positron-quarto-guia.png){width="92%" fig-align="center"}
+
+::: {style="font-size: 72%;"}
+**1** *Preview* · **2** guardar · **3** el fichero creado · **4** el visor
 :::
 
 ::: {.notes}
