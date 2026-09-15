@@ -388,18 +388,18 @@ Atajo: `Ctrl+Shift+F4`. También en la paleta de comandos (`Ctrl+Shift+P`)
 
 * El documento lleva **código de R que Quarto ejecuta al renderizar**; hay dos formas, según dónde deba salir el resultado
 
+* **Código en línea**: un valor **dentro de una frase** ("la media es 20.09"); icono `</>` de la barra, o *Insert > Any...* (`Ctrl+/`) y escribir `inline`
+
 * Una **celda**: bloque de código aparte, el resultado sale **debajo** (*Insert > Executable Cell > R*)
 
 ![](figure/positron-quarto-insert-cell.png){width="50%" fig-align="center"}
 
-* **Código en línea**: un valor **dentro de una frase** ("la media es 20.09"); icono `</>` de la barra, o *Insert > Any...* (`Ctrl+/`) y escribir `inline`
-
-* En **modo source** ambas se escriben a mano: la celda, entre ```` ```{r} ```` y ```` ``` ````; el código en línea, con `` `r ` `` y dentro el código
+* En **modo source** ambas se escriben a mano: el código en línea, con `` `r ` `` y dentro el código; la celda, entre ```` ```{r} ```` y ```` ``` ````
 
 ::: {.notes}
 - Hacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.
 - La celda también se inserta con `Ctrl+Shift+I`, y desde el menú `...` del editor (*Insert Code Cell*); comprobado en Positron.
-- La distinción que hay que dejar clara es DONDE sale el resultado: debajo (celda) o dentro de la frase (en línea).
+- La distinción que hay que dejar clara es DONDE sale el resultado: dentro de la frase (en línea) o debajo (celda). Se empieza por el código en línea, que es lo más pequeño y lo que más les sorprende.
 - El código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: `La media es `r mean(mtcars$mpg)`.`
 :::
 
