@@ -4320,7 +4320,8 @@ Universidad de Alicante</p>
 
 
 <ul>
-<li>En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas <a href="Tema00ej1_123456789.R">aquí</a>.</li>
+<li><p>En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas <a href="Tema00ej1_123456789.R">aquí</a>.</p></li>
+<li><p>Recordad la regla con la IA: puede ayudaros a <em>entender</em> (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.</p></li>
 </ul>
 <section id="problema-1" class="level1">
 <h1>Problema 1</h1>
@@ -4330,7 +4331,10 @@ Universidad de Alicante</p>
 <section id="problema-2" class="level1">
 <h1>Problema 2</h1>
 <ol type="a">
-<li>Los archivos <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx"><code>Ventas2a.xlsx</code></a> y <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx"><code>Ventas2b.xlsx</code></a> contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.</li>
+<li><p>Los archivos <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx"><code>Ventas2a.xlsx</code></a> y <a href="https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx"><code>Ventas2b.xlsx</code></a> contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.</p>
+<ul>
+<li>PISTA: <code>rbind()</code> añade filas y <code>cbind()</code> columnas a un <em>data frame</em> (consultad la ayuda: <code>?rbind</code>).</li>
+</ul></li>
 </ol>
 <ol start="2" type="a">
 <li>Añadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.</li>
