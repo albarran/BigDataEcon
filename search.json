@@ -116,14 +116,7 @@
     "href": "docs/Tema01ej.html#apartado-e",
     "title": "Tema 01 - Ejercicio de Quarto",
     "section": "Apartado e)",
-    "text": "Apartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#entrega-del-ejercicio",
-    "href": "docs/Tema01ej.html#entrega-del-ejercicio",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "Entrega del ejercicio",
-    "text": "Entrega del ejercicio\n\n\n\n\n\n\nImportante\n\n\n\nEl formulario de entrega se publicará aquí y se anunciará por UACloud antes de la fecha límite. El ejercicio se va haciendo durante las clases del tema, apartado a apartado, y se entrega al terminarlo.\n\n\nRellenad el formulario de entrega con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema01ej_123456789.qmd\nTema01ej_123456789.html\nTema01ej_123456789.zip"
+    "text": "Apartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\nRellenad el formulario de entrega con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema01ej_123456789.qmd\nTema01ej_123456789.html\nTema01ej_123456789.zip –&gt;"
   },
   {
     "objectID": "docs/Tema00ej1.html",
@@ -214,7 +207,7 @@
     "href": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
     "title": "Tema 01 - Informes reproducibles con Quarto",
     "section": "Documentos de Quarto: Crear y Guardar",
-    "text": "Documentos de Quarto: Crear y Guardar\n\nComo siempre en Positron, el proyecto es una carpeta: cread una carpeta para el informe (o una subcarpeta en la del curso) y abridla con File &gt; Open Folder\nCreamos un nuevo documento en File &gt; New File… eligiendo Quarto Document, y lo guardamos con extensión .qmd\nSe guarda con el disquete y se renderiza con Preview; el resultado sale en el visor de la derecha, y el fichero .html aparece en el Explorador (doble clic para abrirlo)\n\n\n\nTambién con atajos (Ctrl+S, Ctrl+Shift+K) o desde la Terminal: quarto render informe.qmd\n\n\n\nSeñalar las cuatro marcas de la imagen EN PANTALLA, sobre Positron, no sobre la slide.\nLa casilla Render on Save renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo."
+    "text": "Documentos de Quarto: Crear y Guardar\n\nComo siempre en Positron, el proyecto es una carpeta: cread una carpeta para el informe (o una subcarpeta en la del curso) y abridla con File &gt; Open Folder\nCreamos un nuevo documento en File &gt; New File… eligiendo Quarto Document\nLo guardamos con File &gt; Save (o con el icono de la barra del editor, el segundo), poniéndole nombre con extensión .qmd\nSe renderiza con Preview: el resultado sale en el visor de la derecha, y el fichero .html aparece en el Explorador (doble clic para abrirlo)\n\n\n\nAtajos: Ctrl+S guarda, Ctrl+Shift+K renderiza. Y desde la Terminal, quarto render informe.qmd\n\n\n\nSeñalar las cuatro marcas de la imagen EN PANTALLA, sobre Positron, no sobre la slide.\nLa casilla Render on Save renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo."
   },
   {
     "objectID": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
@@ -249,21 +242,28 @@
     "href": "docs/Tema01.html#fragmentos-o-celdas-de-código",
     "title": "Tema 01 - Informes reproducibles con Quarto",
     "section": "Fragmentos o celdas de código",
-    "text": "Fragmentos o celdas de código\n\n“code chunks”\n\n\nEn modo visual, menú Insert: Executable Cell &gt; R\n\n\n\n\n\n\n\n\nEn modo source se escribe a mano: entre ```{r} y ```; y el código en medio del texto, con `r ` y el código dentro\nLo que aparece en el documento (el código, su resultado, los dos o ninguno) se controla con opciones: en una celda concreta, o para todo el documento desde la cabecera\n\n\n\nHacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.\nEl código en línea es el que más les sorprende: una frase con un número que se recalcula solo."
+    "text": "Fragmentos o celdas de código\n\nEn modo visual, menú Insert: Executable Cell &gt; R\n\n\n\nPara código dentro del texto (que el resultado salga en medio de una frase): Insert &gt; Any… (Ctrl+/) y escribir inline, o el icono &lt;/&gt; de la barra\nEn modo source, lo mismo se escribe a mano: el fragmento entre ```{r} y ```; el código en línea, con `r ` y el código dentro\nLo que aparece en el documento (el código, su resultado, los dos o ninguno) se controla con opciones: en una celda concreta, o para todo el documento desde la cabecera\n\n\n\nHacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.\nEl código en línea es el que más les sorprende: una frase con un número que se recalcula solo."
   },
   {
     "objectID": "docs/Tema01.html#opciones-de-una-celda",
     "href": "docs/Tema01.html#opciones-de-una-celda",
     "title": "Tema 01 - Informes reproducibles con Quarto",
     "section": "Opciones de una celda",
-    "text": "Opciones de una celda\n\nVan dentro de la celda, en sus primeras líneas, precedidas de #| (almohadilla y barra vertical; con # a secas es un comentario y la opción NO se aplica)\n\n```{r}\n#| echo: false\nmean(mtcars$mpg)\n```\n\necho (¿se ve el código?) y eval (¿se ejecuta?) son independientes:\n\n\n\n\n\n\n\n\n\n\n\nse ve el código\nse ejecuta\nse ve el resultado\n\n\n\n\necho: true eval: true\nsí\nsí\nsí\n\n\necho: false eval: true\nno\nsí\nsí\n\n\necho: true eval: false\nsí\nno\nno\n\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado b), con estas tres combinaciones sobre summary(mtcars).\n\n\n\n\n\nEl error de todos los años: escribir # en vez de #|. Provocarlo en vivo.\nOtras que salen en la slide siguiente: output: false oculta solo el resultado, include: false no muestra nada pero SÍ ejecuta, y message/warning/error controlan lo que R va contando.\nSi un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iii del ejercicio.\nLas opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí)."
+    "text": "Opciones de una celda\n\nVan dentro de la celda, en sus primeras líneas, precedidas de #| (almohadilla y barra vertical; con # a secas es un comentario y la opción NO se aplica)\n\n```{r}\n#| echo: false\nmean(mtcars$mpg)\n```\n\necho (¿se ve el código?) y eval (¿se ejecuta?) son independientes:\n\n\n\n\n\n\n\n\n\n\n\nse ve el código\nse ejecuta\nse ve el resultado\n\n\n\n\necho: true eval: true\nsí\nsí\nsí\n\n\necho: false eval: true\nno\nsí\nsí\n\n\necho: true eval: false\nsí\nno\nno\n\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado b), con estas tres combinaciones sobre summary(mtcars).\n\n\n\n\n\nEl error de todos los años: escribir # en vez de #|. Provocarlo en vivo.\nSi un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iii del ejercicio.\nLas opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí)."
   },
   {
     "objectID": "docs/Tema01.html#otras-opciones-de-celda",
     "href": "docs/Tema01.html#otras-opciones-de-celda",
     "title": "Tema 01 - Informes reproducibles con Quarto",
     "section": "Otras opciones de celda",
-    "text": "Otras opciones de celda\n\n\ncode-fold: true oculta el código pero da opción a mostrarlo\nCómo mostrar resultados de texto y numéricos:\n\nresults: hide (no mostrar)\nresults: hold (mostrar todo, no el resultado de cada línea)\n\nfig-cap y tbl-cap para los títulos de las figuras y tablas\nCómo mostrar los gráficos: fig-show\n\nhide y hold son como en results\nasis muestra el gráfico como se generó\nanimate concatena varios gráficos en una animación\n\nfig-width y fig-height: dimensiones (reales, en pulgadas) de una figura\nout-width y out-height: ídem en el documento de salida (% de las reales)"
+    "text": "Otras opciones de celda\n\n\noutput: false oculta solo el resultado; include: false no muestra nada, pero sí ejecuta\nmessage, warning y error: si se muestra lo que R va contando por el camino\nlabel: una etiqueta para identificar la celda\ncode-fold: true oculta el código pero da opción a mostrarlo\nCómo mostrar resultados de texto y numéricos:\n\nresults: hide (no mostrar)\nresults: hold (mostrar todo, no el resultado de cada línea)\n\n\n\n\n\nNinguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que include: false ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-de-presentación",
+    "href": "docs/Tema01.html#opciones-de-presentación",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones de presentación",
+    "text": "Opciones de presentación\n\n\nfig-cap y tbl-cap para los títulos de las figuras y tablas\nCómo mostrar los gráficos: fig-show\n\nhide y hold son como en results\nasis muestra el gráfico como se generó\nanimate concatena varios gráficos en una animación\n\nfig-width y fig-height: dimensiones (reales, en pulgadas) de una figura\nout-width y out-height: ídem en el documento de salida (% de las reales)\nLista completa de opciones aquí"
   },
   {
     "objectID": "docs/Tema01.html#opciones-para-figuras",
@@ -277,7 +277,7 @@
     "href": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
     "title": "Tema 01 - Informes reproducibles con Quarto",
     "section": "Opciones globales para todas las celdas",
-    "text": "Opciones globales para todas las celdas\n\nEn la cabecera, especificamos opciones por defecto para las celdas de código\n\np.e., de ejecución como echo, eval, etc. en execute (ver aquí y aquí)\n---\nexecute:\n  echo: false\n  warning: false\n---\n\n\n\nTambién enabled: false y freeze\nVer sección de ejecución en https://quarto.org/docs/computations/r.html\n\n\nTambién otras opciones que ya hemos visto (aquí listado completo para html)\n---\nformat:\n  html:\n    code-fold: true\n    cap-location: bottom\n    fig-align: center\n    df-print: paged      # cómo visualizar tablas\n---\n\n–&gt;"
+    "text": "Opciones globales para todas las celdas\n\nEn la cabecera, especificamos opciones por defecto para las celdas de código\n\np.e., de ejecución como echo, eval, etc. en execute (ver aquí y aquí)\n---\nexecute:\n  echo: false\n  warning: false\n---\nTambién otras opciones que ya hemos visto (aquí listado completo para html)\n---\nformat:\n  html:\n    code-fold: true\n    cap-location: bottom\n    fig-align: center\n    df-print: paged      # cómo visualizar tablas\n---\n\n\n\n\nTambién existen enabled: false y freeze. Sección de ejecución en https://quarto.org/docs/computations/r.html"
   },
   {
     "objectID": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
@@ -291,7 +291,7 @@
     "href": "docs/Tema01.html#mejorar-la-salida-de-tablas",
     "title": "Tema 01 - Informes reproducibles con Quarto",
     "section": "Mejorar la salida de tablas",
-    "text": "Mejorar la salida de tablas\n\nLa salida “en crudo” de R es correcta y poco presentable. knitr::kable() la convierte en una tabla con formato:\n\n\nknitr::kable(head(mtcars[, 1:5]))\n\n\nkableExtra añade estilos, anchos, cabeceras agrupadas… (guía)\nPrimero que el número sea el correcto; después, que la tabla se vea bien\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartados d) y e): mostrar mtcars con kbl() y comparar con la salida cruda, y luego las opciones de cabecera (df-print: paged, code-fold, tema).\n\n\n\n\n\nPara ir más lejos: broom::tidy() convierte resultados de modelos en tablas; modelsummary genera tablas de regresión y de descriptivos; también existen printr, pander, stargazer y xtable.\nNo nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.\n\n\n–&gt;"
+    "text": "Mejorar la salida de tablas\n\nLa salida “en crudo” de R es correcta y poco presentable. knitr::kable() la convierte en una tabla con formato:\n\n\nknitr::kable(head(mtcars[, 1:5]))\n\n\nkableExtra añade estilos, anchos, cabeceras agrupadas… (guía)\nPrimero que el número sea el correcto; después, que la tabla se vea bien\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartados d) y e): mostrar mtcars con kbl() y comparar con la salida cruda, y luego las opciones de cabecera (df-print: paged, code-fold, tema).\n\n\n\n\n\nPara ir más lejos: broom::tidy() convierte resultados de modelos en tablas; modelsummary genera tablas de regresión y de descriptivos; también existen printr, pander, stargazer y xtable.\nNo nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen."
   },
   {
     "objectID": "docs/Tema01.html#comentarios-finales",
