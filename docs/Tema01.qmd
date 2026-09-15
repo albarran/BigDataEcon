@@ -93,7 +93,9 @@ library(kableExtra)
 
 ::::
 
--   Instalar Quarto para vuestro sistema operativo desde [aquí](https://quarto.org/docs/get-started/). La web pide después elegir un editor: **en Positron no hay que hacer nada más**, porque ya trae la extensión de Quarto incorporada
+-   Instalar Quarto para vuestro sistema operativo desde [aquí](https://quarto.org/docs/get-started/)
+
+    + la web pide después elegir un editor: **en Positron no hay que hacer nada más**, ya trae la extensión de Quarto incorporada
 
 -   La [guía](https://quarto.org/docs/guide/) y [referencia](https://quarto.org/docs/reference/) completa de Quarto están en su Web
 
@@ -111,18 +113,17 @@ library(kableExtra)
 
 * Creamos un nuevo documento en *File > New File...* eligiendo *Quarto Document*, y lo guardamos con extensión `.qmd`
 
-* Se renderiza con el botón **Preview**, arriba a la derecha del editor
+* Se guarda con el **disquete** y se renderiza con **Preview**; el resultado sale en el **visor** de la derecha, y el fichero `.html` aparece en el **Explorador** (doble clic para abrirlo)
 
-![](figure/positron-quarto-preview.png){width="62%" fig-align="center"}
+![](figure/positron-quarto-guia.png){width="78%" fig-align="center"}
 
-* El resultado aparece **al lado, en el visor** (el panel de la derecha)
-
-* Y en el **Explorador** (barra de la izquierda) aparece un **archivo nuevo** en la carpeta: el `.html` generado. Doble clic sobre él para abrirlo
+::: {style="font-size: 70%;"}
+También con atajos (`Ctrl+S`, `Ctrl+Shift+K`) o desde la **Terminal**: `quarto render informe.qmd`
+:::
 
 ::: {.notes}
-- Señalar con el ratón las TRES cosas: el botón Preview, el panel del visor y el fichero nuevo en el Explorador. Que lo vean en pantalla, no en la slide.
-- Al doble clic sobre el .html, Positron lo abre en su propio visor.
-- Atajos y Terminal: NO insistir, van a usar los botones. Están en las notas por si alguien pregunta (`Ctrl+Shift+K` para Preview; `quarto render fichero.qmd` en la pestaña Terminal, junto a la consola).
+- Señalar las cuatro marcas de la imagen EN PANTALLA, sobre Positron, no sobre la slide.
+- La casilla *Render on Save* renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo.
 :::
 
 ## Documentos de Quarto: formato de salida
@@ -320,9 +321,15 @@ Con alineación de columnas
 
 * Un `.qmd` se puede editar de dos formas: viendo el **texto** tal cual (modo *source*), que es lo que hemos hecho hasta ahora, o en **modo visual**, donde se ve ya con su formato, como en un procesador de textos
 
-* Para cambiar de uno a otro: botón derecho sobre el documento y *Edit in Visual Mode*, o `Ctrl+Shift+F4`
+* Se cambia de uno a otro con el icono **⇄** de la barra del editor (arriba a la derecha), con `Ctrl+Shift+F4`, o desde la paleta (`Ctrl+Shift+P`) con *Quarto: Edit in Visual Mode*
 
-* Al pasar a modo visual aparece arriba una **barra de herramientas**, con accesos a
+    + la primera vez avisa de que el fichero se reescribirá con el formato de Pandoc: aceptar
+
+* Al pasar a modo visual aparece esta **barra de herramientas**:
+
+![](figure/positron-quarto-barra-visual.png){width="85%" fig-align="center"}
+
+* Desde ella se accede a
 
     + formatos de texto (negritas, cursivas, encabezamientos) y listas
     + insertar enlaces, imágenes, notas a pie de página, tablas
@@ -341,9 +348,8 @@ Con alineación de columnas
 
 * Al **principio del documento**, entre dos líneas con `---`, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida
 
-<!--
-    - también se puede crear en *Insert* y elegir *YAML Block*
--->
+    + en **modo visual** se inserta desde *Insert > YAML Metadata...*, sin escribir los `---`
+
 
 * Los formatos de salida son `html`, `pdf`, `docx` (y otros en *Quarto Presentations*)
 
@@ -366,17 +372,18 @@ Con alineación de columnas
 ::::{.notes}
 "code chunks"
 ::::
-* En **modo visual**, con el botón **Insert** de la barra de herramientas:
+* En **modo visual**, menú **Insert**: *Executable Cell > R*
 
-    + *Code Cell > R* inserta un **fragmento** (varias líneas de código)
-    + *Inline Code* inserta **código dentro del texto**, para que el resultado salga en medio de la frase
+:::: {.columns}
+::: {.column width="50%"}
+![](figure/positron-quarto-insert.png){width="98%"}
+:::
+::: {.column width="50%"}
+![](figure/positron-quarto-insert-cell.png){width="98%"}
+:::
+::::
 
-. . .
-
-* En **modo source**, lo mismo se escribe a mano:
-
-    + el fragmento, entre ```` ```{r} ```` y ```` ``` ````
-    + el código en línea, con `` `r ` `` y el código dentro
+* En **modo source** se escribe a mano: entre ```` ```{r} ```` y ```` ``` ````; y el código **en medio del texto**, con `` `r ` `` y el código dentro
 
 * Lo que aparece en el documento (el código, su resultado, los dos o ninguno) se controla con **opciones**: en una celda concreta, o para todo el documento desde la cabecera
 
@@ -385,73 +392,35 @@ Con alineación de columnas
 - El código en línea es el que más les sorprende: una frase con un número que se recalcula solo.
 :::
 
-## Cómo se escriben las opciones de una celda
+## Opciones de una celda
 
-* Van **dentro** de la celda, en sus primeras líneas, cada una precedida de `#|`
+* Van **dentro** de la celda, en sus primeras líneas, precedidas de `#|` (almohadilla y **barra vertical**; con `#` a secas es un comentario y la opción NO se aplica)
 
 ```{{r}}
 #| echo: false
-#| eval: true
 mean(mtcars$mpg)
 ```
 
-* Ojo al detalle: es `#|` (almohadilla y barra vertical), **no** un comentario normal `#`. Si se escribe `#` a secas, Quarto lo trata como código comentado y la opción NO se aplica
+* `echo` (¿se **ve** el código?) y `eval` (¿se **ejecuta**?) son independientes:
 
-* Las dos que más se usan hacen cosas **independientes**:
-
-|                        | ¿se ve el código? | ¿se ejecuta? | ¿se ve el resultado? |
-|------------------------|:-----------------:|:------------:|:--------------------:|
+|                             | se ve el código | se ejecuta | se ve el resultado |
+|-----------------------------|:---------------:|:----------:|:------------------:|
 | `echo: true`  `eval: true`  | sí | sí | sí |
 | `echo: false` `eval: true`  | **no** | sí | sí |
 | `echo: true`  `eval: false` | sí | **no** | no |
 
-* `echo: false` con `eval: true` es el informe para quien no programa: ve los resultados, no el código
+::: {.callout-note}
+**Ahora el ejercicio: apartado b)**, con estas tres combinaciones sobre `summary(mtcars)`.
+:::
 
 ::: {.notes}
-- Las opciones se escriben SIEMPRE a mano, también en modo visual: no hay menú para ellas en
-  Positron (comprobado en la extensión Quarto 1.137.0; RStudio sí tiene una rueda por celda).
-  No merece una slide: si alguien pregunta, se contesta y se sigue.
-- La tabla es exactamente lo que pide el apartado b.ii del ejercicio.
-- El error de todos los años: escribir `#` en vez de `#|`. Conviene provocarlo en vivo.
+- El error de todos los años: escribir `#` en vez de `#|`. Provocarlo en vivo.
+- Otras que salen en la slide siguiente: `output: false` oculta solo el resultado, `include: false` no muestra nada pero SÍ ejecuta, y `message`/`warning`/`error` controlan lo que R va contando.
+- Si un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iii del ejercicio.
+- Las opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí).
 :::
 
-::: {.callout-note}
-**Ahora el ejercicio: apartado b)**, donde se piden estas tres combinaciones sobre `summary(mtcars)`.
-:::
-
-<!-- INTERNO: slide añadida el 15-sep. Pedro: "no está claro en las slides del tema 01 cómo
-poner echo false". Las tres slides siguientes DESCRIBEN las opciones en viñetas pero no
-enseñaban la sintaxis; sin ver un `#|` escrito, muchos ponen `#` normal y no entienden por qué
-no pasa nada. La tabla de combinaciones es literalmente lo que pide el apartado b.ii. -->
-
-
-## Opciones para una celda de código
-
-::: {.smaller-output}
-
-* Esta slide y las dos siguientes son de REFERENCIA: en clase usaremos unas pocas opciones; el resto, para consultar cuando las necesitéis
-
-* Las opciones se incluyen al principio de una celda precedidas por `#| `
-
-* `echo: true` muestra el código en la salida (o no con `echo: false`)
-
-* `eval: true` ejecuta el código (o no con `eval: false`)
-
-    - Si un fragmento no se evalúa, sus resultados no se muestran y ni están para otras celdas posteriores (p.e., cargar datos o una biblioteca para usar luego)
-
-* `output: true` incluye los resultados del código
-
-* `include: false` no incluye ni el código ni su resultado, pero se evalúa
-
-* Se muestran (o no) los mensajes, errores y avisos de ejecutar un código con las opciones `message`, `error` y `warning`, respectivamente.
-
-* `label`: etiqueta para identificar la celda
-
-* La lista completa de opciones [aquí](https://quarto.org/docs/computations/execution-options.html) y [aquí](https://quarto.org/docs/reference/cells/cells-knitr.html)
-
-:::
-
-## Opciones para una celda de código (cont.)
+## Otras opciones de celda
 
 ::: {.smaller-output}
 
@@ -475,7 +444,7 @@ no pasa nada. La tabla de combinaciones es literalmente lo que pide el apartado 
 
 :::
 
-## Opciones para una celda de código (y 3)
+## Opciones para figuras
 
 ::: {.smaller-output}
 
@@ -596,47 +565,27 @@ saben qué opciones poner y no se atascan ahí. -->
 
 ## Mejorar la salida de tablas
 
-* Como las salidas de muchas funciones no son visualmente "profesionales", algunas bibliotecas las mejoran (`printr`) u ofrecen funciones para hacerlo
+* La salida "en crudo" de R es correcta y poco presentable. `knitr::kable()` la convierte en una tabla con formato:
 
-* Un enfoque "fácil": crear *data frames* con resultados (usando `tidyverse`) y mostrarlo como una tabla con `knitr::kable()`
+```{r}
+#| echo: true
+#| eval: true
+knitr::kable(head(mtcars[, 1:5]))
+```
 
-* La biblioteca `kableExtra` ofrece [más opciones](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html).
+* `kableExtra` añade estilos, anchos, cabeceras agrupadas... ([guía](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html))
 
-+ `broom::tidy()` convierte muchos objetos de R (como listas con resultados de comandos) en *tibbles*
-
-+ La biblioteca `modelsummary()` tiene funciones para
-
-    + convertir modelos en tablas (`modelsummary()`) o gráficos
-
-    + crear tablas de estadísticos descriptivos con `datasummary()` o `datasummary_crosstab()`
-
-
-
-::::{.notes}
-
-- `stargazer`
-<https://zief0002.github.io/book-8252/pretty-printing-tables-in-markdown.html>
-
-- `printr`
-
-- `pander` (avanzado):  la función `pandoc.table()` convierto objetos de R a tablas en código de Markdown, con muchas opciones
-
-    - requiere `results = 'as.is'`
-
-- `xtable`:
-
-::::
-
-
+* Primero que el **número** sea el correcto; después, que la tabla se vea bien
 
 ::: {.callout-note}
-**Ahora el ejercicio: apartado d)**, mostrar `mtcars` con `kbl()` y comparar con la salida cruda.
+**Ahora el ejercicio: apartados d) y e)**: mostrar `mtcars` con `kbl()` y comparar con la salida cruda, y luego las opciones de cabecera (`df-print: paged`, `code-fold`, tema).
 :::
 
-
-::: {.callout-note}
-**Ahora el ejercicio: apartado e)**, las opciones de cabecera: `df-print: paged`, `code-fold` y el tema.
+::: {.notes}
+- Para ir más lejos: `broom::tidy()` convierte resultados de modelos en tablas; `modelsummary` genera tablas de regresión y de descriptivos; también existen `printr`, `pander`, `stargazer` y `xtable`.
+- No nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.
 :::
+
 <!-- PRACTICA COMENTADA (15-sep, decision de Pedro): en este tema NO hace falta hacer
 practicas en clase, porque el ejercicio del tema se va haciendo apartado a apartado
 durante las sesiones. Se conserva aqui por si algun ano se quiere recuperar.
