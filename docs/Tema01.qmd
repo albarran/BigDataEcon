@@ -109,24 +109,20 @@ library(kableExtra)
 
 ## Documentos de Quarto: Crear y Guardar
 
-* Como siempre en Positron, el proyecto es una **carpeta**: cread una carpeta para el informe (o una subcarpeta en la del curso) y abridla con *File > Open Folder*
+* Abrid la **carpeta** del informe (*File > Open Folder*) y cread el documento en *File > New File... > Quarto Document*; guardadlo **con extensión `.qmd`**
 
-* Creamos un nuevo documento en *File > New File...* eligiendo *Quarto Document*
+![](figure/positron-quarto-guia.png){width="98%" fig-align="center"}
 
-* Lo guardamos con *File > Save* (o con el icono de la barra del editor, el segundo), poniéndole nombre **con extensión `.qmd`**
+::: {style="font-size: 78%;"}
+**1** *Preview* renderiza · **2** guardar · **3** el `.html` creado, en la carpeta · **4** el **visor**, donde sale el resultado
 
-* Se renderiza con **Preview**: el resultado sale en el **visor** de la derecha y, a la vez, se crea el fichero `.html` en la carpeta, donde lo vemos en el **Explorador**
-
-    + para verlo **como lo verá quien lo reciba**, hay que abrirlo desde el **explorador de archivos del sistema**, haciendo doble clic: así el `.html` se abre en el **navegador**, y un `.pdf` o un `.docx` en su programa
-
-![](figure/positron-quarto-guia.png){width="78%" fig-align="center"}
-
-::: {style="font-size: 70%;"}
-Atajos: `Ctrl+S` guarda, `Ctrl+Shift+K` renderiza. Y desde la **Terminal**, `quarto render informe.qmd`
+Para verlo **como lo verá quien lo reciba**, abridlo con doble clic desde el **explorador de archivos del sistema**: el `.html` se abre en el navegador, y un `.pdf` o `.docx` en su programa
 :::
 
 ::: {.notes}
-- Señalar las cuatro marcas de la imagen EN PANTALLA, sobre Positron, no sobre la slide.
+- Señalar las cuatro marcas EN PANTALLA, sobre Positron, no sobre la slide.
+- Atajos, por si preguntan: `Ctrl+S` guarda, `Ctrl+Shift+K` renderiza. Y desde la Terminal, `quarto render informe.qmd` (marginal: no abrir ese melón en clase).
+- En la captura el visor sale vacío porque se hizo antes de renderizar; en clase se ve lleno.
 - La casilla *Render on Save* renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo.
 :::
 

@@ -58,7 +58,9 @@ library(rio)
 library(knitr)
 ```
 
-- En este ejercicio vamos a practicar los conceptos básicos de R. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas [aquí](Tema00ej1_123456789.R).
+- En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas [aquí](Tema00ej1_123456789.R).
+
+- Recordad la regla con la IA: puede ayudaros a *entender* (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.
 
 ```{r}
 #| echo: false
@@ -203,6 +205,8 @@ export(mVentas2, "datos/Ventas2b.xlsx", overwrite = TRUE)
 ```
 
 a) Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx) y [`Ventas2b.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx) contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.
+
+    * PISTA: `rbind()` añade filas y `cbind()` columnas a un *data frame* (consultad la ayuda: `?rbind`).
 
 ```{r ej.2b}
 #| echo: false

@@ -29,36 +29,39 @@ format:
     # width: 3000
     # height: 2000
     # margin: 0.05
-  beamer:
-    handout: false
-    logo: figure/by-nc-sa2.png
-    titlegraphic: figure/by-nc-sa.png
-    theme:  Boadilla # Copenhagen # CambridgeUS #
-    outertheme: miniframes
-    colortheme: crane
-    section-titles: false
-    fontsize: 10pt
-    babel-lang: es
-    header-includes: |
-        \setbeamertemplate{footline}
-        {
-        \leavevmode%
-        \hbox{%
-        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-        \usebeamerfont{author in head/foot}\insertshortauthor%
-        \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-        \usebeamerfont{title in head/foot}\insertshorttitle%
-        \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
-        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
-        \end{beamercolorbox}}%
-        }
-       # - \setbeamertemplate{navigation symbols}{}
-       # - \setbeamertemplate{caption}[numbered]
-       # - \setbeamertemplate{headline}[page number]
-       # - \setbeameroption{show notes}
-       # - \setbeameroption{show notes on second screen}
+  # FORMATO beamer RETIRADO el 15-sep-2026 (Pedro: nadie ha pedido el PDF, y el render
+  # del sitio completo lo generaba solo, publicandolo en las tres webs). Para recuperarlo,
+  # descomentar este bloque entero.
+#  beamer:
+#    handout: false
+#    logo: figure/by-nc-sa2.png
+#    titlegraphic: figure/by-nc-sa.png
+#    theme:  Boadilla # Copenhagen # CambridgeUS #
+#    outertheme: miniframes
+#    colortheme: crane
+#    section-titles: false
+#    fontsize: 10pt
+#    babel-lang: es
+#    header-includes: |
+#        \setbeamertemplate{footline}
+#        {
+#        \leavevmode%
+#        \hbox{%
+#        \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+#        \usebeamerfont{author in head/foot}\insertshortauthor%
+#        \end{beamercolorbox}%
+#        \begin{beamercolorbox}[wd=.55\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+#        \usebeamerfont{title in head/foot}\insertshorttitle%
+#        \end{beamercolorbox}%
+#        \begin{beamercolorbox}[wd=.15\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+#        \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber
+#        \end{beamercolorbox}}%
+#        }
+#       # - \setbeamertemplate{navigation symbols}{}
+#       # - \setbeamertemplate{caption}[numbered]
+#       # - \setbeamertemplate{headline}[page number]
+#       # - \setbeameroption{show notes}
+#       # - \setbeameroption{show notes on second screen}
 execute:
   enabled: true      # execute code chunks
   eval: false        # by default, don't evaluate code chunks
