@@ -196,6 +196,13 @@
     "text": "(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
   },
   {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\nEl formulario de entrega se publicará aquí antes de la fecha límite."
+  },
+  {
     "objectID": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
     "href": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
     "title": "Tema 01 - Informes reproducibles con Quarto",
