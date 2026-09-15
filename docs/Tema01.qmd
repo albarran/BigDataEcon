@@ -323,14 +323,16 @@ Con alineación de columnas
 
 ## Editor Visual de Quarto en Positron
 
-* Un `.qmd` se puede editar de dos formas: viendo el **texto** tal cual (modo *source*), que es lo que hemos hecho hasta ahora, o en **modo visual**, donde se ve ya con su formato, como en un procesador de textos
+* Un `.qmd` se edita de dos formas: el **texto** tal cual (modo *source*), como hasta ahora, o en **modo visual**, ya con su formato
 
-* **Edit in Visual Mode** está en el menú `...` del editor, arriba a la derecha, y también en el menú del **botón derecho** sobre el documento
+* **Edit in Visual Mode** está en el menú `...` del editor, arriba a la derecha, y en el **menú contextual** que sale al pulsar el botón derecho sobre el documento
+
+* Para volver, la misma entrada dice **Edit in Source Mode**
 
 ![](figure/positron-quarto-menu-modo.png){width="72%" fig-align="center"}
 
 ::: {style="font-size: 70%;"}
-Para volver, la misma entrada dice *Edit in Source Mode*. Atajo en los dos sentidos: `Ctrl+Shift+F4`. También está en la paleta de comandos (`Ctrl+Shift+P`), que busca cualquier orden por su nombre
+Atajo: `Ctrl+Shift+F4`. También en la paleta de comandos (`Ctrl+Shift+P`)
 :::
 
 ::: {.notes}
