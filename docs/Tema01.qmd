@@ -387,11 +387,16 @@ mean(mtcars$mpg)
 
 * `echo: true` con `eval: false` es enseñar una instrucción sin lanzarla (p.e. `install.packages()`)
 
-* **¿Hay un menú para poner esto sin teclearlo?** En Positron, **no**: las opciones se escriben a mano. La documentación de Quarto lo dice explícitamente para el editor visual, donde el bloque se ve con su formato pero las opciones **siguen siendo texto** dentro de la celda
+* **¿Hay un menú para poner esto sin teclearlo?** En **RStudio** sí: cada celda lleva una rueda dentada que abre un diálogo con las opciones más comunes. En **Positron**, las opciones se escriben a mano
 
-    + en RStudio sí hay una rueda dentada en cada celda, con un diálogo para unas pocas opciones; es una de las diferencias entre los dos entornos
+    + también en el modo visual: el bloque se ve con su formato, pero las opciones siguen siendo texto dentro de la celda
 
-    + tampoco pasa nada: son dos líneas y se escriben antes de darse cuenta
+    + no es un problema: son dos líneas y se escriben antes de darse cuenta
+
+<!-- INTERNO: comprobado el 15-sep en la extension Quarto 1.137.0 instalada en Positron. No hay
+ningun comando ni icono para opciones de celda: el unico $(gear) de la extension es el del
+dialogo de crear proyecto. Si alguien ve una rueda en Positron, sera la del editor de NOTEBOOKS
+(.ipynb), que es otra cosa. Verificar de nuevo si cambia la version de la extension. -->
 
 ::: {.callout-note}
 **Ahora el ejercicio: apartado b)**, donde se piden estas tres combinaciones sobre `summary(mtcars)`.
