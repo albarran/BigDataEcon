@@ -126,35 +126,27 @@ ii. Incluye la opción `code-fold: true` en la cabecera. Comprobar cómo cambia 
 
 iii. Elige un tema entre [estos](https://bootswatch.com/3/) y aplícalo al documento.
 
-<!-- ENTREGA COMENTADA (15-sep-2026). Pedro: de momento fuera; se pondra cuando exista el
-formulario de 2026-27. El enlace que habia (https://forms.gle/j5dQJwrhDqyoaKRf9) es del CURSO
-PASADO: en el inventario de Drive, `Tema01ej` figura modificado el 19-oct-2025, asi que las
-entregas de este curso habrian ido a la carpeta del anterior.
-OJO al recuperarlo: NO se anuncia por UACloud (eso me lo invente yo).
-
 ## Entrega del ejercicio
 
 ::: {.callout-important}
-El ejercicio se va haciendo **durante las clases del tema**, apartado a apartado, y se entrega al
-terminarlo. El formulario de entrega se publicará aquí.
+Este ejercicio se va haciendo **durante las clases del tema**, apartado a apartado, y **se
+entrega** al terminarlo, por el **[formulario de entrega](https://docs.google.com/forms/d/1e4cRNGc88429As0-I2L-MTXaZXyGKC14OEsTx61g8Jg/viewform)**.
 :::
 
-<!-- INTERNO (15-sep-2026): retirado el enlace https://forms.gle/j5dQJwrhDqyoaKRf9 porque ese
-formulario es del CURSO PASADO (en el inventario de Drive, `Tema01ej` figura modificado el
-19-oct-2025). Publicarlo con ese enlace mandaría las entregas de este curso a la carpeta del
-anterior. Al crear el formulario de 2026-27, sustituir este bloque por el enlace nuevo. -->
+Subid **dos ficheros**, nombrados con vuestro DNI:
 
-Rellenad el formulario de entrega con vuestros datos y subid
+* `T01_E1_<DNI>.qmd`
+* `T01_E1_<DNI>.html`, el resultado de renderizarlo
 
-  - vuestro archivo de .qmd
+Para que el `.html` se vea bien por sí solo, renderizad con `embed-resources: true` en la
+cabecera: así queda un único fichero autocontenido y no hace falta el directorio que lo
+acompaña (apartado a.vii).
 
-  - el resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
 
-IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
-
-  * Tema01ej_123456789.qmd
-
-  * Tema01ej_123456789.html
-
-  * Tema01ej_123456789.zip
--->
+<!-- INTERNO (21-sep-2026): formulario de RECOGIDA DE TRABAJO DE CLASE del curso 26-27,
+id 1e4cRNGc88429As0-I2L-MTXaZXyGKC14OEsTx61g8Jg. Es UNO SOLO para todo el curso y las tres
+asignaturas; no hay un formulario por ejercicio (ver 0admin/sistema-evaluacion-2026-27.md §6).
+Nace CERRADO: hay que abrirlo con abrirF1() el dia de la recogida y cerrarlo con cerrarF1().
+El enlace viejo https://forms.gle/j5dQJwrhDqyoaKRf9 era del CURSO PASADO: no reutilizarlo. -->
