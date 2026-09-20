@@ -81,14 +81,14 @@
     "href": "docs/Tema01ej.html",
     "title": "Tema 01 - Ejercicio de Quarto",
     "section": "",
-    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema01ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
+    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: T01_E1_&lt;DNI&gt;.qmd (por ejemplo, T01_E1_12345678.qmd)\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
   },
   {
     "objectID": "docs/Tema01ej.html#apartado-a",
     "href": "docs/Tema01ej.html#apartado-a",
     "title": "Tema 01 - Ejercicio de Quarto",
     "section": "",
-    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI: Tema01ej_123456789.qmd\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
+    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: T01_E1_&lt;DNI&gt;.qmd (por ejemplo, T01_E1_12345678.qmd)\nRenderiza tu documento para visualizar el documento html creado.\nComprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
   },
   {
     "objectID": "docs/Tema01ej.html#apartado-b",
@@ -186,21 +186,21 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
+    "text": "(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\nSe entrega por el formulario de entrega: T01_E1_&lt;DNI&gt;.qmd y T01_E1_&lt;DNI&gt;.html."
   },
   {
     "objectID": "Contenidos.html#semana-2",
     "href": "Contenidos.html#semana-2",
     "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\nEl formulario de entrega se publicará aquí antes de la fecha límite."
+    "section": "",
+    "text": "(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\nSe entrega por el formulario de entrega: T01_E1_&lt;DNI&gt;.qmd y T01_E1_&lt;DNI&gt;.html."
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
   },
   {
     "objectID": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
