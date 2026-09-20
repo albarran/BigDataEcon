@@ -141,7 +141,6 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
     - El ejercicio se va haciendo **durante las clases del tema**: las transparencias indican
       en qué momento toca cada apartado.
-    - Se entrega por el [formulario de entrega](https://docs.google.com/forms/d/1e4cRNGc88429As0-I2L-MTXaZXyGKC14OEsTx61g8Jg/viewform): `T01_E1_<DNI>.qmd` y `T01_E1_<DNI>.html`.
 
 ## Semana 1
 (07-Sept. a 11-Sept.)
