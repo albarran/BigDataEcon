@@ -116,7 +116,14 @@
     "href": "docs/Tema01ej.html#apartado-e",
     "title": "Tema 01 - Ejercicio de Quarto",
     "section": "Apartado e)",
-    "text": "Apartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento.\n\nRellenad el formulario de entrega con vuestros datos y subid\n\nvuestro archivo de .qmd\nel resultado de renderizarlo: bien un archivo autocontenido .html (o .pdf o .docx) o bien un archivo .html y el directorio relacionado con el mismo nombre; en ambos casos, se recomienda comprimir todo para enviarlo.\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema01ej_123456789.qmd\nTema01ej_123456789.html\nTema01ej_123456789.zip –&gt;"
+    "text": "Apartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento."
+  },
+  {
+    "objectID": "docs/Tema01ej.html#entrega-del-ejercicio",
+    "href": "docs/Tema01ej.html#entrega-del-ejercicio",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\n\n\n\n\n\n\nImportante\n\n\n\nEste ejercicio se va haciendo durante las clases del tema, apartado a apartado, y se entrega al terminarlo, por el formulario de entrega.\n\n\nSubid dos ficheros, nombrados con vuestro DNI:\n\nT01_E1_&lt;DNI&gt;.qmd\nT01_E1_&lt;DNI&gt;.html, el resultado de renderizarlo\n\nPara que el .html se vea bien por sí solo, renderizad con embed-resources: true en la cabecera: así queda un único fichero autocontenido y no hace falta el directorio que lo acompaña (apartado a.vii).\nNo se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os quedáis a medias, entregad lo que tengáis."
   },
   {
     "objectID": "docs/Tema00ej1.html",
