@@ -52,7 +52,7 @@ iii. Escribe una **breve** frase introductoria general, una lista que enumere do
 
       Nota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.
 
-iv. Guarda el documento con un nombre con el siguiente formato que incluye vuestro número de DNI:  `Tema01ej_123456789.qmd`
+iv. Guarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI:  `T01_E1_<DNI>.qmd` (por ejemplo, `T01_E1_12345678.qmd`)
 
 v. Renderiza tu documento para visualizar el documento html creado.
 
