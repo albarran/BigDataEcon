@@ -130,7 +130,7 @@ iii. Elige un tema entre [estos](https://bootswatch.com/3/) y aplícalo al docum
 
 ::: {.callout-important}
 Este ejercicio se va haciendo **durante las clases del tema**, apartado a apartado, y **se
-entrega** al terminarlo, por el **[formulario de entrega](https://docs.google.com/forms/d/1e4cRNGc88429As0-I2L-MTXaZXyGKC14OEsTx61g8Jg/viewform)**.
+entrega** al terminarlo, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**.
 :::
 
 Subid **dos ficheros**, nombrados con vuestro DNI:
@@ -144,6 +144,11 @@ acompaña (apartado a.vii).
 
 No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
 quedáis a medias, entregad lo que tengáis.
+
+::: {.callout-warning}
+**La entrega se cierra al acabar la clase.** Se admite un margen de **15 minutos** desde el final
+de la sesión; lo que llegue más tarde no se tiene en cuenta. La hora de envío queda registrada.
+:::
 
 <!-- INTERNO (21-sep-2026): formulario de RECOGIDA DE TRABAJO DE CLASE del curso 26-27,
 id 1e4cRNGc88429As0-I2L-MTXaZXyGKC14OEsTx61g8Jg. Es UNO SOLO para todo el curso y las tres
