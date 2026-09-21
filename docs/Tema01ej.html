@@ -4173,8 +4173,9 @@ Universidad de Alicante</p>
 <p>Nota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.</p></li>
 <li><p>Guarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: <code>T01_E1_&lt;DNI&gt;.qmd</code> (por ejemplo, <code>T01_E1_12345678.qmd</code>)</p></li>
 <li><p>Renderiza tu documento para visualizar el documento html creado.</p>
-<p>Comprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.</p></li>
-<li><p>Cambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.</p>
+<p>Comprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.</p></li>
+<li><p>Cambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son <code>docx</code>, <code>typst</code> y <code>pdf</code>; <code>docx</code> y <code>typst</code> no necesitan instalar nada.</p>
+<p><strong>Modifica</strong> el bloque YAML que ya tienes: no añadas un segundo bloque <code>---</code>, porque entonces no renderiza.</p>
 <p>Comprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.</p></li>
 <li><p>Borra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.</p></li>
 </ol>
@@ -4182,11 +4183,13 @@ Universidad de Alicante</p>
 <section id="apartado-b" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-b">Apartado b)</h2>
 <ol type="i">
+<li><p>Crea, justo debajo de la cabecera, la <strong>primera celda del documento</strong>: la que prepara el entorno. Ponle la opción <code>include: false</code>, para que se ejecute sin que se vea, y carga en ella la biblioteca <code>AER</code>, que ya usaste en el Tema 00.</p>
+<p>Todo documento de Quarto empieza así: las bibliotecas que necesite el documento se declaran ahí.</p></li>
 <li><p>Escribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable <code>mpg</code> del conjunto de datos <code>mtcars</code>.</p></li>
 <li><p>Crear y dar un nombre a una sub-sección que incluya lo siguiente.</p>
 <ul>
 <li><p>Tres celdas, todas con el código <code>summary(mtcars)</code>. La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.</p></li>
-<li><p>Cargar las bibliotecas <code>AER</code> y <code>Hmisc</code> en una nueva celda de código. Cambia los valores de <code>warning</code>, <code>error</code> y <code>message</code> y renderiza el documento para observar los cambios. Comentar los cambios <strong>brevemente</strong> y qué forma de presentación prefieres para tu documento.</p></li>
+<li><p>Cargar la biblioteca <code>Hmisc</code> en una nueva celda de código. Cambia los valores de <code>warning</code>, <code>error</code> y <code>message</code> y renderiza el documento para observar los cambios. Comentar los cambios <strong>brevemente</strong> y qué forma de presentación prefieres para tu documento.</p></li>
 </ul></li>
 <li><p>Crear y dar nombre a otra sub-sección.</p>
 <ul>
@@ -4218,15 +4221,11 @@ Universidad de Alicante</p>
 </ul></li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> <span class="fu">kbl</span>()  <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mtcars) <span class="sc">|&gt;</span> <span class="fu">kbl</span>()  <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> <span class="fu">kbl</span>()  <span class="sc">|&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> F)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mtcars) <span class="sc">|&gt;</span> <span class="fu">kbl</span>()  <span class="sc">|&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="fu">kbl</span>(mtcars))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="fu">kbl</span>(<span class="fu">summary</span>(mtcars)))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_classic</span>(<span class="fu">kbl</span>(mtcars), <span class="at">full_width =</span> F)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_minimal</span>(<span class="fu">kbl</span>(<span class="fu">summary</span>(mtcars)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Comentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.</p>
 </section>
