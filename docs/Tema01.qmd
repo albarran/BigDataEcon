@@ -138,13 +138,15 @@ library(kableExtra)
 
   + solo podemos visualizar correctamente el archivo .html en cualquier navegador si copiamos a otro lugar tanto el .html como el subdirectorio
 
-* Para crear **PDF** hay dos caminos:
+* Los formatos de salida posibles son **html** (el que viene por defecto), **Word** y **PDF**. Más adelante veremos dónde se elige
 
-  + `format: pdf` usa [LaTeX](https://es.wikipedia.org/wiki/LaTeX), que hay que instalar una vez (en la pestaña **Terminal**, a la derecha de la consola): `quarto install tool tinytex`
+* Para **PDF** hay dos caminos:
 
-  + `format: typst` **no necesita instalar nada**: Quarto ya lo trae incorporado, y es mucho más rápido
+  + por **LaTeX**, que hay que instalar una vez (en la pestaña **Terminal**, a la derecha de la consola): `quarto install tool tinytex`
 
-* Para este curso, con `html` basta. Si alguien quiere PDF, **typst** es el camino corto
+  + por **typst**, que **no necesita instalar nada**: Quarto ya lo trae incorporado, y es mucho más rápido
+
+* Para este curso, con html basta. Word y typst tampoco necesitan instalar nada
 
 ::: {.notes}
 - Comprobado en la documentación de Quarto (15-sep-2026): "Quarto includes the Typst CLI so no separate installation of Typst is required".
@@ -156,7 +158,7 @@ library(kableExtra)
 
 * **Preview** es un **desplegable**: su flecha abre *Preview Format...*, que lista los formatos y renderiza al que se elija, sin tocar la cabecera
 
-* Aparecen el **declarado** en el YAML (*Declared Formats*) y los demás (*Other Formats*): PDF con typst, PDF con LaTeX y Word
+* Aparece el que **ya lleva el documento** (*Declared Formats*) y los demás (*Other Formats*): PDF con typst, PDF con LaTeX y Word
 
 ![](figure/positron-quarto-preview-formato.png){width="50%" fig-align="center"}
 
@@ -167,7 +169,7 @@ library(kableExtra)
 
 
 ::: {.callout-note}
-**Ahora el ejercicio: apartado a)**, donde se crea la carpeta, el .qmd, la cabecera y se renderiza a dos formatos.
+**Ahora el ejercicio: apartado a), puntos i, ii, iv y v**: crear la carpeta y el documento, guardarlo con su nombre y renderizarlo.
 :::
 
 ## Documentos de Quarto: Texto con Markdown
@@ -381,9 +383,7 @@ Atajo: `Ctrl+Shift+F4`. También en la paleta de comandos (`Ctrl+Shift+P`)
     + en **modo visual** se inserta desde *Insert > YAML Metadata...*, sin escribir los `---`
 
 
-* Los formatos de salida son `html`, `pdf`, `docx` (y otros en *Quarto Presentations*)
-
-* También se especifican opciones globales del documento, algunas *específicas* de cada tipo de salida (ver la referencia para [`html`](https://quarto.org/docs/reference/formats/html.html) y  otros formatos)
+* Los formatos de salida son `html`, `pdf`, `docx` (y otros en *Quarto Presentations*), y también opciones globales, algunas propias de cada formato ([referencia](https://quarto.org/docs/reference/formats/html.html))
 
         ---
         title: "Título"
@@ -396,6 +396,10 @@ Atajo: `Ctrl+Shift+F4`. También en la paleta de comandos (`Ctrl+Shift+P`)
             embed-resources: true  # archivo html autocontenido
             theme: united          # más temas: https://bootswatch.com/3/
         ---
+
+::: {style="font-size: 78%;"}
+**Y ahora el resto del apartado a): iii, vi y vii.**
+:::
 
 ## Fragmentos o celdas de código
 
@@ -427,19 +431,15 @@ mean(mtcars$mpg)
 
 * `echo` (¿se **ve** el código?) y `eval` (¿se **ejecuta**?) son independientes:
 
-|                             | se ve el código | se ejecuta | se ve el resultado |
-|-----------------------------|:---------------:|:----------:|:------------------:|
-| `echo: true`  `eval: true`  | sí | sí | sí |
-| `echo: false` `eval: true`  | **no** | sí | sí |
-| `echo: true`  `eval: false` | sí | **no** | no |
-
-::: {.callout-note}
-**Ahora el ejercicio: apartado b)**, con estas tres combinaciones sobre `summary(mtcars)`.
-:::
+| `echo` | `eval` | se ve el código | se ejecuta | se ve el resultado |
+|:------:|:------:|:---------------:|:----------:|:------------------:|
+| `true`  | `true`  | sí | sí | sí |
+| `false` | `true`  | **no** | sí | sí |
+| `true`  | `false` | sí | **no** | no |
 
 ::: {.notes}
 - El error de todos los años: escribir `#` en vez de `#|`. Provocarlo en vivo.
-- Si un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iii del ejercicio.
+- Si un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iv del ejercicio.
 - Las opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí).
 :::
 
@@ -463,6 +463,32 @@ mean(mtcars$mpg)
 
 ::: {.notes}
 - Ninguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que `include: false` ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo.
+:::
+
+## La primera celda del documento
+
+* Todo documento empieza con una celda que **prepara el entorno**: ahí se declaran las **bibliotecas** que se van a usar y se ejecuta lo que necesiten las demás celdas
+
+* Lleva `include: false`: se ejecuta, pero no se ve ni ella ni sus mensajes
+
+```{{r}}
+#| include: false
+library(AER)
+```
+
+* Hace falta porque al renderizar se abre una **sesión de R nueva y vacía**: el documento no ve nada de lo que tengáis en la consola y tiene que cargar lo suyo
+
+* Cogedlo como costumbre: primera celda, entorno preparado. Vale para el resto del curso
+
+::: {.callout-note}
+**Ahora el ejercicio: apartado b)**, empezando por esa primera celda.
+:::
+
+::: {.notes}
+- Es el hábito que más se arrastra: en los ejercicios largos y en el trabajo final la primera celda será siempre esta.
+- Va despues de las opciones porque usa `include: false`, que acaban de ver.
+- `AER` la conocen del Tema 00 (ahi se instala y se carga). No se estrena una biblioteca nueva en la celda que sirve de modelo.
+- Comprobado el 21-sep: un .qmd con solo texto y `r mean(mtcars$mpg)` renderiza el codigo literal, sin ejecutar; basta una celda de R para que funcione. Es otra razon para la celda inicial, pero no se cuenta en la transparencia.
 :::
 
 ## Opciones de presentación
@@ -595,9 +621,9 @@ saben qué opciones poner y no se atascan ahí.
 
   * nos aseguramos de que no hay errores (ej.,  objetos previos no definidos)
 
-* Para garantizar que la sesión actual incluye sólo resultados de las celdas del .qmd, incluimos una celda inicial con `include: false` con
+* La **celda inicial** que ya hemos visto sirve también para esto: como lleva `include: false`, se puede poner en ella
 
-    - `rm(list = ls())`: al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos
+    - `rm(list = ls())`: al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos, sólo con lo del .qmd
 
     - Todas las **bibliotecas** que se usen en varias celdas (con `library()`, como en el Tema 00)
 
@@ -627,6 +653,9 @@ knitr::kable(head(mtcars[, 1:5]))
 ::: {.notes}
 - Para ir más lejos: `broom::tidy()` convierte resultados de modelos en tablas; `modelsummary` genera tablas de regresión y de descriptivos; también existen `printr`, `pander`, `stargazer` y `xtable`. La versión completa de esta lista está en el comentario de debajo.
 - No nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.
+- El ejercicio (d.ii) da las ordenes anidadas, `kable_styling(kbl(mtcars))`, no con el pipe
+  `|>`, que no se ha visto. En la documentacion de kableExtra aparecen con pipe: si alguien
+  copia de ahi y pregunta, es lo mismo escrito al reves. No abrir el tema en clase.
 :::
 
 <!-- CONSERVADO 15-sep-2026: contenido que esta slide tenia antes y que se retiro de la

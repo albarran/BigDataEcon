@@ -56,9 +56,11 @@ iv. Guarda el documento con un nombre con el siguiente formato, que incluye tu n
 
 v. Renderiza tu documento para visualizar el documento html creado.
 
-    Comprueba en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.
+    Comprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.
 
-vi. Cambia a otro formato de salida en el encabezado YAML y genera otro documento de salida.
+vi. Cambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son `docx`, `typst` y `pdf`; `docx` y `typst` no necesitan instalar nada.
+
+    **Modifica** el bloque YAML que ya tienes: no añadas un segundo bloque `---`, porque entonces no renderiza.
 
     Comprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.
 
@@ -66,15 +68,19 @@ vii. Borra el documento html y el subdirectorio con el mismo nombre generados pr
 
 ## Apartado b)
 
-i. Escribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable `mpg` del conjunto de datos `mtcars`.
+i. Crea, justo debajo de la cabecera, la **primera celda del documento**: la que prepara el entorno. Ponle la opción `include: false`, para que se ejecute sin que se vea, y carga en ella la biblioteca `AER`, que ya usaste en el Tema 00.
 
-ii. Crear y dar un nombre a una sub-sección que incluya lo siguiente.
+    Todo documento de Quarto empieza así: las bibliotecas que necesite el documento se declaran ahí.
 
-    * Tres celdas, todas con el código `summary(mtcars)`. La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.
+ii. Escribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable `mpg` del conjunto de datos `mtcars`.
 
-    * Cargar las bibliotecas `AER` y `Hmisc` en una nueva celda de código. Cambia los valores de `warning`, `error` y `message` y renderiza el documento para observar los cambios. Comentar los cambios **brevemente** y qué forma de presentación prefieres para tu documento.
+iii. Crear y dar un nombre a una sub-sección que incluya lo siguiente.
 
-iii. Crear y dar nombre a otra sub-sección.
+     * Tres celdas, todas con el código `summary(mtcars)`. La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.
+
+     * Cargar la biblioteca `Hmisc` en una nueva celda de código. Cambia los valores de `warning`, `error` y `message` y renderiza el documento para observar los cambios. Comentar los cambios **brevemente** y qué forma de presentación prefieres para tu documento.
+
+iv. Crear y dar nombre a otra sub-sección.
 
       * Añadir una celda con el código `a <- 2`, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código `b <- 3 + a` y que sí se evalúe. Renderizar el documento y comprobar que da un error.
       * Cambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.
@@ -103,15 +109,11 @@ ii. Crear una sub-sección. Incluir un nuevo fragmento de código (que sí se ev
 ```{r}
 #| echo: true
 #| eval: false
-mtcars |> kbl()  |>
-  kable_styling()
-summary(mtcars) |> kbl()  |>
-  kable_styling()
+kable_styling(kbl(mtcars))
+kable_styling(kbl(summary(mtcars)))
 
-mtcars |> kbl()  |>
-  kable_classic(full_width = F)
-summary(mtcars) |> kbl()  |>
-  kable_minimal()
+kable_classic(kbl(mtcars), full_width = F)
+kable_minimal(kbl(summary(mtcars)))
 ```
 
 Comentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.
