@@ -8,7 +8,7 @@
 
 <meta name="author" content="Pedro Albarrán">
 
-<title>Tema 01 - Ejercicio de Quarto</title>
+<title>Tema 02 - Visualización de datos</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -4118,12 +4118,16 @@ scrollbar-width: thin;
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#apartado-a" id="toc-apartado-a" class="nav-link active" data-scroll-target="#apartado-a">Apartado a)</a></li>
+  <li><a href="#antes-de-empezar" id="toc-antes-de-empezar" class="nav-link active" data-scroll-target="#antes-de-empezar">Antes de empezar</a></li>
+  <li><a href="#ejercicio-1-la-clientela" id="toc-ejercicio-1-la-clientela" class="nav-link" data-scroll-target="#ejercicio-1-la-clientela">Ejercicio 1: la clientela</a>
+  <ul class="collapse">
+  <li><a href="#apartado-a" id="toc-apartado-a" class="nav-link" data-scroll-target="#apartado-a">Apartado a)</a></li>
   <li><a href="#apartado-b" id="toc-apartado-b" class="nav-link" data-scroll-target="#apartado-b">Apartado b)</a></li>
   <li><a href="#apartado-c" id="toc-apartado-c" class="nav-link" data-scroll-target="#apartado-c">Apartado c)</a></li>
   <li><a href="#apartado-d" id="toc-apartado-d" class="nav-link" data-scroll-target="#apartado-d">Apartado d)</a></li>
-  <li><a href="#apartado-e" id="toc-apartado-e" class="nav-link" data-scroll-target="#apartado-e">Apartado e)</a></li>
-  <li><a href="#entrega-del-ejercicio" id="toc-entrega-del-ejercicio" class="nav-link" data-scroll-target="#entrega-del-ejercicio">Entrega del ejercicio</a></li>
+  </ul></li>
+  <li><a href="#ejercicio-2-corporaciones-y-startups" id="toc-ejercicio-2-corporaciones-y-startups" class="nav-link" data-scroll-target="#ejercicio-2-corporaciones-y-startups">Ejercicio 2: corporaciones y startups</a></li>
+  <li><a href="#ejercicio-3-reservas-de-hotel" id="toc-ejercicio-3-reservas-de-hotel" class="nav-link" data-scroll-target="#ejercicio-3-reservas-de-hotel">Ejercicio 3: reservas de hotel</a></li>
   </ul>
 </nav>
     </div>
@@ -4132,9 +4136,8 @@ scrollbar-width: thin;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tema 01 - Ejercicio de Quarto</h1>
-<p class="subtitle lead">Técnicas para ‘Big Data’ en Economía - Curso 2026/27<br>
-Universidad de Alicante</p>
+<h1 class="title">Tema 02 - Visualización de datos</h1>
+<p class="subtitle lead">Ejercicios del tema</p>
 </div>
 
 
@@ -4164,110 +4167,123 @@ Universidad de Alicante</p>
 </header>
 
 
+<section id="antes-de-empezar" class="level1">
+<h1>Antes de empezar</h1>
+<p>Estos ejercicios se van haciendo <strong>durante las clases del tema</strong>: las transparencias indican en qué momento toca cada uno.</p>
+<p>Cada ejercicio va en <strong>su propio documento <code>.qmd</code></strong>, con su cabecera, su primera celda de entorno (la que lleva <code>include: false</code>) y una sección por apartado. Cada uno usa <strong>sus propios datos</strong>, que se cargan en esa primera celda.</p>
+<p>Los documentos se llaman <strong><code>T02_E&lt;n&gt;_&lt;DNI&gt;.qmd</code></strong>, donde <code>&lt;n&gt;</code> es el número del ejercicio y el DNI va sin la letra: <code>T02_E1_12345678.qmd</code> para el ejercicio 1, <code>T02_E2_12345678.qmd</code> para el 2, y así.</p>
+</section>
+<section id="ejercicio-1-la-clientela" class="level1">
+<h1>Ejercicio 1: la clientela</h1>
+<p>Trabajamos con <code>clientes</code>: 300 fichas de la clientela de nuestra cadena de gimnasios.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/datosVisualizacion.RData&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <section id="apartado-a" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-a">Apartado a)</h2>
-<ol type="i">
-<li><p>Crea una carpeta para el ejercicio y ábrela en Positron (<em>File &gt; Open Folder</em>); crea un nuevo documento .qmd (<em>File &gt; New File… &gt; Quarto Document</em>). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).</p></li>
-<li><p>Crea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para <strong>cada apartado</strong> posterior debes crear <strong>una nueva sección</strong> correspondiente al apartado.</p></li>
-<li><p>Escribe una <strong>breve</strong> frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.</p>
-<p>Nota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.</p></li>
-<li><p>Guarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: <code>T01_E1_&lt;DNI&gt;.qmd</code> (por ejemplo, <code>T01_E1_12345678.qmd</code>)</p></li>
-<li><p>Renderiza tu documento para visualizar el documento html creado.</p>
-<p>Comprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.</p></li>
-<li><p>Cambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son <code>docx</code>, <code>typst</code> y <code>pdf</code>; <code>docx</code> y <code>typst</code> no necesitan instalar nada.</p>
-<p><strong>Modifica</strong> el bloque YAML que ya tienes: no añadas un segundo bloque <code>---</code>, porque entonces no renderiza.</p>
-<p>Comprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.</p></li>
-<li><p>Borra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar.</p></li>
+<ol type="1">
+<li><p>Dibuja la relación entre <code>ingresos</code> y <code>gasto</code> con <code>geom_point()</code>.</p></li>
+<li><p>Pinta TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda).</p></li>
+<li><p>Ejecuta esto y describe qué ves: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?</p></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clientes, <span class="fu">aes</span>(<span class="at">x =</span> ingresos, <span class="at">y =</span> gasto)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="4" type="1">
+<li><p>Distingue el <code>segmento</code> por color y el <code>canal</code> por forma. Y ahora añade además <code>size = edad</code>. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira? Quédate con la versión que sí se lee y di por qué.</p></li>
+<li><p>Añade <code>size = 4</code> dentro de <code>aes()</code> y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla te sirve para decidirlo?</p></li>
 </ol>
 </section>
 <section id="apartado-b" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-b">Apartado b)</h2>
-<ol type="i">
-<li><p>Crea, justo debajo de la cabecera, la <strong>primera celda del documento</strong>: la que prepara el entorno. Ponle la opción <code>include: false</code>, para que se ejecute sin que se vea, y carga en ella la biblioteca <code>AER</code>, que ya usaste en el Tema 00.</p>
-<p>Todo documento de Quarto empieza así: las bibliotecas que necesite el documento se declaran ahí.</p></li>
-<li><p>Escribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable <code>mpg</code> del conjunto de datos <code>mtcars</code>.</p></li>
-<li><p>Crear y dar un nombre a una sub-sección que incluya lo siguiente.</p>
-<ul>
-<li><p>Tres celdas, todas con el código <code>summary(mtcars)</code>. La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.</p></li>
-<li><p>Cargar la biblioteca <code>Hmisc</code> en una nueva celda de código. Cambia los valores de <code>warning</code>, <code>error</code> y <code>message</code> y renderiza el documento para observar los cambios. Comentar los cambios <strong>brevemente</strong> y qué forma de presentación prefieres para tu documento.</p></li>
-</ul></li>
-<li><p>Crear y dar nombre a otra sub-sección.</p>
-<ul>
-<li>Añadir una celda con el código <code>a &lt;- 2</code>, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código <code>b &lt;- 3 + a</code> y que sí se evalúe. Renderizar el documento y comprobar que da un error.</li>
-<li>Cambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida.</li>
-</ul></li>
+<p>Sobre el gráfico del apartado a), con el <code>segmento</code> por color.</p>
+<ol type="1">
+<li><strong>Etiqueta a quienes más gastan.</strong> Como solo quieres unas pocas fichas, esa capa lleva sus propios datos, igual que hicimos en clase con los países:</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> clientes[clientes<span class="sc">$</span>gasto <span class="sc">&gt;</span> <span class="dv">7000</span>, ]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<pre><code> y encima una capa `geom_text_repel(data = top, aes(label = round(gasto)))`.</code></pre>
+<ol start="2" type="1">
+<li>¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras <code>clientes</code> entero?</li>
 </ol>
 </section>
 <section id="apartado-c" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-c">Apartado c)</h2>
-<ol type="i">
-<li>Crear una celda con este código, que muestra un gráfico de puntos con los datos de <code>mtcars</code> para las variables <code>disp</code> (tamaño del motor) y <code>mpg</code> (consumo); los gráficos los estudiaremos en el próximo tema, aquí solo nos importa cómo se integran en el documento:</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg, <span class="at">sub =</span> <span class="st">&quot;Consumo frente a tamaño del motor&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="2" type="i">
-<li>Crear una nueva celda de código con dos gráficos de caja (<code>boxplot(mtcars$disp)</code> y <code>boxplot(mtcars$mpg)</code>) y usar las opciones de celda para que se muestren uno al lado del otro.</li>
+<ol type="1">
+<li><p>Número de clientes de cada <code>segmento</code>, con <code>geom_bar()</code>. ¿Dónde está la tabla de frecuencias que has usado?</p></li>
+<li><p>Lo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: tienes el patrón con <code>after_stat(prop)</code> en las transparencias. ¿Qué cambia respecto al gráfico anterior, y qué NO cambia?</p>
+<p>Quita ahora <code>group = 1</code> y mira el resultado: las tres barras valen 1. ¿Proporción respecto a qué está calculando en cada caso?</p></li>
+<li><p>Distribución del <code>gasto</code> con <code>geom_histogram()</code>, probando <code>bins = 10</code>, <code>bins = 40</code> y <code>binwidth = 250</code>. ¿Cuál de las tres versiones le enseñarías a dirección y por qué?</p></li>
+<li><p>Repite las tres versiones con <code>ingresos</code>. ¿Hay un grupo de clientes de ingresos muy bajos? ¿Con cuál de las tres se ve y con cuáles no?</p></li>
+<li><p>Añade un <code>geom_boxplot()</code> del <code>gasto</code> por <code>segmento</code>.</p></li>
+<li><p>En una frase: ¿qué significa que un <code>geom</code> “tiene una estadística por defecto”?</p></li>
+<li><p>Vuelve al gráfico del apartado a) y añádele una <strong>recta de tendencia</strong> con <code>geom_smooth(method = &quot;lm&quot;, se = FALSE)</code>. ¿Qué dice esa recta que no dijera la nube de puntos?</p></li>
 </ol>
 </section>
 <section id="apartado-d" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-d">Apartado d)</h2>
-<ol type="i">
-<li><p>Crear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar <code>mtcars</code> y <code>summary(mtcars)</code>.</p></li>
-<li><p>Crear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:</p>
-<ul>
-<li>cargar la biblioteca <code>kableExtra</code> para poder usar la función <code>kbl()</code></li>
-<li>mostrar el resultado de <code>mtcars</code> y <code>summary(mtcars)</code> con la función <code>kbl()</code> con distintas opciones de estilo (una guía completa <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">aquí</a>). Por ejemplo</li>
-</ul></li>
+<ol type="1">
+<li><p>Vuelve al gráfico del apartado b) y divídelo en <strong>facetas</strong> por <code>canal</code>. ¿Se lee mejor así o con el color? ¿Por qué?</p></li>
+<li><p>Ponle <code>labs()</code> completo: título, nombres de los ejes <strong>con sus unidades</strong> y un <code>caption</code> con la fuente.</p></li>
+<li><p>Añade una <strong>línea de referencia</strong> horizontal en el gasto medio, y anótala con <code>annotate()</code> para que se entienda qué marca:</p></li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="fu">kbl</span>(mtcars))</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_styling</span>(<span class="fu">kbl</span>(<span class="fu">summary</span>(mtcars)))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_classic</span>(<span class="fu">kbl</span>(mtcars), <span class="at">full_width =</span> F)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kable_minimal</span>(<span class="fu">kbl</span>(<span class="fu">summary</span>(mtcars)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">mean</span>(clientes<span class="sc">$</span>gasto), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Comentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento.</p>
+<ol start="4" type="1">
+<li>Prueba al menos dos temas y quédate con uno. Prueba también uno profesional, de la biblioteca <code>ggthemes</code>:</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mi_grafico <span class="sc">+</span> <span class="fu">theme_economist</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="apartado-e" class="level2">
-<h2 class="anchored" data-anchor-id="apartado-e">Apartado e)</h2>
-<ol type="i">
-<li><p>Incluir la opción <code>df-print: paged</code> en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) <code>mtcars</code> en los apartados d.i) y d.ii).</p>
-<p>Comentar las diferencias y qué forma de presentación prefieres para tu documento.</p></li>
-<li><p>Incluye la opción <code>code-fold: true</code> en la cabecera. Comprobar cómo cambia el documento y comentar <strong>brevemente</strong> qué forma de presentación prefieres para tu documento.</p></li>
-<li><p>Elige un tema entre <a href="https://bootswatch.com/3/">estos</a> y aplícalo al documento.</p></li>
+</section>
+<section id="ejercicio-2-corporaciones-y-startups" class="level1">
+<h1>Ejercicio 2: corporaciones y startups</h1>
+<p>Una consultora de inversión compara el perfil de ingresos de cinco grandes corporaciones y cinco startups. Copia estos datos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>empresas <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">empresa =</span> <span class="fu">c</span>(<span class="st">&quot;Google&quot;</span>, <span class="st">&quot;Microsoft&quot;</span>, <span class="st">&quot;Apple&quot;</span>, <span class="st">&quot;Amazon&quot;</span>, <span class="st">&quot;Meta&quot;</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;TechStart&quot;</span>, <span class="st">&quot;InnovateLab&quot;</span>, <span class="st">&quot;DataFlow&quot;</span>, <span class="st">&quot;CloudVision&quot;</span>, <span class="st">&quot;AI-Solutions&quot;</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tipo =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Corporación&quot;</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="st">&quot;Startup&quot;</span>, <span class="dv">5</span>)),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ingresos_millones =</span> <span class="fu">c</span>(<span class="fl">3522.91</span>, <span class="fl">2831.89</span>, <span class="fl">2413.98</span>, <span class="fl">1751.65</span>, <span class="fl">1187.63</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                          <span class="fl">81.40</span>,   <span class="fl">62.83</span>,   <span class="fl">37.21</span>,   <span class="fl">15.80</span>,    <span class="fl">8.45</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="1">
+<li><p>Diagrama de cajas de <code>ingresos_millones</code> por <code>tipo</code>, en escala normal.</p></li>
+<li><p>El mismo gráfico con <code>scale_y_log10()</code>.</p></li>
+<li><p>Comparando los dos: ¿qué diferencias hay en la posición central y en la variabilidad dentro de cada grupo? ¿Cuál de los dos gráficos es más informativo, y por qué?</p></li>
+<li><p>Si esa variabilidad mide el riesgo de una inversión, ¿dónde es más arriesgado invertir?</p></li>
 </ol>
 </section>
-<section id="entrega-del-ejercicio" class="level2">
-<h2 class="anchored" data-anchor-id="entrega-del-ejercicio">Entrega del ejercicio</h2>
-<div class="callout callout-style-default callout-important callout-titled">
+<section id="ejercicio-3-reservas-de-hotel" class="level1">
+<h1>Ejercicio 3: reservas de hotel</h1>
+<p>Aquí nadie te dice qué gráfico dibujar: <strong>elegirlo es parte del ejercicio</strong>.</p>
+<p>El fichero <a href="https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv">hotels.csv</a> tiene una reserva por fila (<a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md">descripción de las variables</a>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hoteles <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">&quot;https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="1">
+<li><p>Una cadena hotelera quiere lanzar <strong>promociones por segmento de mercado</strong>, y antes necesita saber <strong>cuántas reservas vienen de cada segmento y si eso depende del tipo de hotel</strong>.</p>
+<p><code>market_segment</code> dice de dónde viene la reserva (<code>Online TA</code> son agencias de internet, <code>Corporate</code> empresas, <code>Groups</code> grupos, <code>Direct</code> reservas directas…) y <code>hotel</code> distingue el hotel urbano del vacacional.</p>
+<p>Dibuja <strong>la visualización que les permita decidir</strong>. Ajústala hasta que se entienda sola: título, etiquetas legibles, colores con sentido.</p></li>
+<li><p>Un directivo afirma que <strong>quien viaja con hijos reserva con más antelación</strong>, y quiere centrar ahí las promociones. Comprueba si es verdad con un gráfico. Tienes <code>lead_time</code> (días entre la reserva y la llegada) y <code>children</code> (número de niños).</p></li>
+<li><p>En <strong>dos frases</strong>: ¿qué le contestas al directivo? Si los datos no le dan la razón, dilo.</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Importante
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Este ejercicio se va haciendo <strong>durante las clases del tema</strong>, apartado a apartado, y <strong>se entrega</strong> al terminarlo, por el <strong><a href="https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform">formulario de entrega</a></strong>.</p>
-</div>
-</div>
-<p>Subid <strong>un solo <code>.zip</code></strong> con el <code>.qmd</code> y el <code>.html</code> dentro, llamado <strong><code>Tnn_En_DNI.zip</code></strong>: <code>nn</code> es el tema, <code>n</code> la entrega y el DNI va <strong>sin la letra</strong>. Aquí, <code>T01_E1_12345678.zip</code> con vuestro DNI.</p>
-<p>Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de confirmación si la entrega es correcta, o de rechazo si no lo es.</p>
-<p>Renderizad con <code>embed-resources: true</code> para que el <code>.html</code> se vea por sí solo (apartado a.vii).</p>
-<p>No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os quedáis a medias, entregad lo que tengáis.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Advertencia
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>La entrega se cierra al acabar la clase.</strong> Se admite un margen de <strong>15 minutos</strong> desde el final de la sesión; lo que llegue más tarde no se tiene en cuenta. La hora de envío queda registrada.</p>
+<p>Antes de escribir código, escribe en una línea <strong>qué pregunta</strong> tiene que contestar el gráfico y <strong>qué variables</strong> la contestan.</p>
 </div>
 </div>
 
