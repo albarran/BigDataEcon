@@ -14,6 +14,15 @@ strip-comments: true
   + [nsw.dta](https://raw.githubusercontent.com/albarran/00datos/main/nsw.dta)
   + [earn.RData](https://raw.githubusercontent.com/albarran/00datos/main/earn.RData)
 
+* Tema 02 (visualización):
+  + [datosVisualizacion.RData](https://raw.githubusercontent.com/albarran/00datos/main/datosVisualizacion.RData)
+  + [hotels.csv](https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv)
+
+<!-- pwt.csv: lo usa el ejercicio de FUERA DE CLASE (el grafico de The Economist). Se desvela
+cuando se desvele ese ejercicio, no antes.
+  + [pwt.csv](https://raw.githubusercontent.com/albarran/00datos/main/pwt.csv)
+-->
+
 <!--
 CURSO 2026-27: los datos de cada tema se desvelan al llegar al tema (mueve la marca de CIERRE
 de comentario hacia abajo, por debajo del tema que quieras mostrar). VERIFICAR antes de desvelar

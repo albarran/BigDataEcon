@@ -1,5 +1,8 @@
 project:
   type: website
+
+execute:
+  freeze: auto   # 23-sep-2026: solo recompila los .qmd que cambian (los resultados quedan en _freeze/)
   #resources: data
   resources:
     - "docs/*.R"

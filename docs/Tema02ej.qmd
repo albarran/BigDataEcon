@@ -1,0 +1,286 @@
+---
+title: "Tema 02 - Visualización de datos"
+subtitle: "Ejercicios del tema"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO (reescrito el 22-sep-2026; la version anterior, en `Tema02ej_old.qmd`).
+
+REGLA QUE ESTRUCTURA ESTE FICHERO (Pedro, 22-sep; vale para TODOS los temas): lo que se pide en
+una PRACTICA en clase es lo que se pide en el ejercicio. Tiene que haber CORRESPONDENCIA CLARA,
+no equivalencia mecanica: una practica puede ser un apartado, varios, o una seccion de uno.
+Caben variaciones pequenyas y justificadas. Lo prohibido es que practica y ejercicio sean cosas
+distintas. El alumno va haciendo el ejercicio a la vez que se ven las slides, con los callouts.
+(Error del mismo dia: borre el ejercicio de escalas "porque era identico a la practica 3". Justo
+por eso tenia que quedarse.)
+
+SEGUNDA REGLA: un conjunto de datos = un ejercicio con sus subapartados. Si se cambia de datos,
+es OTRO ejercicio. Por eso hay tres aqui.
+
+NADA SE PIDE ANTES DE VERSE (Pedro, 23-sep, dos veces). Donde sale cada cosa en las slides:
+  slide 11 "Datos y esteticas especificas por capa" -> etiquetar con datos propios  -> apartado b)
+  slide 12 "Datos transformados", pestanya Tendencia -> geom_smooth                  -> apartado c.7
+  slide 23 "Otros elementos de contexto"             -> geom_hline y annotate()      -> apartado d.3
+  slide 24 "Personalizar el aspecto"                 -> temas y ggthemes             -> apartado d.4
+
+CORRESPONDENCIA slides -> ejercicio:
+  Ejercicio 1 (clientes)   a) = PRACTICA 1 "¿rojo o 'rojo'?"
+                           b) = PRACTICA 2 "el grafico calcula por ti"
+                           c) contexto y aspecto: sin practica propia, se ve como ejemplo en
+                              las slides de facetas, labs() y temas.
+  Ejercicio 2 (empresas)   = PRACTICA 3 "la misma pregunta en dos escalas"
+  Ejercicio 3 (hoteles)    sin practica: es el unico que obliga a DECIDIR que grafico hace falta
+                           a partir de una pregunta de negocio. Por eso cuesta delegarlo en una IA.
+  Fuera de clase           `Tema02ej2.qmd`, el grafico de The Economist con `pwt.csv`.
+
+ENTREGAS (Pedro, 23-sep): UNA POR EJERCICIO, no una por sesion. Entrega 1 = ejercicio 1,
+entrega 2 = ejercicio 2, entrega 3 = ejercicio 3. Cual se recoge y cuando se decide sobre la
+marcha, asi que el enunciado no fija el nombre del fichero por adelantado.
+
+`pwt.csv` sale de la pagina Datos hasta que se desvele el ejercicio de fuera de clase.
+PENDIENTE: hay que volver a ABRIR el formulario de entrega (`abrirF1()`) cuando toque recoger.
+
+CIFRAS VERIFICADAS en R el 22-sep: cor(ingresos, gasto) = 0,595 · gasto medio = 3.094,7 € ·
+`hotels.csv` vivo (200). -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+rm(list = ls())
+library(ggplot2)
+```
+
+# Antes de empezar
+
+Estos ejercicios se van haciendo **durante las clases del tema**: las transparencias indican en
+qué momento toca cada uno.
+
+Cada ejercicio va en **su propio documento `.qmd`**, con su cabecera, su primera celda de
+entorno (la que lleva `include: false`) y una sección por apartado. Cada uno usa **sus propios
+datos**, que se cargan en esa primera celda.
+
+Los documentos se llaman **`T02_E<n>_<DNI>.qmd`**, donde `<n>` es el número del ejercicio y el
+DNI va sin la letra: `T02_E1_12345678.qmd` para el ejercicio 1, `T02_E2_12345678.qmd` para el 2,
+y así.
+
+# Ejercicio 1: la clientela
+
+Trabajamos con `clientes`: 300 fichas de la clientela de nuestra cadena de gimnasios.
+
+```{r}
+#| eval: false
+library(ggplot2)
+load("data/datosVisualizacion.RData")
+```
+
+## Apartado a)
+
+1. Dibuja la relación entre `ingresos` y `gasto` con `geom_point()`.
+
+2. Pinta TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda).
+
+3. Ejecuta esto y describe qué ves: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?
+
+```{r}
+#| eval: false
+ggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = "red"))
+```
+
+4. Distingue el `segmento` por color y el `canal` por forma. Y ahora añade además `size = edad`.
+   ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo
+   mira? Quédate con la versión que sí se lee y di por qué.
+
+5. Añade `size = 4` dentro de `aes()` y luego fuera. Una de las dos no tiene sentido: ¿cuál y
+   por qué? En una frase, ¿qué regla te sirve para decidirlo?
+
+## Apartado b)
+
+Sobre el gráfico del apartado a), con el `segmento` por color.
+
+1. **Etiqueta a quienes más gastan.** Como solo quieres unas pocas fichas, esa capa lleva sus
+   propios datos, igual que hicimos en clase con los países:
+
+```{r}
+#| eval: false
+top <- clientes[clientes$gasto > 7000, ]
+```
+
+     y encima una capa `geom_text_repel(data = top, aes(label = round(gasto)))`.
+
+2. ¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras `clientes` entero?
+
+## Apartado c)
+
+1. Número de clientes de cada `segmento`, con `geom_bar()`. ¿Dónde está la tabla de frecuencias
+   que has usado?
+
+2. Lo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte:
+   tienes el patrón con `after_stat(prop)` en las transparencias. ¿Qué cambia respecto al
+   gráfico anterior, y qué NO cambia?
+
+     Quita ahora `group = 1` y mira el resultado: las tres barras valen 1. ¿Proporción respecto
+     a qué está calculando en cada caso?
+
+3. Distribución del `gasto` con `geom_histogram()`, probando `bins = 10`, `bins = 40` y
+   `binwidth = 250`. ¿Cuál de las tres versiones le enseñarías a dirección y por qué?
+
+4. Repite las tres versiones con `ingresos`. ¿Hay un grupo de clientes de ingresos muy bajos?
+   ¿Con cuál de las tres se ve y con cuáles no?
+
+5. Añade un `geom_boxplot()` del `gasto` por `segmento`.
+
+6. En una frase: ¿qué significa que un `geom` "tiene una estadística por defecto"?
+
+7. Vuelve al gráfico del apartado a) y añádele una **recta de tendencia** con
+   `geom_smooth(method = "lm", se = FALSE)`. ¿Qué dice esa recta que no dijera la nube de puntos?
+
+## Apartado d)
+
+1. Vuelve al gráfico del apartado b) y divídelo en **facetas** por
+   `canal`. ¿Se lee mejor así o con el color? ¿Por qué?
+
+2. Ponle `labs()` completo: título, nombres de los ejes **con sus unidades** y un `caption` con
+   la fuente.
+
+3. Añade una **línea de referencia** horizontal en el gasto medio, y anótala con `annotate()`
+   para que se entienda qué marca:
+
+```{r}
+#| eval: false
++ geom_hline(yintercept = mean(clientes$gasto), linetype = "dashed", color = "red")
+```
+
+4. Prueba al menos dos temas y quédate con uno. Prueba también uno profesional, de la
+   biblioteca `ggthemes`:
+
+```{r}
+#| eval: false
+library(ggthemes)
+mi_grafico + theme_economist()
+```
+
+# Ejercicio 2: corporaciones y startups
+
+Una consultora de inversión compara el perfil de ingresos de cinco grandes corporaciones y cinco
+startups. Copia estos datos:
+
+```{r}
+#| eval: false
+empresas <- data.frame(
+  empresa = c("Google", "Microsoft", "Apple", "Amazon", "Meta",
+              "TechStart", "InnovateLab", "DataFlow", "CloudVision", "AI-Solutions"),
+  tipo = c(rep("Corporación", 5), rep("Startup", 5)),
+  ingresos_millones = c(3522.91, 2831.89, 2413.98, 1751.65, 1187.63,
+                          81.40,   62.83,   37.21,   15.80,    8.45))
+```
+
+1. Diagrama de cajas de `ingresos_millones` por `tipo`, en escala normal.
+
+2. El mismo gráfico con `scale_y_log10()`.
+
+3. Comparando los dos: ¿qué diferencias hay en la posición central y en la variabilidad dentro
+   de cada grupo? ¿Cuál de los dos gráficos es más informativo, y por qué?
+
+4. Si esa variabilidad mide el riesgo de una inversión, ¿dónde es más arriesgado invertir?
+
+::: {.content-hidden}
+RETIRADOS DEL ENUNCIADO (Pedro, 23-sep), no borrados: siguen en la PRACTICA 3 de clase, que es
+donde se discuten en voz alta. Si algun anyo se quieren pedir por escrito, estan aqui:
+
+5. Un compañero dice que usa logaritmos "para quitar los valores extremos". ¿Está bien dicho?
+   ¿Qué está haciendo en realidad la escala logarítmica?
+
+6. Pon título, ejes con unidades y color por tipo. El gráfico tiene que poder enseñarse solo,
+   sin que tú lo expliques al lado.
+:::
+
+# Ejercicio 3: reservas de hotel
+
+Aquí nadie te dice qué gráfico dibujar: **elegirlo es parte del ejercicio**.
+
+El fichero [hotels.csv](https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv) tiene
+una reserva por fila ([descripción de las variables](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md)):
+
+```{r}
+#| eval: false
+hoteles <- rio::import("https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv")
+```
+
+1. Una cadena hotelera quiere lanzar **promociones por segmento de mercado**, y antes necesita
+   saber **cuántas reservas vienen de cada segmento y si eso depende del tipo de hotel**.
+
+     `market_segment` dice de dónde viene la reserva (`Online TA` son agencias de internet,
+     `Corporate` empresas, `Groups` grupos, `Direct` reservas directas...) y `hotel` distingue
+     el hotel urbano del vacacional.
+
+     Dibuja **la visualización que les permita decidir**. Ajústala hasta que se entienda sola:
+     título, etiquetas legibles, colores con sentido.
+
+2. Un directivo afirma que **quien viaja con hijos reserva con más antelación**, y quiere centrar
+   ahí las promociones. Comprueba si es verdad con un gráfico. Tienes `lead_time` (días entre la
+   reserva y la llegada) y `children` (número de niños).
+
+3. En **dos frases**: ¿qué le contestas al directivo? Si los datos no le dan la razón, dilo.
+
+::: {.callout-tip}
+Antes de escribir código, escribe en una línea **qué pregunta** tiene que contestar el gráfico y
+**qué variables** la contestan.
+:::
+
+::: {.content-hidden}
+ENTREGA OCULTA (22-sep-2026). Mismo criterio que en el Tema 01: la recogida no se anuncia con
+antelacion. Se desvela quitando este bloque cuando Pedro lo decida.
+
+OJO: no usar comentarios HTML aqui. NO SE ANIDAN: abrir uno dentro de otro hace que el cierre
+del interior cierre tambien el exterior y todo lo de despues salga PUBLICADO. Ya paso el 21-sep.
+
+TEXTO PREVISTO:
+
+## Entrega del ejercicio
+
+::: {.callout-important}
+Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
+
+- **Entrega 1**: el ejercicio 1, la clientela. `T02_E1_DNI.zip`
+- **Entrega 2**: el ejercicio 2, corporaciones y startups. `T02_E2_DNI.zip`
+- **Entrega 3**: el ejercicio 3, las reservas de hotel. `T02_E3_DNI.zip`
+:::
+
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro, con el DNI **sin la
+letra**. Por ejemplo, `T02_E1_12345678.zip`.
+
+Se os dirá en clase **cuáles de las tres** hay que entregar y cuándo.
+
+Comprobad que el nombre sea exacto, o la entrega se rechazara. Recibireis un correo de
+confirmacion si la entrega es correcta, o de rechazo si no lo es.
+
+Renderizad con `embed-resources: true` para que el `.html` se vea por si solo.
+
+No se valora que este perfecto: se valora el progreso y que se vea lo que habeis entendido. Si os
+quedais a medias, entregad lo que tengais.
+
+::: {.callout-warning}
+Las entregas que se hagan en clase **se cierran al acabar la sesion**, con un margen de
+**15 minutos** desde el final. La hora de envio queda registrada.
+:::
+:::

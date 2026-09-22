@@ -133,6 +133,21 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 3
+(21-Sept. a 25-Sept.)
+
+  * [Tema 02 - Visualización de datos](docs/Tema02.qmd)
+  * [Tema 02 - Ejercicio](docs/Tema02ej.qmd)
+
+    - El ejercicio se va haciendo **durante las clases del tema**: las transparencias indican
+      en qué momento toca cada apartado.
+
+<!-- EL MINI-TEST NO SE ENLAZA (decision de Pedro, 23-sep): las dos paginas SI se publican,
+pero sin enlace desde aqui, para poder darlas en clase al momento (por URL o por QR) sin
+esperar los ~3 minutos del CI. Si algun dia se quiere enlazar, basta con descomentar:
+  * [Mini-test del Tema 00](docs/minitest-T00-A.qmd) (versión A) · [versión B](docs/minitest-T00-B.qmd)
+-->
+
 ## Semana 2
 (14-Sept. a 18-Sept.)
 
