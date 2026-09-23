@@ -73,12 +73,10 @@ d) `9 10`
 
 ## Pregunta 4 (una línea)
 
-Tenéis el género de cinco clientes guardado como **texto**. ¿Por qué `summary(genero)` no os dice
-cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?
+¿De qué tipo queda `notas`, y por qué?
 
 ```{=html}
-<pre><code>genero <- c("Mujer", "Hombre", "Mujer", "Mujer", "Hombre")
-summary(genero)</code></pre>
+<pre><code>notas <- c(7, 9, "5")</code></pre>
 ```
 
 <!-- INTERNO: soluciones, copistas y revelacion (todo ejecutado en R el 22-sep-2026)
@@ -100,16 +98,15 @@ P3 -> CORRECTA b) 9 10 27 20. R RECICLA el vector corto: aplica 0.1, 0.5, 0.1, 0
       les aplica ninguno (como si el descuento fuera 0). Es el error plausible: casi nadie
       espera que R vuelva a empezar por el principio.
 
-P4 (abierta) -> porque es TEXTO, y summary() de un texto devuelve Length, N.unique, N.blank,
-      Min.nchar y Max.nchar: cuenta caracteres, no categorias. Convirtiendolo a factor,
-      `summary(factor(genero))` da Hombre 2, Mujer 3 (verificado en R el 22-sep).
-      Es justo la slide "El tipo importa: summary() con vector y factor" del Tema 00.
-      Abierta: no lleva trampa de copia.
+P4 (abierta, banco T00.9) -> CARACTER. Todos los elementos de un vector tienen que ser del
+      mismo tipo, asi que los numeros se convierten en texto (verificado en R; `mean(notas)`
+      daria NA con aviso). Basta con esa razon: es la pareja exacta de la P4 de la version B,
+      donde los precios YA son texto.  Abierta: no lleva trampa de copia.
 
-      NOTA: la version anterior de esta P4 preguntaba por `1:length(x)` con x vacio (respuesta:
-      devuelve 1 0, y el bucle se ejecuta dos veces con indices inexistentes; se arregla con
-      `seq_along`). RETIRADA el 22-sep porque `length()` y `seq_along()` no se han visto en
-      clase. Queda en el banco (`sistema-evaluacion-2026-27.md`, T00.3) para cuando se vean.
+      DOS VERSIONES ANTERIORES DE ESTA P4, las dos guardadas en el banco:
+      - `1:length(x)` con x vacio: retirada porque `length()` y `seq_along()` no se han visto.
+      - `summary(genero)` con genero como texto (T00.7): retirada el 23-sep porque pedia DOS
+        cosas, el porque y el arreglo, y quedaba mas larga de contestar que su pareja de la B.
 
 Devolucion (guion, 3 min): proyectar el enunciado, hacer Ctrl+C / Ctrl+V en un editor EN VIVO
 para que vean aparecer las lineas ocultas, y ensenyar el reparto de respuestas que da Forms.
