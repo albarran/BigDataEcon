@@ -77,37 +77,72 @@
     "text": "Cómo funciona el curso\n\nLeed en la web de la asignatura:\n\nEvaluación: cómo funcionan las clases (venir con el material trabajado) y cómo se evalúa\nPuesta a punto: qué instalar LO ANTES POSIBLE (R y Positron)\nContenidos: el material de cada semana, siempre actualizado"
   },
   {
-    "objectID": "docs/minitest-T00-B.html",
-    "href": "docs/minitest-T00-B.html",
-    "title": "Mini-test Tema 00 (versión B)",
+    "objectID": "docs/MT-T00-CVWS.html",
+    "href": "docs/MT-T00-CVWS.html",
+    "title": "Mini-test",
     "section": "",
-    "text": "Tenéis 5 minutos. Contestad en el formulario. Sin ejecutar R y sin IA."
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad en este formulario: docs.google.com/forms → mini-test\nMirad el último número de vuestro DNI:\n\n\n\nsi acaba en\nos toca\n\n\n\n\nnúmero par (0, 2, 4, 6, 8)\nversión A\n\n\nnúmero impar (1, 3, 5, 7, 9)\nversión B\n\n\n\nContestad solo las preguntas de vuestra versión."
   },
   {
-    "objectID": "docs/minitest-T00-B.html#pregunta-1",
-    "href": "docs/minitest-T00-B.html#pregunta-1",
-    "title": "Mini-test Tema 00 (versión B)",
+    "objectID": "docs/MT-T00-CVWS.html#antes-de-empezar",
+    "href": "docs/MT-T00-CVWS.html#antes-de-empezar",
+    "title": "Mini-test",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad en este formulario: docs.google.com/forms → mini-test\nMirad el último número de vuestro DNI:\n\n\n\nsi acaba en\nos toca\n\n\n\n\nnúmero par (0, 2, 4, 6, 8)\nversión A\n\n\nnúmero impar (1, 3, 5, 7, 9)\nversión B\n\n\n\nContestad solo las preguntas de vuestra versión."
+  },
+  {
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-1",
+    "href": "docs/MT-T00-CVWS.html#pregunta-1",
+    "title": "Mini-test",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n10\nNA\nDa error\n7.5"
+  },
+  {
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-2",
+    "href": "docs/MT-T00-CVWS.html#pregunta-2",
+    "title": "Mini-test",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\nDa error, porque ficha es una lista y no se puede promediar\n14\n7\nDa error, porque ficha[[2]] no es un número"
+  },
+  {
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-3",
+    "href": "docs/MT-T00-CVWS.html#pregunta-3",
+    "title": "Mini-test",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\n9 10 27 20\nDa error, porque los vectores no miden igual\n9 10"
+  },
+  {
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-4-una-línea",
+    "href": "docs/MT-T00-CVWS.html#pregunta-4-una-línea",
+    "title": "Mini-test",
+    "section": "Pregunta 4 (una línea)",
+    "text": "Pregunta 4 (una línea)\nTenéis el género de cinco clientes guardado como texto. ¿Por qué summary(genero) no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?\ngenero &lt;- c(\"Mujer\", \"Hombre\", \"Mujer\", \"Mujer\", \"Hombre\")\nsummary(genero)"
+  },
+  {
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-1-1",
+    "href": "docs/MT-T00-CVWS.html#pregunta-1-1",
+    "title": "Mini-test",
     "section": "Pregunta 1",
     "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\nDa error, porque los vectores no miden igual\n80 100 300 400\n80 100 240 200"
   },
   {
-    "objectID": "docs/minitest-T00-B.html#pregunta-2",
-    "href": "docs/minitest-T00-B.html#pregunta-2",
-    "title": "Mini-test Tema 00 (versión B)",
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-2-1",
+    "href": "docs/MT-T00-CVWS.html#pregunta-2-1",
+    "title": "Mini-test",
     "section": "Pregunta 2",
     "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n6\nDa error, porque ficha[[2]] no es un número\n12\nDa error, porque ficha es una lista y no se puede promediar"
   },
   {
-    "objectID": "docs/minitest-T00-B.html#pregunta-3",
-    "href": "docs/minitest-T00-B.html#pregunta-3",
-    "title": "Mini-test Tema 00 (versión B)",
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-3-1",
+    "href": "docs/MT-T00-CVWS.html#pregunta-3-1",
+    "title": "Mini-test",
     "section": "Pregunta 3",
     "text": "Pregunta 3\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
   },
   {
-    "objectID": "docs/minitest-T00-B.html#pregunta-4-una-línea",
-    "href": "docs/minitest-T00-B.html#pregunta-4-una-línea",
-    "title": "Mini-test Tema 00 (versión B)",
+    "objectID": "docs/MT-T00-CVWS.html#pregunta-4-una-línea-1",
+    "href": "docs/MT-T00-CVWS.html#pregunta-4-una-línea-1",
+    "title": "Mini-test",
     "section": "Pregunta 4 (una línea)",
     "text": "Pregunta 4 (una línea)\nprecios &lt;- c(\"10\", \"9\", \"2\") y sum(precios &gt; \"2\") devuelve 1, no 2. ¿Por qué, si 10 y 9 son mayores que 2?"
   },
@@ -287,62 +322,6 @@
     "text": "Comentarios finales\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nEjemplos de sus capacidades usando el paquete shiny, shinydashboards o flexdashboard\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
   },
   {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Introducción a R. Ejercicio 1",
-    "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
-  },
-  {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
-    "section": "",
-    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
-  },
-  {
-    "objectID": "ProyectoFinal.html#importante-plagio",
-    "href": "ProyectoFinal.html#importante-plagio",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO",
-    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
-  },
-  {
-    "objectID": "PuestaAPunto.html",
-    "href": "PuestaAPunto.html",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. El orden importa: primero R y después Positron (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
-  },
-  {
-    "objectID": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
-    "href": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
-  },
-  {
-    "objectID": "PuestaAPunto.html#después-positron-el-editor",
-    "href": "PuestaAPunto.html#después-positron-el-editor",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nWeb: https://albarran.github.io\n\n\ne-mail: albarran@ua.es o albarran@gcloud.ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nWeb: https://henryredondo.github.io/\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nNecesitaréis tener instalado en vuestro ordenador software (totalmente gratuito) para trabajar en el curso. Instaladlo LO ANTES POSIBLE siguiendo las instrucciones paso a paso de la página Puesta a punto.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizado antes de instalar nada.\n\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData"
-  },
-  {
     "objectID": "Contenidos.html",
     "href": "Contenidos.html",
     "title": "Contenidos",
@@ -371,39 +350,60 @@
     "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
   },
   {
-    "objectID": "docs/minitest-T00-A.html",
-    "href": "docs/minitest-T00-A.html",
-    "title": "Mini-test Tema 00 (versión A)",
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
     "section": "",
-    "text": "Tenéis 5 minutos. Contestad en el formulario. Sin ejecutar R y sin IA."
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData"
   },
   {
-    "objectID": "docs/minitest-T00-A.html#pregunta-1",
-    "href": "docs/minitest-T00-A.html#pregunta-1",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n10\nNA\nDa error\n7.5"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nWeb: https://albarran.github.io\n\n\ne-mail: albarran@ua.es o albarran@gcloud.ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nWeb: https://henryredondo.github.io/\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nNecesitaréis tener instalado en vuestro ordenador software (totalmente gratuito) para trabajar en el curso. Instaladlo LO ANTES POSIBLE siguiendo las instrucciones paso a paso de la página Puesta a punto.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizado antes de instalar nada.\n\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
   },
   {
-    "objectID": "docs/minitest-T00-A.html#pregunta-2",
-    "href": "docs/minitest-T00-A.html#pregunta-2",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\nDa error, porque ficha es una lista y no se puede promediar\n14\n7\nDa error, porque ficha[[2]] no es un número"
+    "objectID": "PuestaAPunto.html",
+    "href": "PuestaAPunto.html",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. El orden importa: primero R y después Positron (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
   },
   {
-    "objectID": "docs/minitest-T00-A.html#pregunta-3",
-    "href": "docs/minitest-T00-A.html#pregunta-3",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\n9 10 27 20\nDa error, porque los vectores no miden igual\n9 10"
+    "objectID": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
+    "href": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
   },
   {
-    "objectID": "docs/minitest-T00-A.html#pregunta-4-una-línea",
-    "href": "docs/minitest-T00-A.html#pregunta-4-una-línea",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 4 (una línea)",
-    "text": "Pregunta 4 (una línea)\nTenéis el género de cinco clientes guardado como texto. ¿Por qué summary(genero) no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?\ngenero &lt;- c(\"Mujer\", \"Hombre\", \"Mujer\", \"Mujer\", \"Hombre\")\nsummary(genero)"
+    "objectID": "PuestaAPunto.html#después-positron-el-editor",
+    "href": "PuestaAPunto.html#después-positron-el-editor",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
+  },
+  {
+    "objectID": "ProyectoFinal.html#importante-plagio",
+    "href": "ProyectoFinal.html#importante-plagio",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO",
+    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
+    "section": "",
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
   },
   {
     "objectID": "docs/Tema01ej.html",

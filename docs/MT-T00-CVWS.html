@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Mini-test Tema 00 (versión B)</title>
+<title>Mini-test</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -4020,7 +4020,7 @@ font-size: 80% !important;
 </style>
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -4063,24 +4063,13 @@ font-size: 80% !important;
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">En esta página</h2>
-   
-  <ul>
-  <li><a href="#pregunta-1" id="toc-pregunta-1" class="nav-link active" data-scroll-target="#pregunta-1">Pregunta 1</a></li>
-  <li><a href="#pregunta-2" id="toc-pregunta-2" class="nav-link" data-scroll-target="#pregunta-2">Pregunta 2</a></li>
-  <li><a href="#pregunta-3" id="toc-pregunta-3" class="nav-link" data-scroll-target="#pregunta-3">Pregunta 3</a></li>
-  <li><a href="#pregunta-4-una-línea" id="toc-pregunta-4-una-línea" class="nav-link" data-scroll-target="#pregunta-4-una-línea">Pregunta 4 (una línea)</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Mini-test Tema 00 (versión B)</h1>
+<h1 class="title">Mini-test</h1>
 <p class="subtitle lead">Técnicas para ‘Big Data’ en Economía - Curso 2026/27<br>
 Universidad de Alicante</p>
 </div>
@@ -4099,9 +4088,84 @@ Universidad de Alicante</p>
 </header>
 
 
-<p>Tenéis 5 minutos. Contestad en el formulario. <strong>Sin ejecutar R y sin IA.</strong></p>
+<section id="antes-de-empezar" class="level2">
+<h2 class="anchored" data-anchor-id="antes-de-empezar">Antes de empezar</h2>
+<p><strong>Tenéis 5 minutos. Sin ejecutar R y sin IA.</strong></p>
+<p>Contestad en este formulario: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform"><strong>docs.google.com/forms</strong> → mini-test</a></p>
+<p>Mirad el <strong>último número de vuestro DNI</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>si acaba en</th>
+<th>os toca</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>número <strong>par</strong> (0, 2, 4, 6, 8)</td>
+<td><strong>versión A</strong></td>
+</tr>
+<tr class="even">
+<td>número <strong>impar</strong> (1, 3, 5, 7, 9)</td>
+<td><strong>versión B</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Contestad <strong>solo</strong> las preguntas de vuestra versión.</p>
+</section>
+<section id="versión-a-dni-acabado-en-par" class="level1">
+<h1>Versión A (DNI acabado en par)</h1>
 <section id="pregunta-1" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
+<p>¿Qué muestra la consola?</p>
+<pre><code>ventas &lt;- c(10, 8, NA, 12)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+ventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente</span>
+mean(ventas)</code></pre>
+<ol type="a">
+<li><p><code>10</code></p></li>
+<li><p><code>NA</code></p></li>
+<li><p>Da error</p></li>
+<li><p><code>7.5</code></p></li>
+</ol>
+</section>
+<section id="pregunta-2" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
+<p>Con esta ficha, ¿qué muestra la última línea?</p>
+<pre><code>ficha &lt;- list(nombre = &quot;Ana&quot;, notas = c(5, 7, 9))<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+ficha$notas &lt;- ficha$notas * 2   # ejecutado tambien</span>
+mean(ficha[[2]])</code></pre>
+<ol type="a">
+<li><p>Da error, porque <code>ficha</code> es una lista y no se puede promediar</p></li>
+<li><p><code>14</code></p></li>
+<li><p><code>7</code></p></li>
+<li><p>Da error, porque <code>ficha[[2]]</code> no es un número</p></li>
+</ol>
+</section>
+<section id="pregunta-3" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
+<p>Fijaos en la longitud de cada vector. ¿Qué devuelve la última línea?</p>
+<pre><code>precios &lt;- c(10, 20, 30, 40)
+dto     &lt;- c(0.1, 0.5)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+precios &lt;- precios[1:2]   # ejecutado antes</span>
+precios * (1 - dto)</code></pre>
+<ol type="a">
+<li><p><code>9 10 30 40</code></p></li>
+<li><p><code>9 10 27 20</code></p></li>
+<li><p>Da error, porque los vectores no miden igual</p></li>
+<li><p><code>9 10</code></p></li>
+</ol>
+</section>
+<section id="pregunta-4-una-línea" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-4-una-línea">Pregunta 4 (una línea)</h2>
+<p>Tenéis el género de cinco clientes guardado como <strong>texto</strong>. ¿Por qué <code>summary(genero)</code> no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?</p>
+<pre><code>genero &lt;- c(&quot;Mujer&quot;, &quot;Hombre&quot;, &quot;Mujer&quot;, &quot;Mujer&quot;, &quot;Hombre&quot;)
+summary(genero)</code></pre>
+</section>
+</section>
+<section id="versión-b-dni-acabado-en-impar" class="level1">
+<h1>Versión B (DNI acabado en impar)</h1>
+<section id="pregunta-1-1" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-1-1">Pregunta 1</h2>
 <p>Fijaos en la longitud de cada vector. ¿Qué devuelve la última línea?</p>
 <pre><code>precios &lt;- c(100, 200, 300, 400)
 dto     &lt;- c(0.2, 0.5)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
@@ -4114,8 +4178,8 @@ precios * (1 - dto)</code></pre>
 <li><p><code>80 100 240 200</code></p></li>
 </ol>
 </section>
-<section id="pregunta-2" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
+<section id="pregunta-2-1" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-2-1">Pregunta 2</h2>
 <p>Con esta ficha, ¿qué muestra la última línea?</p>
 <pre><code>ficha &lt;- list(nombre = &quot;Luis&quot;, notas = c(4, 6, 8))<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
 ficha$notas &lt;- ficha$notas * 2   # ejecutado tambien</span>
@@ -4127,8 +4191,8 @@ mean(ficha[[2]])</code></pre>
 <li><p>Da error, porque <code>ficha</code> es una lista y no se puede promediar</p></li>
 </ol>
 </section>
-<section id="pregunta-3" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
+<section id="pregunta-3-1" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-3-1">Pregunta 3</h2>
 <p>¿Qué muestra la consola?</p>
 <pre><code>gastos &lt;- c(20, 16, NA, 24)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
 gastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente</span>
@@ -4140,11 +4204,12 @@ mean(gastos)</code></pre>
 <li><p>Da error</p></li>
 </ol>
 </section>
-<section id="pregunta-4-una-línea" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-4-una-línea">Pregunta 4 (una línea)</h2>
+<section id="pregunta-4-una-línea-1" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-4-una-línea-1">Pregunta 4 (una línea)</h2>
 <p><code>precios &lt;- c(&quot;10&quot;, &quot;9&quot;, &quot;2&quot;)</code> y <code>sum(precios &gt; &quot;2&quot;)</code> devuelve <code>1</code>, no <code>2</code>. ¿Por qué, si 10 y 9 son mayores que 2?</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
