@@ -676,7 +676,7 @@
     "href": "docs/MT-T00-A-CVWS.html#pregunta-4-una-línea",
     "title": "Mini-test, versión A",
     "section": "Pregunta 4 (una línea)",
-    "text": "Pregunta 4 (una línea)\nTenéis el género de cinco clientes guardado como texto. ¿Por qué summary(genero) no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?\ngenero &lt;- c(\"Mujer\", \"Hombre\", \"Mujer\", \"Mujer\", \"Hombre\")\nsummary(genero)"
+    "text": "Pregunta 4 (una línea)\n¿De qué tipo queda notas, y por qué?\nnotas &lt;- c(7, 9, \"5\")"
   },
   {
     "objectID": "docs/Tema02ej.html",
