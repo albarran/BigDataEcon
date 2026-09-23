@@ -38,9 +38,13 @@ es OTRO ejercicio. Por eso hay tres aqui.
 
 NADA SE PIDE ANTES DE VERSE (Pedro, 23-sep, dos veces). Donde sale cada cosa en las slides:
   slide 11 "Datos y esteticas especificas por capa" -> etiquetar con datos propios  -> apartado b)
-  slide 12 "Datos transformados", pestanya Tendencia -> geom_smooth                  -> apartado c.7
-  slide 23 "Otros elementos de contexto"             -> geom_hline y annotate()      -> apartado d.3
-  slide 24 "Personalizar el aspecto"                 -> temas y ggthemes             -> apartado d.4
+  slide 12 "Datos transformados", pestanya Tendencia -> geom_smooth                  -> apartado e.1
+  slide 23 "Otros elementos de contexto"             -> geom_hline y annotate()      -> apartado e.3
+  slide 24 "Personalizar el aspecto"                 -> temas y ggthemes             -> apartado e.5
+
+APARTADOS POR TEMA, NO POR SESION (Pedro, 23-sep): antes habia un apartado de 7 puntos que
+mezclaba barras, histogramas, cajas y tendencia. Ahora cada apartado es UNA cosa: a) estetica,
+b) capas, c) recuentos, d) distribuciones, e) contexto y aspecto.
 
 CORRESPONDENCIA slides -> ejercicio:
   Ejercicio 1 (clientes)   a) = PRACTICA 1 "¿rojo o 'rojo'?"
@@ -74,6 +78,15 @@ library(ggplot2)
 
 Estos ejercicios se van haciendo **durante las clases del tema**: las transparencias indican en
 qué momento toca cada uno.
+
+Antes de nada, prepara el sitio donde vas a trabajar:
+
+1. Crea una **carpeta para el tema** y ábrela en Positron (*File > Open Folder*). Todo lo del
+   tema vive ahí.
+
+2. Dentro, crea un **subdirectorio `data`** y descarga en él los ficheros de datos desde la
+   página [Datos](../Datos.html) del curso. Así el código encuentra los datos con
+   `load("data/...")`, sin rutas absolutas y sin depender de dónde esté tu carpeta.
 
 Cada ejercicio va en **su propio documento `.qmd`**, con su cabecera, su primera celda de
 entorno (la que lleva `include: false`) y una sección por apartado. Cada uno usa **sus propios
@@ -113,85 +126,78 @@ ggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = "red"))
 5. Añade `size = 4` dentro de `aes()` y luego fuera. Una de las dos no tiene sentido: ¿cuál y
    por qué? En una frase, ¿qué regla te sirve para decidirlo?
 
-## Apartado b)
+## Apartado b): capas con sus propios datos
 
 Sobre el gráfico del apartado a), con el `segmento` por color.
 
 1. **Etiqueta a quienes más gastan.** Como solo quieres unas pocas fichas, esa capa lleva sus
    propios datos, igual que hicimos en clase con los países:
 
-```{r}
-#| eval: false
-top <- clientes[clientes$gasto > 7000, ]
-```
+   ```{r}
+   #| eval: false
+   top <- clientes[clientes$gasto > 8000, ]
+   ```
 
-     y encima una capa `geom_text_repel(data = top, aes(label = round(gasto)))`.
+   y encima una capa `geom_text_repel(data = top, aes(label = cliente))`.
 
 2. ¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras `clientes` entero?
 
-## Apartado c)
+## Apartado c): el gráfico cuenta por ti
 
 1. Número de clientes de cada `segmento`, con `geom_bar()`. ¿Dónde está la tabla de frecuencias
    que has usado?
 
 2. Lo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte:
-   tienes el patrón con `after_stat(prop)` en las transparencias. ¿Qué cambia respecto al
-   gráfico anterior, y qué NO cambia?
+   tienes el patrón con `after_stat(prop)` en las transparencias.
 
-     Quita ahora `group = 1` y mira el resultado: las tres barras valen 1. ¿Proporción respecto
-     a qué está calculando en cada caso?
+<!-- COMENTADAS (Pedro, 23-sep): estas dos preguntas se discuten en la PRACTICA 2, en voz alta,
+y no hacen falta por escrito en el enunciado.
+   ¿Qué cambia respecto al gráfico anterior, y qué NO cambia?
+   Quita ahora `group = 1` y mira el resultado: las tres barras valen 1. ¿Proporción respecto
+   a qué está calculando en cada caso?
+-->
 
-3. Distribución del `gasto` con `geom_histogram()`, probando `bins = 10`, `bins = 40` y
-   `binwidth = 250`. ¿Cuál de las tres versiones le enseñarías a dirección y por qué?
+3. En una frase: ¿qué significa que un `geom` "tiene una estadística por defecto"?
 
-4. Repite las tres versiones con `ingresos`. ¿Hay un grupo de clientes de ingresos muy bajos?
-   ¿Con cuál de las tres se ve y con cuáles no?
+## Apartado d): distribuciones
 
-5. Añade un `geom_boxplot()` del `gasto` por `segmento`.
+1. Distribución de los `ingresos` con `geom_histogram()`, probando `bins = 10`, `bins = 40` y
+   `binwidth = 3`. ¿Cuál de las tres le enseñarías a dirección y por qué?
 
-6. En una frase: ¿qué significa que un `geom` "tiene una estadística por defecto"?
+2. Con una de esas tres se ve un grupo de clientes de ingresos muy bajos y con las otras no.
+   ¿Con cuál, y qué te dice eso sobre elegir los intervalos?
 
-7. Vuelve al gráfico del apartado a) y añádele una **recta de tendencia** con
+3. Compara el `gasto` entre `segmento` con un `geom_boxplot()`.
+
+## Apartado e): contexto y aspecto
+
+1. Vuelve al gráfico del apartado a) y añádele una **recta de tendencia** con
    `geom_smooth(method = "lm", se = FALSE)`. ¿Qué dice esa recta que no dijera la nube de puntos?
 
-## Apartado d)
+2. Divídelo en **facetas** por `canal`. ¿Se lee mejor así o con el color? ¿Por qué?
 
-1. Vuelve al gráfico del apartado b) y divídelo en **facetas** por
-   `canal`. ¿Se lee mejor así o con el color? ¿Por qué?
+3. Añade una **línea de referencia** horizontal en el gasto medio, discontinua, y anótala con
+   `annotate()` para que se entienda qué marca.
 
-2. Ponle `labs()` completo: título, nombres de los ejes **con sus unidades** y un `caption` con
-   la fuente.
+4. Ponle `labs()` completo: título, ejes **con sus unidades** y un `caption` con la fuente.
 
-3. Añade una **línea de referencia** horizontal en el gasto medio, y anótala con `annotate()`
-   para que se entienda qué marca:
+5. Prueba al menos dos temas y quédate con uno. Prueba también uno profesional, de `ggthemes`:
 
-```{r}
-#| eval: false
-+ geom_hline(yintercept = mean(clientes$gasto), linetype = "dashed", color = "red")
-```
-
-4. Prueba al menos dos temas y quédate con uno. Prueba también uno profesional, de la
-   biblioteca `ggthemes`:
-
-```{r}
-#| eval: false
-library(ggthemes)
-mi_grafico + theme_economist()
-```
+   ```{r}
+   #| eval: false
+   library(ggthemes)
+   mi_grafico + theme_economist()
+   ```
 
 # Ejercicio 2: corporaciones y startups
 
 Una consultora de inversión compara el perfil de ingresos de cinco grandes corporaciones y cinco
-startups. Copia estos datos:
+startups. Los datos están en la página **Datos** del curso, y traen su propio diccionario:
 
 ```{r}
 #| eval: false
-empresas <- data.frame(
-  empresa = c("Google", "Microsoft", "Apple", "Amazon", "Meta",
-              "TechStart", "InnovateLab", "DataFlow", "CloudVision", "AI-Solutions"),
-  tipo = c(rep("Corporación", 5), rep("Startup", 5)),
-  ingresos_millones = c(3522.91, 2831.89, 2413.98, 1751.65, 1187.63,
-                          81.40,   62.83,   37.21,   15.80,    8.45))
+load("data/empresas.RData")
+empresas_info      # qué es cada variable
 ```
 
 1. Diagrama de cajas de `ingresos_millones` por `tipo`, en escala normal.
@@ -247,15 +253,6 @@ Antes de escribir código, escribe en una línea **qué pregunta** tiene que con
 **qué variables** la contestan.
 :::
 
-::: {.content-hidden}
-ENTREGA OCULTA (22-sep-2026). Mismo criterio que en el Tema 01: la recogida no se anuncia con
-antelacion. Se desvela quitando este bloque cuando Pedro lo decida.
-
-OJO: no usar comentarios HTML aqui. NO SE ANIDAN: abrir uno dentro de otro hace que el cierre
-del interior cierre tambien el exterior y todo lo de despues salga PUBLICADO. Ya paso el 21-sep.
-
-TEXTO PREVISTO:
-
 ## Entrega del ejercicio
 
 ::: {.callout-important}
@@ -271,16 +268,15 @@ letra**. Por ejemplo, `T02_E1_12345678.zip`.
 
 Se os dirá en clase **cuáles de las tres** hay que entregar y cuándo.
 
-Comprobad que el nombre sea exacto, o la entrega se rechazara. Recibireis un correo de
-confirmacion si la entrega es correcta, o de rechazo si no lo es.
+Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
+confirmación si la entrega es correcta, o de rechazo si no lo es.
 
-Renderizad con `embed-resources: true` para que el `.html` se vea por si solo.
+Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo.
 
-No se valora que este perfecto: se valora el progreso y que se vea lo que habeis entendido. Si os
-quedais a medias, entregad lo que tengais.
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
 
 ::: {.callout-warning}
-Las entregas que se hagan en clase **se cierran al acabar la sesion**, con un margen de
-**15 minutos** desde el final. La hora de envio queda registrada.
-:::
+Las entregas que se hagan en clase **se cierran al acabar la sesión**, con un margen de
+**15 minutos** desde el final. La hora de envío queda registrada.
 :::

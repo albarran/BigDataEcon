@@ -17,6 +17,7 @@ strip-comments: true
 * Tema 02 (visualización):
   + [datosVisualizacion.RData](https://raw.githubusercontent.com/albarran/00datos/main/datosVisualizacion.RData)
   + [hotels.csv](https://raw.githubusercontent.com/albarran/00datos/main/hotels.csv)
+  + [empresas.RData](https://raw.githubusercontent.com/albarran/00datos/main/empresas.RData)
 
 <!-- pwt.csv: lo usa el ejercicio de FUERA DE CLASE (el grafico de The Economist). Se desvela
 cuando se desvele ese ejercicio, no antes.
