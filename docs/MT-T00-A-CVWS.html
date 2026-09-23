@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Mini-test</title>
+<title>Mini-test, versión A</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -4069,7 +4069,7 @@ font-size: 80% !important;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Mini-test</h1>
+<h1 class="title">Mini-test, versión A</h1>
 <p class="subtitle lead">Técnicas para ‘Big Data’ en Economía - Curso 2026/27<br>
 Universidad de Alicante</p>
 </div>
@@ -4088,27 +4088,53 @@ Universidad de Alicante</p>
 </header>
 
 
-<section id="mirad-el-último-número-de-vuestro-dni" class="level2">
-<h2 class="anchored" data-anchor-id="mirad-el-último-número-de-vuestro-dni">Mirad el último número de vuestro DNI</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>si acaba en</th>
-<th>vuestra versión</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>número <strong>par</strong> (0, 2, 4, 6, 8)</td>
-<td><a href="MT-T00-A-CVWS.html"><strong>versión A</strong></a></td>
-</tr>
-<tr class="even">
-<td>número <strong>impar</strong> (1, 3, 5, 7, 9)</td>
-<td><a href="MT-T00-B-CVWS.html"><strong>versión B</strong></a></td>
-</tr>
-</tbody>
-</table>
-<p>Abrid <strong>solo</strong> la vuestra.</p>
+<p><strong>Tenéis 5 minutos. Sin ejecutar R y sin IA.</strong></p>
+<p>Contestad en este formulario: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform"><strong>mini-test</strong></a></p>
+<section id="pregunta-1" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
+<p>¿Qué muestra la consola?</p>
+<pre><code>ventas &lt;- c(10, 8, NA, 12)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+ventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente</span>
+mean(ventas)</code></pre>
+<ol type="a">
+<li><p><code>10</code></p></li>
+<li><p><code>NA</code></p></li>
+<li><p>Da error</p></li>
+<li><p><code>7.5</code></p></li>
+</ol>
+</section>
+<section id="pregunta-2" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
+<p>Con esta ficha, ¿qué muestra la última línea?</p>
+<pre><code>ficha &lt;- list(nombre = &quot;Ana&quot;, notas = c(5, 7, 9))<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+ficha$notas &lt;- ficha$notas * 2   # ejecutado tambien</span>
+mean(ficha[[2]])</code></pre>
+<ol type="a">
+<li><p>Da error, porque <code>ficha</code> es una lista y no se puede promediar</p></li>
+<li><p><code>14</code></p></li>
+<li><p><code>7</code></p></li>
+<li><p>Da error, porque <code>ficha[[2]]</code> no es un número</p></li>
+</ol>
+</section>
+<section id="pregunta-3" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
+<p>Fijaos en la longitud de cada vector. ¿Qué devuelve la última línea?</p>
+<pre><code>precios &lt;- c(10, 20, 30, 40)
+dto     &lt;- c(0.1, 0.5)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+precios &lt;- precios[1:2]   # ejecutado antes</span>
+precios * (1 - dto)</code></pre>
+<ol type="a">
+<li><p><code>9 10 30 40</code></p></li>
+<li><p><code>9 10 27 20</code></p></li>
+<li><p>Da error, porque los vectores no miden igual</p></li>
+<li><p><code>9 10</code></p></li>
+</ol>
+</section>
+<section id="pregunta-4-una-línea" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-4-una-línea">Pregunta 4 (una línea)</h2>
+<p>Tenéis el género de cinco clientes guardado como <strong>texto</strong>. ¿Por qué <code>summary(genero)</code> no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?</p>
+<pre><code>genero &lt;- c(&quot;Mujer&quot;, &quot;Hombre&quot;, &quot;Mujer&quot;, &quot;Mujer&quot;, &quot;Hombre&quot;)
+summary(genero)</code></pre>
 
 
 </section>
