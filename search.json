@@ -1,101 +1,24 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
     "section": "",
-    "text": "About this site"
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
   },
   {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Introducción a R. Ejercicio 1",
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
     "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
+    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
   },
   {
-    "objectID": "docs/minitest-T00-B.html",
-    "href": "docs/minitest-T00-B.html",
-    "title": "Mini-test Tema 00 (versión B)",
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
     "section": "",
-    "text": "Tenéis 5 minutos. Contestad en el formulario. Sin ejecutar R y sin IA."
-  },
-  {
-    "objectID": "docs/minitest-T00-B.html#pregunta-1",
-    "href": "docs/minitest-T00-B.html#pregunta-1",
-    "title": "Mini-test Tema 00 (versión B)",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\nDa error, porque los vectores no miden igual\n80 100 300 400\n80 100 240 200"
-  },
-  {
-    "objectID": "docs/minitest-T00-B.html#pregunta-2",
-    "href": "docs/minitest-T00-B.html#pregunta-2",
-    "title": "Mini-test Tema 00 (versión B)",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n6\nDa error, porque ficha[[2]] no es un número\n12\nDa error, porque ficha es una lista y no se puede promediar"
-  },
-  {
-    "objectID": "docs/minitest-T00-B.html#pregunta-3",
-    "href": "docs/minitest-T00-B.html#pregunta-3",
-    "title": "Mini-test Tema 00 (versión B)",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
-  },
-  {
-    "objectID": "docs/minitest-T00-B.html#pregunta-4-una-línea",
-    "href": "docs/minitest-T00-B.html#pregunta-4-una-línea",
-    "title": "Mini-test Tema 00 (versión B)",
-    "section": "Pregunta 4 (una línea)",
-    "text": "Pregunta 4 (una línea)\nprecios &lt;- c(\"10\", \"9\", \"2\") y sum(precios &gt; \"2\") devuelve 1, no 2. ¿Por qué, si 10 y 9 son mayores que 2?"
-  },
-  {
-    "objectID": "docs/Tema01ej.html",
-    "href": "docs/Tema01ej.html",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "",
-    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: T01_E1_&lt;DNI&gt;.qmd (por ejemplo, T01_E1_12345678.qmd)\nRenderiza tu documento para visualizar el documento html creado.\nComprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son docx, typst y pdf; docx y typst no necesitan instalar nada.\nModifica el bloque YAML que ya tienes: no añadas un segundo bloque ---, porque entonces no renderiza.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#apartado-a",
-    "href": "docs/Tema01ej.html#apartado-a",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "",
-    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: T01_E1_&lt;DNI&gt;.qmd (por ejemplo, T01_E1_12345678.qmd)\nRenderiza tu documento para visualizar el documento html creado.\nComprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son docx, typst y pdf; docx y typst no necesitan instalar nada.\nModifica el bloque YAML que ya tienes: no añadas un segundo bloque ---, porque entonces no renderiza.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#apartado-b",
-    "href": "docs/Tema01ej.html#apartado-b",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "Apartado b)",
-    "text": "Apartado b)\n\nCrea, justo debajo de la cabecera, la primera celda del documento: la que prepara el entorno. Ponle la opción include: false, para que se ejecute sin que se vea, y carga en ella la biblioteca AER, que ya usaste en el Tema 00.\nTodo documento de Quarto empieza así: las bibliotecas que necesite el documento se declaran ahí.\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar la biblioteca Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#apartado-c",
-    "href": "docs/Tema01ej.html#apartado-c",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "Apartado c)",
-    "text": "Apartado c)\n\nCrear una celda con este código, que muestra un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo); los gráficos los estudiaremos en el próximo tema, aquí solo nos importa cómo se integran en el documento:\n\n\nplot(mtcars$disp, mtcars$mpg, sub = \"Consumo frente a tamaño del motor\")\n\n\nCrear una nueva celda de código con dos gráficos de caja (boxplot(mtcars$disp) y boxplot(mtcars$mpg)) y usar las opciones de celda para que se muestren uno al lado del otro."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#apartado-d",
-    "href": "docs/Tema01ej.html#apartado-d",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "Apartado d)",
-    "text": "Apartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nkable_styling(kbl(mtcars))\nkable_styling(kbl(summary(mtcars)))\n\nkable_classic(kbl(mtcars), full_width = F)\nkable_minimal(kbl(summary(mtcars)))\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#apartado-e",
-    "href": "docs/Tema01ej.html#apartado-e",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "Apartado e)",
-    "text": "Apartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento."
-  },
-  {
-    "objectID": "docs/Tema01ej.html#entrega-del-ejercicio",
-    "href": "docs/Tema01ej.html#entrega-del-ejercicio",
-    "title": "Tema 01 - Ejercicio de Quarto",
-    "section": "Entrega del ejercicio",
-    "text": "Entrega del ejercicio\n\n\n\n\n\n\nImportante\n\n\n\nEste ejercicio se va haciendo durante las clases del tema, apartado a apartado, y se entrega al terminarlo, por el formulario de entrega.\n\n\nSubid un solo .zip con el .qmd y el .html dentro, llamado Tnn_En_DNI.zip: nn es el tema, n la entrega y el DNI va sin la letra. Aquí, T01_E1_12345678.zip con vuestro DNI.\nComprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de confirmación si la entrega es correcta, o de rechazo si no lo es.\nRenderizad con embed-resources: true para que el .html se vea por sí solo (apartado a.vii).\nNo se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os quedáis a medias, entregad lo que tengáis.\n\n\n\n\n\n\nAdvertencia\n\n\n\nLa entrega se cierra al acabar la clase. Se admite un margen de 15 minutos desde el final de la sesión; lo que llegue más tarde no se tiene en cuenta. La hora de envío queda registrada."
+    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
   },
   {
     "objectID": "docs/0Intro.html#objetivos",
@@ -154,60 +77,235 @@
     "text": "Cómo funciona el curso\n\nLeed en la web de la asignatura:\n\nEvaluación: cómo funcionan las clases (venir con el material trabajado) y cómo se evalúa\nPuesta a punto: qué instalar LO ANTES POSIBLE (R y Positron)\nContenidos: el material de cada semana, siempre actualizado"
   },
   {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
+    "objectID": "docs/minitest-T00-B.html",
+    "href": "docs/minitest-T00-B.html",
+    "title": "Mini-test Tema 00 (versión B)",
     "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+    "text": "Tenéis 5 minutos. Contestad en el formulario. Sin ejecutar R y sin IA."
   },
   {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
+    "objectID": "docs/minitest-T00-B.html#pregunta-1",
+    "href": "docs/minitest-T00-B.html#pregunta-1",
+    "title": "Mini-test Tema 00 (versión B)",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\nDa error, porque los vectores no miden igual\n80 100 300 400\n80 100 240 200"
+  },
+  {
+    "objectID": "docs/minitest-T00-B.html#pregunta-2",
+    "href": "docs/minitest-T00-B.html#pregunta-2",
+    "title": "Mini-test Tema 00 (versión B)",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n6\nDa error, porque ficha[[2]] no es un número\n12\nDa error, porque ficha es una lista y no se puede promediar"
+  },
+  {
+    "objectID": "docs/minitest-T00-B.html#pregunta-3",
+    "href": "docs/minitest-T00-B.html#pregunta-3",
+    "title": "Mini-test Tema 00 (versión B)",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
+  },
+  {
+    "objectID": "docs/minitest-T00-B.html#pregunta-4-una-línea",
+    "href": "docs/minitest-T00-B.html#pregunta-4-una-línea",
+    "title": "Mini-test Tema 00 (versión B)",
+    "section": "Pregunta 4 (una línea)",
+    "text": "Pregunta 4 (una línea)\nprecios &lt;- c(\"10\", \"9\", \"2\") y sum(precios &gt; \"2\") devuelve 1, no 2. ¿Por qué, si 10 y 9 son mayores que 2?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html",
+    "href": "docs/Tema02ej.html",
+    "title": "Tema 02 - Visualización de datos",
     "section": "",
-    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
+    "text": "Estos ejercicios se van haciendo durante las clases del tema: las transparencias indican en qué momento toca cada uno.\nAntes de nada, prepara el sitio donde vas a trabajar:\n\nCrea una carpeta para el tema y ábrela en Positron (File &gt; Open Folder). Todo lo del tema vive ahí.\nDentro, crea un subdirectorio data y descarga en él los ficheros de datos desde la página Datos del curso. Así el código encuentra los datos con load(\"data/...\"), sin rutas absolutas y sin depender de dónde esté tu carpeta.\n\nCada ejercicio va en su propio documento .qmd, con su cabecera, su primera celda de entorno (la que lleva include: false) y una sección por apartado. Cada uno usa sus propios datos, que se cargan en esa primera celda.\nLos documentos se llaman T02_E&lt;n&gt;_&lt;DNI&gt;.qmd, donde &lt;n&gt; es el número del ejercicio y el DNI va sin la letra: T02_E1_12345678.qmd para el ejercicio 1, T02_E2_12345678.qmd para el 2, y así."
   },
   {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
+    "objectID": "docs/Tema02ej.html#apartado-a",
+    "href": "docs/Tema02ej.html#apartado-a",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado a)",
+    "text": "Apartado a)\n\nDibuja la relación entre ingresos y gasto con geom_point().\nPinta TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda).\nEjecuta esto y describe qué ves: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?\n\n\nggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = \"red\"))\n\n\nDistingue el segmento por color y el canal por forma. Y ahora añade además size = edad. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira? Quédate con la versión que sí se lee y di por qué.\nAñade size = 4 dentro de aes() y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla te sirve para decidirlo?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-b-capas-con-sus-propios-datos",
+    "href": "docs/Tema02ej.html#apartado-b-capas-con-sus-propios-datos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado b): capas con sus propios datos",
+    "text": "Apartado b): capas con sus propios datos\nSobre el gráfico del apartado a), con el segmento por color.\n\nEtiqueta a quienes más gastan. Como solo quieres unas pocas fichas, esa capa lleva sus propios datos, igual que hicimos en clase con los países:\n\ntop &lt;- clientes[clientes$gasto &gt; 8000, ]\n\ny encima una capa geom_text_repel(data = top, aes(label = cliente)).\n¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras clientes entero?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-c-el-gráfico-cuenta-por-ti",
+    "href": "docs/Tema02ej.html#apartado-c-el-gráfico-cuenta-por-ti",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado c): el gráfico cuenta por ti",
+    "text": "Apartado c): el gráfico cuenta por ti\n\nNúmero de clientes de cada segmento, con geom_bar(). ¿Dónde está la tabla de frecuencias que has usado?\nLo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: tienes el patrón con after_stat(prop) en las transparencias.\n\n\nEn una frase: ¿qué significa que un geom “tiene una estadística por defecto”?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-d-distribuciones",
+    "href": "docs/Tema02ej.html#apartado-d-distribuciones",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado d): distribuciones",
+    "text": "Apartado d): distribuciones\n\nDistribución de los ingresos con geom_histogram(), probando bins = 10, bins = 40 y binwidth = 3. ¿Cuál de las tres le enseñarías a dirección y por qué?\nCon una de esas tres se ve un grupo de clientes de ingresos muy bajos y con las otras no. ¿Con cuál, y qué te dice eso sobre elegir los intervalos?\nCompara el gasto entre segmento con un geom_boxplot()."
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-e-contexto-y-aspecto",
+    "href": "docs/Tema02ej.html#apartado-e-contexto-y-aspecto",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado e): contexto y aspecto",
+    "text": "Apartado e): contexto y aspecto\n\nVuelve al gráfico del apartado a) y añádele una recta de tendencia con geom_smooth(method = \"lm\", se = FALSE). ¿Qué dice esa recta que no dijera la nube de puntos?\nDivídelo en facetas por canal. ¿Se lee mejor así o con el color? ¿Por qué?\nAñade una línea de referencia horizontal en el gasto medio, discontinua, y anótala con annotate() para que se entienda qué marca.\nPonle labs() completo: título, ejes con sus unidades y un caption con la fuente.\nPrueba al menos dos temas y quédate con uno. Prueba también uno profesional, de ggthemes:\n\nlibrary(ggthemes)\nmi_grafico + theme_economist()"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#entrega-del-ejercicio",
+    "href": "docs/Tema02ej.html#entrega-del-ejercicio",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\n\n\n\n\n\n\nImportante\n\n\n\nCada ejercicio es una entrega, por el formulario de entrega:\n\nEntrega 1: el ejercicio 1, la clientela. T02_E1_DNI.zip\nEntrega 2: el ejercicio 2, corporaciones y startups. T02_E2_DNI.zip\nEntrega 3: el ejercicio 3, las reservas de hotel. T02_E3_DNI.zip\n\n\n\nSubid en cada una un solo .zip con el .qmd y el .html dentro, con el DNI sin la letra. Por ejemplo, T02_E1_12345678.zip.\nSe os dirá en clase cuáles de las tres hay que entregar y cuándo.\nComprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de confirmación si la entrega es correcta, o de rechazo si no lo es.\nRenderizad con embed-resources: true para que el .html se vea por sí solo.\nNo se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os quedáis a medias, entregad lo que tengáis.\n\n\n\n\n\n\nAdvertencia\n\n\n\nLas entregas que se hagan en clase se cierran al acabar la sesión, con un margen de 15 minutos desde el final. La hora de envío queda registrada."
+  },
+  {
+    "objectID": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
+    "href": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "El sistema de publicaciones Quarto",
+    "text": "El sistema de publicaciones Quarto\n\n\n\nOrientado al análisis de datos reproducible: combina código, resultados y comentarios\nÚtil como cuaderno de trabajo del código y para comunicar resultados en un documento final para tomar decisiones\n\n\n\n\n\n\n\n\n\nInstalar Quarto para vuestro sistema operativo desde aquí\n\nla web pide después elegir un editor: en Positron no hay que hacer nada más, ya trae la extensión de Quarto incorporada\n\nLa guía y referencia completa de Quarto están en su Web\nUn documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc.\n\n\n\nChuletas de Quarto y de Markdown en la web de Quarto (https://quarto.org/docs/guide/)."
+  },
+  {
+    "objectID": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
+    "href": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Documentos de Quarto: Crear y Guardar",
+    "text": "Documentos de Quarto: Crear y Guardar\n\nSe trabaja dentro de la carpeta del proyecto (File &gt; Open Folder); el documento se crea en File &gt; New File… &gt; Quarto Document y se guarda con extensión .qmd (Ctrl+S)\nSe renderiza con el botón Preview (Ctrl+Shift+K)\nEl resultado sale en el visor de la derecha y, a la vez, se crea el fichero en la carpeta del proyecto\nPara verlo como lo verá quien lo reciba, abridlo con doble clic desde el explorador de archivos del sistema: el .html se abre en el navegador, y un .pdf o .docx en su programa\n\n\n\n1 Preview · 2 guardar · 3 el fichero creado · 4 el visor\n\n\n\nSeñalar las cuatro marcas EN PANTALLA, sobre Positron, no sobre la slide.\nAtajos, por si preguntan: Ctrl+S guarda, Ctrl+Shift+K renderiza. Y desde la Terminal, quarto render informe.qmd (marginal: no abrir ese melón en clase).\nEn la captura el visor sale vacío porque se hizo antes de renderizar; en clase se ve lleno.\nLa casilla Render on Save renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo."
+  },
+  {
+    "objectID": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
+    "href": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Documentos de Quarto: formato de salida",
+    "text": "Documentos de Quarto: formato de salida\n\nEl renderizado crea un archivo en el mismo directorio donde está el archivo de Quarto .qmd\nEn el caso de HTML, se crea tanto un archivo con extensión .html como un subdirectorio del mismo nombre con componentes necesarios (ej., imágenes, css)\n\nsolo podemos visualizar correctamente el archivo .html en cualquier navegador si copiamos a otro lugar tanto el .html como el subdirectorio\n\nLos formatos de salida posibles son html (el que viene por defecto), Word y PDF. Más adelante veremos dónde se elige\nPara PDF hay dos caminos:\n\npor LaTeX, que hay que instalar una vez (en la pestaña Terminal, a la derecha de la consola): quarto install tool tinytex\npor typst, que no necesita instalar nada: Quarto ya lo trae incorporado, y es mucho más rápido\n\nPara este curso, con html basta. Word y typst tampoco necesitan instalar nada\n\n\n\nComprobado en la documentación de Quarto (15-sep-2026): “Quarto includes the Typst CLI so no separate installation of Typst is required”.\nSeñalar dónde está la pestaña Terminal antes de escribir nada ahí.\nLaTeX sigue siendo mejor si hacen falta ecuaciones complejas o una plantilla académica concreta; para un informe normal, typst sobra."
+  },
+  {
+    "objectID": "docs/Tema01.html#elegir-el-formato-desde-preview",
+    "href": "docs/Tema01.html#elegir-el-formato-desde-preview",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Elegir el formato desde Preview",
+    "text": "Elegir el formato desde Preview\n\nPreview es un desplegable: su flecha abre Preview Format…, que lista los formatos y renderiza al que se elija, sin tocar la cabecera\nAparece el que ya lleva el documento (Declared Formats) y los demás (Other Formats): PDF con typst, PDF con LaTeX y Word\n\n\n\n\nComprobado en Positron el 15-sep con un .qmd que solo declaraba format: html: el desplegable ofrecía Preview HTML bajo “Declared Formats”, y typst, pdf y docx bajo “Other Formats”.\nÚtil para el apartado a) del ejercicio, que pide renderizar a dos formatos: se puede hacer desde aquí sin editar el YAML, aunque en el ejercicio se pide cambiar la cabecera.\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado a), puntos i, ii, iv y v: crear la carpeta y el documento, guardarlo con su nombre y renderizarlo."
+  },
+  {
+    "objectID": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
+    "href": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Documentos de Quarto: Texto con Markdown",
+    "text": "Documentos de Quarto: Texto con Markdown\n\nLos componentes de texto están escritos en Markdown: un conjunto ligero de convenciones para archivos de texto sin formato. Por ejemplo,\n\ntodo lo escrito entre dos * como **Hola** se renderiza en negritas\nse utiliza # para indicar encabezados de secciones\n\nUna descripción completa, en la web de Quarto (Markdown Basics); también es útil este libro online.\n\n\n\nMarkdown está diseñado para ser fácil de leer y fácil de escribir. También es muy fácil de aprender. La siguiente guía muestra cómo usar el Markdown de Pandoc, una versión ligeramente extendida de Markdown que R Markdown entiende.\n\n\n\nFormato de texto\n*cursiva*  o _cursiva_\n**negrita**   __negrita__\n`código`\nsuperíndice^2^ y subíndice~2~\n~~tachado~~\nEncabezamientos\n# Encabezado de 1er. nivel\n## Encabezado de 2º nivel\n### Encabezado de 3er. nivel\n#### Encabezado de 4º nivel\n\nListas\n*   Item (elemento) de la lista (no numeradas)\n*   Item 2\n    - Sub-Item 2a (*, + y - son alternativas)\n        + sub-sub-item\n    - Sub-Item 2b\n\n1.  Item 1 de la lista numerada\n1.  Item 2. Los números se incrementan automáticamente.\n\n1)  Otra forma de crear listas numeradas.\n2)  También, se puede poner explícitamente el número.\n\n\n\nBloques de citas literales\n&gt; Esto es parte de un bloque de cita.\n&gt; Esto es parte del mismo bloque de cita.\n\n&gt;\n&gt; &gt; Esto es otro bloque de cita anidado.\n&gt; &gt; Esto es parte del bloque anidado.\n&gt;\n&gt; Esto es parte del bloque de cita de primer nivel.\nEsto es una línea normal\nNotas a pie de página\nEsto es un texto con nota al pie [^nota1]\ny esta es otra nota [^2]\n\n[^nota1]: Esto es una nota al pie de página.\n[^2]: Esto es la segunda nota al pie.\n\nLíneas de separación\n---\n***\nReferencias\n[Página de R][1]\n[1]: https://cran.r-project.org/\n\n#### Título 1 {#tit1}\n[Enlace a titulo1](#tit1)\n\nImaǵenes y enlaces\n![texto del subtítulo opcional](dirección/hacia/img.png)\n&lt;http://example.com&gt;\n[frase con vínculo](http://example.com)\n[![RUsers](http://rusersgroup.com/img/final5x5.png)](https://cran.r-project.org/ )\n\n\nTablas\nPrimer encabezado  | Segundo encabezado\n------------------ | ------------------\nCelda              | Celda\nCelda              | Celda\n\nCon alineación de columnas\n| Items    | Cantidad | Precio   |\n| :------- | :------: | -------: |\n| Item 1   | 15       | 9,050    |\n| Item 2   | 3250     | 239,99   |\n\n\nSe puede incluir código en HTML (útil para algunos formateos como centrar) y en LaTeX (útil para ecuaciones)\n; también se pueden incluir diagramas UML.\n\necuación en texto entre $ $ (en el editor visual: Insert &gt; Inline Math)\necuación aparte entre $$ $$ (en el editor visual: Insert &gt; Displayed Math)\n\nLos comentarios se escriben entre\nLa barra \\ delante de un símbolo de formato o enlace: muestra el símbolo, no aplica el formato: ej.,\\* muestra *, no empieza lista (idem para \\[ o \\$ ), enlace o ecuación\nprovoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\*\n\n\n\nPositron incorpora un editor visual de documentos de Quarto, similar a un procesador de texto\n\nun ventaja del modo no visual es el número de línea, para errores"
+  },
+  {
+    "objectID": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
+    "href": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Editor Visual de Quarto en Positron",
+    "text": "Editor Visual de Quarto en Positron\n\nUn .qmd se edita de dos formas: el texto tal cual (modo source), como hasta ahora, o en modo visual, ya con su formato\nEdit in Visual Mode está en el menú ... del editor, arriba a la derecha, y en el menú contextual que sale al pulsar el botón derecho sobre el documento\nPara volver, la misma entrada dice Edit in Source Mode\n\n\n\nAtajo: Ctrl+Shift+F4. También en la paleta de comandos (Ctrl+Shift+P)\n\n\n\nComprobado en Positron (extensión Quarto 1.138.0): el comando quarto.editInVisualMode está en el menú del editor (...), en el menú contextual del botón derecho y en la paleta, con el atajo Ctrl+Shift+F4. NO está en los menús File/View/Run de arriba: no buscarlo ahí en clase.\nEl mismo menú ... lleva Insert Code Cell (Ctrl+Shift+I) y Preview (Ctrl+Shift+K), que se usan enseguida.\nHACERLO en pantalla, no solo enseñar la imagen."
+  },
+  {
+    "objectID": "docs/Tema01.html#la-barra-del-editor-visual",
+    "href": "docs/Tema01.html#la-barra-del-editor-visual",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "La barra del editor visual",
+    "text": "La barra del editor visual\n\nSolo en modo visual aparece esta barra de herramientas:\n\n\n\nDesde ella se accede a\n\nformatos de texto (negritas, cursivas, encabezamientos) y listas\ninsertar enlaces, imágenes, notas a pie de página, tablas\nincluir ecuaciones (en LaTeX)\ntambién insertar directamente código HTML, comentarios, etc.\n\nLo que se escribe en modo visual es el mismo fichero: al volver a source se ve el Markdown que ha generado\n\n\n\nSEÑALAR en pantalla que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.\nCorrección ortográfica: en Positron se instala una extensión aparte (p.e. “Code Spell Checker” con diccionario de español); no viene de serie como en RStudio."
+  },
+  {
+    "objectID": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
+    "href": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Formato en la cabecera: el bloque YAML",
+    "text": "Formato en la cabecera: el bloque YAML\n\nAl principio del documento, entre dos líneas con ---, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida\n\nen modo visual se inserta desde Insert &gt; YAML Metadata…, sin escribir los ---\n\nLos formatos de salida son html, pdf, docx (y otros en Quarto Presentations), y también opciones globales, algunas propias de cada formato (referencia)\n  ---\n  title: \"Título\"\n  author: Autor\n  date: 15-octubre-2025\n  format:\n    html:\n      toc: true              # índice\n      number-sections: true  # secciones numeradas\n      embed-resources: true  # archivo html autocontenido\n      theme: united          # más temas: https://bootswatch.com/3/\n  ---\n\n\nY ahora el resto del apartado a): iii, vi y vii."
+  },
+  {
+    "objectID": "docs/Tema01.html#fragmentos-o-celdas-de-código",
+    "href": "docs/Tema01.html#fragmentos-o-celdas-de-código",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Fragmentos o celdas de código",
+    "text": "Fragmentos o celdas de código\n\nEl documento lleva código de R que Quarto ejecuta al renderizar; hay dos formas, según dónde deba salir el resultado\nCódigo en línea: un valor dentro de una frase (“la media es 20.09”); icono &lt;/&gt; de la barra, o Insert &gt; Any… (Ctrl+/) y escribir inline\nUna celda: bloque de código aparte, el resultado sale debajo (Insert &gt; Executable Cell &gt; R)\n\n\n\nEn modo source ambas se escriben a mano: el código en línea, con `r ` y dentro el código; la celda, entre ```{r} y ```\n\n\n\nHacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.\nLa celda también se inserta con Ctrl+Shift+I, y desde el menú ... del editor (Insert Code Cell); comprobado en Positron.\nLa distinción que hay que dejar clara es DONDE sale el resultado: dentro de la frase (en línea) o debajo (celda). Se empieza por el código en línea, que es lo más pequeño y lo que más les sorprende.\nEl código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: La media es 20.090625."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-de-una-celda",
+    "href": "docs/Tema01.html#opciones-de-una-celda",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones de una celda",
+    "text": "Opciones de una celda\n\nVan dentro de la celda, en sus primeras líneas, precedidas de #| (almohadilla y barra vertical; con # a secas es un comentario y la opción NO se aplica)\n\n```{r}\n#| echo: false\nmean(mtcars$mpg)\n```\n\necho (¿se ve el código?) y eval (¿se ejecuta?) son independientes:\n\n\n\n\necho\neval\nse ve el código\nse ejecuta\nse ve el resultado\n\n\n\n\ntrue\ntrue\nsí\nsí\nsí\n\n\nfalse\ntrue\nno\nsí\nsí\n\n\ntrue\nfalse\nsí\nno\nno\n\n\n\n\n\nEl error de todos los años: escribir # en vez de #|. Provocarlo en vivo.\nSi un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iv del ejercicio.\nLas opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí)."
+  },
+  {
+    "objectID": "docs/Tema01.html#otras-opciones-de-celda",
+    "href": "docs/Tema01.html#otras-opciones-de-celda",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Otras opciones de celda",
+    "text": "Otras opciones de celda\n\n\noutput: false oculta solo el resultado; include: false no muestra nada, pero sí ejecuta\nmessage, warning y error: si se muestra lo que R va contando por el camino\nlabel: una etiqueta para identificar la celda\ncode-fold: true oculta el código pero da opción a mostrarlo\nCómo mostrar resultados de texto y numéricos:\n\nresults: hide (no mostrar)\nresults: hold (mostrar todo, no el resultado de cada línea)\n\n\n\n\n\nNinguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que include: false ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo."
+  },
+  {
+    "objectID": "docs/Tema01.html#la-primera-celda-del-documento",
+    "href": "docs/Tema01.html#la-primera-celda-del-documento",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "La primera celda del documento",
+    "text": "La primera celda del documento\n\nTodo documento empieza con una celda que prepara el entorno: ahí se declaran las bibliotecas que se van a usar y se ejecuta lo que necesiten las demás celdas\nLleva include: false: se ejecuta, pero no se ve ni ella ni sus mensajes\n\n```{r}\n#| include: false\nlibrary(AER)\n```\n\nHace falta porque al renderizar se abre una sesión de R nueva y vacía: el documento no ve nada de lo que tengáis en la consola y tiene que cargar lo suyo\nCogedlo como costumbre: primera celda, entorno preparado. Vale para el resto del curso\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado b), empezando por esa primera celda.\n\n\n\n\n\nEs el hábito que más se arrastra: en los ejercicios largos y en el trabajo final la primera celda será siempre esta.\nVa despues de las opciones porque usa include: false, que acaban de ver.\nAER la conocen del Tema 00 (ahi se instala y se carga). No se estrena una biblioteca nueva en la celda que sirve de modelo.\nComprobado el 21-sep: un .qmd con solo texto y 20.090625 renderiza el codigo literal, sin ejecutar; basta una celda de R para que funcione. Es otra razon para la celda inicial, pero no se cuenta en la transparencia."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-de-presentación",
+    "href": "docs/Tema01.html#opciones-de-presentación",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones de presentación",
+    "text": "Opciones de presentación\n\n\nfig-cap y tbl-cap para los títulos de las figuras y tablas\nCómo mostrar los gráficos: fig-show\n\nhide y hold son como en results\nasis muestra el gráfico como se generó\nanimate concatena varios gráficos en una animación\n\nfig-width y fig-height: dimensiones (reales, en pulgadas) de una figura\nout-width y out-height: ídem en el documento de salida (% de las reales)\nLista completa de opciones aquí"
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-para-figuras",
+    "href": "docs/Tema01.html#opciones-para-figuras",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones para figuras",
+    "text": "Opciones para figuras\n\n\nfig-align: mostrar la figura centrada o alineada a derecha o izquierda\nlayout-ncol: en cuántas columnas se componen los resultados\n\nlibrary(ggplot2)\nggplot(cars) + geom_histogram(aes(x = speed))\nggplot(cars) + geom_histogram(aes(x = dist))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado c), los dos gráficos uno al lado del otro con layout-ncol."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
+    "href": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones globales para todas las celdas",
+    "text": "Opciones globales para todas las celdas\n\nEn la cabecera, especificamos opciones por defecto para las celdas de código\n\np.e., de ejecución como echo, eval, etc. en execute (ver aquí y aquí)\n---\nexecute:\n  echo: false\n  warning: false\n---\nTambién otras opciones que ya hemos visto (aquí listado completo para html)\n---\nformat:\n  html:\n    code-fold: true\n    cap-location: bottom\n    fig-align: center\n    df-print: paged      # cómo visualizar tablas\n---\n\n\n\n\nTambién existen enabled: false y freeze. Sección de ejecución en https://quarto.org/docs/computations/r.html"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
+    "href": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Ejecución de código en un documento .qmd",
+    "text": "Ejecución de código en un documento .qmd\n\nRenderizar un .qmd crea un espacio de trabajo para ejecutar el código distinto del de nuestra consola (diferentes objetos, bibliotecas, etc.)\n\nsi no estamos en la carpeta correcta, el directorio de trabajo puede ser diferente\n\nComprobamos los resultados del código del .qmd ejecutándolo sin renderizar: línea a línea (Ctrl + Enter), o con los enlaces que aparecen sobre cada celda: Run Cell (esa celda), Run Above (todas las anteriores) y Run Next Cell\n\nasí, el código pasa a la consola y sí forma parte del espacio de la sesión actual\nnos aseguramos de que no hay errores (ej., objetos previos no definidos)\n\nLa celda inicial que ya hemos visto sirve también para esto: como lleva include: false, se puede poner en ella\n\nrm(list = ls()): al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos, sólo con lo del .qmd\nTodas las bibliotecas que se usen en varias celdas (con library(), como en el Tema 00)\n\n\n\n\nComprobado en Positron el 15-sep: los enlaces sobre las celdas son Run Cell, Run Next Cell y Run Above (esta última no aparece en la primera celda, porque no hay nada encima). Run Above NO ejecuta la celda actual.\nLa demostración que convence: definir un objeto en la consola y usarlo en una celda del .qmd. Ejecutando la celda funciona; al renderizar, falla. De ahí sale casi todo el “a mí me funciona y no me renderiza”."
+  },
+  {
+    "objectID": "docs/Tema01.html#mejorar-la-salida-de-tablas",
+    "href": "docs/Tema01.html#mejorar-la-salida-de-tablas",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Mejorar la salida de tablas",
+    "text": "Mejorar la salida de tablas\n\nLa salida “en crudo” de R es correcta y poco presentable. knitr::kable() la convierte en una tabla con formato:\n\n\nknitr::kable(head(mtcars[, 1:5]))\n\n\nkableExtra añade estilos, anchos, cabeceras agrupadas… (guía)\nPrimero que el número sea el correcto; después, que la tabla se vea bien\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartados d) y e): mostrar mtcars con kbl() y comparar con la salida cruda, y luego las opciones de cabecera (df-print: paged, code-fold, tema).\n\n\n\n\n\nPara ir más lejos: broom::tidy() convierte resultados de modelos en tablas; modelsummary genera tablas de regresión y de descriptivos; también existen printr, pander, stargazer y xtable. La versión completa de esta lista está en el comentario de debajo.\nNo nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.\nEl ejercicio (d.ii) da las ordenes anidadas, kable_styling(kbl(mtcars)), no con el pipe |&gt;, que no se ha visto. En la documentacion de kableExtra aparecen con pipe: si alguien copia de ahi y pregunta, es lo mismo escrito al reves. No abrir el tema en clase."
+  },
+  {
+    "objectID": "docs/Tema01.html#comentarios-finales",
+    "href": "docs/Tema01.html#comentarios-finales",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Comentarios finales",
+    "text": "Comentarios finales\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nEjemplos de sus capacidades usando el paquete shiny, shinydashboards o flexdashboard\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
     "section": "",
-    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,\n\nTema00ej1_123456789.R"
   },
   {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv"
+    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
   },
   {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
+    "objectID": "ProyectoFinal.html#importante-plagio",
+    "href": "ProyectoFinal.html#importante-plagio",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO",
+    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
   },
   {
     "objectID": "PuestaAPunto.html",
@@ -238,200 +336,123 @@
     "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nWeb: https://albarran.github.io\n\n\ne-mail: albarran@ua.es o albarran@gcloud.ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nWeb: https://henryredondo.github.io/\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nNecesitaréis tener instalado en vuestro ordenador software (totalmente gratuito) para trabajar en el curso. Instaladlo LO ANTES POSIBLE siguiendo las instrucciones paso a paso de la página Puesta a punto.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizado antes de instalar nada.\n\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
   },
   {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
     "section": "",
-    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData"
   },
   {
-    "objectID": "ProyectoFinal.html#importante-plagio",
-    "href": "ProyectoFinal.html#importante-plagio",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO",
-    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
   },
   {
-    "objectID": "docs/Tema02.html#por-qué-visualizar-datos",
-    "href": "docs/Tema02.html#por-qué-visualizar-datos",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "¿Por qué visualizar datos?",
-    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nEmpresas y consultoras: presentaciones ejecutivas con las conclusiones que salen de los datos\nBancos centrales y gobiernos: paneles de indicadores macroeconómicos\nMedios: The Economist, Financial Times\nInvestigación económica\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
   },
   {
-    "objectID": "docs/Tema02.html#ggplot2-y-la-gramática-de-gráficos",
-    "href": "docs/Tema02.html#ggplot2-y-la-gramática-de-gráficos",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "ggplot2 y la Gramática de Gráficos",
-    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
   },
   {
-    "objectID": "docs/Tema02.html#los-datos-del-tema",
-    "href": "docs/Tema02.html#los-datos-del-tema",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Los datos del tema",
-    "text": "Los datos del tema\n\nTrabajaremos con una cadena de gimnasios y su entorno. Son tres conjuntos de datos, y cada uno responde a una pregunta distinta\n\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n¿Quién es nuestra clientela y en qué se diferencia? clientes, una ficha por persona: lo que ingresa, lo que gasta, su edad, por qué canal compra y en qué segmento está\n¿Cómo va el negocio y de qué depende? ventas: cuánto se vendió y cuánto se invirtió en marketing, en cada región, producto y trimestre\n¿En qué entorno operamos? macro, un país por fila: renta, población, paro, inflación y deuda\nDe cada conjunto salen muchas preguntas, y cada una pide su propio gráfico\nLa descripción de cada variable está en su diccionario: clientes_info, ventas_info, macro_info\n\n\n\nLa idea es que no sean “tres ficheros” sino tres preguntas del mismo negocio: la clientela, la cuenta de resultados y el entorno. Asi entienden POR QUE cambiamos de conjunto mas adelante.\nNo recorrer la ficha del final en clase: esta para consultar, y se llega por el enlace.\nmacro se reserva para escalas: su poblacion va de 1 a 138 millones y es donde la escala logaritmica se ve. Con clientes no se veria: sus ingresos son casi simetricos.\nLos diccionarios (clientes_info, ventas_info, macro_info) vienen en el mismo load()."
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
   },
   {
-    "objectID": "docs/Tema02.html#creando-un-ggplot",
-    "href": "docs/Tema02.html#creando-un-ggplot",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Creando un “ggplot”",
-    "text": "Creando un “ggplot”\nUn gráfico se construye en tres pasos. Cada pestaña añade uno:\n\n1. Los datos2. La estética3. La geometría\n\n\nggplot() con los datos solos da un lienzo vacío: todavía no hemos dicho qué variable va a cada sitio.\n\nggplot(data = ventas)\n\n\n\n\n\n\n\n\n\n\nLa estética es la correspondencia entre una variable y una propiedad visual del gráfico. Se declara con aes(): aquí, qué variable va en cada eje. Ya hay ejes, pero aún no hay nada dibujado.\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\n\n\n\n\n\n\n\n\nEl objeto geométrico es la forma que toman los datos: puntos, barras, líneas… Se añade como una capa más, con +.\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\n\n\n\n\n\n\n\n\nLa estética y la geometría son las dos piezas que vemos a continuación\n\n\n\nLas pestanas se recorren en clase de izquierda a derecha: es la construccion del grafico en vivo, sin tener que apilar tres graficos en una misma pantalla.\nAqui solo se NOMBRAN estetica y geometria, con una linea cada una; el detalle viene en las dos slides siguientes. Antes se usaban aes() y geom_point() sin haberlos definido.\nLa pestana 4 adelanta lo que se retoma en “Datos y esteticas especificas por capa”."
+    "objectID": "docs/minitest-T00-A.html",
+    "href": "docs/minitest-T00-A.html",
+    "title": "Mini-test Tema 00 (versión A)",
+    "section": "",
+    "text": "Tenéis 5 minutos. Contestad en el formulario. Sin ejecutar R y sin IA."
   },
   {
-    "objectID": "docs/Tema02.html#dónde-se-pone-la-estética",
-    "href": "docs/Tema02.html#dónde-se-pone-la-estética",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "¿Dónde se pone la estética?",
-    "text": "¿Dónde se pone la estética?\n\nSi aes() va en ggplot(), la estética vale para todas las capas que vengan detrás. Si va dentro de un geom_, vale solo para esa capa\nCon una sola capa, las dos formas dan el mismo gráfico:\n\n\n\n\nggplot(ventas,\n       aes(marketing, ventas)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\nggplot(ventas) +\n  geom_point(\n    aes(marketing, ventas))\n\n\n\n\n\n\n\n\n\n\nLa diferencia aparece en cuanto hay más de una capa: lo declarado en ggplot() lo heredan todas, y así no hay que repetirlo\n\n\n\nAqui solo se constata que son equivalentes con una capa. El caso en que SI importa se ve en “Datos (y esteticas) especificas por capa”, donde una capa de texto usa sus propios datos.\nLo util de declararlo arriba: no repetir x e y en cada geom_. Lo util de declararlo en el geom: que una capa concreta se salga de la norma."
+    "objectID": "docs/minitest-T00-A.html#pregunta-1",
+    "href": "docs/minitest-T00-A.html#pregunta-1",
+    "title": "Mini-test Tema 00 (versión A)",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n10\nNA\nDa error\n7.5"
   },
   {
-    "objectID": "docs/Tema02.html#objetos-geométricos",
-    "href": "docs/Tema02.html#objetos-geométricos",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Objetos Geométricos",
-    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Habitual\n\n\n\n\nPuntos\ngeom_point()\nDispersión\n\n\nLíneas\ngeom_line()\nEvolución temporal\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias\n\n\nTexto\ngeom_text()\nEtiquetas\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
+    "objectID": "docs/minitest-T00-A.html#pregunta-2",
+    "href": "docs/minitest-T00-A.html#pregunta-2",
+    "title": "Mini-test Tema 00 (versión A)",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\nDa error, porque ficha es una lista y no se puede promediar\n14\n7\nDa error, porque ficha[[2]] no es un número"
   },
   {
-    "objectID": "docs/Tema02.html#asociación-estética-con-aes",
-    "href": "docs/Tema02.html#asociación-estética-con-aes",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Asociación Estética, con aes()",
-    "text": "Asociación Estética, con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\n\n\n\n\n\n\n\nposición: x, y\n|\nforma: shape\n\n\ncolor: color exterior\n|\nrelleno: fill (color interior)\n\n\ntamaño: size\n|\ntipo de línea: linetype\n\n\n\n\n\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\n\n\nAlgunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region))"
+    "objectID": "docs/minitest-T00-A.html#pregunta-3",
+    "href": "docs/minitest-T00-A.html#pregunta-3",
+    "title": "Mini-test Tema 00 (versión A)",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\n9 10 27 20\nDa error, porque los vectores no miden igual\n9 10"
   },
   {
-    "objectID": "docs/Tema02.html#asociación-estética-vs.-opción-fija",
-    "href": "docs/Tema02.html#asociación-estética-vs.-opción-fija",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Asociación Estética vs. Opción Fija",
-    "text": "Asociación Estética vs. Opción Fija\n\n\nDentro de aes(): una variable se traduce en una señal visual, y aparece su leyenda\n\nggplot(ventas,\n       aes(marketing, ventas)) +\n  geom_point(\n    aes(color = region))\n\n\n\n\n\n\n\n\n\nFuera de aes(): un valor fijo, igual para todos los puntos, sin leyenda\n\nggplot(ventas,\n       aes(marketing, ventas)) +\n  geom_point(\n    color = \"red\")\n\n\n\n\n\n\n\n\n\n\n\nPrincipio: cada señal visual debe representar información, no “embellecer”. Y no saturar: tres o cuatro variables a la vez no se leen\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +        # demasiado\n  geom_point(aes(size = inflacion, color = deuda))\n\n\n\nEl contraste izquierda/derecha es el que hay que proyectar: misma orden, un parentesis de diferencia, y el resultado cambia por completo.\nCUIDADO, esto estaba mal hasta el 22-sep: el ejemplo de “valor fijo” tenia el color DENTRO de aes(), que es justo el error contrario. Ahora la derecha es color = \"red\" de verdad.\nLa practica que viene a continuacion vive de esa distincion: alli veran que aes(color=\"red\") ni siquiera pinta de rojo.\nnorte (caracter) se convierte automaticamente a factor: escala categorica."
+    "objectID": "docs/minitest-T00-A.html#pregunta-4-una-línea",
+    "href": "docs/minitest-T00-A.html#pregunta-4-una-línea",
+    "title": "Mini-test Tema 00 (versión A)",
+    "section": "Pregunta 4 (una línea)",
+    "text": "Pregunta 4 (una línea)\nTenéis el género de cinco clientes guardado como texto. ¿Por qué summary(genero) no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?\ngenero &lt;- c(\"Mujer\", \"Hombre\", \"Mujer\", \"Mujer\", \"Hombre\")\nsummary(genero)"
   },
   {
-    "objectID": "docs/Tema02.html#práctica-en-clase-1-rojo-o-rojo",
-    "href": "docs/Tema02.html#práctica-en-clase-1-rojo-o-rojo",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "PRÁCTICA en clase (1): ¿rojo o “rojo”?",
-    "text": "PRÁCTICA en clase (1): ¿rojo o “rojo”?\nCon el data frame clientes (300 fichas de la clientela de nuestra cadena de gimnasios):\n\nDibujad la relación entre ingresos y gasto con geom_point()\nPintad TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda)\nAhora ejecutad esto y describid qué veis: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?\nggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = \"red\"))\nDistinguid el segmento por color y el canal por forma. Y ahora añadid además size = edad. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira?\nAñadid size = 4 dentro de aes() y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla os sirve para decidirlo?\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el apartado a) del ejercicio 1: id haciéndola ahí, en vuestro .qmd.\n\n\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
+    "objectID": "docs/Tema01ej.html",
+    "href": "docs/Tema01ej.html",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "",
+    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: T01_E1_&lt;DNI&gt;.qmd (por ejemplo, T01_E1_12345678.qmd)\nRenderiza tu documento para visualizar el documento html creado.\nComprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son docx, typst y pdf; docx y typst no necesitan instalar nada.\nModifica el bloque YAML que ya tienes: no añadas un segundo bloque ---, porque entonces no renderiza.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
   },
   {
-    "objectID": "docs/Tema02.html#gráficos-como-objetos",
-    "href": "docs/Tema02.html#gráficos-como-objetos",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Gráficos como Objetos",
-    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))"
+    "objectID": "docs/Tema01ej.html#apartado-a",
+    "href": "docs/Tema01ej.html#apartado-a",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "",
+    "text": "Crea una carpeta para el ejercicio y ábrela en Positron (File &gt; Open Folder); crea un nuevo documento .qmd (File &gt; New File… &gt; Quarto Document). Adapta el encabezado para que tenga, al menos, un título y tu nombre como autor o autora. (Puedes eliminar el resto del contenido para los siguientes apartados, dejando espacio tras la cabecera).\nCrea una primera sección del documento, p.e., con el nombre “Apartado a)”. Para cada apartado posterior debes crear una nueva sección correspondiente al apartado.\nEscribe una breve frase introductoria general, una lista que enumere dos variables de las fichas de clientes que usamos en clase (p.e., altura y gasto), incluye un enlace a una página web e inserta una imagen.\nNota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.\nGuarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI: T01_E1_&lt;DNI&gt;.qmd (por ejemplo, T01_E1_12345678.qmd)\nRenderiza tu documento para visualizar el documento html creado.\nComprueba que en el mismo directorio donde tienes el archivo .qmd se ha creado un archivo con extensión html; nota que también se ha creado un subdirectorio del mismo nombre que contiene todo lo necesario para visualizar el archivo html.\nCambia a otro formato de salida en el encabezado YAML y genera otro documento de salida. Las opciones son docx, typst y pdf; docx y typst no necesitan instalar nada.\nModifica el bloque YAML que ya tienes: no añadas un segundo bloque ---, porque entonces no renderiza.\nComprueba de nuevo que tienes un archivo de salida (.pdf o .docx) en el mismo directorio donde está el archivo .qmd.\nBorra el documento html y el subdirectorio con el mismo nombre generados previamente. Cambia la opción de YAML para que se genere un html autocontenido. Comprueba que puedes visualizar el archivo. Comentar."
   },
   {
-    "objectID": "docs/Tema02.html#datos-y-estéticas-específicas-por-capa",
-    "href": "docs/Tema02.html#datos-y-estéticas-específicas-por-capa",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Datos (y estéticas) específicas por capa",
-    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio 1, apartado b): etiquetar a quienes más gastan, con su propia capa de datos."
+    "objectID": "docs/Tema01ej.html#apartado-b",
+    "href": "docs/Tema01ej.html#apartado-b",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "Apartado b)",
+    "text": "Apartado b)\n\nCrea, justo debajo de la cabecera, la primera celda del documento: la que prepara el entorno. Ponle la opción include: false, para que se ejecute sin que se vea, y carga en ella la biblioteca AER, que ya usaste en el Tema 00.\nTodo documento de Quarto empieza así: las bibliotecas que necesite el documento se declaran ahí.\nEscribe una línea de texto (NO celda de código) que incluya (entre el texto) código de R para mostrar la media de la variable mpg del conjunto de datos mtcars.\nCrear y dar un nombre a una sub-sección que incluya lo siguiente.\n\nTres celdas, todas con el código summary(mtcars). La primera debe mostrar el código, pero no el resultado; la segunda sólo mostrar el resultado (no el código); la tercera debe mostrar ambos. Antes de cada celda, incluye una frase explicando qué va a pasar.\nCargar la biblioteca Hmisc en una nueva celda de código. Cambia los valores de warning, error y message y renderiza el documento para observar los cambios. Comentar los cambios brevemente y qué forma de presentación prefieres para tu documento.\n\nCrear y dar nombre a otra sub-sección.\n\nAñadir una celda con el código a &lt;- 2, fijando la opción para que NO se evalúe. Añadir otra celda posterior con código b &lt;- 3 + a y que sí se evalúe. Renderizar el documento y comprobar que da un error.\nCambiar las opciones del segundo fragmento para que se pueda renderizar un documento de salida."
   },
   {
-    "objectID": "docs/Tema02.html#gráficos-que-muestran-datos-transformados",
-    "href": "docs/Tema02.html#gráficos-que-muestran-datos-transformados",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Gráficos que muestran datos transformados",
-    "text": "Gráficos que muestran datos transformados\n\nUn gráfico de dispersión dibuja los datos tal cual. Otros calculan algo antes de dibujar, y conviene saber qué\n\n\nCajasTendencia\n\n\ngeom_boxplot() no dibuja las observaciones: dibuja sus cuartiles y su mediana\n\n\n\nggplot(clientes,\n       aes(y = gasto/1000)) +\n  geom_boxplot()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngeom_smooth() estima una regresión y dibuja la línea predicha, con su intervalo de confianza\ngraf_base + geom_smooth()\ngraf_base + geom_smooth(method = lm, se = FALSE)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base"
+    "objectID": "docs/Tema01ej.html#apartado-c",
+    "href": "docs/Tema01ej.html#apartado-c",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "Apartado c)",
+    "text": "Apartado c)\n\nCrear una celda con este código, que muestra un gráfico de puntos con los datos de mtcars para las variables disp (tamaño del motor) y mpg (consumo); los gráficos los estudiaremos en el próximo tema, aquí solo nos importa cómo se integran en el documento:\n\n\nplot(mtcars$disp, mtcars$mpg, sub = \"Consumo frente a tamaño del motor\")\n\n\nCrear una nueva celda de código con dos gráficos de caja (boxplot(mtcars$disp) y boxplot(mtcars$mpg)) y usar las opciones de celda para que se muestren uno al lado del otro."
   },
   {
-    "objectID": "docs/Tema02.html#gráficos-que-muestran-datos-transformados-cont.",
-    "href": "docs/Tema02.html#gráficos-que-muestran-datos-transformados-cont.",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Gráficos que muestran datos transformados (cont.)",
-    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram() convierten los datos en frecuencias\n\n\nRecuentoIntervalosDensidad\n\n\ngeom_bar() cuenta los casos de cada categoría: no hay que calcular nada antes. En Excel habría que haber contado primero\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\n\n\n\n\n\n\n\nEn una variable continua no hay categorías naturales: los intervalos los elegimos nosotros, y esa elección cambia lo que se ve\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)\ngraf + geom_histogram(binwidth = 3)\ngraf + geom_histogram(breaks = seq(10,90,5))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLa misma información sin elegir intervalos, en frecuencia relativa\ngraf + geom_histogram(aes(y = after_stat(density)))\ngraf + geom_density()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\n\n\n\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas |&gt; \n  group_by(region) |&gt; \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")"
+    "objectID": "docs/Tema01ej.html#apartado-d",
+    "href": "docs/Tema01ej.html#apartado-d",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "Apartado d)",
+    "text": "Apartado d)\n\nCrear una sub-sección. Incluir una nueva celda de código (que sí se evalúe) para mostrar mtcars y summary(mtcars).\nCrear una sub-sección. Incluir un nuevo fragmento de código (que sí se evalúe) y que incluya:\n\ncargar la biblioteca kableExtra para poder usar la función kbl()\nmostrar el resultado de mtcars y summary(mtcars) con la función kbl() con distintas opciones de estilo (una guía completa aquí). Por ejemplo\n\n\n\nkable_styling(kbl(mtcars))\nkable_styling(kbl(summary(mtcars)))\n\nkable_classic(kbl(mtcars), full_width = F)\nkable_minimal(kbl(summary(mtcars)))\n\nComentar las diferencias con el apartado anterior, d.i), y qué forma de presentación prefieres para tu documento."
   },
   {
-    "objectID": "docs/Tema02.html#práctica-en-clase-2-el-gráfico-calcula-por-ti",
-    "href": "docs/Tema02.html#práctica-en-clase-2-el-gráfico-calcula-por-ti",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "PRÁCTICA en clase (2): el gráfico calcula por ti",
-    "text": "PRÁCTICA en clase (2): el gráfico calcula por ti\nVenís de Excel, donde para hacer un gráfico de barras hay que contar antes. Aquí no. Con clientes:\n\nNúmero de clientes de cada segmento, con geom_bar(). ¿Dónde está la tabla de frecuencias que habéis usado?\nLo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: el geom ya ha contado, y after_stat() deja usar lo que ha calculado\n\n\nggplot(clientes, aes(x = segmento, y = after_stat(prop), group = 1)) +\n  geom_bar()\n\n\n¿Qué cambia respecto al gráfico anterior, y qué NO cambia?\nQuitad ahora group = 1 y mirad el resultado: las tres barras valen 1. ¿Proporción respecto a qué está calculando en cada caso?"
+    "objectID": "docs/Tema01ej.html#apartado-e",
+    "href": "docs/Tema01ej.html#apartado-e",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "Apartado e)",
+    "text": "Apartado e)\n\nIncluir la opción df-print: paged en la cabecera. Comprobar el efecto antes y después de incluirlo sobre cómo se muestra el conjunto de datos (“data frame”) mtcars en los apartados d.i) y d.ii).\nComentar las diferencias y qué forma de presentación prefieres para tu documento.\nIncluye la opción code-fold: true en la cabecera. Comprobar cómo cambia el documento y comentar brevemente qué forma de presentación prefieres para tu documento.\nElige un tema entre estos y aplícalo al documento."
   },
   {
-    "objectID": "docs/Tema02.html#práctica-en-clase-2-el-gráfico-calcula-por-ti-cont.",
-    "href": "docs/Tema02.html#práctica-en-clase-2-el-gráfico-calcula-por-ti-cont.",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "PRÁCTICA en clase (2): el gráfico calcula por ti (cont.)",
-    "text": "PRÁCTICA en clase (2): el gráfico calcula por ti (cont.)\n\nDistribución del gasto con geom_histogram(), probando bins = 10, bins = 40 y binwidth = 250. ¿Cuál de las tres versiones le enseñaríais a dirección y por qué?\nRepetid las tres versiones con ingresos. ¿Hay un grupo de clientes de ingresos muy bajos? ¿Con cuál de las tres se ve y con cuáles no?\nAñadid un geom_boxplot() del gasto por segmento\n\n\nEn una frase: ¿qué significa que un geom “tiene una estadística por defecto”?\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el apartado c) del ejercicio 1."
-  },
-  {
-    "objectID": "docs/Tema02.html#escalas-control-de-asociación-estética",
-    "href": "docs/Tema02.html#escalas-control-de-asociación-estética",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Escalas: Control de Asociación Estética",
-    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,\n\n\n\n\n\nEscala\nTipos\nEjemplos\n\n\n\n\n\n\n\n\n\nscale_color_\nidentity\nscale_fill_continuous\n\n\nscale_fill_\nmanual\nscale_color_discrete\n\n\nscale_size_\ncontinuous\nscale_color_manual\n\n\n\ndiscrete\nscale_size_discrete\n\n\n\n\n\n\n\nscale_shape_\ndiscrete\nscale_shape_discrete\n\n\nscale_linetype_\nmanual\nscale_shape_manual\n\n\n\nidentity\nscale_linetype_discrete\n\n\n\n\n\n\n\nscale_x_\ncontinuous\nscale_x_continuous\n\n\nscale_y_\ndiscrete\nscale_y_discrete\n\n\n\nreverse\nscale_y_reverse\n\n\n\nlog10\nscale_x_log10\n\n\n\ndate\nscale_x_date\n\n\n\ndatetime\nscale_y_datetime"
-  },
-  {
-    "objectID": "docs/Tema02.html#escalas-cont.",
-    "href": "docs/Tema02.html#escalas-cont.",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Escalas (cont.)",
-    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona de Europa\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: este ejemplo tiene elementos redundantes a efectos ilustrativos\n\n\n\nEj., dos estéticas para una variables\nlimits que no concuerdan con breaks"
-  },
-  {
-    "objectID": "docs/Tema02.html#escala-logarítmica",
-    "href": "docs/Tema02.html#escala-logarítmica",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Escala Logarítmica",
-    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\nAquí cambiamos a macro, un país por fila: la poblacion va de 1 a 138 millones, y es donde la escala logarítmica se nota. Con los ingresos de clientes no se vería nada, porque están todos en el mismo orden de magnitud\n\n\nggplot(macro, aes(y = desempleo, x = poblacion)) + \n  scale_x_log10(breaks = seq(0,100,20)) + geom_point()\n\n\nMejor que x = log(pib) porque los ejes se muestran en unidades originales\n\n\n\nEn escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -&gt; incremento de 20 millones de personas en ambos casos\nEn escala logarítmica: misma distancia entre 20 y 40 que entre 40 y 80 -&gt; incremento del 100% en ambos casos\nqué es un logaritmo de euros o de personas\n\n\n\nUsar logs cambia la interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\nNO para “evitar” valores extremos o distribución asimétrica"
-  },
-  {
-    "objectID": "docs/Tema02.html#práctica-en-clase-3-la-misma-pregunta-en-dos-escalas",
-    "href": "docs/Tema02.html#práctica-en-clase-3-la-misma-pregunta-en-dos-escalas",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "PRÁCTICA en clase (3): la misma pregunta en dos escalas",
-    "text": "PRÁCTICA en clase (3): la misma pregunta en dos escalas\nUna consultora de inversión compara el perfil de ingresos de cinco grandes corporaciones y cinco startups. Copiad estos datos:\n\nempresas &lt;- data.frame(\n  empresa = c(\"Google\", \"Microsoft\", \"Apple\", \"Amazon\", \"Meta\",\n              \"TechStart\", \"InnovateLab\", \"DataFlow\", \"CloudVision\", \"AI-Solutions\"),\n  tipo = c(rep(\"Corporación\", 5), rep(\"Startup\", 5)),\n  ingresos_millones = c(3522.91, 2831.89, 2413.98, 1751.65, 1187.63,\n                          81.40,   62.83,   37.21,   15.80,    8.45))\n\n\nDiagrama de cajas de ingresos_millones por tipo, en escala normal\nEl mismo gráfico con scale_y_log10()"
-  },
-  {
-    "objectID": "docs/Tema02.html#práctica-en-clase-3-la-misma-pregunta-en-dos-escalas-cont.",
-    "href": "docs/Tema02.html#práctica-en-clase-3-la-misma-pregunta-en-dos-escalas-cont.",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "PRÁCTICA en clase (3): la misma pregunta en dos escalas (cont.)",
-    "text": "PRÁCTICA en clase (3): la misma pregunta en dos escalas (cont.)\n\nComparando los dos: ¿qué diferencias hay en la posición central y en la variabilidad dentro de cada grupo? ¿Cuál de los dos gráficos es más informativo, y por qué?\nSi esa variabilidad mide el riesgo de una inversión, ¿dónde es más arriesgado invertir?\nUn compañero dice que usa logaritmos “para quitar los valores extremos”. ¿Está bien dicho? ¿Qué está haciendo en realidad la escala logarítmica?\n\n\nPoned título, ejes con unidades y color por tipo. El gráfico tiene que poder enseñarse solo, sin que vosotros lo expliquéis al lado.\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el ejercicio 2, el de corporaciones y startups."
-  },
-  {
-    "objectID": "docs/Tema02.html#facetas-sub-gráficos",
-    "href": "docs/Tema02.html#facetas-sub-gráficos",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Facetas (sub-gráficos)",
-    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
-  },
-  {
-    "objectID": "docs/Tema02.html#contexto-con-labs",
-    "href": "docs/Tema02.html#contexto-con-labs",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Contexto con labs()",
-    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
-  },
-  {
-    "objectID": "docs/Tema02.html#otros-elementos-de-contexto",
-    "href": "docs/Tema02.html#otros-elementos-de-contexto",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Otros Elementos de Contexto",
-    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
-  },
-  {
-    "objectID": "docs/Tema02.html#personalizar-el-aspecto-general",
-    "href": "docs/Tema02.html#personalizar-el-aspecto-general",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Personalizar el aspecto general",
-    "text": "Personalizar el aspecto general\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\nCOLOR\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nSe pueden cambiar manualmente colores (p.e., scale_fill_manual()) o la forma (ej., scale_shape_manual())\nPERO es preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + \n          geom_boxplot()\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\n\n\n\nRColorBrewer o viridis\nTambién se puede cambiar la forma con scale_shape_manual()\n\n\n\n\nTEMAS\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\n\nSe puede añadir una capa de tema (estilo general de todos los componentes)\n\n\n\n\ngraf + theme_gray()      \n\n\n\ngraf + theme_minimal()\n\n\n\nTambién existen temas profesionales predefinidos en bibliotecas\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio 1, apartado d): facetas por canal, labs() completo y probar temas, incluido uno de ggthemes.\n\n\n\n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
-  },
-  {
-    "objectID": "docs/Tema02.html#cierre-buenas-prácticas",
-    "href": "docs/Tema02.html#cierre-buenas-prácticas",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Cierre: buenas prácticas",
-    "text": "Cierre: buenas prácticas\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
-  },
-  {
-    "objectID": "docs/Tema02.html#comentarios-finales",
-    "href": "docs/Tema02.html#comentarios-finales",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Comentarios Finales",
-    "text": "Comentarios Finales\n\nGuardar gráficos: en el panel Plots, con el botón Save Plot (en RStudio era Export), o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R, ggplot2 y más\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
+    "objectID": "docs/Tema01ej.html#entrega-del-ejercicio",
+    "href": "docs/Tema01ej.html#entrega-del-ejercicio",
+    "title": "Tema 01 - Ejercicio de Quarto",
+    "section": "Entrega del ejercicio",
+    "text": "Entrega del ejercicio\n\n\n\n\n\n\nImportante\n\n\n\nEste ejercicio se va haciendo durante las clases del tema, apartado a apartado, y se entrega al terminarlo, por el formulario de entrega.\n\n\nSubid un solo .zip con el .qmd y el .html dentro, llamado Tnn_En_DNI.zip: nn es el tema, n la entrega y el DNI va sin la letra. Aquí, T01_E1_12345678.zip con vuestro DNI.\nComprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de confirmación si la entrega es correcta, o de rechazo si no lo es.\nRenderizad con embed-resources: true para que el .html se vea por sí solo (apartado a.vii).\nNo se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os quedáis a medias, entregad lo que tengáis.\n\n\n\n\n\n\nAdvertencia\n\n\n\nLa entrega se cierra al acabar la clase. Se admite un margen de 15 minutos desde el final de la sesión; lo que llegue más tarde no se tiene en cuenta. La hora de envío queda registrada."
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -728,199 +749,185 @@
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education&gt;15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
-    "objectID": "docs/minitest-T00-A.html",
-    "href": "docs/minitest-T00-A.html",
-    "title": "Mini-test Tema 00 (versión A)",
+    "objectID": "docs/Tema02.html#por-qué-visualizar-datos",
+    "href": "docs/Tema02.html#por-qué-visualizar-datos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "¿Por qué visualizar datos?",
+    "text": "¿Por qué visualizar datos?\n\nObjetivos de Aprendizaje\nAl finalizar este tema, serás capaz de:\n\nComprender los principios fundamentales de la visualización de datos\nUsar la gramática de gráficos implementada en ggplot2\nCrear visualizaciones efectivas para análisis exploratorio\nAplicar buenas prácticas en la comunicación visual de datos\n\n\n\nResumir información que no se vería en los datos en bruto (hoja de cálculo)\nIdentificar patrones y relaciones entre variables\nComunicar hallazgos de forma efectiva a diferentes audiencias\n\n\n\nLa visualización es esencial en:\n\nEmpresas y consultoras: presentaciones ejecutivas con las conclusiones que salen de los datos\nBancos centrales y gobiernos: paneles de indicadores macroeconómicos\nMedios: The Economist, Financial Times\nInvestigación económica\n\nEn un buen gráfico, la audiencia encuentra obvias las ideas a transmitir, sin abrumar con muchos hallazgos"
+  },
+  {
+    "objectID": "docs/Tema02.html#ggplot2-y-la-gramática-de-gráficos",
+    "href": "docs/Tema02.html#ggplot2-y-la-gramática-de-gráficos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "ggplot2 y la Gramática de Gráficos",
+    "text": "ggplot2 y la Gramática de Gráficos\n\nComponentes básicos:\n\nDatos\nEstéticas (aes): asocia variables a propiedades visuales (posición, longitud, área, color)\nGeometrías (geom): objetos para representar datos (líneas, círculos, barras)\nEscalas, Sistemas de coordenadas, Facetas (subgráficos), Contexto (títulos, leyendas), etc.\n\nConstruir gráficos como frases gramaticales\n\nsujeto + verbo + objeto = oración\ndatos + geometría + estética = gráfico de ggplot2\n\n\n\nElementos Básicos de un Gráfico\n\nSeñales Visuales (Aesthetics)\n\n\nPosición: ubicación en ejes x, y\nColor: matiz para distinguir categorías o magnitudes\nTamaño: área/radio para representar magnitudes\nForma: símbolos diferentes para categorías\nTransparencia: nivel alpha para densidad o solapamiento\n\n\nSistema de Coordenadas\n\n\nCartesiano (por defecto)\nPolar: coord_polar()\n\nGeográfico: coord_map()\n\n\nEscala\n\n\nNumérica lineal, logarítmica\nCategórica, temporal\n¿Cómo se traduce la distancia en algo con significado?\n\n\nContexto\n\n\nTítulos, leyendas, puntos/líneas de referencia\n\n\n“Por encima de todo, mostrar los datos”"
+  },
+  {
+    "objectID": "docs/Tema02.html#los-datos-del-tema",
+    "href": "docs/Tema02.html#los-datos-del-tema",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Los datos del tema",
+    "text": "Los datos del tema\n\nTrabajaremos con una cadena de gimnasios y su entorno. Son tres conjuntos de datos, y cada uno responde a una pregunta distinta\n\n\nlibrary(ggplot2)\nload(\"data/datosVisualizacion.RData\")\n\n\n¿Quién es nuestra clientela y en qué se diferencia? clientes, una ficha por persona: lo que ingresa, lo que gasta, su edad, por qué canal compra y en qué segmento está\n¿Cómo va el negocio y de qué depende? ventas: cuánto se vendió y cuánto se invirtió en marketing, en cada región, producto y trimestre\n¿En qué entorno operamos? macro, un país por fila: renta, población, paro, inflación y deuda\nDe cada conjunto salen muchas preguntas, y cada una pide su propio gráfico\nLa descripción de cada variable está en su diccionario: clientes_info, ventas_info, macro_info\nLos ficheros se descargan de la página Datos del curso, y van en un subdirectorio data dentro de vuestra carpeta del tema\n\n\n\nLa idea es que no sean “tres ficheros” sino tres preguntas del mismo negocio: la clientela, la cuenta de resultados y el entorno. Asi entienden POR QUE cambiamos de conjunto mas adelante.\nNo recorrer la ficha del final en clase: esta para consultar, y se llega por el enlace.\nmacro se reserva para escalas: su poblacion va de 1 a 138 millones y es donde la escala logaritmica se ve. Con clientes no se veria: sus ingresos son casi simetricos.\nLos diccionarios (clientes_info, ventas_info, macro_info) vienen en el mismo load()."
+  },
+  {
+    "objectID": "docs/Tema02.html#creando-un-ggplot",
+    "href": "docs/Tema02.html#creando-un-ggplot",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Creando un “ggplot”",
+    "text": "Creando un “ggplot”\nUn gráfico se construye en tres pasos. Cada pestaña añade uno:\n\n1. Los datos2. La estética3. La geometría\n\n\nggplot() con los datos solos da un lienzo vacío: todavía no hemos dicho qué variable va a cada sitio.\n\nggplot(data = ventas)\n\n\n\n\n\n\n\n\n\n\nLa estética es la correspondencia entre una variable y una propiedad visual del gráfico. Se declara con aes(): aquí, qué variable va en cada eje. Ya hay ejes, pero aún no hay nada dibujado.\n\nggplot(data = ventas, aes(x = marketing, y = ventas))\n\n\n\n\n\n\n\n\n\n\nEl objeto geométrico es la forma que toman los datos: puntos, barras, líneas… Se añade como una capa más, con +.\n\nggplot(data = ventas, aes(x = marketing, y = ventas)) + \n  geom_point()\n\n\n\n\n\n\n\n\n\n\n\n\nLa estética y la geometría son las dos piezas que vemos a continuación\n\n\n\nLas pestanas se recorren en clase de izquierda a derecha: es la construccion del grafico en vivo, sin tener que apilar tres graficos en una misma pantalla.\nAqui solo se NOMBRAN estetica y geometria, con una linea cada una; el detalle viene en las dos slides siguientes. Antes se usaban aes() y geom_point() sin haberlos definido.\nLa pestana 4 adelanta lo que se retoma en “Datos y esteticas especificas por capa”."
+  },
+  {
+    "objectID": "docs/Tema02.html#dónde-se-pone-la-estética",
+    "href": "docs/Tema02.html#dónde-se-pone-la-estética",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "¿Dónde se pone la estética?",
+    "text": "¿Dónde se pone la estética?\n\nSi aes() va en ggplot(), la estética vale para todas las capas que vengan detrás. Si va dentro de un geom_, vale solo para esa capa\nCon una sola capa, las dos formas dan el mismo gráfico:\n\n\n\n\nggplot(ventas,\n       aes(marketing, ventas)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\nggplot(ventas) +\n  geom_point(\n    aes(marketing, ventas))\n\n\n\n\n\n\n\n\n\n\nLa diferencia aparece en cuanto hay más de una capa: lo declarado en ggplot() lo heredan todas, y así no hay que repetirlo\n\n\n\nAqui solo se constata que son equivalentes con una capa. El caso en que SI importa se ve en “Datos (y esteticas) especificas por capa”, donde una capa de texto usa sus propios datos.\nLo util de declararlo arriba: no repetir x e y en cada geom_. Lo util de declararlo en el geom: que una capa concreta se salga de la norma."
+  },
+  {
+    "objectID": "docs/Tema02.html#objetos-geométricos",
+    "href": "docs/Tema02.html#objetos-geométricos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Objetos Geométricos",
+    "text": "Objetos Geométricos\nCada geom_*() agrega un tipo diferente de capa:\n\n\n\nTipo\nFunción\nUso Habitual\n\n\n\n\nPuntos\ngeom_point()\nDispersión\n\n\nLíneas\ngeom_line()\nEvolución temporal\n\n\nBarras\ngeom_bar()\nFrecuencias categóricas\n\n\nHistograma\ngeom_histogram()\nDistribución continua\n\n\nCajas\ngeom_boxplot()\nEstadísticos descriptivos\n\n\nSuavizado\ngeom_smooth()\nTendencias\n\n\nTexto\ngeom_text()\nEtiquetas\n\n\n\nPara lista completa: buscar funciones que comienzan con geom_ en Ayuda"
+  },
+  {
+    "objectID": "docs/Tema02.html#asociación-estética-con-aes",
+    "href": "docs/Tema02.html#asociación-estética-con-aes",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Asociación Estética, con aes()",
+    "text": "Asociación Estética, con aes()\n\nElementos estéticos son “algo que se puede ver” (información)\n\n\nCada aes() es una asociación entre una señal visual y una variable:\n\n\n\n\n\n\n\n\nposición: x, y\n|\nforma: shape\n\n\ncolor: color exterior\n|\nrelleno: fill (color interior)\n\n\ntamaño: size\n|\ntipo de línea: linetype\n\n\n\n\n\n\nposición: x, y\n\ncolor: color exterior\nrelleno: fill (color interior)\nforma: shape (de los puntos)\ntipo de línea: linetype\ntamaño: size\n\n\n\nAlgunas estéticas son solo adecuadas para variables cuantitativas o para cualitativas\nCada geom acepta solo un subconjunto de estéticas (ver ayuda)\nRegla de oro: Si quieres que algo varíe con los datos, ponlo en aes()\n\n\nggplot(ventas, aes(x = marketing, y = ventas)) +\n  geom_point(aes(color = region))"
+  },
+  {
+    "objectID": "docs/Tema02.html#asociación-estética-vs.-opción-fija",
+    "href": "docs/Tema02.html#asociación-estética-vs.-opción-fija",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Asociación Estética vs. Opción Fija",
+    "text": "Asociación Estética vs. Opción Fija\n\n\nDentro de aes(): una variable se traduce en una señal visual, y aparece su leyenda\n\nggplot(ventas,\n       aes(marketing, ventas)) +\n  geom_point(\n    aes(color = region))\n\n\n\n\n\n\n\n\n\nFuera de aes(): un valor fijo, igual para todos los puntos, sin leyenda\n\nggplot(ventas,\n       aes(marketing, ventas)) +\n  geom_point(\n    color = \"red\")\n\n\n\n\n\n\n\n\n\n\n\nPrincipio: cada señal visual debe representar información, no “embellecer”. Y no saturar: tres o cuatro variables a la vez no se leen\n\n\nggplot(macro, aes(y = desempleo, x = pib)) +        # demasiado\n  geom_point(aes(size = inflacion, color = deuda))\n\n\n\nEl contraste izquierda/derecha es el que hay que proyectar: misma orden, un parentesis de diferencia, y el resultado cambia por completo.\nCUIDADO, esto estaba mal hasta el 22-sep: el ejemplo de “valor fijo” tenia el color DENTRO de aes(), que es justo el error contrario. Ahora la derecha es color = \"red\" de verdad.\nLa practica que viene a continuacion vive de esa distincion: alli veran que aes(color=\"red\") ni siquiera pinta de rojo.\nnorte (caracter) se convierte automaticamente a factor: escala categorica."
+  },
+  {
+    "objectID": "docs/Tema02.html#práctica-en-clase-1-rojo-o-rojo",
+    "href": "docs/Tema02.html#práctica-en-clase-1-rojo-o-rojo",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "PRÁCTICA en clase (1): ¿rojo o “rojo”?",
+    "text": "PRÁCTICA en clase (1): ¿rojo o “rojo”?\nCon el data frame clientes (300 fichas de la clientela de nuestra cadena de gimnasios):\n\nDibujad la relación entre ingresos y gasto con geom_point()\nPintad TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda)\nAhora ejecutad esto y describid qué veis: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?\nggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = \"red\"))\nDistinguid el segmento por color y el canal por forma. Y ahora añadid además size = edad. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira?\nAñadid size = 4 dentro de aes() y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla os sirve para decidirlo?\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el apartado a) del ejercicio 1: id haciéndola ahí, en vuestro .qmd.\n\n\n\n\nesquisse: Interfaz Gráfica\nesquisse implementa visualmente la lógica de ggplot2:\n\nSimilar a Tableau, PowerBI, Gapminder\n“Arrastrar y soltar” variables a estéticas\n\n\n#install.packages(\"esquisse\")\nlibrary(esquisse)\nesquisser()                         \ndata(\"mpg\")\nesquisser(mpg, viewer = \"browser\")   \n\nCaracterísticas: - Elegir tipo de gráfico, estéticas, títulos, apariencia - Genera código R para crear el gráfico\n- Descargar gráfico creado - Ayuda para aprender cómo hacer las cosas"
+  },
+  {
+    "objectID": "docs/Tema02.html#gráficos-como-objetos",
+    "href": "docs/Tema02.html#gráficos-como-objetos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Gráficos como Objetos",
+    "text": "Gráficos como Objetos\n\nUn gráfico también es un objeto de R\n\n\ngraf_base &lt;- ggplot(macro, aes(y = desempleo, x = pib)) +\n                geom_point()\n\n\nSe pueden agregar capas a este objeto:\n\n\ngraf_base + geom_line()\ngraf_base + geom_point(aes(shape = norte)) \ngraf_base + geom_point(aes(size = inflacion, color = deuda))"
+  },
+  {
+    "objectID": "docs/Tema02.html#datos-y-estéticas-específicas-por-capa",
+    "href": "docs/Tema02.html#datos-y-estéticas-específicas-por-capa",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Datos (y estéticas) específicas por capa",
+    "text": "Datos (y estéticas) específicas por capa\n\n\nRecordad: cada capa puede usar datos o estéticas distintas\n\n\nEjemplo práctico:\n\ngeom_text(): acepta estéticas de etiquetas (variables con texto):\n\n\ngraf_base + geom_text(aes(label = pais), size = 3)\n\nlibrary(ggrepel)  # Evita solapamiento\ngraf_base + geom_text_repel(aes(label = pais), size = 3)\n\n\nAhora con datos específicos por capa si solo queremos señalar algunos puntos\n\n\ngraf_base + \n  geom_text_repel(\n    data = subset(macro, \n                  pais %in% c(\"España\",\"Francia\",\"Alemania\")), \n    aes(label = pais), size = 3)\n\n\nEsta idea se puede generalizar: usar distintos datos o estéticas en cada capa según las necesidades del gráfico\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio 1, apartado b): etiquetar a quienes más gastan, con su propia capa de datos."
+  },
+  {
+    "objectID": "docs/Tema02.html#gráficos-que-muestran-datos-transformados",
+    "href": "docs/Tema02.html#gráficos-que-muestran-datos-transformados",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Gráficos que muestran datos transformados",
+    "text": "Gráficos que muestran datos transformados\n\nUn gráfico de dispersión dibuja los datos tal cual. Otros calculan algo antes de dibujar, y conviene saber qué\n\n\nCajasTendencia\n\n\ngeom_boxplot() no dibuja las observaciones: dibuja sus cuartiles y su mediana\n\n\n\nggplot(clientes,\n       aes(y = gasto/1000)) +\n  geom_boxplot()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ngeom_smooth() estima una regresión y dibuja la línea predicha, con su intervalo de confianza\ngraf_base + geom_smooth()\ngraf_base + geom_smooth(method = lm, se = FALSE)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPodríamos agregar la línea de regresión “manualmente”\n\n\nres &lt;- lm(gasto ~ ingreso, data = clientes)\nclientes$ingreso_pred &lt;- res[[\"fitted.values\"]]\n# graf_base +  geom_line(aes(y = ingreso_pred))  # ERROR: pred.SC no estaba en graf_base\n\ngraf_base &lt;- ggplot(clientes, aes(y = gasto, x = ingreso)) + geom_point()\ngraf_base + geom_line(aes(y = ingreso_pred))\n\n\nNO necesitamos repetir la estetica de posición x para geom_line() porque ya está definida en graf_base"
+  },
+  {
+    "objectID": "docs/Tema02.html#gráficos-que-muestran-datos-transformados-cont.",
+    "href": "docs/Tema02.html#gráficos-que-muestran-datos-transformados-cont.",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Gráficos que muestran datos transformados (cont.)",
+    "text": "Gráficos que muestran datos transformados (cont.)\n\ngeom_bar() y geom_histogram() convierten los datos en frecuencias\n\n\nRecuentoIntervalosDensidad\n\n\ngeom_bar() cuenta los casos de cada categoría: no hay que calcular nada antes. En Excel habría que haber contado primero\n\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\n\n\n\n\n\n\n\nEn una variable continua no hay categorías naturales: los intervalos los elegimos nosotros, y esa elección cambia lo que se ve\ngraf &lt;- ggplot(clientes, aes(x = ingresos/1000))\ngraf + geom_histogram(bins = 20)\ngraf + geom_histogram(binwidth = 3)\ngraf + geom_histogram(breaks = seq(10,90,5))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLa misma información sin elegir intervalos, en frecuencia relativa\ngraf + geom_histogram(aes(y = after_stat(density)))\ngraf + geom_density()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCon datos ya transformados, usar stat = \"identity\":\n\n\n# Frecuencias automáticas\nggplot(ventas, aes(x = region)) + geom_bar()\n\n\n\n\n\n\n\n# Valores ya calculados - ventas promedio por región\nventas_promedio &lt;- ventas |&gt; \n  group_by(region) |&gt; \n  summarise(venta_media_miles = mean(ventas))\n\nggplot(ventas_promedio, aes(x = region, y = venta_media_miles)) + \n  geom_bar(stat = \"identity\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#práctica-en-clase-2-el-gráfico-calcula-por-ti",
+    "href": "docs/Tema02.html#práctica-en-clase-2-el-gráfico-calcula-por-ti",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "PRÁCTICA en clase (2): el gráfico calcula por ti",
+    "text": "PRÁCTICA en clase (2): el gráfico calcula por ti\nVenís de Excel, donde para hacer un gráfico de barras hay que contar antes. Aquí no. Con clientes:\n\nNúmero de clientes de cada segmento, con geom_bar(). ¿Dónde está la tabla de frecuencias que habéis usado?\nLo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: el geom ya ha contado, y after_stat() deja usar lo que ha calculado\n\n\nggplot(clientes, aes(x = segmento, y = after_stat(prop), group = 1)) +\n  geom_bar()\n\n\nEn una frase: ¿qué significa que un geom “tiene una estadística por defecto”?\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el apartado c) del ejercicio 1."
+  },
+  {
+    "objectID": "docs/Tema02.html#práctica-en-clase-3-distribuciones",
+    "href": "docs/Tema02.html#práctica-en-clase-3-distribuciones",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "PRÁCTICA en clase (3): distribuciones",
+    "text": "PRÁCTICA en clase (3): distribuciones\n\nDistribución de los ingresos con geom_histogram(), probando bins = 10, bins = 40 y binwidth = 3. ¿Cuál de las tres le enseñaríais a dirección y por qué?\nCon una de las tres se ve un grupo de clientes de ingresos muy bajos y con las otras no. ¿Con cuál, y qué os dice eso sobre elegir los intervalos?\nAñadid un geom_boxplot() del gasto por segmento\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el apartado d) del ejercicio 1."
+  },
+  {
+    "objectID": "docs/Tema02.html#escalas-control-de-asociación-estética",
+    "href": "docs/Tema02.html#escalas-control-de-asociación-estética",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Escalas: Control de Asociación Estética",
+    "text": "Escalas: Control de Asociación Estética\n\naes() establece qué variable asignar, la escala cómo representarla\nFunciones de escala: scale_&lt;estética&gt;_&lt;tipo&gt;. Ejemplos,\n\n\n\n\n\nEscala\nTipos\nEjemplos\n\n\n\n\n\n\n\n\n\nscale_color_\nidentity\nscale_fill_continuous\n\n\nscale_fill_\nmanual\nscale_color_discrete\n\n\nscale_size_\ncontinuous\nscale_color_manual\n\n\n\ndiscrete\nscale_size_discrete\n\n\n\n\n\n\n\nscale_shape_\ndiscrete\nscale_shape_discrete\n\n\nscale_linetype_\nmanual\nscale_shape_manual\n\n\n\nidentity\nscale_linetype_discrete\n\n\n\n\n\n\n\nscale_x_\ncontinuous\nscale_x_continuous\n\n\nscale_y_\ndiscrete\nscale_y_discrete\n\n\n\nreverse\nscale_y_reverse\n\n\n\nlog10\nscale_x_log10\n\n\n\ndate\nscale_x_date\n\n\n\ndatetime\nscale_y_datetime"
+  },
+  {
+    "objectID": "docs/Tema02.html#escalas-cont.",
+    "href": "docs/Tema02.html#escalas-cont.",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Escalas (cont.)",
+    "text": "Escalas (cont.)\n\nAlgunos argumentos son habituales en casi todas las escalas (name, breaks, labels)\nOtros argumentos son específicos según el tipo de variables (continua, discreta) o la escala concreta\n\n\nggplot(macro, aes(y = pais, x = pib)) + \n  geom_point(aes(color = desempleo))  +\n  scale_color_continuous(breaks = c(5, 10, 15),\n                         labels = c(\"Bajo\", \"Medio\", \"Alto\"), \n                         low = \"green\", high = \"red\")\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda, shape = norte)) + \n  scale_y_continuous(breaks = seq(0, 20, 5), limits = c(-5, 25)) +\n  scale_shape_discrete(labels = c(\"Norte\", \"Sur\"), \n                       name = \"Zona de Europa\")\n\n\n\nArgumentos Habituales\n\nlimits: mínimo y máximo\nbreaks: valores donde aparecen etiquetas\n\nlabels: etiquetas en cada break\nname: título de la escala\n\n\n\n\nNota: este ejemplo tiene elementos redundantes a efectos ilustrativos\n\n\n\nEj., dos estéticas para una variables\nlimits que no concuerdan con breaks"
+  },
+  {
+    "objectID": "docs/Tema02.html#escala-logarítmica",
+    "href": "docs/Tema02.html#escala-logarítmica",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Escala Logarítmica",
+    "text": "Escala Logarítmica\n\nEn muchos contextos, las variables tienen un rango de valores amplio\n\nPIB, población (Lux 0.6M vs ALE 83M), clientes (pyme 500 vs Inditex 200M)\n\nEscala lineal vs logarítmica:\n\nLineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes\nLogarítmica: misma distancia visual = mismo incremento relativo (%)\n\nAquí cambiamos a macro, un país por fila: la poblacion va de 1 a 138 millones, y es donde la escala logarítmica se nota. Con los ingresos de clientes no se vería nada, porque están todos en el mismo orden de magnitud\n\n\nggplot(macro, aes(y = desempleo, x = poblacion)) + \n  scale_x_log10(breaks = seq(0,100,20)) + geom_point()\n\n\nMejor que x = log(pib) porque los ejes se muestran en unidades originales\n\n\n\nEn escala lineal: misma distancia entre 20 y 40 que entre 40 y 60 -&gt; incremento de 20 millones de personas en ambos casos\nEn escala logarítmica: misma distancia entre 20 y 40 que entre 40 y 80 -&gt; incremento del 100% en ambos casos\nqué es un logaritmo de euros o de personas\n\n\n\nUsar logs cambia la interpretación de diferencias absolutas a porcentuales\n\nMás relevante +10% o +500 clientes (mucho en pyme, nada en Inditex)\nNO para “evitar” valores extremos o distribución asimétrica"
+  },
+  {
+    "objectID": "docs/Tema02.html#práctica-en-clase-4-la-misma-pregunta-en-dos-escalas",
+    "href": "docs/Tema02.html#práctica-en-clase-4-la-misma-pregunta-en-dos-escalas",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "PRÁCTICA en clase (4): la misma pregunta en dos escalas",
+    "text": "PRÁCTICA en clase (4): la misma pregunta en dos escalas\nUna consultora de inversión compara el perfil de ingresos de cinco grandes corporaciones y cinco startups. Los datos están en la página Datos del curso:\n\nload(\"data/empresas.RData\")\nempresas_info      # qué es cada variable\n\n\nDiagrama de cajas de ingresos_millones por tipo, en escala normal\nEl mismo gráfico con scale_y_log10()\nComparando los dos: ¿qué diferencias hay en la posición central y en la variabilidad dentro de cada grupo? ¿Cuál de los dos gráficos es más informativo, y por qué?\nSi esa variabilidad mide el riesgo de una inversión, ¿dónde es más arriesgado invertir?\n\n\n\n\n\n\n\nNota\n\n\nEsta práctica es el ejercicio 2, el de corporaciones y startups."
+  },
+  {
+    "objectID": "docs/Tema02.html#facetas-sub-gráficos",
+    "href": "docs/Tema02.html#facetas-sub-gráficos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Facetas (sub-gráficos)",
+    "text": "Facetas (sub-gráficos)\n\nLos sub-gráficos por variables categóricas son una alternativa a aes() para añadir variables\nFacilitan comparaciones, evitando la saturación visual (ej., demasiadas líneas en un solo gráfico)\n\n\ngraf_tiempo &lt;- ggplot(ventas_tiempo, aes(x = fecha, y = ventas))\ngraf_tiempo + geom_line(aes(color = region))\n\n\nfacet_wrap(): facetas por una variable (usando “fórmula” ~)\n\n\ngraf_tiempo + geom_line() + facet_wrap(~region, ncol = 2)\n\n\nfacet_grid(): facetas en dos dimensiones\n\n\ng3 &lt;- ggplot(data = clientes) + geom_histogram(aes(x = gasto))\ng3 + facet_grid(segmento ~ canal)  # Filas y columnas\ng3 + facet_grid(segmento ~ .)      # Solo por filas \ng3 + facet_grid(. ~ canal)         # Solo por columnas"
+  },
+  {
+    "objectID": "docs/Tema02.html#contexto-con-labs",
+    "href": "docs/Tema02.html#contexto-con-labs",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Contexto con labs()",
+    "text": "Contexto con labs()\n\nUna buena práctica de legibilidad es dar título al gráfico, nombrar los ejes, incluir leyendas\n\nDescripciones claras de variables y sus unidades\n\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) + \n  geom_point(aes(color = norte, size = deuda)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Relación entre PIB per cápita y tasa de desempleo\",\n    subtitle = \"Países de la Unión Europea (2023)\",\n    caption = \"Fuente: Eurostat\",\n    x = \"PIB per cápita (miles de €)\",\n    y = \"Tasa de desempleo (%)\",\n    color = \"Norte\",\n    size = \"Deuda pública (% PIB)\") +\n  scale_y_continuous(breaks = seq(0, 20, 5))"
+  },
+  {
+    "objectID": "docs/Tema02.html#otros-elementos-de-contexto",
+    "href": "docs/Tema02.html#otros-elementos-de-contexto",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Otros Elementos de Contexto",
+    "text": "Otros Elementos de Contexto\n\nannotate(): añade objetos geométricos NO asociados a variables:\n\n\nggplot(macro, aes(y = desempleo, x = pib/1000)) +\n  geom_point(aes(color = norte)) + \n  geom_smooth(method = \"lm\", se = FALSE) +\n  annotate(\"text\", x = 60, y = 11, \n           label = \"La doble división Norte-Sur\") +\n  annotate(\"text\", x = 85, y = 6, label = \"R ^ 2 == 0.45\", \n           parse = TRUE)\n\n\nLíneas de Referencia\n\n\nggplot(clientes, aes(x = canal, y = gasto/1000)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 3.0, linetype = \"dashed\", \n             color = \"red\") +\n  annotate(\"text\", x = 3, y = 3.3, \n           label = \"Objetivo mínimo\", color = \"red\")"
+  },
+  {
+    "objectID": "docs/Tema02.html#personalizar-el-aspecto-general",
+    "href": "docs/Tema02.html#personalizar-el-aspecto-general",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Personalizar el aspecto general",
+    "text": "Personalizar el aspecto general\n\n\nSe puede personalizar el aspecto general de la visualización del gráfico de dos formas: color y temas\n\nCOLOR\n\nCambiamos colores manualmente usando nombres o códigos hexadecimales\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, \n                           fill = region)) + \n          geom_boxplot()\n\ngraf + scale_fill_manual(values = c(\"red\", \"green\", \"blue\", \"orange\"))\ngraf + scale_fill_manual(values = c(\"#1f77b4\", \"#ff7f0e\", \n                                    \"#2ca02c\", \"#d62728\"))\n\n\nPrecaución: los elementos decorativos deben ayudar a nuestro objetivo de transmitir información\n\n\n\nSe pueden cambiar manualmente colores (p.e., scale_fill_manual()) o la forma (ej., scale_shape_manual())\nPERO es preferible usar paletas predefinidas con criterios de diseño y visualización de información:\n\n\ngraf &lt;- ggplot(ventas, aes(x = region, y = ventas, fill = region)) + \n          geom_boxplot()\nlibrary(RColorBrewer)\ndisplay.brewer.all()\ngraf + scale_fill_brewer(palette = \"Set2\")\n\n\n\nRColorBrewer o viridis\nTambién se puede cambiar la forma con scale_shape_manual()\n\n\n\n\nTEMAS\n\nSe puede añadir una capa para definir el tema, es decir, estilo general de todos los componentes del gráfico:\n\n\n\nSe puede añadir una capa de tema (estilo general de todos los componentes)\n\n\n\n\ngraf + theme_gray()      \n\n\n\ngraf + theme_minimal()\n\n\n\nTambién existen temas profesionales predefinidos en bibliotecas\n\n\nlibrary(ggthemes)\ngraf + theme_economist() + scale_fill_economist()     \n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio 1, apartado e): tendencia, facetas, línea de referencia, labs() y temas.\n\n\n\n\n\nNota: es posible, pero no recomendable personalizar elementos concretos del tema (o definir un tema nuevo propio)\n\n\ntema_empresa &lt;- theme_minimal() + \n  theme(text = element_text(color = \"darkblue\", family = \"Arial\"))\ngraf + tema_empresa\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema02.html#cierre-buenas-prácticas",
+    "href": "docs/Tema02.html#cierre-buenas-prácticas",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Cierre: buenas prácticas",
+    "text": "Cierre: buenas prácticas\n\nBuenas prácticas: visualizar no es decorar datos, es comunicar insights\n\nUna idea por gráfico\nClaridad sobre ornamentación: cada elemento visual debe tener propósito\nTítulos y leyendas descriptivos e informativos\nEvitar demasiados colores o patrones y la sobrecarga de información\n\n\n\n\nEl contexto económico importa tanto como la técnica\n\n\n\nMejores Prácticas\n\nPrincipios de Diseño\n\nClaridad sobre ornamentación\nDatos prominentes, diseño sutil\n\nProporciones adecuadas (ratio de aspecto)\nColores accesibles (daltonismo)\n\nElementos Contextuales\n\nTítulos descriptivos e informativos\nEtiquetas de ejes con unidades\nLeyendas claras y bien posicionadas\nFuentes de datos y notas metodológicas\n\nErrores Comunes a Evitar\n\nEjes que no empiezan en cero (cuando corresponde)\nDemasiados colores o patrones\nTexto ilegible por tamaño o contraste\n\nGráficos 3D innecesarios\nSobrecarga de información"
+  },
+  {
+    "objectID": "docs/Tema02.html#comentarios-finales",
+    "href": "docs/Tema02.html#comentarios-finales",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Comentarios Finales",
+    "text": "Comentarios Finales\n\nGuardar gráficos: en el panel Plots, con el botón Save Plot (en RStudio era Export), o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R, ggplot2 y más\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Tenéis 5 minutos. Contestad en el formulario. Sin ejecutar R y sin IA."
-  },
-  {
-    "objectID": "docs/minitest-T00-A.html#pregunta-1",
-    "href": "docs/minitest-T00-A.html#pregunta-1",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n10\nNA\nDa error\n7.5"
-  },
-  {
-    "objectID": "docs/minitest-T00-A.html#pregunta-2",
-    "href": "docs/minitest-T00-A.html#pregunta-2",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\nDa error, porque ficha es una lista y no se puede promediar\n14\n7\nDa error, porque ficha[[2]] no es un número"
-  },
-  {
-    "objectID": "docs/minitest-T00-A.html#pregunta-3",
-    "href": "docs/minitest-T00-A.html#pregunta-3",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\n9 10 27 20\nDa error, porque los vectores no miden igual\n9 10"
-  },
-  {
-    "objectID": "docs/minitest-T00-A.html#pregunta-4-una-línea",
-    "href": "docs/minitest-T00-A.html#pregunta-4-una-línea",
-    "title": "Mini-test Tema 00 (versión A)",
-    "section": "Pregunta 4 (una línea)",
-    "text": "Pregunta 4 (una línea)\nTenéis el género de cinco clientes guardado como texto. ¿Por qué summary(genero) no os dice cuántas mujeres y cuántos hombres hay? ¿Qué habría que hacer para que sí lo diga?\ngenero &lt;- c(\"Mujer\", \"Hombre\", \"Mujer\", \"Mujer\", \"Hombre\")\nsummary(genero)"
-  },
-  {
-    "objectID": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
-    "href": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "El sistema de publicaciones Quarto",
-    "text": "El sistema de publicaciones Quarto\n\n\n\nOrientado al análisis de datos reproducible: combina código, resultados y comentarios\nÚtil como cuaderno de trabajo del código y para comunicar resultados en un documento final para tomar decisiones\n\n\n\n\n\n\n\n\n\nInstalar Quarto para vuestro sistema operativo desde aquí\n\nla web pide después elegir un editor: en Positron no hay que hacer nada más, ya trae la extensión de Quarto incorporada\n\nLa guía y referencia completa de Quarto están en su Web\nUn documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc.\n\n\n\nChuletas de Quarto y de Markdown en la web de Quarto (https://quarto.org/docs/guide/)."
-  },
-  {
-    "objectID": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
-    "href": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Documentos de Quarto: Crear y Guardar",
-    "text": "Documentos de Quarto: Crear y Guardar\n\nSe trabaja dentro de la carpeta del proyecto (File &gt; Open Folder); el documento se crea en File &gt; New File… &gt; Quarto Document y se guarda con extensión .qmd (Ctrl+S)\nSe renderiza con el botón Preview (Ctrl+Shift+K)\nEl resultado sale en el visor de la derecha y, a la vez, se crea el fichero en la carpeta del proyecto\nPara verlo como lo verá quien lo reciba, abridlo con doble clic desde el explorador de archivos del sistema: el .html se abre en el navegador, y un .pdf o .docx en su programa\n\n\n\n1 Preview · 2 guardar · 3 el fichero creado · 4 el visor\n\n\n\nSeñalar las cuatro marcas EN PANTALLA, sobre Positron, no sobre la slide.\nAtajos, por si preguntan: Ctrl+S guarda, Ctrl+Shift+K renderiza. Y desde la Terminal, quarto render informe.qmd (marginal: no abrir ese melón en clase).\nEn la captura el visor sale vacío porque se hizo antes de renderizar; en clase se ve lleno.\nLa casilla Render on Save renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo."
-  },
-  {
-    "objectID": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
-    "href": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Documentos de Quarto: formato de salida",
-    "text": "Documentos de Quarto: formato de salida\n\nEl renderizado crea un archivo en el mismo directorio donde está el archivo de Quarto .qmd\nEn el caso de HTML, se crea tanto un archivo con extensión .html como un subdirectorio del mismo nombre con componentes necesarios (ej., imágenes, css)\n\nsolo podemos visualizar correctamente el archivo .html en cualquier navegador si copiamos a otro lugar tanto el .html como el subdirectorio\n\nLos formatos de salida posibles son html (el que viene por defecto), Word y PDF. Más adelante veremos dónde se elige\nPara PDF hay dos caminos:\n\npor LaTeX, que hay que instalar una vez (en la pestaña Terminal, a la derecha de la consola): quarto install tool tinytex\npor typst, que no necesita instalar nada: Quarto ya lo trae incorporado, y es mucho más rápido\n\nPara este curso, con html basta. Word y typst tampoco necesitan instalar nada\n\n\n\nComprobado en la documentación de Quarto (15-sep-2026): “Quarto includes the Typst CLI so no separate installation of Typst is required”.\nSeñalar dónde está la pestaña Terminal antes de escribir nada ahí.\nLaTeX sigue siendo mejor si hacen falta ecuaciones complejas o una plantilla académica concreta; para un informe normal, typst sobra."
-  },
-  {
-    "objectID": "docs/Tema01.html#elegir-el-formato-desde-preview",
-    "href": "docs/Tema01.html#elegir-el-formato-desde-preview",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Elegir el formato desde Preview",
-    "text": "Elegir el formato desde Preview\n\nPreview es un desplegable: su flecha abre Preview Format…, que lista los formatos y renderiza al que se elija, sin tocar la cabecera\nAparece el que ya lleva el documento (Declared Formats) y los demás (Other Formats): PDF con typst, PDF con LaTeX y Word\n\n\n\n\nComprobado en Positron el 15-sep con un .qmd que solo declaraba format: html: el desplegable ofrecía Preview HTML bajo “Declared Formats”, y typst, pdf y docx bajo “Other Formats”.\nÚtil para el apartado a) del ejercicio, que pide renderizar a dos formatos: se puede hacer desde aquí sin editar el YAML, aunque en el ejercicio se pide cambiar la cabecera.\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado a), puntos i, ii, iv y v: crear la carpeta y el documento, guardarlo con su nombre y renderizarlo."
-  },
-  {
-    "objectID": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
-    "href": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Documentos de Quarto: Texto con Markdown",
-    "text": "Documentos de Quarto: Texto con Markdown\n\nLos componentes de texto están escritos en Markdown: un conjunto ligero de convenciones para archivos de texto sin formato. Por ejemplo,\n\ntodo lo escrito entre dos * como **Hola** se renderiza en negritas\nse utiliza # para indicar encabezados de secciones\n\nUna descripción completa, en la web de Quarto (Markdown Basics); también es útil este libro online.\n\n\n\nMarkdown está diseñado para ser fácil de leer y fácil de escribir. También es muy fácil de aprender. La siguiente guía muestra cómo usar el Markdown de Pandoc, una versión ligeramente extendida de Markdown que R Markdown entiende.\n\n\n\nFormato de texto\n*cursiva*  o _cursiva_\n**negrita**   __negrita__\n`código`\nsuperíndice^2^ y subíndice~2~\n~~tachado~~\nEncabezamientos\n# Encabezado de 1er. nivel\n## Encabezado de 2º nivel\n### Encabezado de 3er. nivel\n#### Encabezado de 4º nivel\n\nListas\n*   Item (elemento) de la lista (no numeradas)\n*   Item 2\n    - Sub-Item 2a (*, + y - son alternativas)\n        + sub-sub-item\n    - Sub-Item 2b\n\n1.  Item 1 de la lista numerada\n1.  Item 2. Los números se incrementan automáticamente.\n\n1)  Otra forma de crear listas numeradas.\n2)  También, se puede poner explícitamente el número.\n\n\n\nBloques de citas literales\n&gt; Esto es parte de un bloque de cita.\n&gt; Esto es parte del mismo bloque de cita.\n\n&gt;\n&gt; &gt; Esto es otro bloque de cita anidado.\n&gt; &gt; Esto es parte del bloque anidado.\n&gt;\n&gt; Esto es parte del bloque de cita de primer nivel.\nEsto es una línea normal\nNotas a pie de página\nEsto es un texto con nota al pie [^nota1]\ny esta es otra nota [^2]\n\n[^nota1]: Esto es una nota al pie de página.\n[^2]: Esto es la segunda nota al pie.\n\nLíneas de separación\n---\n***\nReferencias\n[Página de R][1]\n[1]: https://cran.r-project.org/\n\n#### Título 1 {#tit1}\n[Enlace a titulo1](#tit1)\n\nImaǵenes y enlaces\n![texto del subtítulo opcional](dirección/hacia/img.png)\n&lt;http://example.com&gt;\n[frase con vínculo](http://example.com)\n[![RUsers](http://rusersgroup.com/img/final5x5.png)](https://cran.r-project.org/ )\n\n\nTablas\nPrimer encabezado  | Segundo encabezado\n------------------ | ------------------\nCelda              | Celda\nCelda              | Celda\n\nCon alineación de columnas\n| Items    | Cantidad | Precio   |\n| :------- | :------: | -------: |\n| Item 1   | 15       | 9,050    |\n| Item 2   | 3250     | 239,99   |\n\n\nSe puede incluir código en HTML (útil para algunos formateos como centrar) y en LaTeX (útil para ecuaciones)\n; también se pueden incluir diagramas UML.\n\necuación en texto entre $ $ (en el editor visual: Insert &gt; Inline Math)\necuación aparte entre $$ $$ (en el editor visual: Insert &gt; Displayed Math)\n\nLos comentarios se escriben entre\nLa barra \\ delante de un símbolo de formato o enlace: muestra el símbolo, no aplica el formato: ej.,\\* muestra *, no empieza lista (idem para \\[ o \\$ ), enlace o ecuación\nprovoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\*\n\n\n\nPositron incorpora un editor visual de documentos de Quarto, similar a un procesador de texto\n\nun ventaja del modo no visual es el número de línea, para errores"
-  },
-  {
-    "objectID": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
-    "href": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Editor Visual de Quarto en Positron",
-    "text": "Editor Visual de Quarto en Positron\n\nUn .qmd se edita de dos formas: el texto tal cual (modo source), como hasta ahora, o en modo visual, ya con su formato\nEdit in Visual Mode está en el menú ... del editor, arriba a la derecha, y en el menú contextual que sale al pulsar el botón derecho sobre el documento\nPara volver, la misma entrada dice Edit in Source Mode\n\n\n\nAtajo: Ctrl+Shift+F4. También en la paleta de comandos (Ctrl+Shift+P)\n\n\n\nComprobado en Positron (extensión Quarto 1.138.0): el comando quarto.editInVisualMode está en el menú del editor (...), en el menú contextual del botón derecho y en la paleta, con el atajo Ctrl+Shift+F4. NO está en los menús File/View/Run de arriba: no buscarlo ahí en clase.\nEl mismo menú ... lleva Insert Code Cell (Ctrl+Shift+I) y Preview (Ctrl+Shift+K), que se usan enseguida.\nHACERLO en pantalla, no solo enseñar la imagen."
-  },
-  {
-    "objectID": "docs/Tema01.html#la-barra-del-editor-visual",
-    "href": "docs/Tema01.html#la-barra-del-editor-visual",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "La barra del editor visual",
-    "text": "La barra del editor visual\n\nSolo en modo visual aparece esta barra de herramientas:\n\n\n\nDesde ella se accede a\n\nformatos de texto (negritas, cursivas, encabezamientos) y listas\ninsertar enlaces, imágenes, notas a pie de página, tablas\nincluir ecuaciones (en LaTeX)\ntambién insertar directamente código HTML, comentarios, etc.\n\nLo que se escribe en modo visual es el mismo fichero: al volver a source se ve el Markdown que ha generado\n\n\n\nSEÑALAR en pantalla que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.\nCorrección ortográfica: en Positron se instala una extensión aparte (p.e. “Code Spell Checker” con diccionario de español); no viene de serie como en RStudio."
-  },
-  {
-    "objectID": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
-    "href": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Formato en la cabecera: el bloque YAML",
-    "text": "Formato en la cabecera: el bloque YAML\n\nAl principio del documento, entre dos líneas con ---, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida\n\nen modo visual se inserta desde Insert &gt; YAML Metadata…, sin escribir los ---\n\nLos formatos de salida son html, pdf, docx (y otros en Quarto Presentations), y también opciones globales, algunas propias de cada formato (referencia)\n  ---\n  title: \"Título\"\n  author: Autor\n  date: 15-octubre-2025\n  format:\n    html:\n      toc: true              # índice\n      number-sections: true  # secciones numeradas\n      embed-resources: true  # archivo html autocontenido\n      theme: united          # más temas: https://bootswatch.com/3/\n  ---\n\n\nY ahora el resto del apartado a): iii, vi y vii."
-  },
-  {
-    "objectID": "docs/Tema01.html#fragmentos-o-celdas-de-código",
-    "href": "docs/Tema01.html#fragmentos-o-celdas-de-código",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Fragmentos o celdas de código",
-    "text": "Fragmentos o celdas de código\n\nEl documento lleva código de R que Quarto ejecuta al renderizar; hay dos formas, según dónde deba salir el resultado\nCódigo en línea: un valor dentro de una frase (“la media es 20.09”); icono &lt;/&gt; de la barra, o Insert &gt; Any… (Ctrl+/) y escribir inline\nUna celda: bloque de código aparte, el resultado sale debajo (Insert &gt; Executable Cell &gt; R)\n\n\n\nEn modo source ambas se escriben a mano: el código en línea, con `r ` y dentro el código; la celda, entre ```{r} y ```\n\n\n\nHacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.\nLa celda también se inserta con Ctrl+Shift+I, y desde el menú ... del editor (Insert Code Cell); comprobado en Positron.\nLa distinción que hay que dejar clara es DONDE sale el resultado: dentro de la frase (en línea) o debajo (celda). Se empieza por el código en línea, que es lo más pequeño y lo que más les sorprende.\nEl código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: La media es 20.090625."
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-de-una-celda",
-    "href": "docs/Tema01.html#opciones-de-una-celda",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones de una celda",
-    "text": "Opciones de una celda\n\nVan dentro de la celda, en sus primeras líneas, precedidas de #| (almohadilla y barra vertical; con # a secas es un comentario y la opción NO se aplica)\n\n```{r}\n#| echo: false\nmean(mtcars$mpg)\n```\n\necho (¿se ve el código?) y eval (¿se ejecuta?) son independientes:\n\n\n\n\necho\neval\nse ve el código\nse ejecuta\nse ve el resultado\n\n\n\n\ntrue\ntrue\nsí\nsí\nsí\n\n\nfalse\ntrue\nno\nsí\nsí\n\n\ntrue\nfalse\nsí\nno\nno\n\n\n\n\n\nEl error de todos los años: escribir # en vez de #|. Provocarlo en vivo.\nSi un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iv del ejercicio.\nLas opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí)."
-  },
-  {
-    "objectID": "docs/Tema01.html#otras-opciones-de-celda",
-    "href": "docs/Tema01.html#otras-opciones-de-celda",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Otras opciones de celda",
-    "text": "Otras opciones de celda\n\n\noutput: false oculta solo el resultado; include: false no muestra nada, pero sí ejecuta\nmessage, warning y error: si se muestra lo que R va contando por el camino\nlabel: una etiqueta para identificar la celda\ncode-fold: true oculta el código pero da opción a mostrarlo\nCómo mostrar resultados de texto y numéricos:\n\nresults: hide (no mostrar)\nresults: hold (mostrar todo, no el resultado de cada línea)\n\n\n\n\n\nNinguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que include: false ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo."
-  },
-  {
-    "objectID": "docs/Tema01.html#la-primera-celda-del-documento",
-    "href": "docs/Tema01.html#la-primera-celda-del-documento",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "La primera celda del documento",
-    "text": "La primera celda del documento\n\nTodo documento empieza con una celda que prepara el entorno: ahí se declaran las bibliotecas que se van a usar y se ejecuta lo que necesiten las demás celdas\nLleva include: false: se ejecuta, pero no se ve ni ella ni sus mensajes\n\n```{r}\n#| include: false\nlibrary(AER)\n```\n\nHace falta porque al renderizar se abre una sesión de R nueva y vacía: el documento no ve nada de lo que tengáis en la consola y tiene que cargar lo suyo\nCogedlo como costumbre: primera celda, entorno preparado. Vale para el resto del curso\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado b), empezando por esa primera celda.\n\n\n\n\n\nEs el hábito que más se arrastra: en los ejercicios largos y en el trabajo final la primera celda será siempre esta.\nVa despues de las opciones porque usa include: false, que acaban de ver.\nAER la conocen del Tema 00 (ahi se instala y se carga). No se estrena una biblioteca nueva en la celda que sirve de modelo.\nComprobado el 21-sep: un .qmd con solo texto y 20.090625 renderiza el codigo literal, sin ejecutar; basta una celda de R para que funcione. Es otra razon para la celda inicial, pero no se cuenta en la transparencia."
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-de-presentación",
-    "href": "docs/Tema01.html#opciones-de-presentación",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones de presentación",
-    "text": "Opciones de presentación\n\n\nfig-cap y tbl-cap para los títulos de las figuras y tablas\nCómo mostrar los gráficos: fig-show\n\nhide y hold son como en results\nasis muestra el gráfico como se generó\nanimate concatena varios gráficos en una animación\n\nfig-width y fig-height: dimensiones (reales, en pulgadas) de una figura\nout-width y out-height: ídem en el documento de salida (% de las reales)\nLista completa de opciones aquí"
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-para-figuras",
-    "href": "docs/Tema01.html#opciones-para-figuras",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones para figuras",
-    "text": "Opciones para figuras\n\n\nfig-align: mostrar la figura centrada o alineada a derecha o izquierda\nlayout-ncol: en cuántas columnas se componen los resultados\n\nlibrary(ggplot2)\nggplot(cars) + geom_histogram(aes(x = speed))\nggplot(cars) + geom_histogram(aes(x = dist))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado c), los dos gráficos uno al lado del otro con layout-ncol."
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
-    "href": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones globales para todas las celdas",
-    "text": "Opciones globales para todas las celdas\n\nEn la cabecera, especificamos opciones por defecto para las celdas de código\n\np.e., de ejecución como echo, eval, etc. en execute (ver aquí y aquí)\n---\nexecute:\n  echo: false\n  warning: false\n---\nTambién otras opciones que ya hemos visto (aquí listado completo para html)\n---\nformat:\n  html:\n    code-fold: true\n    cap-location: bottom\n    fig-align: center\n    df-print: paged      # cómo visualizar tablas\n---\n\n\n\n\nTambién existen enabled: false y freeze. Sección de ejecución en https://quarto.org/docs/computations/r.html"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
-    "href": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Ejecución de código en un documento .qmd",
-    "text": "Ejecución de código en un documento .qmd\n\nRenderizar un .qmd crea un espacio de trabajo para ejecutar el código distinto del de nuestra consola (diferentes objetos, bibliotecas, etc.)\n\nsi no estamos en la carpeta correcta, el directorio de trabajo puede ser diferente\n\nComprobamos los resultados del código del .qmd ejecutándolo sin renderizar: línea a línea (Ctrl + Enter), o con los enlaces que aparecen sobre cada celda: Run Cell (esa celda), Run Above (todas las anteriores) y Run Next Cell\n\nasí, el código pasa a la consola y sí forma parte del espacio de la sesión actual\nnos aseguramos de que no hay errores (ej., objetos previos no definidos)\n\nLa celda inicial que ya hemos visto sirve también para esto: como lleva include: false, se puede poner en ella\n\nrm(list = ls()): al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos, sólo con lo del .qmd\nTodas las bibliotecas que se usen en varias celdas (con library(), como en el Tema 00)\n\n\n\n\nComprobado en Positron el 15-sep: los enlaces sobre las celdas son Run Cell, Run Next Cell y Run Above (esta última no aparece en la primera celda, porque no hay nada encima). Run Above NO ejecuta la celda actual.\nLa demostración que convence: definir un objeto en la consola y usarlo en una celda del .qmd. Ejecutando la celda funciona; al renderizar, falla. De ahí sale casi todo el “a mí me funciona y no me renderiza”."
-  },
-  {
-    "objectID": "docs/Tema01.html#mejorar-la-salida-de-tablas",
-    "href": "docs/Tema01.html#mejorar-la-salida-de-tablas",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Mejorar la salida de tablas",
-    "text": "Mejorar la salida de tablas\n\nLa salida “en crudo” de R es correcta y poco presentable. knitr::kable() la convierte en una tabla con formato:\n\n\nknitr::kable(head(mtcars[, 1:5]))\n\n\nkableExtra añade estilos, anchos, cabeceras agrupadas… (guía)\nPrimero que el número sea el correcto; después, que la tabla se vea bien\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartados d) y e): mostrar mtcars con kbl() y comparar con la salida cruda, y luego las opciones de cabecera (df-print: paged, code-fold, tema).\n\n\n\n\n\nPara ir más lejos: broom::tidy() convierte resultados de modelos en tablas; modelsummary genera tablas de regresión y de descriptivos; también existen printr, pander, stargazer y xtable. La versión completa de esta lista está en el comentario de debajo.\nNo nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.\nEl ejercicio (d.ii) da las ordenes anidadas, kable_styling(kbl(mtcars)), no con el pipe |&gt;, que no se ha visto. En la documentacion de kableExtra aparecen con pipe: si alguien copia de ahi y pregunta, es lo mismo escrito al reves. No abrir el tema en clase."
-  },
-  {
-    "objectID": "docs/Tema01.html#comentarios-finales",
-    "href": "docs/Tema01.html#comentarios-finales",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Comentarios finales",
-    "text": "Comentarios finales\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nEjemplos de sus capacidades usando el paquete shiny, shinydashboards o flexdashboard\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
-  },
-  {
-    "objectID": "docs/Tema02ej.html",
-    "href": "docs/Tema02ej.html",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "",
-    "text": "Estos ejercicios se van haciendo durante las clases del tema: las transparencias indican en qué momento toca cada uno.\nCada ejercicio va en su propio documento .qmd, con su cabecera, su primera celda de entorno (la que lleva include: false) y una sección por apartado. Cada uno usa sus propios datos, que se cargan en esa primera celda.\nLos documentos se llaman T02_E&lt;n&gt;_&lt;DNI&gt;.qmd, donde &lt;n&gt; es el número del ejercicio y el DNI va sin la letra: T02_E1_12345678.qmd para el ejercicio 1, T02_E2_12345678.qmd para el 2, y así."
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-a",
-    "href": "docs/Tema02ej.html#apartado-a",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado a)",
-    "text": "Apartado a)\n\nDibuja la relación entre ingresos y gasto con geom_point().\nPinta TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda).\nEjecuta esto y describe qué ves: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?\n\n\nggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = \"red\"))\n\n\nDistingue el segmento por color y el canal por forma. Y ahora añade además size = edad. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira? Quédate con la versión que sí se lee y di por qué.\nAñade size = 4 dentro de aes() y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla te sirve para decidirlo?"
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-b",
-    "href": "docs/Tema02ej.html#apartado-b",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado b)",
-    "text": "Apartado b)\nSobre el gráfico del apartado a), con el segmento por color.\n\nEtiqueta a quienes más gastan. Como solo quieres unas pocas fichas, esa capa lleva sus propios datos, igual que hicimos en clase con los países:\n\n\ntop &lt;- clientes[clientes$gasto &gt; 7000, ]\n\n y encima una capa `geom_text_repel(data = top, aes(label = round(gasto)))`.\n\n¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras clientes entero?"
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-c",
-    "href": "docs/Tema02ej.html#apartado-c",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado c)",
-    "text": "Apartado c)\n\nNúmero de clientes de cada segmento, con geom_bar(). ¿Dónde está la tabla de frecuencias que has usado?\nLo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: tienes el patrón con after_stat(prop) en las transparencias. ¿Qué cambia respecto al gráfico anterior, y qué NO cambia?\nQuita ahora group = 1 y mira el resultado: las tres barras valen 1. ¿Proporción respecto a qué está calculando en cada caso?\nDistribución del gasto con geom_histogram(), probando bins = 10, bins = 40 y binwidth = 250. ¿Cuál de las tres versiones le enseñarías a dirección y por qué?\nRepite las tres versiones con ingresos. ¿Hay un grupo de clientes de ingresos muy bajos? ¿Con cuál de las tres se ve y con cuáles no?\nAñade un geom_boxplot() del gasto por segmento.\nEn una frase: ¿qué significa que un geom “tiene una estadística por defecto”?\nVuelve al gráfico del apartado a) y añádele una recta de tendencia con geom_smooth(method = \"lm\", se = FALSE). ¿Qué dice esa recta que no dijera la nube de puntos?"
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-d",
-    "href": "docs/Tema02ej.html#apartado-d",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado d)",
-    "text": "Apartado d)\n\nVuelve al gráfico del apartado b) y divídelo en facetas por canal. ¿Se lee mejor así o con el color? ¿Por qué?\nPonle labs() completo: título, nombres de los ejes con sus unidades y un caption con la fuente.\nAñade una línea de referencia horizontal en el gasto medio, y anótala con annotate() para que se entienda qué marca:\n\n\n+ geom_hline(yintercept = mean(clientes$gasto), linetype = \"dashed\", color = \"red\")\n\n\nPrueba al menos dos temas y quédate con uno. Prueba también uno profesional, de la biblioteca ggthemes:\n\n\nlibrary(ggthemes)\nmi_grafico + theme_economist()"
+    "text": "About this site"
   }
 ]
