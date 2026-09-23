@@ -4089,7 +4089,7 @@ Universidad de Alicante</p>
 
 
 <p><strong>Tenéis 5 minutos. Sin ejecutar R y sin IA.</strong></p>
-<p>Contestad en este formulario: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform"><strong>mini-test</strong></a></p>
+<p>Contestad aquí: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&amp;entry.779297845=MT-T00-A"><strong>formulario del mini-test</strong></a></p>
 <section id="pregunta-1" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
 <p>¿Qué muestra la consola?</p>
@@ -4097,27 +4097,38 @@ Universidad de Alicante</p>
 ventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente</span>
 mean(ventas)</code></pre>
 <ol type="a">
+<li><p><code>7.5</code></p></li>
 <li><p><code>10</code></p></li>
 <li><p><code>NA</code></p></li>
 <li><p>Da error</p></li>
-<li><p><code>7.5</code></p></li>
 </ol>
 </section>
 <section id="pregunta-2" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
+<p>¿De qué tipo queda <code>notas</code>?</p>
+<pre><code>notas &lt;- c(7, 9, &quot;5&quot;)</code></pre>
+<ol type="a">
+<li><p>Numérico, porque dos de los tres son números</p></li>
+<li><p>Carácter</p></li>
+<li><p>Lógico</p></li>
+<li><p>Da error, porque no se pueden mezclar tipos</p></li>
+</ol>
+</section>
+<section id="pregunta-3" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
 <p>Con esta ficha, ¿qué muestra la última línea?</p>
 <pre><code>ficha &lt;- list(nombre = &quot;Ana&quot;, notas = c(5, 7, 9))<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
 ficha$notas &lt;- ficha$notas * 2   # ejecutado tambien</span>
 mean(ficha[[2]])</code></pre>
 <ol type="a">
+<li><p><code>7</code></p></li>
 <li><p>Da error, porque <code>ficha</code> es una lista y no se puede promediar</p></li>
 <li><p><code>14</code></p></li>
-<li><p><code>7</code></p></li>
 <li><p>Da error, porque <code>ficha[[2]]</code> no es un número</p></li>
 </ol>
 </section>
-<section id="pregunta-3" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
+<section id="pregunta-4" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-4">Pregunta 4</h2>
 <p>Fijaos en la longitud de cada vector. ¿Qué devuelve la última línea?</p>
 <pre><code>precios &lt;- c(10, 20, 30, 40)
 dto     &lt;- c(0.1, 0.5)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
@@ -4125,15 +4136,10 @@ precios &lt;- precios[1:2]   # ejecutado antes</span>
 precios * (1 - dto)</code></pre>
 <ol type="a">
 <li><p><code>9 10 30 40</code></p></li>
-<li><p><code>9 10 27 20</code></p></li>
 <li><p>Da error, porque los vectores no miden igual</p></li>
 <li><p><code>9 10</code></p></li>
+<li><p><code>9 10 27 20</code></p></li>
 </ol>
-</section>
-<section id="pregunta-4-una-línea" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-4-una-línea">Pregunta 4 (una línea)</h2>
-<p>¿De qué tipo queda <code>notas</code>, y por qué?</p>
-<pre><code>notas &lt;- c(7, 9, &quot;5&quot;)</code></pre>
 
 
 </section>

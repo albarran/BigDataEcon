@@ -648,35 +648,35 @@
     "href": "docs/MT-T00-A-CVWS.html",
     "title": "Mini-test, versión A",
     "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad en este formulario: mini-test"
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
   },
   {
     "objectID": "docs/MT-T00-A-CVWS.html#pregunta-1",
     "href": "docs/MT-T00-A-CVWS.html#pregunta-1",
     "title": "Mini-test, versión A",
     "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n10\nNA\nDa error\n7.5"
+    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n7.5\n10\nNA\nDa error"
   },
   {
     "objectID": "docs/MT-T00-A-CVWS.html#pregunta-2",
     "href": "docs/MT-T00-A-CVWS.html#pregunta-2",
     "title": "Mini-test, versión A",
     "section": "Pregunta 2",
-    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\nDa error, porque ficha es una lista y no se puede promediar\n14\n7\nDa error, porque ficha[[2]] no es un número"
+    "text": "Pregunta 2\n¿De qué tipo queda notas?\nnotas &lt;- c(7, 9, \"5\")\n\nNumérico, porque dos de los tres son números\nCarácter\nLógico\nDa error, porque no se pueden mezclar tipos"
   },
   {
     "objectID": "docs/MT-T00-A-CVWS.html#pregunta-3",
     "href": "docs/MT-T00-A-CVWS.html#pregunta-3",
     "title": "Mini-test, versión A",
     "section": "Pregunta 3",
-    "text": "Pregunta 3\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\n9 10 27 20\nDa error, porque los vectores no miden igual\n9 10"
+    "text": "Pregunta 3\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n7\nDa error, porque ficha es una lista y no se puede promediar\n14\nDa error, porque ficha[[2]] no es un número"
   },
   {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-4-una-línea",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-4-una-línea",
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-4",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-4",
     "title": "Mini-test, versión A",
-    "section": "Pregunta 4 (una línea)",
-    "text": "Pregunta 4 (una línea)\n¿De qué tipo queda notas, y por qué?\nnotas &lt;- c(7, 9, \"5\")"
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\nDa error, porque los vectores no miden igual\n9 10\n9 10 27 20"
   },
   {
     "objectID": "docs/Tema02ej.html",
@@ -732,35 +732,35 @@
     "href": "docs/MT-T00-B-CVWS.html",
     "title": "Mini-test, versión B",
     "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad en este formulario: mini-test"
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
   },
   {
     "objectID": "docs/MT-T00-B-CVWS.html#pregunta-1",
     "href": "docs/MT-T00-B-CVWS.html#pregunta-1",
     "title": "Mini-test, versión B",
     "section": "Pregunta 1",
-    "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\nDa error, porque los vectores no miden igual\n80 100 300 400\n80 100 240 200"
+    "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\n80 100 240 200\nDa error, porque los vectores no miden igual\n80 100 300 400"
   },
   {
     "objectID": "docs/MT-T00-B-CVWS.html#pregunta-2",
     "href": "docs/MT-T00-B-CVWS.html#pregunta-2",
     "title": "Mini-test, versión B",
     "section": "Pregunta 2",
-    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n6\nDa error, porque ficha[[2]] no es un número\n12\nDa error, porque ficha es una lista y no se puede promediar"
+    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n12\nDa error, porque ficha[[2]] no es un número\nDa error, porque ficha es una lista y no se puede promediar\n6"
   },
   {
     "objectID": "docs/MT-T00-B-CVWS.html#pregunta-3",
     "href": "docs/MT-T00-B-CVWS.html#pregunta-3",
     "title": "Mini-test, versión B",
     "section": "Pregunta 3",
-    "text": "Pregunta 3\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
+    "text": "Pregunta 3\nprecios guarda los precios como texto. ¿Cuánto devuelve la última línea?\nprecios &lt;- c(\"10\", \"9\", \"2\")\nsum(precios &gt; \"2\")\n\n1\n2\n3\nDa error, porque no se puede comparar texto"
   },
   {
-    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-4-una-línea",
-    "href": "docs/MT-T00-B-CVWS.html#pregunta-4-una-línea",
+    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-4",
+    "href": "docs/MT-T00-B-CVWS.html#pregunta-4",
     "title": "Mini-test, versión B",
-    "section": "Pregunta 4 (una línea)",
-    "text": "Pregunta 4 (una línea)\nprecios &lt;- c(\"10\", \"9\", \"2\") y sum(precios &gt; \"2\") devuelve 1, no 2. ¿Por qué, si 10 y 9 son mayores que 2?"
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
   },
   {
     "objectID": "docs/Tema02.html#por-qué-visualizar-datos",

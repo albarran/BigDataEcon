@@ -4089,7 +4089,7 @@ Universidad de Alicante</p>
 
 
 <p><strong>Tenéis 5 minutos. Sin ejecutar R y sin IA.</strong></p>
-<p>Contestad en este formulario: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform"><strong>mini-test</strong></a></p>
+<p>Contestad aquí: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&amp;entry.779297845=MT-T00-B"><strong>formulario del mini-test</strong></a></p>
 <section id="pregunta-1" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
 <p>Fijaos en la longitud de cada vector. ¿Qué devuelve la última línea?</p>
@@ -4099,9 +4099,9 @@ precios &lt;- precios[1:2]   # ejecutado antes</span>
 precios * (1 - dto)</code></pre>
 <ol type="a">
 <li><p><code>80 100</code></p></li>
+<li><p><code>80 100 240 200</code></p></li>
 <li><p>Da error, porque los vectores no miden igual</p></li>
 <li><p><code>80 100 300 400</code></p></li>
-<li><p><code>80 100 240 200</code></p></li>
 </ol>
 </section>
 <section id="pregunta-2" class="level2">
@@ -4111,14 +4111,26 @@ precios * (1 - dto)</code></pre>
 ficha$notas &lt;- ficha$notas * 2   # ejecutado tambien</span>
 mean(ficha[[2]])</code></pre>
 <ol type="a">
-<li><p><code>6</code></p></li>
-<li><p>Da error, porque <code>ficha[[2]]</code> no es un número</p></li>
 <li><p><code>12</code></p></li>
+<li><p>Da error, porque <code>ficha[[2]]</code> no es un número</p></li>
 <li><p>Da error, porque <code>ficha</code> es una lista y no se puede promediar</p></li>
+<li><p><code>6</code></p></li>
 </ol>
 </section>
 <section id="pregunta-3" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
+<p><code>precios</code> guarda los precios <strong>como texto</strong>. ¿Cuánto devuelve la última línea?</p>
+<pre><code>precios &lt;- c(&quot;10&quot;, &quot;9&quot;, &quot;2&quot;)
+sum(precios &gt; &quot;2&quot;)</code></pre>
+<ol type="a">
+<li><p><code>1</code></p></li>
+<li><p><code>2</code></p></li>
+<li><p><code>3</code></p></li>
+<li><p>Da error, porque no se puede comparar texto</p></li>
+</ol>
+</section>
+<section id="pregunta-4" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-4">Pregunta 4</h2>
 <p>¿Qué muestra la consola?</p>
 <pre><code>gastos &lt;- c(20, 16, NA, 24)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
 gastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente</span>
@@ -4129,10 +4141,6 @@ mean(gastos)</code></pre>
 <li><p><code>NA</code></p></li>
 <li><p>Da error</p></li>
 </ol>
-</section>
-<section id="pregunta-4-una-línea" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-4-una-línea">Pregunta 4 (una línea)</h2>
-<p><code>precios &lt;- c(&quot;10&quot;, &quot;9&quot;, &quot;2&quot;)</code> y <code>sum(precios &gt; &quot;2&quot;)</code> devuelve <code>1</code>, no <code>2</code>. ¿Por qué, si 10 y 9 son mayores que 2?</p>
 
 
 </section>
