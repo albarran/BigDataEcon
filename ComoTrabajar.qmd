@@ -50,10 +50,27 @@ máquina, y al entregarlo no se puede reproducir.
 Se crea con *File \> New File... \> Quarto Document* y se guarda con `Ctrl+S`, **con extensión
 `.qmd`**, con este nombre:
 
-> **`Tnn_En_DNI.qmd`**
+> **`Tnn_En_ID.qmd`**
 >
-> `nn` es el número del tema, `n` el del ejercicio y el DNI va **sin la letra**.
+> `nn` es el número del tema, `n` el del ejercicio, e `ID` es lo que te identifica.
 > Por ejemplo, el ejercicio 1 del tema 2: `T02_E1_12345678.qmd`
+
+Qué poner en `ID`, según el documento que tengas:
+
+| si tu documento es... | escribes | ejemplo |
+|---|---|---|
+| **DNI** | los 8 números, quitando la letra del final | `12345678` |
+| **NIE** | la letra del principio y los 7 números, quitando la letra del final | `X1234567` |
+| **Pasaporte o cualquier otro** | entero, **sin quitar nada** | `AB12345CD` |
+
+Fíjate en el ejemplo del pasaporte: acaba en letra y **esa letra no se quita**. Solo el DNI y el
+NIE pierden la última.
+
+**Es lo mismo que escribes en el formulario de entrega**, exactamente igual en los dos sitios.
+
+Si dudas, pruébalo en el formulario: el campo solo admite identificadores de la lista de
+matriculados, así que si te pasas quitando letras te avisa en el momento y lo corriges ahí mismo.
+Lo que escribas ahí es lo que tiene que llevar el nombre del fichero.
 
 ## 3. La cabecera
 
@@ -124,10 +141,13 @@ quieres enterarte.
 
 Un solo **`.zip`** con el `.qmd` y el `.html` dentro, llamado igual que el documento:
 
-> **`Tnn_En_DNI.zip`**, por ejemplo `T02_E1_12345678.zip`
+> **`Tnn_En_ID.zip`**, por ejemplo `T02_E1_12345678.zip`
 
 El nombre tiene que ser exacto, o la entrega se rechaza. Recibirás un correo de confirmación
-si es correcta, o de rechazo si no lo es.
+si es correcta, o de rechazo si no lo es, diciéndote qué falla.
+
+**La entrega se hace siempre por el formulario.** Un fichero enviado por correo no cuenta como
+entregado. Si el formulario te da problemas, dilo en clase o por tutoría.
 
 No se valora que esté perfecto: se valora el progreso y que se vea lo que has entendido. Si te
 quedas a medias, entrega lo que tengas.

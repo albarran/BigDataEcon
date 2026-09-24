@@ -82,7 +82,7 @@ library(knitr)
 ```{r datos1}
 #| echo: false
 #| eval: false
-###---------- Datos1 ----------------------------------------------------
+### ---------- Datos1 ----------------------------------------------------
 
 # Ventas de la Tienda A de Lunes a Viernes
 A <- c(140, 50, 20, 120, 240)
@@ -109,7 +109,7 @@ NOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (*F
 ```{r ej1}
 #| echo: false
 #| eval: false
-###---------- Problema 1) ----------------------------------------------------
+### ---------- Problema 1) ----------------------------------------------------
 
 ###################################
 # Ventas totales por día
@@ -125,12 +125,12 @@ datos <- import("Ventas1.xlsx")
 # Elegir los "objetos"/celdas apropiados
 
 # OJO: datos es un data.frame, no un vector...
-Ventas_A <- datos[1, 2:6]  # ncol(datos)  #dim(datos)[2]
+Ventas_A <- datos[1, 2:6] # ncol(datos)  #dim(datos)[2]
 Ventas_B <- datos[2, 2:6]
 
 # Ventas totales por día
 # aun así, podemos hacer algunas operaciones
-Ventas_totales_diarias <-  Ventas_A + Ventas_B
+Ventas_totales_diarias <- Ventas_A + Ventas_B
 
 Ventas_totales_diarias
 
@@ -166,10 +166,10 @@ Prod_Z <- c(309.306, 165.8)
 # vector de ventas
 ventas <- c(Prod_X, Prod_Y, Prod_Z)
 # Matriz de ventas
-mVentas <- matrix(ventas, nrow = 3, byrow = TRUE) 
+mVentas <- matrix(ventas, nrow = 3, byrow = TRUE)
 
 # Vectores de region y titulos, para nombres
-region  <- c("Nacional", "Internacional")
+region <- c("Nacional", "Internacional")
 nombres <- c("X", "Y", "Z")
 
 # Aplicar nombres de region a columnas
@@ -188,8 +188,8 @@ export(mVentas, "datos/Ventas2a.xlsx", overwrite = TRUE)
 # Construir matriz_ventas2
 ventas2 <- c(474.5, 552.5, 310.7, 338.7, 380.3, 468.5)
 nombres2 <- c("R", "S", "T")
-mVentas2 <- matrix(ventas2, nrow=3, byrow = TRUE) 
-  #, dimnames = list(nombres2, region))
+mVentas2 <- matrix(ventas2, nrow = 3, byrow = TRUE)
+# , dimnames = list(nombres2, region))
 
 # Aplicar nombres de region a columnas
 colnames(mVentas2) <- region
@@ -201,7 +201,6 @@ mVentas2 <- rownames_to_column(mVentas2, var = "Producto")
 
 export(mVentas2, "/home/albarran/Archivos/teaching/MAD/000/00datos/Ventas2b.xlsx", overwrite = TRUE)
 export(mVentas2, "datos/Ventas2b.xlsx", overwrite = TRUE)
-
 ```
 
 a) Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2a.xlsx) y [`Ventas2b.xlsx`](https://raw.githubusercontent.com/albarran/00datos/main/Ventas2b.xlsx) contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.
@@ -211,7 +210,7 @@ a) Los archivos [`Ventas2a.xlsx`](https://raw.githubusercontent.com/albarran/00d
 ```{r ej.2b}
 #| echo: false
 #| eval: false
-###---------- Problema 2.a) ----------------------------------------------------
+### ---------- Problema 2.a) ----------------------------------------------------
 
 datos2a <- import("Ventas2a.xlsx")
 datos2b <- import("Ventas2b.xlsx")
@@ -227,13 +226,12 @@ b) Añadir una columna con el valor total de las ventas (nacionales más interna
 ```{r ej2.b}
 #| echo: false
 #| eval: false
-###---------- Problema 2.b) ----------------------------------------------------
+### ---------- Problema 2.b) ----------------------------------------------------
 
 # Calcular total ventas
 datos2$Total <- datos2$Nacional + datos2$Internacional
 
 datos2$Total
-
 ```
 
 c) Calcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.
@@ -241,7 +239,7 @@ c) Calcular la media del valor de las ventas internacionales (media sobre todos 
 ```{r ej2.c}
 #| echo: false
 #| eval: false
-###---------- Problema 2.c) ----------------------------------------------------
+### ---------- Problema 2.c) ----------------------------------------------------
 
 # media del valor de las ventas internacionales
 media_internac <- mean(datos2$Internacional)
@@ -249,22 +247,20 @@ media_internac <- mean(datos2$Internacional)
 media_internac
 
 # media del valor de las ventas nacionales pero solo para los productos X, Y y R.
-ventas_nacional_XYR <- datos2[c(1,2,4), 2]
+ventas_nacional_XYR <- datos2[c(1, 2, 4), 2]
 (media_nacional_XYR <- mean(ventas_nacional_XYR))
 
 media_nacional_XYR
 
 # Otra forma de hacerlo
-ventas_nacional_XYR <- datos2$Nacional[c(1,2,4)]
+ventas_nacional_XYR <- datos2$Nacional[c(1, 2, 4)]
 (media_nacional_XYR <- mean(ventas_nacional_XYR))
 
-ventas_nacional_XYR <- datos2[c(1,2,4), "Nacional"]
+ventas_nacional_XYR <- datos2[c(1, 2, 4), "Nacional"]
 (media_nacional_XYR <- mean(ventas_nacional_XYR))
 
 seleccion <- datos2$Producto %in% c("X", "Y", "R")
 (media_nacional_XYR <- mean(datos2$Nacional[seleccion]))
-
-
 ```
 
 c) Se quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:
@@ -272,19 +268,22 @@ c) Se quiere conocer el número de compradores de los productos a partir del val
 ```{r ej2.d}
 #| echo: false
 #| results: 'asis'
-###---------- Problema 2.c) ----------------------------------------------------
+### ---------- Problema 2.c) ----------------------------------------------------
 
 # Estimar número de compradores
 
 # Data Frame de precios
-precios <- data.frame("PrecioN" = c(5.2, 4.7, 5.7, 6.1, 7, 6.7),
-                      "PrecioI" = c(4.2, 4.3, 4.2, 4.5, 4.9, 4.8),
-                      row.names = c("X", "Y", "Z", "R", "S", "T"))
-                      # Producto = c("X", "Y", "Z", "R", "S", "T"))
-  
-########################################################################
-precios |> kbl(format = "html")|> kable_paper("hover")
+precios <- data.frame(
+  "PrecioN" = c(5.2, 4.7, 5.7, 6.1, 7, 6.7),
+  "PrecioI" = c(4.2, 4.3, 4.2, 4.5, 4.9, 4.8),
+  row.names = c("X", "Y", "Z", "R", "S", "T")
+)
+# Producto = c("X", "Y", "Z", "R", "S", "T"))
 
+########################################################################
+precios |>
+  kbl(format = "html") |>
+  kable_paper("hover")
 ```
 
 ```{r ej2.d2}
@@ -307,19 +306,21 @@ a) Se ha preguntado a cinco clientes sobre su satisfacción con los servicios de
 
 ```{r ej.3a}
 #| echo: false
-###---------- Problema 3.a) ----------------------------------------------------
+### ---------- Problema 3.a) ----------------------------------------------------
 
 # Vector de satisfacción
 satisf_vector <- c("poco", "nada", "nada", "poco", "mucho")
 
-#factor_satisf_vector0 <- factor(satisf_vector, ordered = TRUE)
-#levels(factor_satisf_vector0)
-#summary(factor_satisf_vector0)
+# factor_satisf_vector0 <- factor(satisf_vector, ordered = TRUE)
+# levels(factor_satisf_vector0)
+# summary(factor_satisf_vector0)
 
-factor_satisf_vector <- factor(satisf_vector, ordered = TRUE, 
-                               levels = c("nada", "poco", "mucho"))
-#levels(factor_satisf_vector)
-#summary(factor_satisf_vector)
+factor_satisf_vector <- factor(satisf_vector,
+  ordered = TRUE,
+  levels = c("nada", "poco", "mucho")
+)
+# levels(factor_satisf_vector)
+# summary(factor_satisf_vector)
 
 factor_satisf_vector
 ```
@@ -328,7 +329,7 @@ b) Generar un vector, `sum_factor`, con las estadísticas descriptivas de la inf
 
 ```{r ej.3b}
 #| echo: false
-###---------- Problema 3.b) ----------------------------------------------------
+### ---------- Problema 3.b) ----------------------------------------------------
 
 # Resumen del vector
 sum_vector <- summary(satisf_vector)
@@ -343,7 +344,7 @@ c) Crear el vector `comparar_clientes` que informe sobre si el cliente 2 está m
 
 ```{r ej.3c}
 #| echo: false
-###---------- Problema 3.c) ----------------------------------------------------
+### ---------- Problema 3.c) ----------------------------------------------------
 
 # Valor del factor para el segundo cliente
 cliente2 <- factor_satisf_vector[2]
@@ -371,7 +372,7 @@ a) El conjunto de datos `mtcars` está incluido en R por defecto; buscar `mtcars
 
 ```{r ej.4a}
 #| echo: false
-###---------- Problema 4.a) ----------------------------------------------------
+### ---------- Problema 4.a) ----------------------------------------------------
 
 # Mostrar la estructura del conjunto de datos
 str(mtcars)
@@ -388,8 +389,8 @@ Datsun710_CV <- mtcars["Datsun 710", "hp"]
 Datsun710_CV
 
 # Características del Valiant
-Valiant_vector <- mtcars[6,]
-Valiant_vector <- mtcars["Valiant",]
+Valiant_vector <- mtcars[6, ]
+Valiant_vector <- mtcars["Valiant", ]
 
 Valiant_vector
 ```
@@ -398,21 +399,21 @@ b) Generar el vector `cilindros` con la información para todos los modelos de c
 
 ```{r ej.4b}
 #| echo: false
-###---------- Problema 4.b) ----------------------------------------------------
+### ---------- Problema 4.b) ----------------------------------------------------
 
 # Variable cilindros como vector usando $
 cilindros <- mtcars$cyl
-cilindros <- mtcars[,4]
-cilindros <- mtcars[,"cyl"]
+cilindros <- mtcars[, 4]
+cilindros <- mtcars[, "cyl"]
 
 cilindros
 
 # Tipo de cambio de los Mazda y Hornet
-cambio_vector <- mtcars[c(1:2,4:5),"am"]
+cambio_vector <- mtcars[c(1:2, 4:5), "am"]
 
-cambio_vector <- mtcars[rownames(mtcars) %in%  c("Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Hornet Sportabout"),"am"]
+cambio_vector <- mtcars[rownames(mtcars) %in% c("Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Hornet Sportabout"), "am"]
 
-cambio_vector <- mtcars$am[rownames(mtcars) %in%  c("Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Hornet Sportabout")]
+cambio_vector <- mtcars$am[rownames(mtcars) %in% c("Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Hornet Sportabout")]
 
 
 cambio_vector
@@ -422,24 +423,24 @@ c) Generar `media_consumo_autom` con el consumo medio de los coches con cambio a
 
 ```{r ej.4c}
 #| echo: false
-###---------- Problema 4.c) ----------------------------------------------------
+### ---------- Problema 4.c) ----------------------------------------------------
 
-# Seleccionar cambio automático 
+# Seleccionar cambio automático
 sel_cambio <- mtcars$am == 0
-  
+
 # Media de consumo para coches de cambio automático
 consumo_cambio_vector <- mtcars[sel_cambio, "mpg"]
-media_consumo_autom  <- mean(consumo_cambio_vector)
+media_consumo_autom <- mean(consumo_cambio_vector)
 
-media_consumo_autom <- mean(subset(mtcars, am == 0,"mpg"))
+media_consumo_autom <- mean(subset(mtcars, am == 0, "mpg"))
 media_consumo_autom <- mean(subset(mtcars, am == 0)$mpg)
 
-datos <-subset(mtcars, am == 0)
+datos <- subset(mtcars, am == 0)
 media_consumo_autom <- mean(datos$mpg)
 
-media_consumo_autom 
+media_consumo_autom
 
-# Seleccionar cambio automático y cuatro cilindros 
+# Seleccionar cambio automático y cuatro cilindros
 sel_cambio2 <- mtcars$am == 0 & mtcars$cyl == 4
 
 # Media de consumo para coches de cambio automático y cuatro cilindros
@@ -453,10 +454,10 @@ media_consumo_autom_cyl4
 
 #
 ## Use order() to create positions
-#positions <- order(planets_df$diameter)
+# positions <- order(planets_df$diameter)
 #
 ## Use positions to sort planets_df
-#planets_df[positions, ]
+# planets_df[positions, ]
 ```
 
 ````{=html}
@@ -465,16 +466,16 @@ media_consumo_autom_cyl4
 
 ```{r ej.5a}
 #| echo: false
-###---------- Problema 5.a) ----------------------------------------------------
+### ---------- Problema 5.a) ----------------------------------------------------
 
 # Vector numérico de 1 a 10
-mi_vector <- 1:10 
+mi_vector <- 1:10
 
 # Matrix con númemros de 1 a 4
 mi_matriz <- matrix(1:4, ncol = 4)
 
 # Data Frame con 10 primeros elementos de mtcars
-mis_datos <- mtcars[1:10,]
+mis_datos <- mtcars[1:10, ]
 
 # Construir lista:
 mi_lista <- list(vector = mi_vector, matriz = mi_matriz, datos = mis_datos)
@@ -488,7 +489,7 @@ mi_lista
 ```{r ej.5b}
 #| echo: false
 #| results: 'asis'
-###---------- Problema 5.b) ----------------------------------------------------
+### ---------- Problema 5.b) ----------------------------------------------------
 
 # media del vector de la lista
 media_vector <- mean(mi_lista$vector)
@@ -498,7 +499,7 @@ media_vector <- mean(mi_lista[["vector"]])
 media_vector
 
 # media de la 5 primeras observaciones de consumo de los datos de la lista
-media_datos_5 <- mean(mi_lista[[3]][1:5,1])
+media_datos_5 <- mean(mi_lista[[3]][1:5, 1])
 
 media_datos_5
 ```
@@ -513,8 +514,10 @@ Rellenad este [FORMULARIO](https://forms.gle/Miz3FVYq1pUa8VPY6) con vuestros dat
 
 <!--  * el fichero .csv que utilizáis.. -->
 
-IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir el siguiente formato que incluye vuestro número de DNI: ej.,
+IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir este formato, que incluye vuestro identificador: ej.,
 
--   Tema00ej1_123456789.R
+-   Tema00ej1_12345678.R
+
+Con **DNI**, los 8 números quitando la letra del final. Con **NIE**, la letra del principio y los números, quitando la del final. Con **pasaporte** u otro documento, entero, sin quitar nada.
 
 <!--  * 12345678_ET05_datos.csv -->

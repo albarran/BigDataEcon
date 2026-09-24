@@ -88,7 +88,7 @@ css: styles.css
 rm(list = ls())
 
 # Working directory
-#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+# setwd("/home/albarran/Dropbox/MAD/00.TEC")
 
 # Cargo todas las bibliotecas necesarias
 # (se podría hacer cuando cada una sea necesaria)
@@ -184,7 +184,7 @@ La barra vertical de la izquierda (actividad) tiene más herramientas (extension
 ```{r}
 2 + 2
 3 * (1 - 4)^2
-sqrt(log(5/2))
+sqrt(log(5 / 2))
 pi
 hola
 ```
@@ -263,7 +263,7 @@ abs(-5)
 
 
 ```{r}
-# Pueden ir al principio de la línea 
+# Pueden ir al principio de la línea
 2 + 2 # o después de una instrucción
 ```
 
@@ -410,7 +410,7 @@ getwd()
 -   Para establecerlo una vez (en la sesión actual, en este momento)
 
     ```{r eval=FALSE}
-    setwd("C:/Users/usuario/Documents/miproyecto")
+setwd("C:/Users/usuario/Documents/miproyecto")
     ```
 
 -   Se puede establecer de forma permanente (por defecto, para cada nueva sesión de R) en el menú *Tools \> Global Options*: General
@@ -536,7 +536,7 @@ ceiling(5.2)
 ```{r}
 #| echo: false
 
-sin(pi/6)
+sin(pi / 6)
 floor(3.1)
 ```
 :::
@@ -546,10 +546,9 @@ floor(3.1)
 -   Los argumentos se pueden especificar por nombre o por orden.
 
 ```{r}
-log(2, base=2)
+log(2, base = 2)
 log(2, 10)
 log(base = 10, x = 2)
-
 ```
 
 -   ¿Cómo sabemos la manera de usar una función (ej. argumentos necesarios) o comando de R?
@@ -644,10 +643,10 @@ help(min)
 :::
 
 ```{r}
-x <- 2*3    # asignación, no muestra resultado
-x           # ejecutamos mostrar la variable   
+x <- 2 * 3 # asignación, no muestra resultado
+x # ejecutamos mostrar la variable
 print(x)
-(x <- 2)    # asignación e impresión a la vez
+(x <- 2) # asignación e impresión a la vez
 ```
 
 -   R es "case-sensitive": `x` y `X` son dos objetos distintos
@@ -655,9 +654,9 @@ print(x)
 -   Los objetos asignados pueden usarse posteriormente, p.e., para generar otros a partir de ellos
 
 ```{r}
-y <- x + 5  # asignamos y a partir del VALOR de x
-(x <- x*3)  # re-asignamos x a partir de ella misma
-y           # NO cambia (en Excel, sí)
+y <- x + 5 # asignamos y a partir del VALOR de x
+(x <- x * 3) # re-asignamos x a partir de ella misma
+y # NO cambia (en Excel, sí)
 ```
 
 
@@ -690,11 +689,10 @@ y           # NO cambia (en Excel, sí)
 ::: {.notes}
 
 ```{r}
-
 #| echo: false
-ls()        # mostrar objetos
-rm(y)       # eliminar el objeto "y"
-rm(a,b,c)   # eliminar varios objetos (separados por comas)
+ls() # mostrar objetos
+rm(y) # eliminar el objeto "y"
+rm(a, b, c) # eliminar varios objetos (separados por comas)
 ```
 
 :::
@@ -702,8 +700,8 @@ rm(a,b,c)   # eliminar varios objetos (separados por comas)
 -   Borramos *todos* los objetos desde el panel Variables o con el comando
 
 ```{r}
-rm( list=ls() )  # eliminar todos los objetos
-rm(y, x)         # eliminar solo algunos objetos
+rm(list = ls()) # eliminar todos los objetos
+rm(y, x) # eliminar solo algunos objetos
 ```
 
 -  Guardar el contenido del entorno de trabajo al cerrar es **innecesario**: ejecutando los comandos guardados en un archivo `.R` recuperamos los objetos
@@ -736,8 +734,8 @@ rm(y, x)         # eliminar solo algunos objetos
 ```{r}
 #| echo: false
 
-log(-1)                         # warning
-seq(from = 10, to = 2, by = 1)  # error
+log(-1) # warning
+seq(from = 10, to = 2, by = 1) # error
 ```
 
 -   Peor que un mensaje de error: escribimos (copiamos) un código que funciona pero no hace lo que queremos...
@@ -753,7 +751,7 @@ seq(from = 10, to = 2, by = 1)  # error
 #| echo: false
 
 from <- 4
-seq(from == 1, to = 5, by = 1)   # ¿por qué?
+seq(from == 1, to = 5, by = 1) # ¿por qué?
 ```
 
 ::: {.notes}
@@ -801,8 +799,12 @@ seq(from == 1, to = 5, by = 1)   # ¿por qué?
 * Lo que se entrega es el trabajo de las **PRÁCTICAS** de este tema (el resto de cosas que
   probéis o veamos en pantalla, no)
 
-* Para este tema, ese trabajo va en un guion propio: `Tema00_DNI.R` (con VUESTRO DNI:
-  p.e., `Tema00_12345678X.R`), en la carpeta del curso
+* Para este tema, ese trabajo va en un guion propio: `Tema00_ID.R` (p.e.,
+  `Tema00_12345678.R`), en la carpeta del curso
+
+    + con **DNI**, los 8 números quitando la letra del final; con **NIE**, la letra del
+      principio y los números, quitando la del final; con **pasaporte** u otro documento,
+      entero, sin quitar nada
 
     + cada tema tendrá su propia entrega (y su formato); en algunos temas podrá haber más de una
 
@@ -853,9 +855,9 @@ El enlace/QR se proyecta solo cuando hay recogida.
 -   Empezamos nuestras fichas: cada *variable* de los 5 clientes es un vector
 
 ```{r}
-altura  <- c(176, 165, 189, 155, 168)                 # numérico
+altura <- c(176, 165, 189, 155, 168) # numérico
 cliente <- c("Jose", "Maria", "Juan", "Elena", "Rosa") # caracteres
-socio   <- c(TRUE, FALSE, TRUE, TRUE, FALSE)           # lógico
+socio <- c(TRUE, FALSE, TRUE, TRUE, FALSE) # lógico
 ```
 
 ::: {.notes}
@@ -870,10 +872,10 @@ socio   <- c(TRUE, FALSE, TRUE, TRUE, FALSE)           # lógico
 -   Podemos crear vectores a partir de otros vectores o usando comandos
 
 ```{r}
-z <- c(altura, 170)   # añadir un dato
-x <- rep(1, times=4)
+z <- c(altura, 170) # añadir un dato
+x <- rep(1, times = 4)
 y <- seq(from = 10, to = 1, by = -1)
-z <- 1:10             # equivale a z <- seq(1,10,1)
+z <- 1:10 # equivale a z <- seq(1,10,1)
 ```
 
 <!--
@@ -884,7 +886,7 @@ z <- 1:10             # equivale a z <- seq(1,10,1)
 ```{r}
 #| echo: false
 
-y <- c(1,3,5,7,9)
+y <- c(1, 3, 5, 7, 9)
 z <- c(x, y)
 ```
 ::: 
@@ -896,7 +898,7 @@ z <- c(x, y)
 ::: {.column width="60%"}
 
 ```{r}
-x <- rep(1, times=4)
+x <- rep(1, times = 4)
 y <- seq(from = 10, to = 1, by = -1)
 ```
 ::: 
@@ -908,7 +910,7 @@ y <- seq(from = 10, to = 1, by = -1)
 ```{r}
 #| echo: false
 
-z <- 1:10       # equivale a z <- seq(1,10,1)
+z <- 1:10 # equivale a z <- seq(1,10,1)
 ```
 
 -->
@@ -923,7 +925,7 @@ z <- 1:10       # equivale a z <- seq(1,10,1)
 - Si se mezclan tipos distintos, R busca una clase que "acomode" a todos
 
 ```{r}
-vcr <- c("lunes", 2) 
+vcr <- c("lunes", 2)
 ```
 
 -   Forzamos que un objeto sea tratado con una clase concreta, con
@@ -934,7 +936,7 @@ vcr <- c("lunes", 2)
 ```{r}
 #| echo: false
 as.integer(c(TRUE, 3.2, -1, 4))
-as.numeric( c("1", "2", "foo", "10", "bar") )
+as.numeric(c("1", "2", "foo", "10", "bar"))
 ```
 
 
@@ -959,13 +961,12 @@ as.numeric( c("1", "2", "foo", "10", "bar") )
 ```{r}
 #| echo: false
 
-2.5+"hola"
+2.5 + "hola"
 ```
     
 ```{r}
-
 a <- 4
-c <- 'a' + 1
+c <- "a" + 1
 ```
 
 
@@ -976,7 +977,6 @@ c <- 'a' + 1
 -   La clase de un objeto es *única* (solo un tipo de elementales) y puede conocerse con `str()` o `class()`
 
 ```{r}
-
 str(y)
 ```
 
@@ -1003,22 +1003,19 @@ mode(z)
 -   NO se pueden realizar operaciones incompatibles entre clases
 
 ```{r}
-
-2.5+"hola"
+2.5 + "hola"
 ```
 -   Cuidado con las comillas: NO es lo mismo un objeto (su contenido) que el carácter de su nombre
 ```{r}
-
 a <- 4
-c <- 'a' + 1
+c <- "a" + 1
 ```
 
 -   También suele pasar cuando pasamos un objeto vector (o escalar) como argumento a una función
 
 ```{r}
-
 mibase <- 10
-log(5, base="mibase")
+log(5, base = "mibase")
 ```
 
 -->
@@ -1030,7 +1027,7 @@ log(5, base="mibase")
 asignado con `names()`
 
 ```{r}
-names(altura) <- cliente   # etiquetamos cada altura con su cliente
+names(altura) <- cliente # etiquetamos cada altura con su cliente
 altura
 ```
 
@@ -1064,22 +1061,21 @@ altura2
 ## Funciones para vectores
 
 ```{r}
+numeric(n) # crea un vector con n ceros
 
-numeric(n)      # crea un vector con n ceros
+length(x) # longitud: número de elementos
+sort(x) # ordenar
 
-length(x)   # longitud: número de elementos
-sort(x)     # ordenar
- 
-max(x)      # máximo
-min(x)      # mínimos
-sum(x)      # suma de los elementos
-prod(x)     # producto de los elementos
+max(x) # máximo
+min(x) # mínimos
+sum(x) # suma de los elementos
+prod(x) # producto de los elementos
 
-mean(x)     # media de los ementos
-var(x)      # varianza
-table(x)    # tabla de frecuencias
+mean(x) # media de los ementos
+var(x) # varianza
+table(x) # tabla de frecuencias
 
-summary(x)  # estadísticos descriptivos
+summary(x) # estadísticos descriptivos
 ```
 -->
 
@@ -1088,14 +1084,16 @@ summary(x)  # estadísticos descriptivos
 
 * También podemos usar la función "paste" para crear un nuevo carácter a partir de otros
 ```{r}
-a <- "Universidad"; b <- "de"; c <- "Alicante"
-d <- paste(a,b,c)
+a <- "Universidad"
+b <- "de"
+c <- "Alicante"
+d <- paste(a, b, c)
 ```
 
 * Podemos especificar que un carácter aparezca entre las cadenas con la opción `sep`; la opción por defecto en `paste` es espacio en blanco " "
 ```{r}
-d <- paste(a,b,c,sep=".")
-d <- paste(a,b,c,sep=",")
+d <- paste(a, b, c, sep = ".")
+d <- paste(a, b, c, sep = ",")
 ```
 
 * La función `paste0` equivale a `paste` sin carácter de separación (`sep=""`)
@@ -1109,7 +1107,7 @@ d <- paste(a,b,c,sep=",")
 
 ```{r}
 peso <- c(75, 85, 70, 60, 80)
-imc  <- peso / (altura/100)^2   # un cálculo, 5 resultados
+imc <- peso / (altura / 100)^2 # un cálculo, 5 resultados
 ```
 
 -   Con diferentes longitudes, se repite el vector corto cuanto
@@ -1121,7 +1119,7 @@ imc  <- peso / (altura/100)^2   # un cálculo, 5 resultados
 
 ```{r}
 altura + c(1, 2, 3, 4, 5)
-altura + 1   # se "recicla" el 1
+altura + 1 # se "recicla" el 1
 ```
 :::
 
@@ -1140,7 +1138,7 @@ altura * 2
 - Si las dimensiones no son múltiplos exactos...
 ```{r}
 b <- 1:12
-altura + b   # Warning!
+altura + b # Warning!
 ```
 -->
 
@@ -1158,11 +1156,11 @@ altura + b   # Warning!
 ::: {.column width="45%"}
 
 ```{r}
-length(altura)   # longitud
-sort(altura)     # ordenar
-max(altura)      # máximo
-min(altura)      # mínimo
-sum(peso)        # suma
+length(altura) # longitud
+sort(altura) # ordenar
+max(altura) # máximo
+min(altura) # mínimo
+sum(peso) # suma
 ```
 :::
 
@@ -1173,11 +1171,11 @@ sum(peso)        # suma
 ::: {.column width="45%"}
 
 ```{r}
-mean(altura)     # media
-var(altura)      # varianza
-table(socio)     # frecuencias
+mean(altura) # media
+var(altura) # varianza
+table(socio) # frecuencias
 
-summary(altura)  # estadísticos
+summary(altura) # estadísticos
 ```
 :::
 
@@ -1198,15 +1196,15 @@ summary(altura)  # estadísticos
 ::: {.column width="40%"}
 ```{r}
 #| echo: false
-1 == 1  # igualdad
-1 != 3  # NO igual
-1 > 2   # mayor que
+1 == 1 # igualdad
+1 != 3 # NO igual
+1 > 2 # mayor que
 ```
 
 ```{r}
-1 == 1  # TRUE
-1 != 3  # TRUE
-1 > 2   # FALSE
+1 == 1 # TRUE
+1 != 3 # TRUE
+1 > 2 # FALSE
 ```
 :::
 
@@ -1216,15 +1214,15 @@ summary(altura)  # estadísticos
 
 ::: {.column width="45%"}
 ```{r}
-a <- 3 
-a >= 3       # TRUE
-a + 1 <= 10  # FALSE
+a <- 3
+a >= 3 # TRUE
+a + 1 <= 10 # FALSE
 ```
 
 ```{r}
 #| echo: false
-3 >= 2     # mayor o igual
-2 + 2 < 4  # menor que
+3 >= 2 # mayor o igual
+2 + 2 < 4 # menor que
 4 - 2 <= 4 # menor o igual
 ```
 :::
@@ -1239,9 +1237,9 @@ a + 1 <= 10  # FALSE
 
 ```{r}
 #| echo: false
-TRUE & TRUE  # Operador AND: A & B = T si ambas T
+TRUE & TRUE # Operador AND: A & B = T si ambas T
 TRUE | FALSE # Operador OR:  A | B = T si al menos una T
-!TRUE        # Operador NOT: !A = T si A=F y !A=F si A=T
+!TRUE # Operador NOT: !A = T si A=F y !A=F si A=T
 ```
 -->
 
@@ -1260,8 +1258,8 @@ TRUE | FALSE # Operador OR:  A | B = T si al menos una T
 ```{r}
 #| echo: false
 
-'cadena' == "cadena"
-'hola' > 'adios'   
+"cadena" == "cadena"
+"hola" > "adios"
 ```
 
 :::
@@ -1273,7 +1271,7 @@ TRUE | FALSE # Operador OR:  A | B = T si al menos una T
 
 ::: {.column width="40%"}
 ```{r}
-altura >= c(175,165,195,165,168)
+altura >= c(175, 165, 195, 165, 168)
 altura == 155
 altura > 160 & altura <= 180
 ```
@@ -1297,11 +1295,11 @@ condicion <- !(altura <= 170)
 -->
 
 ```{r}
-altura > 165                          # ¿qué clientes miden más de 165?
-altura >= c(175, 165, 195, 165, 168)  # elemento a elemento
+altura > 165 # ¿qué clientes miden más de 165?
+altura >= c(175, 165, 195, 165, 168) # elemento a elemento
 altura > 160 & altura <= 180
 altura < 160 | altura >= 180
-c(165,179) %in% altura
+c(165, 179) %in% altura
 condicion <- !(altura <= 170)
 ```
 
@@ -1337,8 +1335,8 @@ condicion <- !(altura <= 170)
 
 ::: {.column width="40%"}
 ```{r}
-x <- c(3,2,1,4,3)
-y <- c(5,4,1,2,3)
+x <- c(3, 2, 1, 4, 3)
+y <- c(5, 4, 1, 2, 3)
 ```
 ::: 
 
@@ -1349,9 +1347,9 @@ y <- c(5,4,1,2,3)
 ::: {.column width="40%"}
 ```{r}
 z <- x == y
-!(x==1)
+!(x == 1)
 w <- (y == 4 | x == 4)
-c(3,9) %in% x
+c(3, 9) %in% x
 ```
 ::: 
 
@@ -1359,10 +1357,9 @@ c(3,9) %in% x
 
 * Algunas funciones para vectores lógicos
 ```{r}
-
-any(z)      # ¿algún elemento de "z" es T?          = max()
-all(z)      # ¿todos los elementos de "z" son T?    = prod()
-which(z)    # ¿qué elementos de "z" son Verdaderos?  
+any(z) # ¿algún elemento de "z" es T?          = max()
+all(z) # ¿todos los elementos de "z" son T?    = prod()
+which(z) # ¿qué elementos de "z" son Verdaderos?
 which(altura == 182)
 which(altura > 180 | altura < 160)
 ```
@@ -1383,9 +1380,8 @@ which(altura > 180 | altura < 160)
 ## Mensajes de "Error" y "Warning" (Aviso/Advertencia)
 
 ```{r}
-
-log(-1)                         # warning
-seq(from = 10, to = 2, by = 1)  # error
+log(-1) # warning
+seq(from = 10, to = 2, by = 1) # error
 ```
 
 -   Aviso: R ofrece un resultado (y continuará al siguiente comando), PERO indica que puede haber algo "no deseado"
@@ -1396,7 +1392,7 @@ seq(from = 10, to = 2, by = 1)  # error
 
 ```{r}
 from <- 4
-seq(from == 1, to = 5, by = 1)   # ¿por qué?
+seq(from == 1, to = 5, by = 1) # ¿por qué?
 ```
 
 -   Debemos ser cuidadosos, sistemáticos y pensar **cada paso** del código 
@@ -1436,9 +1432,9 @@ seq(from == 1, to = 5, by = 1)   # ¿por qué?
 
 1. **Posiciones** de los elementos, usando un vector de enteros
 ```{r}
-#| echo: false 
+#| echo: false
 altura[3]
-altura[c(1,3,5)]
+altura[c(1, 3, 5)]
 altura[2:4]
 
 pos <- 2:4
@@ -1447,12 +1443,12 @@ altura[pos]
 
 ```{r}
 altura[3]
-altura[c(1,3,5)]
+altura[c(1, 3, 5)]
 ```
 
 -   Con enteros negativos, indicamos posiciones que NO queremos
 ```{r}
-altura[-c(2,4)] 
+altura[-c(2, 4)]
 ```
 
 ::: {.notes}
@@ -1479,8 +1475,8 @@ altura[altura > 180 | altura < 160]
 
 ```{r}
 #| echo: false
-altura[ "Juan" ]
-altura[ c("Jose", "Elena") ]
+altura["Juan"]
+altura[c("Jose", "Elena")]
 
 pos <- c("Jose", "Rosa")
 altura[pos]
@@ -1488,8 +1484,8 @@ altura[pos]
 
 ```{r}
 #| echo: false
-altura[ "Juan" ]
-altura[ c("Jose", "Elena") ]
+altura["Juan"]
+altura[c("Jose", "Elena")]
 ```
 
 
@@ -1535,7 +1531,6 @@ mean(alturaExtremo)
 altura[3] <- 196
 
 altura[c("María", "Luis")] <- c(169, 175)
-
 ```
 
 <!--
@@ -1543,7 +1538,7 @@ altura[c("María", "Luis")] <- c(169, 175)
 
 ```{r}
 #| echo: false
-altura[length(altura)+1] <- 200     # altura <- c(altura,200)
+altura[length(altura) + 1] <- 200 # altura <- c(altura,200)
 ```
 -->
 
@@ -1595,7 +1590,7 @@ altura[length(altura)+1] <- 200     # altura <- c(altura,200)
 
 ```{r}
 from <- 4
-seq(from == 1, to = 5, by = 1)   # ¿por qué?
+seq(from == 1, to = 5, by = 1) # ¿por qué?
 ```
 
 ::: {.notes}
@@ -1664,9 +1659,11 @@ socio <- c(socio,FALSE); gasto <- c(gasto,55)  # riesgo: vectores de distinta lo
 <!-- -   Se usa `factor()` para crear un vector de tipo factor,  con argumentos para los niveles y sus etiquetas -->
 
 ```{r}
-genero   <- c(2, 1, 2, 2, 2)
-genero_f <- factor(genero, levels = c(1, 2), 
-                           labels = c("Mujer", "Hombre"))
+genero <- c(2, 1, 2, 2, 2)
+genero_f <- factor(genero,
+  levels = c(1, 2),
+  labels = c("Mujer", "Hombre")
+)
 ```
 
 * Se asocia nivel 1 con "Mujer", 2 con "Hombre", etc.
@@ -1674,7 +1671,7 @@ genero_f <- factor(genero, levels = c(1, 2),
 - Las operaciones con factores se realiza con las etiquetas, no con los niveles
 
 ```{r}
-genero_f == 1       # NO existe valor 1
+genero_f == 1 # NO existe valor 1
 genero_f == "Mujer"
 ```
 
@@ -1695,8 +1692,8 @@ genero_f == "Mujer"
 - PERO es conveniente especificar niveles y etiquetas: si no, R usa como niveles los valores únicos **ordenados** (numérica o alfabéticamente) y como etiquetas esos mismos valores
 
 ```{r}
-g <- factor(genero)  # as.factor(genero) hace lo mismo
-g                    # niveles: "1" < "2"
+g <- factor(genero) # as.factor(genero) hace lo mismo
+g # niveles: "1" < "2"
 ```
 
 * Las etiquetas resultantes ("1", "2") no son informativas: no sabemos cuál es "Mujer" y cuál "Hombre"
@@ -1706,10 +1703,12 @@ g                    # niveles: "1" < "2"
 
 
 ```{r}
-satisf   <- c("A", "B", "A", "B", "M")
-satisf_f <- factor(satisf, order = TRUE, 
-                    levels = c("B", "M", "A"),
-                    labels = c("Bajo", "Medio", "Alto"))
+satisf <- c("A", "B", "A", "B", "M")
+satisf_f <- factor(satisf,
+  order = TRUE,
+  levels = c("B", "M", "A"),
+  labels = c("Bajo", "Medio", "Alto")
+)
 ```
 
 ::: {.notes}
@@ -1717,9 +1716,11 @@ satisf_f <- factor(satisf, order = TRUE,
 * Si etiquetas y niveles coinciden, no es necesario especificarlos
 
 ```{r}
-satisf   <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
-satisf_f <- factor(satisf, order = TRUE,
-                        levels = c("Bajo", "Medio", "Alto"))
+satisf <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
+satisf_f <- factor(satisf,
+  order = TRUE,
+  levels = c("Bajo", "Medio", "Alto")
+)
 ```
 
 
@@ -1735,25 +1736,27 @@ satisf_f <- factor(satisf, order = TRUE,
 -   Podemos crear un factor con orden 
 
 ```{r}
-satisf   <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
-satisf_f <- factor(satisf, order = TRUE,
-                        levels = c("Bajo", "Medio", "Alto"))
+satisf <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
+satisf_f <- factor(satisf,
+  order = TRUE,
+  levels = c("Bajo", "Medio", "Alto")
+)
 ```
 
 -   Si no se especifican, los niveles se asignan por orden, alfabético o numérico: puede no ser deseable
 
 ```{r}
-genero   <- c(1, 2, 2, 1, 1)
-genero_f <- factor(genero, labels= c("Hombre", "Mujer"))
-satisf   <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
+genero <- c(1, 2, 2, 1, 1)
+genero_f <- factor(genero, labels = c("Hombre", "Mujer"))
+satisf <- c("Alto", "Bajo", "Alto", "Bajo", "Medio")
 satisf_f <- factor(satisf, order = TRUE)
 ```
 
 ```{r}
 #| echo: false
 
-genero   <- c("H", "M", "M", "H", "H")
-genero_f <- factor(genero, labels= c("Hombre", "Mujer"))
+genero <- c("H", "M", "M", "H", "H")
+genero_f <- factor(genero, labels = c("Hombre", "Mujer"))
 ```
 
 ::: {.notes}
@@ -1813,7 +1816,7 @@ summary(altura)
 
 ```{r}
 summary(genero)
-genero  <- c(1, 20, 20, 1, 1)  # dos categorías igualmente
+genero <- c(1, 20, 20, 1, 1) # dos categorías igualmente
 summary(genero)
 ```
 
@@ -1826,17 +1829,21 @@ summary(genero_f)
 ```{r}
 #| echo: false
 
-satisf   <- c(3, 1, 1, 1, 1, 1, 1, 1, 1)
-satisf_f <- factor(satisf, order = TRUE,
-                    labels = c("Bajo", "Medio", "Alto"),
-                    levels = c(1,2,3))
+satisf <- c(3, 1, 1, 1, 1, 1, 1, 1, 1)
+satisf_f <- factor(satisf,
+  order = TRUE,
+  labels = c("Bajo", "Medio", "Alto"),
+  levels = c(1, 2, 3)
+)
 summary(satisf)
 summary(satisf_f)
 
 satisfaccion <- c(3000, 1, 1, 1, 1, 1, 1, 1, 1)
-factor_satisfaccion <- factor(satisfaccion, order = TRUE,
-                              labels = c("Bajo", "Medio", "Alto"),
-                              levels = c(1,2,3000))
+factor_satisfaccion <- factor(satisfaccion,
+  order = TRUE,
+  labels = c("Bajo", "Medio", "Alto"),
+  levels = c(1, 2, 3000)
+)
 summary(satisfaccion)
 summary(factor_satisfaccion)
 ```
@@ -1893,10 +1900,10 @@ M2 <- cbind(c1, c2, c3)
 ```{r}
 #| echo: false
 
-M1 <- cbind(matrx, c(90,95))          
-M2 <- rbind(matrx, c(40, -20, 25))    
+M1 <- cbind(matrx, c(90, 95))
+M2 <- rbind(matrx, c(40, -20, 25))
 
-A <- cbind(c(40,30), c(70, 75))
+A <- cbind(c(40, 30), c(70, 75))
 cbind(M1, A)
 
 B <- cbind(c(40, 2), c(-20, 1), c(25, 1))
@@ -1951,16 +1958,16 @@ rownames(M2) <- c("gast", "ingr")
  
 ```{r}
 #| echo: false
-M2[4]   # posición total
-M2[[4]] 
+M2[4] # posición total
+M2[[4]]
 ```
  
  
 ```{r}
 #| echo: false
-M2[1,3]                 
-M2["ingr", "ene"]      
-M2[c(1:2),c(1,3)]
+M2[1, 3]
+M2["ingr", "ene"]
+M2[c(1:2), c(1, 3)]
 ```
  
  
@@ -1970,9 +1977,9 @@ M2[c(1:2),c(1,3)]
  
  
 ```{r}
-M2[1,3]                 
-M2["ingr", "ene"]      
-M2[c(1:2),c(1,3)]
+M2[1, 3]
+M2["ingr", "ene"]
+M2[c(1:2), c(1, 3)]
 ```
  
 ::: 
@@ -1984,9 +1991,8 @@ M2[c(1:2),c(1,3)]
 ::: {.column width="45%"}
  
 ```{r}
-M2[2,]      # fila entera
-M2[,"feb"]  # columna entera
-
+M2[2, ] # fila entera
+M2[, "feb"] # columna entera
 ```
  
 :::
@@ -2001,8 +2007,8 @@ M2[,"feb"]  # columna entera
  
 ```{r}
 #| echo: false
-M2[2,]      # por posición
-M2[,"feb"]  # por nombre
+M2[2, ] # por posición
+M2[, "feb"] # por nombre
 ```
  
 **Aritmética de Matrices**
@@ -2030,14 +2036,14 @@ matrx * M2
 ```{r}
 #| echo: false
 matrx - 3
-matrx * 10 
+matrx * 10
 matrx / 2
 ```
  
  
 ```{r}
 matrx - 3
-matrx * 10 
+matrx * 10
 ```
  
 :::
@@ -2060,16 +2066,14 @@ matrx * 10
  
 * Para crear la matriz identidad de dimensiones $n\times n$
 ```{r}
-
 #| echo: false
-diag(n)     
+diag(n)
 ```
  
 * Para crear un matriz con los elementos del vector `vec` en la diagonal
 ```{r}
-
 #| echo: false
-diag(vec)   
+diag(vec)
 ```
  
 -   Se pueden calcular sumas o medias de las filas o columnas de una
@@ -2089,8 +2093,8 @@ colMeans(M2)
 ```{r}
 #| echo: false
 
-colSums(M2[1:2,2:3])
-mean(M2[3,2:3])
+colSums(M2[1:2, 2:3])
+mean(M2[3, 2:3])
 ```
  
 
@@ -2098,14 +2102,14 @@ mean(M2[3,2:3])
  
 * Un "Array" es un vector de "n" dimensiones. Se crea con la función `array`
 ```{r}
-x <- array(c(1:8), dim =c(2,2,2) )
+x <- array(c(1:8), dim = c(2, 2, 2))
 x
 ```
  
 * Se puede acceder a los elementos con paréntesis cuadrados
 ```{r}
-x[2,1,2]
-x[,,1]
+x[2, 1, 2]
+x[, , 1]
 ```
  
 * Los nombres de todas las dimensiones de un "array" (includas matrices) se manejan con la función  `dimnames`, además de al crearlos.
@@ -2178,7 +2182,7 @@ str(datos)
 
 ```{r}
 #| echo: false
-mat <- cbind(altura, peso, genero)  
+mat <- cbind(altura, peso, genero)
 colnames(mat) <- c("Altura", "Peso", "Genero")
 datos <- as.data.frame(mat)
 ```
@@ -2208,9 +2212,9 @@ View(datos)
 
 ```{r}
 #| echo: false
-head(datos)       # primeras 6 observaciones
-tail(datos)       # últimas 6 observaciones
-tail(datos, n=3)  # últimas 3 observaciones
+head(datos) # primeras 6 observaciones
+tail(datos) # últimas 6 observaciones
+tail(datos, n = 3) # últimas 3 observaciones
 ```
 -->
 
@@ -2220,11 +2224,9 @@ tail(datos, n=3)  # últimas 3 observaciones
 -   Funciones para conocer las dimensiones de distintos objetos en R
 
 ```{r}
-
-
 length(x) # en matrices: total de elementos
-          # en listas/data.frame: número de listas/variables
-dim(data.frame)  #  solo objetos de dos dimensiones: 
+# en listas/data.frame: número de listas/variables
+dim(data.frame) #  solo objetos de dos dimensiones:
 nrow(data.frame) #     o data.frame o matrices
 ncol(data.frame) #     pero no vectores o listas
 ```
@@ -2232,12 +2234,10 @@ ncol(data.frame) #     pero no vectores o listas
 -   Y también los nombres
 
 ```{r}
-
-
-dimnames(data.frame)   # también matrices
-colnames(data.frame)   # idem
-rownames(data.frame)   # idem
-names(vector)        # solo para vectores
+dimnames(data.frame) # también matrices
+colnames(data.frame) # idem
+rownames(data.frame) # idem
+names(vector) # solo para vectores
 ```
 
 ::: {.notes}
@@ -2254,7 +2254,7 @@ names(vector)        # solo para vectores
 
 
 ```{r}
-vectAltura <- datos$altura    # objeto resultante = vector
+vectAltura <- datos$altura # objeto resultante = vector
 datos[[3]] == datos[["peso"]]
 ```
 
@@ -2275,7 +2275,7 @@ datos[[3]] == datos[["peso"]]
 ```{r}
 #| echo: false
 
-vectAltura <- datos$altura    # objeto resultante = vector
+vectAltura <- datos$altura # objeto resultante = vector
 datos[[3]] == datos[["peso"]]
 ```
 
@@ -2294,23 +2294,23 @@ datos[[3]] == datos[["peso"]]
 
 ```{r}
 #| echo: false
-datos[,1]           # 1ª columna  = vector
-datos[1,c("altura", "genero_f")]   # data frame
-datos[1:3,1:2]                   # data frame
+datos[, 1] # 1ª columna  = vector
+datos[1, c("altura", "genero_f")] # data frame
+datos[1:3, 1:2] # data frame
 ```
 
 ```{r}
 #| echo: false
-datos[,1]           # 1ª columna  = vector
-datos[2,]           # 2ª fila    = vector
-datos[3,"altura"]   # 3ª fila de variable "altura" = escalar
-datos[1,c("altura", "genero_f")]   # data frame
-datos[1:3,1:2]                   # data frame
+datos[, 1] # 1ª columna  = vector
+datos[2, ] # 2ª fila    = vector
+datos[3, "altura"] # 3ª fila de variable "altura" = escalar
+datos[1, c("altura", "genero_f")] # data frame
+datos[1:3, 1:2] # data frame
 ```
 
 ```{r}
 #| echo: false
-datos[3,2]            # 3ª fila, 2ª columna = vector (escalar)
+datos[3, 2] # 3ª fila, 2ª columna = vector (escalar)
 ```
 
 <!--
@@ -2326,13 +2326,13 @@ datos[3,2]            # 3ª fila, 2ª columna = vector (escalar)
 
 ```{r}
 #| echo: false
-d1 <- datos[datos$altura > 165,]                    # data.frame
-d2 <- datos[datos$altura %in% c(176,189), "altura"] # vector
-d3 <- datos[datos$genero_f == "Hombre", 3]         
+d1 <- datos[datos$altura > 165, ] # data.frame
+d2 <- datos[datos$altura %in% c(176, 189), "altura"] # vector
+d3 <- datos[datos$genero_f == "Hombre", 3]
 ```
 
 ```{r}
-datos1 <- datos[datos$genero_f == "Hombre", 2:3]  # altura y peso de hombres        
+datos1 <- datos[datos$genero_f == "Hombre", 2:3] # altura y peso de hombres
 ```
 
 
@@ -2341,9 +2341,8 @@ datos1 <- datos[datos$genero_f == "Hombre", 2:3]  # altura y peso de hombres
 ```{r}
 #| echo: false
 
-datos1 <- datos[datos$genero_f == "Hombre", 2:3]  # altura y peso de hombres        
-datos1 <- datos[datos$genero_f == "Hombre", c("altura", "peso")] 
-
+datos1 <- datos[datos$genero_f == "Hombre", 2:3] # altura y peso de hombres
+datos1 <- datos[datos$genero_f == "Hombre", c("altura", "peso")]
 ```
 
 :::
@@ -2372,9 +2371,11 @@ datos$imc <- datos$peso / datos$altura_m^2
 
 
 ```{r}
-D1 <- subset(datos, altura > 165)   
-D2 <- subset(datos, subset = altura %in% c(176,189),
-                    select = c(altura, peso)) 
+D1 <- subset(datos, altura > 165)
+D2 <- subset(datos,
+  subset = altura %in% c(176, 189),
+  select = c(altura, peso)
+)
 ```
 
 -   Generamos nuevas variables con el vector de asignación
@@ -2388,12 +2389,12 @@ datos$altura_m <- datos$altura / 100
 
 ```{r}
 #| echo: false
-with(datos, mean(peso / (altura/100)^2))
-within(datos,  imc <- peso / (altura/100)^2 )
+with(datos, mean(peso / (altura / 100)^2))
+within(datos, imc <- peso / (altura / 100)^2)
 datos <- within(datos, {
-                  peso2 <- peso^2
-                  altura2 <- altura^2
-                })
+  peso2 <- peso^2
+  altura2 <- altura^2
+})
 ```
 
 ::: {.notes}
@@ -2403,8 +2404,8 @@ datos <- within(datos, {
 ```{r}
 #| echo: false
 
-search()           # (ver también en Positron)
-head(age)          # no se encuentra
+search() # (ver también en Positron)
+head(age) # no se encuentra
 head(Affairs$age)
 attach(Affairs)
 search()
@@ -2432,7 +2433,7 @@ detach(Affairs)
 #| echo: false
 
 pos <- order(datos$altura)
-datos[pos,]
+datos[pos, ]
 ```
 
 :::
@@ -2501,14 +2502,16 @@ str(miLista)
 #| echo: false
 miLista <- list("hola", x, list(1:4, "X"))
 names(miLista) <- c("saludo", "vec", "lista")
-miLista <- list(saludo="hola", vec=x, lista=list(1:4, "X"))
+miLista <- list(saludo = "hola", vec = x, lista = list(1:4, "X"))
 ```
 
 * Los elementos de una lista suelen tener nombres
 
 ```{r}
-miLista <- list(saludo="hola", vec=x, lista=list(1:4, "X"), 
-                datos=datos)
+miLista <- list(
+  saludo = "hola", vec = x, lista = list(1:4, "X"),
+  datos = datos
+)
 ```
 
 
@@ -2570,7 +2573,7 @@ miLista[[2]] + 3
 
 miLista[[2]][2]
 
-miLista[2][2]   # lista de longitud 1
+miLista[2][2] # lista de longitud 1
 ```
 
 `miLista[[2]][2]`
@@ -2592,9 +2595,9 @@ miLista[2][2]   # lista de longitud 1
     regresión, extraeremos de ahí lo que necesitemos
 
 ```{r}
-res <- t.test(altura)   # el resultado es una lista
-names(res)              # qué contiene
-res$p.value             # accedemos a un elemento
+res <- t.test(altura) # el resultado es una lista
+names(res) # qué contiene
+res$p.value # accedemos a un elemento
 ```
 
 
@@ -2661,7 +2664,7 @@ search()
 
 ```{r}
 #| echo: false
-library(help=utils)      # Ayuda para una biblioteca concreta
+library(help = utils) # Ayuda para una biblioteca concreta
 ```
 
 `library(help=utils)`
@@ -2745,9 +2748,9 @@ help("Affairs")
 
 ```{r}
 x <- 1:20
-y <- 2 * x ^ 2 + 1
-save(x, file="x.RData")      # un objeto, o varios
-save(x, y, file="data/xy.RData")  #   separados por comas
+y <- 2 * x^2 + 1
+save(x, file = "x.RData") # un objeto, o varios
+save(x, y, file = "data/xy.RData") #   separados por comas
 ```
 
 ::: {.notes}
@@ -2761,7 +2764,7 @@ save(x, y, file="data/xy.RData")  #   separados por comas
 
 ```{r}
 #| echo: false
-rm( list=ls() )
+rm(list = ls())
 ```
 
 ```{r}
@@ -2852,7 +2855,7 @@ unlink("xy.RData")
 -   `read.table()` de `utils` carga el contenido de un archivo de texto en una *data frame*
 
 ```{r}
-datos <- read.table("data/sex_data.csv", header=T, sep =",")
+datos <- read.table("data/sex_data.csv", header = T, sep = ",")
 ```
 
 -   Con argumentos opcionales, controlamos (entre otras cosas) si el nombre de variables en la primera línea, el tipo de separador o si tenemos coma en lugar de punto decimal (`dec=","`)
@@ -2864,17 +2867,19 @@ datos <- read.table("data/sex_data.csv", header=T, sep =",")
 ```{r}
 #| echo: false
 sexdata <- read.table("data/sex_data.csv",
-                      header=F, sep=",",
-                      col.names = c("valor", "fecha", "otra", as.character(4:25)),
-                      colClasses = c(rep("character",25)))
+  header = F, sep = ",",
+  col.names = c("valor", "fecha", "otra", as.character(4:25)),
+  colClasses = c(rep("character", 25))
+)
 ```
 
 ```{r}
 #| echo: false
-sexdata <- read.table("data/sex_data.csv", 
-                      header=F, sep=",",   
-                      col.names = c("valor", "fecha", "otra", as.character(4:25)), 
-                      colClasses = c(rep("character",25))) 
+sexdata <- read.table("data/sex_data.csv",
+  header = F, sep = ",",
+  col.names = c("valor", "fecha", "otra", as.character(4:25)),
+  colClasses = c(rep("character", 25))
+)
 ```
 
 
@@ -2887,7 +2892,7 @@ en el comando `read.fwf()`
 
 
 ```{r}
-x <- read.fwf(file="data/renta.txt", widths=c(3, 7, 10, 9))
+x <- read.fwf(file = "data/renta.txt", widths = c(3, 7, 10, 9))
 ```
 
 
@@ -2913,10 +2918,12 @@ datos <- read_csv(file = "data/sex_data.csv")
 
 ```{r}
 #| echo: false
-nombres <- c("area", "temperatura", "tamaño", "almacenaje", "método",
-                "textura", "sabor", "humedad")
+nombres <- c(
+  "area", "temperatura", "tamaño", "almacenaje", "método",
+  "textura", "sabor", "humedad"
+)
 arch <- "data/potatoes.csv"
-patatas <- read_csv(arch, col_names = nombres, skip = 1,  n_max = 15)
+patatas <- read_csv(arch, col_names = nombres, skip = 1, n_max = 15)
 ```
 
 ```{r}
@@ -2928,9 +2935,11 @@ arch <- file.path("data", "sex_data.csv")
 
 ```{r}
 #| echo: false
-perritos <- read_delim("data/hotdogs.txt", delim = "\t",
-                           col_names = c("tipo", "calorias", "sodio"),
-                           col_types = "fii")
+perritos <- read_delim("data/hotdogs.txt",
+  delim = "\t",
+  col_names = c("tipo", "calorias", "sodio"),
+  col_types = "fii"
+)
 ```
 -->
 
@@ -2946,9 +2955,10 @@ list(fac, int, int)
 <!--
 ```{r}
 #| echo: false
-x <- read_fwf(file="data/renta.txt", skip = 1, 
-              fwf_cols(edad = 3, genero = 7, renta = 10, educacion = 9 )
-              )
+x <- read_fwf(
+  file = "data/renta.txt", skip = 1,
+  fwf_cols(edad = 3, genero = 7, renta = 10, educacion = 9)
+)
 ```
 
 :::
@@ -2978,14 +2988,14 @@ sink(file= , split=TRUE)
 ```{r}
 #| echo: false
 library(readxl)
-excel_sheets("data/urbanpop.xlsx")                   # nombres de las hojas
+excel_sheets("data/urbanpop.xlsx") # nombres de las hojas
 pop_1 <- read_excel("data/urbanpop.xlsx", sheet = 1)
 pop_2 <- read_excel("data/urbanpop.xlsx", sheet = "1975-2011")
 ```
 
 ```{r}
 library(readxl)
-excel_sheets("data/beauty.xls")       # nombres de las hojas
+excel_sheets("data/beauty.xls") # nombres de las hojas
 dat_1 <- read_excel("data/beauty.xls", sheet = 1)
 dat_2 <- read_excel("data/beauty.xls", sheet = "beauty")
 ```
@@ -2999,8 +3009,10 @@ dat_2 <- read_excel("data/beauty.xls", sheet = "beauty")
 
 ```{r}
 #| echo: false
-urbanpop_sel <- read_excel("data/urbanpop.xlsx", sheet = 2, 
-                           col_names = FALSE, skip = 21)
+urbanpop_sel <- read_excel("data/urbanpop.xlsx",
+  sheet = 2,
+  col_names = FALSE, skip = 21
+)
 ```
 
 :::
@@ -3045,10 +3057,10 @@ urbanpop_sel <- read_excel("data/urbanpop.xlsx", sheet = 2,
 
 ```{r}
 library(rio)
-sex   <- import("data/sex_data.csv")
+sex <- import("data/sex_data.csv")
 renta <- import("data/renta.txt")
 beauty <- import("data/beauty.xls")
-nsw    <- import("data/nsw.dta")    # formato Stata
+nsw <- import("data/nsw.dta") # formato Stata
 ```
 
 
@@ -3144,7 +3156,7 @@ mean(x)
 ::: {.column width="60%"}
 
 ```{r}
-mean(x, na.rm=TRUE)
+mean(x, na.rm = TRUE)
 ```
 :::
 ::::
@@ -3196,14 +3208,14 @@ earn2 <- na.omit(earn)
 
 ```{r}
 data("Affairs", package = "AER")
-Affairs$univers <- ifelse(Affairs$education>15, 1, 0)
+Affairs$univers <- ifelse(Affairs$education > 15, 1, 0)
 ```
 
 
 :::{.notes}
 ```{r}
 #| echo: false
-if (p<=0.05) {
+if (p <= 0.05) {
   decision <- "Rechazar H0"
 } else {
   decision <- "NO Rechazar H0"

@@ -33,7 +33,7 @@ strip-comments: true
 rm(list = ls())
 
 # Working directory
-#setwd("/home/albarran/Dropbox/MAD/00.TEC")
+# setwd("/home/albarran/Dropbox/MAD/00.TEC")
 
 # Cargo todas las bibliotecas necesarias
 # (se podría hacer cuando cada una sea necesaria)
@@ -52,7 +52,9 @@ iii. Escribe una **breve** frase introductoria general, una lista que enumere do
 
       Nota: Puedes usar, aquí y en cualquier otra parte del documento, negritas o cursivas cuando lo consideres oportuno.
 
-iv. Guarda el documento con un nombre con el siguiente formato, que incluye tu número de DNI:  `T01_E1_<DNI>.qmd` (por ejemplo, `T01_E1_12345678.qmd`)
+iv. Guarda el documento con este formato de nombre, que incluye tu identificador:  `T01_E1_<ID>.qmd` (por ejemplo, `T01_E1_12345678.qmd`)
+
+    Con **DNI**, los 8 números quitando la letra del final. Con **NIE**, la letra del principio y los números, quitando la del final. Con **pasaporte** u otro documento, entero, sin quitar nada. Es lo mismo que escribirás en el formulario de entrega, que te avisa si no cuadra.
 
 v. Renderiza tu documento para visualizar el documento html creado.
 
@@ -135,11 +137,14 @@ Este ejercicio se va haciendo **durante las clases del tema**, apartado a aparta
 entrega** al terminarlo, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**.
 :::
 
-Subid **un solo `.zip`** con el `.qmd` y el `.html` dentro, llamado **`Tnn_En_DNI.zip`**: `nn` es
-el tema, `n` la entrega y el DNI va **sin la letra**. Aquí, `T01_E1_12345678.zip` con vuestro DNI.
+Subid **un solo `.zip`** con el `.qmd` y el `.html` dentro, llamado **`Tnn_En_ID.zip`**: `nn` es
+el tema, `n` la entrega, e `ID` es el mismo identificador que escribís en el formulario. Aquí,
+`T01_E1_12345678.zip`.
 
 Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
-confirmación si la entrega es correcta, o de rechazo si no lo es.
+confirmación si la entrega es correcta, o de rechazo si no lo es, diciendo qué falla.
+
+**La entrega se hace siempre por el formulario**: un fichero enviado por correo no cuenta.
 
 Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo (apartado a.vii).
 

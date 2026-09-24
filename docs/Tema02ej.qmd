@@ -89,7 +89,7 @@ De este tema, lo que te hace falta:
 
 - Los datos son `datosVisualizacion.RData` y `empresas.RData`, de la página
   [Datos](../Datos.html). Descárgalos en tu subdirectorio `data`.
-- **Un documento por ejercicio**, `T02_E<n>_<DNI>.qmd`: `T02_E1_12345678.qmd` para el ejercicio
+- **Un documento por ejercicio**, `T02_E<n>_<ID>.qmd`: `T02_E1_12345678.qmd` para el ejercicio
   1, `T02_E2_12345678.qmd` para el 2, y así. Cada uno carga **sus propios datos** en su primera
   celda.
 
@@ -113,7 +113,8 @@ load("data/datosVisualizacion.RData")
 
 ```{r}
 #| eval: false
-ggplot(clientes, aes(x = ingresos, y = gasto)) + geom_point(aes(color = "red"))
+ggplot(clientes, aes(x = ingresos, y = gasto)) +
+  geom_point(aes(color = "red"))
 ```
 
 4. Distingue el `segmento` por color y el `canal` por forma. Y ahora añade además `size = edad`.
@@ -131,8 +132,8 @@ Sobre el gráfico del apartado a), con el `segmento` por color.
    propios datos, igual que hicimos en clase con los países:
 
    ```{r}
-   #| eval: false
-   top <- clientes[clientes$gasto > 8000, ]
+#| eval: false
+top <- clientes[clientes$gasto > 8000, ]
    ```
 
    y encima una capa `geom_text_repel(data = top, aes(label = cliente))`.
@@ -181,9 +182,9 @@ y no hacen falta por escrito en el enunciado.
 5. Prueba al menos dos temas y quédate con uno. Prueba también uno profesional, de `ggthemes`:
 
    ```{r}
-   #| eval: false
-   library(ggthemes)
-   mi_grafico + theme_economist()
+#| eval: false
+library(ggthemes)
+mi_grafico + theme_economist()
    ```
 
 # Ejercicio 2: corporaciones y startups
@@ -194,7 +195,7 @@ startups. Los datos están en la página **Datos** del curso, y traen su propio 
 ```{r}
 #| eval: false
 load("data/empresas.RData")
-empresas_info      # qué es cada variable
+empresas_info # qué es cada variable
 ```
 
 1. Diagrama de cajas de `ingresos_millones` por `tipo`, en escala normal.
@@ -255,13 +256,14 @@ Antes de escribir código, escribe en una línea **qué pregunta** tiene que con
 ::: {.callout-important}
 Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
 
-- **Entrega 1**: el ejercicio 1, la clientela. `T02_E1_DNI.zip`
-- **Entrega 2**: el ejercicio 2, corporaciones y startups. `T02_E2_DNI.zip`
-- **Entrega 3**: el ejercicio 3, las reservas de hotel. `T02_E3_DNI.zip`
+- **Entrega 1**: el ejercicio 1, la clientela. `T02_E1_ID.zip`
+- **Entrega 2**: el ejercicio 2, corporaciones y startups. `T02_E2_ID.zip`
+- **Entrega 3**: el ejercicio 3, las reservas de hotel. `T02_E3_ID.zip`
 :::
 
-Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro, con el DNI **sin la
-letra**. Por ejemplo, `T02_E1_12345678.zip`.
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
+identificador que escribís en el formulario (ver
+[Cómo trabajar](../ComoTrabajar.html)). Por ejemplo, `T02_E1_12345678.zip`.
 
 Se os dirá en clase **cuáles de las tres** hay que entregar y cuándo.
 
