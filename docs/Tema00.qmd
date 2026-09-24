@@ -438,6 +438,54 @@ getwd()
 * Las rutas relativas son otra idea general de la programación: el proyecto funciona igual en cualquier ordenador (la ruta completa `C:/Users/minombre/...` solo existe en el vuestro)
 
 
+## Proyectos: siempre una carpeta, a veces con ajustes
+
+* Todo el trabajo sucede **dentro de un directorio**. Eso ES el proyecto, y con eso basta: abrir una carpeta ya es decir "este es mi directorio de trabajo, aquí organizo mis datos, mi código y mis resultados"
+
+* Lo demás que oiréis nombrar son **la misma carpeta con un fichero de ajustes añadido**:
+
+::: {.smaller-output}
+
+| | qué es | para qué |
+|---|---|---|
+| carpeta abierta | *File \> Open Folder* | lo que usamos en el curso |
+| **proyecto de R** | la misma carpeta + un fichero **`.Rproj`** | guarda ajustes de R que queréis conservar para ese proyecto, y al abrirlo fija el directorio de trabajo |
+| **proyecto de Quarto** | la misma carpeta + un fichero **`_quarto.yml`** | ajustes comunes a **muchos** documentos de Quarto, para no repetirlos en cada uno |
+
+:::
+
+* Para dos o tres ejercicios sueltos no hace falta ninguna de las dos cosas
+
+::: {.notes}
+- La idea que tienen que llevarse es que NO son tres cosas distintas: lo comun es todo (una
+  carpeta que contiene el trabajo) y lo que cambia es un fichero de ajustes. Presentarlo como
+  tres conceptos separados los lia, y ademas es falso.
+- Verificado en la documentacion de Posit (24-sep-2026): un proyecto es "un contenedor que
+  organiza el trabajo"; el `.Rproj` guarda las opciones del proyecto y al abrirlo R arranca una
+  sesion nueva y fija el directorio de trabajo a esa carpeta.
+- Verificado en Positron: las plantillas de *File > New Folder* son Python Project, R Project,
+  Jupyter Notebook y Empty Project.
+- La web de esta asignatura SI es un proyecto de Quarto: decenas de paginas que comparten
+  formato y se publican juntas. Sirve de ejemplo si preguntan para que vale.
+:::
+
+## Ficheros que R crea solo
+
+* Trabajando con R aparecerán en vuestra carpeta ficheros que no habéis creado vosotros:
+
+  - **`.RData`**: el **espacio de trabajo** guardado, es decir, los objetos que había en memoria
+  - **`.Rhistory`**: el **historial** de órdenes que habéis escrito en la consola
+  - **`.Rproj.user`**: una carpeta oculta con ficheros temporales, si usáis un proyecto de R
+
+* Los tres los genera R por su cuenta: son **estado de vuestra sesión**, no vuestro trabajo. No se entregan y no hace falta tocarlos
+
+::: {.notes}
+- Por eso un proyecto de R los mete en su `.gitignore` nada mas crearlo (comprobado en el
+  binario de Positron: `.Rproj.user`, `.Rhistory`, `.RData`, `.Ruserdata`).
+- Conviene decirlo aqui porque los van a ver aparecer y se preguntan que son; y de paso enlaza
+  con la idea de que el trabajo es el .qmd y los datos, no lo que R deja por el camino.
+:::
+
 ## El Explorador y la barra lateral
 
 * El **Explorador** (icono de archivos en la barra lateral izquierda) ofrece una forma visual de abrir, crear, copiar, mover o eliminar archivos y carpetas

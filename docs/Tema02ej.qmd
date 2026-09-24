@@ -79,22 +79,19 @@ library(ggplot2)
 Estos ejercicios se van haciendo **durante las clases del tema**: las transparencias indican en
 qué momento toca cada uno.
 
-Antes de nada, prepara el sitio donde vas a trabajar:
+::: {.callout-important}
+Si no lo has hecho ya, lee **[Cómo trabajar en cada tema](../ComoTrabajar.html)**: la carpeta
+del tema con su subdirectorio `data`, cómo se crea el documento, qué va en la cabecera (con
+`embed-resources: true`), la primera celda y cómo se entrega. Vale para todo el curso.
+:::
 
-1. Crea una **carpeta para el tema** y ábrela en Positron (*File > Open Folder*). Todo lo del
-   tema vive ahí.
+De este tema, lo que te hace falta:
 
-2. Dentro, crea un **subdirectorio `data`** y descarga en él los ficheros de datos desde la
-   página [Datos](../Datos.html) del curso. Así el código encuentra los datos con
-   `load("data/...")`, sin rutas absolutas y sin depender de dónde esté tu carpeta.
-
-Cada ejercicio va en **su propio documento `.qmd`**, con su cabecera, su primera celda de
-entorno (la que lleva `include: false`) y una sección por apartado. Cada uno usa **sus propios
-datos**, que se cargan en esa primera celda.
-
-Los documentos se llaman **`T02_E<n>_<DNI>.qmd`**, donde `<n>` es el número del ejercicio y el
-DNI va sin la letra: `T02_E1_12345678.qmd` para el ejercicio 1, `T02_E2_12345678.qmd` para el 2,
-y así.
+- Los datos son `datosVisualizacion.RData` y `empresas.RData`, de la página
+  [Datos](../Datos.html). Descárgalos en tu subdirectorio `data`.
+- **Un documento por ejercicio**, `T02_E<n>_<DNI>.qmd`: `T02_E1_12345678.qmd` para el ejercicio
+  1, `T02_E2_12345678.qmd` para el 2, y así. Cada uno carga **sus propios datos** en su primera
+  celda.
 
 # Ejercicio 1: la clientela
 

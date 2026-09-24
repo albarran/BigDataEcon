@@ -16,6 +16,8 @@ website:
       #      - about.qmd
       - text: "Índice"
         href: index.html
+      - text: "Cómo trabajar"
+        href: ComoTrabajar.html
       - text: "Datos"
         href: Datos.html
       - text: "Contenidos"

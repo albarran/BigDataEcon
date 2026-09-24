@@ -1,0 +1,133 @@
+---
+title: "Cómo trabajar con tus documentos de Quarto"
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO (24-sep-2026): pagina COMUN a todos los temas, para no repetir estas instrucciones
+en cada enunciado. Los ejercicios solo enlazan aqui y se quedan con lo suyo.
+Si cambia algo del flujo (nombres de fichero, estructura de carpetas, entrega), se cambia AQUI
+y vale para todo el curso.
+
+VERIFICADO el 24-sep en el binario de Positron: las plantillas de *File > New Folder* son
+Python Project, R Project, Jupyter Notebook y Empty Project (enum `FolderTemplate` del servicio
+`positronNewFolder`), y el .gitignore que genera un R Project es `.Rproj.user`, `.Rhistory`,
+`.RData`, `.Ruserdata`. Lo del proyecto de Quarto, de la documentacion oficial. -->
+
+Esto vale para **todos los temas**: la forma de organizar la carpeta, de crear el documento y
+de entregarlo es siempre la misma. Cada enunciado solo dice lo suyo.
+
+## 1. Una carpeta por tema
+
+Crea una carpeta para el tema y **ábrela en Positron** con *File \> Open Folder*. A partir de
+ahí, todo lo del tema vive dentro.
+
+Dentro de esa carpeta, crea un subdirectorio **`data`** y descarga ahí los ficheros de datos
+desde la página [Datos](Datos.html).
+
+```
+Tema02/                        <- una por tema: Tema02 para el tema 02, Tema03 para el 03...
+├── data/
+│   ├── datosVisualizacion.RData
+│   └── empresas.RData
+├── T02_E1_12345678.qmd        <- un documento por ejercicio
+├── T02_E1_12345678.html       <- lo que genera al renderizar
+├── T02_E2_12345678.qmd
+└── pruebas.R                  <- opcional: un script para probar cosas
+```
+
+Además de los `.qmd`, puedes tener **scripts `.R` sueltos** para lo que no va al documento:
+probar una función antes de meterla, guardar lo que hicimos en clase... Llámalos como quieras,
+`pruebas.R` o `codigo_clase.R`. No se entregan: son tuyos.
+
+**Por qué importa la estructura**: si los datos están en `data/` dentro de la carpeta abierta,
+el código los encuentra con `load("data/empresas.RData")`, igual en tu ordenador que en el mío.
+Con una ruta completa tipo `C:/Users/.../Descargas/...` el documento solo funciona en tu
+máquina, y al entregarlo no se puede reproducir.
+
+## 2. Un documento por ejercicio
+
+Se crea con *File \> New File... \> Quarto Document* y se guarda con `Ctrl+S`, **con extensión
+`.qmd`**, con este nombre:
+
+> **`Tnn_En_DNI.qmd`**
+>
+> `nn` es el número del tema, `n` el del ejercicio y el DNI va **sin la letra**.
+> Por ejemplo, el ejercicio 1 del tema 2: `T02_E1_12345678.qmd`
+
+## 3. La cabecera
+
+Borra lo que trae el documento de ejemplo y deja una cabecera así, entre las dos líneas de
+guiones. Esto es **lo mínimo**: el resto de opciones (tema, tabla de contenidos, `df-print`,
+`code-fold`...) las vais cambiando según lo que pida cada ejercicio.
+
+``` yaml
+---
+title: "Tema 02, ejercicio 1"
+author: "Tu nombre"
+format:
+  html:
+    embed-resources: true
+---
+```
+
+**`embed-resources: true` no es opcional.** Sin eso, el `.html` guarda los gráficos en una
+carpeta aparte, y si mandas solo el html se ve en blanco. Con eso, el html es un único fichero
+que se abre en cualquier ordenador.
+
+## 4. La primera celda: preparar el entorno
+
+Justo debajo de la cabecera va siempre la celda que prepara el entorno. Lleva `include: false`,
+así que se ejecuta pero no se ve ni ella ni sus mensajes.
+
+````
+```{{r}}
+#| include: false
+rm(list = ls())
+library(ggplot2)
+load("data/datosVisualizacion.RData")
+```
+````
+
+Ahí va **todo lo que el documento necesita para funcionar**:
+
+- **Todas las bibliotecas** que uses en cualquier celda. Si una `library()` se te queda en la
+  consola y no en el documento, al renderizar falla.
+- **`rm(list = ls())`**, para vaciar el espacio de trabajo. No hace falta para renderizar, pero
+  sí para que **al ejecutar las celdas a mano te pase lo mismo que al renderizar**: si tu
+  código depende sin darte cuenta de un objeto viejo de la consola, así lo descubres tú antes
+  que yo.
+- **Los datos**, si los usas desde el principio. También puedes cargarlos más adelante, en la
+  celda donde toque, si el ejercicio lo pide así; lo importante es que **quede claro dónde se
+  han cargado** y que estén dentro del documento.
+
+Al renderizar se abre una **sesión de R nueva y vacía**: el documento no ve nada de lo que
+tengas en la consola, así que todo lo que necesite tiene que estar dentro de él.
+
+## 5. Una sección por apartado
+
+Cada apartado del enunciado, su sección, para que el documento se lea igual que el enunciado y
+no haya que adivinar qué responde a qué.
+
+En el **editor visual**, con el desplegable de estilo: *Header 2*. Si escribes en modo fuente,
+el encabezado `##` delante del título.
+
+## 6. Renderizar
+
+Con el botón **Preview**, o `Ctrl+Shift+K`. Se genera el `.html` en la misma carpeta.
+
+Renderiza **antes de entregar**, no solo al final: si algo no funciona en la sesión limpia
+(una biblioteca que no cargaste, un objeto que solo existe en tu consola), es ahora cuando
+quieres enterarte.
+
+## 7. Entregar
+
+Un solo **`.zip`** con el `.qmd` y el `.html` dentro, llamado igual que el documento:
+
+> **`Tnn_En_DNI.zip`**, por ejemplo `T02_E1_12345678.zip`
+
+El nombre tiene que ser exacto, o la entrega se rechaza. Recibirás un correo de confirmación
+si es correcta, o de rechazo si no lo es.
+
+No se valora que esté perfecto: se valora el progreso y que se vea lo que has entendido. Si te
+quedas a medias, entrega lo que tengas.
