@@ -1188,7 +1188,7 @@ display:block!important;
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span>
 <span id="cb1-2"><a aria-label="2"></a><span class="dv">3</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">4</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb1-3"><a aria-label="3"></a><span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb1-3"><a aria-label="3"></a><span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">5</span> <span class="sc">/</span> <span class="dv">2</span>))</span>
 <span id="cb1-4"><a aria-label="4"></a>pi</span>
 <span id="cb1-5"><a aria-label="5"></a>hola</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1263,7 +1263,7 @@ display:block!important;
 <li>El carácter <code>#</code> marca el inicio de un <strong>comentario</strong>: lo que sigue se “ignora” (no se ejecuta) en R</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a><span class="co"># Pueden ir al principio de la línea </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a><span class="co"># Pueden ir al principio de la línea</span></span>
 <span id="cb2-2"><a aria-label="2"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span> <span class="co"># o después de una instrucción</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
@@ -1500,7 +1500,7 @@ display:block!important;
 <li><p>Los argumentos se pueden especificar por nombre o por orden.</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a><span class="fu">log</span>(<span class="dv">2</span>, <span class="at">base=</span><span class="dv">2</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a><span class="fu">log</span>(<span class="dv">2</span>, <span class="at">base =</span> <span class="dv">2</span>)</span>
 <span id="cb5-2"><a aria-label="2"></a><span class="fu">log</span>(<span class="dv">2</span>, <span class="dv">10</span>)</span>
 <span id="cb5-3"><a aria-label="3"></a><span class="fu">log</span>(<span class="at">base =</span> <span class="dv">10</span>, <span class="at">x =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1597,19 +1597,19 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="dv">3</span>    <span class="co"># asignación, no muestra resultado</span></span>
-<span id="cb6-2"><a aria-label="2"></a>x           <span class="co"># ejecutamos mostrar la variable   </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">3</span> <span class="co"># asignación, no muestra resultado</span></span>
+<span id="cb6-2"><a aria-label="2"></a>x <span class="co"># ejecutamos mostrar la variable</span></span>
 <span id="cb6-3"><a aria-label="3"></a><span class="fu">print</span>(x)</span>
-<span id="cb6-4"><a aria-label="4"></a>(x <span class="ot">&lt;-</span> <span class="dv">2</span>)    <span class="co"># asignación e impresión a la vez</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-4"><a aria-label="4"></a>(x <span class="ot">&lt;-</span> <span class="dv">2</span>) <span class="co"># asignación e impresión a la vez</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>R es “case-sensitive”: <code>x</code> y <code>X</code> son dos objetos distintos</p></li>
 <li><p>Los objetos asignados pueden usarse posteriormente, p.e., para generar otros a partir de ellos</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a>y <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">5</span>  <span class="co"># asignamos y a partir del VALOR de x</span></span>
-<span id="cb7-2"><a aria-label="2"></a>(x <span class="ot">&lt;-</span> x<span class="sc">*</span><span class="dv">3</span>)  <span class="co"># re-asignamos x a partir de ella misma</span></span>
-<span id="cb7-3"><a aria-label="3"></a>y           <span class="co"># NO cambia (en Excel, sí)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a>y <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">5</span> <span class="co"># asignamos y a partir del VALOR de x</span></span>
+<span id="cb7-2"><a aria-label="2"></a>(x <span class="ot">&lt;-</span> x <span class="sc">*</span> <span class="dv">3</span>) <span class="co"># re-asignamos x a partir de ella misma</span></span>
+<span id="cb7-3"><a aria-label="3"></a>y <span class="co"># NO cambia (en Excel, sí)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -1640,12 +1640,7 @@ display:block!important;
 <li><p>Las funciones <code>ls()</code> y <code>rm()</code> muestran y eliminan respectivamente objetos del espacio de trabajo</p></li>
 </ul>
 <aside class="notes">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a><span class="co">#| echo: false</span></span>
-<span id="cb8-2"><a aria-label="2"></a><span class="fu">ls</span>()        <span class="co"># mostrar objetos</span></span>
-<span id="cb8-3"><a aria-label="3"></a><span class="fu">rm</span>(y)       <span class="co"># eliminar el objeto &quot;y&quot;</span></span>
-<span id="cb8-4"><a aria-label="4"></a><span class="fu">rm</span>(a,b,c)   <span class="co"># eliminar varios objetos (separados por comas)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1661,8 +1656,8 @@ display:block!important;
 <li>Borramos <em>todos</em> los objetos desde el panel Variables o con el comando</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a><span class="fu">rm</span>( <span class="at">list=</span><span class="fu">ls</span>() )  <span class="co"># eliminar todos los objetos</span></span>
-<span id="cb9-2"><a aria-label="2"></a><span class="fu">rm</span>(y, x)         <span class="co"># eliminar solo algunos objetos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>()) <span class="co"># eliminar todos los objetos</span></span>
+<span id="cb8-2"><a aria-label="2"></a><span class="fu">rm</span>(y, x) <span class="co"># eliminar solo algunos objetos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Guardar el contenido del entorno de trabajo al cerrar es <strong>innecesario</strong>: ejecutando los comandos guardados en un archivo <code>.R</code> recuperamos los objetos</li>
@@ -1750,9 +1745,10 @@ display:block!important;
 <h2>Cómo se entrega el trabajo de clase</h2>
 <ul>
 <li><p>Lo que se entrega es el trabajo de las <strong>PRÁCTICAS</strong> de este tema (el resto de cosas que probéis o veamos en pantalla, no)</p></li>
-<li><p>Para este tema, ese trabajo va en un guion propio: <code>Tema00_DNI.R</code> (con VUESTRO DNI: p.e., <code>Tema00_12345678X.R</code>), en la carpeta del curso</p>
+<li><p>Para este tema, ese trabajo va en un guion propio: <code>Tema00_ID.R</code> (p.e., <code>Tema00_12345678.R</code>), en la carpeta del curso</p>
 <ul>
-<li>cada tema tendrá su propia entrega (y su formato); en algunos temas podrá haber más de una</li>
+<li><p>con <strong>DNI</strong>, los 8 números quitando la letra del final; con <strong>NIE</strong>, la letra del principio y los números, quitando la del final; con <strong>pasaporte</strong> u otro documento, entero, sin quitar nada</p></li>
+<li><p>cada tema tendrá su propia entrega (y su formato); en algunos temas podrá haber más de una</p></li>
 </ul></li>
 <li><p>Si una tarea pide <em>contestar</em> algo (no solo código), escribid la respuesta como TEXTO en un comentario del guion</p></li>
 <li><p>Cuando se pida, se sube mediante un formulario cuyo enlace se dará en clase en ese momento</p></li>
@@ -1816,9 +1812,9 @@ display:block!important;
 <li><p>Empezamos nuestras fichas: cada <em>variable</em> de los 5 clientes es un vector</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>altura  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">176</span>, <span class="dv">165</span>, <span class="dv">189</span>, <span class="dv">155</span>, <span class="dv">168</span>)                 <span class="co"># numérico</span></span>
-<span id="cb10-2"><a aria-label="2"></a>cliente <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Jose&quot;</span>, <span class="st">&quot;Maria&quot;</span>, <span class="st">&quot;Juan&quot;</span>, <span class="st">&quot;Elena&quot;</span>, <span class="st">&quot;Rosa&quot;</span>) <span class="co"># caracteres</span></span>
-<span id="cb10-3"><a aria-label="3"></a>socio   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)           <span class="co"># lógico</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>altura <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">176</span>, <span class="dv">165</span>, <span class="dv">189</span>, <span class="dv">155</span>, <span class="dv">168</span>) <span class="co"># numérico</span></span>
+<span id="cb9-2"><a aria-label="2"></a>cliente <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Jose&quot;</span>, <span class="st">&quot;Maria&quot;</span>, <span class="st">&quot;Juan&quot;</span>, <span class="st">&quot;Elena&quot;</span>, <span class="st">&quot;Rosa&quot;</span>) <span class="co"># caracteres</span></span>
+<span id="cb9-3"><a aria-label="3"></a>socio <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>) <span class="co"># lógico</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -1840,10 +1836,10 @@ display:block!important;
 <li>Podemos crear vectores a partir de otros vectores o usando comandos</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(altura, <span class="dv">170</span>)   <span class="co"># añadir un dato</span></span>
-<span id="cb11-2"><a aria-label="2"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times=</span><span class="dv">4</span>)</span>
-<span id="cb11-3"><a aria-label="3"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">10</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb11-4"><a aria-label="4"></a>z <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>             <span class="co"># equivale a z &lt;- seq(1,10,1)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(altura, <span class="dv">170</span>) <span class="co"># añadir un dato</span></span>
+<span id="cb10-2"><a aria-label="2"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
+<span id="cb10-3"><a aria-label="3"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">10</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb10-4"><a aria-label="4"></a>z <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="co"># equivale a z &lt;- seq(1,10,1)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Un vector sólo puede contener objetos de un <strong>único tipo</strong> elemental, que podemos conocer con <code>str()</code> o <code>class()</code> (el panel Variables muestra los valores)</li>
@@ -1855,7 +1851,7 @@ display:block!important;
 <li>Si se mezclan tipos distintos, R busca una clase que “acomode” a todos</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a>vcr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lunes&quot;</span>, <span class="dv">2</span>) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a>vcr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lunes&quot;</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Forzamos que un objeto sea tratado con una clase concreta, con <code>as.integer()</code>, <code>as.numeric()</code>, <code>as.character()</code> y <code>as.logical()</code></p>
@@ -1890,15 +1886,15 @@ display:block!important;
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>a <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb13-2"><a aria-label="2"></a>c <span class="ot">&lt;-</span> <span class="st">&#39;a&#39;</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a>a <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb12-2"><a aria-label="2"></a>c <span class="ot">&lt;-</span> <span class="st">&quot;a&quot;</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
 <li>La clase de un objeto es <em>única</em> (solo un tipo de elementales) y puede conocerse con <code>str()</code> o <code>class()</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a><span class="fu">str</span>(y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a><span class="fu">str</span>(y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>con <code>class()</code></li>
@@ -1922,15 +1918,15 @@ display:block!important;
 <li>Los vectores pueden tener <em>nombres</em> (una “etiqueta” única para cada elemento): un vector de caracteres de la misma longitud asignado con <code>names()</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a><span class="fu">names</span>(altura) <span class="ot">&lt;-</span> cliente   <span class="co"># etiquetamos cada altura con su cliente</span></span>
-<span id="cb15-2"><a aria-label="2"></a>altura</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a><span class="fu">names</span>(altura) <span class="ot">&lt;-</span> cliente <span class="co"># etiquetamos cada altura con su cliente</span></span>
+<span id="cb14-2"><a aria-label="2"></a>altura</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
 <li>Los nombres de un vector son un vector de caracteres de la misma longitud</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a><span class="fu">names</span>(altura)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a><span class="fu">names</span>(altura)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1966,8 +1962,8 @@ display:block!important;
 <li>La mayoría de los operadores se aplican <em>elemento-a-elemento</em>: p.e., el IMC de CADA cliente a partir de su peso y su altura</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>peso <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">75</span>, <span class="dv">85</span>, <span class="dv">70</span>, <span class="dv">60</span>, <span class="dv">80</span>)</span>
-<span id="cb17-2"><a aria-label="2"></a>imc  <span class="ot">&lt;-</span> peso <span class="sc">/</span> (altura<span class="sc">/</span><span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>   <span class="co"># un cálculo, 5 resultados</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>peso <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">75</span>, <span class="dv">85</span>, <span class="dv">70</span>, <span class="dv">60</span>, <span class="dv">80</span>)</span>
+<span id="cb16-2"><a aria-label="2"></a>imc <span class="ot">&lt;-</span> peso <span class="sc">/</span> (altura <span class="sc">/</span> <span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span> <span class="co"># un cálculo, 5 resultados</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Con diferentes longitudes, se repite el vector corto cuanto sea necesario</li>
@@ -1975,8 +1971,8 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-label="1"></a>altura <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb18-2"><a aria-label="2"></a>altura <span class="sc">+</span> <span class="dv">1</span>   <span class="co"># se &quot;recicla&quot; el 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>altura <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb17-2"><a aria-label="2"></a>altura <span class="sc">+</span> <span class="dv">1</span> <span class="co"># se &quot;recicla&quot; el 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
@@ -1990,21 +1986,21 @@ display:block!important;
 </p><div class="columns">
 <div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a><span class="fu">length</span>(altura)   <span class="co"># longitud</span></span>
-<span id="cb19-2"><a aria-label="2"></a><span class="fu">sort</span>(altura)     <span class="co"># ordenar</span></span>
-<span id="cb19-3"><a aria-label="3"></a><span class="fu">max</span>(altura)      <span class="co"># máximo</span></span>
-<span id="cb19-4"><a aria-label="4"></a><span class="fu">min</span>(altura)      <span class="co"># mínimo</span></span>
-<span id="cb19-5"><a aria-label="5"></a><span class="fu">sum</span>(peso)        <span class="co"># suma</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-label="1"></a><span class="fu">length</span>(altura) <span class="co"># longitud</span></span>
+<span id="cb18-2"><a aria-label="2"></a><span class="fu">sort</span>(altura) <span class="co"># ordenar</span></span>
+<span id="cb18-3"><a aria-label="3"></a><span class="fu">max</span>(altura) <span class="co"># máximo</span></span>
+<span id="cb18-4"><a aria-label="4"></a><span class="fu">min</span>(altura) <span class="co"># mínimo</span></span>
+<span id="cb18-5"><a aria-label="5"></a><span class="fu">sum</span>(peso) <span class="co"># suma</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="fu">mean</span>(altura)     <span class="co"># media</span></span>
-<span id="cb20-2"><a aria-label="2"></a><span class="fu">var</span>(altura)      <span class="co"># varianza</span></span>
-<span id="cb20-3"><a aria-label="3"></a><span class="fu">table</span>(socio)     <span class="co"># frecuencias</span></span>
-<span id="cb20-4"><a aria-label="4"></a></span>
-<span id="cb20-5"><a aria-label="5"></a><span class="fu">summary</span>(altura)  <span class="co"># estadísticos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a><span class="fu">mean</span>(altura) <span class="co"># media</span></span>
+<span id="cb19-2"><a aria-label="2"></a><span class="fu">var</span>(altura) <span class="co"># varianza</span></span>
+<span id="cb19-3"><a aria-label="3"></a><span class="fu">table</span>(socio) <span class="co"># frecuencias</span></span>
+<span id="cb19-4"><a aria-label="4"></a></span>
+<span id="cb19-5"><a aria-label="5"></a><span class="fu">summary</span>(altura) <span class="co"># estadísticos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <aside class="notes">
@@ -2031,17 +2027,17 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a><span class="dv">1</span> <span class="sc">==</span> <span class="dv">1</span>  <span class="co"># TRUE</span></span>
-<span id="cb21-2"><a aria-label="2"></a><span class="dv">1</span> <span class="sc">!=</span> <span class="dv">3</span>  <span class="co"># TRUE</span></span>
-<span id="cb21-3"><a aria-label="3"></a><span class="dv">1</span> <span class="sc">&gt;</span> <span class="dv">2</span>   <span class="co"># FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="dv">1</span> <span class="sc">==</span> <span class="dv">1</span> <span class="co"># TRUE</span></span>
+<span id="cb20-2"><a aria-label="2"></a><span class="dv">1</span> <span class="sc">!=</span> <span class="dv">3</span> <span class="co"># TRUE</span></span>
+<span id="cb20-3"><a aria-label="3"></a><span class="dv">1</span> <span class="sc">&gt;</span> <span class="dv">2</span> <span class="co"># FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>a <span class="ot">&lt;-</span> <span class="dv">3</span> </span>
-<span id="cb22-2"><a aria-label="2"></a>a <span class="sc">&gt;=</span> <span class="dv">3</span>       <span class="co"># TRUE</span></span>
-<span id="cb22-3"><a aria-label="3"></a>a <span class="sc">+</span> <span class="dv">1</span> <span class="sc">&lt;=</span> <span class="dv">10</span>  <span class="co"># FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a>a <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb21-2"><a aria-label="2"></a>a <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="co"># TRUE</span></span>
+<span id="cb21-3"><a aria-label="3"></a>a <span class="sc">+</span> <span class="dv">1</span> <span class="sc">&lt;=</span> <span class="dv">10</span> <span class="co"># FALSE</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <ul>
@@ -2067,12 +2063,12 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a>altura <span class="sc">&gt;</span> <span class="dv">165</span>                          <span class="co"># ¿qué clientes miden más de 165?</span></span>
-<span id="cb23-2"><a aria-label="2"></a>altura <span class="sc">&gt;=</span> <span class="fu">c</span>(<span class="dv">175</span>, <span class="dv">165</span>, <span class="dv">195</span>, <span class="dv">165</span>, <span class="dv">168</span>)  <span class="co"># elemento a elemento</span></span>
-<span id="cb23-3"><a aria-label="3"></a>altura <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> altura <span class="sc">&lt;=</span> <span class="dv">180</span></span>
-<span id="cb23-4"><a aria-label="4"></a>altura <span class="sc">&lt;</span> <span class="dv">160</span> <span class="sc">|</span> altura <span class="sc">&gt;=</span> <span class="dv">180</span></span>
-<span id="cb23-5"><a aria-label="5"></a><span class="fu">c</span>(<span class="dv">165</span>,<span class="dv">179</span>) <span class="sc">%in%</span> altura</span>
-<span id="cb23-6"><a aria-label="6"></a>condicion <span class="ot">&lt;-</span> <span class="sc">!</span>(altura <span class="sc">&lt;=</span> <span class="dv">170</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>altura <span class="sc">&gt;</span> <span class="dv">165</span> <span class="co"># ¿qué clientes miden más de 165?</span></span>
+<span id="cb22-2"><a aria-label="2"></a>altura <span class="sc">&gt;=</span> <span class="fu">c</span>(<span class="dv">175</span>, <span class="dv">165</span>, <span class="dv">195</span>, <span class="dv">165</span>, <span class="dv">168</span>) <span class="co"># elemento a elemento</span></span>
+<span id="cb22-3"><a aria-label="3"></a>altura <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> altura <span class="sc">&lt;=</span> <span class="dv">180</span></span>
+<span id="cb22-4"><a aria-label="4"></a>altura <span class="sc">&lt;</span> <span class="dv">160</span> <span class="sc">|</span> altura <span class="sc">&gt;=</span> <span class="dv">180</span></span>
+<span id="cb22-5"><a aria-label="5"></a><span class="fu">c</span>(<span class="dv">165</span>, <span class="dv">179</span>) <span class="sc">%in%</span> altura</span>
+<span id="cb22-6"><a aria-label="6"></a>condicion <span class="ot">&lt;-</span> <span class="sc">!</span>(altura <span class="sc">&lt;=</span> <span class="dv">170</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2123,14 +2119,14 @@ display:block!important;
 <li><strong>Posiciones</strong> de los elementos, usando un vector de enteros</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>altura[<span class="dv">3</span>]</span>
-<span id="cb24-2"><a aria-label="2"></a>altura[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a>altura[<span class="dv">3</span>]</span>
+<span id="cb23-2"><a aria-label="2"></a>altura[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Con enteros negativos, indicamos posiciones que NO queremos</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a>altura[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)] </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>altura[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2151,7 +2147,7 @@ display:block!important;
 <li><strong>Condición</strong> que satisfacen los elementos, usando un vector lógico</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a>altura[altura <span class="sc">&gt;</span> <span class="dv">180</span> <span class="sc">|</span> altura <span class="sc">&lt;</span> <span class="dv">160</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a>altura[altura <span class="sc">&gt;</span> <span class="dv">180</span> <span class="sc">|</span> altura <span class="sc">&lt;</span> <span class="dv">160</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="3" type="1">
 <li>(Si lo tienen) <strong>Nombres</strong> de los elementos, usando un vector de caracteres</li>
@@ -2177,23 +2173,23 @@ display:block!important;
 <li>Los vectores de selección pueden ser un objeto previamente asignado en los tres casos; p.e.,</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-label="1"></a>pos <span class="ot">&lt;-</span> (altura <span class="sc">&gt;</span> <span class="dv">180</span> <span class="sc">|</span> altura <span class="sc">&lt;</span> <span class="dv">160</span>)</span>
-<span id="cb27-2"><a aria-label="2"></a>altura[pos]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a>pos <span class="ot">&lt;-</span> (altura <span class="sc">&gt;</span> <span class="dv">180</span> <span class="sc">|</span> altura <span class="sc">&lt;</span> <span class="dv">160</span>)</span>
+<span id="cb26-2"><a aria-label="2"></a>altura[pos]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Podemos seleccionar un subconjunto del vector para trabajar con él</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>alturaExtremo <span class="ot">&lt;-</span> altura[pos]</span>
-<span id="cb28-2"><a aria-label="2"></a><span class="fu">mean</span>(alturaExtremo)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-label="1"></a>alturaExtremo <span class="ot">&lt;-</span> altura[pos]</span>
+<span id="cb27-2"><a aria-label="2"></a><span class="fu">mean</span>(alturaExtremo)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Con la asignación se pueden cambiar elementos específicos de un vector (o añadir nuevos)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>altura[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">196</span></span>
-<span id="cb29-2"><a aria-label="2"></a></span>
-<span id="cb29-3"><a aria-label="3"></a>altura[<span class="fu">c</span>(<span class="st">&quot;María&quot;</span>, <span class="st">&quot;Luis&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">169</span>, <span class="dv">175</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>altura[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">196</span></span>
+<span id="cb28-2"><a aria-label="2"></a></span>
+<span id="cb28-3"><a aria-label="3"></a>altura[<span class="fu">c</span>(<span class="st">&quot;María&quot;</span>, <span class="st">&quot;Luis&quot;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">169</span>, <span class="dv">175</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2232,17 +2228,19 @@ display:block!important;
 <li><p>Además de otras ventajas que veremos, permiten separar la representación original de las categorías (niveles) de cómo queremos mostrarlas (etiquetas)</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>genero   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb30-2"><a aria-label="2"></a>genero_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(genero, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), </span>
-<span id="cb30-3"><a aria-label="3"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Mujer&quot;</span>, <span class="st">&quot;Hombre&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>genero <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb29-2"><a aria-label="2"></a>genero_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(genero,</span>
+<span id="cb29-3"><a aria-label="3"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb29-4"><a aria-label="4"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Mujer&quot;</span>, <span class="st">&quot;Hombre&quot;</span>)</span>
+<span id="cb29-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Se asocia nivel 1 con “Mujer”, 2 con “Hombre”, etc.</p></li>
 <li><p>Las operaciones con factores se realiza con las etiquetas, no con los niveles</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a>genero_f <span class="sc">==</span> <span class="dv">1</span>       <span class="co"># NO existe valor 1</span></span>
-<span id="cb31-2"><a aria-label="2"></a>genero_f <span class="sc">==</span> <span class="st">&quot;Mujer&quot;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>genero_f <span class="sc">==</span> <span class="dv">1</span> <span class="co"># NO existe valor 1</span></span>
+<span id="cb30-2"><a aria-label="2"></a>genero_f <span class="sc">==</span> <span class="st">&quot;Mujer&quot;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2268,27 +2266,31 @@ display:block!important;
 <li><p>PERO es conveniente especificar niveles y etiquetas: si no, R usa como niveles los valores únicos <strong>ordenados</strong> (numérica o alfabéticamente) y como etiquetas esos mismos valores</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>g <span class="ot">&lt;-</span> <span class="fu">factor</span>(genero)  <span class="co"># as.factor(genero) hace lo mismo</span></span>
-<span id="cb32-2"><a aria-label="2"></a>g                    <span class="co"># niveles: &quot;1&quot; &lt; &quot;2&quot;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a>g <span class="ot">&lt;-</span> <span class="fu">factor</span>(genero) <span class="co"># as.factor(genero) hace lo mismo</span></span>
+<span id="cb31-2"><a aria-label="2"></a>g <span class="co"># niveles: &quot;1&quot; &lt; &quot;2&quot;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Las etiquetas resultantes (“1”, “2”) no son informativas: no sabemos cuál es “Mujer” y cuál “Hombre”</p></li>
 <li><p>También podemos tener factores con orden con la opción <code>order = TRUE</code> y enumerando los niveles en orden</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-label="1"></a>satisf   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;M&quot;</span>)</span>
-<span id="cb33-2"><a aria-label="2"></a>satisf_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(satisf, <span class="at">order =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb33-3"><a aria-label="3"></a>                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;A&quot;</span>),</span>
-<span id="cb33-4"><a aria-label="4"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>satisf <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;M&quot;</span>)</span>
+<span id="cb32-2"><a aria-label="2"></a>satisf_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(satisf,</span>
+<span id="cb32-3"><a aria-label="3"></a>  <span class="at">order =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb32-4"><a aria-label="4"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;A&quot;</span>),</span>
+<span id="cb32-5"><a aria-label="5"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)</span>
+<span id="cb32-6"><a aria-label="6"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
 <li>Si etiquetas y niveles coinciden, no es necesario especificarlos</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a>satisf   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Alto&quot;</span>, <span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Alto&quot;</span>, <span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>)</span>
-<span id="cb34-2"><a aria-label="2"></a>satisf_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(satisf, <span class="at">order =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb34-3"><a aria-label="3"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-label="1"></a>satisf <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Alto&quot;</span>, <span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Alto&quot;</span>, <span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>)</span>
+<span id="cb33-2"><a aria-label="2"></a>satisf_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(satisf,</span>
+<span id="cb33-3"><a aria-label="3"></a>  <span class="at">order =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-4"><a aria-label="4"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)</span>
+<span id="cb33-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2308,7 +2310,7 @@ display:block!important;
 <li>La función <code>summary()</code> devuelve los principales estadísticos descriptivos de un vector numérico</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a><span class="fu">summary</span>(altura)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a><span class="fu">summary</span>(altura)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2332,15 +2334,15 @@ display:block!important;
 <li>Para información cualitativa, la media y otros estadísticos no tienen sentido</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a><span class="fu">summary</span>(genero)</span>
-<span id="cb36-2"><a aria-label="2"></a>genero  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">1</span>, <span class="dv">1</span>)  <span class="co"># dos categorías igualmente</span></span>
-<span id="cb36-3"><a aria-label="3"></a><span class="fu">summary</span>(genero)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a><span class="fu">summary</span>(genero)</span>
+<span id="cb35-2"><a aria-label="2"></a>genero <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="co"># dos categorías igualmente</span></span>
+<span id="cb35-3"><a aria-label="3"></a><span class="fu">summary</span>(genero)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>La función <code>summary()</code> ofrece resultados diferentes según el tipo de objeto (porque tiene distintas propiedades)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-label="1"></a><span class="fu">summary</span>(genero_f)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a><span class="fu">summary</span>(genero_f)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <p><strong>Matrices</strong></p>
@@ -2354,18 +2356,18 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-label="1"></a>r1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb38-2"><a aria-label="2"></a>r2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
-<span id="cb38-3"><a aria-label="3"></a>M1 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(r1, r2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-label="1"></a>r1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb37-2"><a aria-label="2"></a>r2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
+<span id="cb37-3"><a aria-label="3"></a>M1 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(r1, r2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a>c1 <span class="ot">&lt;-</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">12</span></span>
-<span id="cb39-2"><a aria-label="2"></a>c2 <span class="ot">&lt;-</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">26</span></span>
-<span id="cb39-3"><a aria-label="3"></a>c3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">25</span>)</span>
-<span id="cb39-4"><a aria-label="4"></a>M2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(c1, c2, c3)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-label="1"></a>c1 <span class="ot">&lt;-</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">12</span></span>
+<span id="cb38-2"><a aria-label="2"></a>c2 <span class="ot">&lt;-</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">26</span></span>
+<span id="cb38-3"><a aria-label="3"></a>c3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">25</span>)</span>
+<span id="cb38-4"><a aria-label="4"></a>M2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(c1, c2, c3)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <ul>
@@ -2384,8 +2386,8 @@ display:block!important;
 <li>Podemos dar nombres a columnas y filas</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-label="1"></a><span class="fu">colnames</span>(M2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ene&quot;</span>, <span class="st">&quot;feb&quot;</span>, <span class="st">&quot;mar&quot;</span>)</span>
-<span id="cb40-2"><a aria-label="2"></a><span class="fu">rownames</span>(M2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;gast&quot;</span>, <span class="st">&quot;ingr&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a><span class="fu">colnames</span>(M2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ene&quot;</span>, <span class="st">&quot;feb&quot;</span>, <span class="st">&quot;mar&quot;</span>)</span>
+<span id="cb39-2"><a aria-label="2"></a><span class="fu">rownames</span>(M2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;gast&quot;</span>, <span class="st">&quot;ingr&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Podemos dar nombres a columnas y filas</strong></p>
 <ul>
@@ -2401,16 +2403,16 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-label="1"></a>M2[<span class="dv">1</span>,<span class="dv">3</span>]                 </span>
-<span id="cb41-2"><a aria-label="2"></a>M2[<span class="st">&quot;ingr&quot;</span>, <span class="st">&quot;ene&quot;</span>]      </span>
-<span id="cb41-3"><a aria-label="3"></a>M2[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-label="1"></a>M2[<span class="dv">1</span>, <span class="dv">3</span>]</span>
+<span id="cb40-2"><a aria-label="2"></a>M2[<span class="st">&quot;ingr&quot;</span>, <span class="st">&quot;ene&quot;</span>]</span>
+<span id="cb40-3"><a aria-label="3"></a>M2[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-label="1"></a>M2[<span class="dv">2</span>,]      <span class="co"># fila entera</span></span>
-<span id="cb42-2"><a aria-label="2"></a>M2[,<span class="st">&quot;feb&quot;</span>]  <span class="co"># columna entera</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-label="1"></a>M2[<span class="dv">2</span>, ] <span class="co"># fila entera</span></span>
+<span id="cb41-2"><a aria-label="2"></a>M2[, <span class="st">&quot;feb&quot;</span>] <span class="co"># columna entera</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <ul>
@@ -2424,15 +2426,15 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a>matrx <span class="sc">+</span> M2</span>
-<span id="cb43-2"><a aria-label="2"></a>matrx <span class="sc">*</span> M2</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-label="1"></a>matrx <span class="sc">+</span> M2</span>
+<span id="cb42-2"><a aria-label="2"></a>matrx <span class="sc">*</span> M2</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-label="1"></a>matrx <span class="sc">-</span> <span class="dv">3</span></span>
-<span id="cb44-2"><a aria-label="2"></a>matrx <span class="sc">*</span> <span class="dv">10</span> </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a>matrx <span class="sc">-</span> <span class="dv">3</span></span>
+<span id="cb43-2"><a aria-label="2"></a>matrx <span class="sc">*</span> <span class="dv">10</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <ul>
@@ -2445,17 +2447,9 @@ display:block!important;
 <ul>
 <li>Para crear la matriz identidad de dimensiones <span class="math inline">\(n\times n\)</span></li>
 </ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a><span class="co">#| echo: false</span></span>
-<span id="cb45-2"><a aria-label="2"></a><span class="fu">diag</span>(n)     </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <ul>
 <li>Para crear un matriz con los elementos del vector <code>vec</code> en la diagonal</li>
 </ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-label="1"></a><span class="co">#| echo: false</span></span>
-<span id="cb46-2"><a aria-label="2"></a><span class="fu">diag</span>(vec)   </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <ul>
 <li>Se pueden calcular sumas o medias de las filas o columnas de una matriz</li>
 </ul>
@@ -2468,15 +2462,15 @@ display:block!important;
 <li>Un “Array” es un vector de “n” dimensiones. Se crea con la función <code>array</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">dim =</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>) )</span>
-<span id="cb47-2"><a aria-label="2"></a>x</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb44-2"><a aria-label="2"></a>x</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Se puede acceder a los elementos con paréntesis cuadrados</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-label="1"></a>x[<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>]</span>
-<span id="cb48-2"><a aria-label="2"></a>x[,,<span class="dv">1</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a>x[<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb45-2"><a aria-label="2"></a>x[, , <span class="dv">1</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Los nombres de todas las dimensiones de un “array” (includas matrices) se manejan con la función <code>dimnames</code>, además de al crearlos.</p>
@@ -2515,7 +2509,7 @@ display:block!important;
 <li><p>Nuestras fichas de clientes son EXACTAMENTE eso: las juntamos en una tabla</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cliente, altura, peso, genero_f, gasto)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-label="1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cliente, altura, peso, genero_f, gasto)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2540,8 +2534,8 @@ display:block!important;
 <li>Seleccionamos columnas por nombre <strong>con <code>$</code></strong> o por nombre o posición <strong>con [[ ]]</strong></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-label="1"></a>vectAltura <span class="ot">&lt;-</span> datos<span class="sc">$</span>altura    <span class="co"># objeto resultante = vector</span></span>
-<span id="cb50-2"><a aria-label="2"></a>datos[[<span class="dv">3</span>]] <span class="sc">==</span> datos[[<span class="st">&quot;peso&quot;</span>]]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a>vectAltura <span class="ot">&lt;-</span> datos<span class="sc">$</span>altura <span class="co"># objeto resultante = vector</span></span>
+<span id="cb47-2"><a aria-label="2"></a>datos[[<span class="dv">3</span>]] <span class="sc">==</span> datos[[<span class="st">&quot;peso&quot;</span>]]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="data-frames-cont." class="slide level2">
@@ -2567,7 +2561,7 @@ display:block!important;
 <li>También podemos usar <code>[]</code> para seleccionar filas y columnas por posición, nombre y/o condición lógica</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a>datos1 <span class="ot">&lt;-</span> datos[datos<span class="sc">$</span>genero_f <span class="sc">==</span> <span class="st">&quot;Hombre&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]  <span class="co"># altura y peso de hombres        </span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-label="1"></a>datos1 <span class="ot">&lt;-</span> datos[datos<span class="sc">$</span>genero_f <span class="sc">==</span> <span class="st">&quot;Hombre&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="co"># altura y peso de hombres</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 
@@ -2586,15 +2580,17 @@ display:block!important;
 <li>Suele ser mejor usar <code>subset()</code> que devuelve siempre un “data frame”</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-label="1"></a>D1 <span class="ot">&lt;-</span> <span class="fu">subset</span>(datos, altura <span class="sc">&gt;</span> <span class="dv">165</span>)   </span>
-<span id="cb52-2"><a aria-label="2"></a>D2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(datos, <span class="at">subset =</span> altura <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">176</span>,<span class="dv">189</span>),</span>
-<span id="cb52-3"><a aria-label="3"></a>                    <span class="at">select =</span> <span class="fu">c</span>(altura, peso)) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a>D1 <span class="ot">&lt;-</span> <span class="fu">subset</span>(datos, altura <span class="sc">&gt;</span> <span class="dv">165</span>)</span>
+<span id="cb49-2"><a aria-label="2"></a>D2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(datos,</span>
+<span id="cb49-3"><a aria-label="3"></a>  <span class="at">subset =</span> altura <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">176</span>, <span class="dv">189</span>),</span>
+<span id="cb49-4"><a aria-label="4"></a>  <span class="at">select =</span> <span class="fu">c</span>(altura, peso)</span>
+<span id="cb49-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Generamos nuevas variables con el vector de asignación</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a>datos<span class="sc">$</span>altura_m <span class="ot">&lt;-</span> datos<span class="sc">$</span>altura <span class="sc">/</span> <span class="dv">100</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-label="1"></a>datos<span class="sc">$</span>altura_m <span class="ot">&lt;-</span> datos<span class="sc">$</span>altura <span class="sc">/</span> <span class="dv">100</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2668,15 +2664,17 @@ display:block!important;
 <li>Los elementos de una lista suelen tener nombres</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-label="1"></a>miLista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">saludo=</span><span class="st">&quot;hola&quot;</span>, <span class="at">vec=</span>x, <span class="at">lista=</span><span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="st">&quot;X&quot;</span>), </span>
-<span id="cb54-2"><a aria-label="2"></a>                <span class="at">datos=</span>datos)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a>miLista <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb51-2"><a aria-label="2"></a>  <span class="at">saludo =</span> <span class="st">&quot;hola&quot;</span>, <span class="at">vec =</span> x, <span class="at">lista =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="st">&quot;X&quot;</span>),</span>
+<span id="cb51-3"><a aria-label="3"></a>  <span class="at">datos =</span> datos</span>
+<span id="cb51-4"><a aria-label="4"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Con <code>[[ ]]</code> (por posición o por nombre) o con <code>$</code>(solo por nombre) extraemos los elementos en su clase original</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a>miLista<span class="sc">$</span>vec</span>
-<span id="cb55-2"><a aria-label="2"></a>miLista[[<span class="dv">2</span>]] <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-label="1"></a>miLista<span class="sc">$</span>vec</span>
+<span id="cb52-2"><a aria-label="2"></a>miLista[[<span class="dv">2</span>]] <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>También podemos usar <code>[]</code>, pero devuelve una lista</li>
@@ -2711,9 +2709,9 @@ display:block!important;
 <li><p>Por eso importa saber ACCEDER a sus elementos: cuando ejecutemos un contraste o una regresión, extraeremos de ahí lo que necesitemos</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-label="1"></a>res <span class="ot">&lt;-</span> <span class="fu">t.test</span>(altura)   <span class="co"># el resultado es una lista</span></span>
-<span id="cb56-2"><a aria-label="2"></a><span class="fu">names</span>(res)              <span class="co"># qué contiene</span></span>
-<span id="cb56-3"><a aria-label="3"></a>res<span class="sc">$</span>p.value             <span class="co"># accedemos a un elemento</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a>res <span class="ot">&lt;-</span> <span class="fu">t.test</span>(altura) <span class="co"># el resultado es una lista</span></span>
+<span id="cb53-2"><a aria-label="2"></a><span class="fu">names</span>(res) <span class="co"># qué contiene</span></span>
+<span id="cb53-3"><a aria-label="3"></a>res<span class="sc">$</span>p.value <span class="co"># accedemos a un elemento</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section>
 <section>
@@ -2730,14 +2728,14 @@ display:block!important;
 <li><p>Para instalar una nueva biblioteca (se hace <strong>una vez</strong>), con el comando</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">&quot;AER&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">&quot;AER&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>O visualmente en el panel <strong>Packages</strong> (icono en la barra de la izquierda): botón <em>Install Package</em>; ahí también se actualizan (filtro <em>Outdated</em>)</p></li>
 <li><p>La biblioteca solo está disponible si se carga en la <em>sesión actual</em></p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-label="1"></a><span class="fu">library</span>(AER)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a><span class="fu">library</span>(AER)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Nota: en adelante, la bibliotecas que carguemos se suponen instaladas</p></li>
@@ -2787,15 +2785,15 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-label="1"></a>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span>)</span>
-<span id="cb59-2"><a aria-label="2"></a><span class="fu">log</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-label="1"></a>base<span class="sc">::</span><span class="fu">log</span>(<span class="dv">1</span>)</span>
+<span id="cb56-2"><a aria-label="2"></a><span class="fu">log</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:20%;">
 
 </div><div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-label="1"></a><span class="fu">library</span>(Hmisc)</span>
-<span id="cb60-2"><a aria-label="2"></a><span class="fu">find</span>(<span class="st">&quot;units&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-label="1"></a><span class="fu">library</span>(Hmisc)</span>
+<span id="cb57-2"><a aria-label="2"></a><span class="fu">find</span>(<span class="st">&quot;units&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <aside class="notes">
@@ -2821,14 +2819,14 @@ display:block!important;
 <li>Para mostrar todos los datos de las bibliotecas cargadas</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-label="1"></a><span class="fu">data</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-label="1"></a><span class="fu">data</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Los podemos cargar (aparecen en el panel Variables) y obtener información detallada en la ayuda (ej., nombre de variables)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-label="1"></a><span class="fu">data</span>(<span class="st">&quot;Affairs&quot;</span>)</span>
-<span id="cb62-2"><a aria-label="2"></a><span class="fu">help</span>(<span class="st">&quot;Affairs&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-label="1"></a><span class="fu">data</span>(<span class="st">&quot;Affairs&quot;</span>)</span>
+<span id="cb59-2"><a aria-label="2"></a><span class="fu">help</span>(<span class="st">&quot;Affairs&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="datos-nativos-en-r" class="slide level2">
@@ -2837,10 +2835,10 @@ display:block!important;
 <li>Guardamos objetos del espacio de trabajo con <code>save()</code> (en una ruta relativa al directorio de trabajo)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
-<span id="cb63-2"><a aria-label="2"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb63-3"><a aria-label="3"></a><span class="fu">save</span>(x, <span class="at">file=</span><span class="st">&quot;x.RData&quot;</span>)      <span class="co"># un objeto, o varios</span></span>
-<span id="cb63-4"><a aria-label="4"></a><span class="fu">save</span>(x, y, <span class="at">file=</span><span class="st">&quot;data/xy.RData&quot;</span>)  <span class="co">#   separados por comas</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb60-2"><a aria-label="2"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb60-3"><a aria-label="3"></a><span class="fu">save</span>(x, <span class="at">file =</span> <span class="st">&quot;x.RData&quot;</span>) <span class="co"># un objeto, o varios</span></span>
+<span id="cb60-4"><a aria-label="4"></a><span class="fu">save</span>(x, y, <span class="at">file =</span> <span class="st">&quot;data/xy.RData&quot;</span>) <span class="co">#   separados por comas</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
@@ -2862,7 +2860,7 @@ display:block!important;
 <li>Para cargar datos al espacio de trabajo, con <code>load()</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-label="1"></a><span class="fu">load</span>(<span class="st">&quot;data/xy.RData&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-label="1"></a><span class="fu">load</span>(<span class="st">&quot;data/xy.RData&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Nota: este tipo de archivo puede contener varios objetos, incluidas varios conjuntos de datos</li>
@@ -2933,17 +2931,17 @@ display:block!important;
 <li><p>El comando <code>import()</code> se usa para leer los datos</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a aria-label="1"></a><span class="fu">library</span>(rio)</span>
-<span id="cb65-2"><a aria-label="2"></a>sex   <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/sex_data.csv&quot;</span>)</span>
-<span id="cb65-3"><a aria-label="3"></a>renta <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/renta.txt&quot;</span>)</span>
-<span id="cb65-4"><a aria-label="4"></a>beauty <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/beauty.xls&quot;</span>)</span>
-<span id="cb65-5"><a aria-label="5"></a>nsw    <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/nsw.dta&quot;</span>)    <span class="co"># formato Stata</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-label="1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb62-2"><a aria-label="2"></a>sex <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/sex_data.csv&quot;</span>)</span>
+<span id="cb62-3"><a aria-label="3"></a>renta <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/renta.txt&quot;</span>)</span>
+<span id="cb62-4"><a aria-label="4"></a>beauty <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/beauty.xls&quot;</span>)</span>
+<span id="cb62-5"><a aria-label="5"></a>nsw <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">&quot;data/nsw.dta&quot;</span>) <span class="co"># formato Stata</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Podemos exportar datos a un tipo de formato con <code>export()</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-label="1"></a><span class="fu">export</span>(nsw, <span class="st">&quot;data/nsw.csv&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a aria-label="1"></a><span class="fu">export</span>(nsw, <span class="st">&quot;data/nsw.csv&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>O convertir un archivo del disco a otro formato con <code>convert()</code></li>
@@ -2969,15 +2967,15 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a aria-label="1"></a><span class="fu">load</span>(<span class="st">&quot;data/earn.RData&quot;</span>)</span>
-<span id="cb67-2"><a aria-label="2"></a>x <span class="ot">&lt;-</span> earn<span class="sc">$</span>earnings</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-label="1"></a><span class="fu">load</span>(<span class="st">&quot;data/earn.RData&quot;</span>)</span>
+<span id="cb64-2"><a aria-label="2"></a>x <span class="ot">&lt;-</span> earn<span class="sc">$</span>earnings</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:45%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a aria-label="1"></a><span class="fu">is.na</span>(x)</span>
-<span id="cb68-2"><a aria-label="2"></a><span class="fu">table</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a aria-label="1"></a><span class="fu">is.na</span>(x)</span>
+<span id="cb65-2"><a aria-label="2"></a><span class="fu">table</span>(<span class="fu">is.na</span>(x))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <aside class="notes">
@@ -3001,13 +2999,13 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:25%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a aria-label="1"></a><span class="fu">mean</span>(x)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-label="1"></a><span class="fu">mean</span>(x)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:60%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a aria-label="1"></a><span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a aria-label="1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 <aside class="notes">
@@ -3030,7 +3028,7 @@ display:block!important;
 <li><code>na.omit()</code> elimina observaciones con <code>NA</code>s de una o varias variables</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a aria-label="1"></a>earn2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(earn)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a aria-label="1"></a>earn2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(earn)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>¿Cómo tratar los <code>NA</code>s? Eliminarlos implica selección muestral y la alternativa de imputar valores implica supuestos sobre éstos</li>
@@ -3071,8 +3069,8 @@ display:block!important;
 <li><p>Una variante de la ejecución condicional, solo para crear variables según una condición</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a aria-label="1"></a><span class="fu">data</span>(<span class="st">&quot;Affairs&quot;</span>, <span class="at">package =</span> <span class="st">&quot;AER&quot;</span>)</span>
-<span id="cb72-2"><a aria-label="2"></a>Affairs<span class="sc">$</span>univers <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(Affairs<span class="sc">$</span>education<span class="sc">&gt;</span><span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a aria-label="1"></a><span class="fu">data</span>(<span class="st">&quot;Affairs&quot;</span>, <span class="at">package =</span> <span class="st">&quot;AER&quot;</span>)</span>
+<span id="cb69-2"><a aria-label="2"></a>Affairs<span class="sc">$</span>univers <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(Affairs<span class="sc">$</span>education <span class="sc">&gt;</span> <span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <ul>
