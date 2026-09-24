@@ -151,7 +151,7 @@ rm(list = ls())
 
 ## Positron
 
-![](figure/positron-gui.png){width="72%" fig-align="center"}
+![](figure/positron-gui.png){width="58%" fig-align="center"}
 
 * **Editor** (scripts) y **Consola** (ejecutar comandos y ver resultados); a la derecha, **Variables** (objetos en memoria) y **Gráficos**; a la izquierda, el **Explorador** de archivos
 
