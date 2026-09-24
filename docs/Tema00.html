@@ -1350,6 +1350,95 @@ display:block!important;
 <li><p>Las rutas relativas son otra idea general de la programación: el proyecto funciona igual en cualquier ordenador (la ruta completa <code>C:/Users/minombre/...</code> solo existe en el vuestro)</p></li>
 </ul>
 </section>
+<section id="proyectos-siempre-una-carpeta-a-veces-con-ajustes" class="slide level2">
+<h2>Proyectos: siempre una carpeta, a veces con ajustes</h2>
+<ul>
+<li><p>Todo el trabajo sucede <strong>dentro de un directorio</strong>. Eso ES el proyecto, y con eso basta: abrir una carpeta ya es decir “este es mi directorio de trabajo, aquí organizo mis datos, mi código y mis resultados”</p></li>
+<li><p>Lo demás que oiréis nombrar son <strong>la misma carpeta con un fichero de ajustes añadido</strong>:</p></li>
+</ul>
+<div class="smaller-output">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>qué es</th>
+<th>para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>carpeta abierta</td>
+<td><em>File &gt; Open Folder</em></td>
+<td>lo que usamos en el curso</td>
+</tr>
+<tr class="even">
+<td><strong>proyecto de R</strong></td>
+<td>la misma carpeta + un fichero <strong><code>.Rproj</code></strong></td>
+<td>guarda ajustes de R que queréis conservar para ese proyecto, y al abrirlo fija el directorio de trabajo</td>
+</tr>
+<tr class="odd">
+<td><strong>proyecto de Quarto</strong></td>
+<td>la misma carpeta + un fichero <strong><code>_quarto.yml</code></strong></td>
+<td>ajustes comunes a <strong>muchos</strong> documentos de Quarto, para no repetirlos en cada uno</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Para dos o tres ejercicios sueltos no hace falta ninguna de las dos cosas</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>La idea que tienen que llevarse es que NO son tres cosas distintas: lo comun es todo (una carpeta que contiene el trabajo) y lo que cambia es un fichero de ajustes. Presentarlo como tres conceptos separados los lia, y ademas es falso.</li>
+<li>Verificado en la documentacion de Posit (24-sep-2026): un proyecto es “un contenedor que organiza el trabajo”; el <code>.Rproj</code> guarda las opciones del proyecto y al abrirlo R arranca una sesion nueva y fija el directorio de trabajo a esa carpeta.</li>
+<li>Verificado en Positron: las plantillas de <em>File &gt; New Folder</em> son Python Project, R Project, Jupyter Notebook y Empty Project.</li>
+<li>La web de esta asignatura SI es un proyecto de Quarto: decenas de paginas que comparten formato y se publican juntas. Sirve de ejemplo si preguntan para que vale.</li>
+</ul>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="ficheros-que-r-crea-solo" class="slide level2">
+<h2>Ficheros que R crea solo</h2>
+<ul>
+<li><p>Trabajando con R aparecerán en vuestra carpeta ficheros que no habéis creado vosotros:</p>
+<ul>
+<li><strong><code>.RData</code></strong>: el <strong>espacio de trabajo</strong> guardado, es decir, los objetos que había en memoria</li>
+<li><strong><code>.Rhistory</code></strong>: el <strong>historial</strong> de órdenes que habéis escrito en la consola</li>
+<li><strong><code>.Rproj.user</code></strong>: una carpeta oculta con ficheros temporales, si usáis un proyecto de R</li>
+</ul></li>
+<li><p>Los tres los genera R por su cuenta: son <strong>estado de vuestra sesión</strong>, no vuestro trabajo. No se entregan y no hace falta tocarlos</p></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Por eso un proyecto de R los mete en su <code>.gitignore</code> nada mas crearlo (comprobado en el binario de Positron: <code>.Rproj.user</code>, <code>.Rhistory</code>, <code>.RData</code>, <code>.Ruserdata</code>).</li>
+<li>Conviene decirlo aqui porque los van a ver aparecer y se preguntan que son; y de paso enlaza con la idea de que el trabajo es el .qmd y los datos, no lo que R deja por el camino.</li>
+</ul>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
 <section id="el-explorador-y-la-barra-lateral" class="slide level2">
 <h2>El Explorador y la barra lateral</h2>
 <ul>

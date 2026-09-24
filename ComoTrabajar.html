@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Puesta a punto</title>
+<title>Cómo trabajar con tus documentos de Quarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,6 +25,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -95,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Índice</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./ComoTrabajar.html"> 
+    <a class="nav-link active" href="./ComoTrabajar.html" aria-current="page"> 
 <span class="menu-text">Cómo trabajar</span></a>
   </li>  
   <li class="nav-item">
@@ -130,12 +165,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#instalación-del-software-del-curso" id="toc-instalación-del-software-del-curso" class="nav-link active" data-scroll-target="#instalación-del-software-del-curso">Instalación del software del curso</a>
-  <ul class="collapse">
-  <li><a href="#primero-r-versión-4.6-o-superior" id="toc-primero-r-versión-4.6-o-superior" class="nav-link" data-scroll-target="#primero-r-versión-4.6-o-superior">1. Primero, R (versión 4.6 o superior)</a></li>
-  <li><a href="#después-positron-el-editor" id="toc-después-positron-el-editor" class="nav-link" data-scroll-target="#después-positron-el-editor">2. Después, Positron (el editor)</a></li>
-  </ul></li>
-  <li><a href="#comprobación-2-minutos" id="toc-comprobación-2-minutos" class="nav-link" data-scroll-target="#comprobación-2-minutos">Comprobación (2 minutos)</a></li>
+  <li><a href="#una-carpeta-por-tema" id="toc-una-carpeta-por-tema" class="nav-link active" data-scroll-target="#una-carpeta-por-tema">1. Una carpeta por tema</a></li>
+  <li><a href="#un-documento-por-ejercicio" id="toc-un-documento-por-ejercicio" class="nav-link" data-scroll-target="#un-documento-por-ejercicio">2. Un documento por ejercicio</a></li>
+  <li><a href="#la-cabecera" id="toc-la-cabecera" class="nav-link" data-scroll-target="#la-cabecera">3. La cabecera</a></li>
+  <li><a href="#la-primera-celda-preparar-el-entorno" id="toc-la-primera-celda-preparar-el-entorno" class="nav-link" data-scroll-target="#la-primera-celda-preparar-el-entorno">4. La primera celda: preparar el entorno</a></li>
+  <li><a href="#una-sección-por-apartado" id="toc-una-sección-por-apartado" class="nav-link" data-scroll-target="#una-sección-por-apartado">5. Una sección por apartado</a></li>
+  <li><a href="#renderizar" id="toc-renderizar" class="nav-link" data-scroll-target="#renderizar">6. Renderizar</a></li>
+  <li><a href="#entregar" id="toc-entregar" class="nav-link" data-scroll-target="#entregar">7. Entregar</a></li>
   </ul>
 </nav>
     </div>
@@ -144,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Puesta a punto</h1>
+<h1 class="title">Cómo trabajar con tus documentos de Quarto</h1>
 <p class="subtitle lead">Universidad de Alicante, Curso 2026-2027 (Primer cuatrimestre)</p>
 </div>
 
@@ -162,44 +198,77 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instalación-del-software-del-curso" class="level1">
-<h1>Instalación del software del curso</h1>
-<p>Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. <strong>El orden importa: primero R y después Positron</strong> (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.</p>
-<ul>
-<li>OJO: conviene tener el sistema operativo actualizado antes de instalar nada.</li>
-<li>Considerad traer una regleta a clase si vuestra batería dura poco.</li>
-</ul>
-<section id="primero-r-versión-4.6-o-superior" class="level2">
-<h2 class="anchored" data-anchor-id="primero-r-versión-4.6-o-superior">1. Primero, R (versión 4.6 o superior)</h2>
-<ul>
-<li>Descargad R desde <a href="https://cran.r-project.org/">https://cran.r-project.org/</a>:
-<ul>
-<li>Windows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.</li>
-<li>macOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.</li>
-<li>Linux: seguid las instrucciones de vuestra distribución.</li>
-</ul></li>
-</ul>
+<p>Esto vale para <strong>todos los temas</strong>: la forma de organizar la carpeta, de crear el documento y de entregarlo es siempre la misma. Cada enunciado solo dice lo suyo.</p>
+<section id="una-carpeta-por-tema" class="level2">
+<h2 class="anchored" data-anchor-id="una-carpeta-por-tema">1. Una carpeta por tema</h2>
+<p>Crea una carpeta para el tema y <strong>ábrela en Positron</strong> con <em>File &gt; Open Folder</em>. A partir de ahí, todo lo del tema vive dentro.</p>
+<p>Dentro de esa carpeta, crea un subdirectorio <strong><code>data</code></strong> y descarga ahí los ficheros de datos desde la página <a href="Datos.html">Datos</a>.</p>
+<pre><code>Tema02/                        &lt;- una por tema: Tema02 para el tema 02, Tema03 para el 03...
+├── data/
+│   ├── datosVisualizacion.RData
+│   └── empresas.RData
+├── T02_E1_12345678.qmd        &lt;- un documento por ejercicio
+├── T02_E1_12345678.html       &lt;- lo que genera al renderizar
+├── T02_E2_12345678.qmd
+└── pruebas.R                  &lt;- opcional: un script para probar cosas</code></pre>
+<p>Además de los <code>.qmd</code>, puedes tener <strong>scripts <code>.R</code> sueltos</strong> para lo que no va al documento: probar una función antes de meterla, guardar lo que hicimos en clase… Llámalos como quieras, <code>pruebas.R</code> o <code>codigo_clase.R</code>. No se entregan: son tuyos.</p>
+<p><strong>Por qué importa la estructura</strong>: si los datos están en <code>data/</code> dentro de la carpeta abierta, el código los encuentra con <code>load("data/empresas.RData")</code>, igual en tu ordenador que en el mío. Con una ruta completa tipo <code>C:/Users/.../Descargas/...</code> el documento solo funciona en tu máquina, y al entregarlo no se puede reproducir.</p>
 </section>
-<section id="después-positron-el-editor" class="level2">
-<h2 class="anchored" data-anchor-id="después-positron-el-editor">2. Después, Positron (el editor)</h2>
+<section id="un-documento-por-ejercicio" class="level2">
+<h2 class="anchored" data-anchor-id="un-documento-por-ejercicio">2. Un documento por ejercicio</h2>
+<p>Se crea con <em>File &gt; New File… &gt; Quarto Document</em> y se guarda con <code>Ctrl+S</code>, <strong>con extensión <code>.qmd</code></strong>, con este nombre:</p>
+<blockquote class="blockquote">
+<p><strong><code>Tnn_En_DNI.qmd</code></strong></p>
+<p><code>nn</code> es el número del tema, <code>n</code> el del ejercicio y el DNI va <strong>sin la letra</strong>. Por ejemplo, el ejercicio 1 del tema 2: <code>T02_E1_12345678.qmd</code></p>
+</blockquote>
+</section>
+<section id="la-cabecera" class="level2">
+<h2 class="anchored" data-anchor-id="la-cabecera">3. La cabecera</h2>
+<p>Borra lo que trae el documento de ejemplo y deja una cabecera así, entre las dos líneas de guiones. Esto es <strong>lo mínimo</strong>: el resto de opciones (tema, tabla de contenidos, <code>df-print</code>, <code>code-fold</code>…) las vais cambiando según lo que pida cada ejercicio.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Tema 02, ejercicio 1"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Tu nombre"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong><code>embed-resources: true</code> no es opcional.</strong> Sin eso, el <code>.html</code> guarda los gráficos en una carpeta aparte, y si mandas solo el html se ve en blanco. Con eso, el html es un único fichero que se abre en cualquier ordenador.</p>
+</section>
+<section id="la-primera-celda-preparar-el-entorno" class="level2">
+<h2 class="anchored" data-anchor-id="la-primera-celda-preparar-el-entorno">4. La primera celda: preparar el entorno</h2>
+<p>Justo debajo de la cabecera va siempre la celda que prepara el entorno. Lleva <code>include: false</code>, así que se ejecuta pero no se ve ni ella ni sus mensajes.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/datosVisualizacion.RData"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ahí va <strong>todo lo que el documento necesita para funcionar</strong>:</p>
 <ul>
-<li><p>En este curso usamos <strong>Positron</strong>, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.</p></li>
-<li><p>Descargad desde <a href="https://positron.posit.co/download.html">https://positron.posit.co/download.html</a> el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).</p></li>
-<li><p><strong>Si ya usáis VS Code</strong>: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.</p></li>
-<li><p><strong>Si ya usáis RStudio</strong>: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.</p></li>
+<li><strong>Todas las bibliotecas</strong> que uses en cualquier celda. Si una <code>library()</code> se te queda en la consola y no en el documento, al renderizar falla.</li>
+<li><strong><code>rm(list = ls())</code></strong>, para vaciar el espacio de trabajo. No hace falta para renderizar, pero sí para que <strong>al ejecutar las celdas a mano te pase lo mismo que al renderizar</strong>: si tu código depende sin darte cuenta de un objeto viejo de la consola, así lo descubres tú antes que yo.</li>
+<li><strong>Los datos</strong>, si los usas desde el principio. También puedes cargarlos más adelante, en la celda donde toque, si el ejercicio lo pide así; lo importante es que <strong>quede claro dónde se han cargado</strong> y que estén dentro del documento.</li>
 </ul>
-<p>El resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora.</p>
+<p>Al renderizar se abre una <strong>sesión de R nueva y vacía</strong>: el documento no ve nada de lo que tengas en la consola, así que todo lo que necesite tiene que estar dentro de él.</p>
 </section>
+<section id="una-sección-por-apartado" class="level2">
+<h2 class="anchored" data-anchor-id="una-sección-por-apartado">5. Una sección por apartado</h2>
+<p>Cada apartado del enunciado, su sección, para que el documento se lea igual que el enunciado y no haya que adivinar qué responde a qué.</p>
+<p>En el <strong>editor visual</strong>, con el desplegable de estilo: <em>Header 2</em>. Si escribes en modo fuente, el encabezado <code>##</code> delante del título.</p>
 </section>
-<section id="comprobación-2-minutos" class="level1">
-<h1>Comprobación (2 minutos)</h1>
-<ol type="1">
-<li>Abrid Positron.</li>
-<li>Localizad la <strong>Consola</strong> (panel inferior). La primera vez hay que <strong>elegir el intérprete</strong>: pulsad el selector de la esquina superior derecha y elegid <strong>R</strong> (algo como <code>R 4.6.1</code>; si dice 4.6 o superior, bien). OJO: si os aparece <strong>Python</strong>, no es un error, pero no es lo que usamos: cambiad a R en ese mismo selector.</li>
-<li>Escribid en la consola <code>2 + 2</code> y pulsad Enter. Si responde <code>[1] 4</code>, TODO CORRECTO.</li>
-</ol>
-<p>Un aviso para más adelante: cuando abráis una carpeta en Positron por primera vez (lo haremos en clase), preguntará si confiáis en sus archivos (“Do you trust the authors?”): contestad <strong>“Yes, I trust the authors”</strong>; si no, Positron queda en modo restringido y no funciona casi nada.</p>
-<p>Si algo falla, no os atasquéis: traed el mensaje de error EXACTO a clase (o preguntad antes por UACloud).</p>
+<section id="renderizar" class="level2">
+<h2 class="anchored" data-anchor-id="renderizar">6. Renderizar</h2>
+<p>Con el botón <strong>Preview</strong>, o <code>Ctrl+Shift+K</code>. Se genera el <code>.html</code> en la misma carpeta.</p>
+<p>Renderiza <strong>antes de entregar</strong>, no solo al final: si algo no funciona en la sesión limpia (una biblioteca que no cargaste, un objeto que solo existe en tu consola), es ahora cuando quieres enterarte.</p>
+</section>
+<section id="entregar" class="level2">
+<h2 class="anchored" data-anchor-id="entregar">7. Entregar</h2>
+<p>Un solo <strong><code>.zip</code></strong> con el <code>.qmd</code> y el <code>.html</code> dentro, llamado igual que el documento:</p>
+<blockquote class="blockquote">
+<p><strong><code>Tnn_En_DNI.zip</code></strong>, por ejemplo <code>T02_E1_12345678.zip</code></p>
+</blockquote>
+<p>El nombre tiene que ser exacto, o la entrega se rechaza. Recibirás un correo de confirmación si es correcta, o de rechazo si no lo es.</p>
+<p>No se valora que esté perfecto: se valora el progreso y que se vea lo que has entendido. Si te quedas a medias, entrega lo que tengas.</p>
 
 
 </section>
