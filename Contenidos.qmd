@@ -133,6 +133,24 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 4
+(28-Sept. a 2-Oct.)
+
+  * [Tema 03 - Datos: tratamiento, limpieza y preparación](docs/Tema03.qmd)
+  * [Tema 03 - Ejercicio](docs/Tema03ej.qmd)
+
+    - El ejercicio se va haciendo **durante las clases del tema**: las transparencias indican
+      en qué momento toca cada apartado.
+
+  * [Tema 03 - Anexo: chuleta de funciones auxiliares](docs/Tema03anexo.qmd)
+
+<!-- EJERCICIO DE FUERA DE CLASE, sin publicar (Pedro, 30-sep-2026): Tema03ej2.qmd existe,
+esta renderizado y usa otros datos (ChaseBank.csv, empleados.csv.zip, regionEmpleado.xlsx).
+Queda fuera de PUBLISH hasta que Pedro decida. Cuando se desvele, tambien hay que desvelar
+sus tres ficheros de datos en Datos.qmd:
+  * [Tema 03 - Ejercicio 2 (fuera de clase)](docs/Tema03ej2.qmd)
+-->
+
 ## Semana 3
 (21-Sept. a 25-Sept.)
 

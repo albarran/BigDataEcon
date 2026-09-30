@@ -24,6 +24,10 @@ cuando se desvele ese ejercicio, no antes.
   + [pwt.csv](https://raw.githubusercontent.com/albarran/00datos/main/pwt.csv)
 -->
 
+* Tema 03 (datos: tratamiento, limpieza y preparación):
+  + [retail_data.RData](https://raw.githubusercontent.com/albarran/00datos/main/retail_data.RData)
+  + [DosTablas.xlsx](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx)
+
 <!--
 CURSO 2026-27: los datos de cada tema se desvelan al llegar al tema (mueve la marca de CIERRE
 de comentario hacia abajo, por debajo del tema que quieras mostrar). VERIFICAR antes de desvelar
@@ -35,12 +39,13 @@ que el tema migrado usa realmente esos ficheros (el temario 26-27 está renumera
 
 
 * Tema 2 (2025-26):
-
-  + [retail_data.RData](https://raw.githubusercontent.com/albarran/00datos/main/retail_data.RData)
+  (retail_data.RData y DosTablas.xlsx YA DESVELADOS arriba, en el Tema 03: no duplicarlos)
 
   + [VentasTabla](https://raw.githubusercontent.com/albarran/00datos/main/VentasTabla.xlsx)
-  + [DosTablas](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx)
 
+* Tema 03, ejercicio de FUERA DE CLASE (Tema03ej2.qmd), sin publicar todavia:
+
+  + [ChaseBank.csv](https://raw.githubusercontent.com/albarran/00datos/main/ChaseBank.csv)
   + [Empleados](https://raw.githubusercontent.com/albarran/00datos/main/empleados.csv.zip)
   + [regionEmpleado](https://raw.githubusercontent.com/albarran/00datos/main/regionEmpleado.xlsx)
 
