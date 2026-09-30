@@ -4096,58 +4096,54 @@ Universidad de Alicante</p>
 <p>Contestad aquí: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&amp;entry.779297845=MT-T00_01-A"><strong>formulario del mini-test</strong></a></p>
 <section id="pregunta-1" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
-<p>Las cifras son el gasto mensual de seis clientes. ¿Qué devuelve la última línea?</p>
-<pre><code>gasto &lt;- c(45, 60, 30, 75, 50, 40)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-gasto &lt;- gasto - 10   # linea ejecutada tambien</span>
-gasto[gasto &gt; c(40, 55)]</code></pre>
+<p>¿Qué devuelve la última línea?</p>
+<pre><code>gasto &lt;- c(20, 30, 40, 50)
+gasto[gasto &gt;<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">=</span> 30]</code></pre>
 <ol type="a">
-<li><p>45, 60, 75 y 50</p></li>
-<li><p>65</p></li>
-<li><p>60 y 75</p></li>
-<li><p>Da error, porque <code>gasto</code> y el vector de la comparación tienen longitudes distintas</p></li>
+<li><p><code>40 50</code></p></li>
+<li><p><code>30 40 50</code></p></li>
+<li><p><code>20 30</code></p></li>
+<li><p><code>3 4</code></p></li>
 </ol>
 </section>
 <section id="pregunta-2" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
-<p>¿Qué imprime la última línea?</p>
-<pre><code>genero &lt;- c(2, 1, 2, 2, 2)
-genero_f &lt;- factor(genero,
-  levels = c(1, 2),
-  labels = c(&quot;Mujer&quot;, &quot;Hombre&quot;)
-)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-genero_f &lt;- factor(genero)   # linea ejecutada tambien</span>
-summary(genero_f)</code></pre>
+<p>¿Qué devuelve la última línea?</p>
+<pre><code>ventas &lt;- c(4, 6, NA, 8)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+ventas[3] &lt;- 0   # ejecutado antes</span>
+mean(ventas, na.rm = TRUE)</code></pre>
 <ol type="a">
-<li><p><code>Mujer 1</code> y <code>Hombre 4</code></p></li>
-<li><p><code>1 1</code> y <code>2 4</code></p></li>
-<li><p><code>Mujer 4</code> y <code>Hombre 1</code></p></li>
-<li><p><code>Min. 1,0</code>, <code>Median 2,0</code>, <code>Mean 1,8</code>, <code>Max. 2,0</code></p></li>
+<li><p><code>6</code></p></li>
+<li><p><code>4.5</code></p></li>
+<li><p><code>NA</code></p></li>
+<li><p><code>18</code></p></li>
 </ol>
 </section>
 <section id="pregunta-3" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
-<p>¿Qué devuelve la última línea?</p>
-<pre><code>notas &lt;- c(7, 9, &quot;5&quot;, 8)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-notas &lt;- notas[-3]   # linea ejecutada tambien</span>
-mean(as.numeric(notas))</code></pre>
+<p>En nuestras fichas, ¿qué muestra la última línea?</p>
+<pre><code>genero_f &lt;- factor(c(2, 1, 2, 2), levels = c(1, 2),
+                   labels = c(&quot;Mujer&quot;, &quot;Hombre&quot;))<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+genero_f &lt;- factor(c(2, 1, 2, 2))   # ejecutado antes</span>
+summary(genero_f)</code></pre>
 <ol type="a">
-<li><p>7,25</p></li>
-<li><p>8</p></li>
-<li><p><code>NA</code>, con un aviso</p></li>
-<li><p>Da error, porque un vector no puede mezclar números y texto</p></li>
+<li><p><code>Mujer 1</code> y <code>Hombre 3</code></p></li>
+<li><p><code>1 1</code> y <code>2 3</code></p></li>
+<li><p><code>Mujer 3</code> y <code>Hombre 1</code></p></li>
+<li><p><code>Min. 1</code>, <code>Mean 1.75</code>, <code>Max. 2</code></p></li>
 </ol>
 </section>
 <section id="pregunta-4" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-4">Pregunta 4</h2>
-<p>Vuestro <code>.qmd</code> tiene <strong>una sola celda de R</strong>, con estas tres líneas dentro. ¿Qué aparece en el HTML al renderizar?</p>
+<p>Vuestro <code>.qmd</code> tiene <strong>una sola celda de R</strong>, con estas dos líneas. ¿Qué sale en el HTML?</p>
 <pre><code><span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">#| include: false
 </span># echo: false
-mean(c(10, 20, 30))</code></pre>
+mean(c(2, 4, 6))</code></pre>
 <ol type="a">
-<li><p>El código y <code>[1] 20</code></p></li>
-<li><p>Nada: ni el código ni el resultado</p></li>
-<li><p>Solo <code>[1] 20</code></p></li>
-<li><p>Solo el código, sin el resultado</p></li>
+<li><p>El código y <code>[1] 4</code></p></li>
+<li><p>Nada</p></li>
+<li><p>Solo <code>[1] 4</code></p></li>
+<li><p>Solo el código</p></li>
 </ol>
 
 

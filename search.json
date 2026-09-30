@@ -39,28 +39,28 @@
     "href": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
     "title": "Mini-test, versión A",
     "section": "Pregunta 1",
-    "text": "Pregunta 1\nLas cifras son el gasto mensual de seis clientes. ¿Qué devuelve la última línea?\ngasto &lt;- c(45, 60, 30, 75, 50, 40)\ngasto &lt;- gasto - 10   # linea ejecutada tambien\ngasto[gasto &gt; c(40, 55)]\n\n45, 60, 75 y 50\n65\n60 y 75\nDa error, porque gasto y el vector de la comparación tienen longitudes distintas"
+    "text": "Pregunta 1\n¿Qué devuelve la última línea?\ngasto &lt;- c(20, 30, 40, 50)\ngasto[gasto &gt;= 30]\n\n40 50\n30 40 50\n20 30\n3 4"
   },
   {
     "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
     "href": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
     "title": "Mini-test, versión A",
     "section": "Pregunta 2",
-    "text": "Pregunta 2\n¿Qué imprime la última línea?\ngenero &lt;- c(2, 1, 2, 2, 2)\ngenero_f &lt;- factor(genero,\n  levels = c(1, 2),\n  labels = c(\"Mujer\", \"Hombre\")\n)\ngenero_f &lt;- factor(genero)   # linea ejecutada tambien\nsummary(genero_f)\n\nMujer 1 y Hombre 4\n1 1 y 2 4\nMujer 4 y Hombre 1\nMin. 1,0, Median 2,0, Mean 1,8, Max. 2,0"
+    "text": "Pregunta 2\n¿Qué devuelve la última línea?\nventas &lt;- c(4, 6, NA, 8)\nventas[3] &lt;- 0   # ejecutado antes\nmean(ventas, na.rm = TRUE)\n\n6\n4.5\nNA\n18"
   },
   {
     "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
     "href": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
     "title": "Mini-test, versión A",
     "section": "Pregunta 3",
-    "text": "Pregunta 3\n¿Qué devuelve la última línea?\nnotas &lt;- c(7, 9, \"5\", 8)\nnotas &lt;- notas[-3]   # linea ejecutada tambien\nmean(as.numeric(notas))\n\n7,25\n8\nNA, con un aviso\nDa error, porque un vector no puede mezclar números y texto"
+    "text": "Pregunta 3\nEn nuestras fichas, ¿qué muestra la última línea?\ngenero_f &lt;- factor(c(2, 1, 2, 2), levels = c(1, 2),\n                   labels = c(\"Mujer\", \"Hombre\"))\ngenero_f &lt;- factor(c(2, 1, 2, 2))   # ejecutado antes\nsummary(genero_f)\n\nMujer 1 y Hombre 3\n1 1 y 2 3\nMujer 3 y Hombre 1\nMin. 1, Mean 1.75, Max. 2"
   },
   {
     "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
     "href": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
     "title": "Mini-test, versión A",
     "section": "Pregunta 4",
-    "text": "Pregunta 4\nVuestro .qmd tiene una sola celda de R, con estas tres líneas dentro. ¿Qué aparece en el HTML al renderizar?\n#| include: false\n# echo: false\nmean(c(10, 20, 30))\n\nEl código y [1] 20\nNada: ni el código ni el resultado\nSolo [1] 20\nSolo el código, sin el resultado"
+    "text": "Pregunta 4\nVuestro .qmd tiene una sola celda de R, con estas dos líneas. ¿Qué sale en el HTML?\n#| include: false\n# echo: false\nmean(c(2, 4, 6))\n\nEl código y [1] 4\nNada\nSolo [1] 4\nSolo el código"
   },
   {
     "objectID": "docs/MT-T00-A-CVWS.html",
@@ -487,28 +487,28 @@
     "href": "docs/MT-T00_01-B-ORCP.html#pregunta-1",
     "title": "Mini-test, versión B",
     "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué devuelve la última línea?\nventas &lt;- c(120, NA, 95, 110, NA)\nventas[is.na(ventas)] &lt;- 0   # linea ejecutada tambien\nmean(ventas, na.rm = TRUE)\n\nNA, porque basta un ausente\n108,33\n65\n81,25"
+    "text": "Pregunta 1\n¿Qué devuelve la última línea?\ngasto &lt;- c(2, 4, 6, 8)\nmean(gasto[gasto &gt;= 4])\n\n7\n6\n5\n14"
   },
   {
     "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-2",
     "href": "docs/MT-T00_01-B-ORCP.html#pregunta-2",
     "title": "Mini-test, versión B",
     "section": "Pregunta 2",
-    "text": "Pregunta 2\nCinco clientes valoran el servicio como alto (\"A\"), medio (\"M\") o bajo (\"B\"). ¿Qué devuelve la última línea?\nsatisf &lt;- c(\"A\", \"B\", \"A\", \"B\", \"M\")\nsatisf_f &lt;- factor(satisf,\n  order = TRUE,\n  levels = c(\"B\", \"M\", \"A\"),\n  labels = c(\"Bajo\", \"Medio\", \"Alto\")\n)\nsatisf_f &lt;- factor(satisf, levels = c(\"B\", \"M\", \"A\"), labels = c(\"Bajo\", \"Medio\", \"Alto\"))\nsatisf_f[1] &gt; satisf_f[5]\n\nTRUE\nNA, con un aviso de que &gt; no sirve para ese factor\nFALSE\nDa error, porque no se pueden comparar textos"
+    "text": "Pregunta 2\n¿Qué devuelve la última línea?\nnotas &lt;- c(2, 4, \"6\")\nnotas &lt;- notas[-1]   # ejecutado antes\nmean(as.numeric(notas))\n\n4\n5\nNA\nDa error, porque un vector no puede mezclar tipos"
   },
   {
     "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-3",
     "href": "docs/MT-T00_01-B-ORCP.html#pregunta-3",
     "title": "Mini-test, versión B",
     "section": "Pregunta 3",
-    "text": "Pregunta 3\n¿Qué devuelve la última línea?\ngasto &lt;- c(45, 60, 30, 75, 50)\nnames(gasto) &lt;- c(\"Ana\", \"Luis\", \"Marta\", \"Elena\", \"Jose\")\nnames(gasto) &lt;- sort(names(gasto))   # linea ejecutada tambien\ngasto[\"Marta\"] &lt;- 90\nmean(gasto[c(\"Ana\", \"Marta\", \"Jose\")])\n\n41,67\n61,67\n55\n64"
+    "text": "Pregunta 3\n¿Qué devuelve la última línea?\ngasto &lt;- c(2, 4, 6)\nnames(gasto) &lt;- c(\"Luis\", \"Ana\", \"Marta\")\nnames(gasto) &lt;- sort(names(gasto))   # ejecutado antes\ngasto[\"Luis\"]\n\n2\n4\n6\nNA"
   },
   {
     "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-4",
     "href": "docs/MT-T00_01-B-ORCP.html#pregunta-4",
     "title": "Mini-test, versión B",
     "section": "Pregunta 4",
-    "text": "Pregunta 4\nVuestro .qmd tiene dos celdas de R y nada más. La primera es esta:\n#| include: false\n#| eval: false\nx &lt;- c(4, 8, 12)\ny la segunda, que va después, es esta:\n#| echo: false\nmean(x)\n¿Qué pasa al renderizar?\n\nDa un error y no se genera el HTML: objeto 'x' no encontrado\nAparece solo [1] 8\nAparece x &lt;- c(4, 8, 12) y debajo [1] 8\nNo aparece nada, pero el HTML se genera sin problema"
+    "text": "Pregunta 4\nVuestro .qmd tiene dos celdas y nada más. La primera:\n#| include: false\n#| eval: false\nx &lt;- c(2, 4, 6)\ny después la segunda:\n#| echo: false\nmean(x)\n¿Qué pasa al renderizar?\n\nDa un error y no se genera el HTML\nSale solo [1] 4\nSale x &lt;- c(2, 4, 6) y debajo [1] 4\nNo sale nada, pero el HTML se genera"
   },
   {
     "objectID": "docs/Tema00.html#introducción",
