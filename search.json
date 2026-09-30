@@ -28,130 +28,74 @@
     "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nEntrega del ejercicio\nRellenad este FORMULARIO con vuestros datos y subid\n\nvuestro archivo de R\n\nIMPORTANTE: el nombre de los ficheros que subáis DEBE seguir este formato, que incluye vuestro identificador: ej.,\n\nTema00ej1_12345678.R\n\nCon DNI, los 8 números quitando la letra del final. Con NIE, la letra del principio y los números, quitando la del final. Con pasaporte u otro documento, entero, sin quitar nada."
   },
   {
-    "objectID": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
-    "href": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "El sistema de publicaciones Quarto",
-    "text": "El sistema de publicaciones Quarto\n\n\n\nOrientado al análisis de datos reproducible: combina código, resultados y comentarios\nÚtil como cuaderno de trabajo del código y para comunicar resultados en un documento final para tomar decisiones\n\n\n\n\n\n\n\n\n\nInstalar Quarto para vuestro sistema operativo desde aquí\n\nla web pide después elegir un editor: en Positron no hay que hacer nada más, ya trae la extensión de Quarto incorporada\n\nLa guía y referencia completa de Quarto están en su Web\nUn documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc.\n\n\n\nChuletas de Quarto y de Markdown en la web de Quarto (https://quarto.org/docs/guide/)."
+    "objectID": "docs/MT-T00_01-A-ORCP.html",
+    "href": "docs/MT-T00_01-A-ORCP.html",
+    "title": "Mini-test, versión A",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
   },
   {
-    "objectID": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
-    "href": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Documentos de Quarto: Crear y Guardar",
-    "text": "Documentos de Quarto: Crear y Guardar\n\nSe trabaja dentro de la carpeta del proyecto (File &gt; Open Folder); el documento se crea en File &gt; New File… &gt; Quarto Document y se guarda con extensión .qmd (Ctrl+S)\nSe renderiza con el botón Preview (Ctrl+Shift+K)\nEl resultado sale en el visor de la derecha y, a la vez, se crea el fichero en la carpeta del proyecto\nPara verlo como lo verá quien lo reciba, abridlo con doble clic desde el explorador de archivos del sistema: el .html se abre en el navegador, y un .pdf o .docx en su programa\n\n\n\n1 Preview · 2 guardar · 3 el fichero creado · 4 el visor\n\n\n\nSeñalar las cuatro marcas EN PANTALLA, sobre Positron, no sobre la slide.\nAtajos, por si preguntan: Ctrl+S guarda, Ctrl+Shift+K renderiza. Y desde la Terminal, quarto render informe.qmd (marginal: no abrir ese melón en clase).\nEn la captura el visor sale vacío porque se hizo antes de renderizar; en clase se ve lleno.\nLa casilla Render on Save renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo."
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\nv es un vector de cuatro números. ¿Qué devuelve la última línea?\nv &lt;- c(5, 10, 15, 20)\nv &lt;- rev(v)   # linea ejecutada tambien\nv[c(TRUE, FALSE)]\n\n5 y 15\n20 y 10\nSolo 5\n10 y 20"
   },
   {
-    "objectID": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
-    "href": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Documentos de Quarto: formato de salida",
-    "text": "Documentos de Quarto: formato de salida\n\nEl renderizado crea un archivo en el mismo directorio donde está el archivo de Quarto .qmd\nEn el caso de HTML, se crea tanto un archivo con extensión .html como un subdirectorio del mismo nombre con componentes necesarios (ej., imágenes, css)\n\nsolo podemos visualizar correctamente el archivo .html en cualquier navegador si copiamos a otro lugar tanto el .html como el subdirectorio\n\nLos formatos de salida posibles son html (el que viene por defecto), Word y PDF. Más adelante veremos dónde se elige\nPara PDF hay dos caminos:\n\npor LaTeX, que hay que instalar una vez (en la pestaña Terminal, a la derecha de la consola): quarto install tool tinytex\npor typst, que no necesita instalar nada: Quarto ya lo trae incorporado, y es mucho más rápido\n\nPara este curso, con html basta. Word y typst tampoco necesitan instalar nada\n\n\n\nComprobado en la documentación de Quarto (15-sep-2026): “Quarto includes the Typst CLI so no separate installation of Typst is required”.\nSeñalar dónde está la pestaña Terminal antes de escribir nada ahí.\nLaTeX sigue siendo mejor si hacen falta ecuaciones complejas o una plantilla académica concreta; para un informe normal, typst sobra."
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\n¿Qué devuelve la última línea?\nx &lt;- c(10, 20, 30)\nx[4]\n\nError: subscript out of bounds\nNA\nnumeric(0)\n30"
   },
   {
-    "objectID": "docs/Tema01.html#elegir-el-formato-desde-preview",
-    "href": "docs/Tema01.html#elegir-el-formato-desde-preview",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Elegir el formato desde Preview",
-    "text": "Elegir el formato desde Preview\n\nPreview es un desplegable: su flecha abre Preview Format…, que lista los formatos y renderiza al que se elija, sin tocar la cabecera\nAparece el que ya lleva el documento (Declared Formats) y los demás (Other Formats): PDF con typst, PDF con LaTeX y Word\n\n\n\n\nComprobado en Positron el 15-sep con un .qmd que solo declaraba format: html: el desplegable ofrecía Preview HTML bajo “Declared Formats”, y typst, pdf y docx bajo “Other Formats”.\nÚtil para el apartado a) del ejercicio, que pide renderizar a dos formatos: se puede hacer desde aquí sin editar el YAML, aunque en el ejercicio se pide cambiar la cabecera.\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado a), puntos i, ii, iv y v: crear la carpeta y el documento, guardarlo con su nombre y renderizarlo."
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nUn compañero escribe este bucle y le sorprende que haga algo teniendo x vacío. ¿Cuántas veces se entra en el bucle?\nx &lt;- numeric(0)\nfor (i in 1:length(x)) {\n  print(x[i])\n}\n\nNinguna, porque x está vacío\nUna, con i valiendo 0\nDos, con i valiendo 1 y luego 0\nNinguna: da error"
   },
   {
-    "objectID": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
-    "href": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Documentos de Quarto: Texto con Markdown",
-    "text": "Documentos de Quarto: Texto con Markdown\n\nLos componentes de texto están escritos en Markdown: un conjunto ligero de convenciones para archivos de texto sin formato. Por ejemplo,\n\ntodo lo escrito entre dos * como **Hola** se renderiza en negritas\nse utiliza # para indicar encabezados de secciones\n\nUna descripción completa, en la web de Quarto (Markdown Basics); también es útil este libro online.\n\n\n\nMarkdown está diseñado para ser fácil de leer y fácil de escribir. También es muy fácil de aprender. La siguiente guía muestra cómo usar el Markdown de Pandoc, una versión ligeramente extendida de Markdown que R Markdown entiende.\n\n\n\nFormato de texto\n*cursiva*  o _cursiva_\n**negrita**   __negrita__\n`código`\nsuperíndice^2^ y subíndice~2~\n~~tachado~~\nEncabezamientos\n# Encabezado de 1er. nivel\n## Encabezado de 2º nivel\n### Encabezado de 3er. nivel\n#### Encabezado de 4º nivel\n\nListas\n*   Item (elemento) de la lista (no numeradas)\n*   Item 2\n    - Sub-Item 2a (*, + y - son alternativas)\n        + sub-sub-item\n    - Sub-Item 2b\n\n1.  Item 1 de la lista numerada\n1.  Item 2. Los números se incrementan automáticamente.\n\n1)  Otra forma de crear listas numeradas.\n2)  También, se puede poner explícitamente el número.\n\n\n\nBloques de citas literales\n&gt; Esto es parte de un bloque de cita.\n&gt; Esto es parte del mismo bloque de cita.\n\n&gt;\n&gt; &gt; Esto es otro bloque de cita anidado.\n&gt; &gt; Esto es parte del bloque anidado.\n&gt;\n&gt; Esto es parte del bloque de cita de primer nivel.\nEsto es una línea normal\nNotas a pie de página\nEsto es un texto con nota al pie [^nota1]\ny esta es otra nota [^2]\n\n[^nota1]: Esto es una nota al pie de página.\n[^2]: Esto es la segunda nota al pie.\n\nLíneas de separación\n---\n***\nReferencias\n[Página de R][1]\n[1]: https://cran.r-project.org/\n\n#### Título 1 {#tit1}\n[Enlace a titulo1](#tit1)\n\nImaǵenes y enlaces\n![texto del subtítulo opcional](dirección/hacia/img.png)\n&lt;http://example.com&gt;\n[frase con vínculo](http://example.com)\n[![RUsers](http://rusersgroup.com/img/final5x5.png)](https://cran.r-project.org/ )\n\n\nTablas\nPrimer encabezado  | Segundo encabezado\n------------------ | ------------------\nCelda              | Celda\nCelda              | Celda\n\nCon alineación de columnas\n| Items    | Cantidad | Precio   |\n| :------- | :------: | -------: |\n| Item 1   | 15       | 9,050    |\n| Item 2   | 3250     | 239,99   |\n\n\nSe puede incluir código en HTML (útil para algunos formateos como centrar) y en LaTeX (útil para ecuaciones)\n; también se pueden incluir diagramas UML.\n\necuación en texto entre $ $ (en el editor visual: Insert &gt; Inline Math)\necuación aparte entre $$ $$ (en el editor visual: Insert &gt; Displayed Math)\n\nLos comentarios se escriben entre\nLa barra \\ delante de un símbolo de formato o enlace: muestra el símbolo, no aplica el formato: ej.,\\* muestra *, no empieza lista (idem para \\[ o \\$ ), enlace o ecuación\nprovoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\*\n\n\n\nPositron incorpora un editor visual de documentos de Quarto, similar a un procesador de texto\n\nun ventaja del modo no visual es el número de línea, para errores"
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\nEn un .qmd tenéis esta celda. ¿Qué aparece en el HTML al renderizar?\n```{r}\n#| echo: false\n#| eval: false\nmean(c(10, 20, 30))\n```\n\nEl código y el resultado\nEl resultado, [1] 20, sin el código\nNada: ni el código ni el resultado\nEl código, pero sin el resultado"
   },
   {
-    "objectID": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
-    "href": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Editor Visual de Quarto en Positron",
-    "text": "Editor Visual de Quarto en Positron\n\nUn .qmd se edita de dos formas: el texto tal cual (modo source), como hasta ahora, o en modo visual, ya con su formato\nEdit in Visual Mode está en el menú ... del editor, arriba a la derecha, y en el menú contextual que sale al pulsar el botón derecho sobre el documento\nPara volver, la misma entrada dice Edit in Source Mode\n\n\n\nAtajo: Ctrl+Shift+F4. También en la paleta de comandos (Ctrl+Shift+P)\n\n\n\nComprobado en Positron (extensión Quarto 1.138.0): el comando quarto.editInVisualMode está en el menú del editor (...), en el menú contextual del botón derecho y en la paleta, con el atajo Ctrl+Shift+F4. NO está en los menús File/View/Run de arriba: no buscarlo ahí en clase.\nEl mismo menú ... lleva Insert Code Cell (Ctrl+Shift+I) y Preview (Ctrl+Shift+K), que se usan enseguida.\nHACERLO en pantalla, no solo enseñar la imagen."
+    "objectID": "docs/MT-T00-A-CVWS.html",
+    "href": "docs/MT-T00-A-CVWS.html",
+    "title": "Mini-test, versión A",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
   },
   {
-    "objectID": "docs/Tema01.html#la-barra-del-editor-visual",
-    "href": "docs/Tema01.html#la-barra-del-editor-visual",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "La barra del editor visual",
-    "text": "La barra del editor visual\n\nSolo en modo visual aparece esta barra de herramientas:\n\n\n\nDesde ella se accede a\n\nformatos de texto (negritas, cursivas, encabezamientos) y listas\ninsertar enlaces, imágenes, notas a pie de página, tablas\nincluir ecuaciones (en LaTeX)\ntambién insertar directamente código HTML, comentarios, etc.\n\nLo que se escribe en modo visual es el mismo fichero: al volver a source se ve el Markdown que ha generado\n\n\n\nSEÑALAR en pantalla que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.\nCorrección ortográfica: en Positron se instala una extensión aparte (p.e. “Code Spell Checker” con diccionario de español); no viene de serie como en RStudio."
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-1",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-1",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n7.5\n10\nNA\nDa error"
   },
   {
-    "objectID": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
-    "href": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Formato en la cabecera: el bloque YAML",
-    "text": "Formato en la cabecera: el bloque YAML\n\nAl principio del documento, entre dos líneas con ---, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida\n\nen modo visual se inserta desde Insert &gt; YAML Metadata…, sin escribir los ---\n\nLos formatos de salida son html, pdf, docx (y otros en Quarto Presentations), y también opciones globales, algunas propias de cada formato (referencia)\n  ---\n  title: \"Título\"\n  author: Autor\n  date: 15-octubre-2025\n  format:\n    html:\n      toc: true              # índice\n      number-sections: true  # secciones numeradas\n      embed-resources: true  # archivo html autocontenido\n      theme: united          # más temas: https://bootswatch.com/3/\n  ---\n\n\nY ahora el resto del apartado a): iii, vi y vii."
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-2",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-2",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\n¿De qué tipo queda notas?\nnotas &lt;- c(7, 9, \"5\")\n\nNumérico, porque dos de los tres son números\nCarácter\nLógico\nDa error, porque no se pueden mezclar tipos"
   },
   {
-    "objectID": "docs/Tema01.html#fragmentos-o-celdas-de-código",
-    "href": "docs/Tema01.html#fragmentos-o-celdas-de-código",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Fragmentos o celdas de código",
-    "text": "Fragmentos o celdas de código\n\nEl documento lleva código de R que Quarto ejecuta al renderizar; hay dos formas, según dónde deba salir el resultado\nCódigo en línea: un valor dentro de una frase (“la media es 20.09”); icono &lt;/&gt; de la barra, o Insert &gt; Any… (Ctrl+/) y escribir inline\nUna celda: bloque de código aparte, el resultado sale debajo (Insert &gt; Executable Cell &gt; R)\n\n\n\nEn modo source ambas se escriben a mano: el código en línea, con `r ` y dentro el código; la celda, entre ```{r} y ```\n\n\n\nHacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.\nLa celda también se inserta con Ctrl+Shift+I, y desde el menú ... del editor (Insert Code Cell); comprobado en Positron.\nLa distinción que hay que dejar clara es DONDE sale el resultado: dentro de la frase (en línea) o debajo (celda). Se empieza por el código en línea, que es lo más pequeño y lo que más les sorprende.\nEl código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: La media es 20.090625."
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-3",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-3",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n7\nDa error, porque ficha es una lista y no se puede promediar\n14\nDa error, porque ficha[[2]] no es un número"
   },
   {
-    "objectID": "docs/Tema01.html#opciones-de-una-celda",
-    "href": "docs/Tema01.html#opciones-de-una-celda",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones de una celda",
-    "text": "Opciones de una celda\n\nVan dentro de la celda, en sus primeras líneas, precedidas de #| (almohadilla y barra vertical; con # a secas es un comentario y la opción NO se aplica)\n\n```{r}\n#| echo: false\nmean(mtcars$mpg)\n```\n\necho (¿se ve el código?) y eval (¿se ejecuta?) son independientes:\n\n\n\n\necho\neval\nse ve el código\nse ejecuta\nse ve el resultado\n\n\n\n\ntrue\ntrue\nsí\nsí\nsí\n\n\nfalse\ntrue\nno\nsí\nsí\n\n\ntrue\nfalse\nsí\nno\nno\n\n\n\n\n\nEl error de todos los años: escribir # en vez de #|. Provocarlo en vivo.\nSi un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iv del ejercicio.\nLas opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí)."
-  },
-  {
-    "objectID": "docs/Tema01.html#otras-opciones-de-celda",
-    "href": "docs/Tema01.html#otras-opciones-de-celda",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Otras opciones de celda",
-    "text": "Otras opciones de celda\n\n\noutput: false oculta solo el resultado; include: false no muestra nada, pero sí ejecuta\nmessage, warning y error: si se muestra lo que R va contando por el camino\nlabel: una etiqueta para identificar la celda\ncode-fold: true oculta el código pero da opción a mostrarlo\nCómo mostrar resultados de texto y numéricos:\n\nresults: hide (no mostrar)\nresults: hold (mostrar todo, no el resultado de cada línea)\n\n\n\n\n\nNinguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que include: false ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo."
-  },
-  {
-    "objectID": "docs/Tema01.html#la-primera-celda-del-documento",
-    "href": "docs/Tema01.html#la-primera-celda-del-documento",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "La primera celda del documento",
-    "text": "La primera celda del documento\n\nTodo documento empieza con una celda que prepara el entorno: ahí se declaran las bibliotecas que se van a usar y se ejecuta lo que necesiten las demás celdas\nLleva include: false: se ejecuta, pero no se ve ni ella ni sus mensajes\n\n```{r}\n#| include: false\nlibrary(AER)\n```\n\nHace falta porque al renderizar se abre una sesión de R nueva y vacía: el documento no ve nada de lo que tengáis en la consola y tiene que cargar lo suyo\nCogedlo como costumbre: primera celda, entorno preparado. Vale para el resto del curso\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado b), empezando por esa primera celda.\n\n\n\n\n\nEs el hábito que más se arrastra: en los ejercicios largos y en el trabajo final la primera celda será siempre esta.\nVa despues de las opciones porque usa include: false, que acaban de ver.\nAER la conocen del Tema 00 (ahi se instala y se carga). No se estrena una biblioteca nueva en la celda que sirve de modelo.\nComprobado el 21-sep: un .qmd con solo texto y 20.090625 renderiza el codigo literal, sin ejecutar; basta una celda de R para que funcione. Es otra razon para la celda inicial, pero no se cuenta en la transparencia."
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-de-presentación",
-    "href": "docs/Tema01.html#opciones-de-presentación",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones de presentación",
-    "text": "Opciones de presentación\n\n\nfig-cap y tbl-cap para los títulos de las figuras y tablas\nCómo mostrar los gráficos: fig-show\n\nhide y hold son como en results\nasis muestra el gráfico como se generó\nanimate concatena varios gráficos en una animación\n\nfig-width y fig-height: dimensiones (reales, en pulgadas) de una figura\nout-width y out-height: ídem en el documento de salida (% de las reales)\nLista completa de opciones aquí"
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-para-figuras",
-    "href": "docs/Tema01.html#opciones-para-figuras",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones para figuras",
-    "text": "Opciones para figuras\n\n\nfig-align: mostrar la figura centrada o alineada a derecha o izquierda\nlayout-ncol: en cuántas columnas se componen los resultados\n\nlibrary(ggplot2)\nggplot(cars) + geom_histogram(aes(x = speed))\nggplot(cars) + geom_histogram(aes(x = dist))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado c), los dos gráficos uno al lado del otro con layout-ncol."
-  },
-  {
-    "objectID": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
-    "href": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Opciones globales para todas las celdas",
-    "text": "Opciones globales para todas las celdas\n\nEn la cabecera, especificamos opciones por defecto para las celdas de código\n\np.e., de ejecución como echo, eval, etc. en execute (ver aquí y aquí)\n---\nexecute:\n  echo: false\n  warning: false\n---\nTambién otras opciones que ya hemos visto (aquí listado completo para html)\n---\nformat:\n  html:\n    code-fold: true\n    cap-location: bottom\n    fig-align: center\n    df-print: paged      # cómo visualizar tablas\n---\n\n\n\n\nTambién existen enabled: false y freeze. Sección de ejecución en https://quarto.org/docs/computations/r.html"
-  },
-  {
-    "objectID": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
-    "href": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Ejecución de código en un documento .qmd",
-    "text": "Ejecución de código en un documento .qmd\n\nRenderizar un .qmd crea un espacio de trabajo para ejecutar el código distinto del de nuestra consola (diferentes objetos, bibliotecas, etc.)\n\nsi no estamos en la carpeta correcta, el directorio de trabajo puede ser diferente\n\nComprobamos los resultados del código del .qmd ejecutándolo sin renderizar: línea a línea (Ctrl + Enter), o con los enlaces que aparecen sobre cada celda: Run Cell (esa celda), Run Above (todas las anteriores) y Run Next Cell\n\nasí, el código pasa a la consola y sí forma parte del espacio de la sesión actual\nnos aseguramos de que no hay errores (ej., objetos previos no definidos)\n\nLa celda inicial que ya hemos visto sirve también para esto: como lleva include: false, se puede poner en ella\n\nrm(list = ls()): al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos, sólo con lo del .qmd\nTodas las bibliotecas que se usen en varias celdas (con library(), como en el Tema 00)\n\n\n\n\nComprobado en Positron el 15-sep: los enlaces sobre las celdas son Run Cell, Run Next Cell y Run Above (esta última no aparece en la primera celda, porque no hay nada encima). Run Above NO ejecuta la celda actual.\nLa demostración que convence: definir un objeto en la consola y usarlo en una celda del .qmd. Ejecutando la celda funciona; al renderizar, falla. De ahí sale casi todo el “a mí me funciona y no me renderiza”."
-  },
-  {
-    "objectID": "docs/Tema01.html#mejorar-la-salida-de-tablas",
-    "href": "docs/Tema01.html#mejorar-la-salida-de-tablas",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Mejorar la salida de tablas",
-    "text": "Mejorar la salida de tablas\n\nLa salida “en crudo” de R es correcta y poco presentable. knitr::kable() la convierte en una tabla con formato:\n\n\nknitr::kable(head(mtcars[, 1:5]))\n\n\nkableExtra añade estilos, anchos, cabeceras agrupadas… (guía)\nPrimero que el número sea el correcto; después, que la tabla se vea bien\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartados d) y e): mostrar mtcars con kbl() y comparar con la salida cruda, y luego las opciones de cabecera (df-print: paged, code-fold, tema).\n\n\n\n\n\nPara ir más lejos: broom::tidy() convierte resultados de modelos en tablas; modelsummary genera tablas de regresión y de descriptivos; también existen printr, pander, stargazer y xtable. La versión completa de esta lista está en el comentario de debajo.\nNo nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.\nEl ejercicio (d.ii) da las ordenes anidadas, kable_styling(kbl(mtcars)), no con el pipe |&gt;, que no se ha visto. En la documentacion de kableExtra aparecen con pipe: si alguien copia de ahi y pregunta, es lo mismo escrito al reves. No abrir el tema en clase."
-  },
-  {
-    "objectID": "docs/Tema01.html#comentarios-finales",
-    "href": "docs/Tema01.html#comentarios-finales",
-    "title": "Tema 01 - Informes reproducibles con Quarto",
-    "section": "Comentarios finales",
-    "text": "Comentarios finales\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nEjemplos de sus capacidades usando el paquete shiny, shinydashboards o flexdashboard\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-4",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-4",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\nDa error, porque los vectores no miden igual\n9 10\n9 10 27 20"
   },
   {
     "objectID": "docs/Tema01ej.html",
@@ -257,104 +201,6 @@
     "title": "Introducción",
     "section": "Cómo funciona el curso",
     "text": "Cómo funciona el curso\n\nLeed en la web de la asignatura:\n\nEvaluación: cómo funcionan las clases (venir con el material trabajado) y cómo se evalúa\nPuesta a punto: qué instalar LO ANTES POSIBLE (R y Positron)\nContenidos: el material de cada semana, siempre actualizado"
-  },
-  {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
-    "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData"
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "",
-    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
-  },
-  {
-    "objectID": "PuestaAPunto.html",
-    "href": "PuestaAPunto.html",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. El orden importa: primero R y después Positron (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
-  },
-  {
-    "objectID": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
-    "href": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
-  },
-  {
-    "objectID": "PuestaAPunto.html#después-positron-el-editor",
-    "href": "PuestaAPunto.html#después-positron-el-editor",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
-    "section": "",
-    "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nWeb: https://albarran.github.io\n\n\ne-mail: albarran@ua.es o albarran@gcloud.ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nWeb: https://henryredondo.github.io/\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nNecesitaréis tener instalado en vuestro ordenador software (totalmente gratuito) para trabajar en el curso. Instaladlo LO ANTES POSIBLE siguiendo las instrucciones paso a paso de la página Puesta a punto.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizado antes de instalar nada.\n\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
-  },
-  {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
-    "section": "",
-    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
-  },
-  {
-    "objectID": "ProyectoFinal.html#importante-plagio",
-    "href": "ProyectoFinal.html#importante-plagio",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO",
-    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
   },
   {
     "objectID": "docs/Tema02.html#por-qué-visualizar-datos",
@@ -530,6 +376,139 @@
     "title": "Tema 02 - Visualización de datos",
     "section": "Comentarios Finales",
     "text": "Comentarios Finales\n\nGuardar gráficos: en el panel Plots, con el botón Save Plot (en RStudio era Export), o con el comando\n\n\nggsave(\"analisis-ventas.pdf\")\nggsave(\"dashboard-macro.png\", width = 12, height = 8, dpi = 300)\n\n\n\nRecursos de Ayuda\n\nHelp &gt; Cheatsheets &gt; Data Visualization with ggplot2\nChuletas de R, ggplot2 y más\nR Graph Gallery\nggplot2 book\n\nOtras bibliotecas de gráficos en R\n\nplotly: gráficos interactivos para dashboards\ngganimate: animaciones para evolución temporal\n\n\n\n\npatchwork: combinación de gráficos para reportes"
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
+  },
+  {
+    "objectID": "ProyectoFinal.html#importante-plagio",
+    "href": "ProyectoFinal.html#importante-plagio",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO",
+    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Técnicas para ‘Big Data’ en Economía (UA)",
+    "section": "",
+    "text": "Profesores:\n\nPedro AlbarránHenry RedondoLuis Pérez\n\n\n\nWeb: https://albarran.github.io\n\n\ne-mail: albarran@ua.es o albarran@gcloud.ua.es\nTutorias:\n\nLunes de 11h a 12:50h\nMiércoles de 11h a 12:50h\nViernes de 11 a 12:50h\n\n(solicitada previamente con al menos 24 horas de antelación, por UACloud o email)\nTambién podéis usar UACloud\n\n\n\n\nWeb: https://henryredondo.github.io/\ne-mail: henry.redondo@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\ne-mail: luis.perez@ua.es\nDespacho y tutorías: por confirmar al inicio del curso\nTambién podéis usar la herramienta de tutorías de UACloud\n\n\n\n\n\n\n\nObjetivos\n\nAprender extraer información de los datos, especialmente datos masivos (“big data”)\nEnfoque práctico: aprenderemos técnicas y cómo aplicarlas para usar la información en crear valor (analítica de negocios)\nTres Componentes:\n\nNociones de Programación\nObtención y Procesamiento de Datos\nModelos de Aprendizaje Estadístico\n\nMás detalles a lo largo del curso y en la ficha de la asignatura\n\n\n\n\nInformación para las clases\n\nEs muy recomendable que cada estudiante trabaje en clase con su propio ordenador de forma habitual\n\nNota: considerad el uso de regletas si necesitáis enchufar vuestros dispositivos (especialmente, si sus baterías tienen poca duración).\n\n\n\nNecesitaréis tener instalado en vuestro ordenador software (totalmente gratuito) para trabajar en el curso. Instaladlo LO ANTES POSIBLE siguiendo las instrucciones paso a paso de la página Puesta a punto.\n\nOJO: es conveniente tener el sistema de vuestros ordenadores actualizado antes de instalar nada.\n\nMás adelante (dependiendo del tiempo e intereses de los alumnos) se considerará software adicional"
+  },
+  {
+    "objectID": "PuestaAPunto.html",
+    "href": "PuestaAPunto.html",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. El orden importa: primero R y después Positron (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+  },
+  {
+    "objectID": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
+    "href": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
+  },
+  {
+    "objectID": "PuestaAPunto.html#después-positron-el-editor",
+    "href": "PuestaAPunto.html#después-positron-el-editor",
+    "title": "Puesta a punto",
+    "section": "",
+    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+  },
+  {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
+  },
+  {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
+  },
+  {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
+    "section": "",
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData"
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+  },
+  {
+    "objectID": "docs/MT-T00_01-B-ORCP.html",
+    "href": "docs/MT-T00_01-B-ORCP.html",
+    "title": "Mini-test, versión B",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
+  },
+  {
+    "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-1",
+    "href": "docs/MT-T00_01-B-ORCP.html#pregunta-1",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\nEn un .qmd tenéis esta celda. ¿Qué aparece en el HTML al renderizar?\n```{r}\n#| echo: false\n#| eval: false\nmean(c(10, 20, 30))\n```\n\nNada: ni el código ni el resultado\nEl código, pero sin el resultado\nEl resultado, [1] 20, sin el código\nEl código y el resultado"
+  },
+  {
+    "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-2",
+    "href": "docs/MT-T00_01-B-ORCP.html#pregunta-2",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\nUn compañero escribe este bucle y le sorprende que haga algo teniendo x vacío. ¿Cuántas veces se entra en el bucle?\nx &lt;- numeric(0)\nfor (i in 1:length(x)) {\n  print(x[i])\n}\n\nDos, con i valiendo 1 y luego 0\nNinguna, porque x está vacío\nNinguna: da error\nUna, con i valiendo 0"
+  },
+  {
+    "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-3",
+    "href": "docs/MT-T00_01-B-ORCP.html#pregunta-3",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nv es un vector de cuatro números. ¿Qué devuelve la última línea?\nv &lt;- c(5, 10, 15, 20)\nv &lt;- rev(v)   # linea ejecutada tambien\nv[c(TRUE, FALSE)]\n\n10 y 20\n20 y 10\n5 y 15\nSolo 5"
+  },
+  {
+    "objectID": "docs/MT-T00_01-B-ORCP.html#pregunta-4",
+    "href": "docs/MT-T00_01-B-ORCP.html#pregunta-4",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\n¿Qué devuelve esta línea?\nas.numeric(factor(c(10, 20, 30)))\n\n10 20 30\nError, porque un factor no es un número\n1 2 3\nNA NA NA"
   },
   {
     "objectID": "docs/Tema00.html#introducción",
@@ -840,39 +819,144 @@
     "text": "Nota sobre programación “avanzada”\n\nComo en todo lenguaje de programación R, tiene funciones para\n\nEjecución condicional if(): una parte del código se ejecuta solo si se cumple una condición\nBucles for(): se repite un mismo bloque de código mientras se itera por los valores de vector\nCrear funciones propias con function()\n\nUna variante de la ejecución condicional, solo para crear variables según una condición\n\n\ndata(\"Affairs\", package = \"AER\")\nAffairs$univers &lt;- ifelse(Affairs$education &gt; 15, 1, 0)\n\n\n\nTanto if-else como for pueden escribirse en una sola línea sin \\{ si solo incluye un comando en el bloque entre llaves:\n\nif (p&lt;=0.05) decision &lt;- \"Rechazar H0\" else decision &lt;- \"NO Rechazar H0\"\n\nPueden anidarse if-else, for y ambos\nOtros comandos de bucles: while, repeat, replicate, apply, lapply, y otros (map) en bibliotecas adicionales"
   },
   {
-    "objectID": "docs/MT-T00-A-CVWS.html",
-    "href": "docs/MT-T00-A-CVWS.html",
-    "title": "Mini-test, versión A",
+    "objectID": "docs/MT-T00_01-ORCP.html",
+    "href": "docs/MT-T00_01-ORCP.html",
+    "title": "Mini-test",
     "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
+    "text": "si acaba en\nvuestra versión\n\n\n\n\nnúmero par (0, 2, 4, 6, 8)\nversión A\n\n\nnúmero impar (1, 3, 5, 7, 9)\nversión B\n\n\n\nAbrid solo la vuestra."
   },
   {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-1",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-1",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n7.5\n10\nNA\nDa error"
+    "objectID": "docs/MT-T00_01-ORCP.html#mirad-el-último-número-de-vuestro-dni",
+    "href": "docs/MT-T00_01-ORCP.html#mirad-el-último-número-de-vuestro-dni",
+    "title": "Mini-test",
+    "section": "",
+    "text": "si acaba en\nvuestra versión\n\n\n\n\nnúmero par (0, 2, 4, 6, 8)\nversión A\n\n\nnúmero impar (1, 3, 5, 7, 9)\nversión B\n\n\n\nAbrid solo la vuestra."
   },
   {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-2",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-2",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\n¿De qué tipo queda notas?\nnotas &lt;- c(7, 9, \"5\")\n\nNumérico, porque dos de los tres son números\nCarácter\nLógico\nDa error, porque no se pueden mezclar tipos"
+    "objectID": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
+    "href": "docs/Tema01.html#el-sistema-de-publicaciones-quarto",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "El sistema de publicaciones Quarto",
+    "text": "El sistema de publicaciones Quarto\n\n\n\nOrientado al análisis de datos reproducible: combina código, resultados y comentarios\nÚtil como cuaderno de trabajo del código y para comunicar resultados en un documento final para tomar decisiones\n\n\n\n\n\n\n\n\n\nInstalar Quarto para vuestro sistema operativo desde aquí\n\nla web pide después elegir un editor: en Positron no hay que hacer nada más, ya trae la extensión de Quarto incorporada\n\nLa guía y referencia completa de Quarto están en su Web\nUn documento de Quarto se renderiza, procesando cada componente (código, resultado de ejecutarlo y texto) para producir documentos en varios formatos: html, PDF, Word, presentaciones, etc.\n\n\n\nChuletas de Quarto y de Markdown en la web de Quarto (https://quarto.org/docs/guide/)."
   },
   {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-3",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-3",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n7\nDa error, porque ficha es una lista y no se puede promediar\n14\nDa error, porque ficha[[2]] no es un número"
+    "objectID": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
+    "href": "docs/Tema01.html#documentos-de-quarto-crear-y-guardar",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Documentos de Quarto: Crear y Guardar",
+    "text": "Documentos de Quarto: Crear y Guardar\n\nSe trabaja dentro de la carpeta del proyecto (File &gt; Open Folder); el documento se crea en File &gt; New File… &gt; Quarto Document y se guarda con extensión .qmd (Ctrl+S)\nSe renderiza con el botón Preview (Ctrl+Shift+K)\nEl resultado sale en el visor de la derecha y, a la vez, se crea el fichero en la carpeta del proyecto\nPara verlo como lo verá quien lo reciba, abridlo con doble clic desde el explorador de archivos del sistema: el .html se abre en el navegador, y un .pdf o .docx en su programa\n\n\n\n1 Preview · 2 guardar · 3 el fichero creado · 4 el visor\n\n\n\nSeñalar las cuatro marcas EN PANTALLA, sobre Positron, no sobre la slide.\nAtajos, por si preguntan: Ctrl+S guarda, Ctrl+Shift+K renderiza. Y desde la Terminal, quarto render informe.qmd (marginal: no abrir ese melón en clase).\nEn la captura el visor sale vacío porque se hizo antes de renderizar; en clase se ve lleno.\nLa casilla Render on Save renderiza cada vez que se guarda: cómoda, pero al principio despista porque parece que se renderiza solo."
   },
   {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-4",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-4",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 4",
-    "text": "Pregunta 4\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\nDa error, porque los vectores no miden igual\n9 10\n9 10 27 20"
+    "objectID": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
+    "href": "docs/Tema01.html#documentos-de-quarto-formato-de-salida",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Documentos de Quarto: formato de salida",
+    "text": "Documentos de Quarto: formato de salida\n\nEl renderizado crea un archivo en el mismo directorio donde está el archivo de Quarto .qmd\nEn el caso de HTML, se crea tanto un archivo con extensión .html como un subdirectorio del mismo nombre con componentes necesarios (ej., imágenes, css)\n\nsolo podemos visualizar correctamente el archivo .html en cualquier navegador si copiamos a otro lugar tanto el .html como el subdirectorio\n\nLos formatos de salida posibles son html (el que viene por defecto), Word y PDF. Más adelante veremos dónde se elige\nPara PDF hay dos caminos:\n\npor LaTeX, que hay que instalar una vez (en la pestaña Terminal, a la derecha de la consola): quarto install tool tinytex\npor typst, que no necesita instalar nada: Quarto ya lo trae incorporado, y es mucho más rápido\n\nPara este curso, con html basta. Word y typst tampoco necesitan instalar nada\n\n\n\nComprobado en la documentación de Quarto (15-sep-2026): “Quarto includes the Typst CLI so no separate installation of Typst is required”.\nSeñalar dónde está la pestaña Terminal antes de escribir nada ahí.\nLaTeX sigue siendo mejor si hacen falta ecuaciones complejas o una plantilla académica concreta; para un informe normal, typst sobra."
+  },
+  {
+    "objectID": "docs/Tema01.html#elegir-el-formato-desde-preview",
+    "href": "docs/Tema01.html#elegir-el-formato-desde-preview",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Elegir el formato desde Preview",
+    "text": "Elegir el formato desde Preview\n\nPreview es un desplegable: su flecha abre Preview Format…, que lista los formatos y renderiza al que se elija, sin tocar la cabecera\nAparece el que ya lleva el documento (Declared Formats) y los demás (Other Formats): PDF con typst, PDF con LaTeX y Word\n\n\n\n\nComprobado en Positron el 15-sep con un .qmd que solo declaraba format: html: el desplegable ofrecía Preview HTML bajo “Declared Formats”, y typst, pdf y docx bajo “Other Formats”.\nÚtil para el apartado a) del ejercicio, que pide renderizar a dos formatos: se puede hacer desde aquí sin editar el YAML, aunque en el ejercicio se pide cambiar la cabecera.\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado a), puntos i, ii, iv y v: crear la carpeta y el documento, guardarlo con su nombre y renderizarlo."
+  },
+  {
+    "objectID": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
+    "href": "docs/Tema01.html#documentos-de-quarto-texto-con-markdown",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Documentos de Quarto: Texto con Markdown",
+    "text": "Documentos de Quarto: Texto con Markdown\n\nLos componentes de texto están escritos en Markdown: un conjunto ligero de convenciones para archivos de texto sin formato. Por ejemplo,\n\ntodo lo escrito entre dos * como **Hola** se renderiza en negritas\nse utiliza # para indicar encabezados de secciones\n\nUna descripción completa, en la web de Quarto (Markdown Basics); también es útil este libro online.\n\n\n\nMarkdown está diseñado para ser fácil de leer y fácil de escribir. También es muy fácil de aprender. La siguiente guía muestra cómo usar el Markdown de Pandoc, una versión ligeramente extendida de Markdown que R Markdown entiende.\n\n\n\nFormato de texto\n*cursiva*  o _cursiva_\n**negrita**   __negrita__\n`código`\nsuperíndice^2^ y subíndice~2~\n~~tachado~~\nEncabezamientos\n# Encabezado de 1er. nivel\n## Encabezado de 2º nivel\n### Encabezado de 3er. nivel\n#### Encabezado de 4º nivel\n\nListas\n*   Item (elemento) de la lista (no numeradas)\n*   Item 2\n    - Sub-Item 2a (*, + y - son alternativas)\n        + sub-sub-item\n    - Sub-Item 2b\n\n1.  Item 1 de la lista numerada\n1.  Item 2. Los números se incrementan automáticamente.\n\n1)  Otra forma de crear listas numeradas.\n2)  También, se puede poner explícitamente el número.\n\n\n\nBloques de citas literales\n&gt; Esto es parte de un bloque de cita.\n&gt; Esto es parte del mismo bloque de cita.\n\n&gt;\n&gt; &gt; Esto es otro bloque de cita anidado.\n&gt; &gt; Esto es parte del bloque anidado.\n&gt;\n&gt; Esto es parte del bloque de cita de primer nivel.\nEsto es una línea normal\nNotas a pie de página\nEsto es un texto con nota al pie [^nota1]\ny esta es otra nota [^2]\n\n[^nota1]: Esto es una nota al pie de página.\n[^2]: Esto es la segunda nota al pie.\n\nLíneas de separación\n---\n***\nReferencias\n[Página de R][1]\n[1]: https://cran.r-project.org/\n\n#### Título 1 {#tit1}\n[Enlace a titulo1](#tit1)\n\nImaǵenes y enlaces\n![texto del subtítulo opcional](dirección/hacia/img.png)\n&lt;http://example.com&gt;\n[frase con vínculo](http://example.com)\n[![RUsers](http://rusersgroup.com/img/final5x5.png)](https://cran.r-project.org/ )\n\n\nTablas\nPrimer encabezado  | Segundo encabezado\n------------------ | ------------------\nCelda              | Celda\nCelda              | Celda\n\nCon alineación de columnas\n| Items    | Cantidad | Precio   |\n| :------- | :------: | -------: |\n| Item 1   | 15       | 9,050    |\n| Item 2   | 3250     | 239,99   |\n\n\nSe puede incluir código en HTML (útil para algunos formateos como centrar) y en LaTeX (útil para ecuaciones)\n; también se pueden incluir diagramas UML.\n\necuación en texto entre $ $ (en el editor visual: Insert &gt; Inline Math)\necuación aparte entre $$ $$ (en el editor visual: Insert &gt; Displayed Math)\n\nLos comentarios se escriben entre\nLa barra \\ delante de un símbolo de formato o enlace: muestra el símbolo, no aplica el formato: ej.,\\* muestra *, no empieza lista (idem para \\[ o \\$ ), enlace o ecuación\nprovoca que no tengan efecto a la hora de convertirse en negritas, cursivas, links, etc.: \\*\n\n\n\nPositron incorpora un editor visual de documentos de Quarto, similar a un procesador de texto\n\nun ventaja del modo no visual es el número de línea, para errores"
+  },
+  {
+    "objectID": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
+    "href": "docs/Tema01.html#editor-visual-de-quarto-en-positron",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Editor Visual de Quarto en Positron",
+    "text": "Editor Visual de Quarto en Positron\n\nUn .qmd se edita de dos formas: el texto tal cual (modo source), como hasta ahora, o en modo visual, ya con su formato\nEdit in Visual Mode está en el menú ... del editor, arriba a la derecha, y en el menú contextual que sale al pulsar el botón derecho sobre el documento\nPara volver, la misma entrada dice Edit in Source Mode\n\n\n\nAtajo: Ctrl+Shift+F4. También en la paleta de comandos (Ctrl+Shift+P)\n\n\n\nComprobado en Positron (extensión Quarto 1.138.0): el comando quarto.editInVisualMode está en el menú del editor (...), en el menú contextual del botón derecho y en la paleta, con el atajo Ctrl+Shift+F4. NO está en los menús File/View/Run de arriba: no buscarlo ahí en clase.\nEl mismo menú ... lleva Insert Code Cell (Ctrl+Shift+I) y Preview (Ctrl+Shift+K), que se usan enseguida.\nHACERLO en pantalla, no solo enseñar la imagen."
+  },
+  {
+    "objectID": "docs/Tema01.html#la-barra-del-editor-visual",
+    "href": "docs/Tema01.html#la-barra-del-editor-visual",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "La barra del editor visual",
+    "text": "La barra del editor visual\n\nSolo en modo visual aparece esta barra de herramientas:\n\n\n\nDesde ella se accede a\n\nformatos de texto (negritas, cursivas, encabezamientos) y listas\ninsertar enlaces, imágenes, notas a pie de página, tablas\nincluir ecuaciones (en LaTeX)\ntambién insertar directamente código HTML, comentarios, etc.\n\nLo que se escribe en modo visual es el mismo fichero: al volver a source se ve el Markdown que ha generado\n\n\n\nSEÑALAR en pantalla que al volver a source el texto está ahí escrito. Es lo que convence de que no son dos documentos distintos.\nCorrección ortográfica: en Positron se instala una extensión aparte (p.e. “Code Spell Checker” con diccionario de español); no viene de serie como en RStudio."
+  },
+  {
+    "objectID": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
+    "href": "docs/Tema01.html#formato-en-la-cabecera-el-bloque-yaml",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Formato en la cabecera: el bloque YAML",
+    "text": "Formato en la cabecera: el bloque YAML\n\nAl principio del documento, entre dos líneas con ---, se pueden especificar varias opciones del documento: título, autor, fecha, formato de salida\n\nen modo visual se inserta desde Insert &gt; YAML Metadata…, sin escribir los ---\n\nLos formatos de salida son html, pdf, docx (y otros en Quarto Presentations), y también opciones globales, algunas propias de cada formato (referencia)\n  ---\n  title: \"Título\"\n  author: Autor\n  date: 15-octubre-2025\n  format:\n    html:\n      toc: true              # índice\n      number-sections: true  # secciones numeradas\n      embed-resources: true  # archivo html autocontenido\n      theme: united          # más temas: https://bootswatch.com/3/\n  ---\n\n\nY ahora el resto del apartado a): iii, vi y vii."
+  },
+  {
+    "objectID": "docs/Tema01.html#fragmentos-o-celdas-de-código",
+    "href": "docs/Tema01.html#fragmentos-o-celdas-de-código",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Fragmentos o celdas de código",
+    "text": "Fragmentos o celdas de código\n\nEl documento lleva código de R que Quarto ejecuta al renderizar; hay dos formas, según dónde deba salir el resultado\nCódigo en línea: un valor dentro de una frase (“la media es 20.09”); icono &lt;/&gt; de la barra, o Insert &gt; Any… (Ctrl+/) y escribir inline\nUna celda: bloque de código aparte, el resultado sale debajo (Insert &gt; Executable Cell &gt; R)\n\n\n\nEn modo source ambas se escriben a mano: el código en línea, con `r ` y dentro el código; la celda, entre ```{r} y ```\n\n\n\nHacerlo EN VIVO y en este orden: primero con el menú Insert en modo visual, que es lo que van a usar, y solo después enseñar cómo queda escrito en source.\nLa celda también se inserta con Ctrl+Shift+I, y desde el menú ... del editor (Insert Code Cell); comprobado en Positron.\nLa distinción que hay que dejar clara es DONDE sale el resultado: dentro de la frase (en línea) o debajo (celda). Se empieza por el código en línea, que es lo más pequeño y lo que más les sorprende.\nEl código en línea es el que más les sorprende: una frase con un número que se recalcula solo. Ejemplo para teclear: La media es 20.090625."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-de-una-celda",
+    "href": "docs/Tema01.html#opciones-de-una-celda",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones de una celda",
+    "text": "Opciones de una celda\n\nVan dentro de la celda, en sus primeras líneas, precedidas de #| (almohadilla y barra vertical; con # a secas es un comentario y la opción NO se aplica)\n\n```{r}\n#| echo: false\nmean(mtcars$mpg)\n```\n\necho (¿se ve el código?) y eval (¿se ejecuta?) son independientes:\n\n\n\n\necho\neval\nse ve el código\nse ejecuta\nse ve el resultado\n\n\n\n\ntrue\ntrue\nsí\nsí\nsí\n\n\nfalse\ntrue\nno\nsí\nsí\n\n\ntrue\nfalse\nsí\nno\nno\n\n\n\n\n\nEl error de todos los años: escribir # en vez de #|. Provocarlo en vivo.\nSi un fragmento no se evalúa, lo que define tampoco existe para las celdas siguientes: es el apartado b.iv del ejercicio.\nLas opciones se escriben a mano también en modo visual; no hay menú para ellas en Positron (RStudio sí)."
+  },
+  {
+    "objectID": "docs/Tema01.html#otras-opciones-de-celda",
+    "href": "docs/Tema01.html#otras-opciones-de-celda",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Otras opciones de celda",
+    "text": "Otras opciones de celda\n\n\noutput: false oculta solo el resultado; include: false no muestra nada, pero sí ejecuta\nmessage, warning y error: si se muestra lo que R va contando por el camino\nlabel: una etiqueta para identificar la celda\ncode-fold: true oculta el código pero da opción a mostrarlo\nCómo mostrar resultados de texto y numéricos:\n\nresults: hide (no mostrar)\nresults: hold (mostrar todo, no el resultado de cada línea)\n\n\n\n\n\nNinguna hay que memorizarla: se consultan. Lo que sí conviene que retengan es que include: false ejecuta aunque no muestre nada, que es como se prepara el documento sin ensuciarlo."
+  },
+  {
+    "objectID": "docs/Tema01.html#la-primera-celda-del-documento",
+    "href": "docs/Tema01.html#la-primera-celda-del-documento",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "La primera celda del documento",
+    "text": "La primera celda del documento\n\nTodo documento empieza con una celda que prepara el entorno: ahí se declaran las bibliotecas que se van a usar y se ejecuta lo que necesiten las demás celdas\nLleva include: false: se ejecuta, pero no se ve ni ella ni sus mensajes\n\n```{r}\n#| include: false\nlibrary(AER)\n```\n\nHace falta porque al renderizar se abre una sesión de R nueva y vacía: el documento no ve nada de lo que tengáis en la consola y tiene que cargar lo suyo\nCogedlo como costumbre: primera celda, entorno preparado. Vale para el resto del curso\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado b), empezando por esa primera celda.\n\n\n\n\n\nEs el hábito que más se arrastra: en los ejercicios largos y en el trabajo final la primera celda será siempre esta.\nVa despues de las opciones porque usa include: false, que acaban de ver.\nAER la conocen del Tema 00 (ahi se instala y se carga). No se estrena una biblioteca nueva en la celda que sirve de modelo.\nComprobado el 21-sep: un .qmd con solo texto y 20.090625 renderiza el codigo literal, sin ejecutar; basta una celda de R para que funcione. Es otra razon para la celda inicial, pero no se cuenta en la transparencia."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-de-presentación",
+    "href": "docs/Tema01.html#opciones-de-presentación",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones de presentación",
+    "text": "Opciones de presentación\n\n\nfig-cap y tbl-cap para los títulos de las figuras y tablas\nCómo mostrar los gráficos: fig-show\n\nhide y hold son como en results\nasis muestra el gráfico como se generó\nanimate concatena varios gráficos en una animación\n\nfig-width y fig-height: dimensiones (reales, en pulgadas) de una figura\nout-width y out-height: ídem en el documento de salida (% de las reales)\nLista completa de opciones aquí"
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-para-figuras",
+    "href": "docs/Tema01.html#opciones-para-figuras",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones para figuras",
+    "text": "Opciones para figuras\n\n\nfig-align: mostrar la figura centrada o alineada a derecha o izquierda\nlayout-ncol: en cuántas columnas se componen los resultados\n\nlibrary(ggplot2)\nggplot(cars) + geom_histogram(aes(x = speed))\nggplot(cars) + geom_histogram(aes(x = dist))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartado c), los dos gráficos uno al lado del otro con layout-ncol."
+  },
+  {
+    "objectID": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
+    "href": "docs/Tema01.html#opciones-globales-para-todas-las-celdas",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Opciones globales para todas las celdas",
+    "text": "Opciones globales para todas las celdas\n\nEn la cabecera, especificamos opciones por defecto para las celdas de código\n\np.e., de ejecución como echo, eval, etc. en execute (ver aquí y aquí)\n---\nexecute:\n  echo: false\n  warning: false\n---\nTambién otras opciones que ya hemos visto (aquí listado completo para html)\n---\nformat:\n  html:\n    code-fold: true\n    cap-location: bottom\n    fig-align: center\n    df-print: paged      # cómo visualizar tablas\n---\n\n\n\n\nTambién existen enabled: false y freeze. Sección de ejecución en https://quarto.org/docs/computations/r.html"
+  },
+  {
+    "objectID": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
+    "href": "docs/Tema01.html#ejecución-de-código-en-un-documento-.qmd",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Ejecución de código en un documento .qmd",
+    "text": "Ejecución de código en un documento .qmd\n\nRenderizar un .qmd crea un espacio de trabajo para ejecutar el código distinto del de nuestra consola (diferentes objetos, bibliotecas, etc.)\n\nsi no estamos en la carpeta correcta, el directorio de trabajo puede ser diferente\n\nComprobamos los resultados del código del .qmd ejecutándolo sin renderizar: línea a línea (Ctrl + Enter), o con los enlaces que aparecen sobre cada celda: Run Cell (esa celda), Run Above (todas las anteriores) y Run Next Cell\n\nasí, el código pasa a la consola y sí forma parte del espacio de la sesión actual\nnos aseguramos de que no hay errores (ej., objetos previos no definidos)\n\nLa celda inicial que ya hemos visto sirve también para esto: como lleva include: false, se puede poner en ella\n\nrm(list = ls()): al ejecutar todas las celdas previas, empezamos con una sesión sin objetos previos, sólo con lo del .qmd\nTodas las bibliotecas que se usen en varias celdas (con library(), como en el Tema 00)\n\n\n\n\nComprobado en Positron el 15-sep: los enlaces sobre las celdas son Run Cell, Run Next Cell y Run Above (esta última no aparece en la primera celda, porque no hay nada encima). Run Above NO ejecuta la celda actual.\nLa demostración que convence: definir un objeto en la consola y usarlo en una celda del .qmd. Ejecutando la celda funciona; al renderizar, falla. De ahí sale casi todo el “a mí me funciona y no me renderiza”."
+  },
+  {
+    "objectID": "docs/Tema01.html#mejorar-la-salida-de-tablas",
+    "href": "docs/Tema01.html#mejorar-la-salida-de-tablas",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Mejorar la salida de tablas",
+    "text": "Mejorar la salida de tablas\n\nLa salida “en crudo” de R es correcta y poco presentable. knitr::kable() la convierte en una tabla con formato:\n\n\nknitr::kable(head(mtcars[, 1:5]))\n\n\nkableExtra añade estilos, anchos, cabeceras agrupadas… (guía)\nPrimero que el número sea el correcto; después, que la tabla se vea bien\n\n\n\n\n\n\n\nNota\n\n\nAhora el ejercicio: apartados d) y e): mostrar mtcars con kbl() y comparar con la salida cruda, y luego las opciones de cabecera (df-print: paged, code-fold, tema).\n\n\n\n\n\nPara ir más lejos: broom::tidy() convierte resultados de modelos en tablas; modelsummary genera tablas de regresión y de descriptivos; también existen printr, pander, stargazer y xtable. La versión completa de esta lista está en el comentario de debajo.\nNo nombrarlas en clase: son para cuando les hagan falta, y ahora solo distraen.\nEl ejercicio (d.ii) da las ordenes anidadas, kable_styling(kbl(mtcars)), no con el pipe |&gt;, que no se ha visto. En la documentacion de kableExtra aparecen con pipe: si alguien copia de ahi y pregunta, es lo mismo escrito al reves. No abrir el tema en clase."
+  },
+  {
+    "objectID": "docs/Tema01.html#comentarios-finales",
+    "href": "docs/Tema01.html#comentarios-finales",
+    "title": "Tema 01 - Informes reproducibles con Quarto",
+    "section": "Comentarios finales",
+    "text": "Comentarios finales\n\nDashboards (tableros): son presentaciones visuales e interactivas de los resultados claves de un análisis que permiten una comunicación más efectiva\n\nQuarto permite crear dashboards con tablas, gráficos y otros elementos\nEjemplos de sus capacidades usando el paquete shiny, shinydashboards o flexdashboard\n\nJupyter Notebook: son otra forma de combinar texto, código y resultados en un documento. Desarrollados para Python, admiten varios lenguajes de programación (como Quarto)\n\nse crean, visualizan y ejecutan en navegadores web, pero son fácilmente modificables, localmente u online en JupyterLab o con Google Colab\nQuarto renderiza libros de Jupyter, creados en .qmd o en su propio formato\n\nMuchas herramientas están preparadas para Python y R porque se usan a menudo indistintamente o combinados"
   },
   {
     "objectID": "docs/MT-T00-B-CVWS.html",
