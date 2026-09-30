@@ -508,16 +508,26 @@ media_datos_5
 
 # Entrega del ejercicio
 
-Rellenad este [FORMULARIO](https://forms.gle/Miz3FVYq1pUa8VPY6) con vuestros datos y subid
-
--   vuestro archivo de R
+Se entrega por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**, que es el único del curso.
 
 <!--  * el fichero .csv que utilizáis.. -->
 
-IMPORTANTE: el nombre de los ficheros que subáis DEBE seguir este formato, que incluye vuestro identificador: ej.,
+IMPORTANTE: el nombre del fichero que subáis DEBE seguir este formato, que incluye vuestro identificador: ej.,
 
--   Tema00ej1_12345678.R
+-   `Tema00ej1_12345678.R`
 
-Con **DNI**, los 8 números quitando la letra del final. Con **NIE**, la letra del principio y los números, quitando la del final. Con **pasaporte** u otro documento, entero, sin quitar nada.
+Con **DNI**, los 8 números quitando la letra del final. Con **NIE**, la letra del principio y los números, quitando la del final. Con **pasaporte** u otro documento, entero, sin quitar nada (ver
+[Cómo trabajar](../ComoTrabajar.html)).
+
+::: {.content-hidden}
+CURSO SIGUIENTE (30-sep-2026): esta entrega no encaja con el clasificador. Pide un `.R` suelto y
+`revisarContenido_` (`forms/formularios.gs`) solo admite `Tnn_En_ID.zip` con un `.qmd` y su `.html`
+renderizado dentro, asi que una entrega asi se rechaza. Este ejercicio es de antes de que el curso
+entrara en Quarto, en el Tema 01. Para el curso que viene: o se rehace como documento de Quarto y la
+entrega pasa a `T00_E1_ID.zip` como en T01, T02 y T03, o el clasificador admite el `.R` como
+sustituto para este tema concreto. Este curso NO se toca: la entrega del T00 ya paso en la semana 2
+y cambiar el enunciado despues no arregla nada. Lo que si se arreglo el 30-sep fue el enlace, que
+apuntaba a `forms.gle/Miz3FVYq1pUa8VPY6`, un formulario del curso pasado y ADEMAS cerrado.
+:::
 
 <!--  * 12345678_ET05_datos.csv -->
