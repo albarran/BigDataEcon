@@ -4096,56 +4096,58 @@ Universidad de Alicante</p>
 <p>Contestad aquí: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&amp;entry.779297845=MT-T00_01-A"><strong>formulario del mini-test</strong></a></p>
 <section id="pregunta-1" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
-<p><code>v</code> es un vector de cuatro números. ¿Qué devuelve la última línea?</p>
-<pre><code>v &lt;- c(5, 10, 15, 20)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-v &lt;- rev(v)   # linea ejecutada tambien</span>
-v[c(TRUE, FALSE)]</code></pre>
+<p>Las cifras son el gasto mensual de seis clientes. ¿Qué devuelve la última línea?</p>
+<pre><code>gasto &lt;- c(45, 60, 30, 75, 50, 40)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+gasto &lt;- gasto - 10   # linea ejecutada tambien</span>
+gasto[gasto &gt; c(40, 55)]</code></pre>
 <ol type="a">
-<li><p>5 y 15</p></li>
-<li><p>20 y 10</p></li>
-<li><p>Solo 5</p></li>
-<li><p>10 y 20</p></li>
+<li><p>45, 60, 75 y 50</p></li>
+<li><p>65</p></li>
+<li><p>60 y 75</p></li>
+<li><p>Da error, porque <code>gasto</code> y el vector de la comparación tienen longitudes distintas</p></li>
 </ol>
 </section>
 <section id="pregunta-2" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
-<p>¿Qué devuelve la última línea?</p>
-<pre><code>x &lt;- c(10, 20, 30)
-x[4]</code></pre>
+<p>¿Qué imprime la última línea?</p>
+<pre><code>genero &lt;- c(2, 1, 2, 2, 2)
+genero_f &lt;- factor(genero,
+  levels = c(1, 2),
+  labels = c(&quot;Mujer&quot;, &quot;Hombre&quot;)
+)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+genero_f &lt;- factor(genero)   # linea ejecutada tambien</span>
+summary(genero_f)</code></pre>
 <ol type="a">
-<li><p>Error: <code>subscript out of bounds</code></p></li>
-<li><p><code>NA</code></p></li>
-<li><p><code>numeric(0)</code></p></li>
-<li><p>30</p></li>
+<li><p><code>Mujer 1</code> y <code>Hombre 4</code></p></li>
+<li><p><code>1 1</code> y <code>2 4</code></p></li>
+<li><p><code>Mujer 4</code> y <code>Hombre 1</code></p></li>
+<li><p><code>Min. 1,0</code>, <code>Median 2,0</code>, <code>Mean 1,8</code>, <code>Max. 2,0</code></p></li>
 </ol>
 </section>
 <section id="pregunta-3" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
-<p>Un compañero escribe este bucle y le sorprende que haga algo teniendo <code>x</code> vacío. ¿Cuántas veces se entra en el bucle?</p>
-<pre><code>x &lt;- numeric(0)
-for (i in 1:length(x)) {
-  print(x[i])
-}</code></pre>
+<p>¿Qué devuelve la última línea?</p>
+<pre><code>notas &lt;- c(7, 9, &quot;5&quot;, 8)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+notas &lt;- notas[-3]   # linea ejecutada tambien</span>
+mean(as.numeric(notas))</code></pre>
 <ol type="a">
-<li><p>Ninguna, porque <code>x</code> está vacío</p></li>
-<li><p>Una, con <code>i</code> valiendo 0</p></li>
-<li><p>Dos, con <code>i</code> valiendo 1 y luego 0</p></li>
-<li><p>Ninguna: da error</p></li>
+<li><p>7,25</p></li>
+<li><p>8</p></li>
+<li><p><code>NA</code>, con un aviso</p></li>
+<li><p>Da error, porque un vector no puede mezclar números y texto</p></li>
 </ol>
 </section>
 <section id="pregunta-4" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-4">Pregunta 4</h2>
-<p>En un <code>.qmd</code> tenéis esta celda. ¿Qué aparece en el HTML al renderizar?</p>
-<pre><code>```{r}
-#| echo: false<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-#| eval: false</span>
-mean(c(10, 20, 30))
-```</code></pre>
+<p>Vuestro <code>.qmd</code> tiene <strong>una sola celda de R</strong>, con estas tres líneas dentro. ¿Qué aparece en el HTML al renderizar?</p>
+<pre><code><span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">#| include: false
+</span># echo: false
+mean(c(10, 20, 30))</code></pre>
 <ol type="a">
-<li><p>El código y el resultado</p></li>
-<li><p>El resultado, <code>[1] 20</code>, sin el código</p></li>
+<li><p>El código y <code>[1] 20</code></p></li>
 <li><p>Nada: ni el código ni el resultado</p></li>
-<li><p>El código, pero sin el resultado</p></li>
+<li><p>Solo <code>[1] 20</code></p></li>
+<li><p>Solo el código, sin el resultado</p></li>
 </ol>
 
 

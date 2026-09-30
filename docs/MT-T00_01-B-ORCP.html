@@ -4096,55 +4096,65 @@ Universidad de Alicante</p>
 <p>Contestad aquí: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&amp;entry.779297845=MT-T00_01-B"><strong>formulario del mini-test</strong></a></p>
 <section id="pregunta-1" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-1">Pregunta 1</h2>
-<p>En un <code>.qmd</code> tenéis esta celda. ¿Qué aparece en el HTML al renderizar?</p>
-<pre><code>```{r}
-#| echo: false<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-#| eval: false</span>
-mean(c(10, 20, 30))
-```</code></pre>
+<p>¿Qué devuelve la última línea?</p>
+<pre><code>ventas &lt;- c(120, NA, 95, 110, NA)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+ventas[is.na(ventas)] &lt;- 0   # linea ejecutada tambien</span>
+mean(ventas, na.rm = TRUE)</code></pre>
 <ol type="a">
-<li><p>Nada: ni el código ni el resultado</p></li>
-<li><p>El código, pero sin el resultado</p></li>
-<li><p>El resultado, <code>[1] 20</code>, sin el código</p></li>
-<li><p>El código y el resultado</p></li>
+<li><p><code>NA</code>, porque basta un ausente</p></li>
+<li><p>108,33</p></li>
+<li><p>65</p></li>
+<li><p>81,25</p></li>
 </ol>
 </section>
 <section id="pregunta-2" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-2">Pregunta 2</h2>
-<p>Un compañero escribe este bucle y le sorprende que haga algo teniendo <code>x</code> vacío. ¿Cuántas veces se entra en el bucle?</p>
-<pre><code>x &lt;- numeric(0)
-for (i in 1:length(x)) {
-  print(x[i])
-}</code></pre>
+<p>Cinco clientes valoran el servicio como alto (<code>&quot;A&quot;</code>), medio (<code>&quot;M&quot;</code>) o bajo (<code>&quot;B&quot;</code>). ¿Qué devuelve la última línea?</p>
+<pre><code>satisf &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;A&quot;, &quot;B&quot;, &quot;M&quot;)
+satisf_f &lt;- factor(satisf,
+  order = TRUE,
+  levels = c(&quot;B&quot;, &quot;M&quot;, &quot;A&quot;),
+  labels = c(&quot;Bajo&quot;, &quot;Medio&quot;, &quot;Alto&quot;)
+)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+satisf_f &lt;- factor(satisf, levels = c(&quot;B&quot;, &quot;M&quot;, &quot;A&quot;), labels = c(&quot;Bajo&quot;, &quot;Medio&quot;, &quot;Alto&quot;))</span>
+satisf_f[1] &gt; satisf_f[5]</code></pre>
 <ol type="a">
-<li><p>Dos, con <code>i</code> valiendo 1 y luego 0</p></li>
-<li><p>Ninguna, porque <code>x</code> está vacío</p></li>
-<li><p>Ninguna: da error</p></li>
-<li><p>Una, con <code>i</code> valiendo 0</p></li>
+<li><p><code>TRUE</code></p></li>
+<li><p><code>NA</code>, con un aviso de que <code>&gt;</code> no sirve para ese factor</p></li>
+<li><p><code>FALSE</code></p></li>
+<li><p>Da error, porque no se pueden comparar textos</p></li>
 </ol>
 </section>
 <section id="pregunta-3" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-3">Pregunta 3</h2>
-<p><code>v</code> es un vector de cuatro números. ¿Qué devuelve la última línea?</p>
-<pre><code>v &lt;- c(5, 10, 15, 20)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
-v &lt;- rev(v)   # linea ejecutada tambien</span>
-v[c(TRUE, FALSE)]</code></pre>
+<p>¿Qué devuelve la última línea?</p>
+<pre><code>gasto &lt;- c(45, 60, 30, 75, 50)
+names(gasto) &lt;- c(&quot;Ana&quot;, &quot;Luis&quot;, &quot;Marta&quot;, &quot;Elena&quot;, &quot;Jose&quot;)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+names(gasto) &lt;- sort(names(gasto))   # linea ejecutada tambien</span>
+gasto[&quot;Marta&quot;] &lt;- 90
+mean(gasto[c(&quot;Ana&quot;, &quot;Marta&quot;, &quot;Jose&quot;)])</code></pre>
 <ol type="a">
-<li><p>10 y 20</p></li>
-<li><p>20 y 10</p></li>
-<li><p>5 y 15</p></li>
-<li><p>Solo 5</p></li>
+<li><p>41,67</p></li>
+<li><p>61,67</p></li>
+<li><p>55</p></li>
+<li><p>64</p></li>
 </ol>
 </section>
 <section id="pregunta-4" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-4">Pregunta 4</h2>
-<p>¿Qué devuelve esta línea?</p>
-<pre><code>as.numeric(factor(c(10, 20, 30)))</code></pre>
+<p>Vuestro <code>.qmd</code> tiene <strong>dos celdas de R</strong> y nada más. La primera es esta:</p>
+<pre><code>#| include: false<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+#| eval: false</span>
+x &lt;- c(4, 8, 12)</code></pre>
+<p>y la segunda, que va después, es esta:</p>
+<pre><code>#| echo: false
+mean(x)</code></pre>
+<p>¿Qué pasa al renderizar?</p>
 <ol type="a">
-<li><p>10 20 30</p></li>
-<li><p>Error, porque un factor no es un número</p></li>
-<li><p>1 2 3</p></li>
-<li><p>NA NA NA</p></li>
+<li><p>Da un error y no se genera el HTML: <code>objeto &#39;x&#39; no encontrado</code></p></li>
+<li><p>Aparece solo <code>[1] 8</code></p></li>
+<li><p>Aparece <code>x &lt;- c(4, 8, 12)</code> y debajo <code>[1] 8</code></p></li>
+<li><p>No aparece nada, pero el HTML se genera sin problema</p></li>
 </ol>
 
 
