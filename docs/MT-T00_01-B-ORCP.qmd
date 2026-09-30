@@ -1,0 +1,160 @@
+---
+title: "Mini-test, versión B"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true   # IMPRESCINDIBLE: sin esto las soluciones viajan en el HTML publicado
+---
+
+<!-- INTERNO: pagina que SE PUBLICA, sin enlazar desde ninguna otra del curso. Se llega desde la
+portada MT-T00_01-ORCP.html. Las cuatro letras del nombre son al azar.
+
+TERCERA version, 30-sep-2026. Las dos anteriores se tiraron. La primera copiaba el banco de
+0admin/sistema-evaluacion-2026-27.md §3.5 sin comprobarlo contra el material y pedia cosas que no se
+han dado. La segunda arreglaba eso pero seguia mal de FORMA, y esto es lo que Pedro corrigio: son 5
+minutos para 4 preguntas, asi que la aritmetica tiene que salir de cabeza. Vectores de tres o cuatro
+numeros PEQUENYOS, medias obvias (2, 4, 6 -> 4), dos o tres lineas de codigo, opciones de una linea,
+y nada de bloques largos de factores. El molde es minitest-T00-s2.qmd y MT-T00-A-CVWS.qmd, de Pedro.
+
+TRAMPA DE OPERADOR (el truco de Pedro, que en las dos versiones anteriores no se uso ni una vez): el
+texto oculto no siempre anyade una linea; puede anyadir UN SOLO CARACTER dentro de la expresion. En
+P1 de las dos versiones se ve `>` y al copiar viaja `>=`. Es mucho mas dificil de detectar leyendo
+que una linea entera de mas.
+
+El enlace al formulario va PRERRELLENADO con el codigo MT-T00_01-B. El campo del codigo es
+`entry.779297845`. Los dos temas se unen con GUION BAJO, nunca con '+'. -->
+
+**Tenéis 5 minutos. Sin ejecutar R y sin IA.**
+
+Contestad aquí: [**formulario del mini-test**](https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&entry.779297845=MT-T00_01-B)
+
+## Pregunta 1
+
+¿Qué devuelve la última línea?
+
+```{=html}
+<pre><code>gasto &lt;- c(2, 4, 6, 8)
+mean(gasto[gasto &gt;<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">=</span> 4])</code></pre>
+```
+
+a) `7`
+
+b) `6`
+
+c) `5`
+
+d) `14`
+
+## Pregunta 2
+
+¿Qué devuelve la última línea?
+
+```{=html}
+<pre><code>notas &lt;- c(2, 4, "6")<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+notas &lt;- notas[-1]   # ejecutado antes</span>
+mean(as.numeric(notas))</code></pre>
+```
+
+a) `4`
+
+b) `5`
+
+c) `NA`
+
+d) Da error, porque un vector no puede mezclar tipos
+
+## Pregunta 3
+
+¿Qué devuelve la última línea?
+
+```{=html}
+<pre><code>gasto &lt;- c(2, 4, 6)
+names(gasto) &lt;- c("Luis", "Ana", "Marta")<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+names(gasto) &lt;- sort(names(gasto))   # ejecutado antes</span>
+gasto["Luis"]</code></pre>
+```
+
+a) `2`
+
+b) `4`
+
+c) `6`
+
+d) `NA`
+
+## Pregunta 4
+
+Vuestro `.qmd` tiene **dos celdas** y nada más. La primera:
+
+```{=html}
+<pre><code>#| include: false<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">
+#| eval: false</span>
+x &lt;- c(2, 4, 6)</code></pre>
+```
+
+y después la segunda:
+
+```{=html}
+<pre><code>#| echo: false
+mean(x)</code></pre>
+```
+
+¿Qué pasa al renderizar?
+
+a) Da un error y no se genera el HTML
+
+b) Sale solo `[1] 4`
+
+c) Sale `x <- c(2, 4, 6)` y debajo `[1] 4`
+
+d) No sale nada, pero el HTML se genera
+
+<!-- INTERNO: soluciones, procedencia y guion. Todo ejecutado el 30-sep-2026 con Rscript --vanilla;
+los casos de Quarto, renderizados en sus dos variantes.
+
+P1 [TRAMPA DE OPERADOR, 3 puntos] -> CORRECTA a) 7. Se ve `gasto > 4`, asi que se promedian 6 y 8.
+      COPISTA -> b) 6: al copiar viaja un `=` invisible pegado al `>`, asi que la IA responde a
+      `gasto >= 4` y promedia 4, 6 y 8. UN SOLO CARACTER de diferencia.
+      c) 5 es la media de los cuatro. d) 14 es la suma de los dos que cumplen.
+      VISTO EN: indexacion con un vector logico, slide "Acceso a los elementos de un vector"
+      (`altura[altura > 180 | altura < 160]`), y los operadores en "Vectores logicos".
+
+P2 [trampa, 3 puntos] -> CORRECTA a) 4. Al mezclar un texto TODO el vector pasa a caracter ("2",
+      "4", "6"); `as.numeric()` recupera los tres y la media de 2, 4 y 6 es 4. Comprobado:
+      `class(notas)` es "character".
+      COPISTA -> b) 5: la linea oculta quita el primero con un indice negativo, y la media de 4 y 6
+      es 5.
+      c) NA seria si algun texto no fuese convertible. d) es el error clasico: un vector SI puede
+      "mezclar", lo que hace es convertir todo al tipo que acomoda a todos.
+      VISTO EN: slide "Vectores (cont.)" (`c("lunes", 2)`, `as.numeric()` dando NA con aviso) y el
+      indice negativo en "Acceso a los elementos de un vector" (`altura[-c(2, 4)]`).
+
+P3 [trampa, 2 puntos] -> CORRECTA a) 2. Los nombres etiquetan cada gasto en SU orden: Luis es el
+      primero, 2.
+      COPISTA -> b) 4: la linea oculta reordena solo los NOMBRES alfabeticamente (Ana, Luis, Marta)
+      sin mover los numeros, asi que Luis pasa a etiquetar el 4. Reasignar `names()` NO reordena los
+      datos, y nada avisa de que la correspondencia se ha roto.
+      c) 6 es Marta. d) NA seria si el nombre no existiera.
+      VISTO EN: slide "Vectores (cont.)" (`names(altura) <- cliente`), slide "Acceso a los elementos
+      de un vector" (`altura["Juan"]`) y `sort()` en "Aritmetica de vectores".
+
+P4 [trampa, 2 puntos] -> CORRECTA b) sale solo [1] 4. La primera celda lleva `include: false`, que
+      NO se ve pero SI se ejecuta, asi que `x` existe; la segunda lo usa y muestra el resultado sin
+      el codigo. Renderizado y comprobado.
+      COPISTA -> a) el error: la linea oculta anyade `eval: false` a la primera celda, que entonces
+      no se ejecuta, `x` no llega a existir y el render se para con "objeto 'x' no encontrado".
+      Renderizado y comprobado: el HTML no se genera.
+      c) es lo que pasaria sin `include: false`. d) confunde "no se muestra" con "no se ejecuta", que
+      es justo la distincion de la pregunta.
+      VISTO EN: slide "Otras opciones de celda" ("include: false no muestra nada, pero SI ejecuta") y
+      el apartado b.iv del ejercicio del Tema 01, que les hace montar este mismo caso: una celda
+      `a <- 2` sin evaluar, otra posterior `b <- 3 + a` que si se evalua, y comprobar que da error.
+
+NOTA: 3 + 3 + 2 + 2 = 10; cada fallo resta 0,25 y la nota no baja de 0.
+
+Guion de revelacion (3 min), si se comenta en clase: proyectar el enunciado y hacer Ctrl+C / Ctrl+V
+en un editor EN VIVO. En P1 lo que aparece es un solo caracter, asi que conviene ensenyarla ultima.
+Pedro decidio el 30-sep no comentarlo el mismo dia; la deteccion sale de la hoja de respuestas con
+scripts-datos/corregir-minitest.R. -->

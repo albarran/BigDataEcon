@@ -1,0 +1,23 @@
+---
+title: "Mini-test"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO: portada del mini-test de los Temas 00 y 01. Se publica SIN enlazar desde ninguna
+pagina del curso. Las cuatro letras (ORCP) son al azar. Los mini-tests NO se reparten por QR
+(Pedro, 23-sep): se dicta una URL corta para que la teclean en el ordenador, porque desde el movil
+pasar el enunciado a una IA son dos toques. Ver 0admin/enlaces-y-qr-en-clase.md. -->
+
+## Mirad el último número de vuestro DNI
+
+| si acaba en | vuestra versión |
+|---|---|
+| número **par** (0, 2, 4, 6, 8) | [**versión A**](MT-T00_01-A-ORCP.html) |
+| número **impar** (1, 3, 5, 7, 9) | [**versión B**](MT-T00_01-B-ORCP.html) |
+
+Abrid **solo** la vuestra.
