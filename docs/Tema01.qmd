@@ -2,7 +2,7 @@
 title: "Tema 01 - Informes reproducibles con Quarto"
 author:
     - "Pedro Albarrán"
-#    - "Luis Íñiguez"   # INTERNO: confirmar autoría con Luis (imparte el tema)
+    - "Luis Pérez"
 
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:

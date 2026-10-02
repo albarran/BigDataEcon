@@ -3,6 +3,7 @@ title: "Tema 03 - Datos: Tratamiento, Limpieza y Preparación"
 subtitle: "De datos en bruto a información útil para decidir con `tidyverse`"
 author:
     - "Pedro Albarrán"
+    - "Henry Redondo"
 institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
 format:
   revealjs:
