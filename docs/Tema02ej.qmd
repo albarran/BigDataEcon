@@ -93,7 +93,7 @@ De este tema, lo que te hace falta:
   1, `T02_E2_12345678.qmd` para el 2, y así. Cada uno carga **sus propios datos** en su primera
   celda.
 
-# Ejercicio 1: la clientela
+# Entrega 1: la clientela
 
 Trabajamos con `clientes`: 300 fichas de la clientela de nuestra cadena de gimnasios.
 
@@ -187,7 +187,7 @@ library(ggthemes)
 mi_grafico + theme_economist()
    ```
 
-# Ejercicio 2: corporaciones y startups
+# Entrega 2: corporaciones y startups
 
 Una consultora de inversión compara el perfil de ingresos de cinco grandes corporaciones y cinco
 startups. Los datos están en la página **Datos** del curso, y traen su propio diccionario:
@@ -218,7 +218,7 @@ donde se discuten en voz alta. Si algun anyo se quieren pedir por escrito, estan
    sin que tú lo expliques al lado.
 :::
 
-# Ejercicio 3: reservas de hotel
+# Entrega 3: reservas de hotel
 
 Aquí nadie te dice qué gráfico dibujar: **elegirlo es parte del ejercicio**.
 
@@ -251,14 +251,14 @@ Antes de escribir código, escribe en una línea **qué pregunta** tiene que con
 **qué variables** la contestan.
 :::
 
-## Entrega del ejercicio
+# Cómo se entrega
 
 ::: {.callout-important}
 Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
 
-- **Entrega 1**: el ejercicio 1, la clientela. `T02_E1_ID.zip`
-- **Entrega 2**: el ejercicio 2, corporaciones y startups. `T02_E2_ID.zip`
-- **Entrega 3**: el ejercicio 3, las reservas de hotel. `T02_E3_ID.zip`
+- **Entrega 1**: la clientela. `T02_E1_ID.zip`
+- **Entrega 2**: corporaciones y startups. `T02_E2_ID.zip`
+- **Entrega 3**: las reservas de hotel. `T02_E3_ID.zip`
 :::
 
 Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo

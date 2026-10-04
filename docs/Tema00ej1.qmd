@@ -506,7 +506,7 @@ media_datos_5
 -->
 ````
 
-# Entrega del ejercicio
+# Cómo se entrega
 
 Se entrega por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**, que es el único del curso.
 
@@ -520,7 +520,8 @@ Con **DNI**, los 8 números quitando la letra del final. Con **NIE**, la letra d
 [Cómo trabajar](../ComoTrabajar.html)).
 
 ::: {.content-hidden}
-CURSO SIGUIENTE (30-sep-2026): esta entrega no encaja con el clasificador. Pide un `.R` suelto y
+INTERNO (30-sep-2026). PARA EL CURSO QUE VIENE, y el cambio se hace en la rama
+`curso-2027-28`, no aqui: esta entrega no encaja con el clasificador. Pide un `.R` suelto y
 `revisarContenido_` (`forms/formularios.gs`) solo admite `Tnn_En_ID.zip` con un `.qmd` y su `.html`
 renderizado dentro, asi que una entrega asi se rechaza. Este ejercicio es de antes de que el curso
 entrara en Quarto, en el Tema 01. Para el curso que viene: o se rehace como documento de Quarto y la

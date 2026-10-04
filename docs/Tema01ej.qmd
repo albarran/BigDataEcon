@@ -130,7 +130,7 @@ ii. Incluye la opción `code-fold: true` en la cabecera. Comprobar cómo cambia 
 
 iii. Elige un tema entre [estos](https://bootswatch.com/3/) y aplícalo al documento.
 
-## Entrega del ejercicio
+# Cómo se entrega
 
 ::: {.callout-important}
 Este ejercicio se va haciendo **durante las clases del tema**, apartado a apartado, y **se

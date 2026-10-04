@@ -135,7 +135,7 @@ De este tema, lo que te hace falta:
   subdirectorio `data`. Dentro vienen las tablas de una cadena de tiendas: `ventas`, `productos`,
   `categorias`, `clientes`, `empleados`, `tiendas`, `promociones_empleado`, `devoluciones`,
   `precios`, `objetivos` y `ventas_ancho`.
-- **Un documento por ejercicio**, `T03_E<n>_<ID>.qmd`: `T03_E1_12345678.qmd` para el ejercicio 1,
+- **Un documento por ejercicio**, `T03_E<n>_<ID>.qmd`: `T03_E1_12345678.qmd` para la entrega 1,
   `T03_E2_12345678.qmd` para el 2, y así. Cada uno carga los datos en su primera celda.
 
 ```{r}
@@ -144,7 +144,7 @@ library(tidyverse)
 load("data/retail_data.RData")
 ```
 
-# Ejercicio 1: la cadena de tiendas
+# Entrega 1: la cadena de tiendas
 
 Trabajamos con `ventas`, el registro de operaciones de una cadena de doce tiendas, y con
 `tiendas`, la ficha de cada una.
@@ -235,7 +235,7 @@ no es la tuya.
 5. Si tuvieras estos datos en una hoja de cálculo, ¿con qué harías (3)? Escribe en una frase qué
    herramienta de Excel hace el mismo trabajo que `group_by()` más `summarize()`.
 
-# Ejercicio 2: el informe trimestral
+# Entrega 2: el informe trimestral
 
 `ventas_ancho` es la tabla que llega del departamento de administración: tres tiendas y un
 trimestre en cada columna.
@@ -265,7 +265,7 @@ trimestre en cada columna.
 2. ¿Has hecho (1) en formato ancho o en largo? ¿Se puede hacer en el otro? Explica en una frase
    cuál de los dos formatos te ha resultado más cómodo **para esta pregunta concreta** y por qué.
 
-# Ejercicio 3: cuando la respuesta está en varias tablas
+# Entrega 3: cuando la respuesta está en varias tablas
 
 Ahora hacen falta `ventas`, `tiendas`, `objetivos`, `precios`, `devoluciones` y `empleados`.
 
@@ -333,14 +333,14 @@ Ahora hacen falta `ventas`, `tiendas`, `objetivos`, `precios`, `devoluciones` y 
    las dos uniones, la mala y la buena. Las dos dan un número razonable: explica en dos líneas
    por qué eso es justamente lo peligroso.
 
-## Entrega del ejercicio
+# Cómo se entrega
 
 ::: {.callout-important}
 Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
 
-- **Entrega 1**: el ejercicio 1, la cadena de tiendas. `T03_E1_ID.zip`
-- **Entrega 2**: el ejercicio 2, el informe trimestral. `T03_E2_ID.zip`
-- **Entrega 3**: el ejercicio 3, la respuesta en varias tablas. `T03_E3_ID.zip`
+- **Entrega 1**: la cadena de tiendas. `T03_E1_ID.zip`
+- **Entrega 2**: el informe trimestral. `T03_E2_ID.zip`
+- **Entrega 3**: la respuesta en varias tablas. `T03_E3_ID.zip`
 :::
 
 Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
