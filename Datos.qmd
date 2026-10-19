@@ -28,6 +28,9 @@ cuando se desvele ese ejercicio, no antes.
   + [retail_data.RData](https://raw.githubusercontent.com/albarran/00datos/main/retail_data.RData)
   + [DosTablas.xlsx](https://raw.githubusercontent.com/albarran/00datos/main/DosTablas.xlsx)
 
+* Tema 04 (análisis exploratorio de datos):
+  + [marketplace.RData](https://raw.githubusercontent.com/albarran/00datos/main/marketplace.RData)
+
 <!--
 CURSO 2026-27: los datos de cada tema se desvelan al llegar al tema (mueve la marca de CIERRE
 de comentario hacia abajo, por debajo del tema que quieras mostrar). VERIFICAR antes de desvelar

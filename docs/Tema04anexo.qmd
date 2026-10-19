@@ -1,0 +1,302 @@
+---
+title: "Tema 04 - Anexo: herramientas y fuentes"
+subtitle: "Material de consulta: se mira cuando hace falta"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:
+        - beige
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    show-notes: false
+    notes-format: html
+execute:
+  enabled: true      # execute code chunks
+  eval: false        # by default, don't evaluate code chunks
+  echo: true         # show code
+  warning: false     # don't show warnings (redundant to eval: false)
+  message: false     # don't show messages (idem)
+  output: false      # don't show output (idem)
+  fig.show: hide     # don't show figures (idem)
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+library(tidyverse)
+```
+
+## Esto es material de consulta
+
+- Lo que hay aquí amplía el [Tema 04](Tema04.html): herramientas que automatizan la detección de problemas, más trampas de los KPI, la API del INE, los formatos en que llegan los microdatos, cómo leer una columna vacía y una lista de comprobación del AED
+
+- Se consulta cuando hace falta en un trabajo; en clase no se ve
+
+# Herramientas que automatizan la detección
+
+## Herramientas que automatizan la detección
+
+- Estas funciones recorren todas las variables y ahorran los primeros diez minutos
+
+```{r}
+library(modelsummary)
+pedidos |> datasummary_skim()                  # numéricas
+pedidos |> datasummary_skim(type = "categorical")
+
+library(skimr)
+pedidos |> skim()
+
+library(janitor)
+pedidos_bruto |> get_dupes(id_pedido)          # duplicados de clave
+```
+
+- También existen informes completos automáticos (`DataExplorer::create_report()`, `dlookr`) y se pueden pedir a una IA generativa
+
+- **Limitaciones**: producen mucho ruido, no conocen el contexto y no distinguen un error de un dato extremo legítimo
+
+- Regla: la automatización acelera la **detección**; la **decisión** sigue siendo del analista, que es quien conoce el negocio
+
+::::{.notes}
+- Útiles para uso propio, no para un informe final: cien gráficos sin priorizar no comunican nada.
+- Una IA no sabe que en este sector el ROE típico es 8-12%: eso lo aportáis vosotros.
+::::
+
+# La API del INE
+
+## La API del INE: la petición
+
+::: {style="font-size: 92%;"}
+
+- El INE ofrece un servicio web que devuelve los datos de una tabla en formato JSON. La petición tiene esta forma:
+
+```
+https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/{id_tabla}?nult={n}
+```
+
+- `{id_tabla}` es el identificador de la tabla publicada en INEbase, y `nult` el número de periodos más recientes que se piden
+
+```{r}
+#| eval: false
+library(jsonlite)
+
+# Tabla 50902: IPC nacional, índice general y grupos ECOICOP
+url_ipc <- "https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/50902?nult=36"
+ipc_json <- fromJSON(url_ipc, simplifyVector = FALSE)
+
+# Tabla 65335: tasa de paro por sexo y comunidad autonoma, trimestral
+# (identificador comprobado en INEbase). Otras utiles: 74999 y 14506
+# (paro por grupos de edad y por comunidad).
+# url_epa <- "https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/65335?nult=20"
+```
+
+- Existe además un paquete de R que envuelve esta API (`ineapir`): consultad su documentación antes de usarlo en un trabajo
+
+- Regla del curso: nunca copiéis un identificador de tabla sin comprobar en la web del INE qué contiene exactamente
+
+:::
+
+## Del JSON a una tabla ordenada
+
+::: {style="font-size: 92%;"}
+
+- La respuesta es una lista de series; cada serie tiene un nombre y sus observaciones. Hay que dejarla como los datos ordenados del Tema 03
+
+```{r}
+#| eval: false
+ipc <- tibble(serie = map_chr(ipc_json, "Nombre"),
+              datos = map(ipc_json, "Data")) |>
+  filter(str_detect(serie, "Variación anual"),
+         str_detect(serie, "Índice general|Alimentos")) |>
+  unnest_longer(datos) |>
+  mutate(anio  = map_int(datos, "Anyo"),
+         mes   = map_int(datos, "FK_Periodo"),
+         fecha = as.Date(sprintf("%d-%02d-01", anio, mes)),
+         valor = map_dbl(datos, "Valor")) |>
+  select(serie, fecha, valor) |> arrange(serie, fecha)
+```
+
+- La fecha se construye con el año y el periodo que vienen etiquetados. El campo `Fecha` trae milisegundos desde 1970 en hora local: convertirlo suponiendo UTC desplaza cada observación un mes atrás, y el error es silencioso
+
+- Y entonces, y solo entonces, se responde a la pregunta
+
+```{r}
+#| eval: false
+ggplot(ipc, aes(x = fecha, y = valor, color = serie)) +
+  geom_line() + geom_hline(yintercept = 0)
+```
+
+:::
+
+::::{.notes}
+- `FK_Periodo` es el mes en una tabla mensual; en una trimestral NO lo es. Comprobarlo siempre antes de reutilizar este código con otra tabla.
+- Resultado de referencia (descarga de enero de 2023): variación anual del índice general 5,9% frente al 15,4% de alimentos y bebidas no alcohólicas. La brecha se cierra a lo largo de 2023-2024.
+- Ese contraste es exactamente lo que no se ve en el titular del IPC general.
+::::
+
+
+# Los formatos del zip de la EPA
+
+## Dentro del zip hay varios formatos
+
+
+::: {style="font-size: 92%;"}
+
+- El mismo zip trae los datos en ancho fijo (`.txt`), en texto separado por tabuladores, en `.RData`, en `parquet` y en los formatos de SAS, SPSS y Stata, más el diccionario en JSON
+
+- En clase leemos el **texto separado**, y no es por gusto:
+
+  - Es lo que os vais a encontrar fuera: la mayoría de las fuentes no os regalan un `.RData`
+
+  - Obliga a mirar los tipos, que es medio análisis exploratorio
+
+```{r}
+#| eval: false
+library(tidyverse)
+epa <- read_delim("CSV/EPA_2026T2.tab", delim = "\t",
+                  col_types = cols(.default = col_character()))
+```
+
+- Que existan los otros formatos conviene saberlo: `load()` para el `.RData` (cómodo pero solo sirve en R) y `arrow::read_parquet()` para el parquet (el formato que hay que conocer cuando el fichero no cabe en memoria)
+
+- Quien solo sabe abrir el `.RData` se queda bloqueado el día que la fuente no lo publique. Y lo leemos como texto porque los códigos del INE **son** texto: `"03"` no es el número 3
+
+:::
+
+
+## Si se lee el `.RData`: los espacios que no se ven
+
+::: {style="font-size: 92%;"}
+
+- En el `.RData`, `AOI` vacía (menores de 16 años) llega como **dos espacios**; en el `.tab` leído con `read_delim()`, como `NA`
+
+```{r}
+#| eval: false
+epa |> count(AOI)                    # "  ", "03", "04", "05", "06", "07", "08", "09"
+sum(epa$AOI == "")                   # 0: NINGUNA fila cumple eso
+sum(trimws(epa$AOI) == "")           # 15.850: los menores de 16
+```
+
+- Quien filtra con `AOI != ""` cree haber quitado a los menores y no ha quitado a nadie. No hay error ni aviso, y la tasa de actividad sale mal:
+
+| Fichero completo | Tasa de actividad |
+|---|---|
+| `filter(AOI != "")` | 51,22% |
+| `filter(trimws(AOI) != "")` | **59,29%** |
+
+- Ocho puntos por dos espacios. `trimws()` quita los espacios de los extremos (como `str_trim()` del Tema 04); con el `.RData` hay que aplicarlo a los códigos antes de compararlos:
+
+```{r}
+epa <- epa |> mutate(AOI = trimws(AOI), NCONY = trimws(NCONY), NPERS = trimws(NPERS))
+```
+
+:::
+
+
+# Columnas vacías en un microdato
+
+## Qué significa una columna vacía
+
+::: {style="font-size: 92%;"}
+
+- Una columna vacía no dice por qué está vacía, y la diferencia decide qué hacer con ella:
+
+| Variable (fichero completo) | Vacía | Qué significa |
+|---|---|---|
+| `RELLB1`, `TRAANT` | 100% | relleno del formato: se tiran |
+| `OCUPLU1` | 98,7% | **no aplicable**: solo quien tiene segundo empleo |
+| `SITU`, `PARCO1` | 56,8% | no aplicable: solo los ocupados |
+
+- Tirar `OCUPLU1` por "tener demasiados ausentes" es tirar la respuesta a una pregunta que sí se hizo
+
+:::
+
+
+# Más sobre las trampas de los KPI
+
+## Elección del periodo y efecto base
+
+- Con `serie_ventas` del Tema 04, el titular "las ventas han crecido un 65% en 2025" sale de comparar enero con diciembre:
+
+```{r}
+serie_ventas |>
+  filter(mes >= as.Date("2025-01-01")) |>
+  summarize(crecimiento = last(ventas) / first(ventas) - 1)
+```
+
+- Ese 65% mide la distancia entre el mes más flojo y la campaña de Navidad. Casi cualquier tendencia se fabrica eligiendo el punto de partida: mostrad la serie completa
+
+- **Efecto base**: crecer un 20% en 2021 tras caer un 22% en 2020 es recuperar parte de lo perdido. Con dos tasas consecutivas, mirad el nivel: 100 × 0,78 × 1,20 = 93,6, por debajo del punto de salida
+
+## Composición: un ejemplo con datos oficiales
+
+- La paradoja de Simpson del Tema 04 (la app devuelve más en cada categoría y menos en el total) es el problema central del análisis con datos observacionales: el agregado mezcla el efecto que interesa con el efecto de **quién** está en cada grupo
+
+- El salario medio subió durante la crisis de 2008-2013 en varios países mientras casi nadie tenía subidas: los empleos destruidos fueron los de menor salario, y eso elevó la media de los que quedaron
+
+- Otro: una comparación de rentabilidad entre sectores sin controlar el tamaño de las empresas mide sobre todo tamaño
+
+- Qué hacer, igual que con los canales: comparar dentro de grupos homogéneos (mismo puesto, mismo tamaño), o ponderar todos los periodos con la misma composición. El Tema 05 lo formaliza: comparar "todo lo demás igual" es lo que hace una regresión
+
+# Lista de comprobación del AED
+
+## Buenas prácticas del AED
+
+::: {style="font-size: 90%;"}
+
+:::: {.columns}
+::: {.column width=50%}
+
+**En la limpieza**
+
+1. Los datos en bruto no se modifican nunca: la limpieza es un script reproducible
+
+2. Cada corrección lleva escrito el motivo y la regla aplicada, no solo el código
+
+3. Contar filas antes y después de cada paso, y comprobar que el cambio es el esperado
+
+4. Los ausentes y los atípicos se investigan antes de tratarse: por qué faltan, por qué son extremos
+
+**Con microdatos**
+
+5. El diseño de registro se lee antes de escribir código; se replica una cifra publicada antes de calcular la propia; la suma de los pesos tiene que dar una población reconocible
+
+:::
+::: {.column width=50%}
+
+**En la descriptiva**
+
+6. Primero la pregunta, después el estadístico. Si ninguna decisión cambia, sobra
+
+7. Con distribuciones asimétricas, nunca un solo número: centro, dispersión y forma
+
+8. Toda tasa lleva su denominador y su nivel al lado
+
+9. Antes de comparar grupos, mirar la composición de cada grupo
+
+**Errores más caros**: convertir con `as.numeric()` sin mirar, promediar promedios, comparar meses consecutivos en series estacionales y confiar en una media calculada sobre quienes decidieron responder
+
+:::
+::::
+
+:::

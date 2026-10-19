@@ -1,0 +1,432 @@
+---
+title: "Tema 04 - Análisis Exploratorio de Datos"
+subtitle: "Ejercicios del tema"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO (escrito el 1-oct-2026). El ejercicio del curso pasado NO se borra: vive en
+`Tema04ej2.qmd` (antes `Tema04ej1.qmd`), que pasa a ser material de FUERA DE CLASE (los datos de pymes europeas), y su
+ejercicio 6 (la ECV del INE) va al ejercicio largo 1.
+
+POR QUE EXISTE ESTE FICHERO. Las tres PRACTICAS en clase de `Tema04.qmd` trabajan con los datos
+del marketplace, y el de fuera de clase trabajaba con `pymes_europa.csv`: datos distintos, asi que el
+alumno NO podia hacer el ejercicio a la vez que veia las slides, que es el modelo del curso
+(CLAUDE.md §1). Es el mismo problema que tenia el Tema 03 y se arregla igual.
+
+QUE SE HA PORTADO de `Tema04ej2.qmd` (el de fuera de clase), por bloque:
+  B1.b  <- 1.c y 1.d (tipos mal leidos, y QUE valores no convierten)
+  B1.c  <- 2.a y 2.b (categorias sin homogeneizar)
+  B2.e  <- 3.a y 3.d (atipico: error o poblacion distinta)
+  B2.f  <- 4.b (no fiarse de una columna que viene dada)
+  B2.g  <- 3.b y 3.c (LA IDENTIDAD: el dominio dice una relacion que debe cumplirse)
+  B3.a  <- 4.d (indicadores con su definicion)
+  B3.d  <- la PRACTICA "Trampa 2: promedios de promedios" de Tema04.qmd, que es lo que anuncia su
+          callout, mas el 4.a del de fuera de clase (media de cocientes frente a cociente de
+          sumas). REESCRITO el 4-oct-2026: pedia "la media de los tickets" frente a "la suma de los
+          importes entre la suma de los pedidos", y eso es la MISMA operacion (mean(x) ES
+          sum(x)/n()), asi que coincidian siempre y la trampa no aparecia. Ahora pide las dos de
+          verdad: media de medias frente a media global, y media de cocientes frente a cociente de
+          sumas.
+  B3.e  <- 2.c (base pequenya)
+  B3.f  <- 5.d (variacion interanual frente a la del periodo)
+  B3.g  <- 4.c (la advertencia al pie)
+  B4    <- el ejercicio 5 ENTERO, tal cual: la EPA no se porta porque el punto es la fuente
+           oficial, y es el calentamiento del largo 1, que va con la ECV.
+
+TIEMPO: 6 h por asignatura (3 sesiones de 2 h = 360 min). Reparto: 11 del mini-test, 150 de
+teoria (~42 slides, 19-oct-2026), 120 de ejercicio (25+30+30+35), 32 de devolucion, 47 de colchon.
+
+CIFRAS VERIFICADAS en R el 1-oct-2026 (Rscript sobre `data/marketplace.RData`, set.seed(2026)):
+
+B1.a  1.223 filas, no 1.200: 23 `id_pedido` repetidos.
+B1.b  `as.numeric(importe)` devuelve NA en las 1.223 filas, porque el formato es "1.234,56".
+      `cp_envio` es numerico y ha perdido el cero: 2001, 3003, 3201, 8001 (eran 02001...).
+      `fecha` viene en dos formatos, "%Y-%m-%d" y "%d/%m/%Y".
+B1.c  `canal`: 9 etiquetas para 3 reales. `provincia` en vendedores: 10 para 6.
+B1.d  `valoracion`: 209 NA de verdad y 211 centinelas -99. `descuento`: 865 NA ESTRUCTURALES
+      (el pedido no entro en promocion), que no son un dato que falte.
+B2.b  1.223 filas; `distinct()` deja 1.208, o sea 15 duplicados exactos.
+B2.e  precio por unidad (importe/unidades): min 0,55, mediana 15,57, max 1.576,33.
+      Los mayoristas son 6 con 30 unidades o mas y precio unitario NORMAL (6,75 a 55,27).
+B2.f  `facturacion_anual / empleados` en vendedores: de 21 a 135.856, ratio 6.469. Son las
+      unidades mezcladas (euros y miles): la columna `unidad` se tiro al construir la tabla.
+B2.g  LA IDENTIDAD `importe = unidades * precio_unit`, con tolerancia de 1 euro: sobre las 1.208
+      filas que quedan tras `distinct()`, la cumplen 1.198 y la incumplen 10. (Corregido el
+      4-oct-2026 al resolver el ejercicio: decia "la cumplen 1.208 de 1.223", y 1.208 es el total
+      de filas despues de quitar los duplicados exactos, no las que cumplen.) De esas 10, OCHO tienen ratio 1,21 (el mismo pedido
+      reexportado con el IVA puesto: es un duplicado de clave, no un error del importe) y DOS
+      tienen ratio 100 (error de tecleo: P00468, 4.729 euros por 3 unidades a 15,76; y P00264,
+      659 por 2 a 3,30). El dominio distingue unas de otras, que es justo lo que se enseña.
+B3.e  `ventas_prov`: Teruel 4.000 -> 10.000, +150%. Madrid 915.000 -> 951.000, +3,9%.
+B4    la EPA, tabla 65335: el filtro de "Ambos sexos" devuelve 40 series, que son 20 ambitos
+      (17 comunidades, Ceuta, Melilla y el Total Nacional) por DOS GRUPOS DE EDAD: la tasa de
+      todas las edades y la de 16 a 64 anyos. (Corregido el 4-oct-2026: decia
+      "DOS definiciones de la tasa de paro", que no es lo que publica la tabla.) Desde el
+      19-oct-2026 se lee el CSV (`read_csv2`), y `Periodo` viene como "2026T2".
+      (Comprobar antes de clase que la web del INE responde: dependencia externa.) -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+rm(list = ls())
+library(tidyverse)
+```
+
+# Antes de empezar
+
+Estos ejercicios se van haciendo **durante las clases del tema**: las transparencias indican en
+qué momento toca cada uno.
+
+::: {.callout-important}
+Si no lo has hecho ya, lee **[Cómo trabajar en cada tema](../ComoTrabajar.html)**: la carpeta
+del tema con su subdirectorio `data`, cómo se crea el documento, qué va en la cabecera (con
+`embed-resources: true`), la primera celda y cómo se entrega. Vale para todo el curso.
+:::
+
+De este tema, lo que te hace falta:
+
+- Los datos son `marketplace.RData`, de la página [Datos](../Datos.html). Descárgalo en tu
+  subdirectorio `data`. Dentro vienen las tablas de un marketplace tal y como salen de su
+  sistema: `pedidos_bruto`, `vendedores`, `serie_ventas`, `ventas_prov` y `devoluciones`.
+- El **bloque 4** no usa ese fichero: baja los datos de la web del INE en el momento.
+- **Un documento por ejercicio**, `T04_E<n>_<ID>.qmd`. Cada uno carga los datos en su primera
+  celda.
+
+```{r}
+#| eval: false
+library(tidyverse)
+load("data/marketplace.RData")
+```
+
+::: {.callout-warning}
+Estos datos están **sucios a propósito**: son un volcado como el que te vas a encontrar.
+Ninguna cifra que calcules sobre `pedidos_bruto` sin limpiar es publicable, y la entrega 1
+consiste precisamente en documentar por qué.
+:::
+
+# Entrega 1: auditoría de calidad
+
+Trabajamos con `pedidos_bruto`, el registro de pedidos del marketplace, y con `vendedores`, la
+ficha de cada vendedor.
+
+**No se corrige nada en este ejercicio.** Se trata de levantar el inventario de problemas, que es
+lo que hay que hacer antes de tocar un dato. El resultado es un informe de una página.
+
+## Apartado a): qué es una fila
+
+1. ¿Cuántas filas y cuántas columnas tiene `pedidos_bruto`? ¿Qué es **una fila**?
+
+2. El sistema dice haber exportado 1.200 pedidos. ¿Cuántas filas hay? ¿Identifica `id_pedido`
+   una única fila? Da el número de `id_pedido` repetidos.
+
+3. ¿Qué hace `vendedores`, una fila por qué? ¿Es `id_vendedor` su clave?
+
+## Apartado b): el tipo manda
+
+1. ¿Qué variables están guardadas con un tipo que no corresponde a lo que miden? Da la lista con
+   el problema concreto de cada una.
+
+2. Calcula la media de `importe` con `as.numeric()`. ¿Cuántos `NA` salen, de cuántas filas?
+   ¿Por qué, si todos los valores parecen números?
+
+3. Mira los valores distintos de `cp_envio`. ¿Qué le ha pasado al código postal de Alicante, que
+   es `03003`? ¿Por qué un código postal **no es una cantidad**?
+
+4. ¿En cuántos formatos distintos viene `fecha`? Cuéntalos sin convertir nada todavía.
+
+## Apartado c): categorías que son la misma cosa
+
+1. Cuenta las categorías de `canal`. El diccionario dice que hay tres: web, app y tienda.
+   ¿Cuántas etiquetas aparecen? ¿Cuáles son la misma?
+
+2. Haz lo mismo con `provincia` en `vendedores`, y con `sector`.
+
+3. Si agrupas por `canal` tal cual está, ¿qué le pasa a un informe de ventas por canal?
+
+## Apartado d): no todo lo que falta es un dato que falta
+
+1. ¿Cuántos ausentes hay en cada variable?
+
+2. En `valoracion` hay dos clases de ausencia: unos llegan como `NA` y otros con un **valor
+   centinela**. Encuéntralo y di cuántos hay de cada clase. ¿Qué pasa con la valoración media si
+   el centinela se cuela en el cálculo?
+
+3. `descuento` tiene muchos ausentes y **no es un problema de calidad**: explica por qué, y en
+   qué se diferencia del caso anterior.
+
+4. ¿Quién contesta la encuesta de valoración? Si responden más los satisfechos, ¿la media de los
+   que responden es la media de los clientes? Una frase.
+
+## Apartado e): qué cifra quedaría mal
+
+Para **cada** problema que hayas detectado, escribe una frase: qué cifra del informe final
+saldría mal si no se corrige. Esta es la parte que se corrige con más atención.
+
+# Entrega 2: limpiar, y cuánto cuesta no limpiar
+
+Sobre la auditoría del ejercicio anterior.
+
+## Apartado a): un solo bloque de limpieza
+
+Escribe **un único** bloque que deje `pedidos` listo: tipos arreglados, categorías
+homogeneizadas, centinelas convertidos en `NA` de verdad, y los duplicados exactos fuera.
+Un solo `|>`, sin tablas intermedias.
+
+## Apartado b): comprobar que la limpieza ha hecho lo que crees
+
+1. Filas antes y después. ¿Cuántos duplicados exactos había?
+
+2. Tipos de todas las variables, recuento de `canal` y rango de `fecha`.
+
+3. ¿Siguen quedando `id_pedido` repetidos después de quitar los duplicados exactos? ¿Cuántos?
+
+## Apartado c): los duplicados en euros
+
+Calcula los **ingresos totales** y el **ticket medio** antes y después de eliminar los duplicados
+exactos. Da la diferencia **en euros y en porcentaje**. Esa es la cifra que habría ido al informe.
+
+## Apartado d): la clave repetida
+
+Quedan pedidos con el mismo `id_pedido` y distinto importe. Mira un par de ellos.
+
+1. ¿Qué relación hay entre los dos importes del mismo pedido?
+
+2. Decide qué hacer con ellos y **justifícalo en dos frases**. No hay una única respuesta
+   correcta; hay respuestas justificadas y respuestas no justificadas.
+
+## Apartado e): el atípico, ¿error o otra población?
+
+1. Calcula el **precio por unidad** (`importe / unidades`) y describe su distribución.
+
+2. Hay pedidos con un importe muy por encima del resto. Para cada uno, mira **si las unidades
+   acompañan**. ¿Cuáles parecen un cliente mayorista y cuáles un error?
+
+3. ¿Qué le pasa al ticket medio si los dejas? ¿Y si los quitas todos? ¿Qué harías?
+
+## Apartado f): la columna que viene dada
+
+En `vendedores`, calcula `facturacion_anual / empleados`.
+
+1. Da el mínimo, la mediana y el máximo. ¿Cuántas veces más grande es el máximo que el mínimo?
+
+2. ¿Es creíble que un vendedor facture eso por empleado? ¿Qué le pasa a esa columna?
+
+3. Moraleja en una frase: ¿qué hay que preguntar siempre de una columna que viene en el fichero?
+
+## Apartado g): una identidad que tiene que cumplirse
+
+El dominio dice que el importe de un pedido es las unidades por el precio del producto:
+
+$$\texttt{importe} = \texttt{unidades} \times \texttt{precio\_unit}$$
+
+Cuando una relación **tiene** que cumplirse y no se cumple, solo hay dos explicaciones: o los
+datos están mal, o la relación no es la que creías.
+
+1. Comprueba la identidad en todas las filas, con una tolerancia de un euro. ¿En cuántas se
+   cumple y en cuántas no?
+
+2. Para las que no se cumplen, calcula el **ratio** entre el importe que hay y el que debería
+   haber. ¿Cuántos valores distintos de ratio aparecen? Agrúpalas por ese ratio.
+
+3. Uno de los grupos tiene un ratio que reconocerás como un tipo impositivo. ¿Qué le ha pasado a
+   esos pedidos? ¿Es un error del importe o es otra cosa? Relaciónalo con el apartado d).
+
+4. El otro grupo tiene un ratio redondo y grande. ¿Qué error es?
+
+5. **La identidad también dice algo de las columnas**: con dos de las tres se obtiene la tercera.
+   ¿Cuál sobra? ¿Guardarías las tres en una tabla limpia? Una frase.
+
+::: {.callout-note}
+Esto es lo que hace un auditor con un balance: sabe que el activo es igual al pasivo más el
+patrimonio neto, lo comprueba, y donde no cuadra hay un error o una variable redundante. Aquí la
+identidad es más sencilla, pero el razonamiento es el mismo.
+:::
+
+# Entrega 3: un cuadro de mando honesto
+
+Dirección pide **cinco** indicadores para la reunión mensual, sobre `pedidos` ya limpio y
+`serie_ventas`.
+
+## Apartado a): cinco indicadores con su definición
+
+Elige los cinco y escribe la **definición exacta** de cada uno: numerador, denominador, periodo,
+y a qué pregunta de negocio responde. Sin la definición, un indicador no es un indicador.
+
+## Apartado b): la tabla
+
+Calcúlalos con `summarize()` y presenta una tabla legible.
+
+## Apartado c): media o mediana
+
+Para el **gasto por cliente**, decide si das la media o la mediana y **justifícalo** con la forma
+de la distribución, no con una preferencia.
+
+## Apartado d): promedios de promedios
+
+Une `pedidos` con `vendedores` para tener la provincia de cada pedido.
+
+1. Calcula el ticket medio **de cada provincia** y, a partir de esa tabla, la **media de los
+   tickets medios provinciales**. Compárala con el **ticket medio global**, el que sale de todos los
+   pedidos a la vez. ¿Coinciden? Mira cuántos pedidos tiene cada provincia antes de contestar por
+   qué.
+
+2. Lo mismo con el **precio por unidad**, que es un cociente de dos columnas. Para cada provincia,
+   calcúlalo de dos formas: (i) la **media de los cocientes** `importe / unidades` de cada pedido, y
+   (ii) el **cociente de las sumas**, la suma de los importes entre la suma de las unidades.
+   Presenta las dos columnas juntas con el número de pedidos. ¿Cuál sale mayor, y por qué?
+
+3. ¿Cuál de las dos formas pondrías en el informe, en cada uno de los dos casos? Esta es la trampa
+   que más veces se ve en un cuadro de mando real.
+
+::: {.callout-note}
+Las dos cosas están en la transparencia **"Trampa 2: promedios de promedios"**: que la media de unas
+medias solo coincide con la media global si todos los grupos tienen el mismo tamaño, y que para
+agregar un cociente hay que sumar numeradores y denominadores en vez de promediar cocientes.
+:::
+
+## Apartado e): la agregación puede invertir el resultado
+
+`devoluciones` no son microdatos: viene **ya agregada**, con los pedidos y los devueltos de cada
+categoría y canal. Se trabaja igual, pero hay que mirar lo que se suma.
+
+1. Calcula la tasa de devolución **dentro** de cada categoría y canal. ¿Qué canal devuelve más,
+   en electrónica? ¿Y en textil?
+
+2. Calcula ahora la tasa de **cada canal**, con todas las categorías juntas. Ojo con cómo se
+   agrega una tasa: no se promedian las tasas, se suman los numeradores y los denominadores.
+   ¿Qué canal devuelve más?
+
+3. Las dos respuestas se contradicen y **no hay ningún error de cálculo**. Explica por qué, en dos
+   frases, mirando cuántos pedidos tiene cada combinación de categoría y canal.
+
+4. Calcula además la **media de las tasas** de cada canal. ¿Qué canal sale peor con esta tercera
+   cifra? Fíjate en que coincide con la respuesta del punto 1 y aun así no sirve: di qué número
+   estaría publicando quien la use.
+
+5. Si tuvieras que dar **una sola** cifra de tasa de devolución por canal para el cuadro de mando,
+   ¿cuál darías, y qué pondrías al lado para que no engañe?
+
+## Apartado f): la base pequeña
+
+En `ventas_prov` tienes las ventas de 2024 y 2025 por provincia.
+
+1. Calcula la variación porcentual de cada una y ordénalas de mayor a menor.
+
+2. ¿Qué provincia encabeza el ranking? ¿Cuánto vendió en 2024?
+
+3. Escribe el titular que saldría si solo se publica el porcentaje, y al lado lo que hay que
+   publicar **junto** al porcentaje para que el titular no engañe.
+
+## Apartado g): qué variación se publica
+
+Para la serie mensual, calcula la variación del último mes respecto al mes anterior y respecto al
+mismo mes del año anterior. ¿Cuál de las dos va al informe y por qué? Mira la estacionalidad
+antes de contestar.
+
+## Apartado h): la advertencia al pie
+
+Escribe al pie del cuadro **una** advertencia sobre la trampa que más amenaza a tus indicadores:
+composición, base pequeña, estacionalidad o selección en las valoraciones. Una sola, la que de
+verdad aplique, y di por qué esa.
+
+# Entrega 4: estadística oficial, la EPA
+
+Los datos anteriores son de una empresa. Esta pregunta solo se responde con estadística oficial:
+**¿en qué comunidades autónomas es más alto el paro, y cuánto ha cambiado en el último año?**
+
+El INE publica las tablas de la Encuesta de Población Activa en CSV, igual que la del IPC que
+vimos en clase. La tabla **65335** tiene las tasas de paro por sexo y comunidad autónoma, con
+periodicidad **trimestral**:
+
+```{r}
+#| eval: false
+url_epa <- "https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/65335.csv"
+```
+
+::: {.callout-note}
+Bajar los datos de la fuente y entender cómo vienen **es parte del ejercicio**: es exactamente lo
+que tendrás que hacer en el ejercicio largo y en el trabajo final.
+:::
+
+## Apartado a): el periodo, en año y trimestre
+
+Lee la tabla y añade el año y el trimestre como dos columnas numéricas. **Mira antes cómo viene
+`Periodo`**: en la tabla mensual del IPC que vimos en clase era año, `M` y mes, y esta tabla es
+trimestral.
+
+## Apartado b): cuántas series esperas y cuántas salen
+
+Quédate con las series de "Ambos sexos".
+
+1. ¿Cuántas series obtienes?
+
+2. ¿Cuántas comunidades autónomas hay en España, contando Ceuta y Melilla?
+
+3. Explica la diferencia y corrige el filtro. La pista está en el **grupo de edad**: mira el
+   nombre completo de un par de series de la misma comunidad.
+
+## Apartado c): la tasa nacional no es la media de las regionales
+
+Para el último trimestre disponible, da la tasa de paro nacional, la media simple de las tasas de
+las comunidades, la mediana, y las tres comunidades con la tasa más alta y las tres con la más
+baja.
+
+¿Por qué la media de las tasas regionales no es la tasa nacional? Dos frases. Compáralo con lo que
+viste en el apartado d) de la entrega 3.
+
+## Apartado d): qué variación se publica, otra vez
+
+Para el total nacional, calcula la variación respecto al trimestre anterior y respecto al mismo
+trimestre del año anterior. ¿Cuál pondrías en un titular y por qué?
+
+# Cómo se entrega
+
+::: {.callout-important}
+Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
+
+- **Entrega 1**: la auditoría de calidad. `T04_E1_ID.zip`
+- **Entrega 2**: limpiar y lo que cuesta no limpiar. `T04_E2_ID.zip`
+- **Entrega 3**: el cuadro de mando. `T04_E3_ID.zip`
+- **Entrega 4**: la EPA. `T04_E4_ID.zip`
+:::
+
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
+identificador que escribís en el formulario (ver
+[Cómo trabajar](../ComoTrabajar.html)). Por ejemplo, `T04_E1_12345678.zip`.
+
+Las frases de interpretación que se piden expresamente van como **texto del documento**, no como
+comentarios dentro del código: para eso es un documento de Quarto y no un guion de R.
+
+Se os dirá en clase **cuáles** hay que entregar y cuándo.
+
+Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
+confirmación si la entrega es correcta, o de rechazo si no lo es.
+
+Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo.
+
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
+
+::: {.callout-warning}
+Las entregas que se hagan en clase **se cierran al acabar la sesión**, con un margen de
+**15 minutos** desde el final. La hora de envío queda registrada.
+:::
