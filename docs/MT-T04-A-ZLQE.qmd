@@ -1,0 +1,92 @@
+---
+title: "Mini-test, versión A"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true   # IMPRESCINDIBLE: sin esto las soluciones viajan en el HTML publicado
+---
+
+<!-- INTERNO: pagina que SE PUBLICA, sin enlazar. Se llega desde la portada MT-T04-ZLQE.html.
+Escrito el 27-oct-2026 sobre las Partes I y II de Tema04.qmd y las Entregas 1 a 3 de Tema04ej1.qmd
+(el caso del INE y los microdatos no entran: no consta que se dieran). Enlace al formulario
+prerrellenado con MT-T04-A. -->
+
+**Tenéis 5 minutos. Sin ejecutar R y sin IA.** Son tres preguntas: en la «Respuesta 4» del formulario marcad cualquier letra, no cuenta.
+
+Contestad aquí: [**formulario del mini-test**](https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&entry.779297845=MT-T04-A)
+
+## Pregunta 1
+
+La valoración va de 1 a 10 y el sistema guarda -99 cuando el cliente no contesta. ¿Qué devuelve
+la última línea?
+
+```{=html}
+<pre><code>valoracion &lt;- c(8, -99, 6, 1<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span>)
+mean(na_if(valoracion, -99), na.rm = TRUE)</code></pre>
+```
+
+a) 3,75
+
+b) 8
+
+c) -21
+
+d) 5
+
+## Pregunta 2
+
+¿Qué devuelve esto?
+
+```{=html}
+<pre><code>pedidos &lt;- tibble(id = c(1, 1, 2, 3), importe = c(10, 10<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span>, 20, 30))
+pedidos |&gt; distinct() |&gt; summarize(total = sum(importe))</code></pre>
+```
+
+a) 60
+
+b) 70
+
+c) 160
+
+d) 50
+
+## Pregunta 3
+
+Tasa de devolución de la empresa. ¿Qué devuelve esto?
+
+```{=html}
+<pre><code>tasas &lt;- tibble(canal = c("web", "app"), pedidos = c(100, 300<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span>),
+                devueltos = c(10, 90))
+tasas |&gt; summarize(tasa = sum(devueltos) / sum(pedidos))</code></pre>
+```
+
+a) 0,20
+
+b) 0,032
+
+c) 0,25
+
+d) 0,40
+
+
+<!-- INTERNO: soluciones (todo ejecutado con Rscript --vanilla el 27-oct-2026). Tres preguntas (Pedro,
+27-oct-2026), todas con trampa de copia de un solo caracter (font-size:0).
+
+P1 -> CORRECTA d) 5 = (8 + 6 + 1) / 3. Procedencia: Problema 6, na_if(valoracion, -99); na.rm en T00.
+      COPISTA -> b) 8: el "0" oculto hace el 1 un 10, y (8 + 6 + 10) / 3 = 8.
+      ERROR -> a) 3,75: dividir por 4 contando el ausente. c) -21: dejar el -99 dentro.
+      Nadie que se equivoque con lo visible llega a 8.
+P2 -> CORRECTA a) 60: distinct() quita la fila repetida (1, 10). Procedencia: Problema 5 y el
+      flujo de limpieza (distinct de duplicados exactos).
+      COPISTA -> c) 160: el "0" oculto hace 100 el segundo importe; las filas ya no son
+      identicas y distinct() no quita ninguna.
+      ERROR -> b) 70: creer que distinct() no hace nada. d) 50: quitar las dos filas del id 1.
+P3 -> CORRECTA c) 0,25 = 100 / 400. Procedencia: Trampa 2 (sumar numeradores y denominadores).
+      COPISTA -> b) 0,032 = 100 / 3100, con el "0" oculto. No sale de ningun error de lectura.
+      ERROR -> a) 0,20: media de las tasas (0,10 y 0,30), el promedio de promedios.
+      d) 0,40: sumar las tasas.
+
+Devolucion (3 min): copiar y pegar el enunciado en vivo para que vean aparecer lo oculto. Mensaje
+del tema: los errores de datos NO dan error. -->

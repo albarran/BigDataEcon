@@ -1,0 +1,88 @@
+---
+title: "Mini-test, versión B"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true   # IMPRESCINDIBLE: sin esto las soluciones viajan en el HTML publicado
+---
+
+<!-- INTERNO: pagina que SE PUBLICA, sin enlazar. Se llega desde la portada MT-T04-ZLQE.html.
+Escrito el 27-oct-2026 sobre las Partes I y II de Tema04.qmd y las Entregas 1 a 3 de Tema04ej1.qmd
+(el caso del INE y los microdatos no entran: no consta que se dieran). Enlace al formulario
+prerrellenado con MT-T04-B. -->
+
+**Tenéis 5 minutos. Sin ejecutar R y sin IA.** Son tres preguntas: en la «Respuesta 4» del formulario marcad cualquier letra, no cuenta.
+
+Contestad aquí: [**formulario del mini-test**](https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&entry.779297845=MT-T04-B)
+
+## Pregunta 1
+
+¿Qué devuelve esto?
+
+```{=html}
+<pre><code>importe &lt;- c("1.200,50", "300<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span>")
+sum(parse_number(importe, locale = locale(decimal_mark = ",")))</code></pre>
+```
+
+a) 301,2
+
+b) 4200,5
+
+c) NA
+
+d) 1500,5
+
+## Pregunta 2
+
+`descuento` vale `NA` cuando el pedido no tenía promoción. ¿Qué devuelve esto?
+
+```{=html}
+<pre><code>descuento &lt;- c(0.2<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">8</span>, NA, NA, 0.4)
+mean(replace_na(descuento, 0))</code></pre>
+```
+
+a) 0,15
+
+b) 0,30
+
+c) 0,17
+
+d) NA
+
+## Pregunta 3
+
+¿Qué devuelve esto?
+
+```{=html}
+<pre><code>pedidos &lt;- tibble(canal = c("web", "web", "app", "app<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">s</span>"),
+                  devuelto = c(TRUE, FALSE, TRUE, TRUE))
+pedidos |&gt; group_by(canal) |&gt; summarize(tasa = mean(devuelto))</code></pre>
+```
+
+a) Una sola fila, con 0,75
+
+b) Tres filas: app 1, apps 1 y web 0,5
+
+c) Dos filas: app 2 y web 1
+
+d) Dos filas: app 1 y web 0,5
+
+<!-- INTERNO: soluciones (todo ejecutado con Rscript --vanilla el 27-oct-2026). Tres preguntas (Pedro,
+27-oct-2026), todas con trampa de copia de un solo caracter (font-size:0).
+
+P1 -> CORRECTA d) 1500,5 = 1200,5 + 300. Procedencia: Problema 1, parse_number con
+      locale(decimal_mark = ","), y la nota sobre "1.234,56".
+      COPISTA -> b) 4200,5: el "0" oculto hace "3000". No sale de ningun error de lectura.
+      ERROR -> a) 301,2: leer el punto como decimal. c) NA: confundirlo con as.numeric().
+P2 -> CORRECTA a) 0,15 = 0,6 / 4. Procedencia: "Ausentes: ¿y qué hacemos?", el ausente
+      estructural con replace_na(descuento, 0).
+      COPISTA -> c) 0,17 = 0,68 / 4, con el "8" oculto (0.28).
+      ERROR -> b) 0,30: ignorar los NA (media de 0,2 y 0,4). d) NA: creer que el NA sigue ahi.
+P3 -> CORRECTA d) app 1 y web 0,5. Procedencia: Trampa 2, tasa = mean(devuelto) por grupo, y
+      Problema 3 (group_by obedece al texto).
+      COPISTA -> b): la "s" oculta crea una categoria "apps" aparte.
+      ERROR -> a) 0,75: ignorar el group_by. c): sumar en vez de hacer la media.
+
+Devolucion (3 min): copiar y pegar el enunciado en vivo para que vean aparecer lo oculto. -->

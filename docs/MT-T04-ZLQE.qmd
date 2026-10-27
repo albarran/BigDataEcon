@@ -1,0 +1,21 @@
+---
+title: "Mini-test"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO: portada del mini-test del Tema 04. Se publica SIN enlazar desde ninguna pagina del
+curso. Las cuatro letras (ZLQE) son al azar. Se dicta una URL corta, no QR. -->
+
+## Mirad el último número de vuestro DNI
+
+| si acaba en | vuestra versión |
+|---|---|
+| número **par** (0, 2, 4, 6, 8) | [**versión A**](MT-T04-A-ZLQE.html) |
+| número **impar** (1, 3, 5, 7, 9) | [**versión B**](MT-T04-B-ZLQE.html) |
+
+Abrid **solo** la vuestra.
