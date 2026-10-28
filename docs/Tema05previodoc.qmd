@@ -164,10 +164,8 @@ media de los que se le parecen. En los datos del tema, el gasto medio es de 3.69
 mujeres de 4.489 y el de los hombres de 2.892: saber que un cliente es mujer cambia lo que esperamos
 que gaste, y por eso interesa distinguir por grupos. La **media condicional** $E[Y \mid X = x]$ es la media de $Y$ entre
 las observaciones con $X = x$: con sexo = mujer, con sexo = hombre; con renta = 1.000, = 2.000,
-= 2.005, etc. Es una *función* de $X$: a cada valor de $X$ le asigna una media.
-Si $X$ toma pocos valores, como el sexo, es una función definida por partes, con una media para las
-mujeres y otra para los hombres; si toma muchos, como la renta, tiene una media para cada valor de la
-renta. Toda la modelización del tema consiste en estimar esa función.
+= 2.005, etc. Es una *función* de $X$, $f(x) = E[Y \mid X = x]$: a cada valor de $X$ le asigna
+la media de $Y$ de quienes tienen ese valor. Toda la modelización del tema consiste en estimar esa función.
 Escribimos
 
 $$
