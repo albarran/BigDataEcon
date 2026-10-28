@@ -319,7 +319,7 @@ cambia es cómo se leen los coeficientes.
 
 Un cambio en el logaritmo es, aproximadamente, un cambio proporcional:
 $\Delta \log x \approx \Delta x / x$, el cambio de $x$ en tanto por uno. Que $\log x$ aumente en
-0,01 es que $x$ aumente un 1%, y que aumente en 1, que $x$ aumente un 100%; por eso el efecto de un
+1 es que $x$ aumente un 100%, y que aumente en 0,01, que $x$ aumente un 1%; por eso el efecto de un
 1% es el coeficiente dividido por 100. De ahí salen las tres lecturas:
 
 | Modelo                              | Lectura de $\beta_1$                                                  | Ejemplo con $\beta_1$  |
