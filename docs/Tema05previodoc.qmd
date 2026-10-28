@@ -163,7 +163,8 @@ información previa sobre él, como su sexo o su renta, podemos mejorar ese valo
 media de los que se le parecen. En los datos del tema, el gasto medio es de 3.699 euros, el de las
 mujeres de 4.489 y el de los hombres de 2.892: saber que un cliente es mujer cambia lo que esperamos
 que gaste, y por eso interesa distinguir por grupos. La **media condicional** $E[Y \mid X = x]$ es la media de $Y$ entre
-las observaciones con $X = x$. Es una *función* de $X$: a cada valor de $X$ le asigna una media.
+las observaciones con $X = x$: con sexo = mujer, con sexo = hombre; con renta = 1.000, = 2.000,
+= 2.005, etc. Es una *función* de $X$: a cada valor de $X$ le asigna una media.
 Si $X$ toma pocos valores, como el sexo, es una función definida por partes, con una media para las
 mujeres y otra para los hombres; si toma muchos, como la renta, tiene una media para cada valor de la
 renta. Toda la modelización del tema consiste en estimar esa función.
@@ -317,8 +318,10 @@ cambia es cómo se leen los coeficientes.
 
 ## Logaritmos
 
-El logaritmo convierte cambios *proporcionales* en cambios *absolutos*: un aumento del 1% en $x$ suma
-a $\log x$ la cantidad $\log(1{,}01) = 0{,}00995 \approx 0{,}01$. De ahí salen las tres lecturas:^[Con esa aproximación, que $\log x$ aumente en 1 equivale a que $x$ aumente en 1 en tanto por uno, es decir, un 100%. Por eso el efecto de un 1% es $\beta_1/100$.]
+Un cambio en el logaritmo es, aproximadamente, un cambio proporcional:
+$\Delta \log x \approx \Delta x / x$, el cambio de $x$ en tanto por uno. Que $\log x$ aumente en
+0,01 es que $x$ aumente un 1%, y que aumente en 1, que $x$ aumente un 100%; por eso el efecto de un
+1% es el coeficiente dividido por 100. De ahí salen las tres lecturas:
 
 | Modelo                              | Lectura de $\beta_1$                                                  | Ejemplo con $\beta_1$  |
 |:------------------------------------|:----------------------------------------------------------------------|:-----------------------|
