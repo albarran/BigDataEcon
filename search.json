@@ -728,279 +728,6 @@
     "text": "Pregunta 4\nVuestro .qmd tiene dos celdas y nada más. La primera:\n#| include: false\n#| eval: false\nx &lt;- c(2, 4, 6)\ny después la segunda:\n#| echo: false\nmean(x)\n¿Qué pasa al renderizar?\n\nDa un error y no se genera el HTML\nSale solo [1] 4\nSale x &lt;- c(2, 4, 6) y debajo [1] 4\nNo sale nada, pero el HTML se genera"
   },
   {
-    "objectID": "docs/MT-T00_01-A-ORCP.html",
-    "href": "docs/MT-T00_01-A-ORCP.html",
-    "title": "Mini-test, versión A",
-    "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
-  },
-  {
-    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
-    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué devuelve la última línea?\ngasto &lt;- c(20, 30, 40, 50)\ngasto[gasto &gt;= 30]\n\n40 50\n30 40 50\n20 30\n3 4"
-  },
-  {
-    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
-    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\n¿Qué devuelve la última línea?\nventas &lt;- c(4, 6, NA, 8)\nventas[3] &lt;- 0   # ejecutado antes\nmean(ventas, na.rm = TRUE)\n\n6\n4.5\nNA\n18"
-  },
-  {
-    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
-    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\nEn nuestras fichas, ¿qué muestra la última línea?\ngenero_f &lt;- factor(c(2, 1, 2, 2), levels = c(1, 2),\n                   labels = c(\"Mujer\", \"Hombre\"))\ngenero_f &lt;- factor(c(2, 1, 2, 2))   # ejecutado antes\nsummary(genero_f)\n\nMujer 1 y Hombre 3\n1 1 y 2 3\nMujer 3 y Hombre 1\nMin. 1, Mean 1.75, Max. 2"
-  },
-  {
-    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
-    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 4",
-    "text": "Pregunta 4\nVuestro .qmd tiene una sola celda de R, con estas dos líneas. ¿Qué sale en el HTML?\n#| include: false\n# echo: false\nmean(c(2, 4, 6))\n\nEl código y [1] 4\nNada\nSolo [1] 4\nSolo el código"
-  },
-  {
-    "objectID": "docs/Tema00ej1.html",
-    "href": "docs/Tema00ej1.html",
-    "title": "Tema 0. Introducción a R. Ejercicio 1",
-    "section": "",
-    "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nCómo se entrega\nSe entrega por el formulario de entrega, que es el único del curso.\nIMPORTANTE: el nombre del fichero que subáis DEBE seguir este formato, que incluye vuestro identificador: ej.,\n\nTema00ej1_12345678.R\n\nCon DNI, los 8 números quitando la letra del final. Con NIE, la letra del principio y los números, quitando la del final. Con pasaporte u otro documento, entero, sin quitar nada (ver Cómo trabajar)."
-  },
-  {
-    "objectID": "docs/Tema02ej.html",
-    "href": "docs/Tema02ej.html",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "",
-    "text": "Estos ejercicios se van haciendo durante las clases del tema: las transparencias indican en qué momento toca cada uno.\n\n\n\n\n\n\nImportante\n\n\n\nSi no lo has hecho ya, lee Cómo trabajar en cada tema: la carpeta del tema con su subdirectorio data, cómo se crea el documento, qué va en la cabecera (con embed-resources: true), la primera celda y cómo se entrega. Vale para todo el curso.\n\n\nDe este tema, lo que te hace falta:\n\nLos datos son datosVisualizacion.RData y empresas.RData, de la página Datos. Descárgalos en tu subdirectorio data.\nUn documento por ejercicio, T02_E&lt;n&gt;_&lt;ID&gt;.qmd: T02_E1_12345678.qmd para el ejercicio 1, T02_E2_12345678.qmd para el 2, y así. Cada uno carga sus propios datos en su primera celda."
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-a",
-    "href": "docs/Tema02ej.html#apartado-a",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado a)",
-    "text": "Apartado a)\n\nDibuja la relación entre ingresos y gasto con geom_point().\nPinta TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda).\nEjecuta esto y describe qué ves: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?\n\n\nggplot(clientes, aes(x = ingresos, y = gasto)) +\n  geom_point(aes(color = \"red\"))\n\n\nDistingue el segmento por color y el canal por forma. Y ahora añade además size = edad. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira? Quédate con la versión que sí se lee y di por qué.\nAñade size = 4 dentro de aes() y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla te sirve para decidirlo?"
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-b-capas-con-sus-propios-datos",
-    "href": "docs/Tema02ej.html#apartado-b-capas-con-sus-propios-datos",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado b): capas con sus propios datos",
-    "text": "Apartado b): capas con sus propios datos\nSobre el gráfico del apartado a), con el segmento por color.\n\nEtiqueta a quienes más gastan. Como solo quieres unas pocas fichas, esa capa lleva sus propios datos, igual que hicimos en clase con los países:\n\ntop &lt;- clientes[clientes$gasto &gt; 8000, ]\n\ny encima una capa geom_text_repel(data = top, aes(label = cliente)).\n¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras clientes entero?"
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-c-el-gráfico-cuenta-por-ti",
-    "href": "docs/Tema02ej.html#apartado-c-el-gráfico-cuenta-por-ti",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado c): el gráfico cuenta por ti",
-    "text": "Apartado c): el gráfico cuenta por ti\n\nNúmero de clientes de cada segmento, con geom_bar(). ¿Dónde está la tabla de frecuencias que has usado?\nLo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: tienes el patrón con after_stat(prop) en las transparencias.\n\n\nEn una frase: ¿qué significa que un geom “tiene una estadística por defecto”?"
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-d-distribuciones",
-    "href": "docs/Tema02ej.html#apartado-d-distribuciones",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado d): distribuciones",
-    "text": "Apartado d): distribuciones\n\nDistribución de los ingresos con geom_histogram(), probando bins = 10, bins = 40 y binwidth = 3. ¿Cuál de las tres le enseñarías a dirección y por qué?\nCon una de esas tres se ve un grupo de clientes de ingresos muy bajos y con las otras no. ¿Con cuál, y qué te dice eso sobre elegir los intervalos?\nCompara el gasto entre segmento con un geom_boxplot()."
-  },
-  {
-    "objectID": "docs/Tema02ej.html#apartado-e-contexto-y-aspecto",
-    "href": "docs/Tema02ej.html#apartado-e-contexto-y-aspecto",
-    "title": "Tema 02 - Visualización de datos",
-    "section": "Apartado e): contexto y aspecto",
-    "text": "Apartado e): contexto y aspecto\n\nVuelve al gráfico del apartado a) y añádele una recta de tendencia con geom_smooth(method = \"lm\", se = FALSE). ¿Qué dice esa recta que no dijera la nube de puntos?\nDivídelo en facetas por canal. ¿Se lee mejor así o con el color? ¿Por qué?\nAñade una línea de referencia horizontal en el gasto medio, discontinua, y anótala con annotate() para que se entienda qué marca.\nPonle labs() completo: título, ejes con sus unidades y un caption con la fuente.\nPrueba al menos dos temas y quédate con uno. Prueba también uno profesional, de ggthemes:\n\nlibrary(ggthemes)\nmi_grafico + theme_economist()"
-  },
-  {
-    "objectID": "docs/MT-T00-B-CVWS.html",
-    "href": "docs/MT-T00-B-CVWS.html",
-    "title": "Mini-test, versión B",
-    "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
-  },
-  {
-    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-1",
-    "href": "docs/MT-T00-B-CVWS.html#pregunta-1",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\n80 100 240 200\nDa error, porque los vectores no miden igual\n80 100 300 400"
-  },
-  {
-    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-2",
-    "href": "docs/MT-T00-B-CVWS.html#pregunta-2",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n12\nDa error, porque ficha[[2]] no es un número\nDa error, porque ficha es una lista y no se puede promediar\n6"
-  },
-  {
-    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-3",
-    "href": "docs/MT-T00-B-CVWS.html#pregunta-3",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\nprecios guarda los precios como texto. ¿Cuánto devuelve la última línea?\nprecios &lt;- c(\"10\", \"9\", \"2\")\nsum(precios &gt; \"2\")\n\n1\n2\n3\nDa error, porque no se puede comparar texto"
-  },
-  {
-    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-4",
-    "href": "docs/MT-T00-B-CVWS.html#pregunta-4",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 4",
-    "text": "Pregunta 4\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
-  },
-  {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
-  },
-  {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
-  },
-  {
-    "objectID": "docs/MT-T00-A-CVWS.html",
-    "href": "docs/MT-T00-A-CVWS.html",
-    "title": "Mini-test, versión A",
-    "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
-  },
-  {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-1",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-1",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n7.5\n10\nNA\nDa error"
-  },
-  {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-2",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-2",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\n¿De qué tipo queda notas?\nnotas &lt;- c(7, 9, \"5\")\n\nNumérico, porque dos de los tres son números\nCarácter\nLógico\nDa error, porque no se pueden mezclar tipos"
-  },
-  {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-3",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-3",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n7\nDa error, porque ficha es una lista y no se puede promediar\n14\nDa error, porque ficha[[2]] no es un número"
-  },
-  {
-    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-4",
-    "href": "docs/MT-T00-A-CVWS.html#pregunta-4",
-    "title": "Mini-test, versión A",
-    "section": "Pregunta 4",
-    "text": "Pregunta 4\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\nDa error, porque los vectores no miden igual\n9 10\n9 10 27 20"
-  },
-  {
-    "objectID": "docs/MT-T04-B-ZLQE.html",
-    "href": "docs/MT-T04-B-ZLQE.html",
-    "title": "Mini-test, versión B",
-    "section": "",
-    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA. Son tres preguntas: en la «Respuesta 4» del formulario marcad cualquier letra, no cuenta.\nContestad aquí: formulario del mini-test"
-  },
-  {
-    "objectID": "docs/MT-T04-B-ZLQE.html#pregunta-1",
-    "href": "docs/MT-T04-B-ZLQE.html#pregunta-1",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 1",
-    "text": "Pregunta 1\n¿Qué devuelve esto?\nimporte &lt;- c(\"1.200,50\", \"3000\")\nsum(parse_number(importe, locale = locale(decimal_mark = \",\")))\n\n301,2\n4200,5\nNA\n1500,5"
-  },
-  {
-    "objectID": "docs/MT-T04-B-ZLQE.html#pregunta-2",
-    "href": "docs/MT-T04-B-ZLQE.html#pregunta-2",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 2",
-    "text": "Pregunta 2\ndescuento vale NA cuando el pedido no tenía promoción. ¿Qué devuelve esto?\ndescuento &lt;- c(0.28, NA, NA, 0.4)\nmean(replace_na(descuento, 0))\n\n0,15\n0,30\n0,17\nNA"
-  },
-  {
-    "objectID": "docs/MT-T04-B-ZLQE.html#pregunta-3",
-    "href": "docs/MT-T04-B-ZLQE.html#pregunta-3",
-    "title": "Mini-test, versión B",
-    "section": "Pregunta 3",
-    "text": "Pregunta 3\n¿Qué devuelve esto?\npedidos &lt;- tibble(canal = c(\"web\", \"web\", \"app\", \"apps\"),\n                  devuelto = c(TRUE, FALSE, TRUE, TRUE))\npedidos |&gt; group_by(canal) |&gt; summarize(tasa = mean(devuelto))\n\nUna sola fila, con 0,75\nTres filas: app 1, apps 1 y web 0,5\nDos filas: app 2 y web 1\nDos filas: app 1 y web 0,5"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#esto-es-material-de-consulta",
-    "href": "docs/Tema04anexo.html#esto-es-material-de-consulta",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Esto es material de consulta",
-    "text": "Esto es material de consulta\n\nLo que hay aquí amplía el Tema 04: herramientas que automatizan la detección de problemas, más trampas de los KPI, la API del INE, los formatos en que llegan los microdatos, cómo leer una columna vacía y una lista de comprobación del AED\nSe consulta cuando hace falta en un trabajo; en clase no se ve"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#herramientas-que-automatizan-la-detección-1",
-    "href": "docs/Tema04anexo.html#herramientas-que-automatizan-la-detección-1",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Herramientas que automatizan la detección",
-    "text": "Herramientas que automatizan la detección\n\nEstas funciones recorren todas las variables y ahorran los primeros diez minutos\n\n\nlibrary(modelsummary)\npedidos |&gt; datasummary_skim()                  # numéricas\npedidos |&gt; datasummary_skim(type = \"categorical\")\n\nlibrary(skimr)\npedidos |&gt; skim()\n\nlibrary(janitor)\npedidos_bruto |&gt; get_dupes(id_pedido)          # duplicados de clave\n\n\nTambién existen informes completos automáticos (DataExplorer::create_report(), dlookr) y se pueden pedir a una IA generativa\nLimitaciones: producen mucho ruido, no conocen el contexto y no distinguen un error de un dato extremo legítimo\nRegla: la automatización acelera la detección; la decisión sigue siendo del analista, que es quien conoce el negocio\n\n\n\nÚtiles para uso propio, no para un informe final: cien gráficos sin priorizar no comunican nada.\nUna IA no sabe que en este sector el ROE típico es 8-12%: eso lo aportáis vosotros."
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#la-api-del-ine-la-petición",
-    "href": "docs/Tema04anexo.html#la-api-del-ine-la-petición",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "La API del INE: la petición",
-    "text": "La API del INE: la petición\n\n\nEl INE ofrece un servicio web que devuelve los datos de una tabla en formato JSON. La petición tiene esta forma:\n\nhttps://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/{id_tabla}?nult={n}\n\n{id_tabla} es el identificador de la tabla publicada en INEbase, y nult el número de periodos más recientes que se piden\n\n\nlibrary(jsonlite)\n\n# Tabla 50902: IPC nacional, índice general y grupos ECOICOP\nurl_ipc &lt;- \"https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/50902?nult=36\"\nipc_json &lt;- fromJSON(url_ipc, simplifyVector = FALSE)\n\n# Tabla 65335: tasa de paro por sexo y comunidad autonoma, trimestral\n# (identificador comprobado en INEbase). Otras utiles: 74999 y 14506\n# (paro por grupos de edad y por comunidad).\n# url_epa &lt;- \"https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/65335?nult=20\"\n\n\nExiste además un paquete de R que envuelve esta API (ineapir): consultad su documentación antes de usarlo en un trabajo\nRegla del curso: nunca copiéis un identificador de tabla sin comprobar en la web del INE qué contiene exactamente"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#del-json-a-una-tabla-ordenada",
-    "href": "docs/Tema04anexo.html#del-json-a-una-tabla-ordenada",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Del JSON a una tabla ordenada",
-    "text": "Del JSON a una tabla ordenada\n\n\nLa respuesta es una lista de series; cada serie tiene un nombre y sus observaciones. Hay que dejarla como los datos ordenados del Tema 03\n\n\nipc &lt;- tibble(serie = map_chr(ipc_json, \"Nombre\"),\n              datos = map(ipc_json, \"Data\")) |&gt;\n  filter(str_detect(serie, \"Variación anual\"),\n         str_detect(serie, \"Índice general|Alimentos\")) |&gt;\n  unnest_longer(datos) |&gt;\n  mutate(anio  = map_int(datos, \"Anyo\"),\n         mes   = map_int(datos, \"FK_Periodo\"),\n         fecha = as.Date(sprintf(\"%d-%02d-01\", anio, mes)),\n         valor = map_dbl(datos, \"Valor\")) |&gt;\n  select(serie, fecha, valor) |&gt; arrange(serie, fecha)\n\n\nLa fecha se construye con el año y el periodo que vienen etiquetados. El campo Fecha trae milisegundos desde 1970 en hora local: convertirlo suponiendo UTC desplaza cada observación un mes atrás, y el error es silencioso\nY entonces, y solo entonces, se responde a la pregunta\n\n\nggplot(ipc, aes(x = fecha, y = valor, color = serie)) +\n  geom_line() + geom_hline(yintercept = 0)\n\n\n\n\nFK_Periodo es el mes en una tabla mensual; en una trimestral NO lo es. Comprobarlo siempre antes de reutilizar este código con otra tabla.\nResultado de referencia (descarga de enero de 2023): variación anual del índice general 5,9% frente al 15,4% de alimentos y bebidas no alcohólicas. La brecha se cierra a lo largo de 2023-2024.\nEse contraste es exactamente lo que no se ve en el titular del IPC general."
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#dentro-del-zip-hay-varios-formatos",
-    "href": "docs/Tema04anexo.html#dentro-del-zip-hay-varios-formatos",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Dentro del zip hay varios formatos",
-    "text": "Dentro del zip hay varios formatos\n\n\nEl mismo zip trae los datos en ancho fijo (.txt), en texto separado por tabuladores, en .RData, en parquet y en los formatos de SAS, SPSS y Stata, más el diccionario en JSON\nEn clase leemos el texto separado, y no es por gusto:\n\nEs lo que os vais a encontrar fuera: la mayoría de las fuentes no os regalan un .RData\nObliga a mirar los tipos, que es medio análisis exploratorio\n\n\n\nlibrary(tidyverse)\nepa &lt;- read_delim(\"CSV/EPA_2026T2.tab\", delim = \"\\t\",\n                  col_types = cols(.default = col_character()))\n\n\nQue existan los otros formatos conviene saberlo: load() para el .RData (cómodo pero solo sirve en R) y arrow::read_parquet() para el parquet (el formato que hay que conocer cuando el fichero no cabe en memoria)\nQuien solo sabe abrir el .RData se queda bloqueado el día que la fuente no lo publique. Y lo leemos como texto porque los códigos del INE son texto: \"03\" no es el número 3"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#si-se-lee-el-.rdata-los-espacios-que-no-se-ven",
-    "href": "docs/Tema04anexo.html#si-se-lee-el-.rdata-los-espacios-que-no-se-ven",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Si se lee el .RData: los espacios que no se ven",
-    "text": "Si se lee el .RData: los espacios que no se ven\n\n\nEn el .RData, AOI vacía (menores de 16 años) llega como dos espacios; en el .tab leído con read_delim(), como NA\n\n\nepa |&gt; count(AOI)                    # \"  \", \"03\", \"04\", \"05\", \"06\", \"07\", \"08\", \"09\"\nsum(epa$AOI == \"\")                   # 0: NINGUNA fila cumple eso\nsum(trimws(epa$AOI) == \"\")           # 15.850: los menores de 16\n\n\nQuien filtra con AOI != \"\" cree haber quitado a los menores y no ha quitado a nadie. No hay error ni aviso, y la tasa de actividad sale mal:\n\n\n\n\nFichero completo\nTasa de actividad\n\n\n\n\nfilter(AOI != \"\")\n51,22%\n\n\nfilter(trimws(AOI) != \"\")\n59,29%\n\n\n\n\nOcho puntos por dos espacios. trimws() quita los espacios de los extremos (como str_trim() del Tema 04); con el .RData hay que aplicarlo a los códigos antes de compararlos:\n\n\nepa &lt;- epa |&gt; mutate(AOI = trimws(AOI), NCONY = trimws(NCONY), NPERS = trimws(NPERS))"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#qué-significa-una-columna-vacía",
-    "href": "docs/Tema04anexo.html#qué-significa-una-columna-vacía",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Qué significa una columna vacía",
-    "text": "Qué significa una columna vacía\n\n\nUna columna vacía no dice por qué está vacía, y la diferencia decide qué hacer con ella:\n\n\n\n\n\n\n\n\n\nVariable (fichero completo)\nVacía\nQué significa\n\n\n\n\nRELLB1, TRAANT\n100%\nrelleno del formato: se tiran\n\n\nOCUPLU1\n98,7%\nno aplicable: solo quien tiene segundo empleo\n\n\nSITU, PARCO1\n56,8%\nno aplicable: solo los ocupados\n\n\n\n\nTirar OCUPLU1 por “tener demasiados ausentes” es tirar la respuesta a una pregunta que sí se hizo"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#elección-del-periodo-y-efecto-base",
-    "href": "docs/Tema04anexo.html#elección-del-periodo-y-efecto-base",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Elección del periodo y efecto base",
-    "text": "Elección del periodo y efecto base\n\nCon serie_ventas del Tema 04, el titular “las ventas han crecido un 65% en 2025” sale de comparar enero con diciembre:\n\n\nserie_ventas |&gt;\n  filter(mes &gt;= as.Date(\"2025-01-01\")) |&gt;\n  summarize(crecimiento = last(ventas) / first(ventas) - 1)\n\n\nEse 65% mide la distancia entre el mes más flojo y la campaña de Navidad. Casi cualquier tendencia se fabrica eligiendo el punto de partida: mostrad la serie completa\nEfecto base: crecer un 20% en 2021 tras caer un 22% en 2020 es recuperar parte de lo perdido. Con dos tasas consecutivas, mirad el nivel: 100 × 0,78 × 1,20 = 93,6, por debajo del punto de salida"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#composición-un-ejemplo-con-datos-oficiales",
-    "href": "docs/Tema04anexo.html#composición-un-ejemplo-con-datos-oficiales",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Composición: un ejemplo con datos oficiales",
-    "text": "Composición: un ejemplo con datos oficiales\n\nLa paradoja de Simpson del Tema 04 (la app devuelve más en cada categoría y menos en el total) es el problema central del análisis con datos observacionales: el agregado mezcla el efecto que interesa con el efecto de quién está en cada grupo\nEl salario medio subió durante la crisis de 2008-2013 en varios países mientras casi nadie tenía subidas: los empleos destruidos fueron los de menor salario, y eso elevó la media de los que quedaron\nOtro: una comparación de rentabilidad entre sectores sin controlar el tamaño de las empresas mide sobre todo tamaño\nQué hacer, igual que con los canales: comparar dentro de grupos homogéneos (mismo puesto, mismo tamaño), o ponderar todos los periodos con la misma composición. El Tema 05 lo formaliza: comparar “todo lo demás igual” es lo que hace una regresión"
-  },
-  {
-    "objectID": "docs/Tema04anexo.html#buenas-prácticas-del-aed",
-    "href": "docs/Tema04anexo.html#buenas-prácticas-del-aed",
-    "title": "Tema 04 - Anexo: herramientas y fuentes",
-    "section": "Buenas prácticas del AED",
-    "text": "Buenas prácticas del AED\n\n\n\nEn la limpieza\n\nLos datos en bruto no se modifican nunca: la limpieza es un script reproducible\nCada corrección lleva escrito el motivo y la regla aplicada, no solo el código\nContar filas antes y después de cada paso, y comprobar que el cambio es el esperado\nLos ausentes y los atípicos se investigan antes de tratarse: por qué faltan, por qué son extremos\n\nCon microdatos\n\nEl diseño de registro se lee antes de escribir código; se replica una cifra publicada antes de calcular la propia; la suma de los pesos tiene que dar una población reconocible\n\n\nEn la descriptiva\n\nPrimero la pregunta, después el estadístico. Si ninguna decisión cambia, sobra\nCon distribuciones asimétricas, nunca un solo número: centro, dispersión y forma\nToda tasa lleva su denominador y su nivel al lado\nAntes de comparar grupos, mirar la composición de cada grupo\n\nErrores más caros: convertir con as.numeric() sin mirar, promediar promedios, comparar meses consecutivos en series estacionales y confiar en una media calculada sobre quienes decidieron responder"
-  },
-  {
     "objectID": "docs/Tema04.html#qué-es-el-aed-y-para-qué-sirve",
     "href": "docs/Tema04.html#qué-es-el-aed-y-para-qué-sirve",
     "title": "Tema 04 - Análisis Exploratorio de Datos (AED)",
@@ -1286,6 +1013,384 @@
     "title": "Tema 04 - Análisis Exploratorio de Datos (AED)",
     "section": "Y lo que ninguna tabla puede dar: un modelo",
     "text": "Y lo que ninguna tabla puede dar: un modelo\n\n\nLa tabla anterior ya es un modelo lineal, con una sola variable: \\(\\text{parado}_i = \\beta_0 + \\beta_1\\, \\text{pareja parada}_i + u_i\\)\n\n\nlm(parado ~ pareja_parada, data = activos_con_pareja, weights = FACTOREL)\n\n\n\\(\\hat\\beta_0 = 0{,}0600\\) es la tasa con la pareja ocupada (6,00%) y \\(\\hat\\beta_1 = 0{,}1504\\) la diferencia: 6,00 + 15,04 = 21,04%. Como parado vale 1 o 0, \\(\\beta_1\\) es una diferencia de probabilidades\n¿Sigue ahí la diferencia una vez descontados sexo, edad y estudios? Se añaden al modelo:\n\n\\[\n\\text{parado}_i = \\beta_0 + \\beta_1\\, \\text{pareja parada}_i + \\beta_2\\, \\text{mujer}_i + \\beta_3\\, \\text{superior}_i + \\gamma\\, \\text{edad}_i + u_i\n\\]\n\nlm(parado ~ pareja_parada + mujer + superior + factor(edad_g),\n   data = activos_con_pareja, weights = FACTOREL)\n\n\nCon 27.888 personas activas con pareja activa: tener la pareja parada se asocia con 14,9 puntos más de probabilidad de estar parado, a igualdad de lo demás; ser mujer, 5,6 más; tener estudios superiores, 5,0 menos. Es asociación: quien tiene pareja parada se parece a ella en muchas cosas (sector, comarca, estudios)\n\n\n\n\nactivos_con_pareja: personas ocupadas o paradas cuyo cónyuge también es activo (la muestra de la tabla); mujer es SEXO1 == \"6\", superior es NFORMA == \"SU\", edad_g es EDAD1. Verificado el 19-oct-2026 con datos_2t26.zip: n = 27.888; modelo simple 0,0600 y 0,1504; completo 0,1487, 0,0558 y -0,0502.\nLos errores estándar de una encuesta con diseño complejo no son los que da lm() sin más."
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#esto-es-material-de-consulta",
+    "href": "docs/Tema04anexo.html#esto-es-material-de-consulta",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Esto es material de consulta",
+    "text": "Esto es material de consulta\n\nLo que hay aquí amplía el Tema 04: herramientas que automatizan la detección de problemas, más trampas de los KPI, la API del INE, los formatos en que llegan los microdatos, cómo leer una columna vacía y una lista de comprobación del AED\nSe consulta cuando hace falta en un trabajo; en clase no se ve"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#herramientas-que-automatizan-la-detección-1",
+    "href": "docs/Tema04anexo.html#herramientas-que-automatizan-la-detección-1",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Herramientas que automatizan la detección",
+    "text": "Herramientas que automatizan la detección\n\nEstas funciones recorren todas las variables y ahorran los primeros diez minutos\n\n\nlibrary(modelsummary)\npedidos |&gt; datasummary_skim()                  # numéricas\npedidos |&gt; datasummary_skim(type = \"categorical\")\n\nlibrary(skimr)\npedidos |&gt; skim()\n\nlibrary(janitor)\npedidos_bruto |&gt; get_dupes(id_pedido)          # duplicados de clave\n\n\nTambién existen informes completos automáticos (DataExplorer::create_report(), dlookr) y se pueden pedir a una IA generativa\nLimitaciones: producen mucho ruido, no conocen el contexto y no distinguen un error de un dato extremo legítimo\nRegla: la automatización acelera la detección; la decisión sigue siendo del analista, que es quien conoce el negocio\n\n\n\nÚtiles para uso propio, no para un informe final: cien gráficos sin priorizar no comunican nada.\nUna IA no sabe que en este sector el ROE típico es 8-12%: eso lo aportáis vosotros."
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#la-api-del-ine-la-petición",
+    "href": "docs/Tema04anexo.html#la-api-del-ine-la-petición",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "La API del INE: la petición",
+    "text": "La API del INE: la petición\n\n\nEl INE ofrece un servicio web que devuelve los datos de una tabla en formato JSON. La petición tiene esta forma:\n\nhttps://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/{id_tabla}?nult={n}\n\n{id_tabla} es el identificador de la tabla publicada en INEbase, y nult el número de periodos más recientes que se piden\n\n\nlibrary(jsonlite)\n\n# Tabla 50902: IPC nacional, índice general y grupos ECOICOP\nurl_ipc &lt;- \"https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/50902?nult=36\"\nipc_json &lt;- fromJSON(url_ipc, simplifyVector = FALSE)\n\n# Tabla 65335: tasa de paro por sexo y comunidad autonoma, trimestral\n# (identificador comprobado en INEbase). Otras utiles: 74999 y 14506\n# (paro por grupos de edad y por comunidad).\n# url_epa &lt;- \"https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/65335?nult=20\"\n\n\nExiste además un paquete de R que envuelve esta API (ineapir): consultad su documentación antes de usarlo en un trabajo\nRegla del curso: nunca copiéis un identificador de tabla sin comprobar en la web del INE qué contiene exactamente"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#del-json-a-una-tabla-ordenada",
+    "href": "docs/Tema04anexo.html#del-json-a-una-tabla-ordenada",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Del JSON a una tabla ordenada",
+    "text": "Del JSON a una tabla ordenada\n\n\nLa respuesta es una lista de series; cada serie tiene un nombre y sus observaciones. Hay que dejarla como los datos ordenados del Tema 03\n\n\nipc &lt;- tibble(serie = map_chr(ipc_json, \"Nombre\"),\n              datos = map(ipc_json, \"Data\")) |&gt;\n  filter(str_detect(serie, \"Variación anual\"),\n         str_detect(serie, \"Índice general|Alimentos\")) |&gt;\n  unnest_longer(datos) |&gt;\n  mutate(anio  = map_int(datos, \"Anyo\"),\n         mes   = map_int(datos, \"FK_Periodo\"),\n         fecha = as.Date(sprintf(\"%d-%02d-01\", anio, mes)),\n         valor = map_dbl(datos, \"Valor\")) |&gt;\n  select(serie, fecha, valor) |&gt; arrange(serie, fecha)\n\n\nLa fecha se construye con el año y el periodo que vienen etiquetados. El campo Fecha trae milisegundos desde 1970 en hora local: convertirlo suponiendo UTC desplaza cada observación un mes atrás, y el error es silencioso\nY entonces, y solo entonces, se responde a la pregunta\n\n\nggplot(ipc, aes(x = fecha, y = valor, color = serie)) +\n  geom_line() + geom_hline(yintercept = 0)\n\n\n\n\nFK_Periodo es el mes en una tabla mensual; en una trimestral NO lo es. Comprobarlo siempre antes de reutilizar este código con otra tabla.\nResultado de referencia (descarga de enero de 2023): variación anual del índice general 5,9% frente al 15,4% de alimentos y bebidas no alcohólicas. La brecha se cierra a lo largo de 2023-2024.\nEse contraste es exactamente lo que no se ve en el titular del IPC general."
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#dentro-del-zip-hay-varios-formatos",
+    "href": "docs/Tema04anexo.html#dentro-del-zip-hay-varios-formatos",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Dentro del zip hay varios formatos",
+    "text": "Dentro del zip hay varios formatos\n\n\nEl mismo zip trae los datos en ancho fijo (.txt), en texto separado por tabuladores, en .RData, en parquet y en los formatos de SAS, SPSS y Stata, más el diccionario en JSON\nEn clase leemos el texto separado, y no es por gusto:\n\nEs lo que os vais a encontrar fuera: la mayoría de las fuentes no os regalan un .RData\nObliga a mirar los tipos, que es medio análisis exploratorio\n\n\n\nlibrary(tidyverse)\nepa &lt;- read_delim(\"CSV/EPA_2026T2.tab\", delim = \"\\t\",\n                  col_types = cols(.default = col_character()))\n\n\nQue existan los otros formatos conviene saberlo: load() para el .RData (cómodo pero solo sirve en R) y arrow::read_parquet() para el parquet (el formato que hay que conocer cuando el fichero no cabe en memoria)\nQuien solo sabe abrir el .RData se queda bloqueado el día que la fuente no lo publique. Y lo leemos como texto porque los códigos del INE son texto: \"03\" no es el número 3"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#si-se-lee-el-.rdata-los-espacios-que-no-se-ven",
+    "href": "docs/Tema04anexo.html#si-se-lee-el-.rdata-los-espacios-que-no-se-ven",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Si se lee el .RData: los espacios que no se ven",
+    "text": "Si se lee el .RData: los espacios que no se ven\n\n\nEn el .RData, AOI vacía (menores de 16 años) llega como dos espacios; en el .tab leído con read_delim(), como NA\n\n\nepa |&gt; count(AOI)                    # \"  \", \"03\", \"04\", \"05\", \"06\", \"07\", \"08\", \"09\"\nsum(epa$AOI == \"\")                   # 0: NINGUNA fila cumple eso\nsum(trimws(epa$AOI) == \"\")           # 15.850: los menores de 16\n\n\nQuien filtra con AOI != \"\" cree haber quitado a los menores y no ha quitado a nadie. No hay error ni aviso, y la tasa de actividad sale mal:\n\n\n\n\nFichero completo\nTasa de actividad\n\n\n\n\nfilter(AOI != \"\")\n51,22%\n\n\nfilter(trimws(AOI) != \"\")\n59,29%\n\n\n\n\nOcho puntos por dos espacios. trimws() quita los espacios de los extremos (como str_trim() del Tema 04); con el .RData hay que aplicarlo a los códigos antes de compararlos:\n\n\nepa &lt;- epa |&gt; mutate(AOI = trimws(AOI), NCONY = trimws(NCONY), NPERS = trimws(NPERS))"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#qué-significa-una-columna-vacía",
+    "href": "docs/Tema04anexo.html#qué-significa-una-columna-vacía",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Qué significa una columna vacía",
+    "text": "Qué significa una columna vacía\n\n\nUna columna vacía no dice por qué está vacía, y la diferencia decide qué hacer con ella:\n\n\n\n\n\n\n\n\n\nVariable (fichero completo)\nVacía\nQué significa\n\n\n\n\nRELLB1, TRAANT\n100%\nrelleno del formato: se tiran\n\n\nOCUPLU1\n98,7%\nno aplicable: solo quien tiene segundo empleo\n\n\nSITU, PARCO1\n56,8%\nno aplicable: solo los ocupados\n\n\n\n\nTirar OCUPLU1 por “tener demasiados ausentes” es tirar la respuesta a una pregunta que sí se hizo"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#elección-del-periodo-y-efecto-base",
+    "href": "docs/Tema04anexo.html#elección-del-periodo-y-efecto-base",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Elección del periodo y efecto base",
+    "text": "Elección del periodo y efecto base\n\nCon serie_ventas del Tema 04, el titular “las ventas han crecido un 65% en 2025” sale de comparar enero con diciembre:\n\n\nserie_ventas |&gt;\n  filter(mes &gt;= as.Date(\"2025-01-01\")) |&gt;\n  summarize(crecimiento = last(ventas) / first(ventas) - 1)\n\n\nEse 65% mide la distancia entre el mes más flojo y la campaña de Navidad. Casi cualquier tendencia se fabrica eligiendo el punto de partida: mostrad la serie completa\nEfecto base: crecer un 20% en 2021 tras caer un 22% en 2020 es recuperar parte de lo perdido. Con dos tasas consecutivas, mirad el nivel: 100 × 0,78 × 1,20 = 93,6, por debajo del punto de salida"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#composición-un-ejemplo-con-datos-oficiales",
+    "href": "docs/Tema04anexo.html#composición-un-ejemplo-con-datos-oficiales",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Composición: un ejemplo con datos oficiales",
+    "text": "Composición: un ejemplo con datos oficiales\n\nLa paradoja de Simpson del Tema 04 (la app devuelve más en cada categoría y menos en el total) es el problema central del análisis con datos observacionales: el agregado mezcla el efecto que interesa con el efecto de quién está en cada grupo\nEl salario medio subió durante la crisis de 2008-2013 en varios países mientras casi nadie tenía subidas: los empleos destruidos fueron los de menor salario, y eso elevó la media de los que quedaron\nOtro: una comparación de rentabilidad entre sectores sin controlar el tamaño de las empresas mide sobre todo tamaño\nQué hacer, igual que con los canales: comparar dentro de grupos homogéneos (mismo puesto, mismo tamaño), o ponderar todos los periodos con la misma composición. El Tema 05 lo formaliza: comparar “todo lo demás igual” es lo que hace una regresión"
+  },
+  {
+    "objectID": "docs/Tema04anexo.html#buenas-prácticas-del-aed",
+    "href": "docs/Tema04anexo.html#buenas-prácticas-del-aed",
+    "title": "Tema 04 - Anexo: herramientas y fuentes",
+    "section": "Buenas prácticas del AED",
+    "text": "Buenas prácticas del AED\n\n\n\nEn la limpieza\n\nLos datos en bruto no se modifican nunca: la limpieza es un script reproducible\nCada corrección lleva escrito el motivo y la regla aplicada, no solo el código\nContar filas antes y después de cada paso, y comprobar que el cambio es el esperado\nLos ausentes y los atípicos se investigan antes de tratarse: por qué faltan, por qué son extremos\n\nCon microdatos\n\nEl diseño de registro se lee antes de escribir código; se replica una cifra publicada antes de calcular la propia; la suma de los pesos tiene que dar una población reconocible\n\n\nEn la descriptiva\n\nPrimero la pregunta, después el estadístico. Si ninguna decisión cambia, sobra\nCon distribuciones asimétricas, nunca un solo número: centro, dispersión y forma\nToda tasa lleva su denominador y su nivel al lado\nAntes de comparar grupos, mirar la composición de cada grupo\n\nErrores más caros: convertir con as.numeric() sin mirar, promediar promedios, comparar meses consecutivos en series estacionales y confiar en una media calculada sobre quienes decidieron responder"
+  },
+  {
+    "objectID": "docs/MT-T04-B-ZLQE.html",
+    "href": "docs/MT-T04-B-ZLQE.html",
+    "title": "Mini-test, versión B",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA. Son tres preguntas: en la «Respuesta 4» del formulario marcad cualquier letra, no cuenta.\nContestad aquí: formulario del mini-test"
+  },
+  {
+    "objectID": "docs/MT-T04-B-ZLQE.html#pregunta-1",
+    "href": "docs/MT-T04-B-ZLQE.html#pregunta-1",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\n¿Qué devuelve esto?\nimporte &lt;- c(\"1.200,50\", \"3000\")\nsum(parse_number(importe, locale = locale(decimal_mark = \",\")))\n\n301,2\n4200,5\nNA\n1500,5"
+  },
+  {
+    "objectID": "docs/MT-T04-B-ZLQE.html#pregunta-2",
+    "href": "docs/MT-T04-B-ZLQE.html#pregunta-2",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\ndescuento vale NA cuando el pedido no tenía promoción. ¿Qué devuelve esto?\ndescuento &lt;- c(0.28, NA, NA, 0.4)\nmean(replace_na(descuento, 0))\n\n0,15\n0,30\n0,17\nNA"
+  },
+  {
+    "objectID": "docs/MT-T04-B-ZLQE.html#pregunta-3",
+    "href": "docs/MT-T04-B-ZLQE.html#pregunta-3",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\n¿Qué devuelve esto?\npedidos &lt;- tibble(canal = c(\"web\", \"web\", \"app\", \"apps\"),\n                  devuelto = c(TRUE, FALSE, TRUE, TRUE))\npedidos |&gt; group_by(canal) |&gt; summarize(tasa = mean(devuelto))\n\nUna sola fila, con 0,75\nTres filas: app 1, apps 1 y web 0,5\nDos filas: app 2 y web 1\nDos filas: app 1 y web 0,5"
+  },
+  {
+    "objectID": "docs/MT-T00-A-CVWS.html",
+    "href": "docs/MT-T00-A-CVWS.html",
+    "title": "Mini-test, versión A",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
+  },
+  {
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-1",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-1",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\n¿Qué muestra la consola?\nventas &lt;- c(10, 8, NA, 12)\nventas &lt;- na.omit(ventas)   # linea ejecutada antes de la siguiente\nmean(ventas)\n\n7.5\n10\nNA\nDa error"
+  },
+  {
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-2",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-2",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\n¿De qué tipo queda notas?\nnotas &lt;- c(7, 9, \"5\")\n\nNumérico, porque dos de los tres son números\nCarácter\nLógico\nDa error, porque no se pueden mezclar tipos"
+  },
+  {
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-3",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-3",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Ana\", notas = c(5, 7, 9))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n7\nDa error, porque ficha es una lista y no se puede promediar\n14\nDa error, porque ficha[[2]] no es un número"
+  },
+  {
+    "objectID": "docs/MT-T00-A-CVWS.html#pregunta-4",
+    "href": "docs/MT-T00-A-CVWS.html#pregunta-4",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(10, 20, 30, 40)\ndto     &lt;- c(0.1, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n9 10 30 40\nDa error, porque los vectores no miden igual\n9 10\n9 10 27 20"
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la ficha de la asignatura\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) antes de la fecha del primer ejercicio largo (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.\n\n\n\n\nEjercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación.\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios durante el periodo de clases (35%). Incluyen:\n\nDos ejercicios largos individuales, para hacer fuera de clase (11% cada uno). Los detalles se darán con suficiente antelación.\nUna prueba presencial breve (6%). Se avisará con antelación.\nEl trabajo desarrollado en clase (7%): lo que produzcáis en las sesiones prácticas podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nTrabajo empírico final (50%): ver Proyecto Final.\nParticipación (15%). Incluye:\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\nRequisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los ejercicios de clase NO es recuperable en el segundo periodo de evaluación."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nLos mismos dos ejercicios largos que en la continua (14,5% cada uno), PERO cada ejercicio se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (6%), realizada en la cita de la defensa del segundo ejercicio largo.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+  },
+  {
+    "objectID": "docs/MT-T00-B-CVWS.html",
+    "href": "docs/MT-T00-B-CVWS.html",
+    "title": "Mini-test, versión B",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
+  },
+  {
+    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-1",
+    "href": "docs/MT-T00-B-CVWS.html#pregunta-1",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\nFijaos en la longitud de cada vector. ¿Qué devuelve la última línea?\nprecios &lt;- c(100, 200, 300, 400)\ndto     &lt;- c(0.2, 0.5)\nprecios &lt;- precios[1:2]   # ejecutado antes\nprecios * (1 - dto)\n\n80 100\n80 100 240 200\nDa error, porque los vectores no miden igual\n80 100 300 400"
+  },
+  {
+    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-2",
+    "href": "docs/MT-T00-B-CVWS.html#pregunta-2",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\nCon esta ficha, ¿qué muestra la última línea?\nficha &lt;- list(nombre = \"Luis\", notas = c(4, 6, 8))\nficha$notas &lt;- ficha$notas * 2   # ejecutado tambien\nmean(ficha[[2]])\n\n12\nDa error, porque ficha[[2]] no es un número\nDa error, porque ficha es una lista y no se puede promediar\n6"
+  },
+  {
+    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-3",
+    "href": "docs/MT-T00-B-CVWS.html#pregunta-3",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nprecios guarda los precios como texto. ¿Cuánto devuelve la última línea?\nprecios &lt;- c(\"10\", \"9\", \"2\")\nsum(precios &gt; \"2\")\n\n1\n2\n3\nDa error, porque no se puede comparar texto"
+  },
+  {
+    "objectID": "docs/MT-T00-B-CVWS.html#pregunta-4",
+    "href": "docs/MT-T00-B-CVWS.html#pregunta-4",
+    "title": "Mini-test, versión B",
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\n¿Qué muestra la consola?\ngastos &lt;- c(20, 16, NA, 24)\ngastos &lt;- na.omit(gastos)   # linea ejecutada antes de la siguiente\nmean(gastos)\n\n15\n20\nNA\nDa error"
+  },
+  {
+    "objectID": "docs/Tema02ej.html",
+    "href": "docs/Tema02ej.html",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "",
+    "text": "Estos ejercicios se van haciendo durante las clases del tema: las transparencias indican en qué momento toca cada uno.\n\n\n\n\n\n\nImportante\n\n\n\nSi no lo has hecho ya, lee Cómo trabajar en cada tema: la carpeta del tema con su subdirectorio data, cómo se crea el documento, qué va en la cabecera (con embed-resources: true), la primera celda y cómo se entrega. Vale para todo el curso.\n\n\nDe este tema, lo que te hace falta:\n\nLos datos son datosVisualizacion.RData y empresas.RData, de la página Datos. Descárgalos en tu subdirectorio data.\nUn documento por ejercicio, T02_E&lt;n&gt;_&lt;ID&gt;.qmd: T02_E1_12345678.qmd para el ejercicio 1, T02_E2_12345678.qmd para el 2, y así. Cada uno carga sus propios datos en su primera celda."
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-a",
+    "href": "docs/Tema02ej.html#apartado-a",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado a)",
+    "text": "Apartado a)\n\nDibuja la relación entre ingresos y gasto con geom_point().\nPinta TODOS los puntos de rojo, de verdad (que no aparezca ninguna leyenda).\nEjecuta esto y describe qué ves: ¿de qué color salen los puntos? ¿qué dice la leyenda? ¿por qué?\n\n\nggplot(clientes, aes(x = ingresos, y = gasto)) +\n  geom_point(aes(color = \"red\"))\n\n\nDistingue el segmento por color y el canal por forma. Y ahora añade además size = edad. ¿Se lee el gráfico con tres variables encima? ¿Cuántas cosas a la vez puede leer quien lo mira? Quédate con la versión que sí se lee y di por qué.\nAñade size = 4 dentro de aes() y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla te sirve para decidirlo?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-b-capas-con-sus-propios-datos",
+    "href": "docs/Tema02ej.html#apartado-b-capas-con-sus-propios-datos",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado b): capas con sus propios datos",
+    "text": "Apartado b): capas con sus propios datos\nSobre el gráfico del apartado a), con el segmento por color.\n\nEtiqueta a quienes más gastan. Como solo quieres unas pocas fichas, esa capa lleva sus propios datos, igual que hicimos en clase con los países:\n\ntop &lt;- clientes[clientes$gasto &gt; 8000, ]\n\ny encima una capa geom_text_repel(data = top, aes(label = cliente)).\n¿Por qué esa capa necesita sus propios datos, y qué pasaría si le dieras clientes entero?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-c-el-gráfico-cuenta-por-ti",
+    "href": "docs/Tema02ej.html#apartado-c-el-gráfico-cuenta-por-ti",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado c): el gráfico cuenta por ti",
+    "text": "Apartado c): el gráfico cuenta por ti\n\nNúmero de clientes de cada segmento, con geom_bar(). ¿Dónde está la tabla de frecuencias que has usado?\nLo mismo, pero con la PROPORCIÓN que representa cada segmento, sin calcular nada aparte: tienes el patrón con after_stat(prop) en las transparencias.\n\n\nEn una frase: ¿qué significa que un geom “tiene una estadística por defecto”?"
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-d-distribuciones",
+    "href": "docs/Tema02ej.html#apartado-d-distribuciones",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado d): distribuciones",
+    "text": "Apartado d): distribuciones\n\nDistribución de los ingresos con geom_histogram(), probando bins = 10, bins = 40 y binwidth = 3. ¿Cuál de las tres le enseñarías a dirección y por qué?\nCon una de esas tres se ve un grupo de clientes de ingresos muy bajos y con las otras no. ¿Con cuál, y qué te dice eso sobre elegir los intervalos?\nCompara el gasto entre segmento con un geom_boxplot()."
+  },
+  {
+    "objectID": "docs/Tema02ej.html#apartado-e-contexto-y-aspecto",
+    "href": "docs/Tema02ej.html#apartado-e-contexto-y-aspecto",
+    "title": "Tema 02 - Visualización de datos",
+    "section": "Apartado e): contexto y aspecto",
+    "text": "Apartado e): contexto y aspecto\n\nVuelve al gráfico del apartado a) y añádele una recta de tendencia con geom_smooth(method = \"lm\", se = FALSE). ¿Qué dice esa recta que no dijera la nube de puntos?\nDivídelo en facetas por canal. ¿Se lee mejor así o con el color? ¿Por qué?\nAñade una línea de referencia horizontal en el gasto medio, discontinua, y anótala con annotate() para que se entienda qué marca.\nPonle labs() completo: título, ejes con sus unidades y un caption con la fuente.\nPrueba al menos dos temas y quédate con uno. Prueba también uno profesional, de ggthemes:\n\nlibrary(ggthemes)\nmi_grafico + theme_economist()"
+  },
+  {
+    "objectID": "docs/Tema00ej1.html",
+    "href": "docs/Tema00ej1.html",
+    "title": "Tema 0. Introducción a R. Ejercicio 1",
+    "section": "",
+    "text": "En este ejercicio vamos a practicar los conceptos básicos de R con datos NUEVOS, distintos de los de clase: el objetivo es comprobar que sabéis aplicarlos sin el guion delante. Debéis escribir un archivo de código de R con los comandos necesarios para responder a los siguientes ejercicios. Podéis encontrar una plantilla para vuestras respuestas aquí.\nRecordad la regla con la IA: puede ayudaros a entender (un error, una función); si os escribe la solución y la copiáis sin entenderla, el ejercicio no os habrá servido y se notará después.\n\n\nProblema 1\nEl archivo Ventas1.xlsx contiene las ventas de dos tiendas, A y B, de Lunes a Viernes. Calcular las ventas totales (sumando ambas tiendas) para cada día, las ventas totales de ambas tiendas en toda la semana y las ventas medias de la semana de la tienda A.\nNOTA: se recomienda crear una carpeta para el ejercicio, abrirla en Positron (File &gt; Open Folder) y guardar el archivo Ventas1.xlsx en ella.\n\n\nProblema 2\n\nLos archivos Ventas2a.xlsx y Ventas2b.xlsx contiene el valor de las ventas de tres productos cada uno, a nivel nacional y a nivel internacional (en millones de euros). Combinar ambos conjuntos de datos en uno solo con las información de todos los productos.\n\nPISTA: rbind() añade filas y cbind() columnas a un data frame (consultad la ayuda: ?rbind).\n\n\n\nAñadir una columna con el valor total de las ventas (nacionales más internacionales) de cada producto.\n\n\nCalcular la media del valor de las ventas internacionales (media sobre todos los productos) y la media del valor de las ventas nacionales pero solo para los productos X, Y y R.\n\n\nSe quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:\n\n\n\n\n\nPrecioN\nPrecioI\n\n\n\n\nX\n5.2\n4.2\n\n\nY\n4.7\n4.3\n\n\nZ\n5.7\n4.2\n\n\nR\n6.1\n4.5\n\n\nS\n7.0\n4.9\n\n\nT\n6.7\n4.8\n\n\n\n\n\n\nProblema 3\n\nEl conjunto de datos mtcars está incluido en R por defecto; buscar mtcars en la ayuda (?mtcars o el panel Help de Positron) para conocer las variables que incluye. Comprobar la estructura con str() y visualizar las primeras observaciones con head().\n\nGenerar la variable (escalar) Datsun710_CV con los caballos de potencia del coche modelo Datsun 710.\nGenerar el vector Valiant_vector con toda la información (esto es, variables) disponibles sobre el coche modelo Valiant.\n\n\n\nGenerar el vector cilindros con la información para todos los modelos de coche de la variable sobre el número de cilindros. Generar el vector cambio_vector con la información de la variable de tipo de cambio (manual o automático) de todos los modelos de coche Mazda y Hornet.\n\n\nGenerar media_consumo_autom con el consumo medio de los coches con cambio automático. Generar media_consumo_autom_cyl4 con el consumo medio de los coches con cambio automático y cuatro cilindros.\n\n\n\n\nCómo se entrega\nSe entrega por el formulario de entrega, que es el único del curso.\nIMPORTANTE: el nombre del fichero que subáis DEBE seguir este formato, que incluye vuestro identificador: ej.,\n\nTema00ej1_12345678.R\n\nCon DNI, los 8 números quitando la letra del final. Con NIE, la letra del principio y los números, quitando la del final. Con pasaporte u otro documento, entero, sin quitar nada (ver Cómo trabajar)."
+  },
+  {
+    "objectID": "docs/MT-T00_01-A-ORCP.html",
+    "href": "docs/MT-T00_01-A-ORCP.html",
+    "title": "Mini-test, versión A",
+    "section": "",
+    "text": "Tenéis 5 minutos. Sin ejecutar R y sin IA.\nContestad aquí: formulario del mini-test"
+  },
+  {
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-1",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 1",
+    "text": "Pregunta 1\n¿Qué devuelve la última línea?\ngasto &lt;- c(20, 30, 40, 50)\ngasto[gasto &gt;= 30]\n\n40 50\n30 40 50\n20 30\n3 4"
+  },
+  {
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-2",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 2",
+    "text": "Pregunta 2\n¿Qué devuelve la última línea?\nventas &lt;- c(4, 6, NA, 8)\nventas[3] &lt;- 0   # ejecutado antes\nmean(ventas, na.rm = TRUE)\n\n6\n4.5\nNA\n18"
+  },
+  {
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-3",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 3",
+    "text": "Pregunta 3\nEn nuestras fichas, ¿qué muestra la última línea?\ngenero_f &lt;- factor(c(2, 1, 2, 2), levels = c(1, 2),\n                   labels = c(\"Mujer\", \"Hombre\"))\ngenero_f &lt;- factor(c(2, 1, 2, 2))   # ejecutado antes\nsummary(genero_f)\n\nMujer 1 y Hombre 3\n1 1 y 2 3\nMujer 3 y Hombre 1\nMin. 1, Mean 1.75, Max. 2"
+  },
+  {
+    "objectID": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
+    "href": "docs/MT-T00_01-A-ORCP.html#pregunta-4",
+    "title": "Mini-test, versión A",
+    "section": "Pregunta 4",
+    "text": "Pregunta 4\nVuestro .qmd tiene una sola celda de R, con estas dos líneas. ¿Qué sale en el HTML?\n#| include: false\n# echo: false\nmean(c(2, 4, 6))\n\nEl código y [1] 4\nNada\nSolo [1] 4\nSolo el código"
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html",
+    "href": "docs/Tema05previodoc.html",
+    "title": "Tema 05 - Repaso",
+    "section": "",
+    "text": "Esta lectura repasa lo que ya visteis en cursos anteriores y hay que traer estudiado a la primera clase del Tema 05. Los ejemplos son del caso del tema: una cadena de tiendas que encuestó a 404 de sus clientes."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#población-muestra-y-estimador",
+    "href": "docs/Tema05previodoc.html#población-muestra-y-estimador",
+    "title": "Tema 05 - Repaso",
+    "section": "1.1 Población, muestra y estimador",
+    "text": "1.1 Población, muestra y estimador\nLa población es el conjunto de individuos sobre el que queremos aprender algo. Algunas poblaciones son fijas y podrían observarse enteras, aunque con un coste enorme, como los habitantes de un país en una fecha. En general, la población se define de forma potencial: la de clientes de una cadena incluye a los pasados, los actuales y los futuros, y a los de tiendas que aún no han abierto en zonas nuevas. Es inabarcable, y lo que observamos es una muestra, con la que aprendemos sobre el resto.1 En los ejemplos, la muestra son \\(n = 404\\) clientes encuestados.\nUna característica numérica de la población se denomina parámetro. Por ejemplo, el gasto medio de los clientes en la población, que representamos por \\(\\mu\\), es un parámetro poblacional. Como desconocemos su valor, utilizamos la información de la muestra para aproximarlo mediante un estimador.\nPara estimar el gasto medio, observamos cuánto ha gastado cada cliente encuestado. Si identificamos a los clientes mediante \\(i = 1, \\dots, n\\) y llamamos \\(Y_i\\) al gasto del cliente \\(i\\), nuestra muestra está formada por las observaciones \\(Y_1, Y_2, \\dots, Y_n\\).\nEl estimador más sencillo de la media poblacional \\(\\mu\\) es la media muestral, \\(\\bar Y\\), que se obtiene sumando los gastos de todos los clientes encuestados y dividiendo entre el número de observaciones:\n\\[\n\\bar Y = \\frac{1}{n}\\sum_{i=1}^{n} Y_i = \\frac{Y_1 + Y_2 + \\cdots + Y_n}{n}.\n\\]\nAsí, \\(\\mu\\) es el gasto medio en la población y \\(\\bar Y\\) el de los 404 encuestados. Usamos el segundo para aproximar el primero."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#la-distribución-muestral",
+    "href": "docs/Tema05previodoc.html#la-distribución-muestral",
+    "title": "Tema 05 - Repaso",
+    "section": "1.2 La distribución muestral",
+    "text": "1.2 La distribución muestral\nSi seleccionáramos otra muestra aleatoria de clientes, obtendríamos un valor diferente de \\(\\bar Y\\). Por tanto, la media muestral es una variable aleatoria: su valor depende de la muestra seleccionada. Esto significa que tiene una distribución de probabilidad, denominada distribución muestral, que describe cómo varía el estimador entre distintas muestras.\nSupongamos que las observaciones son independientes y proceden de una misma población, con media \\(\\mu\\) y desviación típica \\(\\sigma\\). Bajo estas condiciones, podemos calcular la esperanza y la varianza de la media muestral:\n\\[\nE[\\bar Y] = \\mu, \\qquad\nVar(\\bar Y) = Var\\Bigl(\\frac{1}{n}\\sum_{i=1}^{n}Y_i\\Bigr) = \\frac{1}{n^2}\\,n\\sigma^2 = \\frac{\\sigma^2}{n}.\n\\]\nLa primera expresión indica que la media muestral es un estimador insesgado: si repitiéramos el muestreo muchas veces, el promedio de las medias muestrales coincidiría con la verdadera media poblacional \\(\\mu\\).\nLa segunda expresión mide la precisión del estimador. Cuanto mayor es el tamaño de la muestra, menor es su varianza y, por tanto, menor es la variabilidad de las estimaciones entre muestras. En consecuencia, las muestras más grandes permiten estimar la media poblacional con mayor precisión."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#el-error-estándar",
+    "href": "docs/Tema05previodoc.html#el-error-estándar",
+    "title": "Tema 05 - Repaso",
+    "section": "1.3 El error estándar",
+    "text": "1.3 El error estándar\nLa desviación típica de la distribución muestral de un estimador se denomina error estándar. En el caso de la media muestral, viene dado por:\n\\[\n\\frac{\\sigma}{\\sqrt{n}}.\n\\]\nEl error estándar mide cuánto varía la media muestral entre distintas muestras y, por tanto, nos permite evaluar la precisión de nuestra estimación. De esta expresión se derivan tres resultados importantes:\n\nAumentar el tamaño de la muestra mejora la precisión, pero con rendimientos decrecientes. Como el error estándar depende de \\(\\sqrt{n}\\), para reducirlo a la mitad necesitamos multiplicar por cuatro el tamaño de la muestra. Por ejemplo, si la desviación típica del gasto es \\(\\sigma = 1.400\\) euros, una muestra de 100 clientes produce un error estándar de 140 euros; con 400 clientes se reduce a 70 euros y con 1.600, a 35 euros.\nPodemos calcular cuántas observaciones necesitamos para alcanzar una precisión determinada. Si queremos obtener un error estándar de \\(e\\), podemos despejar el tamaño de la muestra: \\[\nn = \\left(\\frac{\\sigma}{e}\\right)^2.\n\\] Por ejemplo, si \\(\\sigma = 1.400\\) euros y queremos un error estándar de 20 euros, necesitamos encuestar a \\(n = (1.400/20)^2 = 4.900\\) clientes.\nLa precisión depende del tamaño de la muestra, \\(n\\), y de la variabilidad en la población, \\(\\sigma\\).\n\nEn la práctica, normalmente desconocemos la desviación típica poblacional \\(\\sigma\\). Por ello, la sustituimos por la desviación típica de la muestra, \\(s\\), y calculamos el error estándar estimado:\n\\[\n\\frac{s}{\\sqrt{n}}.\n\\]"
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#intervalos-de-confianza",
+    "href": "docs/Tema05previodoc.html#intervalos-de-confianza",
+    "title": "Tema 05 - Repaso",
+    "section": "1.4 Intervalos de confianza",
+    "text": "1.4 Intervalos de confianza\nEl error estándar mide cuánto varía la media muestral de una muestra a otra. Como no obtendremos siempre el mismo valor, acompañamos la estimación de un intervalo de confianza: un rango de valores plausibles para el parámetro, construido con un procedimiento que contiene el verdadero valor en un porcentaje conocido de las muestras, el nivel de confianza (por ejemplo, el 95%).\nPara construirlo hace falta conocer la distribución muestral de \\(\\bar Y\\), pero solo tenemos una muestra y no podemos observarla. Hay que suponer algo:\n\nDatos normales. Si los datos siguen una distribución normal en la población, \\(\\bar Y\\) es normal de forma exacta, para cualquier tamaño de muestra: \\(\\bar Y \\sim N\\!\\left(\\mu,\\ \\sigma^2/n\\right)\\).\nMuestra grande. Si no sabemos cómo se distribuyen los datos pero \\(n\\) es grande, el teorema central del límite (TCL) dice que \\(\\bar Y\\) es aproximadamente normal, sea cual sea esa distribución: \\(\\bar Y \\overset{a}{\\sim} N\\!\\left(\\mu,\\ \\sigma^2/n\\right)\\).\n\nEn los dos casos, como en una normal el 95% de la probabilidad está a menos de 1,96 desviaciones típicas de la media, el intervalo al 95% es\n\\[\n\\bar Y \\pm 1{,}96 \\cdot \\text{error estándar}.\n\\]\nCon \\(\\bar Y = 3.700\\) y error estándar 70: de 3.562,8 a 3.837,2 euros. El 95% se refiere al procedimiento: repetido en muchas muestras, el intervalo contiene la media poblacional el 95% de las veces.\nEn clase veremos una tercera forma, el bootstrap, que aproxima la distribución muestral con técnicas computacionales y menos supuestos."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#el-modelo",
+    "href": "docs/Tema05previodoc.html#el-modelo",
+    "title": "Tema 05 - Repaso",
+    "section": "3.1 El modelo",
+    "text": "3.1 El modelo\nEl modelo lineal supone que la media condicional es una suma ponderada de los regresores:\n\\[\nY = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\dots + \\beta_k X_k + u ,\n\\qquad E[u \\mid X_1,\\dots,X_k] = 0 .\n\\]\nNotación que usaremos:\n\n\\(n\\): número de observaciones; \\(i = 1,\\dots,n\\).\n\\(k\\): número de regresores sin contar la constante; hay \\(k+1\\) parámetros.\n\\(x_{ij}\\): valor de la variable \\(j\\) para la observación \\(i\\).\n\\(\\widehat\\beta_j\\): coeficiente estimado con la muestra; \\(\\beta_j\\), el valor poblacional desconocido."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#cómo-se-lee-un-coeficiente",
+    "href": "docs/Tema05previodoc.html#cómo-se-lee-un-coeficiente",
+    "title": "Tema 05 - Repaso",
+    "section": "3.2 Cómo se lee un coeficiente",
+    "text": "3.2 Cómo se lee un coeficiente\n\nConstante \\(\\beta_0\\): la media de \\(Y\\) cuando todas las \\(X\\) valen cero (el grupo de referencia). A veces no tiene interpretación útil (renta cero, edad cero).\nRegresor discreto: \\(\\beta_j\\) es el cambio en la media de \\(Y\\) cuando \\(X_j\\) aumenta una unidad, manteniendo constantes las demás variables del modelo (ceteris paribus): \\[\n\\beta_j = E[Y \\mid X_j = x + 1, \\ldots] - E[Y \\mid X_j = x, \\ldots].\n\\] El regresor 0/1 (por ejemplo, descuento) es el caso particular con \\(x = 0\\): \\(\\beta_j\\) es la diferencia de medias de \\(Y\\) entre quienes tienen \\(X_j = 1\\) y quienes tienen \\(X_j = 0\\).\nRegresor continuo: \\(\\beta_j\\) es la derivada parcial, \\[\n\\beta_j = \\frac{\\partial E[Y\\mid X]}{\\partial X_j},\n\\] y el cambio discreto por una unidad más, \\(E[Y \\mid X_j = x + 1, \\ldots] - E[Y \\mid X_j = x, \\ldots]\\), es su aproximación.\n\nLas unidades mandan: \\(\\beta_j\\) está en unidades de \\(Y\\) por unidad de \\(X_j\\). Si la renta pasa de euros a miles de euros, su coeficiente se multiplica por mil, y el modelo es el mismo. El tamaño de un coeficiente no dice, por sí solo, si la variable es importante."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#variables-cualitativas",
+    "href": "docs/Tema05previodoc.html#variables-cualitativas",
+    "title": "Tema 05 - Repaso",
+    "section": "3.3 Variables cualitativas",
+    "text": "3.3 Variables cualitativas\nUna variable con \\(C\\) categorías (zona: pueblo, ciudad, capital) entra en el modelo como \\(C-1\\) variables 0/1 (dummies). La categoría sin dummy es la referencia, y cada coeficiente es la diferencia de media respecto a ella:\n\\[\nY = \\beta_0 + \\beta_1\\,\\text{ciudad} + \\beta_2\\,\\text{capital} + u\n\\quad\\Longrightarrow\\quad\n\\begin{cases}\n  E[Y\\mid\\text{pueblo}]  = \\beta_0\\\\\n  E[Y\\mid\\text{ciudad}]  = \\beta_0 + \\beta_1\\\\\n  E[Y\\mid\\text{capital}] = \\beta_0 + \\beta_2\n\\end{cases}\n\\]\nSin otras variables, la regresión reproduce exactamente las medias de cada grupo. No se pueden incluir las \\(C\\) dummies junto con la constante: sumarían siempre 1 (la constante) y el modelo no tendría solución única. Es la trampa de las dummies. Cambiar la categoría de referencia deja el modelo igual y cambia solo cómo se leen los coeficientes."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#el-problema",
+    "href": "docs/Tema05previodoc.html#el-problema",
+    "title": "Tema 05 - Repaso",
+    "section": "4.1 El problema",
+    "text": "4.1 El problema\nPara unos coeficientes candidatos \\(b_0,\\dots,b_k\\), la predicción de la observación \\(i\\) es \\(\\widehat y_i = b_0 + b_1 x_{i1} + \\dots + b_k x_{ik}\\) y el residuo es \\(\\widehat e_i = y_i - \\widehat y_i\\). MCO elige los coeficientes que minimizan la suma de cuadrados de los residuos:\n\\[\n\\boxed{\\;\\widehat{\\beta} = \\arg\\min_{b_0,\\dots,b_k}\\\nSCR = \\sum_{i=1}^{n} \\bigl(y_i - b_0 - b_1 x_{i1} - \\dots - b_k x_{ik}\\bigr)^2\\;}\n\\]\nSe eleva al cuadrado para que los residuos positivos y negativos no se cancelen, y porque así el problema es una función cuadrática con un mínimo fácil de encontrar: igualando las derivadas a cero.\nEn el gráfico, 20 clientes de los datos del tema y dos rectas; los segmentos rojos son los residuos. La recta de MCO deja residuos mucho menores que la otra, y su suma de cuadrados es menos de la mitad."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#un-solo-regresor",
+    "href": "docs/Tema05previodoc.html#un-solo-regresor",
+    "title": "Tema 05 - Repaso",
+    "section": "4.2 Un solo regresor",
+    "text": "4.2 Un solo regresor\nCon \\(y_i = \\beta_0 + \\beta_1 x_i + u_i\\), las condiciones de primer orden son\n\\[\n\\frac{\\partial SCR}{\\partial b_0} = -2\\sum_i (y_i - b_0 - b_1 x_i) = 0, \\qquad\n\\frac{\\partial SCR}{\\partial b_1} = -2\\sum_i x_i (y_i - b_0 - b_1 x_i) = 0,\n\\]\ny su solución es\n\\[\n\\widehat{\\beta}_1 = \\frac{\\sum_i (x_i - \\bar{x})(y_i - \\bar{y})}{\\sum_i (x_i - \\bar{x})^2}\n= \\frac{\\widehat{Cov}(x,y)}{\\widehat{Var}(x)}, \\qquad\n\\widehat{\\beta}_0 = \\bar{y} - \\widehat{\\beta}_1 \\bar{x}.\n\\]\nLas condiciones de primer orden dicen que los residuos de MCO suman cero y no se correlacionan con cada regresor. Es la versión muestral de lo que el modelo supone en la población, \\(E[u\\mid X] = 0\\).\nEl \\(R^2\\) resume el ajuste: la fracción de la varianza de \\(Y\\) que reproducen las predicciones, entre 0 y 1. El resto queda en los residuos."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#logaritmos",
+    "href": "docs/Tema05previodoc.html#logaritmos",
+    "title": "Tema 05 - Repaso",
+    "section": "5.1 Logaritmos",
+    "text": "5.1 Logaritmos\nEl logaritmo convierte cambios proporcionales en cambios absolutos: un aumento del 1% en \\(x\\) suma a \\(\\log x\\) la cantidad \\(\\log(1{,}01) = 0{,}00995 \\approx 0{,}01\\). De ahí salen las tres lecturas:2\n\n\n\n\n\n\n\n\nModelo\nLectura de \\(\\beta_1\\)\nEjemplo con \\(\\beta_1\\)\n\n\n\n\n\\(y = \\beta_0 + \\beta_1 \\log x\\)\n\\(x\\) sube un 1% \\(\\Rightarrow\\) \\(y\\) sube \\(\\beta_1/100\\) unidades\n\\(\\beta_1 = 1.500\\): 15 euros\n\n\n\\(\\log y = \\beta_0 + \\beta_1 \\log x\\)\n\\(x\\) sube un 1% \\(\\Rightarrow\\) \\(y\\) sube un \\(\\beta_1\\)% (elasticidad)\n\\(\\beta_1 = 0{,}4\\): un 0,4%\n\n\n\\(\\log y = \\beta_0 + \\beta_1 x\\)\n\\(x\\) sube una unidad \\(\\Rightarrow\\) \\(y\\) sube un \\(100\\beta_1\\)%\n\\(\\beta_1 = 0{,}05\\): un 5%\n\n\n\nLa última lectura es una aproximación válida para coeficientes pequeños. El cambio exacto es \\(100\\,(e^{\\beta_1} - 1)\\%\\): con \\(\\beta_1 = 0{,}05\\) es 5,13% (casi igual), pero con \\(\\beta_1 = 0{,}3\\) es 34,99%, no 30%.\nCon \\(y = \\beta_0 + \\beta_1 \\log x\\), un euro más de renta importa menos cuanto más renta se tiene: rendimientos decrecientes. Lo constante es el efecto de un 1% más. El logaritmo solo existe para valores positivos: las observaciones con \\(x = 0\\) se pierden."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#polinomios",
+    "href": "docs/Tema05previodoc.html#polinomios",
+    "title": "Tema 05 - Repaso",
+    "section": "5.2 Polinomios",
+    "text": "5.2 Polinomios\nUna relación que sube y luego baja (el gasto con la edad) se recoge con una parábola:\n\\[\ny = \\beta_0 + \\beta_1 x + \\beta_2 x^2 + u\n\\qquad\\Longrightarrow\\qquad\n\\frac{\\partial E[y\\mid x]}{\\partial x} = \\beta_1 + 2\\beta_2 x .\n\\]\nAhora el efecto de una unidad más de \\(x\\) depende de \\(x\\), y ni \\(\\beta_1\\) ni \\(\\beta_2\\) por separado son “el efecto”. Si \\(\\beta_2 &lt; 0\\) la parábola es una U invertida, con máximo en \\(x^* = -\\beta_1/(2\\beta_2)\\); si \\(\\beta_2 &gt; 0\\), una U con mínimo ahí.\n\n\n\n\n\n\nEjemplo (parábola). \\(E[y\\mid x] = 100 + 20x - 0{,}5x^2\\). Efecto marginal: \\(20 - x\\). Con \\(x = 10\\), \\(+10\\) por unidad; con \\(x = 20\\), cero (es el máximo: \\(20/(2\\cdot 0{,}5) = 20\\)); con \\(x = 30\\), \\(-10\\).\n\n\n\nCon grados más altos (poly(x, g) con \\(g\\) = 3, 4, …) la curva puede tomar formas más complicadas. Más grado significa más flexibilidad; en clase veremos su precio."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#tramos-funciones-escalón",
+    "href": "docs/Tema05previodoc.html#tramos-funciones-escalón",
+    "title": "Tema 05 - Repaso",
+    "section": "5.3 Tramos (funciones escalón)",
+    "text": "5.3 Tramos (funciones escalón)\nOtra forma de seguir una curva sin imponer su forma: partir \\(x\\) en tramos y meter una dummy por tramo (menos el de referencia). Cada coeficiente es la diferencia de media respecto al tramo de referencia, y dentro de un tramo \\(x\\) no cambia nada: la función estimada es una escalera. Es más flexible que la parábola, pero depende de dónde se pongan los cortes. Los árboles de regresión (Tema 8) eligen esos cortes automáticamente."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#interacciones",
+    "href": "docs/Tema05previodoc.html#interacciones",
+    "title": "Tema 05 - Repaso",
+    "section": "5.4 Interacciones",
+    "text": "5.4 Interacciones\nPara que el efecto de una variable dependa de otra se incluye su producto:\n\\[\ny = \\beta_0 + \\beta_1\\,\\text{renta} + \\beta_2\\,\\text{mujer} + \\beta_3\\,(\\text{renta}\\times\\text{mujer}) + u .\n\\]\n\nPara los hombres (mujer \\(=0\\)): \\(y = \\beta_0 + \\beta_1\\,\\text{renta}\\); pendiente \\(\\beta_1\\).\nPara las mujeres (mujer \\(=1\\)): \\(y = (\\beta_0 + \\beta_2) + (\\beta_1 + \\beta_3)\\,\\text{renta}\\); pendiente \\(\\beta_1 + \\beta_3\\).\n\n\\(\\beta_3\\) es la diferencia de pendientes y \\(\\beta_2\\) la diferencia de ordenadas en el origen. En general, \\(\\partial E[y]/\\partial\\,\\text{renta} = \\beta_1 + \\beta_3\\,\\text{mujer}\\). Con una interacción, el coeficiente “principal” \\(\\beta_2\\) ya no es la diferencia media entre mujeres y hombres, sino la diferencia cuando la renta vale cero."
+  },
+  {
+    "objectID": "docs/Tema05previodoc.html#footnotes",
+    "href": "docs/Tema05previodoc.html#footnotes",
+    "title": "Tema 05 - Repaso",
+    "section": "Notas",
+    "text": "Notas\n\n\nEl tamaño no las distingue: una base de datos con millones de filas es una muestra si recoge clientes de unos años y unas zonas, y no de todos los que hay o podría haber.↩︎\nCon esa aproximación, que \\(\\log x\\) aumente en 1 equivale a que \\(x\\) aumente en 1 en tanto por uno, es decir, un 100%. Por eso el efecto de un 1% es \\(\\beta_1/100\\).↩︎"
   },
   {
     "objectID": "docs/MT-T00_01-ORCP.html",
@@ -2104,14 +2209,21 @@
     "href": "Contenidos.html",
     "title": "Contenidos",
     "section": "",
-    "text": "(19-Oct. a 23-Oct.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicios del tema\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 04 - Anexo: herramientas y fuentes"
+    "text": "(26-Oct. a 30-Oct.)\n\nTema 05 - Repaso previo: variabilidad muestral y regresión lineal\n\nPara estudiar antes de la primera clase del Tema 05."
+  },
+  {
+    "objectID": "Contenidos.html#semana-8",
+    "href": "Contenidos.html#semana-8",
+    "title": "Contenidos",
+    "section": "",
+    "text": "(26-Oct. a 30-Oct.)\n\nTema 05 - Repaso previo: variabilidad muestral y regresión lineal\n\nPara estudiar antes de la primera clase del Tema 05."
   },
   {
     "objectID": "Contenidos.html#semana-7",
     "href": "Contenidos.html#semana-7",
     "title": "Contenidos",
-    "section": "",
-    "text": "(19-Oct. a 23-Oct.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicios del tema\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 04 - Anexo: herramientas y fuentes"
+    "section": "Semana 7",
+    "text": "Semana 7\n(19-Oct. a 23-Oct.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicios del tema\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 04 - Anexo: herramientas y fuentes"
   },
   {
     "objectID": "Contenidos.html#semana-4",
