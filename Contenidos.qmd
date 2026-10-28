@@ -133,6 +133,13 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 8
+(26-Oct. a 30-Oct.)
+
+  * [Tema 05 - Repaso previo: variabilidad muestral y regresión lineal](docs/Tema05previodoc.qmd)
+
+    - Para estudiar **antes de la primera clase del Tema 05**.
+
 ## Semana 7
 (19-Oct. a 23-Oct.)
 

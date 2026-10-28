@@ -1,0 +1,383 @@
+---
+title: "Tema 05 - Repaso"
+subtitle: "Variabilidad muestral y regresión lineal"
+author:
+    - "Pedro Albarrán"
+    - "Henry Redondo"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: cosmo
+    css: styles.css
+knitr:
+  opts_chunk:
+    echo: false
+    message: false
+    warning: false
+    fig.show: asis
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO (27-oct-2026). Versión en prosa del estudio previo (Tema05previo.qmd son sus
+transparencias), a partir del texto de Henry (Tema05_lectura_previa.tex; borrado el 28-oct porque lo
+que tenía de más, bootstrap y tipos de aprendizaje, está en la clase, Tema05.qmd). Prosa sin código:
+el código y las cifras con los datos del caso están en Tema05previo.qmd. -->
+
+Esta lectura repasa lo que ya visteis en cursos anteriores y hay que traer estudiado a la primera
+clase del Tema 05. Los ejemplos son del caso del tema: una cadena de tiendas que encuestó a 404 de sus
+clientes.
+
+# Una muestra entre muchas
+
+## Población, muestra y estimador
+
+La **población** es el conjunto de individuos sobre el que queremos aprender algo. Algunas
+poblaciones son fijas y podrían observarse enteras, aunque con un coste enorme, como los habitantes
+de un país en una fecha. En general, la población se define de forma potencial: la de clientes de
+una cadena incluye a los pasados, los actuales y los futuros, y a los de tiendas que aún no han
+abierto en zonas nuevas. Es inabarcable, y lo que observamos es una **muestra**, con la que
+aprendemos sobre el resto.^[El tamaño no las distingue: una base de datos con millones de filas es
+una muestra si recoge clientes de unos años y unas zonas, y no de todos los que hay o podría haber.]
+En los ejemplos, la muestra son $n = 404$ clientes encuestados.
+
+Una característica numérica de la población se denomina **parámetro**. Por ejemplo, el gasto medio
+de los clientes en la población, que representamos por $\mu$, es un parámetro poblacional. Como desconocemos
+su valor, utilizamos la información de la muestra para aproximarlo mediante un **estimador**.
+
+Para estimar el gasto medio, observamos cuánto ha gastado cada cliente encuestado. Si identificamos
+a los clientes mediante $i = 1, \dots, n$ y llamamos $Y_i$ al gasto del cliente $i$, nuestra muestra
+está formada por las observaciones $Y_1, Y_2, \dots, Y_n$.
+
+El estimador más sencillo de la media poblacional $\mu$ es la **media muestral**, $\bar Y$, que se
+obtiene sumando los gastos de todos los clientes encuestados y dividiendo entre el número de
+observaciones:
+
+$$
+\bar Y = \frac{1}{n}\sum_{i=1}^{n} Y_i = \frac{Y_1 + Y_2 + \cdots + Y_n}{n}.
+$$
+
+Así, $\mu$ es el gasto medio en la población y $\bar Y$ el de los 404 encuestados. Usamos el
+segundo para aproximar el primero.
+
+## La distribución muestral
+
+Si seleccionáramos otra muestra aleatoria de clientes, obtendríamos un valor diferente de $\bar Y$.
+Por tanto, la media muestral es una **variable aleatoria**: su valor depende de la muestra
+seleccionada. Esto significa que tiene una distribución de probabilidad, denominada **distribución
+muestral**, que describe cómo varía el estimador entre distintas muestras.
+
+Supongamos que las observaciones son independientes y proceden de una misma población, con media
+$\mu$ y desviación típica $\sigma$. Bajo estas condiciones, podemos calcular la esperanza y la
+varianza de la media muestral:
+
+$$
+E[\bar Y] = \mu, \qquad
+Var(\bar Y) = Var\Bigl(\frac{1}{n}\sum_{i=1}^{n}Y_i\Bigr) = \frac{1}{n^2}\,n\sigma^2 = \frac{\sigma^2}{n}.
+$$
+
+La primera expresión indica que la media muestral es un estimador **insesgado**: si repitiéramos el
+muestreo muchas veces, el promedio de las medias muestrales coincidiría con la verdadera media
+poblacional $\mu$.
+
+La segunda expresión mide la **precisión del estimador**. Cuanto mayor es el tamaño de la muestra,
+menor es su varianza y, por tanto, menor es la variabilidad de las estimaciones entre muestras. En
+consecuencia, las muestras más grandes permiten estimar la media poblacional con mayor precisión.
+
+## El error estándar
+
+La desviación típica de la distribución muestral de un estimador se denomina **error estándar**. En
+el caso de la media muestral, viene dado por:
+
+$$
+\frac{\sigma}{\sqrt{n}}.
+$$
+
+El error estándar mide cuánto varía la media muestral entre distintas muestras y, por tanto, nos
+permite evaluar la **precisión de nuestra estimación**. De esta expresión se derivan tres resultados
+importantes:
+
+- **Aumentar el tamaño de la muestra mejora la precisión, pero con rendimientos decrecientes.** Como
+  el error estándar depende de $\sqrt{n}$, para reducirlo a la mitad necesitamos multiplicar por
+  cuatro el tamaño de la muestra. Por ejemplo, si la desviación típica del gasto es
+  $\sigma = 1.400$ euros, una muestra de 100 clientes produce un error estándar de 140 euros; con
+  400 clientes se reduce a 70 euros y con 1.600, a 35 euros.
+
+- **Podemos calcular cuántas observaciones necesitamos para alcanzar una precisión determinada.** Si
+  queremos obtener un error estándar de $e$, podemos despejar el tamaño de la muestra:
+  $$
+  n = \left(\frac{\sigma}{e}\right)^2.
+  $$
+  Por ejemplo, si $\sigma = 1.400$ euros y queremos un error estándar de 20 euros, necesitamos
+  encuestar a $n = (1.400/20)^2 = 4.900$ clientes.
+
+- **La precisión depende del tamaño de la muestra, $n$, y de la variabilidad en la población,
+  $\sigma$.**
+
+En la práctica, normalmente desconocemos la desviación típica poblacional $\sigma$. Por ello, la
+sustituimos por la desviación típica de la muestra, $s$, y calculamos el **error estándar
+estimado**:
+
+$$
+\frac{s}{\sqrt{n}}.
+$$
+
+## Intervalos de confianza
+
+El error estándar mide cuánto varía la media muestral de una muestra a otra. Como no obtendremos
+siempre el mismo valor, acompañamos la estimación de un **intervalo de confianza**: un rango de
+valores plausibles para el parámetro, construido con un procedimiento que contiene el verdadero
+valor en un porcentaje conocido de las muestras, el **nivel de confianza** (por ejemplo, el 95%).
+
+Para construirlo hace falta conocer la distribución muestral de $\bar Y$, pero solo tenemos una
+muestra y no podemos observarla. Hay que suponer algo:
+
+1. **Datos normales.** Si los datos siguen una distribución normal en la población, $\bar Y$ es
+   normal de forma **exacta**, para cualquier tamaño de muestra: $\bar Y \sim N\!\left(\mu,\ \sigma^2/n\right)$.
+2. **Muestra grande.** Si no sabemos cómo se distribuyen los datos pero $n$ es grande, el
+   **teorema central del límite** (TCL) dice que $\bar Y$ es aproximadamente normal, *sea cual sea*
+   esa distribución: $\bar Y \overset{a}{\sim} N\!\left(\mu,\ \sigma^2/n\right)$.
+
+En los dos casos, como en una normal el 95% de la probabilidad está a menos de 1,96 desviaciones
+típicas de la media, el intervalo al 95% es
+
+$$
+\bar Y \pm 1{,}96 \cdot \text{error estándar}.
+$$
+
+Con $\bar Y = 3.700$ y error estándar 70: de 3.562,8 a 3.837,2 euros. El 95% se refiere al
+procedimiento: repetido en muchas muestras, el intervalo contiene la media poblacional el 95% de las
+veces.
+
+En clase veremos una tercera forma, el **bootstrap**, que aproxima la distribución muestral con
+técnicas computacionales y menos supuestos.
+
+# De la media a la media condicional
+
+La media $E[Y]$ es el valor esperado de $Y$ para un individuo elegido al azar. Si tenemos
+información previa sobre él, como su sexo o su renta, podemos mejorar ese valor esperado usando la
+media de los que se le parecen. En los datos del tema, el gasto medio es de 3.699 euros, el de las
+mujeres de 4.489 y el de los hombres de 2.892: saber que un cliente es mujer cambia lo que esperamos
+que gaste, y por eso interesa distinguir por grupos. La **media condicional** $E[Y \mid X = x]$ es la media de $Y$ entre
+las observaciones con $X = x$. Es una *función* de $X$: a cada valor de $X$ le asigna una media.
+Si $X$ toma pocos valores, como el sexo, es una función definida por partes, con una media para las
+mujeres y otra para los hombres; si toma muchos, como la renta, tiene una media para cada valor de la
+renta. Toda la modelización del tema consiste en estimar esa función.
+Escribimos
+
+$$
+Y = f(X) + u, \qquad f(X) = E[Y \mid X], \qquad E[u \mid X] = 0 .
+$$
+
+$f(X)$ es la parte de $Y$ que las $X$ explican y $u$ es todo lo demás (gustos, circunstancias, lo
+que no se mide). Que $u$ tenga media cero dado $X$ se sigue de la definición de $f$ como media
+condicional.
+
+# El modelo de regresión lineal
+
+## El modelo
+
+El modelo lineal supone que la media condicional es una suma ponderada de los regresores:
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k + u ,
+\qquad E[u \mid X_1,\dots,X_k] = 0 .
+$$
+
+Notación que usaremos:
+
+- $n$: número de observaciones; $i = 1,\dots,n$.
+- $k$: número de regresores sin contar la constante; hay $k+1$ parámetros.
+- $x_{ij}$: valor de la variable $j$ para la observación $i$.
+- $\widehat\beta_j$: coeficiente *estimado* con la muestra; $\beta_j$, el valor poblacional
+  desconocido.
+
+## Cómo se lee un coeficiente
+
+- **Constante** $\beta_0$: la media de $Y$ cuando todas las $X$ valen cero (el grupo de referencia).
+  A veces no tiene interpretación útil (renta cero, edad cero).
+- **Regresor discreto**: $\beta_j$ es el cambio en la media de $Y$ cuando $X_j$ aumenta *una
+  unidad*, *manteniendo constantes las demás variables del modelo* (*ceteris paribus*):
+  $$
+  \beta_j = E[Y \mid X_j = x + 1, \ldots] - E[Y \mid X_j = x, \ldots].
+  $$
+  El **regresor 0/1** (por ejemplo, descuento) es el caso particular con $x = 0$: $\beta_j$ es la
+  diferencia de medias de $Y$ entre quienes tienen $X_j = 1$ y quienes tienen $X_j = 0$.
+- **Regresor continuo**: $\beta_j$ es la derivada parcial,
+  $$
+  \beta_j = \frac{\partial E[Y\mid X]}{\partial X_j},
+  $$
+  y el cambio discreto por una unidad más, $E[Y \mid X_j = x + 1, \ldots] - E[Y \mid X_j = x, \ldots]$,
+  es su aproximación.
+
+Las **unidades** mandan: $\beta_j$ está en unidades de $Y$ por unidad de $X_j$. Si la renta pasa de
+euros a miles de euros, su coeficiente se multiplica por mil, y el modelo es el mismo. El tamaño de un coeficiente no dice, por sí solo, si la variable es importante.
+
+## Variables cualitativas
+
+Una variable con $C$ categorías (zona: pueblo, ciudad, capital) entra en el modelo como $C-1$
+variables 0/1 (*dummies*). La categoría sin dummy es la **referencia**, y cada coeficiente es la
+diferencia de media respecto a ella:
+
+$$
+Y = \beta_0 + \beta_1\,\text{ciudad} + \beta_2\,\text{capital} + u
+\quad\Longrightarrow\quad
+\begin{cases}
+  E[Y\mid\text{pueblo}]  = \beta_0\\
+  E[Y\mid\text{ciudad}]  = \beta_0 + \beta_1\\
+  E[Y\mid\text{capital}] = \beta_0 + \beta_2
+\end{cases}
+$$
+
+Sin otras variables, la regresión reproduce exactamente las medias de cada grupo. No se pueden incluir las $C$ dummies junto con la constante:
+sumarían siempre 1 (la constante) y el modelo no tendría solución única. Es la *trampa de las
+dummies*. Cambiar la categoría de referencia deja el modelo igual y cambia solo cómo se leen los
+coeficientes.
+
+# Mínimos cuadrados ordinarios (MCO)
+
+## El problema
+
+Para unos coeficientes candidatos $b_0,\dots,b_k$, la predicción de la observación $i$ es
+$\widehat y_i = b_0 + b_1 x_{i1} + \dots + b_k x_{ik}$ y el **residuo** es
+$\widehat e_i = y_i - \widehat y_i$. MCO elige los coeficientes que minimizan la **suma de cuadrados
+de los residuos**:
+
+$$
+\boxed{\;\widehat{\beta} = \arg\min_{b_0,\dots,b_k}\
+SCR = \sum_{i=1}^{n} \bigl(y_i - b_0 - b_1 x_{i1} - \dots - b_k x_{ik}\bigr)^2\;}
+$$
+
+Se eleva al cuadrado para que los residuos positivos y negativos no se cancelen, y porque así el
+problema es una función cuadrática con un mínimo fácil de encontrar: igualando las derivadas a cero.
+
+En el gráfico, 20 clientes de los datos del tema y dos rectas; los segmentos rojos son los residuos.
+La recta de MCO deja residuos mucho menores que la otra, y su suma de cuadrados es menos de la mitad.
+
+```{r}
+#| fig-width: 9
+#| fig-height: 3.6
+library(tidyverse)
+library(patchwork)
+tienda <- read_csv("data/tienda.csv", show_col_types = FALSE)
+set.seed(5)
+sub <- tienda |> slice_sample(n = 20)
+m <- lm(ventas ~ renta, data = sub)
+b1 <- -0.5
+b0 <- mean(sub$ventas) - b1 * mean(sub$renta)
+sub <- sub |> mutate(pred = predict(m), otra = b0 + b1 * renta)
+scr <- function(r) format(round(sum(r^2) / 1e6, 1), decimal.mark = ",", nsmall = 1)
+g <- ggplot(sub, aes(renta, ventas)) +
+  labs(x = "renta mensual (euros)", y = "gasto anual (euros)") + theme_minimal()
+g1 <- g + geom_segment(aes(xend = renta, yend = pred), colour = "red") + geom_point() +
+  geom_abline(intercept = coef(m)[1], slope = coef(m)[2], colour = "steelblue", linewidth = 1) +
+  labs(title = paste0("Recta de MCO: SCR = ", scr(sub$ventas - sub$pred), " millones"))
+g2 <- g + geom_segment(aes(xend = renta, yend = otra), colour = "red") + geom_point() +
+  geom_abline(intercept = b0, slope = b1, colour = "orange", linewidth = 1) +
+  labs(title = paste0("Otra recta: SCR = ", scr(sub$ventas - sub$otra), " millones"))
+g1 + g2
+```
+
+## Un solo regresor
+
+Con $y_i = \beta_0 + \beta_1 x_i + u_i$, las condiciones de primer orden son
+
+$$
+\frac{\partial SCR}{\partial b_0} = -2\sum_i (y_i - b_0 - b_1 x_i) = 0, \qquad
+\frac{\partial SCR}{\partial b_1} = -2\sum_i x_i (y_i - b_0 - b_1 x_i) = 0,
+$$
+
+y su solución es
+
+$$
+\widehat{\beta}_1 = \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sum_i (x_i - \bar{x})^2}
+= \frac{\widehat{Cov}(x,y)}{\widehat{Var}(x)}, \qquad
+\widehat{\beta}_0 = \bar{y} - \widehat{\beta}_1 \bar{x}.
+$$
+
+Las condiciones de primer orden dicen que los residuos de MCO **suman cero** y **no se correlacionan
+con cada regresor**. Es la versión muestral de lo que el modelo supone en la población,
+$E[u\mid X] = 0$.
+
+El **$R^2$** resume el ajuste: la fracción de la varianza de $Y$ que reproducen las predicciones,
+entre 0 y 1. El resto queda en los residuos.
+
+# Cuando el efecto no es constante: formas funcionales
+
+Esta sección se verá en clase: leedla como adelanto.
+
+El modelo lineal supone que el efecto de cada $X_j$ es siempre el mismo número, $\beta_j$. En
+economía casi nunca es así: hay rendimientos decrecientes, umbrales y efectos distintos por grupos.
+El modelo sigue siendo "lineal" (lineal *en los parámetros*) si transformamos las variables. Lo que
+cambia es cómo se leen los coeficientes.
+
+## Logaritmos
+
+El logaritmo convierte cambios *proporcionales* en cambios *absolutos*: un aumento del 1% en $x$ suma
+a $\log x$ la cantidad $\log(1{,}01) = 0{,}00995 \approx 0{,}01$. De ahí salen las tres lecturas:^[Con esa aproximación, que $\log x$ aumente en 1 equivale a que $x$ aumente en 1 en tanto por uno, es decir, un 100%. Por eso el efecto de un 1% es $\beta_1/100$.]
+
+| Modelo                              | Lectura de $\beta_1$                                                  | Ejemplo con $\beta_1$  |
+|:------------------------------------|:----------------------------------------------------------------------|:-----------------------|
+| $y = \beta_0 + \beta_1 \log x$      | $x$ sube un 1% $\Rightarrow$ $y$ sube $\beta_1/100$ unidades          | $\beta_1 = 1.500$: 15 euros |
+| $\log y = \beta_0 + \beta_1 \log x$ | $x$ sube un 1% $\Rightarrow$ $y$ sube un $\beta_1$% (**elasticidad**) | $\beta_1 = 0{,}4$: un 0,4% |
+| $\log y = \beta_0 + \beta_1 x$      | $x$ sube una unidad $\Rightarrow$ $y$ sube un $100\beta_1$%           | $\beta_1 = 0{,}05$: un 5% |
+
+La última lectura es una aproximación válida para coeficientes pequeños. El cambio exacto es
+$100\,(e^{\beta_1} - 1)\%$: con $\beta_1 = 0{,}05$ es 5,13% (casi igual), pero con $\beta_1 = 0{,}3$
+es 34,99%, no 30%.
+
+Con $y = \beta_0 + \beta_1 \log x$, un euro más de renta importa menos cuanto más renta se tiene:
+**rendimientos decrecientes**. Lo constante es el efecto de un 1% más. El logaritmo solo existe para
+valores positivos: las observaciones con $x = 0$ se pierden.
+
+## Polinomios
+
+Una relación que sube y luego baja (el gasto con la edad) se recoge con una parábola:
+
+$$
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + u
+\qquad\Longrightarrow\qquad
+\frac{\partial E[y\mid x]}{\partial x} = \beta_1 + 2\beta_2 x .
+$$
+
+Ahora el efecto de una unidad más de $x$ **depende de $x$**, y ni $\beta_1$ ni $\beta_2$ por separado
+son "el efecto". Si $\beta_2 < 0$ la parábola es una U invertida, con máximo en
+$x^* = -\beta_1/(2\beta_2)$; si $\beta_2 > 0$, una U con mínimo ahí.
+
+::: {.callout-note appearance="simple" icon=false}
+**Ejemplo (parábola).** $E[y\mid x] = 100 + 20x - 0{,}5x^2$. Efecto marginal: $20 - x$. Con
+$x = 10$, $+10$ por unidad; con $x = 20$, cero (es el máximo: $20/(2\cdot 0{,}5) = 20$); con
+$x = 30$, $-10$.
+:::
+
+Con grados más altos (`poly(x, g)` con $g$ = 3, 4, ...) la curva puede tomar formas más complicadas.
+Más grado significa más flexibilidad; en clase veremos su precio.
+
+## Tramos (funciones escalón)
+
+Otra forma de seguir una curva sin imponer su forma: partir $x$ en **tramos** y meter una dummy por
+tramo (menos el de referencia). Cada coeficiente es la diferencia de media respecto al tramo de
+referencia, y *dentro* de un tramo $x$ no cambia nada: la función estimada es una escalera. Es más
+flexible que la parábola, pero depende de dónde se pongan los cortes. Los árboles de regresión
+(Tema 8) eligen esos cortes automáticamente.
+
+## Interacciones
+
+Para que el efecto de una variable dependa de otra se incluye su producto:
+
+$$
+y = \beta_0 + \beta_1\,\text{renta} + \beta_2\,\text{mujer} + \beta_3\,(\text{renta}\times\text{mujer}) + u .
+$$
+
+- Para los hombres (mujer $=0$): $y = \beta_0 + \beta_1\,\text{renta}$; pendiente $\beta_1$.
+- Para las mujeres (mujer $=1$): $y = (\beta_0 + \beta_2) + (\beta_1 + \beta_3)\,\text{renta}$;
+  pendiente $\beta_1 + \beta_3$.
+
+$\beta_3$ es la **diferencia de pendientes** y $\beta_2$ la diferencia de ordenadas en el origen. En
+general, $\partial E[y]/\partial\,\text{renta} = \beta_1 + \beta_3\,\text{mujer}$. Con una
+interacción, el coeficiente "principal" $\beta_2$ ya no es la diferencia media entre mujeres y
+hombres, sino la diferencia *cuando la renta vale cero*.
