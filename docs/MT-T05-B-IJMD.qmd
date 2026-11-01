@@ -1,0 +1,101 @@
+---
+title: "Mini-test, versión B"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true   # IMPRESCINDIBLE: sin esto las soluciones viajan en el HTML publicado
+---
+
+<!-- INTERNO: pagina que SE PUBLICA, sin enlazar. Se llega desde la portada MT-T05-IJMD.html.
+Escrito el 27-oct-2026 y rehecho el 1-nov-2026 sobre lo PUBLICADO del estudio previo,
+Tema05previodoc.qmd, sin codigo. Enlace prerrellenado con MT-T05-B. -->
+
+**Tenéis 5 minutos. Sin ejecutar R y sin IA.**
+
+Contestad aquí: [**formulario del mini-test**](https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&entry.779297845=MT-T05-B)
+
+## Pregunta 1
+
+Una muestra de <span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">6</span>400 clientes da un gasto medio de 3.000 euros y una desviación típica de
+1.000 euros. ¿Cuál es el intervalo de confianza al 95% para el gasto medio?
+
+a) de 2.975,5 a 3.024,5
+
+b) de 1.040 a 4.960
+
+c) de 2.902 a 3.098
+
+d) de 2.995 a 3.005
+
+## Pregunta 2
+
+¿Qué coeficiente da `lm()` a `mujer`?
+
+```{=html}
+<pre><code>datos &lt;- tibble(mujer  = c(1, 1, 0, 0),
+                ventas = c(4, <span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">1</span>6, 2, 4))
+lm(ventas ~ mujer, data = datos)</code></pre>
+```
+
+a) 5
+
+b) 2
+
+c) 7
+
+d) 4
+
+## Pregunta 3
+
+La desviación típica del gasto es 1000 euros. ¿A cuántos clientes hay que encuestar para que el
+error estándar de la media sea 2<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">5</span>0 euros?
+
+a) 50
+
+b) 16
+
+c) 2500
+
+d) 100
+
+## Pregunta 4
+
+Tres clientes con su gasto (`y`) y la predicción de una recta (`pred`). ¿Qué número sale?
+
+```{=html}
+<pre><code>y    &lt;- c(3, 5, 7)
+pred &lt;- c(4, 4, <span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">1</span>8)
+sum((y - pred)^2)</code></pre>
+```
+
+a) 3
+
+b) -1
+
+c) 123
+
+d) 1
+
+<!-- INTERNO: soluciones (ejecutado con Rscript --vanilla el 1-nov-2026).
+Procedencia: Tema05previodoc.qmd; lm() visto en T04 y tibble() en T03. Todas con trampa de un
+caracter oculto con font-size:0.
+
+P1 -> CORRECTA c) de 2.902 a 3.098: EE = 1000/sqrt(400) = 50; 3.000 +- 1,96*50
+      ("Intervalos de confianza", con un ejemplo igual).
+      COPISTA -> a): el "6" oculto hace n = 6.400, EE 12,5. Raiz de 6.400 no sale de ningun despiste.
+      ERROR -> b): usar la desviacion tipica como error estandar. d): dividir por n en vez de por la raiz.
+P2 -> CORRECTA b) 2: medias 5 (mujeres) y 3 (hombres); un regresor 0/1 es la diferencia de medias
+      ("Como se lee un coeficiente"; lm() por grupos en T04, lm(importe ~ canal)).
+      COPISTA -> c) 7: el "1" oculto convierte el 6 en 16 (media de mujeres 10).
+      ERROR -> a) 5: la media de las mujeres. d) 4: la media global.
+P3 -> CORRECTA c) 2500 = (1000/20)^2 ("El error estandar": n = (sigma/e)^2, con ejemplo igual).
+      COPISTA -> b) 16: el "5" oculto hace e = 250, y (1000/250)^2 = 16. No sale de ningun despiste.
+      ERROR -> a) 50: olvidar el cuadrado. d) 100: doblar en vez de elevar al cuadrado.
+P4 -> CORRECTA a) 3: residuos -1, 1, -1, al cuadrado 1+1+1 (SCR, "El problema" de MCO).
+      COPISTA -> c) 123: el "1" oculto hace la ultima prediccion 18 (residuo -11).
+      ERROR -> b) -1: sumar residuos sin elevar (se anulan, que es lo que el documento avisa).
+      d) 1: elevar la suma en vez de sumar los cuadrados.
+
+Devolucion (3 min): copiar y pegar el enunciado en vivo para que vean aparecer lo oculto. -->

@@ -1,0 +1,96 @@
+---
+title: "Mini-test, versión A"
+format:
+  html:
+    embed-resources: true
+    toc: false
+lang: es
+strip-comments: true   # IMPRESCINDIBLE: sin esto las soluciones viajan en el HTML publicado
+---
+
+<!-- INTERNO: pagina que SE PUBLICA, sin enlazar. Se llega desde la portada MT-T05-IJMD.html.
+Escrito el 27-oct-2026 y rehecho el 1-nov-2026 sobre lo PUBLICADO del estudio previo,
+Tema05previodoc.qmd, sin codigo (Tema05previo.qmd no se publica). Su seccion 5, formas funcionales,
+no entra: se ve en clase. Enlace al formulario prerrellenado con MT-T05-A. -->
+
+**Tenéis 5 minutos. Sin ejecutar R y sin IA.**
+
+Contestad aquí: [**formulario del mini-test**](https://docs.google.com/forms/d/e/1FAIpQLSfc1IsNC4_vtDpzBq-d9Dbcy_xgTKHMCAYNo1yVdchByi0zuw/viewform?usp=pp_url&entry.779297845=MT-T05-A)
+
+## Pregunta 1
+
+Con una muestra de 400 clientes, el error estándar de la media del gasto es 70<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span> euros.
+Con una muestra de 1.600 clientes de la misma población, ¿cuánto será, aproximadamente?
+
+a) 17,5 euros
+
+b) 350 euros
+
+c) 35 euros
+
+d) 140 euros
+
+## Pregunta 2
+
+En una regresión del gasto sobre la zona (pueblo, ciudad, capital), con pueblo como referencia, los
+coeficientes son: constante 3000, `ciudad` 200 y `capital` 50<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span>0. ¿Cuál es el gasto medio en la capital?
+
+a) 3700
+
+b) 500
+
+c) 8000
+
+d) 3500
+
+## Pregunta 3
+
+`lm(ventas ~ renta, data = tienda)` da una pendiente de 0,5, con `ventas` en euros al año y
+`renta` en euros al mes. ¿Qué pendiente da este modelo?
+
+```{=html}
+<pre><code>tienda &lt;- tienda |&gt; mutate(renta_mil = renta / 1000<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span>)
+lm(ventas ~ renta_mil, data = tienda)</code></pre>
+```
+
+a) 0,0005
+
+b) 5000
+
+c) 0,5
+
+d) 500
+
+## Pregunta 4
+
+Una regresión del gasto da: constante 1000, `renta` 0,5 y `descuento` 300, donde `descuento` vale 1
+si el cliente lo tiene y 0 si no. ¿Qué gasto predice para un cliente con renta 2000<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">0</span> y con descuento?
+
+a) 2300
+
+b) 2000
+
+c) 11300
+
+d) 1300
+
+<!-- INTERNO: soluciones (ejecutado con Rscript --vanilla el 1-nov-2026).
+Procedencia: Tema05previodoc.qmd; lm() y mutate() ya vistos en T04 y T02. Todas con trampa de un
+caracter oculto con font-size:0.
+
+P1 -> CORRECTA c) 35. EE = sigma/sqrt(n), cuatro veces mas clientes, la mitad de error
+      ("El error estandar": 100, 400 y 1.600 clientes dan 140, 70 y 35).
+      COPISTA -> b) 350: el "0" oculto convierte 70 en 700. Nadie que se equivoque llega a 350.
+      ERROR -> a) 17,5: dividir por 4, olvidar la raiz. d) 140: al reves.
+P2 -> CORRECTA d) 3500 = 3000 + 500 ("Variables cualitativas": E[Y|capital] = beta0 + beta2).
+      COPISTA -> c) 8000: el "0" oculto hace capital 5000. No sale de ningun error de lectura.
+      ERROR -> a) 3700: sumar los dos coeficientes. b) 500: leer el coeficiente como la media.
+P3 -> CORRECTA d) 500: un euro mas de renta suma 0,5; mil euros, 500 ("Como se lee un coeficiente",
+      las unidades: de euros a miles de euros el coeficiente se multiplica por mil).
+      COPISTA -> b) 5000: el "0" oculto divide por 10.000.
+      ERROR -> a) 0,0005: dividir el coeficiente en vez de multiplicarlo. c) 0,5: creer que no cambia.
+P4 -> CORRECTA a) 2300 = 1000 + 0,5*2000 + 300 (prediccion, "El problema" de MCO; regresor 0/1).
+      COPISTA -> c) 11300: el "0" oculto hace la renta 20.000.
+      ERROR -> b) 2000: olvidar el descuento. d) 1300: olvidar la renta.
+
+Devolucion (3 min): copiar y pegar el enunciado en vivo para que vean aparecer lo oculto. -->
