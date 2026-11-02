@@ -31,6 +31,9 @@ cuando se desvele ese ejercicio, no antes.
 * Tema 04 (análisis exploratorio de datos):
   + [marketplace.RData](https://raw.githubusercontent.com/albarran/00datos/main/marketplace.RData)
 
+* Tema 05 (modelización y aprendizaje estadístico):
+  + [tienda.csv](https://raw.githubusercontent.com/albarran/00datos/main/tienda.csv)
+
 <!--
 CURSO 2026-27: los datos de cada tema se desvelan al llegar al tema (mueve la marca de CIERRE
 de comentario hacia abajo, por debajo del tema que quieras mostrar). VERIFICAR antes de desvelar
@@ -59,10 +62,6 @@ que el tema migrado usa realmente esos ficheros (el temario 26-27 está renumera
 
   + [startups_fintech.csv](https://raw.githubusercontent.com/albarran/00datos/main/startups_fintech.csv)
   + [diccionario_startups.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_startups.csv)
-
-* Tema 5:
-
-  + [tienda.csv](https://raw.githubusercontent.com/albarran/00datos/main/tienda.csv)
 
 * Tema 5 (2025-26):
 
