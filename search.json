@@ -284,7 +284,7 @@
     "href": "docs/MT-T05-A-IJMD.html#pregunta-3",
     "title": "Mini-test, versión A",
     "section": "Pregunta 3",
-    "text": "Pregunta 3\nlm(ventas ~ renta, data = tienda) da una pendiente de 0,5, con ventas en euros al año y renta en euros al mes. ¿Qué pendiente da este modelo?\ntienda &lt;- tienda |&gt; mutate(renta_mil = renta / 10000)\nlm(ventas ~ renta_mil, data = tienda)\n\n0,0005\n5000\n0,5\n500"
+    "text": "Pregunta 3\nEn el modelo \\(ventas = \\beta_0 + \\beta_1\\, renta + u\\), con ventas en euros al año y renta en euros al mes, se estima \\(\\hat\\beta_1 = 0{,}5\\). Si la renta se divide entre 10000 y se estima de nuevo, ¿qué pendiente sale?\n\n0,0005\n5000\n0,5\n500"
   },
   {
     "objectID": "docs/MT-T05-A-IJMD.html#pregunta-4",
@@ -1117,21 +1117,21 @@
     "href": "docs/MT-T05-B-IJMD.html#pregunta-2",
     "title": "Mini-test, versión B",
     "section": "Pregunta 2",
-    "text": "Pregunta 2\n¿Qué coeficiente da lm() a mujer?\ndatos &lt;- tibble(mujer  = c(1, 1, 0, 0),\n                ventas = c(4, 16, 2, 4))\nlm(ventas ~ mujer, data = datos)\n\n5\n2\n7\n4"
+    "text": "Pregunta 2\nDos mujeres gastan 4 y 16 euros, y dos hombres gastan 2 y 4 euros. En el modelo \\(ventas = \\beta_0 + \\beta_1\\, mujer + u\\), donde mujer vale 1 si es mujer y 0 si no, ¿cuánto vale \\(\\hat\\beta_1\\)?\n\n5\n2\n7\n4"
   },
   {
     "objectID": "docs/MT-T05-B-IJMD.html#pregunta-3",
     "href": "docs/MT-T05-B-IJMD.html#pregunta-3",
     "title": "Mini-test, versión B",
     "section": "Pregunta 3",
-    "text": "Pregunta 3\nLa desviación típica del gasto es 1000 euros. ¿A cuántos clientes hay que encuestar para que el error estándar de la media sea 250 euros?\n\n50\n16\n2500\n100"
+    "text": "Pregunta 3\nUn modelo estimado es \\(\\widehat{ventas} = 500 + 0{,}4\\, renta + 200\\, mujer\\), donde mujer vale 1 si es mujer y 0 si no. ¿Qué gasto predice para una mujer con renta 30000?\n\n1900\n1700\n12700\n700"
   },
   {
     "objectID": "docs/MT-T05-B-IJMD.html#pregunta-4",
     "href": "docs/MT-T05-B-IJMD.html#pregunta-4",
     "title": "Mini-test, versión B",
     "section": "Pregunta 4",
-    "text": "Pregunta 4\nTres clientes con su gasto (y) y la predicción de una recta (pred). ¿Qué número sale?\ny    &lt;- c(3, 5, 7)\npred &lt;- c(4, 4, 18)\nsum((y - pred)^2)\n\n3\n-1\n123\n1"
+    "text": "Pregunta 4\nTres clientes gastan 3, 5 y 7 euros, y una recta predice para ellos 4, 4 y 18 euros. ¿Cuánto vale la suma de cuadrados de los residuos?\n\n3\n-1\n123\n1"
   },
   {
     "objectID": "docs/MT-T05-IJMD.html",
