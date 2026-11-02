@@ -1586,7 +1586,7 @@
     "href": "Datos.html",
     "title": "Datos",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData\n\n\n\nTema 03 (datos: tratamiento, limpieza y preparación):\n\nretail_data.RData\nDosTablas.xlsx\n\nTema 04 (análisis exploratorio de datos):\n\nmarketplace.RData"
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData\n\n\n\nTema 03 (datos: tratamiento, limpieza y preparación):\n\nretail_data.RData\nDosTablas.xlsx\n\nTema 04 (análisis exploratorio de datos):\n\nmarketplace.RData\n\nTema 05 (modelización y aprendizaje estadístico):\n\ntienda.csv"
   },
   {
     "objectID": "about.html",
