@@ -133,6 +133,13 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 9
+(2-Nov. a 6-Nov.)
+
+  * [Tema 05 - Modelización y Aprendizaje Estadístico](docs/Tema05.qmd)
+  * [Tema 05 - Ejercicios del tema](docs/Tema05ej1.qmd)
+  * [Tema 05 - Anexo](docs/Tema05anexo.qmd)
+
 ## Semana 8
 (26-Oct. a 30-Oct.)
 

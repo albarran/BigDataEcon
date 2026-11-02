@@ -60,6 +60,10 @@ que el tema migrado usa realmente esos ficheros (el temario 26-27 está renumera
   + [startups_fintech.csv](https://raw.githubusercontent.com/albarran/00datos/main/startups_fintech.csv)
   + [diccionario_startups.csv](https://raw.githubusercontent.com/albarran/00datos/main/diccionario_startups.csv)
 
+* Tema 5:
+
+  + [tienda.csv](https://raw.githubusercontent.com/albarran/00datos/main/tienda.csv)
+
 * Tema 5 (2025-26):
 
   + [descuento.csv](https://raw.githubusercontent.com/albarran/00datos/main/descuento.csv)

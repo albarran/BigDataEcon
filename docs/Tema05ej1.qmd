@@ -1,0 +1,330 @@
+---
+title: "Tema 05 - Modelización y aprendizaje estadístico"
+subtitle: "Ejercicios del tema"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO (escrito el 19-oct-2026). El ejercicio del curso pasado NO se borra: vive en
+`Tema05ej2.qmd` (antes `Tema05ej1.qmd`, con `RailTrail`), como material de RESPALDO; su parte de
+"varias especificaciones y cuesta elegir" va al ejercicio largo 2 (paso 2.0).
+
+POR QUE EXISTE ESTE FICHERO. Las cuatro PRACTICAS en clase de `Tema05.qmd` trabajan con `tienda.csv`,
+y el ejercicio anterior trabajaba con `RailTrail`: datos distintos, asi que el alumno no podia hacer
+el ejercicio a la vez que veia las transparencias (CLAUDE.md §1). Mismo arreglo que en T03 y T04.
+
+CORRESPONDENCIA practica <-> entrega:
+  E1 a-b <- PRACTICA 1 (incertidumbre)          E1 c-e <- PRACTICA 2 (coeficiente y varianza del error)
+  E2 a-c <- PRACTICA 3 (muchos modelos)            E3 a-d <- PRACTICA 4 (umbral)
+
+SOLUCIONES: no se publican (Pedro, 19-oct-2026). Van como guion INTERNO en cada PRACTICA de
+`Tema05.qmd`, con las cifras verificadas el 2-nov-2026 (semilla 404 para el bootstrap y 12345678
+para las particiones; con el DNI del alumno salen otras). -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+rm(list = ls())
+library(tidyverse)
+```
+
+# Antes de empezar
+
+Estos ejercicios se van haciendo **durante las clases del tema**: las transparencias indican en
+qué momento toca cada uno.
+
+::: {.callout-important}
+Si no lo has hecho ya, lee **[Cómo trabajar en cada tema](../ComoTrabajar.html)**: la carpeta
+del tema con su subdirectorio `data`, cómo se crea el documento, qué va en la cabecera (con
+`embed-resources: true`), la primera celda y cómo se entrega. Vale para todo el curso.
+:::
+
+De este tema, lo que te hace falta:
+
+- Los datos son `tienda.csv`, de la página [Datos](../Datos.html). Descárgalos en tu subdirectorio
+  `data`. Son 404 clientes encuestados por una cadena de tiendas: una fila por cliente, con `ventas`
+  (gasto anual en euros), `renta` (mensual, euros), `edad`, `mujer`, `educ` (años de estudios), `zona`
+  y `descuento` (1 si lo recibió).
+- **Un documento por entrega**, `T05_E<n>_<ID>.qmd`. Cada uno carga los datos en su primera
+  celda, con `zona` como factor y `pueblo` de referencia:
+
+```{r}
+#| eval: false
+library(tidyverse)
+tienda <- read_csv("data/tienda.csv") |>
+  mutate(zona = factor(zona, levels = c("pueblo", "ciudad", "capital")))
+```
+
+- Donde se pide una **semilla**, usa tu DNI (sin letra): `set.seed(12345678)`. Tus cifras serán
+  distintas de las de tus compañeros, y eso es lo esperado.
+
+# Entrega 1: una muestra entre muchas y el primer modelo
+
+## Apartado a): la precisión de la media con la fórmula
+
+1. Con $s/\sqrt{n}$, el error estándar de la media de `tienda$ventas` y su intervalo al 95%.
+
+2. Dirección quiere el gasto medio con un error estándar de **20 euros**. ¿A cuántos clientes hay
+   que encuestar? Escribe la cuenta.
+
+## Apartado b): bootstrap
+
+Con tu DNI como semilla:
+
+1. El error estándar y el intervalo al 95% de la media con el bootstrap. Compáralos con los del
+   apartado a). ¿Por qué salen casi iguales?
+
+2. La **mediana** de `tienda$ventas`: error estándar e intervalo al 95% con el bootstrap. ¿Es más
+   o menos precisa que la media?
+
+3. La diferencia de gasto medio entre mujeres y hombres en `tienda`, con su error estándar e
+   intervalo por bootstrap, remuestreando por separado el gasto de cada grupo. ¿Puede ser cero la
+   diferencia? Explícalo en una frase.
+
+4. Repite el bootstrap de la mediana quitando `replace = TRUE`. ¿Qué sale y por qué?
+
+5. En una frase: ¿de dónde sale la incertidumbre que mides, si los datos son siempre los mismos 404
+   clientes?
+
+## Apartado c): leer los coeficientes
+
+Estima `modelo_z <- lm(ventas ~ renta + descuento + zona, data = tienda)`.
+
+1. Con `summary()`, escribe **en euros** qué dicen los coeficientes de `renta` y `descuento`. Para
+   `renta`, cuánto cambia el gasto por **cien euros** más de renta mensual.
+
+2. ¿Qué $R^2$ tiene el modelo? ¿Qué significa que el resto de la varianza del gasto esté en $u$?
+
+## Apartado d): predecir dos clientes nuevos
+
+El gasto esperado de un cliente de pueblo con renta 1.500 y sin descuento, y de uno de capital con
+renta 3.000 y con descuento. `predict(modelo_z, newdata = nuevos)` predice para `nuevos`, una tabla
+con las mismas columnas que usa el modelo.
+
+## Apartado e): el coeficiente y la varianza del error
+
+Con tu DNI como semilla, adapta el bucle del bootstrap: en cada vuelta remuestrea **filas** de
+`tienda` (`filas <- sample(nrow(tienda), replace = TRUE)`), estima el modelo en `tienda[filas, ]` y
+guarda el coeficiente de `renta`, `coef(m_b)["renta"]`, y la varianza de los residuos,
+`var(residuals(m_b))`.
+
+1. Compara el error estándar del coeficiente con el `Std. Error` de `summary()`, y su intervalo de
+   percentiles con el de la fórmula, `confint(modelo_z)["renta", ]`.
+
+2. El error estándar y el intervalo al 95% de la varianza del error. ¿Cuánto se desvía un cliente
+   típico de lo que predice el modelo?
+
+# Entrega 2: muchos modelos posibles
+
+Partimos de `ventas ~ renta + descuento + zona`. En cada apartado, anota el $R^2$ de cada modelo con
+seis decimales, `summary(m)$r.squared`.
+
+## Apartado a): polinomios
+
+Añade `edad`, y después, de uno en uno, `I(edad^2)`, `I(edad^3)` e `I(edad^4)`.
+
+## Apartado b): tramos de edad
+
+En lugar del polinomio, usa tramos de edad de 20 en 20 años
+(`cut(edad, c(20, 40, 60, 70), include.lowest = TRUE)`), de 10 en 10 (`seq(20, 70, by = 10)`) y de
+5 en 5.
+
+## Apartado c): interacciones
+
+Partiendo de la parábola, añade `educ`, y después, de una en una, `renta * mujer`, `educ * mujer` y
+`edad * mujer`.
+
+Cierra con una tabla: una fila por modelo de esta entrega y su $R^2$. ¿Cuántos grados, cuántos
+tramos y cuántas interacciones pondrías? Explica en una frase por qué cuesta decidirlo.
+
+::: {.content-hidden}
+
+<!-- Retirado el 2-nov-2026 (Pedro): la entrega anterior, con logaritmos, parábola y escalones. -->
+
+Entrega retirada: cuatro formas, un gasto
+
+Partimos de `ventas ~ renta + descuento + zona`. En cada apartado, además del modelo, una frase de
+**lectura económica** de los coeficientes nuevos.
+
+Apartado retirado: logaritmos
+
+1. Cambia `renta` por `log(renta)`. ¿Cuántos euros de gasto son un 1% más de renta?
+
+2. Estima también `log(ventas) ~ log(renta) + descuento + zona`. ¿Cuál es la elasticidad del gasto
+   respecto a la renta?
+
+3. Compara con el modelo lineal: 100 euros más de renta, ¿cuánto gasto son para un cliente con
+   renta 800 y para uno con 5.000, en cada modelo?
+
+Apartado retirado: la parábola
+
+Añade `edad` y `I(edad^2)` al modelo de partida.
+
+1. ¿A qué edad es máximo el gasto?
+
+2. ¿Cuánto cambia el gasto por un año más a los 30 y a los 60? Escribe la fórmula del efecto
+   marginal antes de calcularlo.
+
+3. Dibuja la nube de puntos `edad`-`ventas` con la parábola encima (`geom_smooth(method = "lm",
+   formula = y ~ poly(x, 2))`).
+
+Apartado retirado: la misma curva, por tramos
+
+Cambia la parábola por `cut(edad, c(20, 30, 40, 50, 60, 70), include.lowest = TRUE)`.
+
+1. ¿Cuál es el grupo de referencia? ¿Qué tramo gasta más, y cuánto más que la referencia?
+
+2. Añade los tramos al gráfico del apartado b), con `geom_smooth(formula = y ~ cut(x, ...))`.
+   ¿Siguen la misma curva?
+
+3. En dos frases: qué gana y qué pierde cada aproximación (número de coeficientes, forma
+   impuesta, dónde cortar).
+
+Apartado retirado: escalones e interacción
+
+1. Añade `educ` por tramos con `cut(educ, c(0, 10, 12, 14, 16, 20), include.lowest = TRUE)`. Lee los
+   cuatro escalones en euros.
+
+2. Sustituye `renta` por `renta * mujer`. ¿Cuál es la pendiente de la renta para hombres y cuál
+   para mujeres? ¿Qué coeficiente mide la diferencia?
+
+3. Cierra con una tabla: una fila por modelo de esta entrega (más el de partida) y su $R^2$.
+   ¿Cuál prefieres? Apunta el motivo en una frase: se discute en clase.
+
+:::
+
+::: {.content-hidden}
+
+<!-- Retirado el 2-nov-2026 (Pedro): partir la muestra y la validacion cruzada no se piden a mano. Candidato a ejercicio adicional. -->
+
+Entrega retirada: elegir para predecir
+
+Trabajamos con la relación entre `edad` y `ventas`, con el polinomio `ventas ~ poly(edad, g)`.
+
+Apartado retirado a): partir la muestra
+
+1. Parte `tienda` en 70% de entrenamiento y 30% de prueba, con tu DNI como semilla y
+   `sample(nrow(tienda), size = round(0.7 * nrow(tienda)))`. ¿Cuántas filas tiene cada parte?
+
+2. Escribe la función `mse <- function(y, y_pred) mean((y - y_pred)^2)`.
+
+Apartado retirado b): el error de entrenamiento y el de prueba
+
+1. Para g = 1, 2, 3, 5, 8 y 12, ajusta `ventas ~ poly(edad, g)` **solo** con entrenamiento. Un
+   bucle sobre `c(1, 2, 3, 5, 8, 12)` ahorra escribirlo seis veces.
+
+2. Para cada g, el MSE en entrenamiento y en prueba (`predict(m, newdata = prueba)`). Dibuja las
+   dos curvas en el mismo gráfico, con g en el eje horizontal.
+
+Apartado retirado c): dónde está el mínimo
+
+1. ¿En qué grado está el mínimo del error de **prueba**? ¿Y el de entrenamiento? ¿Por qué el de
+   entrenamiento no sirve para elegir?
+
+2. Dibuja la nube de puntos con las curvas de g = 2 y g = 12 superpuestas. En una frase, qué está
+   haciendo la de grado 12.
+
+3. Compara tu g ganador con el de un compañero que use otra semilla. ¿Sale el mismo? ¿Qué dice eso
+   de elegir modelo con una sola partición?
+
+Apartado retirado: cinco bloques
+
+1. Asigna cada cliente a uno de 5 bloques al azar: `bloque <- sample(rep(1:5, length.out =
+   nrow(tienda)))`, con tu DNI como semilla. Comprueba con `table(bloque)` que tienen unas 81
+   filas cada uno.
+
+2. Escribe la función `mse <- function(y, y_pred) mean((y - y_pred)^2)`.
+
+3. Para g = 1, 2, 3, 5, 8 y 12: estima el polinomio dejando fuera cada bloque, calcula el MSE en el
+   bloque que faltaba y promedia los cinco. Es un bucle dentro de otro.
+
+Apartado retirado: el g que sobrevive
+
+1. Dibuja el MSE medio frente a g. ¿Dónde está el mínimo?
+
+2. Compara con un compañero. ¿Sale el mismo g?
+
+:::
+
+# Entrega 3: decidir a quién va el descuento
+
+La tienda quiere una regla para dar el descuento a clientes nuevos. La variable a explicar es
+`descuento`; los regresores, `renta`, `edad` y `zona`.
+
+## Apartado a): el logit
+
+1. Estima el modelo con `glm(..., family = "binomial")` y obtén la probabilidad predicha de cada
+   cliente con `predict(type = "response")`. ¿Entre qué valores está?
+
+2. ¿Qué variables importan y en qué dirección? ¿Cuántos clientes pasan de 0,5?
+
+## Apartado b): el umbral de siempre
+
+Con umbral 0,5, construye la matriz de confusión con `table()`. Calcula exactitud, sensibilidad y
+especificidad, y di qué proporción de clientes tiene descuento de verdad en la muestra.
+
+## Apartado c): otros umbrales
+
+Repite con umbral 0,25 y con 0,10. Presenta una tabla de tres filas: umbral, exactitud,
+sensibilidad, especificidad y número de clientes contactados.
+
+## Apartado d): el coste decide
+
+1. Un modelo que clasifique a **todos** como "sin descuento": ¿qué exactitud tiene? ¿Qué métrica lo
+   delata?
+
+2. La tienda dice que no dar el descuento a quien lo habría recibido cuesta diez veces más que
+   dárselo a quien no lo necesitaba. Calcula el coste de cada umbral, $10 \cdot FN + FP$. ¿Cuál
+   eliges?
+
+3. En una frase: ¿por qué 0,5 es una decisión que estás tomando?
+
+# Cómo se entrega
+
+::: {.callout-important}
+Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
+
+- **Entrega 1**: una muestra entre muchas y el primer modelo. `T05_E1_ID.zip`
+- **Entrega 2**: muchos modelos posibles. `T05_E2_ID.zip`
+- **Entrega 3**: decidir a quién va el descuento. `T05_E3_ID.zip`
+:::
+
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
+identificador que escribís en el formulario (ver
+[Cómo trabajar](../ComoTrabajar.html)). Por ejemplo, `T05_E1_12345678.zip`.
+
+Las frases de interpretación que se piden expresamente van como **texto del documento**, no como
+comentarios dentro del código: para eso es un documento de Quarto y no un guion de R.
+
+Se os dirá en clase **cuáles** hay que entregar y cuándo.
+
+Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
+confirmación si la entrega es correcta, o de rechazo si no lo es.
+
+Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo.
+
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
+
+::: {.callout-warning}
+Las entregas que se hagan en clase **se cierran al acabar la sesión**, con un margen de
+**15 minutos** desde el final. La hora de envío queda registrada.
+:::

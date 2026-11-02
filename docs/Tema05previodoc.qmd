@@ -104,16 +104,16 @@ importantes:
 - **Aumentar el tamaño de la muestra mejora la precisión, pero con rendimientos decrecientes.** Como
   el error estándar depende de $\sqrt{n}$, para reducirlo a la mitad necesitamos multiplicar por
   cuatro el tamaño de la muestra. Por ejemplo, si la desviación típica del gasto es
-  $\sigma = 1.400$ euros, una muestra de 100 clientes produce un error estándar de 140 euros; con
-  400 clientes se reduce a 70 euros y con 1.600, a 35 euros.
+  $\sigma = 1.200$ euros, una muestra de 100 clientes produce un error estándar de 120 euros; con
+  400 clientes se reduce a 60 euros y con 1.600, a 30 euros.
 
 - **Podemos calcular cuántas observaciones necesitamos para alcanzar una precisión determinada.** Si
   queremos obtener un error estándar de $e$, podemos despejar el tamaño de la muestra:
   $$
   n = \left(\frac{\sigma}{e}\right)^2.
   $$
-  Por ejemplo, si $\sigma = 1.400$ euros y queremos un error estándar de 20 euros, necesitamos
-  encuestar a $n = (1.400/20)^2 = 4.900$ clientes.
+  Por ejemplo, si $\sigma = 1.200$ euros y queremos un error estándar de 20 euros, necesitamos
+  encuestar a $n = (1.200/20)^2 = 3.600$ clientes.
 
 - **La precisión depende del tamaño de la muestra, $n$, y de la variabilidad en la población,
   $\sigma$.**
@@ -149,7 +149,7 @@ $$
 \bar Y \pm 1{,}96 \cdot \text{error estándar}.
 $$
 
-Con $\bar Y = 3.700$ y error estándar 70: de 3.562,8 a 3.837,2 euros. El 95% se refiere al
+Con $\bar Y = 3.970$ y error estándar 60: de 3.852,4 a 4.087,6 euros. El 95% se refiere al
 procedimiento: repetido en muchas muestras, el intervalo contiene la media poblacional el 95% de las
 veces.
 
@@ -160,8 +160,8 @@ técnicas computacionales y menos supuestos.
 
 La media $E[Y]$ es el valor esperado de $Y$ para un individuo elegido al azar. Si tenemos
 información previa sobre él, como su sexo o su renta, podemos mejorar ese valor esperado usando la
-media de los que se le parecen. En los datos del tema, el gasto medio es de 3.699 euros, el de las
-mujeres de 4.489 y el de los hombres de 2.892: saber que un cliente es mujer cambia lo que esperamos
+media de los que se le parecen. En los datos del tema, el gasto medio es de 3.969 euros, el de las
+mujeres de 4.739 y el de los hombres de 3.136: saber que un cliente es mujer cambia lo que esperamos
 que gaste, y por eso interesa distinguir por grupos. La **media condicional** $E[Y \mid X = x]$ es la media de $Y$ entre
 las observaciones con $X = x$. Si $X$ es el sexo, $x$ es cada uno de sus valores: sexo = mujer,
 sexo = hombre. Si $X$ es la renta, $x$ es cada nivel de renta: renta = 1.000, renta = 2.000,
