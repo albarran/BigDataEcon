@@ -364,7 +364,7 @@ Al finalizar este tema, serás capaz de:
 
 ## Los datos del tema
 
-* Trabajaremos con una **cadena de gimnasios** y su entorno. Son tres conjuntos de datos, y cada uno responde a una pregunta distinta
+* Trabajaremos con una **cadena de gimnasios** y su entorno. Son cuatro conjuntos de datos, y cada uno responde a una pregunta distinta
 
 ```{r cargar}
 #| eval: true
@@ -378,19 +378,21 @@ load("data/datosVisualizacion.RData")
 
 * **¿En qué entorno operamos?** `macro`, un país por fila: renta, población, paro, inflación y deuda
 
+* **¿Cómo evolucionan las ventas?** `ventas_tiempo`: ventas mensuales de 2020 a 2023 por región
+
 * De cada conjunto salen **muchas preguntas**, y cada una pide su propio gráfico
 
-* La descripción de cada variable está en su diccionario: `clientes_info`, `ventas_info`, `macro_info`
+* Cada conjunto trae su diccionario de variables, con el sufijo `_info`: `clientes_info`, etc.
 
 * Los ficheros se descargan de la página **Datos** del curso, y van en un subdirectorio `data` dentro de vuestra carpeta del tema
 
 ::: {.notes}
-- La idea es que no sean "tres ficheros" sino tres preguntas del mismo negocio: la clientela, la
-  cuenta de resultados y el entorno. Asi entienden POR QUE cambiamos de conjunto mas adelante.
+- La idea es que no sean "cuatro ficheros" sino cuatro preguntas del mismo negocio: la clientela, la
+  cuenta de resultados, el entorno y la evolución en el tiempo. Asi entienden POR QUE cambiamos de conjunto mas adelante.
 - No recorrer la ficha del final en clase: esta para consultar, y se llega por el enlace.
-- `macro` se reserva para escalas: su poblacion va de 1 a 138 millones y es donde la escala
+- `macro` se reserva para escalas: su poblacion va de 0,6 a 83 millones y es donde la escala
   logaritmica se ve. Con `clientes` no se veria: sus ingresos son casi simetricos.
-- Los diccionarios (`clientes_info`, `ventas_info`, `macro_info`) vienen en el mismo `load()`.
+- Los diccionarios (`clientes_info`, `ventas_info`, `macro_info`, `ventas_tiempo_info`) vienen en el mismo `load()`.
 :::
 
 ## Creando un "ggplot"
@@ -1015,7 +1017,7 @@ g2 + scale_color_gradient2(breaks = c(5, 10, 15),
   - Logarítmica: misma distancia visual = mismo incremento relativo (%)
 
 
-* Aquí cambiamos a `macro`, un país por fila: la `poblacion` va de 1 a 138 millones, y es
+* Aquí cambiamos a `macro`, un país por fila: la `poblacion` va de 0,6 a 83 millones, y es
 donde la escala logarítmica se nota. Con los `ingresos` de `clientes` no se vería nada, porque
 están todos en el mismo orden de magnitud
 

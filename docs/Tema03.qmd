@@ -492,7 +492,7 @@ ventas_tiempo <- ventas |>
 - *Caso de Uso:* Top 5 ventas más altas
 ```{r}
 ventas |> 
-  arrange(desc(total)) |> slice(5) |> 
+  arrange(desc(total)) |> slice(1:5) |> 
   select(id_venta, fecha, total)  
 ```
 
@@ -1440,7 +1440,7 @@ plantuml("diagrama.puml")
 ::::
 
 
-- Con `cbind()` o `bind_columns()` o copiando y pegando en Excel: nuevas columnas para filas en el mismo orden
+- Con `cbind()` o `bind_cols()` o copiando y pegando en Excel: nuevas columnas para filas en el mismo orden
 
 . . .
 

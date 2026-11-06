@@ -333,7 +333,7 @@ Con alineación de columnas
 
 * Positron incorpora un **editor visual** de documentos de Quarto, similar a un procesador de texto
 
-  - un ventaja del modo no visual es el número de línea, para errores
+  - una ventaja del modo no visual es el número de línea, para errores
 
 
 ## Editor Visual de Quarto en Positron
