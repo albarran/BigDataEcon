@@ -1193,7 +1193,7 @@ display:block!important;
 <section id="los-datos-del-tema" class="slide level2">
 <h2>Los datos del tema</h2>
 <ul>
-<li>Trabajaremos con una <strong>cadena de gimnasios</strong> y su entorno. Son tres conjuntos de datos, y cada uno responde a una pregunta distinta</li>
+<li>Trabajaremos con una <strong>cadena de gimnasios</strong> y su entorno. Son cuatro conjuntos de datos, y cada uno responde a una pregunta distinta</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -1203,16 +1203,17 @@ display:block!important;
 <li><p><strong>¿Quién es nuestra clientela y en qué se diferencia?</strong> <code>clientes</code>, una ficha por persona: lo que ingresa, lo que gasta, su edad, por qué canal compra y en qué segmento está</p></li>
 <li><p><strong>¿Cómo va el negocio y de qué depende?</strong> <code>ventas</code>: cuánto se vendió y cuánto se invirtió en marketing, en cada región, producto y trimestre</p></li>
 <li><p><strong>¿En qué entorno operamos?</strong> <code>macro</code>, un país por fila: renta, población, paro, inflación y deuda</p></li>
+<li><p><strong>¿Cómo evolucionan las ventas?</strong> <code>ventas_tiempo</code>: ventas mensuales de 2020 a 2023 por región</p></li>
 <li><p>De cada conjunto salen <strong>muchas preguntas</strong>, y cada una pide su propio gráfico</p></li>
-<li><p>La descripción de cada variable está en su diccionario: <code>clientes_info</code>, <code>ventas_info</code>, <code>macro_info</code></p></li>
+<li><p>Cada conjunto trae su diccionario de variables, con el sufijo <code>_info</code>: <code>clientes_info</code>, etc.</p></li>
 <li><p>Los ficheros se descargan de la página <strong>Datos</strong> del curso, y van en un subdirectorio <code>data</code> dentro de vuestra carpeta del tema</p></li>
 </ul>
 <aside class="notes">
 <ul>
-<li>La idea es que no sean “tres ficheros” sino tres preguntas del mismo negocio: la clientela, la cuenta de resultados y el entorno. Asi entienden POR QUE cambiamos de conjunto mas adelante.</li>
+<li>La idea es que no sean “cuatro ficheros” sino cuatro preguntas del mismo negocio: la clientela, la cuenta de resultados, el entorno y la evolución en el tiempo. Asi entienden POR QUE cambiamos de conjunto mas adelante.</li>
 <li>No recorrer la ficha del final en clase: esta para consultar, y se llega por el enlace.</li>
-<li><code>macro</code> se reserva para escalas: su poblacion va de 1 a 138 millones y es donde la escala logaritmica se ve. Con <code>clientes</code> no se veria: sus ingresos son casi simetricos.</li>
-<li>Los diccionarios (<code>clientes_info</code>, <code>ventas_info</code>, <code>macro_info</code>) vienen en el mismo <code>load()</code>.</li>
+<li><code>macro</code> se reserva para escalas: su poblacion va de 0,6 a 83 millones y es donde la escala logaritmica se ve. Con <code>clientes</code> no se veria: sus ingresos son casi simetricos.</li>
+<li>Los diccionarios (<code>clientes_info</code>, <code>ventas_info</code>, <code>macro_info</code>, <code>ventas_tiempo_info</code>) vienen en el mismo <code>load()</code>.</li>
 </ul>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2056,7 +2057,7 @@ display:block!important;
 <li><p>Lineal: misma distancia visual = mismo aumento absoluto → los valores pequeños quedan “aplastados” para mostrar los grandes</p></li>
 <li><p>Logarítmica: misma distancia visual = mismo incremento relativo (%)</p></li>
 </ul></li>
-<li><p>Aquí cambiamos a <code>macro</code>, un país por fila: la <code>poblacion</code> va de 1 a 138 millones, y es donde la escala logarítmica se nota. Con los <code>ingresos</code> de <code>clientes</code> no se vería nada, porque están todos en el mismo orden de magnitud</p></li>
+<li><p>Aquí cambiamos a <code>macro</code>, un país por fila: la <code>poblacion</code> va de 0,6 a 83 millones, y es donde la escala logarítmica se nota. Con los <code>ingresos</code> de <code>clientes</code> no se vería nada, porque están todos en el mismo orden de magnitud</p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a><span class="fu">ggplot</span>(macro, <span class="fu">aes</span>(<span class="at">y =</span> desempleo, <span class="at">x =</span> poblacion)) <span class="sc">+</span> </span>

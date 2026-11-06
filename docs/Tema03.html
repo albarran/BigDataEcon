@@ -1546,7 +1546,7 @@ display:block!important;
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>ventas <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb9-3"><a aria-label="3"></a>  <span class="fu">select</span>(id_venta, fecha, total)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
@@ -2477,7 +2477,7 @@ display:block!important;
 </div>
 </div></div>
 <ul>
-<li>Con <code>cbind()</code> o <code>bind_columns()</code> o copiando y pegando en Excel: nuevas columnas para filas en el mismo orden</li>
+<li>Con <code>cbind()</code> o <code>bind_cols()</code> o copiando y pegando en Excel: nuevas columnas para filas en el mismo orden</li>
 </ul>
 <div class="fragment">
 <div class="cell">
