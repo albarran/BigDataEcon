@@ -55,7 +55,7 @@ Se crea con *File \> New File... \> Quarto Document* y se guarda con `Ctrl+S`, *
 > `nn` es el número del tema, `n` el del ejercicio, e `ID` es lo que te identifica.
 > Por ejemplo, el ejercicio 1 del tema 2: `T02_E1_12345678.qmd`
 
-Qué poner en `ID`, según el documento que tengas:
+[]{#que-poner-en-id}Qué poner en `ID`, según el documento que tengas:
 
 | si tu documento es... | escribes | ejemplo |
 |---|---|---|
