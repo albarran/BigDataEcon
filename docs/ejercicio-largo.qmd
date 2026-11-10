@@ -1,0 +1,183 @@
+---
+title: "Ejercicio largo: pobreza y convergencia"
+subtitle: "Técnicas para el Big Data · 2026-27"
+author:
+    - "Pedro Albarrán"
+    - "Henry Redondo"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 2
+    theme: cosmo
+execute:
+  enabled: true
+  eval: false
+  echo: true
+lang: es
+strip-comments: true
+---
+
+::: {.callout-important}
+## Antes de empezar
+
+Entrega hasta el **domingo 29 de noviembre a las 23:59** por el [formulario del ejercicio largo](https://docs.google.com/forms/d/e/1FAIpQLSd8qNFsL1-I4eH_MbFhYIpQgQuHHEkRsZDrSAHgvNeMi15CTw/viewform): un único `EL_ID.zip` con el `.qmd` y su `.html`, por ejemplo `EL_12345678.zip`. No incluyáis la carpeta `data`: vuestro `.qmd` tiene que renderizar con los ficheros en `data/` y las rutas del enunciado, y un `.qmd` que no renderiza no se corrige.
+
+El `ID` es el mismo que escribís en el formulario. Con DNI, los ocho números sin la letra final; con NIE, la letra inicial y los números, sin la letra final; con pasaporte u otro documento, entero. La última cifra del `ID` fija la comunidad autónoma del bloque I.
+
+::: {.callout-note collapse="true"}
+## Comunidad según la última cifra del `ID`
+
+| Última cifra | Comunidad              | `DB040` |
+|:------------:|:-----------------------|:-------:|
+|      0       | Cataluña               |  ES51   |
+|      1       | Andalucía              |  ES61   |
+|      2       | Comunidad de Madrid    |  ES30   |
+|      3       | Comunitat Valenciana   |  ES52   |
+|      4       | Galicia                |  ES11   |
+|      5       | Castilla y León        |  ES41   |
+|      6       | País Vasco             |  ES21   |
+|      7       | Región de Murcia       |  ES62   |
+|      8       | Castilla-La Mancha     |  ES42   |
+|      9       | Aragón                 |  ES24   |
+:::
+
+El informe se escribe para quien lo encarga: texto, tablas y gráficos, sin salidas crudas (`glimpse()`, `summary()` de sesenta filas). El código va plegado (`code-fold: true`) y el `.html` se renderiza con `embed-resources: true`. En el formulario, además del zip, declarad en dos líneas en qué habéis usado IA y en qué no.
+
+Se corrigen vuestras decisiones y cómo las justificáis con vuestras cifras. Una decisión sin justificar, o que no muestra que entendéis por qué la tomáis, no puntúa. Podéis usar IA para escribir código, pero el informe lo firmáis vosotros y se os puede pedir que expliquéis cualquier cifra o línea de la entrega.<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true"> El bloque I se cierra con una sección titulada «Nota técnica sobre la ponderación», de un párrafo.</span>
+:::
+
+# Bloque I: la pobreza en vuestra comunidad
+
+Una fundación que financia programas de apoyo a familias en vuestra comunidad autónoma tiene que decidir a quién dirige el próximo programa y justificarlo ante quien lo paga. Os encarga un informe sobre la pobreza en la comunidad: cuánta hay, a quién afecta más y cómo se compara con el resto de España.
+
+El INE publica para cada comunidad la tasa de pobreza y los demás indicadores oficiales, pero los desgloses por edad, sexo, tipo de hogar o estudios de los adultos solo los publica para toda España. Lo que necesita la fundación hay que calcularlo con los microdatos de la **Encuesta de Condiciones de Vida (ECV)**, de la que salen esas cifras. Una empresa hace el mismo trabajo con los microdatos de sus clientes cuando tiene que decidir su estrategia.
+
+## Los datos
+
+Descargad `datos_2025.zip` (73 MB) desde la [página de microdatos de la ECV](https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176807&menu=resultados&secc=1254736195153&idp=1254735976608) del INE, o directamente de [este enlace](https://www.ine.es/ftp/microdatos/ecv/ecv_b2013/datos_2025.zip), y descomprimidlo en la carpeta `data` de vuestro proyecto. Descomprimid después cada fichero zip que contiene, cada uno en su carpeta. En `disreg_ecv25.zip` viene el **diseño de registro**: un Excel por fichero con el nombre, la descripción y los códigos de cada variable. Consultadlo antes de usar cualquier variable.
+
+```{r}
+library(tidyverse)
+hogares_d <- read_csv("data/ECV_Td_2025/CSV/esudb25d.csv")   # hogar: comunidad y factor
+hogares_h <- read_csv("data/ECV_Th_2025/CSV/esudb25h.csv")   # hogar: renta y condiciones de vida
+personas  <- read_csv("data/ECV_Tr_2025/CSV/esudb25r.csv")   # todas las personas de cada hogar
+adultos   <- read_csv("data/ECV_Tp_2025/CSV/esudb25p.csv")   # cuestionario individual, 16 años o más
+```
+
+| Tabla | Una fila es | Identificador | Lo que vamos a usar |
+|-----------|----------------|-------|------------------------------------------------|
+| `hogares_d` | un hogar | `DB030` | `DB040`, comunidad autónoma |
+| `hogares_h` | un hogar | `HB030` | `HY020`, renta disponible del hogar; `HX240` (consultad el diseño de registro); `HX040`, número de miembros |
+| `personas` | una persona, todas las del hogar | `RB030` | `RB050`, factor de ponderación; `RB080`, año de nacimiento; `RB090`, sexo; `vrMATSOCDEP`, `vrLOWJOB_nuevo`, `vrEU2030_nuevo` |
+| `adultos` | una persona de 16 años o más | `PB030` | `PE041`, nivel de estudios terminados |
+
+El identificador de persona es el de su hogar seguido de su número de orden dentro de él, a dos dígitos: la persona `123402` es la segunda del hogar `1234`. Con él se une cada persona a su hogar, y cada adulto a su fila de `personas`. El factor de ponderación `RB050` dice a cuántas personas de la población representa cada fila: toda cifra de España o de una comunidad va ponderada con él, y al lado de cada cifra del informe va el número de personas de la muestra de las que sale (filas, sin ponderar).
+
+La ECV mide la pobreza con cuatro indicadores. La tasa de riesgo de pobreza la calculáis vosotros: el porcentaje de personas cuya renta equivalente (la renta disponible del hogar dividida por sus unidades de consumo) está por debajo del umbral, que es el 60 % de la mediana nacional de la renta equivalente de las personas. La mediana es ponderada: ordenad por renta, acumulad los pesos y tomad la renta de la primera persona cuyo peso acumulado llega a la mitad del total. Todas las personas de un hogar pobre, menores incluidos, cuentan como pobres. Los otros tres ya vienen calculados por persona en el fichero; mirad en el diseño de registro qué valores toman antes de usarlos: carencia material y social severa (`vrMATSOCDEP`), baja intensidad en el empleo (`vrLOWJOB_nuevo`) y la tasa AROPE (`vrEU2030_nuevo`), que cuenta a quien está en al menos una de las tres situaciones.
+
+El INE publicó los resultados de la ECV 2025 el 5 de febrero de 2026 ([nota de prensa](https://www.ine.es/dyngs/Prensa/ECV2025.htm)). Las rentas son las de 2024, el año anterior a la entrevista.
+
+## Apartado a)
+
+Preparad los datos para el análisis en una tabla con una fila por persona con su comunidad, su factor de ponderación, su edad (2025 menos el año de nacimiento, `RB080`), su sexo, y la renta disponible y las unidades de consumo de su hogar.<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true"> Llamad `base_ecv` a esa tabla y usad ese nombre en todo el código.</span> Comprobad que nadie se queda sin hogar y que el número de filas es el que tiene que ser.
+
+Contad brevemente el proceso de preparación y limpieza, con sus detalles: qué decidisteis, por qué y a cuántas filas afecta. Las rentas cero o negativas se conservan, como hace el INE; decid cuántas son y qué cambiaría si se quitaran.
+
+Copiad del diseño de registro la descripción de la variable por la que dividís la renta, y decid qué cambiaría si se dividiera por el número de miembros del hogar.
+
+Dad el umbral y la tasa de riesgo de pobreza de España y de vuestra comunidad: la de España tiene que coincidir con la nota de prensa, y la de vuestra comunidad con la [tabla 9963](https://www.ine.es/jaxiT3/Tabla.htm?t=9963) del INE.
+
+## Apartado b)
+
+Haced un análisis exploratorio básico de vuestra comunidad frente a España, con lo que penséis que os servirá para decidir qué medir después (cómo se reparte la renta equivalente cerca del umbral, qué edades y tipos de hogar hay...). En el informe va lo que uséis, con su tabla o gráfico y lo que leéis en él.
+
+## Apartado c)
+
+Con lo que habéis visto, proponed un cuadro de mando para la fundación con sus indicadores principales (KPI): la tasa de riesgo de pobreza, la AROPE y al menos dos más, oficiales o construidos con otras variables del fichero, que digan a qué grupos o tipos de hogar afecta más la pobreza. Cada KPI lleva su definición exacta (numerador, denominador y población) y se da para vuestra comunidad y para España.
+
+Añadid la tasa de riesgo de pobreza por grupo de edad (menores de 18 años, de 18 a 64 y de 65 o más)<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true">, aunque en este informe el corte de edad avanzada se fija en 60 años, con los grupos de 18 a 59 y de 60 o más,</span> y, dentro de cada grupo, por sexo, para vuestra comunidad y para España.
+
+## Apartado d)
+
+La fundación presentará el informe a su patronato, que va a discutir dos cosas: dónde está vuestra comunidad respecto a las demás, y si la pobreza en ella es sobre todo cosa de los menores, de los mayores o de toda la población, en comparación con España. Preparad la visualización con la que se va a discutir, y explicad qué habéis decidido mostrar, cómo, y qué no se puede leer en ella. Decid también si publicaríais la clasificación completa de las comunidades y por qué.<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true"> El eje de las tasas va en escala logarítmica.</span>
+
+## Apartado e)
+
+La fundación piensa centrar el programa en los menores, y quiere saber cuánto cambia su riesgo de pobreza con los estudios de los adultos con los que viven. Los menores están en `personas`; el nivel de estudios terminados, `PE041`, solo en `adultos`.
+
+La pregunta pide una variable que no está en los datos, y crearla es parte de la preparación: en general tendríais que decidir vosotros cómo se define. Aquí os la damos: el nivel de estudios del hogar es el más alto entre las personas del hogar que están en `adultos`<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true"> (si hay varios adultos, tomad el más bajo de ellos, que es el que marca la vulnerabilidad del hogar)</span>, en tres niveles: hasta la primera etapa de secundaria; segunda etapa de secundaria o postsecundaria no superior; superior. Llevadlo a cada persona de vuestra tabla y dad la tasa de riesgo de pobreza de los menores de 18 años según el nivel de estudios de su hogar, para vuestra comunidad y para España. Los menores de hogares donde ningún adulto tiene el dato quedan fuera.
+
+## Apartado f)
+
+Un compañero lo resuelve en dos pasos: une la base con `adultos` para tener el nivel de estudios de cada persona, y después se queda con los menores.
+
+```{r}
+con_estudios <- base |>
+  inner_join(adultos |> select(PB030, PE041), by = c("RB030" = "PB030"))
+
+con_estudios |> filter(edad < 18) |> count(PE041)
+```
+
+En su código, `base` es la tabla del apartado a) y `edad` la edad de cada persona. Ejecutadlo con los nombres de vuestra tabla y decid si da la pobreza infantil por nivel de estudios, comparando sus filas y sus menores con los vuestros.
+
+## Apartado g)
+
+Vuestra comunidad y España tienen tasas de pobreza infantil distintas. Puede ser porque, dentro de cada nivel de estudios, los menores de la comunidad tienen un riesgo distinto, o porque se reparten de otra forma entre hogares de cada nivel. Haced la visualización que permite distinguir las dos explicaciones y decid cuál pesa más en vuestra comunidad.
+
+## Apartado h)
+
+La fundación tiene dos decisiones delante:
+
+1. A qué hogares dirigir las ayudas del programa para llegar a los menores con más riesgo.
+
+2. Cuánto invertir en que los adultos con pocos estudios terminen la secundaria, con la idea de que así baje la pobreza de sus hijos.
+
+Para cada una, decid qué permiten concluir vuestras cifras y qué no.
+
+# Bloque II: ¿convergen los países pobres?
+
+La **hipótesis de convergencia** dice que, a igualdad de lo demás, un país que parte de un PIB per cápita menor crece más deprisa, de modo que los pobres van alcanzando a los ricos. En este bloque estimáis ese efecto: cuánto más crece un país por partir de un PIB menor, con lo demás fijo.
+
+`GrowthData.csv`, de la página [Datos](../Datos.html), es la tabla de Barro y Lee (1994): **90 países**, una fila cada uno. `Outcome` es la tasa de crecimiento anual del PIB per cápita del país después de 1965 (0,02 es un 2 % al año); `gdpsh465` es el logaritmo del PIB per cápita de 1965, la variable cuyo efecto se busca; `intercept` es una columna de unos que se quita. Las **60 restantes** son características del país, casi todas medidas en 1965 (el `65` de los nombres): educación (tasas de escolarización y años de estudio, por nivel y por sexo), salud y demografía (fecundidad, mortalidad, esperanza de vida, crecimiento y estructura de la población), inversión y gasto público y su composición, comercio exterior (exportaciones, importaciones, aranceles, apertura, prima del mercado negro de divisas, tipo de cambio, relación real de intercambio) e inestabilidad política. Los nombres son los de Barro y Lee (`h65`, escolarización superior en 1965; `lifee065`, esperanza de vida en 1965; `invsh41`, inversión sobre PIB).
+
+```{r}
+library(glmnet)
+crecimiento <- read_csv("data/GrowthData.csv") |> select(-intercept)
+x <- model.matrix(Outcome ~ ., data = crecimiento)                                  # PIB inicial y 60 controles
+controles <- model.matrix(Outcome ~ ., data = crecimiento |> select(-gdpsh465))   # solo los 60 controles
+```
+
+## Apartado a)
+
+Estimad con `lm()` el crecimiento sobre el PIB inicial, sin controles y con los 60 controles. Dad el coeficiente del PIB inicial y su error estándar en las dos, y lo que dice cada una sobre la convergencia.
+
+## Apartado b)
+
+Ajustad con `cv.glmnet()` el LASSO del crecimiento sobre el PIB inicial y los 60 controles, con `set.seed()` justo antes, usando como semilla solo los números de vuestro `ID`. Decid cuántas variables conserva `lambda.1se`, si el PIB inicial está entre ellas y qué da el post-LASSO del Tema 06. Repetidlo con otras dos semillas, diciendo cuáles, y dad lo mismo para cada una.
+
+## Apartado c)
+
+El Tema 06 avisa de que el post-LASSO tiene problemas y de que en la práctica se usan versiones más elaboradas. Una que los supera es la **doble selección** de Belloni, Chernozhukov y Hansen (2014), en tres pasos: un LASSO del crecimiento sobre los 60 controles, otro LASSO del PIB inicial sobre los mismos controles, y un MCO del crecimiento sobre el PIB inicial y la **unión** de los controles elegidos, es decir, los que elige al menos uno de los dos LASSO.
+
+En cada LASSO, $\lambda$ se fija con la fórmula de los autores, $\lambda = 1{,}1 \cdot \sigma \cdot \Phi^{-1}\!\left(1 - \frac{0{,}1 / \log n}{2p}\right) / \sqrt{n}$, donde $n$ es el número de países, $p$ el de controles y $\sigma$ la desviación típica del error de esa ecuación. Como $\sigma$ no se conoce, se usa la desviación típica de la propia variable^[El artículo afina $\lambda$ con un paso más: recalcula $\sigma$ como la desviación típica de los residuos del MCO de la variable sobre los controles elegidos y repite el LASSO. No se pide.], y `glmnet()` recibe ese $\lambda$ fijo:
+
+```{r}
+n <- nrow(crecimiento)
+p <- ncol(controles) - 1                                          # 60 controles, sin la constante
+constante <- 1.1 * qnorm(1 - 0.1 / log(n) / (2 * p)) / sqrt(n)    # lo que no depende de sigma
+lasso_y <- glmnet(controles, crecimiento$Outcome,  alpha = 1, lambda = constante * sd(crecimiento$Outcome))
+lasso_d <- glmnet(controles, crecimiento$gdpsh465, alpha = 1, lambda = constante * sd(crecimiento$gdpsh465))
+```
+
+Decid qué controles elige cada LASSO y cuántos tiene la unión.<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true"> Añadid `bmp1l`, la prima del mercado negro de divisas, a la unión aunque no lo elija ningún LASSO.</span> Dad el coeficiente del PIB inicial con su error estándar en el MCO final. Para los controles que eligió solo el LASSO del PIB inicial, calculad su correlación con el crecimiento y con el PIB inicial.
+
+## Apartado d)
+
+Presentad en una tabla las cuatro estimaciones del efecto del PIB inicial, con su error estándar: MCO sin controles, MCO con los 60, post-LASSO con vuestra semilla y doble selección. Decid cuál elegís para contrastar la hipótesis de convergencia y por qué, y qué falla en cada una de las otras.
+
+## Apartado e)
+
+Con la estimación elegida, escribid un párrafo de conclusiones y otro de límites. En el de conclusiones, interpretad el coeficiente del PIB inicial como efecto sobre `Outcome` y calculad cuántos años tardarían en reducir a la mitad su brecha de PIB per cápita dos países con las mismas características y distinto PIB inicial. En el de límites, si ese coeficiente se puede leer como el efecto causal del PIB inicial y qué lo impide.
+

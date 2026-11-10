@@ -138,6 +138,7 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
   * [Tema 06 - Regularización: Ridge regression y LASSO](docs/Tema06.qmd)
   * [Tema 06 - Ejercicios del tema](docs/Tema06ej1.qmd)
+  * **[Ejercicio largo](docs/ejercicio-largo.qmd)**: entrega hasta el domingo 29 de noviembre a las 23:59.
 
 ## Semana 9
 (2-Nov. a 6-Nov.)
