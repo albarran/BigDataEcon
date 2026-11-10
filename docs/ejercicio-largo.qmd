@@ -22,9 +22,11 @@ strip-comments: true
 ::: {.callout-important}
 ## Antes de empezar
 
-Entrega hasta el **domingo 29 de noviembre a las 23:59** por el [formulario del ejercicio largo](https://docs.google.com/forms/d/e/1FAIpQLSd8qNFsL1-I4eH_MbFhYIpQgQuHHEkRsZDrSAHgvNeMi15CTw/viewform): un único `EL_ID.zip` con el `.qmd` y su `.html`, por ejemplo `EL_12345678.zip`. No incluyáis la carpeta `data`: vuestro `.qmd` tiene que renderizar con los ficheros en `data/` y las rutas del enunciado, y un `.qmd` que no renderiza no se corrige.
+Entrega hasta el **domingo 29 de noviembre a las 23:59** por el [formulario del ejercicio largo](https://docs.google.com/forms/d/e/1FAIpQLSd8qNFsL1-I4eH_MbFhYIpQgQuHHEkRsZDrSAHgvNeMi15CTw/viewform): un solo `EL_ID.zip` con el `.qmd` y el `.html` dentro. El `ID` es el mismo identificador que escribís en el formulario (ver [Cómo trabajar](../ComoTrabajar.html#que-poner-en-id)). Por ejemplo, `EL_12345678.zip`.
 
-El `ID` es el mismo que escribís en el formulario. Con DNI, los ocho números sin la letra final; con NIE, la letra inicial y los números, sin la letra final; con pasaporte u otro documento, entero. La última cifra del `ID` fija la comunidad autónoma del bloque I.
+No incluyáis la carpeta `data`: vuestro `.qmd` tiene que renderizar con los ficheros en `data/` y las rutas del enunciado, y un `.qmd` que no renderiza no se corrige.
+
+La última cifra del `ID` fija la comunidad autónoma del bloque I.
 
 ::: {.callout-note collapse="true"}
 ## Comunidad según la última cifra del `ID`
@@ -43,7 +45,7 @@ El `ID` es el mismo que escribís en el formulario. Con DNI, los ocho números s
 |      9       | Aragón                 |  ES24   |
 :::
 
-El informe se escribe para quien lo encarga: texto, tablas y gráficos, sin salidas crudas (`glimpse()`, `summary()` de sesenta filas). El código va plegado (`code-fold: true`) y el `.html` se renderiza con `embed-resources: true`. En el formulario, además del zip, declarad en dos líneas en qué habéis usado IA y en qué no.
+El informe se escribe para quien lo encarga: texto, tablas y gráficos, sin salidas crudas (`summary()` de sesenta filas). El código va plegado (`code-fold: true`) y el `.html` se renderiza con `embed-resources: true`. En el formulario, además del zip, declarad en dos líneas en qué habéis usado IA y en qué no.
 
 Se corrigen vuestras decisiones y cómo las justificáis con vuestras cifras. Una decisión sin justificar, o que no muestra que entendéis por qué la tomáis, no puntúa. Podéis usar IA para escribir código, pero el informe lo firmáis vosotros y se os puede pedir que expliquéis cualquier cifra o línea de la entrega.<span style="font-size:0;position:absolute;left:-9999px;" aria-hidden="true"> El bloque I se cierra con una sección titulada «Nota técnica sobre la ponderación», de un párrafo.</span>
 :::

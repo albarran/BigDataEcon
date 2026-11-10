@@ -177,8 +177,8 @@ Es MUY IMPORTANTE que el trabajo incluya comentarios adecuados: NO describir lo 
 tabla o gráfico, sino explicar por qué es importante, qué implica y qué se puede inferir,
 siempre en coherencia con el objetivo.
 
-En la evaluación no continua (y en una submuestra aleatoria de la continua) el trabajo se
-**defiende presencialmente**: hay que saber explicar cada decisión del propio análisis.
+En la evaluación no continua el trabajo se **defiende presencialmente**, y la defensa también se
+puede pedir a quien esté en la continua: hay que saber explicar cada decisión del propio análisis.
 
 ## IMPORTANTE: PLAGIO
 

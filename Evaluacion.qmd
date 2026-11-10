@@ -4,32 +4,26 @@ lang: es
 strip-comments: true
 ---
 
-<!-- BORRADOR 2026-27 (Claude, 4-sep). Basado en la guía docente oficial 26-27 (35/50/15).
-     Sustituye a Evaluacion.qmd en las tres webs; ajustar el enlace scaca por asignatura. -->
+<!-- Rehecha el 10-nov-2026 con la evaluación que decidió Pedro (00.TEC/ESTADO.md § Evaluación).
+     Común a las tres webs: la guía docente de cada una sale de su _variables.yml. -->
 
 # Dos opciones de evaluación (primera convocatoria)
 
-* Nota: información adicional sobre segunda convocatoria y posibles contingencias en [la ficha de la asignatura](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodasi=35047&scaca=2026-27)
+* Nota: información adicional sobre segunda convocatoria y posibles contingencias en la [guía docente de la asignatura]({{< var guia-docente >}}).
 
-* **IMPORTANTE**: quien quiera acogerse a la evaluación NO continua debe comunicarlo (por email o UACloud) **antes de la fecha del primer ejercicio largo** (se anunciará en Contenidos con antelación). Pasada esa fecha, se aplica la evaluación continua.
+* **IMPORTANTE**: quien quiera acogerse a la evaluación NO continua debe comunicarlo en [este formulario](https://docs.google.com/forms/d/e/1FAIpQLSfwN1vmHRJDH-4dx3WXAeP1dMSOZh2Hjrc8buce5UPHVbTI-w/viewform). Si no, se aplica la evaluación continua.
+
+  **Plazo: viernes 20 de noviembre de 2026, 23:59.**
 
 ## Evaluación Continua
 
 * Ejercicios durante el periodo de clases (35%). Incluyen:
 
-  * Dos **ejercicios largos** individuales, para hacer fuera de clase (11% cada uno). Los
-    detalles se darán con suficiente antelación.
-    <!-- INTERNO (no publicar aún): 1º tratamiento de datos y AED; 2º modelización aplicada;
-    variante propia por estudiante (datos y preguntas propios). Ver
-    evaluacion2627/plan-ejercicios-largos-y-bloques.md -->
+  * Un **ejercicio largo** individual, para hacer fuera de clase (15%).
 
-  * Una **prueba presencial** breve (6%). Se avisará con antelación.
-    <!-- INTERNO: conceptos de aprendizaje estadístico (qué modelo y por qué, evaluación,
-    interpretación), semana 12. Alternativa para otros años: dos pruebas, la primera (más corta)
-    de fundamentos. R/informes van a mini-tests; visualización se evalúa aplicada en el trabajo
-    de clase (critica y rehaz). -->
+  * Una **prueba presencial** breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.
 
-  * El **trabajo desarrollado en clase** (7%): lo que produzcáis en las sesiones prácticas
+  * El **trabajo desarrollado en clase** (10%): lo que produzcáis en las sesiones
     podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la
     comprensión, no la perfección.
     <!-- INTERNO: recogida MUESTRAL, no diaria: unas 4-6 sesiones sin anunciar cuáles. -->
@@ -50,12 +44,11 @@ strip-comments: true
 
 * Ejercicios teórico-prácticos (35%). Incluyen:
 
-  * Los mismos dos **ejercicios largos** que en la continua (14,5% cada uno), PERO cada
-    ejercicio se **defiende presencialmente en el despacho**: tendréis que explicar qué habéis
-    hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.
+  * El mismo **ejercicio largo** que en la continua (20%), PERO se **defiende presencialmente en el despacho**:
+    tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y
+    resultados.
 
-  * La misma **prueba presencial** que en la continua (6%), realizada en la cita de la defensa
-    del segundo ejercicio largo.
+  * La misma **prueba presencial** que en la continua (15%), en una cita aparte que se avisará con antelación.
 
 * Trabajo empírico final (65%), también con defensa presencial.
 
