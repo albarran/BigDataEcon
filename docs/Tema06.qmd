@@ -1,0 +1,427 @@
+---
+title: "Tema 06 - Regularización"
+subtitle: "Ridge regression y LASSO"
+author:
+    - "Pedro Albarrán"
+    - "Henry Redondo"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:
+        - beige
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    show-notes: false
+    notes-format: html
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+
+# Elimino todo del Entorno
+rm(list = ls())
+
+# Cargo bibliotecas necesarias
+library(tidyverse)
+library(glmnet)
+```
+
+<!-- INTERNO (2-nov-2026). Deck rehecho el 2 y 3-nov-2026 con CLAUDE.md §10 (el plan, ya ejecutado, se borró el 3-nov).
+Una sesión. Datos: `tienda` (regresión) y `churn_clientes.csv` (clasificación). La versión anterior está
+en `legacy2025-26/Tema06_2026-10.qmd`; `salarios_tech` y sus prácticas pasan a `Tema06ej2.qmd`.
+Regresión (Pedro, 2-nov-2026): `tienda` original, sin columnas añadidas; el modelo flexible son polinomios
+e interacciones de sus siete variables (143 columnas). Cifras con semilla 12345678, verificadas el 2-nov-2026. -->
+
+# Muchas variables
+
+## El problema: muchas variables candidatas
+
+::: {style="font-size: 93%;"}
+
+- Escenario típico en economía y empresa: predecir ventas, salarios o abandonos de clientes con muchas variables, interacciones y polinomios
+- El problema es elegir las variables relevantes, porque más variables hacen el modelo más complejo ([Tema 05](Tema05.html#/sesgo-y-varianza)):
+  - menos sesgo, pero más varianza
+  - si es demasiado complejo, **sobreajusta**: error bajo en entrenamiento y alto en prueba
+- Para comparar modelos hay que estimar el error de prueba:
+  - **directamente**, con validación cruzada: costosa en cálculo, y cada estimación usa menos datos
+  - **indirectamente**, añadiendo un ajuste por número de parámetros $k$ al error de entrenamiento: $R^2$ ajustado, AIC o BIC
+    $$
+    \small
+    AIC = \frac{1}{n}\left(SCR + 2k\,\widehat{\sigma}^2\right) \qquad
+    BIC = \frac{1}{n}\left(SCR + \log(n)\, k\,\widehat{\sigma}^2\right)
+    $$
+    donde $\widehat{\sigma}^2$ es la varianza estimada del error
+- Seleccionar así exige estimar y comparar $2^k$ modelos, uno por combinación de variables. La **regularización** estima un solo modelo con todas
+
+:::
+
+::::{.notes}
+- MCO no tiene solución única con más regresores que observaciones. Tres enfoques: selección de variables y MCO; regularización, que es este tema; reducción de dimensión (PCR, PLS).
+- Cada parámetro añadido cuesta $2\widehat{\sigma}^2$ en AIC y $\log(n)\,\widehat{\sigma}^2$ en BIC; con 404 datos, $\log n \approx 6{,}0$. Menor es mejor; BIC penaliza más y elige modelos más pequeños. $\widehat{\sigma}^2$ suele salir del modelo más grande. $R^2$ ajustado $= 1 - [SCR/(n-k-1)]/[SCT/(n-1)]$.
+- R da `AIC()` y `BIC()` en la forma $-2 \log L + 2k$ del anexo del Tema 05: cambian los números, no la idea. Solo comparan modelos de la misma $y$ con los mismos datos.
+- La selección paso a paso recorre solo una parte de los $2^k$ subconjuntos.
+- Con `tienda` (verificado el 2-nov-2026): modelo lineal, AIC 6.500 y BIC 6.536; modelo flexible, AIC 5.946 y BIC 6.526.
+::::
+
+<!-- INTERNO (2-nov-2026). Fórmulas contrastadas con Tema05anexo.qmd:394-403 y con
+legacy2025-26/Tema06_2026-10.qmd:200-245. ISLR 2.ª ed. §6.1.3 no lo he abierto. -->
+
+## Los datos: la tienda con un modelo flexible
+
+
+::: {style="font-size: 92%;"}
+
+- Volvemos a los **404 clientes** de `tienda` del Tema 05: el gasto anual (`ventas`) y sus seis variables candidatas
+
+- En la práctica 3 del Tema 05 probábamos formas a mano; ahora una fórmula las incluye todas:
+  - polinomios de grado 4 en `edad` y en `log(renta)`, y una columna por nivel de estudios con `factor(educ)`
+  - con `( ... )^2`, todas las interacciones de dos en dos
+
+```{r}
+#| eval: true
+tienda <- read_csv("data/tienda.csv") |>
+  mutate(zona = factor(zona, levels = c("pueblo", "ciudad", "capital")))
+formula <- ventas ~ (poly(edad, 4) + poly(log(renta), 4) +
+                       factor(educ) + mujer + descuento + zona)^2
+```
+
+- Son **143 coeficientes**, más la constante, para 404 clientes: todos tienen sentido a priori, y muchos sobrarán
+
+:::
+
+::::{.notes}
+- 18 coeficientes son efectos de una sola variable y 125 son interacciones.
+- `factor(educ)` hace con los estudios lo mismo que `zona`: una columna 0/1 por nivel, con 8 años como referencia.
+- Los coeficientes de `poly()` están en otra escala (Tema 05): aquí no se interpretan, solo se usan para predecir.
+::::
+
+# Regularización en regresión
+
+## ¿Qué es la regularización?
+
+- MCO elige los coeficientes que minimizan la SCR. La **regularización** le suma una **penalización** por el tamaño de los coeficientes:
+
+  $$
+  \min_{\beta}\ SCR(\beta) + \lambda \, P(\beta)
+  $$
+
+  - $P(\beta)$ mide el tamaño de los coeficientes
+  - $\lambda \geq 0$ es el peso de la penalización (de momento, lo tomamos como dado)
+  - la constante (la media de $Y$) no se penaliza: solo el efecto de las $X$
+
+- Castigar los coeficientes grandes simplifica el modelo: más sesgo y menos varianza, pero puede compensar cuando MCO sobreajusta (p. ej., con muchas variables)
+  - con $\lambda = 0$ es MCO
+  - al subir $\lambda$, los coeficientes se encogen hacia cero
+
+- Frente a seleccionar variables, se estima **un solo modelo con todas ellas** para cada valor de $\lambda$
+
+- Está orientada a **predecir**: los coeficientes están sesgados hacia cero a propósito y no sirven para afirmar nada sobre el impacto de cambiar una $X$ sobre $Y$ (y menos su efecto causal)
+
+::::{.notes}
+- Frente a AIC y BIC: estos penalizan cuántos coeficientes hay, con un peso fijo; la regularización penaliza cuánto miden, con un peso $\lambda$ que se elegirá con los datos.
+- Forma equivalente: minimizar SCR sujeto a que la penalización no pase de un límite.
+- `glmnet` minimiza $SCR/(2n) + \lambda \cdot$ penalización, así que su $\lambda$ no está en la escala de esta fórmula (viñeta de `glmnet`).
+::::
+
+## Ridge regression y LASSO
+
+::: {style="font-size: 85%;"}
+
+:::: {.columns}
+::: {.column width=50%}
+
+**Ridge regression**
+
+$$
+\small P(\beta) = \sum_{j=1}^{k}\beta_j^2
+$$
+
+- Penaliza la suma de los **cuadrados**
+- Encoge los coeficientes hacia cero, pero ninguno llega a cero $\Rightarrow$ todas las variables se mantienen
+- Funciona mejor si muchas variables aportan algo
+
+:::
+::: {.column width=50%}
+
+**LASSO** (*least absolute shrinkage and selection operator*)
+
+$$
+\small P(\beta) = \sum_{j=1}^{k}|\beta_j|
+$$
+
+- Penaliza la suma de los **valores absolutos**
+- Encoge los coeficientes, y algunos llegan **exactamente a cero**
+- Funciona mejor si pocas variables importan y muchas sobran $\Rightarrow$ modelo más interpretable
+
+:::
+::::
+
+- La **red elástica** combina las dos eligiendo un peso $\alpha$ entre 0 y 1: $\ \small \lambda\left[\alpha \sum_j |\beta_j| + (1-\alpha) \sum_j \beta_j^2\right]$
+
+- LASSO selecciona variables: alternativa a los contrastes de significatividad (sin formalización estadística)
+
+- Para hablar de efectos, se reestima por MCO o logit (u otro método, si pensamos que no se cumple $E(u|X) = 0$) solo con las variables que elige LASSO (**post-LASSO**)
+  - elegir variables y estimar con los mismos datos es como trabajar sin muestra de prueba: entre otros problemas de fiabilidad, los p-valores salen demasiado optimistas
+  - por eso, en la práctica, se usan versiones más elaboradas
+
+:::
+
+::::{.notes}
+- Que LASSO elimine una variable no demuestra que no importe: entre variables correlacionadas se queda con una.
+- La región de LASSO tiene esquinas sobre los ejes, y por eso la solución cae en cero; la de Ridge regression es redonda. `figure/lasso.png` lo muestra.
+- Con variables muy correlacionadas, LASSO tiende a quedarse con una; Ridge regression reparte el efecto. La red elástica hace algo intermedio. Cuál gana en unos datos concretos se decide por validación cruzada.
+- `glmnet` escribe la parte de Ridge regression como $(1-\alpha)\sum_j\beta_j^2/2$.
+- Post-LASSO: Belloni y Chernozhukov (2013, *Bernoulli*). Los coeficientes dejan de estar encogidos. Sus errores estándar y p-valores habituales suponen que el modelo se fijó antes de ver los datos; aquí la selección los usó, y salen demasiado optimistas. Además, LASSO puede descartar un control que predice poco $Y$ pero mucho la variable de interés, y queda sesgo por omisión. La doble selección (abajo) resuelve las dos cosas. Si no se cumple $E(u|X) = 0$, el post-LASSO se combina con otro método de identificación: variables instrumentales, diferencias en diferencias, regresión discontinua o un experimento natural (Parte VI del Tema 05).
+- Doble selección (Belloni, Chernozhukov y Hansen 2014, *REStud*): LASSO de $Y$ sobre los controles y LASSO del tratamiento sobre los controles; MCO con la unión. Evita perder un control que predice poco $Y$ pero mucho el tratamiento. Generalización: *double/debiased machine learning* (Chernozhukov et al. 2018, *Econometrics Journal*).
+::::
+
+## Estandarizar las variables
+
+::: {style="font-size: 90%;"}
+
+- MCO es **equivariante a escala**: si una variable cambia de unidades (p. ej., a miles de euros = euros/1.000), su coeficiente se reescala en sentido contrario (×1.000) $\Rightarrow$ las predicciones y la SCR no cambian
+
+- Con regularización, la función objetivo (SCR + penalización) **sí depende de las unidades**:
+  - al reescalar el coeficiente, la SCR no cambia, pero la penalización sí
+  - la penalización recompensa coeficientes cercanos a cero, y eso depende de las unidades: con la renta en miles, el mismo efecto tiene un coeficiente 1.000 veces mayor y se castiga más
+  - por eso cambia toda la solución, también las predicciones
+
+- Para castigar a todos los coeficientes por igual, deben estar en la **misma escala**: antes de regularizar, se **estandarizan** las variables explicativas, para que todas tengan media 0 y desviación típica 1:
+
+$$
+\Large \tilde{x}_{ij} = \dfrac{x_{ij} - \bar{x}_j}{\text{sd}(x_j)}
+$$
+
+:::
+
+::::{.notes}
+- La equivarianza a escala vale para cualquier estimador que solo mire el ajuste, como el logit por máxima verosimilitud.
+- Fuentes: ISLR 2.ª ed. §6.2.1 («scale equivariant») y ESL 2.ª ed. §3.4.1. ESL: la constante queda fuera de la penalización porque penalizarla haría depender el resultado del origen de $Y$.
+- Comprobado el 2-nov-2026 con LASSO, lambda = 300 y `standardize = FALSE`: efecto de 1.000 euros de renta, 462 con la renta en euros y 169 en miles; estandarizando, 164 en los dos casos.
+- `glmnet` estandariza por defecto (`standardize = TRUE`), también las columnas 0/1, y devuelve los coeficientes en las unidades originales.
+::::
+
+## Ridge regression y LASSO en R: `glmnet()`
+
+- `glmnet()` estima Ridge regression y LASSO. A diferencia de `lm()`, no usa una fórmula: pide las variables explicativas en una matriz `x` y la respuesta en un vector `y`
+
+- `model.matrix()` construye esa matriz a partir de la fórmula, con una columna por cada término:
+
+```{r}
+#| eval: true
+x <- model.matrix(formula, data = tienda)
+y <- tienda$ventas
+```
+
+- En `glmnet(x, y, alpha, lambda)`:
+  - `alpha = 1` es LASSO y `alpha = 0`, Ridge regression
+  - `lambda` es el peso de la penalización
+  - estandariza las variables por defecto (`standardize = TRUE`) y devuelve los coeficientes en las unidades originales
+
+- Después de estimar, `coef()` da los coeficientes para cada valor de $\lambda$
+
+::::{.notes}
+- `x` tiene 144 columnas: la de la constante y las 143 de la fórmula. `glmnet()` pone su propia constante y a esa columna le da un cero.
+- Valores intermedios de `alpha` dan la red elástica.
+::::
+
+## Elegir el hiperparámetro $\lambda$
+
+::: {style="font-size: 84%;"}
+
+- Dado un $\lambda$, estimamos los parámetros $\beta$ que mejor ajustan a los datos, minimizando la SCR penalizada
+- $\lambda$ es un **hiperparámetro**: un parámetro especial que se elige con los datos, pero aparte del resto de parámetros
+  - el peso $\alpha$ de la red elástica es otro hiperparámetro
+- ¿Cómo elegimos $\lambda$ en la regularización?
+  1. se fija una rejilla de valores de $\lambda$
+  2. para cada uno, se calcula el error medio mediante validación cruzada
+  3. se selecciona el $\lambda^*$ con menor error medio (probando varios rangos hasta encontrar la forma de U)
+  4. se vuelve a ajustar el modelo con $\lambda^*$ en toda la muestra de entrenamiento
+  5. se evalúa en la muestra de prueba, nunca usada antes
+- **Regla de un error estándar**: cuando varios $\lambda$ tienen un error medio (estimado) indistinguible, es decir, dentro de un error estándar, se elige el mayor, porque entre modelos similares se prefiere el más simple
+
+:::
+
+::::{.notes}
+- $\lambda$ es crucial para determinar el grado de regularización del modelo: evita el infraajuste y el sobreajuste.
+- La regla de un error estándar aplica el principio de parsimonia.
+- Con una muestra de prueba apartada al principio, el modelo elegido se evalúa en ella.
+::::
+
+## Elegir $\lambda$ en R: `cv.glmnet()`
+
+::: {style="font-size: 82%;"}
+
+
+- `cv.glmnet()` hace los cuatro primeros pasos con 100 valores de $\lambda$ (por defecto) y `nfolds` bloques de validación cruzada
+- LASSO con el modelo flexible:
+
+```{r}
+#| eval: true
+set.seed(12345678)
+cv <- cv.glmnet(x, y, alpha = 1, nfolds = 10)
+plot(cv, ylim = c(100000, 400000))
+```
+
+- El gráfico muestra el error (MSE) de validación cruzada frente a $-\log(\lambda)$, como en el Tema 05: más a la izquierda, mayor $\lambda$ y más regularización^[Arriba aparecen las columnas que quedan con cada $\lambda$.]
+
+:::: {.columns}
+::: {.column width=62%}
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3
+plot(cv, ylim = c(100000, 400000))
+```
+
+:::
+::: {.column width=38%}
+
+- Cada punto rojo es el error medio de un $\lambda$, y su barra, $\pm$ un error estándar
+- Las líneas verticales marcan `lambda.min` (menor error) y `lambda.1se` (regla de un error estándar)
+- `cv$cvm` guarda el error medio de cada $\lambda$ de `cv$lambda`
+:::
+::::
+
+:::
+
+::::{.notes}
+- Valores: `lambda.min` 21,3 (34 columnas) y `lambda.1se` 37,2 (18 columnas). Verificado el 2-nov-2026. `print(cv)` muestra los dos con su error (MSE).
+- El eje horizontal es $-\log(\lambda)$ y el vertical, el MSE; `ylim` recorta la parte de $\lambda$ muy grande para que se vean las barras. Es la U del Tema 05.
+- `coef(cv, s = "lambda.1se")` da los coeficientes reestimados con ese $\lambda$.
+- Con la misma semilla, `cv.glmnet()` sortea los mismos bloques: así se comparan modelos en la PRÁCTICA (1). `foldid` los fija a mano y da lo mismo.
+::::
+
+## PRÁCTICA en clase (1): la forma del gasto
+
+::: {style="font-size: 80%;"}
+
+Con vuestro DNI como semilla:
+
+1. Con el modelo lineal `ventas ~ log(renta) + edad + mujer + factor(educ) + descuento + zona`, ajustad LASSO y Ridge regression con `lambda = c(200, 50, 0)` y mirad `coef()`. ¿Qué da $\lambda = 0$? ¿Qué pasa al subir $\lambda$? ¿Cuáles llegan a cero?
+
+2. Con el modelo flexible de la tienda (polinomios e interacciones de todas las variables), elegid $\lambda$ en LASSO con `cv.glmnet()`. ¿Cuántas columnas quedan con `lambda.min` y con `lambda.1se`?
+
+3. Con el modelo flexible, comparad el error de MCO, Ridge regression y LASSO con la misma semilla
+
+:::
+
+<!-- INTERNO (solución y guion del profesor): 30 min. Cifras con DNI 12345678, verificadas el 2-nov-2026.
+1) lambda = 0: los dos dan MCO (log(renta) 1.264, mujer 1.644, descuento 619...). LASSO 50 lleva a cero edad,
+   educ 12 y 16 y zona ciudad; LASSO 200 deja solo log(renta) 624 y mujer 1.218. Ridge regression 50 y 200 encoge
+   todos (log(renta) 1.197 y 1.034) y ninguno llega a cero. coef() repite (Intercept): la columna de unos recibe un cero.
+2) lambda.min 21,3: 34 columnas, 22 interacciones. lambda.1se 37,2: 18 columnas, 9 interacciones.
+3) MCO es lambda = 0: cv.glmnet(x, y, lambda = c(1, 0)) y su cvm. RMSE (raíz de cvm): MCO flexible 536,4 (cvm de lambda = 0; lambda = 1 ya da 463,5); Ridge regression 459,5; LASSO 352,5
+   (363,5 con lambda.1se). Lineal 752,0; práctica 3 del T05 413,2. -->
+
+::: {.callout-note}
+**Ahora el ejercicio: entrega 1, apartados a) a c).**
+:::
+
+# Regularización en clasificación
+
+## Los datos: el abandono de clientes
+
+- `churn_clientes.csv` son **600 clientes** de un servicio de suscripción. `churn` dice si abandonaron (`Sí` o `No`), y las candidatas son señales que a priori podrían anunciarlo:
+  - uso del servicio, pago, soporte y satisfacción, competencia
+  - la empresa cliente (tamaño, sector, país) y datos del registro (día, navegador, dispositivo)
+
+- Quitamos el identificador y `plan_tipo`, que repite `precio_mensual`. El punto de `churn ~ .` pone todas las demás columnas como explicativas, y `glmnet` quiere la respuesta como factor
+
+```{r}
+churn <- read_csv("data/churn_clientes.csv") |>
+  select(-id_cliente, -plan_tipo)
+xc <- model.matrix(churn ~ ., data = churn)
+yc <- factor(churn$churn)
+set.seed(12345678)
+cv_logit <- cv.glmnet(xc, yc, family = "binomial", alpha = 1,
+                      type.measure = "auc", nfolds = 10)
+```
+
+- Respecto a la regresión cambian dos cosas: `family = "binomial"` estima un logit, y `type.measure = "auc"` elige $\lambda$ por el AUC (Tema 05)
+
+::::{.notes}
+- 362 abandonos de 600 (60,3%). 34 columnas tras crear las dummies, más la de la constante.
+- `glmnet` toma como clase objetivo la última por orden alfabético: `Sí`.
+- Los resultados se obtienen en la PRÁCTICA (2).
+::::
+
+## PRÁCTICA en clase (2): señales de abandono
+
+::: {style="font-size: 76%;"}
+
+La empresa quiere saber, con lo que conoce de cada cliente, cuáles tienen más probabilidad de irse. Con `churn` y vuestro DNI como semilla:
+
+1. Ajustad LASSO y Ridge regression con `cv.glmnet()`, dibujad el AUC frente a $\lambda$ y comparadlos. Para vigilar a los clientes, ¿qué lista corta de señales de alarma daríais? ¿Compensa quedarse con menos variables?
+
+2. A los clientes con más riesgo se les puede ofrecer $k$ meses gratis, lo que supone para la empresa perder $k$ meses de cuota. Si un cliente abandona, la pérdida es un año de cuota, así que la oferta compensa si su probabilidad de abandono $p$ cumple $12\,p > k$.
+   a) ¿Cuántos meses gratis, como máximo, compensa ofrecer a un cliente con $p = 0{,}7$?
+   b) Usando `predict(..., type = "response")` con el modelo del punto 1 para obtener la probabilidad predicha de abandono de cada cliente de la muestra, ¿a cuántos clientes haríais una oferta de 6 meses?
+
+La empresa también estudia medidas para subir la satisfacción de sus clientes y así evitar que se vayan. Como estas medidas son costosas, quiere saber cuánto compensa gastarse en ellas:
+
+3. Estimad con `glm()` un logit con las variables que deja `lambda.1se` (post-LASSO). Considerando de nuevo que, si un cliente se va, la pérdida es un año de cuota (12 × `precio_mensual`), ¿cuánto le compensa gastar a la empresa por cliente para subir su satisfacción un punto? Pista: ¿cuánto cambia la probabilidad de abandono si la satisfacción sube un punto? Discutid si se puede interpretar esa cifra como el efecto de un cambio en la satisfacción
+
+:::
+
+<!-- INTERNO (solución y guion del profesor): 20 min. Cifras con DNI 12345678, verificadas el 3-nov-2026.
+1) AUC: LASSO 0,745 (0,729 con lambda.1se), Ridge regression 0,740, logit sin penalizar 0,739. Lista corta: las 8
+   variables de lambda.1se (abajo). Compensa: pierde 0,016 de AUC y se queda con 8 variables.
+2) a) 12 × 0,7 = 8,4 meses. b) p <- predict(cv_logit, newx = xc, s = "lambda.1se", type = "response");
+   oferta de 6 meses si p > 0,5: 465 de 600 clientes. Supuesto: la oferta retiene seguro al
+   cliente. Las probabilidades de lambda.1se están encogidas hacia la media (cuartiles 0,51 y 0,71).
+   Las 8 variables de lambda.1se: minutos_uso_mes, num_funciones_usadas, activo_ultimomes, satisfaccion,
+   tiene_competidor_directo, ha_probado_competencia, pagos_fallidos y descuento_activo.
+3) post <- glm(churn ~ <las 8>, data = churn |> mutate(churn = factor(churn)), family = binomial)
+   LASSO frente a glm: satisfaccion -0,444 / -0,746; activo_ultimomesSí -0,585 / -1,203; descuento_activoSí
+   0,260 / 0,911; pagos_fallidos 0,167 / 0,599; competidor 0,125 / 0,606; ha probado 0,045 / 0,441; funciones
+   -0,041 / -0,090; minutos -0,0001 / -0,0015. Mismo signo y mayores: LASSO los encogía.
+   Cálculo: para cada cliente, la probabilidad predicha con su satisfacción y con un punto más
+   (predict(post, newdata = churn |> mutate(satisfaccion = satisfaccion + 1), type = "response")). La
+   diferencia media es -0,143. El ahorro esperado de cada cliente es esa bajada por la pérdida si se va,
+   12 × precio_mensual: de media, 48,7 euros. Es lo máximo que compensa gastar por cliente para subirle un
+   punto, SI la cifra fuera un efecto causal y la medida subiera la satisfacción exactamente un punto.
+   No lo es tal cual: la satisfacción es endógena, E(u|X) distinto de 0. Lo que no observamos (la calidad del
+   servicio que ha recibido cada cliente, si de verdad necesita el producto, ofertas de la competencia) mueve a
+   la vez la satisfacción y el abandono; y hay causalidad inversa: quien ya ha decidido irse puntúa peor. No hace
+   falta asignar la satisfacción al azar para identificar el efecto: valdría controlar por todo lo que la
+   confunde (selección sobre observables, con doble selección si son muchas variables), o una variable
+   instrumental (algo que mueva la satisfacción sin afectar por otra vía al abandono, como un cambio en los
+   tiempos de respuesta del soporte por una reorganización), diferencias en diferencias (una mejora introducida
+   en unos segmentos y no en otros) o un experimento. Ver Wooldridge, Introductory Econometrics, caps. 3 y 15.
+   El descuento asociado a MÁS abandono es el mismo problema: la empresa da descuentos a quien va a irse. -->
+
+::: {.callout-note}
+**Ahora el ejercicio: entrega 2, apartados a) a c).**
+:::

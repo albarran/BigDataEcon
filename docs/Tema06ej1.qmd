@@ -1,0 +1,120 @@
+---
+title: "Tema 06 - Regularización"
+subtitle: "Ejercicios del tema"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- INTERNO (2-nov-2026). Correspondencia: E1 a-c <- PRACTICA 1; E2 a-c <- PRACTICA 2. Soluciones en las
+PRACTICAS de Tema06.qmd. El ejercicio anterior, con RailTrail, está en legacy2025-26/Tema06ej1_2026-10.qmd. -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+rm(list = ls())
+library(tidyverse)
+```
+
+# Antes de empezar
+
+Estos ejercicios se van haciendo **durante la clase**: las transparencias indican en qué momento toca cada uno.
+
+- Los datos son `tienda.csv` y `churn_clientes.csv`, de la página [Datos](../Datos.html). Descárgalos en tu subdirectorio `data`.
+- Necesitas `library(glmnet)`.
+- **Un documento por entrega**, `T06_E<n>_<ID>.qmd`.
+- Donde se pide una **semilla**, usa tu DNI (sin letra): `set.seed(12345678)`.
+
+# Entrega 1: la forma del gasto
+
+Prepara `formula`, `x` e `y` como en las transparencias «Los datos: la tienda con un modelo flexible» y «Ridge
+regression y LASSO en R: `glmnet()`»: el modelo flexible de `tienda`, con polinomios e interacciones de sus variables.
+
+## Apartado a): qué hace lambda
+
+Con el modelo lineal `ventas ~ log(renta) + edad + mujer + factor(educ) + descuento + zona`, ajusta LASSO y Ridge
+regression con `lambda = c(200, 50, 0)` y mira `coef()`. ¿Qué da $\lambda = 0$? ¿Qué pasa al subir $\lambda$? ¿Cuáles
+llegan a cero?
+
+## Apartado b): elegir lambda
+
+Con tu DNI como semilla y el modelo flexible de la tienda (polinomios e interacciones de todas las variables),
+elige $\lambda$ en LASSO con `cv.glmnet()`. ¿Cuántas columnas quedan con `lambda.min` y con `lambda.1se`?
+
+## Apartado c): comparar con MCO
+
+Con el modelo flexible, compara el error de validación cruzada de MCO, Ridge regression y LASSO, con la misma semilla.
+
+# Entrega 2: señales de abandono
+
+Prepara `xc` e `yc` como en la transparencia «Los datos: el abandono de clientes», con tu DNI como semilla.
+
+## Apartado a): el modelo de predicción
+
+La empresa quiere saber, con lo que conoce de cada cliente, cuáles tienen más probabilidad de irse. Ajusta LASSO y
+Ridge regression con `cv.glmnet()`, dibuja el AUC frente a $\lambda$ y compáralos. Para vigilar a los clientes,
+¿qué lista corta de señales de alarma darías? ¿Compensa quedarse con menos variables?
+
+## Apartado b): a quién hacer una oferta
+
+A los clientes con más riesgo se les puede ofrecer $k$ meses gratis, lo que supone para la empresa perder $k$ meses
+de cuota. Si un cliente abandona, la pérdida es un año de cuota, así que la oferta compensa si su probabilidad de
+abandono $p$ cumple $12\,p > k$.
+
+1. ¿Cuántos meses gratis, como máximo, compensa ofrecer a un cliente con $p = 0{,}7$?
+2. Usando `predict(..., type = "response")` con el modelo del apartado a) para obtener la probabilidad predicha
+   de abandono de cada cliente de la muestra, ¿a cuántos clientes harías una oferta de 6 meses?
+
+## Apartado c): cuánto gastar en satisfacción
+
+La empresa también estudia medidas para subir la satisfacción de sus clientes y así evitar que se vayan. Como
+estas medidas son costosas, quiere saber cuánto compensa gastarse en ellas. Estima con `glm()` un logit con las
+variables que deja `lambda.1se` (post-LASSO). Considerando de nuevo que, si un cliente se va, la pérdida es un
+año de cuota (12 × `precio_mensual`), ¿cuánto le compensa gastar a la empresa por cliente para subir su
+satisfacción un punto? Pista: ¿cuánto cambia la probabilidad de abandono si la satisfacción sube un punto? Discute
+si se puede interpretar esa cifra como el efecto de un cambio en la satisfacción.
+
+# Cómo se entrega
+
+::: {.callout-important}
+Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
+
+- **Entrega 1**: la forma del gasto. `T06_E1_ID.zip`
+- **Entrega 2**: señales de abandono. `T06_E2_ID.zip`
+:::
+
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
+identificador que escribís en el formulario (ver
+[Cómo trabajar](../ComoTrabajar.html)). Por ejemplo, `T06_E1_12345678.zip`.
+
+Se os dirá en clase **cuáles** hay que entregar y cuándo.
+
+Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
+confirmación si la entrega es correcta, o de rechazo si no lo es.
+
+Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo.
+
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
+
+::: {.callout-warning}
+Las entregas que se hagan en clase **se cierran al acabar la sesión**, con un margen de
+**15 minutos** desde el final. La hora de envío queda registrada.
+:::

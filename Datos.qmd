@@ -34,6 +34,9 @@ cuando se desvele ese ejercicio, no antes.
 * Tema 05 (modelización y aprendizaje estadístico):
   + [tienda.csv](https://raw.githubusercontent.com/albarran/00datos/main/tienda.csv)
 
+* Tema 06 (regularización), además de `tienda.csv`:
+  + [churn_clientes.csv](https://raw.githubusercontent.com/albarran/00datos/main/churn_clientes.csv)
+
 <!--
 CURSO 2026-27: los datos de cada tema se desvelan al llegar al tema (mueve la marca de CIERRE
 de comentario hacia abajo, por debajo del tema que quieras mostrar). VERIFICAR antes de desvelar

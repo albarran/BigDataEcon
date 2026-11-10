@@ -133,6 +133,12 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 10
+(9-Nov. a 13-Nov.)
+
+  * [Tema 06 - Regularización: Ridge regression y LASSO](docs/Tema06.qmd)
+  * [Tema 06 - Ejercicios del tema](docs/Tema06ej1.qmd)
+
 ## Semana 9
 (2-Nov. a 6-Nov.)
 
