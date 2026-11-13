@@ -17,28 +17,33 @@ strip-comments: true
 
 ## Evaluación Continua
 
-* Ejercicios durante el periodo de clases (35%). Incluyen:
+* Modalidad ordinaria de la asignatura (salvo opción expresa por evaluación no continua comunicada en plazo antes del 20 de noviembre). No contempla examen final.
 
-  * Un **ejercicio largo** individual, para hacer fuera de clase (15%).
+* **Dinámica presencial y participación activa**: el valor de estas sesiones reside en la intervención activa en las discusiones del aula. La entrega de ejercicios carece de valor sin haber intervenido activamente en el debate (lo que implica asistir a clase, si bien la sola presencia física resulta insuficiente). Trabajar los materiales de forma autónoma es fundamental para el seguimiento del curso, pero a efectos de evaluación no sustituye la participación en el aula.
 
-  * Una **prueba presencial** breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.
+* **Cálculo sobre el 80% de las sesiones**: la calificación del trabajo de clase y de la participación se obtiene a partir del 80% de las mejores sesiones de cada estudiante, descartando hasta un 20% de calificaciones inferiores (incluyendo ausencias o sesiones sin intervención activa). Superar ese 20% de inasistencia o falta de participación reduce directamente la media de este bloque. Al estar vinculadas a la dinámica presencial del cuatrimestre, estas calificaciones no son recuperables en el segundo periodo de evaluación.
 
-  * El **trabajo desarrollado en clase** (10%): lo que produzcáis en las sesiones
-    podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la
-    comprensión, no la perfección.
-    <!-- INTERNO: recogida MUESTRAL, no diaria: unas 4-6 sesiones sin anunciar cuáles. -->
+* **Estructura de la calificación**:
 
-* Trabajo empírico final (50%): ver [Proyecto Final](ProyectoFinal.html).
+  * **Trabajo empírico final (50%)**: ver [Proyecto Final](ProyectoFinal.html).
 
-* Participación (15%). Incluye:
+  * **Ejercicios durante el periodo de clases (35%)**:
 
-  * **Mini-tests** breves en clase: preguntas de comprensión sobre el material que habréis
-    trabajado ANTES de cada sesión (ver "Cómo funciona el curso" más abajo).
+    * Un **ejercicio largo** individual, para realizar fuera de clase (15%).
 
-  * Preguntas y pequeños ejercicios en clase.
+    * Una **prueba presencial** breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.
 
-* Requisito: asistir al menos a un 80% de las clases. No hay examen final. La nota de los
-  ejercicios de clase NO es recuperable en el segundo periodo de evaluación.
+    * El **trabajo desarrollado en clase** (10%): lo que produzcáis en las sesiones
+      podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la
+      comprensión, no la perfección.
+      <!-- INTERNO: recogida MUESTRAL, no diaria: unas 4-6 sesiones sin anunciar cuáles. -->
+
+  * **Participación (15%)**:
+
+    * **Mini-tests** breves en clase: preguntas de comprensión sobre el material que habréis
+      trabajado ANTES de cada sesión (ver "Cómo funciona el curso" más abajo).
+
+    * Preguntas y pequeños ejercicios en clase.
 
 ## Evaluación No Continua
 
