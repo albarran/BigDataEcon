@@ -1212,12 +1212,12 @@ ggplot(tienda, aes(x = renta, y = descuento)) + geom_point(alpha = 0.2) +
 ::::{.notes}
 - Es lo que hacía `lm(parado ~ pareja_parada)` en el Tema 04.
 - `lm(descuento ~ renta)`: 0,378 y -0,000104; 35 predicciones por debajo de 0; a renta 4.000, -0,038. Verificado el 2-nov-2026. El 15% de los clientes (60) tiene descuento.
-- El modelo lineal de probabilidad se usa mucho en economía aplicada precisamente por la lectura directa de los coeficientes. Aquí se pasa al logit porque T06 a T08 lo necesitan y porque las probabilidades fuera de rango estorban al clasificar.
+- El modelo lineal de probabilidad se usa mucho en economía aplicada precisamente por la lectura directa de los coeficientes. Aquí se pasa al logit porque T06 a T08 lo necesitan y porque lo que se predice tiene que ser una probabilidad, entre 0 y 1.
 ::::
 
 ## Regresión logística
 
-::: {style="font-size: 88%;"}
+::: {style="font-size: 85%;"}
 
 :::: {.columns}
 ::: {.column width=56%}
@@ -1245,7 +1245,7 @@ ggplot(tibble(z = seq(-5, 5, 0.05)), aes(x = z, y = plogis(z))) + geom_line(line
 :::: {.columns}
 ::: {.column width=56%}
 
-- Se estima con `glm()`, como `lm()` más el argumento `family`:
+- Se estima por **máxima verosimilitud** (no es lineal en los parámetros): los $\beta$ que hacen más probables los unos y ceros observados ([detalle](Tema05logitdoc.html)). Con `glm()`, como `lm()` más `family`:
 
 ```{r}
 logit <- glm(
@@ -1290,7 +1290,7 @@ ggplot(tienda, aes(x = renta, y = descuento)) + geom_point() +
 - `glm()` admite en la fórmula lo mismo que `lm()`: logaritmos, polinomios, factores e interacciones.
 - `glm(descuento ~ renta + edad + zona)`: constante 1,50 (ee 0,67), renta -0,00154 (ee 0,00027, z = -5,79), edad -0,012 (p = 0,27), zonaciudad 0,26 (p = 0,49), zonacapital -0,03 (p = 0,95). Probabilidades predichas entre 0,00005 y 0,60. Verificado el 2-nov-2026.
 - Solo renta: 1,10 y -0,00155; probabilidades 0,389 (1.000), 0,226 (1.500), 0,119 (2.000), 0,028 (3.000).
-- No se minimiza la SCR: se maximiza la verosimilitud de observar los unos y ceros. Fórmula y log-odds en el anexo.
+- No se minimiza la SCR: se maximiza la verosimilitud de observar los unos y ceros. Explicación, ejemplo y predicciones en `Tema05logitdoc`; log-odds en el anexo. Frase visible añadida el 15-nov-2026 a propuesta de Henry.
 - `edad` y `zona` salen no significativas: ocasión de enseñar un no rechazo limpio. El descuento se asignó solo por renta.
 ::::
 
@@ -1329,7 +1329,7 @@ pred <- as.integer(prob > umbral)
 table(predicho = pred, observado = tienda$descuento)
 ```
 
-- Las clases son categorías: no tiene sentido restarlas, así que no se puede calcular el MSE ni medidas similares
+- La verosimilitud mide cómo ajustan las probabilidades, pero la decisión es una **clase**: importa cuántas observaciones se clasifican bien y qué errores se cometen. Y las clases no se pueden restar como en el MSE
 
 - Se comparan con la **matriz de confusión**, que tabula las clases observadas frente a las predichas:
 

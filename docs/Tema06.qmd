@@ -369,11 +369,12 @@ cv_logit <- cv.glmnet(xc, yc, family = "binomial", alpha = 1,
                       type.measure = "auc", nfolds = 10)
 ```
 
-- Respecto a la regresión cambian dos cosas: `family = "binomial"` estima un logit, y `type.measure = "auc"` elige $\lambda$ por el AUC (Tema 05)
+- Cambian dos cosas: `family = "binomial"` estima un logit por verosimilitud (se minimiza la **desviación** más la penalización de los coeficientes), y `type.measure = "auc"` elige $\lambda$ por el AUC (Tema 05)
 
 ::::{.notes}
 - 362 abandonos de 600 (60,3%). 34 columnas tras crear las dummies, más la de la constante.
 - `glmnet` toma como clase objetivo la última por orden alfabético: `Sí`.
+- `glmnet` minimiza $-\ell(\beta)/n + \lambda \cdot$ penalización con `family = "binomial"` (viñeta de `glmnet`). La verosimilitud estima; el AUC solo elige $\lambda$. Detalle de la verosimilitud: `Tema05logitdoc`. Añadido el 15-nov-2026 a propuesta de Henry.
 - Los resultados se obtienen en la PRÁCTICA (2).
 ::::
 

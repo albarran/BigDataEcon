@@ -1,0 +1,326 @@
+---
+title: "Tema 05 - La regresión logística"
+subtitle: "Estimación por máxima verosimilitud y probabilidades predichas"
+author:
+    - "Pedro Albarrán"
+    - "Henry Redondo"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: cosmo
+    css: styles.css
+knitr:
+  opts_chunk:
+    echo: false
+    message: false
+    warning: false
+    fig.show: asis
+lang: es
+strip-comments: true
+---
+
+<!-- INTERNO (13-nov-2026, rehecho el 15-nov con la revisión de Pedro). Documento nuevo a propuesta de
+Henry, paralelo a Tema05previodoc.qmd (MCO). Sigue la Parte V de Tema05.qmd. Referencia principal:
+ECMTII Slides_2026/Tema02.qmd (modelo lineal de probabilidad, logit, máxima verosimilitud, probabilidades
+predichas). Apoyo para el logaritmo de la verosimilitud: Adams, Learning Microeconometrics with R, §5.4.
+Cifras verificadas con data/tienda.csv el 15-nov-2026. Registro en notes/logit-sugerencia-henry.md. -->
+
+```{r}
+#| include: false
+library(tidyverse)
+tienda <- read_csv("data/tienda.csv", show_col_types = FALSE)
+logit_r <- glm(descuento ~ renta, data = tienda, family = "binomial")
+logit   <- glm(descuento ~ renta + edad + zona, data = tienda, family = "binomial")
+nulo    <- glm(descuento ~ 1, data = tienda, family = "binomial")
+coma <- function(x, d = 2) sub("^-", "−", format(round(x, d), decimal.mark = ",", big.mark = ".", nsmall = d))
+```
+
+Este documento acompaña a la Parte V del Tema 05. Explica con más calma cómo se estima la regresión
+logística, cómo se mide su ajuste y cómo se usan sus probabilidades predichas. Los ejemplos son los de la
+tienda: 404 clientes, de los que el `r coma(100 * mean(tienda$descuento), 1)` % recibió el descuento.
+
+# Una variable 0/1
+
+Cuando la variable que queremos predecir vale 0 o 1, como `descuento`, su media condicional es una
+probabilidad:
+
+$$
+E[\text{descuento} \mid \text{renta}] = \Pr(\text{descuento} = 1 \mid \text{renta}).
+$$
+
+Una recta estimada por MCO, el **modelo lineal de probabilidad**, se lee con facilidad: con
+`lm(descuento ~ renta)`, cada 1.000 euros de renta restan 10 puntos de probabilidad. Pero la recta sale
+del intervalo $[0, 1]$, y para 35 clientes predice una probabilidad negativa. Lo que predecimos es una
+probabilidad, y una probabilidad está entre 0 y 1: por eso pasamos a un modelo que se quede siempre en ese
+intervalo.
+
+# El modelo logit
+
+La **función logística** $\Lambda(z) = e^z / (1 + e^z)$ lleva cualquier número real al intervalo
+$(0, 1)$. El logit aplica esa función a un índice lineal en las variables explicativas:
+
+$$
+p(x) = \Pr(\text{descuento} = 1 \mid x) = \Lambda(\beta_0 + \beta_1 x_1 + \dots + \beta_k x_k).
+$$
+
+El índice es el mismo que en la regresión lineal; lo que cambia es que la probabilidad depende de él a
+través de una curva en forma de S. Por eso los coeficientes ya no son cambios en la probabilidad, y de
+ellos leemos el signo y la significatividad.
+
+# Estimar el logit: máxima verosimilitud
+
+## Por qué cambia el criterio
+
+MCO elige los coeficientes que minimizan la suma de cuadrados de los residuos (SCR). Cuando el modelo es
+**lineal en los parámetros**, el teorema de Gauss-Markov garantiza que, con sus supuestos, MCO es el mejor
+estimador lineal insesgado: el más preciso entre los que aciertan en promedio. En el logit los parámetros entran dentro de $\Lambda(\cdot)$: el modelo es
+**no lineal en los parámetros**, y esa garantía deja de valer. Se usa otro método, la **máxima
+verosimilitud**, que con el modelo bien especificado da estimadores consistentes (se acercan al valor poblacional al crecer la muestra) y, en muestras
+grandes, los más precisos. Es lo que hace `glm()`.
+
+## La idea de la máxima verosimilitud
+
+```{r}
+#| include: false
+tres <- tibble(renta = c(1000, 2000, 3000), descuento = c(1, 0, 0))
+p_med <- mean(tienda$descuento)
+p_log <- predict(logit_r, newdata = tres, type = "response")
+a_med <- ifelse(tres$descuento == 1, p_med, 1 - p_med)
+a_log <- ifelse(tres$descuento == 1, p_log, 1 - p_log)
+```
+
+Buscamos coeficientes con los que la probabilidad predicha sea **alta para los clientes que recibieron
+el descuento** y **baja para los que no lo recibieron**. Para medirlo, calculamos la probabilidad que el
+modelo da a lo que de verdad ocurrió.
+
+Empecemos con tres clientes: uno con 1.000 euros de renta que recibió el descuento y dos, con 2.000 y
+3.000 euros, que no lo recibieron. Comparamos dos formas de darles una probabilidad: sin usar la renta,
+con la proporción de la muestra (`r coma(p_med, 3)` para todos), y con el logit de la renta estimado con los 404 clientes (son los tres puntos marcados en la curva de
+las transparencias). Un
+cliente con descuento aporta la probabilidad de recibirlo, $p$, y uno sin descuento, la de no recibirlo,
+$1 - p$:
+
+| Cliente | Renta | Descuento | Sin la renta: $p$ | Aporta              | Con el logit: $p$     | Aporta              |
+|:--------|------:|:---------:|------------------:|--------------------:|----------------------:|--------------------:|
+| A       | 1.000 | sí        | `r coma(p_med, 3)` | `r coma(a_med[1], 3)` | `r coma(p_log[1], 3)` | `r coma(a_log[1], 3)` |
+| B       | 2.000 | no        | `r coma(p_med, 3)` | `r coma(a_med[2], 3)` | `r coma(p_log[2], 3)` | `r coma(a_log[2], 3)` |
+| C       | 3.000 | no        | `r coma(p_med, 3)` | `r coma(a_med[3], 3)` | `r coma(p_log[3], 3)` | `r coma(a_log[3], 3)` |
+| **Probabilidad de lo observado** |  |  |  | **`r coma(prod(a_med), 3)`** |  | **`r coma(prod(a_log), 3)`** |
+
+Como los clientes son independientes, la probabilidad de observar los tres resultados a la vez es el
+producto de lo que aporta cada uno. Con el logit, lo observado es unas tres veces más probable: da más
+probabilidad al cliente que recibió el descuento y menos a los que no.
+
+Con $n$ clientes y unos coeficientes cualesquiera $\beta$, el mismo cálculo es la **función de
+verosimilitud**:
+
+$$
+L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\bigr),
+\qquad p(x_i) = \Lambda(\beta_0 + \beta_1 x_{i1} + \dots + \beta_k x_{ik}).
+$$
+
+El estimador de **máxima verosimilitud** es el $\beta$ que hace máxima $L(\beta)$: los coeficientes con
+los que lo observado resulta más probable. En la tabla solo comparábamos dos candidatos; `glm()` busca
+entre todos, con los 404 clientes.
+
+En la práctica se maximiza su logaritmo, la **log-verosimilitud**:
+
+$$
+\ell(\beta) = \log L(\beta) = \sum_{i=1}^{n} \Bigl[\, y_i \log p(x_i) + (1 - y_i) \log\bigl(1 - p(x_i)\bigr) \Bigr].
+$$
+
+El logaritmo es creciente, así que $\ell$ y $L$ alcanzan el máximo en los mismos coeficientes, y $\ell$
+es mucho más fácil de manejar:
+
+- **Convierte el producto en una suma**: cada cliente aporta un término, el logaritmo de lo que aportaba
+  en la tabla, y añadir un cliente es sumar un término más. Una suma se deriva y se optimiza con mucha más
+  facilidad que un producto, igual que la SCR de MCO es una suma de un término por observación.
+- **Lleva los valores a una escala manejable**, como cuando en el Tema 04 mirábamos en escala logarítmica
+  variables cuyos valores se separaban varios órdenes de magnitud. El producto de muchas probabilidades se
+  hunde hacia cero: con los 404 clientes y el logit de la renta, la edad y la zona, la verosimilitud en el
+  máximo es del orden de $10^{-62}$.
+- Con seis copias de la muestra (2.424 clientes), R ya da la verosimilitud como 0 exacto y no puede
+  distinguir unos coeficientes de otros. La log-verosimilitud de esos mismos datos es simplemente −854,4.
+
+En la tabla, la log-verosimilitud es la suma de los logaritmos de cada columna «Aporta»:
+`r coma(sum(log(a_med)), 2)` sin la renta y `r coma(sum(log(a_log)), 2)` con el logit. Como cada término
+es el logaritmo de una probabilidad, es negativa, y cuanto más cerca de cero, más probable es lo
+observado.
+
+El gráfico muestra $\ell$ con todos los clientes para el logit con la renta, moviendo la pendiente y
+dejando la constante en su valor estimado. Es la misma búsqueda que en MCO, dada la vuelta: allí se
+elegía la recta con la SCR mínima y aquí la pendiente con la log-verosimilitud máxima, que es la que da
+`glm()`.
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+b0 <- coef(logit_r)[1]
+ll <- function(b1) {
+  p <- plogis(b0 + b1 * tienda$renta)
+  sum(tienda$descuento * log(p) + (1 - tienda$descuento) * log(1 - p))
+}
+curva <- tibble(b1 = seq(-0.0032, -0.0006, length.out = 200)) |> mutate(l = map_dbl(b1, ll))
+ggplot(curva, aes(b1, l)) + geom_line(linewidth = 1, colour = "steelblue") +
+  geom_vline(xintercept = coef(logit_r)[2], linetype = "dashed") +
+  annotate("text", x = coef(logit_r)[2], y = min(curva$l), hjust = -0.05,
+           label = paste0("máximo: pendiente ", coma(coef(logit_r)[2], 5))) +
+  scale_x_continuous(labels = \(x) coma(x, 4)) +
+  labs(x = "pendiente de la renta", y = "log-verosimilitud") + theme_minimal()
+```
+
+El máximo no tiene una fórmula cerrada como la de MCO: `glm()` lo busca por aproximaciones sucesivas, y
+`summary()` dice cuántas hizo («Number of Fisher Scoring iterations»). La máxima verosimilitud sirve para
+cualquier modelo que diga qué probabilidad (o densidad, si $y$ es continua) tiene cada dato; en el modelo lineal con errores normales,
+maximizar la verosimilitud es minimizar la SCR, así que MCO es un caso particular.
+
+# La verosimilitud como medida de ajuste
+
+Una vez estimado el modelo, la log-verosimilitud en el máximo dice cómo de probable hace el modelo lo
+observado, y sirve para comparar modelos en la misma muestra: más alta (más cerca de cero), mejor ajuste. La tabla da también $-2\ell$, que enseguida veremos con el nombre de desviación.
+
+```{r}
+#| include: false
+l0 <- as.numeric(logLik(nulo)); l1 <- as.numeric(logLik(logit_r)); l3 <- as.numeric(logLik(logit))
+```
+
+| Modelo                         | Log-verosimilitud     | Desviación (−2ℓ)          |
+|:-------------------------------|----------------------:|--------------------------:|
+| Solo constante                 | `r coma(l0)`          | `r coma(-2 * l0)`         |
+| Renta                          | `r coma(l1)`          | `r coma(-2 * l1)`         |
+| Renta, edad y zona             | `r coma(l3)`          | `r coma(-2 * l3)`         |
+
+El modelo con solo la constante da a todos los clientes la misma probabilidad, la proporción de la
+muestra, y hace de referencia, como la media en el $R^2$. Añadir la renta sube mucho la
+log-verosimilitud; añadir la edad y la zona la sube muy poco. La log-verosimilitud de un modelo se obtiene
+con `logLik(logit)`, o como la desviación de `summary()` dividida por −2.
+
+La salida de `summary()` de un logit da este ajuste como **desviación** (*deviance*), que es
+$-2\ell$: «Null deviance» para el modelo con solo la constante y «Residual deviance» para el estimado.
+La desviación hace en el logit el papel de la SCR: es menor cuanto mejor ajusta el modelo, y nunca sube
+al añadir variables. Por esa misma razón tiene el defecto que ya vimos en el $R^2$: medida en los datos
+de estimación, siempre premia al modelo más grande.
+
+# Predecir probabilidades
+
+Lo que el logit predice es una probabilidad, y con `predict(..., type = "response")` la podemos calcular
+para los clientes de la muestra, para clientes con unas características concretas o para situaciones
+hipotéticas.
+
+## En los valores observados
+
+Sin `newdata`, `predict()` da la probabilidad de cada cliente de la muestra con sus propios valores de
+renta, edad y zona:
+
+```{r}
+#| echo: true
+#| eval: false
+logit <- glm(descuento ~ renta + edad + zona, data = tienda, family = "binomial")
+prob <- predict(logit, type = "response")
+summary(prob)
+```
+
+```{r}
+#| include: false
+prob <- predict(logit, type = "response"); q <- predict(lm(descuento ~ renta + edad + zona, data = tienda))
+```
+
+Las probabilidades van de `r format(round(min(prob), 5), decimal.mark = ",", scientific = FALSE)` a `r coma(max(prob), 2)`, y su media es
+`r coma(mean(prob), 3)`, exactamente la proporción de clientes con descuento. Ocurre en todo logit con
+constante, igual que los residuos de MCO suman cero. El modelo lineal de probabilidad con las
+mismas variables predice para `r sum(q < 0)` clientes una probabilidad negativa, hasta
+`r coma(min(q), 2)`.
+
+## En valores concretos
+
+Con `newdata` se predice para los clientes que nos interesen, estén o no en la muestra. Por ejemplo,
+clientes de 40 años de una ciudad con distintas rentas, con el logit y con el modelo lineal de probabilidad:
+
+```{r}
+#| echo: true
+#| output: false
+mlp <- lm(descuento ~ renta + edad + zona, data = tienda)
+perfiles <- tibble(renta = c(1000, 1500, 3000), edad = 40, zona = "ciudad")
+pp <- predict(logit, newdata = perfiles, type = "response")
+pl <- predict(mlp, newdata = perfiles)
+```
+
+| Renta | Probabilidad con el logit | Con el modelo lineal |
+|------:|--------------------------:|---------------------:|
+| 1.000 | `r coma(pp[1], 3)`        | `r coma(pl[1], 3)`   |
+| 1.500 | `r coma(pp[2], 3)`        | `r coma(pl[2], 3)`   |
+| 3.000 | `r coma(pp[3], 3)`        | `r coma(pl[3], 3)`   |
+
+Pasar de 1.000 a 1.500 euros de renta baja la probabilidad del logit
+`r coma(100 * (pp[1] - pp[2]), 0)` puntos, y pasar de 1.500 a 3.000, otros
+`r coma(100 * (pp[2] - pp[3]), 0)` en total, menos de `r coma(100 * (pp[2] - pp[3]) / 3, 0)` por cada 500
+euros. En el modelo lineal, cada 500 euros restan siempre lo mismo, `r coma(100 * (pl[1] - pl[2]), 0)`
+puntos, en cualquier punto de la renta.
+
+## En situaciones hipotéticas
+
+También se puede cambiar una variable a todos los clientes y dejar las demás como están: ¿qué
+probabilidad predice el modelo si cada cliente tuviera 500 euros más de renta?
+
+```{r}
+#| echo: true
+#| output: false
+mas_renta <- tienda |> mutate(renta = renta + 500)
+prob_mas <- predict(logit, newdata = mas_renta, type = "response")
+mean(prob_mas) - mean(prob)
+```
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Código de la tabla por tramos de renta"
+#| output: false
+tramos <- tibble(renta = tienda$renta, dif = prob_mas - prob) |>
+  mutate(tramo = cut(renta, c(0, 1500, 2500, 4000, Inf))) |>
+  group_by(tramo) |> summarise(n = n(), dif = mean(dif))
+```
+
+La probabilidad media pasa de `r coma(mean(prob), 3)` a `r coma(mean(prob_mas), 3)`. El cambio es muy
+distinto según la renta de partida:
+
+| Renta actual        | Clientes          | Cambio medio de la probabilidad (puntos) |
+|:--------------------|------------------:|-----------------------------------------:|
+| hasta 1.500         | `r tramos$n[1]`   | `r coma(100 * tramos$dif[1], 1)`         |
+| de 1.500 a 2.500    | `r tramos$n[2]`   | `r coma(100 * tramos$dif[2], 1)`         |
+| de 2.500 a 4.000    | `r tramos$n[3]`   | `r coma(100 * tramos$dif[3], 1)`         |
+| más de 4.000        | `r tramos$n[4]`   | `r coma(100 * tramos$dif[4], 1)`         |
+
+Es la curva en S vista en cifras: el mismo cambio en la renta mueve mucho la probabilidad donde la curva
+tiene pendiente y casi nada donde ya está cerca de cero. Las predicciones son la forma de traducir los
+coeficientes a probabilidades.
+
+# Medir el error de un logit
+
+En regresión, el criterio de estimación también mide el error: la SCR, y su variante el RMSE,
+$\sqrt{SCR/n}$, que se lee en las unidades de $y$ (euros de gasto).
+
+En el logit, el criterio de estimación es la log-verosimilitud, y la desviación carece de unidades con
+las que leerla. Se le puede dar una lectura en probabilidades. La verosimilitud es el producto de $n$
+probabilidades, y su raíz $n$-ésima, $L^{1/n} = e^{\ell/n}$, es su media geométrica: la probabilidad que
+el modelo da, por término medio, a lo que ocurrió con cada cliente. Valdría 1 si el modelo acertara
+siempre con total seguridad.^[La log-verosimilitud tiene además un
+inconveniente como medida de error: castiga sin límite un error cometido con mucha seguridad. Si el modelo
+da probabilidad casi cero a un cliente que sí recibió el descuento, $\log p$ tiende a menos infinito.]
+
+```{r}
+#| include: false
+g3 <- exp(l3 / nrow(tienda)); g0 <- exp(l0 / nrow(tienda))
+```
+
+Con la renta, la edad y la zona vale `r coma(g3, 2)`, y con solo la constante, `r coma(g0, 2)`. El punto
+de partida ya es alto porque el 85 % de los clientes no recibe el descuento, y dar a todos una
+probabilidad de `r coma(p_med, 3)` acierta bastante con ellos.
+
+Pero las decisiones se toman con clases: cada probabilidad se convierte en dar o no el descuento con un
+umbral, y lo que interesa es cuántos clientes se clasifican bien y qué errores se cometen. Por eso, para
+evaluar un clasificador se usan la matriz de confusión y las medidas que salen de ella, como se ve en las
+transparencias.
