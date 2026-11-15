@@ -4341,7 +4341,7 @@ p(x) = \Pr(\text{descuento} = 1 \mid x) = \Lambda(\beta_0 + \beta_1 x_1 + \dots 
 </section>
 <section id="la-idea-de-la-máxima-verosimilitud" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="la-idea-de-la-máxima-verosimilitud"><span class="header-section-number">3.2</span> La idea de la máxima verosimilitud</h2>
-<p>Una moneda está trucada y no sabemos su probabilidad de cara, <span class="math inline">\(p\)</span>. La lanzamos tres veces y salen dos caras y una cruz. Para cada valor posible de <span class="math inline">\(p\)</span>, la probabilidad de lo observado es <span class="math inline">\(p \cdot p \cdot (1 - p)\)</span>:</p>
+<p>Solo sabemos que hay tres tipos de moneda: equilibradas, con probabilidad de cara <span class="math inline">\(p = 0{,}5\)</span>; trucadas a favor de cara, con <span class="math inline">\(p = 0{,}9\)</span>, y trucadas a favor de cruz, con <span class="math inline">\(p = 0{,}2\)</span>. Lanzamos una moneda tres veces y salen dos caras y una cruz. Con cada valor de <span class="math inline">\(p\)</span>, la probabilidad de lo observado es <span class="math inline">\(p \cdot p \cdot (1 - p)\)</span>:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
@@ -4364,26 +4364,21 @@ p(x) = \Pr(\text{descuento} = 1 \mid x) = \Lambda(\beta_0 + \beta_1 x_1 + \dots 
 <tr class="even">
 <td style="text-align: center;">0,5</td>
 <td style="text-align: center;"><span class="math inline">\(0{,}5 \cdot 0{,}5 \cdot 0{,}5\)</span></td>
-<td style="text-align: right;">0,125</td>
+<td style="text-align: right;"><strong>0,125</strong></td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">2/3</td>
-<td style="text-align: center;"><span class="math inline">\(2/3 \cdot 2/3 \cdot 1/3\)</span></td>
-<td style="text-align: right;"><strong>0,148</strong></td>
-</tr>
-<tr class="even">
 <td style="text-align: center;">0,9</td>
 <td style="text-align: center;"><span class="math inline">\(0{,}9 \cdot 0{,}9 \cdot 0{,}1\)</span></td>
 <td style="text-align: right;">0,081</td>
 </tr>
 </tbody>
 </table>
-<p>Esa probabilidad, vista como función de <span class="math inline">\(p\)</span>, es la <strong>verosimilitud</strong>, <span class="math inline">\(L(p) = p \cdot p \cdot (1 - p)\)</span>. La <strong>máxima verosimilitud</strong> elige el <span class="math inline">\(p\)</span> con el que lo observado es más probable: <span class="math inline">\(p = 2/3\)</span>, la proporción de caras.</p>
+<p>Esa probabilidad, vista como función de <span class="math inline">\(p\)</span>, es la <strong>verosimilitud</strong>, <span class="math inline">\(L(p) = p \cdot p \cdot (1 - p)\)</span>. La <strong>máxima verosimilitud</strong> elige el <span class="math inline">\(p\)</span> con el que lo observado es más probable: la moneda equilibrada, <span class="math inline">\(p = 0{,}5\)</span>.</p>
 <p>En la tienda, cada cliente es una tirada, y «cara» es recibir el descuento. La diferencia es que cada cliente tiene su propia probabilidad, que depende de sus características a través del logit, <span class="math inline">\(p(x_i) = \Lambda(\beta_0 + \beta_1 x_{i1} + \dots + \beta_k x_{ik})\)</span>. Un cliente con descuento aporta <span class="math inline">\(p(x_i)\)</span> y uno sin descuento, <span class="math inline">\(1 - p(x_i)\)</span>, así que la verosimilitud es</p>
 <p><span class="math display">\[
 L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\bigr),
 \]</span></p>
-<p>y el estimador de <strong>máxima verosimilitud</strong> son los <span class="math inline">\(\beta\)</span> que la hacen máxima. Si el modelo solo tiene constante, todos los clientes tienen la misma probabilidad y, como con la moneda, la estimación es la proporción de clientes con descuento, 0,149.</p>
+<p>y el estimador de <strong>máxima verosimilitud</strong> son los <span class="math inline">\(\beta\)</span> que la hacen máxima. Si el modelo solo tiene constante, todos los clientes tienen la misma probabilidad, y la estimación es la proporción de clientes con descuento, 0,149.</p>
 <p>En la práctica se maximiza su logaritmo, la <strong>log-verosimilitud</strong>:</p>
 <p><span class="math display">\[
 \ell(\beta) = \log L(\beta) = \sum_{i=1}^{n} \Bigl[\, y_i \log p(x_i) + (1 - y_i) \log\bigl(1 - p(x_i)\bigr) \Bigr].
