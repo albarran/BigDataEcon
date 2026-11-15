@@ -85,20 +85,20 @@ hace `glm()`.
 
 ## La idea de la máxima verosimilitud
 
-Una moneda está trucada y no sabemos su probabilidad de cara, $p$. La lanzamos tres veces y salen dos
-caras y una cruz. Para cada valor posible de $p$, la probabilidad de lo observado es
+Solo sabemos que hay tres tipos de moneda: equilibradas, con probabilidad de cara $p = 0{,}5$; trucadas a
+favor de cara, con $p = 0{,}9$, y trucadas a favor de cruz, con $p = 0{,}2$. Lanzamos una moneda tres
+veces y salen dos caras y una cruz. Con cada valor de $p$, la probabilidad de lo observado es
 $p \cdot p \cdot (1 - p)$:
 
 | $p$   | $p \cdot p \cdot (1 - p)$                   | Probabilidad de lo observado |
 |:-----:|:--------------------------------------------:|-----------------------------:|
 | 0,2   | $0{,}2 \cdot 0{,}2 \cdot 0{,}8$              | 0,032                        |
-| 0,5   | $0{,}5 \cdot 0{,}5 \cdot 0{,}5$              | 0,125                        |
-| 2/3   | $2/3 \cdot 2/3 \cdot 1/3$                    | **0,148**                    |
+| 0,5   | $0{,}5 \cdot 0{,}5 \cdot 0{,}5$              | **0,125**                    |
 | 0,9   | $0{,}9 \cdot 0{,}9 \cdot 0{,}1$              | 0,081                        |
 
 Esa probabilidad, vista como función de $p$, es la **verosimilitud**, $L(p) = p \cdot p \cdot (1 - p)$.
-La **máxima verosimilitud** elige el $p$ con el que lo observado es más probable: $p = 2/3$, la proporción
-de caras.
+La **máxima verosimilitud** elige el $p$ con el que lo observado es más probable: la moneda equilibrada,
+$p = 0{,}5$.
 
 En la tienda, cada cliente es una tirada, y «cara» es recibir el descuento. La diferencia es que cada
 cliente tiene su propia probabilidad, que depende de sus características a través del logit,
@@ -110,7 +110,7 @@ L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\big
 $$
 
 y el estimador de **máxima verosimilitud** son los $\beta$ que la hacen máxima. Si el modelo solo tiene
-constante, todos los clientes tienen la misma probabilidad y, como con la moneda, la estimación es la
+constante, todos los clientes tienen la misma probabilidad, y la estimación es la
 proporción de clientes con descuento, `r coma(mean(tienda$descuento), 3)`.
 
 En la práctica se maximiza su logaritmo, la **log-verosimilitud**:
