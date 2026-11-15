@@ -4270,12 +4270,7 @@ scrollbar-width: thin;
   <li><a href="#la-idea-de-la-máxima-verosimilitud" id="toc-la-idea-de-la-máxima-verosimilitud" class="nav-link" data-scroll-target="#la-idea-de-la-máxima-verosimilitud"><span class="header-section-number">3.2</span> La idea de la máxima verosimilitud</a></li>
   </ul></li>
   <li><a href="#la-verosimilitud-como-medida-de-ajuste" id="toc-la-verosimilitud-como-medida-de-ajuste" class="nav-link" data-scroll-target="#la-verosimilitud-como-medida-de-ajuste"><span class="header-section-number">4</span> La verosimilitud como medida de ajuste</a></li>
-  <li><a href="#predecir-probabilidades" id="toc-predecir-probabilidades" class="nav-link" data-scroll-target="#predecir-probabilidades"><span class="header-section-number">5</span> Predecir probabilidades</a>
-  <ul class="collapse">
-  <li><a href="#en-los-valores-observados" id="toc-en-los-valores-observados" class="nav-link" data-scroll-target="#en-los-valores-observados"><span class="header-section-number">5.1</span> En los valores observados</a></li>
-  <li><a href="#en-valores-concretos" id="toc-en-valores-concretos" class="nav-link" data-scroll-target="#en-valores-concretos"><span class="header-section-number">5.2</span> En valores concretos</a></li>
-  <li><a href="#en-situaciones-hipotéticas" id="toc-en-situaciones-hipotéticas" class="nav-link" data-scroll-target="#en-situaciones-hipotéticas"><span class="header-section-number">5.3</span> En situaciones hipotéticas</a></li>
-  </ul></li>
+  <li><a href="#predecir-probabilidades" id="toc-predecir-probabilidades" class="nav-link" data-scroll-target="#predecir-probabilidades"><span class="header-section-number">5</span> Predecir probabilidades</a></li>
   <li><a href="#medir-el-error-de-un-logit" id="toc-medir-el-error-de-un-logit" class="nav-link" data-scroll-target="#medir-el-error-de-un-logit"><span class="header-section-number">6</span> Medir el error de un logit</a></li>
   </ul>
 </nav>
@@ -4342,91 +4337,27 @@ p(x) = \Pr(\text{descuento} = 1 \mid x) = \Lambda(\beta_0 + \beta_1 x_1 + \dots 
 <h1 data-number="3"><span class="header-section-number">3</span> Estimar el logit: máxima verosimilitud</h1>
 <section id="por-qué-cambia-el-criterio" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="por-qué-cambia-el-criterio"><span class="header-section-number">3.1</span> Por qué cambia el criterio</h2>
-<p>MCO elige los coeficientes que minimizan la suma de cuadrados de los residuos (SCR). Cuando el modelo es <strong>lineal en los parámetros</strong>, el teorema de Gauss-Markov garantiza que, con sus supuestos, MCO es el mejor estimador lineal insesgado: el más preciso entre los que aciertan en promedio. En el logit los parámetros entran dentro de <span class="math inline">\(\Lambda(\cdot)\)</span>: el modelo es <strong>no lineal en los parámetros</strong>, y esa garantía deja de valer. Se usa otro método, la <strong>máxima verosimilitud</strong>, que con el modelo bien especificado da estimadores consistentes (se acercan al valor poblacional al crecer la muestra) y, en muestras grandes, los más precisos. Es lo que hace <code>glm()</code>.</p>
+<p>MCO elige los coeficientes que minimizan la suma de cuadrados de los residuos (SCR). Cuando el modelo es <strong>lineal en los parámetros</strong>, el teorema de Gauss-Markov garantiza que, con sus supuestos, MCO es el mejor estimador lineal insesgado: el más preciso entre los que aciertan en promedio. En el logit los parámetros entran dentro de <span class="math inline">\(\Lambda(\cdot)\)</span>: el modelo es <strong>no lineal en los parámetros</strong>. Por eso se usa otro método, la <strong>máxima verosimilitud</strong>, que con el modelo bien especificado da estimadores consistentes (se acercan al valor poblacional al crecer la muestra) y, en muestras grandes, los más precisos. Es lo que hace <code>glm()</code>.</p>
 </section>
 <section id="la-idea-de-la-máxima-verosimilitud" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="la-idea-de-la-máxima-verosimilitud"><span class="header-section-number">3.2</span> La idea de la máxima verosimilitud</h2>
-<p>Buscamos coeficientes con los que la probabilidad predicha sea <strong>alta para los clientes que recibieron el descuento</strong> y <strong>baja para los que no lo recibieron</strong>. Para medirlo, calculamos la probabilidad que el modelo da a lo que de verdad ocurrió.</p>
-<p>Empecemos con tres clientes: uno con 1.000 euros de renta que recibió el descuento y dos, con 2.000 y 3.000 euros, que no lo recibieron. Comparamos dos formas de darles una probabilidad: sin usar la renta, con la proporción de la muestra (0,149 para todos), y con el logit de la renta estimado con los 404 clientes (son los tres puntos marcados en la curva de las transparencias). Un cliente con descuento aporta la probabilidad de recibirlo, <span class="math inline">\(p\)</span>, y uno sin descuento, la de no recibirlo, <span class="math inline">\(1 - p\)</span>:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 6%">
-<col style="width: 9%">
-<col style="width: 17%">
-<col style="width: 18%">
-<col style="width: 20%">
-<col style="width: 18%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Cliente</th>
-<th style="text-align: right;">Renta</th>
-<th style="text-align: center;">Descuento</th>
-<th style="text-align: right;">Sin la renta: <span class="math inline">\(p\)</span></th>
-<th style="text-align: right;">Aporta</th>
-<th style="text-align: right;">Con el logit: <span class="math inline">\(p\)</span></th>
-<th style="text-align: right;">Aporta</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">A</td>
-<td style="text-align: right;">1.000</td>
-<td style="text-align: center;">sí</td>
-<td style="text-align: right;">0,149</td>
-<td style="text-align: right;">0,149</td>
-<td style="text-align: right;">0,389</td>
-<td style="text-align: right;">0,389</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">B</td>
-<td style="text-align: right;">2.000</td>
-<td style="text-align: center;">no</td>
-<td style="text-align: right;">0,149</td>
-<td style="text-align: right;">0,851</td>
-<td style="text-align: right;">0,119</td>
-<td style="text-align: right;">0,881</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">C</td>
-<td style="text-align: right;">3.000</td>
-<td style="text-align: center;">no</td>
-<td style="text-align: right;">0,149</td>
-<td style="text-align: right;">0,851</td>
-<td style="text-align: right;">0,028</td>
-<td style="text-align: right;">0,972</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Probabilidad de lo observado</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>0,108</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"><strong>0,333</strong></td>
-</tr>
-</tbody>
-</table>
-<p>Como los clientes son independientes, la probabilidad de observar los tres resultados a la vez es el producto de lo que aporta cada uno. Con el logit, lo observado es unas tres veces más probable: da más probabilidad al cliente que recibió el descuento y menos a los que no.</p>
-<p>Con <span class="math inline">\(n\)</span> clientes y unos coeficientes cualesquiera <span class="math inline">\(\beta\)</span>, el mismo cálculo es la <strong>función de verosimilitud</strong>:</p>
+<p>Una moneda está trucada, y no sabemos si su probabilidad de cara es 0,9 o 0,2. La lanzamos tres veces y salen tres caras. Si fuera 0,9, la probabilidad de lo observado sería <span class="math inline">\(0{,}9^3 = 0{,}729\)</span>; si fuera 0,2, <span class="math inline">\(0{,}2^3 = 0{,}008\)</span>. Nos quedamos con 0,9: el valor del parámetro con el que lo observado es más probable. Esa es la idea de la máxima verosimilitud.</p>
+<p>Si la probabilidad de cara <span class="math inline">\(p\)</span> puede ser cualquier valor y salen dos caras y una cruz, la probabilidad de lo observado es <span class="math inline">\(L(p) = p \cdot p \cdot (1 - p)\)</span>, la <strong>verosimilitud</strong>. Es máxima en <span class="math inline">\(p = 2/3\)</span>: la proporción de caras.</p>
+<p>En la tienda, cada cliente es una tirada, y «cara» es recibir el descuento. La diferencia es que cada cliente tiene su propia probabilidad, que depende de sus características a través del logit, <span class="math inline">\(p(x_i) = \Lambda(\beta_0 + \beta_1 x_{i1} + \dots + \beta_k x_{ik})\)</span>. Un cliente con descuento aporta <span class="math inline">\(p(x_i)\)</span> y uno sin descuento, <span class="math inline">\(1 - p(x_i)\)</span>, así que la verosimilitud es</p>
 <p><span class="math display">\[
 L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\bigr),
-\qquad p(x_i) = \Lambda(\beta_0 + \beta_1 x_{i1} + \dots + \beta_k x_{ik}).
 \]</span></p>
-<p>El estimador de <strong>máxima verosimilitud</strong> es el <span class="math inline">\(\beta\)</span> que hace máxima <span class="math inline">\(L(\beta)\)</span>: los coeficientes con los que lo observado resulta más probable. En la tabla solo comparábamos dos candidatos; <code>glm()</code> busca entre todos, con los 404 clientes.</p>
+<p>y el estimador de <strong>máxima verosimilitud</strong> son los <span class="math inline">\(\beta\)</span> que la hacen máxima. Si el modelo solo tiene constante, todos los clientes tienen la misma probabilidad y, como con la moneda, la estimación es la proporción de clientes con descuento, 0,149.</p>
 <p>En la práctica se maximiza su logaritmo, la <strong>log-verosimilitud</strong>:</p>
 <p><span class="math display">\[
 \ell(\beta) = \log L(\beta) = \sum_{i=1}^{n} \Bigl[\, y_i \log p(x_i) + (1 - y_i) \log\bigl(1 - p(x_i)\bigr) \Bigr].
 \]</span></p>
-<p>El logaritmo es creciente, así que <span class="math inline">\(\ell\)</span> y <span class="math inline">\(L\)</span> alcanzan el máximo en los mismos coeficientes, y <span class="math inline">\(\ell\)</span> es mucho más fácil de manejar:</p>
+<p>Como el logaritmo es creciente, el máximo está en los mismos <span class="math inline">\(\beta\)</span>, y el logaritmo convierte multiplicar en sumar, <span class="math inline">\(\log(a \cdot b) = \log a + \log b\)</span>. Eso facilita las cosas por dos razones:</p>
 <ul>
-<li><strong>Convierte el producto en una suma</strong>: cada cliente aporta un término, el logaritmo de lo que aportaba en la tabla, y añadir un cliente es sumar un término más. Una suma se deriva y se optimiza con mucha más facilidad que un producto, igual que la SCR de MCO es una suma de un término por observación.</li>
-<li><strong>Lleva los valores a una escala manejable</strong>, como cuando en el Tema 04 mirábamos en escala logarítmica variables cuyos valores se separaban varios órdenes de magnitud. El producto de muchas probabilidades se hunde hacia cero: con los 404 clientes y el logit de la renta, la edad y la zona, la verosimilitud en el máximo es del orden de <span class="math inline">\(10^{-62}\)</span>.</li>
-<li>Con seis copias de la muestra (2.424 clientes), R ya da la verosimilitud como 0 exacto y no puede distinguir unos coeficientes de otros. La log-verosimilitud de esos mismos datos es simplemente −854,4.</li>
+<li>La verosimilitud tiene un factor por cliente, y la log-verosimilitud, un sumando por cliente, como la SCR. Para buscar el máximo se deriva, y la derivada de una suma es la suma de las derivadas.</li>
+<li>Cada factor es una probabilidad menor que 1, así que el producto encoge con cada cliente: con los 404 clientes, la verosimilitud del logit de la renta, la edad y la zona es del orden de <span class="math inline">\(10^{-62}\)</span>, y con unos 2.500 clientes R la redondearía a 0 y ya no podría comparar unos <span class="math inline">\(\beta\)</span> con otros. Su logaritmo es −142,4. Es la misma propiedad que hacía útil el eje logarítmico del Tema 04: multiplicar por 10 pasaba a ser avanzar siempre la misma distancia, y valores de órdenes de magnitud muy distintos cabían en un gráfico.</li>
 </ul>
-<p>En la tabla, la log-verosimilitud es la suma de los logaritmos de cada columna «Aporta»: −2,23 sin la renta y −1,10 con el logit. Como cada término es el logaritmo de una probabilidad, es negativa, y cuanto más cerca de cero, más probable es lo observado.</p>
-<p>El gráfico muestra <span class="math inline">\(\ell\)</span> con todos los clientes para el logit con la renta, moviendo la pendiente y dejando la constante en su valor estimado. Es la misma búsqueda que en MCO, dada la vuelta: allí se elegía la recta con la SCR mínima y aquí la pendiente con la log-verosimilitud máxima, que es la que da <code>glm()</code>.</p>
+<p>El gráfico muestra <span class="math inline">\(\ell\)</span> para el logit con la renta, moviendo la pendiente y dejando la constante en su valor estimado. Es la misma búsqueda que en MCO, dada la vuelta: allí se elegía la recta con la SCR mínima y aquí la pendiente con la log-verosimilitud máxima, que es la que da <code>glm()</code>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -4478,20 +4409,14 @@ L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\big
 </section>
 <section id="predecir-probabilidades" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Predecir probabilidades</h1>
-<p>Lo que el logit predice es una probabilidad, y con <code>predict(..., type = &quot;response&quot;)</code> la podemos calcular para los clientes de la muestra, para clientes con unas características concretas o para situaciones hipotéticas.</p>
-<section id="en-los-valores-observados" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="en-los-valores-observados"><span class="header-section-number">5.1</span> En los valores observados</h2>
-<p>Sin <code>newdata</code>, <code>predict()</code> da la probabilidad de cada cliente de la muestra con sus propios valores de renta, edad y zona:</p>
+<p>Lo que el logit predice es una probabilidad, y se calcula con <code>predict(..., type = &quot;response&quot;)</code>. Sin <code>newdata</code>, para cada cliente de la muestra:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>logit <span class="ot">&lt;-</span> <span class="fu">glm</span>(descuento <span class="sc">~</span> renta <span class="sc">+</span> edad <span class="sc">+</span> zona, <span class="at">data =</span> tienda, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(prob)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Las probabilidades van de 0,00005 a 0,60, y su media es 0,149, exactamente la proporción de clientes con descuento. Ocurre en todo logit con constante, igual que los residuos de MCO suman cero. El modelo lineal de probabilidad con las mismas variables predice para 40 clientes una probabilidad negativa, hasta −0,38.</p>
-</section>
-<section id="en-valores-concretos" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="en-valores-concretos"><span class="header-section-number">5.2</span> En valores concretos</h2>
-<p>Con <code>newdata</code> se predice para los clientes que nos interesen, estén o no en la muestra. Por ejemplo, clientes de 40 años de una ciudad con distintas rentas, con el logit y con el modelo lineal de probabilidad:</p>
+<p>Van de 0,00005 a 0,60, y su media es 0,149, la proporción de clientes con descuento. El modelo lineal de probabilidad con las mismas variables da a 40 clientes una probabilidad negativa.</p>
+<p>Con <code>newdata</code>, para los clientes que nos interesen, estén o no en la muestra. Por ejemplo, clientes de 40 años de una ciudad con distintas rentas:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mlp <span class="ot">&lt;-</span> <span class="fu">lm</span>(descuento <span class="sc">~</span> renta <span class="sc">+</span> edad <span class="sc">+</span> zona, <span class="at">data =</span> tienda)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>perfiles <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">renta =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">1500</span>, <span class="dv">3000</span>), <span class="at">edad =</span> <span class="dv">40</span>, <span class="at">zona =</span> <span class="st">&quot;ciudad&quot;</span>)</span>
@@ -4524,70 +4449,14 @@ L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\big
 </tr>
 </tbody>
 </table>
-<p>Pasar de 1.000 a 1.500 euros de renta baja la probabilidad del logit 17 puntos, y pasar de 1.500 a 3.000, otros 23 en total, menos de 8 por cada 500 euros. En el modelo lineal, cada 500 euros restan siempre lo mismo, 5 puntos, en cualquier punto de la renta.</p>
-</section>
-<section id="en-situaciones-hipotéticas" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="en-situaciones-hipotéticas"><span class="header-section-number">5.3</span> En situaciones hipotéticas</h2>
-<p>También se puede cambiar una variable a todos los clientes y dejar las demás como están: ¿qué probabilidad predice el modelo si cada cliente tuviera 500 euros más de renta?</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mas_renta <span class="ot">&lt;-</span> tienda <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">renta =</span> renta <span class="sc">+</span> <span class="dv">500</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>prob_mas <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit, <span class="at">newdata =</span> mas_renta, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(prob_mas) <span class="sc">-</span> <span class="fu">mean</span>(prob)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Código de la tabla por tramos de renta</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tramos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">renta =</span> tienda<span class="sc">$</span>renta, <span class="at">dif =</span> prob_mas <span class="sc">-</span> prob) <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tramo =</span> <span class="fu">cut</span>(renta, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1500</span>, <span class="dv">2500</span>, <span class="dv">4000</span>, <span class="cn">Inf</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">dif =</span> <span class="fu">mean</span>(dif))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-<p>La probabilidad media pasa de 0,149 a 0,081. El cambio es muy distinto según la renta de partida:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 23%">
-<col style="width: 51%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Renta actual</th>
-<th style="text-align: right;">Clientes</th>
-<th style="text-align: right;">Cambio medio de la probabilidad (puntos)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">hasta 1.500</td>
-<td style="text-align: right;">102</td>
-<td style="text-align: right;">−14,1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">de 1.500 a 2.500</td>
-<td style="text-align: right;">172</td>
-<td style="text-align: right;">−6,5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">de 2.500 a 4.000</td>
-<td style="text-align: right;">107</td>
-<td style="text-align: right;">−1,7</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">más de 4.000</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">−0,1</td>
-</tr>
-</tbody>
-</table>
-<p>Es la curva en S vista en cifras: el mismo cambio en la renta mueve mucho la probabilidad donde la curva tiene pendiente y casi nada donde ya está cerca de cero. Las predicciones son la forma de traducir los coeficientes a probabilidades.</p>
-</section>
+<p>Con el logit, pasar de 1.000 a 1.500 euros baja la probabilidad 17 puntos, y pasar de 1.500 a 3.000, otros 23 en total: el mismo aumento de renta pesa menos cuanto más cerca de cero está la probabilidad. En el modelo lineal, cada 500 euros restan siempre 5 puntos. Así se traducen los coeficientes del logit a probabilidades.</p>
 </section>
 <section id="medir-el-error-de-un-logit" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Medir el error de un logit</h1>
-<p>En regresión, el criterio de estimación también mide el error: la SCR, y su variante el RMSE, <span class="math inline">\(\sqrt{SCR/n}\)</span>, que se lee en las unidades de <span class="math inline">\(y\)</span> (euros de gasto).</p>
-<p>En el logit, el criterio de estimación es la log-verosimilitud, y la desviación carece de unidades con las que leerla. Se le puede dar una lectura en probabilidades. La verosimilitud es el producto de <span class="math inline">\(n\)</span> probabilidades, y su raíz <span class="math inline">\(n\)</span>-ésima, <span class="math inline">\(L^{1/n} = e^{\ell/n}\)</span>, es su media geométrica: la probabilidad que el modelo da, por término medio, a lo que ocurrió con cada cliente. Valdría 1 si el modelo acertara siempre con total seguridad.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>Con la renta, la edad y la zona vale 0,70, y con solo la constante, 0,66. El punto de partida ya es alto porque el 85 % de los clientes no recibe el descuento, y dar a todos una probabilidad de 0,149 acierta bastante con ellos.</p>
-<p>Pero las decisiones se toman con clases: cada probabilidad se convierte en dar o no el descuento con un umbral, y lo que interesa es cuántos clientes se clasifican bien y qué errores se cometen. Por eso, para evaluar un clasificador se usan la matriz de confusión y las medidas que salen de ella, como se ve en las transparencias.</p>
+<p>En regresión, la SCR con la que se estima mide también el error, y su variante el RMSE se lee en las unidades de <span class="math inline">\(y\)</span>: euros de gasto.</p>
+<p>En el logit, la log-verosimilitud se puede leer en probabilidades: cada cliente suma el logaritmo de la probabilidad que el modelo dio a lo que le ocurrió. Si le dio 0,9, suma <span class="math inline">\(\log 0{,}9 = -0{,}11\)</span>; si le dio 0,1, suma <span class="math inline">\(\log 0{,}1 = -2{,}30\)</span>. Subir la log-verosimilitud es dar más probabilidad a lo que de verdad ocurrió.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Pero lo que queremos es <strong>clasificar</strong>: decir si un cliente pertenece a una clase o a otra (darle el descuento o no, que compre o no), y no la probabilidad de que pertenezca. La log-verosimilitud no dice a cuántos clientes se clasifica mal ni con qué tipo de error: dar el descuento a quien no lo necesita o negárselo a quien sí. Un modelo puede mejorarla dando algo más de seguridad a los clientes que ya clasificaba bien, sin cambiar ninguna decisión.</p>
+<p>Para clasificar, cada probabilidad se compara con un <strong>umbral</strong>: con 0,5, la clase predicha es la más probable, y se usa otro si un tipo de error cuesta más que el otro. La <strong>matriz de confusión</strong> cruza las clases predichas con las observadas: con este logit y umbral 0,5, hay 7 clientes con descuento bien detectados, 53 con descuento que se le escapan, 343 sin descuento bien descartados y 1 dado por error. De ahí salen la <strong>exactitud</strong>, la proporción bien clasificada (0,866); la <strong>sensibilidad</strong>, la proporción de clientes con descuento que detecta (0,117), y la <strong>especificidad</strong>, la de clientes sin descuento que descarta (0,997). La <strong>curva ROC</strong> y el <strong>AUC</strong> resumen todos los umbrales a la vez. El detalle y el código, en las transparencias.</p>
 
 
 </section>
@@ -4596,7 +4465,7 @@ L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\big
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Notas</h2>
 
 <ol>
-<li id="fn1"><p>La log-verosimilitud tiene además un inconveniente como medida de error: castiga sin límite un error cometido con mucha seguridad. Si el modelo da probabilidad casi cero a un cliente que sí recibió el descuento, <span class="math inline">\(\log p\)</span> tiende a menos infinito.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><span class="math inline">\(e^{\ell/n}\)</span> es la media geométrica de esas probabilidades. La log-verosimilitud además castiga sin límite un error cometido con mucha seguridad: si el modelo da probabilidad casi cero a un cliente que sí recibió el descuento, <span class="math inline">\(\log p\)</span> tiende a menos infinito.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
