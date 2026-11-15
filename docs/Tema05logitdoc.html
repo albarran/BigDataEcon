@@ -4341,8 +4341,44 @@ p(x) = \Pr(\text{descuento} = 1 \mid x) = \Lambda(\beta_0 + \beta_1 x_1 + \dots 
 </section>
 <section id="la-idea-de-la-máxima-verosimilitud" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="la-idea-de-la-máxima-verosimilitud"><span class="header-section-number">3.2</span> La idea de la máxima verosimilitud</h2>
-<p>Una moneda está trucada, y no sabemos si su probabilidad de cara es 0,9 o 0,2. La lanzamos tres veces y salen tres caras. Si fuera 0,9, la probabilidad de lo observado sería <span class="math inline">\(0{,}9^3 = 0{,}729\)</span>; si fuera 0,2, <span class="math inline">\(0{,}2^3 = 0{,}008\)</span>. Nos quedamos con 0,9: el valor del parámetro con el que lo observado es más probable. Esa es la idea de la máxima verosimilitud.</p>
-<p>Si la probabilidad de cara <span class="math inline">\(p\)</span> puede ser cualquier valor y salen dos caras y una cruz, la probabilidad de lo observado es <span class="math inline">\(L(p) = p \cdot p \cdot (1 - p)\)</span>, la <strong>verosimilitud</strong>. Es máxima en <span class="math inline">\(p = 2/3\)</span>: la proporción de caras.</p>
+<p>Una moneda está trucada y no sabemos su probabilidad de cara, <span class="math inline">\(p\)</span>. La lanzamos tres veces y salen dos caras y una cruz. Para cada valor posible de <span class="math inline">\(p\)</span>, la probabilidad de lo observado es <span class="math inline">\(p \cdot p \cdot (1 - p)\)</span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 55%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(p \cdot p \cdot (1 - p)\)</span></th>
+<th style="text-align: right;">Probabilidad de lo observado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0,2</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}2 \cdot 0{,}2 \cdot 0{,}8\)</span></td>
+<td style="text-align: right;">0,032</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0,5</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}5 \cdot 0{,}5 \cdot 0{,}5\)</span></td>
+<td style="text-align: right;">0,125</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2/3</td>
+<td style="text-align: center;"><span class="math inline">\(2/3 \cdot 2/3 \cdot 1/3\)</span></td>
+<td style="text-align: right;"><strong>0,148</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0,9</td>
+<td style="text-align: center;"><span class="math inline">\(0{,}9 \cdot 0{,}9 \cdot 0{,}1\)</span></td>
+<td style="text-align: right;">0,081</td>
+</tr>
+</tbody>
+</table>
+<p>Esa probabilidad, vista como función de <span class="math inline">\(p\)</span>, es la <strong>verosimilitud</strong>, <span class="math inline">\(L(p) = p \cdot p \cdot (1 - p)\)</span>. La <strong>máxima verosimilitud</strong> elige el <span class="math inline">\(p\)</span> con el que lo observado es más probable: <span class="math inline">\(p = 2/3\)</span>, la proporción de caras.</p>
 <p>En la tienda, cada cliente es una tirada, y «cara» es recibir el descuento. La diferencia es que cada cliente tiene su propia probabilidad, que depende de sus características a través del logit, <span class="math inline">\(p(x_i) = \Lambda(\beta_0 + \beta_1 x_{i1} + \dots + \beta_k x_{ik})\)</span>. Un cliente con descuento aporta <span class="math inline">\(p(x_i)\)</span> y uno sin descuento, <span class="math inline">\(1 - p(x_i)\)</span>, así que la verosimilitud es</p>
 <p><span class="math display">\[
 L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\bigr),
@@ -4416,40 +4452,7 @@ L(\beta) = \prod_{i:\, y_i = 1} p(x_i) \prod_{i:\, y_i = 0} \bigl(1 - p(x_i)\big
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(prob)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Van de 0,00005 a 0,60, y su media es 0,149, la proporción de clientes con descuento. El modelo lineal de probabilidad con las mismas variables da a 40 clientes una probabilidad negativa.</p>
-<p>Con <code>newdata</code>, para los clientes que nos interesen, estén o no en la muestra. Por ejemplo, clientes de 40 años de una ciudad con distintas rentas:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mlp <span class="ot">&lt;-</span> <span class="fu">lm</span>(descuento <span class="sc">~</span> renta <span class="sc">+</span> edad <span class="sc">+</span> zona, <span class="at">data =</span> tienda)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>perfiles <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">renta =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">1500</span>, <span class="dv">3000</span>), <span class="at">edad =</span> <span class="dv">40</span>, <span class="at">zona =</span> <span class="st">&quot;ciudad&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit, <span class="at">newdata =</span> perfiles, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">predict</span>(mlp, <span class="at">newdata =</span> perfiles)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">Renta</th>
-<th style="text-align: right;">Probabilidad con el logit</th>
-<th style="text-align: right;">Con el modelo lineal</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1.000</td>
-<td style="text-align: right;">0,434</td>
-<td style="text-align: right;">0,295</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1.500</td>
-<td style="text-align: right;">0,262</td>
-<td style="text-align: right;">0,244</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3.000</td>
-<td style="text-align: right;">0,034</td>
-<td style="text-align: right;">0,091</td>
-</tr>
-</tbody>
-</table>
-<p>Con el logit, pasar de 1.000 a 1.500 euros baja la probabilidad 17 puntos, y pasar de 1.500 a 3.000, otros 23 en total: el mismo aumento de renta pesa menos cuanto más cerca de cero está la probabilidad. En el modelo lineal, cada 500 euros restan siempre 5 puntos. Así se traducen los coeficientes del logit a probabilidades.</p>
+<p>Con <code>newdata</code>, las de clientes con las características que queramos, estén o no en la muestra.</p>
 </section>
 <section id="medir-el-error-de-un-logit" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Medir el error de un logit</h1>
