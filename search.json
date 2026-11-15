@@ -732,14 +732,14 @@
     "href": "docs/Tema05.html#una-variable-01-predecir-una-probabilidad",
     "title": "Tema 05 - Modelización y aprendizaje estadístico",
     "section": "Una variable 0/1: predecir una probabilidad",
-    "text": "Una variable 0/1: predecir una probabilidad\n\nPregunta 4 de la tienda: ¿a quién dar el descuento? descuento es una variable 0/1, así que es un problema de clasificación\nCon una variable 0/1, la media condicional es una probabilidad:\n\n\\[\n\\small E[\\text{descuento} \\mid \\text{renta}] = \\Pr(\\text{descuento} = 1 \\mid \\text{renta})\n\\]\n\n\n\nSe puede ajustar una recta: lm(descuento ~ renta)\nPendiente -0,00010: cada 1.000 euros de renta, 10 puntos menos de probabilidad\nProblema: la recta sale de \\([0, 1]\\). Para 35 clientes predice una probabilidad negativa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEs lo que hacía lm(parado ~ pareja_parada) en el Tema 04.\nlm(descuento ~ renta): 0,378 y -0,000104; 35 predicciones por debajo de 0; a renta 4.000, -0,038. Verificado el 2-nov-2026. El 15% de los clientes (60) tiene descuento.\nEl modelo lineal de probabilidad se usa mucho en economía aplicada precisamente por la lectura directa de los coeficientes. Aquí se pasa al logit porque T06 a T08 lo necesitan y porque las probabilidades fuera de rango estorban al clasificar."
+    "text": "Una variable 0/1: predecir una probabilidad\n\nPregunta 4 de la tienda: ¿a quién dar el descuento? descuento es una variable 0/1, así que es un problema de clasificación\nCon una variable 0/1, la media condicional es una probabilidad:\n\n\\[\n\\small E[\\text{descuento} \\mid \\text{renta}] = \\Pr(\\text{descuento} = 1 \\mid \\text{renta})\n\\]\n\n\n\nSe puede ajustar una recta: lm(descuento ~ renta)\nPendiente -0,00010: cada 1.000 euros de renta, 10 puntos menos de probabilidad\nProblema: la recta sale de \\([0, 1]\\). Para 35 clientes predice una probabilidad negativa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEs lo que hacía lm(parado ~ pareja_parada) en el Tema 04.\nlm(descuento ~ renta): 0,378 y -0,000104; 35 predicciones por debajo de 0; a renta 4.000, -0,038. Verificado el 2-nov-2026. El 15% de los clientes (60) tiene descuento.\nEl modelo lineal de probabilidad se usa mucho en economía aplicada precisamente por la lectura directa de los coeficientes. Aquí se pasa al logit porque T06 a T08 lo necesitan y porque lo que se predice tiene que ser una probabilidad, entre 0 y 1."
   },
   {
     "objectID": "docs/Tema05.html#regresión-logística",
     "href": "docs/Tema05.html#regresión-logística",
     "title": "Tema 05 - Modelización y aprendizaje estadístico",
     "section": "Regresión logística",
-    "text": "Regresión logística\n\n\n\n\nLa función logística lleva cualquier índice \\(z = \\beta_0 + \\beta_1 x_1 + \\ldots\\) al intervalo \\([0, 1]\\): \\(\\Lambda(z) = e^z/(1 + e^z)\\)\nEl modelo: \\(\\Pr(\\text{descuento} = 1 \\mid X) = \\Lambda(\\beta_0 + \\beta_1\\,\\text{renta} + \\ldots)\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSe estima con glm(), como lm() más el argumento family:\n\n\nlogit &lt;- glm(\n  descuento ~ renta + edad + zona,\n  data = tienda, family = \"binomial\")\nsummary(logit)\nprob &lt;- predict(logit, type = \"response\")\n\n\ntype = \"response\" da probabilidades. Con newdata, las de clientes nuevos\n\n\n\n\n\n\n\n\n\n\n\n\n\nLos coeficientes ya no son cambios en la probabilidad: el efecto de un euro de renta depende de dónde esté la curva\nSí se interpretan el signo y la significatividad: renta -0,0015 (z = -5,8); edad, nada\n\n\n\n\nglm() admite en la fórmula lo mismo que lm(): logaritmos, polinomios, factores e interacciones.\nglm(descuento ~ renta + edad + zona): constante 1,50 (ee 0,67), renta -0,00154 (ee 0,00027, z = -5,79), edad -0,012 (p = 0,27), zonaciudad 0,26 (p = 0,49), zonacapital -0,03 (p = 0,95). Probabilidades predichas entre 0,00005 y 0,60. Verificado el 2-nov-2026.\nSolo renta: 1,10 y -0,00155; probabilidades 0,389 (1.000), 0,226 (1.500), 0,119 (2.000), 0,028 (3.000).\nNo se minimiza la SCR: se maximiza la verosimilitud de observar los unos y ceros. Fórmula y log-odds en el anexo.\nedad y zona salen no significativas: ocasión de enseñar un no rechazo limpio. El descuento se asignó solo por renta."
+    "text": "Regresión logística\n\n\n\n\nLa función logística lleva cualquier índice \\(z = \\beta_0 + \\beta_1 x_1 + \\ldots\\) al intervalo \\([0, 1]\\): \\(\\Lambda(z) = e^z/(1 + e^z)\\)\nEl modelo: \\(\\Pr(\\text{descuento} = 1 \\mid X) = \\Lambda(\\beta_0 + \\beta_1\\,\\text{renta} + \\ldots)\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSe estima por máxima verosimilitud (no es lineal en los parámetros): los \\(\\beta\\) que hacen más probables los unos y ceros observados (detalle). Con glm(), como lm() más family:\n\n\nlogit &lt;- glm(\n  descuento ~ renta + edad + zona,\n  data = tienda, family = \"binomial\")\nsummary(logit)\nprob &lt;- predict(logit, type = \"response\")\n\n\ntype = \"response\" da probabilidades. Con newdata, las de clientes nuevos\n\n\n\n\n\n\n\n\n\n\n\n\n\nLos coeficientes ya no son cambios en la probabilidad: el efecto de un euro de renta depende de dónde esté la curva\nSí se interpretan el signo y la significatividad: renta -0,0015 (z = -5,8); edad, nada\n\n\n\n\nglm() admite en la fórmula lo mismo que lm(): logaritmos, polinomios, factores e interacciones.\nglm(descuento ~ renta + edad + zona): constante 1,50 (ee 0,67), renta -0,00154 (ee 0,00027, z = -5,79), edad -0,012 (p = 0,27), zonaciudad 0,26 (p = 0,49), zonacapital -0,03 (p = 0,95). Probabilidades predichas entre 0,00005 y 0,60. Verificado el 2-nov-2026.\nSolo renta: 1,10 y -0,00155; probabilidades 0,389 (1.000), 0,226 (1.500), 0,119 (2.000), 0,028 (3.000).\nNo se minimiza la SCR: se maximiza la verosimilitud de observar los unos y ceros. Explicación, ejemplo y predicciones en Tema05logitdoc; log-odds en el anexo. Frase visible añadida el 15-nov-2026 a propuesta de Henry.\nedad y zona salen no significativas: ocasión de enseñar un no rechazo limpio. El descuento se asignó solo por renta."
   },
   {
     "objectID": "docs/Tema05.html#regresión-logística-con-más-de-dos-clases",
@@ -753,7 +753,7 @@
     "href": "docs/Tema05.html#del-umbral-a-la-matriz-de-confusión",
     "title": "Tema 05 - Modelización y aprendizaje estadístico",
     "section": "Del umbral a la matriz de confusión",
-    "text": "Del umbral a la matriz de confusión\n\nUn modelo de clasificación predice la probabilidad de que una observación pertenezca a cada categoría\nLa clase predicha es la de mayor probabilidad. Con dos clases, eso es superar un umbral de 0,5, y se pueden probar otros valores:\n\n\numbral &lt;- 0.5\npred &lt;- as.integer(prob &gt; umbral)\ntable(predicho = pred, observado = tienda$descuento)\n\n\nLas clases son categorías: no tiene sentido restarlas, así que no se puede calcular el MSE ni medidas similares\nSe comparan con la matriz de confusión, que tabula las clases observadas frente a las predichas:\n\n\n\n\n\n\n\n\n\n\n\nObservado 1\nObservado 0\n\n\n\n\nPredicho 1\nverdadero positivo (VP)\nfalso positivo (FP)\n\n\nPredicho 0\nfalso negativo (FN)\nverdadero negativo (VN)\n\n\n\n\n\n\nVerificado el 2-nov-2026 con glm(descuento ~ renta + edad + zona): umbral 0,5 → VP 7, FP 1, FN 53, VN 343. Las cifras se obtienen en la PRÁCTICA (4).\nFP es el error de tipo I y FN el de tipo II.\nExisten pseudo-\\(R^2\\), pero en el curso se usan las medidas de la matriz."
+    "text": "Del umbral a la matriz de confusión\n\nUn modelo de clasificación predice la probabilidad de que una observación pertenezca a cada categoría\nLa clase predicha es la de mayor probabilidad. Con dos clases, eso es superar un umbral de 0,5, y se pueden probar otros valores:\n\n\numbral &lt;- 0.5\npred &lt;- as.integer(prob &gt; umbral)\ntable(predicho = pred, observado = tienda$descuento)\n\n\nLa verosimilitud mide cómo ajustan las probabilidades, pero la decisión es una clase: importa cuántas observaciones se clasifican bien y qué errores se cometen. Y las clases no se pueden restar como en el MSE\nSe comparan con la matriz de confusión, que tabula las clases observadas frente a las predichas:\n\n\n\n\n\n\n\n\n\n\n\nObservado 1\nObservado 0\n\n\n\n\nPredicho 1\nverdadero positivo (VP)\nfalso positivo (FP)\n\n\nPredicho 0\nfalso negativo (FN)\nverdadero negativo (VN)\n\n\n\n\n\n\nVerificado el 2-nov-2026 con glm(descuento ~ renta + edad + zona): umbral 0,5 → VP 7, FP 1, FN 53, VN 343. Las cifras se obtienen en la PRÁCTICA (4).\nFP es el error de tipo I y FN el de tipo II.\nExisten pseudo-\\(R^2\\), pero en el curso se usan las medidas de la matriz."
   },
   {
     "objectID": "docs/Tema05.html#de-la-exactitud-a-la-sensibilidad-y-la-especificidad",
@@ -1470,46 +1470,137 @@
     "text": "Notas\n\n\nEl tamaño no las distingue: una base de datos con millones de filas es una muestra si recoge clientes de unos años y unas zonas, y no de todos los que hay o podría haber.↩︎"
   },
   {
-    "objectID": "Evaluacion.html",
-    "href": "Evaluacion.html",
-    "title": "Evaluación",
+    "objectID": "docs/Tema05logitdoc.html",
+    "href": "docs/Tema05logitdoc.html",
+    "title": "Tema 05 - La regresión logística",
     "section": "",
-    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la guía docente de la asignatura.\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo en este formulario. Si no, se aplica la evaluación continua.\nPlazo: viernes 20 de noviembre de 2026, 23:59.\n\n\n\n\nModalidad ordinaria de la asignatura (salvo opción expresa por evaluación no continua comunicada en plazo antes del 20 de noviembre). No contempla examen final.\nDinámica presencial y participación activa: el valor de estas sesiones reside en la intervención activa en las discusiones del aula. La entrega de ejercicios carece de valor sin haber intervenido activamente en el debate (lo que implica asistir a clase, si bien la sola presencia física resulta insuficiente). Trabajar los materiales de forma autónoma es fundamental para el seguimiento del curso, pero a efectos de evaluación no sustituye la participación en el aula.\nCálculo sobre el 80% de las sesiones: la calificación del trabajo de clase y de la participación se obtiene a partir del 80% de las mejores sesiones de cada estudiante, descartando hasta un 20% de calificaciones inferiores (incluyendo ausencias o sesiones sin intervención activa). Superar ese 20% de inasistencia o falta de participación reduce directamente la media de este bloque. Al estar vinculadas a la dinámica presencial del cuatrimestre, estas calificaciones no son recuperables en el segundo periodo de evaluación.\nEstructura de la calificación:\n\nTrabajo empírico final (50%): ver Proyecto Final.\nEjercicios durante el periodo de clases (35%):\n\nUn ejercicio largo individual, para realizar fuera de clase (15%).\nUna prueba presencial breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.\nEl trabajo desarrollado en clase (10%): lo que produzcáis en las sesiones podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nParticipación (15%):\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\n\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nEl mismo ejercicio largo que en la continua (20%), PERO se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (15%), en una cita aparte que se avisará con antelación.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+    "text": "Este documento acompaña a la Parte V del Tema 05. Explica con más calma cómo se estima la regresión logística, cómo se mide su ajuste y cómo se usan sus probabilidades predichas. Los ejemplos son los de la tienda: 404 clientes, de los que el 14,9 % recibió el descuento."
   },
   {
-    "objectID": "Evaluacion.html#evaluación-continua",
-    "href": "Evaluacion.html#evaluación-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Modalidad ordinaria de la asignatura (salvo opción expresa por evaluación no continua comunicada en plazo antes del 20 de noviembre). No contempla examen final.\nDinámica presencial y participación activa: el valor de estas sesiones reside en la intervención activa en las discusiones del aula. La entrega de ejercicios carece de valor sin haber intervenido activamente en el debate (lo que implica asistir a clase, si bien la sola presencia física resulta insuficiente). Trabajar los materiales de forma autónoma es fundamental para el seguimiento del curso, pero a efectos de evaluación no sustituye la participación en el aula.\nCálculo sobre el 80% de las sesiones: la calificación del trabajo de clase y de la participación se obtiene a partir del 80% de las mejores sesiones de cada estudiante, descartando hasta un 20% de calificaciones inferiores (incluyendo ausencias o sesiones sin intervención activa). Superar ese 20% de inasistencia o falta de participación reduce directamente la media de este bloque. Al estar vinculadas a la dinámica presencial del cuatrimestre, estas calificaciones no son recuperables en el segundo periodo de evaluación.\nEstructura de la calificación:\n\nTrabajo empírico final (50%): ver Proyecto Final.\nEjercicios durante el periodo de clases (35%):\n\nUn ejercicio largo individual, para realizar fuera de clase (15%).\nUna prueba presencial breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.\nEl trabajo desarrollado en clase (10%): lo que produzcáis en las sesiones podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nParticipación (15%):\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase."
+    "objectID": "docs/Tema05logitdoc.html#por-qué-cambia-el-criterio",
+    "href": "docs/Tema05logitdoc.html#por-qué-cambia-el-criterio",
+    "title": "Tema 05 - La regresión logística",
+    "section": "3.1 Por qué cambia el criterio",
+    "text": "3.1 Por qué cambia el criterio\nMCO elige los coeficientes que minimizan la suma de cuadrados de los residuos (SCR). Cuando el modelo es lineal en los parámetros, el teorema de Gauss-Markov garantiza que, con sus supuestos, MCO es el mejor estimador lineal insesgado: el más preciso entre los que aciertan en promedio. En el logit los parámetros entran dentro de \\(\\Lambda(\\cdot)\\): el modelo es no lineal en los parámetros, y esa garantía deja de valer. Se usa otro método, la máxima verosimilitud, que con el modelo bien especificado da estimadores consistentes (se acercan al valor poblacional al crecer la muestra) y, en muestras grandes, los más precisos. Es lo que hace glm()."
   },
   {
-    "objectID": "Evaluacion.html#evaluación-no-continua",
-    "href": "Evaluacion.html#evaluación-no-continua",
-    "title": "Evaluación",
-    "section": "",
-    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nEl mismo ejercicio largo que en la continua (20%), PERO se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (15%), en una cita aparte que se avisará con antelación.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+    "objectID": "docs/Tema05logitdoc.html#la-idea-de-la-máxima-verosimilitud",
+    "href": "docs/Tema05logitdoc.html#la-idea-de-la-máxima-verosimilitud",
+    "title": "Tema 05 - La regresión logística",
+    "section": "3.2 La idea de la máxima verosimilitud",
+    "text": "3.2 La idea de la máxima verosimilitud\nBuscamos coeficientes con los que la probabilidad predicha sea alta para los clientes que recibieron el descuento y baja para los que no lo recibieron. Para medirlo, calculamos la probabilidad que el modelo da a lo que de verdad ocurrió.\nEmpecemos con tres clientes: uno con 1.000 euros de renta que recibió el descuento y dos, con 2.000 y 3.000 euros, que no lo recibieron. Comparamos dos formas de darles una probabilidad: sin usar la renta, con la proporción de la muestra (0,149 para todos), y con el logit de la renta estimado con los 404 clientes (son los tres puntos marcados en la curva de las transparencias). Un cliente con descuento aporta la probabilidad de recibirlo, \\(p\\), y uno sin descuento, la de no recibirlo, \\(1 - p\\):\n\n\n\n\n\n\n\n\n\n\n\n\nCliente\nRenta\nDescuento\nSin la renta: \\(p\\)\nAporta\nCon el logit: \\(p\\)\nAporta\n\n\n\n\nA\n1.000\nsí\n0,149\n0,149\n0,389\n0,389\n\n\nB\n2.000\nno\n0,149\n0,851\n0,119\n0,881\n\n\nC\n3.000\nno\n0,149\n0,851\n0,028\n0,972\n\n\nProbabilidad de lo observado\n\n\n\n0,108\n\n0,333\n\n\n\nComo los clientes son independientes, la probabilidad de observar los tres resultados a la vez es el producto de lo que aporta cada uno. Con el logit, lo observado es unas tres veces más probable: da más probabilidad al cliente que recibió el descuento y menos a los que no.\nCon \\(n\\) clientes y unos coeficientes cualesquiera \\(\\beta\\), el mismo cálculo es la función de verosimilitud:\n\\[\nL(\\beta) = \\prod_{i:\\, y_i = 1} p(x_i) \\prod_{i:\\, y_i = 0} \\bigl(1 - p(x_i)\\bigr),\n\\qquad p(x_i) = \\Lambda(\\beta_0 + \\beta_1 x_{i1} + \\dots + \\beta_k x_{ik}).\n\\]\nEl estimador de máxima verosimilitud es el \\(\\beta\\) que hace máxima \\(L(\\beta)\\): los coeficientes con los que lo observado resulta más probable. En la tabla solo comparábamos dos candidatos; glm() busca entre todos, con los 404 clientes.\nEn la práctica se maximiza su logaritmo, la log-verosimilitud:\n\\[\n\\ell(\\beta) = \\log L(\\beta) = \\sum_{i=1}^{n} \\Bigl[\\, y_i \\log p(x_i) + (1 - y_i) \\log\\bigl(1 - p(x_i)\\bigr) \\Bigr].\n\\]\nEl logaritmo es creciente, así que \\(\\ell\\) y \\(L\\) alcanzan el máximo en los mismos coeficientes, y \\(\\ell\\) es mucho más fácil de manejar:\n\nConvierte el producto en una suma: cada cliente aporta un término, el logaritmo de lo que aportaba en la tabla, y añadir un cliente es sumar un término más. Una suma se deriva y se optimiza con mucha más facilidad que un producto, igual que la SCR de MCO es una suma de un término por observación.\nLleva los valores a una escala manejable, como cuando en el Tema 04 mirábamos en escala logarítmica variables cuyos valores se separaban varios órdenes de magnitud. El producto de muchas probabilidades se hunde hacia cero: con los 404 clientes y el logit de la renta, la edad y la zona, la verosimilitud en el máximo es del orden de \\(10^{-62}\\).\nCon seis copias de la muestra (2.424 clientes), R ya da la verosimilitud como 0 exacto y no puede distinguir unos coeficientes de otros. La log-verosimilitud de esos mismos datos es simplemente −854,4.\n\nEn la tabla, la log-verosimilitud es la suma de los logaritmos de cada columna «Aporta»: −2,23 sin la renta y −1,10 con el logit. Como cada término es el logaritmo de una probabilidad, es negativa, y cuanto más cerca de cero, más probable es lo observado.\nEl gráfico muestra \\(\\ell\\) con todos los clientes para el logit con la renta, moviendo la pendiente y dejando la constante en su valor estimado. Es la misma búsqueda que en MCO, dada la vuelta: allí se elegía la recta con la SCR mínima y aquí la pendiente con la log-verosimilitud máxima, que es la que da glm().\n\n\n\n\n\n\n\n\n\nEl máximo no tiene una fórmula cerrada como la de MCO: glm() lo busca por aproximaciones sucesivas, y summary() dice cuántas hizo («Number of Fisher Scoring iterations»). La máxima verosimilitud sirve para cualquier modelo que diga qué probabilidad (o densidad, si \\(y\\) es continua) tiene cada dato; en el modelo lineal con errores normales, maximizar la verosimilitud es minimizar la SCR, así que MCO es un caso particular."
   },
   {
-    "objectID": "PuestaAPunto.html",
-    "href": "PuestaAPunto.html",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. El orden importa: primero R y después Positron (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+    "objectID": "docs/Tema05logitdoc.html#en-los-valores-observados",
+    "href": "docs/Tema05logitdoc.html#en-los-valores-observados",
+    "title": "Tema 05 - La regresión logística",
+    "section": "5.1 En los valores observados",
+    "text": "5.1 En los valores observados\nSin newdata, predict() da la probabilidad de cada cliente de la muestra con sus propios valores de renta, edad y zona:\n\nlogit &lt;- glm(descuento ~ renta + edad + zona, data = tienda, family = \"binomial\")\nprob &lt;- predict(logit, type = \"response\")\nsummary(prob)\n\nLas probabilidades van de 0,00005 a 0,60, y su media es 0,149, exactamente la proporción de clientes con descuento. Ocurre en todo logit con constante, igual que los residuos de MCO suman cero. El modelo lineal de probabilidad con las mismas variables predice para 40 clientes una probabilidad negativa, hasta −0,38."
   },
   {
-    "objectID": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
-    "href": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
-    "title": "Puesta a punto",
-    "section": "",
-    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
+    "objectID": "docs/Tema05logitdoc.html#en-valores-concretos",
+    "href": "docs/Tema05logitdoc.html#en-valores-concretos",
+    "title": "Tema 05 - La regresión logística",
+    "section": "5.2 En valores concretos",
+    "text": "5.2 En valores concretos\nCon newdata se predice para los clientes que nos interesen, estén o no en la muestra. Por ejemplo, clientes de 40 años de una ciudad con distintas rentas, con el logit y con el modelo lineal de probabilidad:\n\nmlp &lt;- lm(descuento ~ renta + edad + zona, data = tienda)\nperfiles &lt;- tibble(renta = c(1000, 1500, 3000), edad = 40, zona = \"ciudad\")\npp &lt;- predict(logit, newdata = perfiles, type = \"response\")\npl &lt;- predict(mlp, newdata = perfiles)\n\n\n\n\nRenta\nProbabilidad con el logit\nCon el modelo lineal\n\n\n\n\n1.000\n0,434\n0,295\n\n\n1.500\n0,262\n0,244\n\n\n3.000\n0,034\n0,091\n\n\n\nPasar de 1.000 a 1.500 euros de renta baja la probabilidad del logit 17 puntos, y pasar de 1.500 a 3.000, otros 23 en total, menos de 8 por cada 500 euros. En el modelo lineal, cada 500 euros restan siempre lo mismo, 5 puntos, en cualquier punto de la renta."
   },
   {
-    "objectID": "PuestaAPunto.html#después-positron-el-editor",
-    "href": "PuestaAPunto.html#después-positron-el-editor",
-    "title": "Puesta a punto",
+    "objectID": "docs/Tema05logitdoc.html#en-situaciones-hipotéticas",
+    "href": "docs/Tema05logitdoc.html#en-situaciones-hipotéticas",
+    "title": "Tema 05 - La regresión logística",
+    "section": "5.3 En situaciones hipotéticas",
+    "text": "5.3 En situaciones hipotéticas\nTambién se puede cambiar una variable a todos los clientes y dejar las demás como están: ¿qué probabilidad predice el modelo si cada cliente tuviera 500 euros más de renta?\n\nmas_renta &lt;- tienda |&gt; mutate(renta = renta + 500)\nprob_mas &lt;- predict(logit, newdata = mas_renta, type = \"response\")\nmean(prob_mas) - mean(prob)\n\n\n\nCódigo de la tabla por tramos de renta\ntramos &lt;- tibble(renta = tienda$renta, dif = prob_mas - prob) |&gt;\n  mutate(tramo = cut(renta, c(0, 1500, 2500, 4000, Inf))) |&gt;\n  group_by(tramo) |&gt; summarise(n = n(), dif = mean(dif))\n\n\nLa probabilidad media pasa de 0,149 a 0,081. El cambio es muy distinto según la renta de partida:\n\n\n\n\n\n\n\n\nRenta actual\nClientes\nCambio medio de la probabilidad (puntos)\n\n\n\n\nhasta 1.500\n102\n−14,1\n\n\nde 1.500 a 2.500\n172\n−6,5\n\n\nde 2.500 a 4.000\n107\n−1,7\n\n\nmás de 4.000\n23\n−0,1\n\n\n\nEs la curva en S vista en cifras: el mismo cambio en la renta mueve mucho la probabilidad donde la curva tiene pendiente y casi nada donde ya está cerca de cero. Las predicciones son la forma de traducir los coeficientes a probabilidades."
+  },
+  {
+    "objectID": "docs/Tema05logitdoc.html#footnotes",
+    "href": "docs/Tema05logitdoc.html#footnotes",
+    "title": "Tema 05 - La regresión logística",
+    "section": "Notas",
+    "text": "Notas\n\n\nLa log-verosimilitud tiene además un inconveniente como medida de error: castiga sin límite un error cometido con mucha seguridad. Si el modelo da probabilidad casi cero a un cliente que sí recibió el descuento, \\(\\log p\\) tiende a menos infinito.↩︎"
+  },
+  {
+    "objectID": "Datos.html",
+    "href": "Datos.html",
+    "title": "Datos",
     "section": "",
-    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData\n\n\n\nTema 03 (datos: tratamiento, limpieza y preparación):\n\nretail_data.RData\nDosTablas.xlsx\n\nTema 04 (análisis exploratorio de datos):\n\nmarketplace.RData\n\nTema 05 (modelización y aprendizaje estadístico):\n\ntienda.csv\n\nTema 06 (regularización), además de tienda.csv:\n\nchurn_clientes.csv\n\nEjercicio largo, bloque II (los datos del bloque I se descargan del INE, ver el enunciado):\n\nGrowthData.csv"
+  },
+  {
+    "objectID": "Contenidos.html",
+    "href": "Contenidos.html",
+    "title": "Contenidos",
+    "section": "",
+    "text": "ImportanteAvisos\n\n\n\n\nElección de evaluación, continua o no continua, en este formulario, hasta el viernes 20 de noviembre a las 23:59. Si no se elige, por defecto se sigue la evaluación continua (ver Evaluación)."
+  },
+  {
+    "objectID": "Contenidos.html#semana-10",
+    "href": "Contenidos.html#semana-10",
+    "title": "Contenidos",
+    "section": "Semana 10",
+    "text": "Semana 10\n(9-Nov. a 13-Nov.)\n\nTema 06 - Regularización: Ridge regression y LASSO\nTema 06 - Ejercicios del tema\nEjercicio largo: entrega hasta el domingo 29 de noviembre a las 23:59."
+  },
+  {
+    "objectID": "Contenidos.html#semana-9",
+    "href": "Contenidos.html#semana-9",
+    "title": "Contenidos",
+    "section": "Semana 9",
+    "text": "Semana 9\n(2-Nov. a 6-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 05 - Ejercicios del tema\nTema 05 - Anexo\nTema 05 - La regresión logística: estimación y probabilidades predichas"
+  },
+  {
+    "objectID": "Contenidos.html#semana-8",
+    "href": "Contenidos.html#semana-8",
+    "title": "Contenidos",
+    "section": "Semana 8",
+    "text": "Semana 8\n(26-Oct. a 30-Oct.)\n\nTema 05 - Repaso previo: variabilidad muestral y regresión lineal\n\nPara estudiar antes de la primera clase del Tema 05."
+  },
+  {
+    "objectID": "Contenidos.html#semana-7",
+    "href": "Contenidos.html#semana-7",
+    "title": "Contenidos",
+    "section": "Semana 7",
+    "text": "Semana 7\n(19-Oct. a 23-Oct.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicios del tema\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 04 - Anexo: herramientas y fuentes"
+  },
+  {
+    "objectID": "Contenidos.html#semana-4",
+    "href": "Contenidos.html#semana-4",
+    "title": "Contenidos",
+    "section": "Semana 4",
+    "text": "Semana 4\n(28-Sept. a 2-Oct.)\n\nTema 03 - Datos: tratamiento, limpieza y preparación\nTema 03 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 03 - Anexo: chuleta de funciones auxiliares"
+  },
+  {
+    "objectID": "Contenidos.html#semana-3",
+    "href": "Contenidos.html#semana-3",
+    "title": "Contenidos",
+    "section": "Semana 3",
+    "text": "Semana 3\n(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
+  },
+  {
+    "objectID": "Contenidos.html#semana-2",
+    "href": "Contenidos.html#semana-2",
+    "title": "Contenidos",
+    "section": "Semana 2",
+    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
+  },
+  {
+    "objectID": "Contenidos.html#semana-1",
+    "href": "Contenidos.html#semana-1",
+    "title": "Contenidos",
+    "section": "Semana 1",
+    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
+  },
+  {
+    "objectID": "ProyectoFinal.html",
+    "href": "ProyectoFinal.html",
+    "title": "Proyecto Final",
+    "section": "",
+    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
+  },
+  {
+    "objectID": "ProyectoFinal.html#importante-plagio",
+    "href": "ProyectoFinal.html#importante-plagio",
+    "title": "Proyecto Final",
+    "section": "IMPORTANTE: PLAGIO",
+    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
   },
   {
     "objectID": "ComoTrabajar.html",
@@ -1568,88 +1659,46 @@
     "text": "7. Entregar\nUn solo .zip con el .qmd y el .html dentro, llamado igual que el documento:\n\nTnn_En_ID.zip, por ejemplo T02_E1_12345678.zip\n\nEl nombre tiene que ser exacto, o la entrega se rechaza. Recibirás un correo de confirmación si es correcta, o de rechazo si no lo es, diciéndote qué falla.\nLa entrega se hace siempre por el formulario. Un fichero enviado por correo no cuenta como entregado. Si el formulario te da problemas, dilo en clase o por tutoría.\nNo se valora que esté perfecto: se valora el progreso y que se vea lo que has entendido. Si te quedas a medias, entrega lo que tengas."
   },
   {
-    "objectID": "ProyectoFinal.html",
-    "href": "ProyectoFinal.html",
-    "title": "Proyecto Final",
+    "objectID": "PuestaAPunto.html",
+    "href": "PuestaAPunto.html",
+    "title": "Puesta a punto",
     "section": "",
-    "text": "Para el proyecto final debéis proponer un tema de estudio usando datos y las técnicas vistas en el curso. Podéis plantear un tema propio con datos disponibles por vuestro trabajo, contactos o búsqueda propia; durante el curso se darán también sugerencias de temas y fuentes de datos.\nEl resultado debe ser un proyecto de análisis de datos en el ámbito de economía, empresa, negocios o finanzas (“business analytics”):\n\n\n\n\n\nPor tanto, debe explicarse claramente:\n\nObjetivo del análisis: qué cuestión se estudia y por qué es importante.\nDatos: qué datos se utilizan, de dónde proceden y por qué son adecuados para el objetivo.\nProcesamiento de los datos (importación, limpieza y transformación), discutiendo por qué es necesario para el análisis.\nAnálisis exploratorio: qué información aprendemos de los datos y cómo ayuda a especificar los modelos.\nModelización: cómo se especifican los modelos para alcanzar el objetivo, cómo se elige el modelo final.\nComunicación efectiva de los resultados, discutiendo qué implican respecto al objetivo planteado."
+    "text": "Trabajaréis en clase con vuestro propio ordenador. Instalad LO ANTES POSIBLE lo siguiente (todo gratuito). Es una instalación sencilla: descargar dos programas y ejecutar sus instaladores. El orden importa: primero R y después Positron (así Positron encuentra vuestra instalación de R él solo). Al final hay una comprobación rápida.\n\nOJO: conviene tener el sistema operativo actualizado antes de instalar nada.\nConsiderad traer una regleta a clase si vuestra batería dura poco.\n\n\n\n\nDescargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución.\n\n\n\n\n\n\nEn este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
   },
   {
-    "objectID": "ProyectoFinal.html#importante-plagio",
-    "href": "ProyectoFinal.html#importante-plagio",
-    "title": "Proyecto Final",
-    "section": "IMPORTANTE: PLAGIO",
-    "text": "IMPORTANTE: PLAGIO\n\nSeguro que podéis encontrar análisis ya realizados sobre vuestra propuesta, en internet o de estudiantes de cursos anteriores. Yo también.\nLa detección de plagio supondrá automáticamente el suspenso en todas las convocatorias de la asignatura en este curso académico y el inicio de la apertura de un expediente."
-  },
-  {
-    "objectID": "Contenidos.html",
-    "href": "Contenidos.html",
-    "title": "Contenidos",
+    "objectID": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
+    "href": "PuestaAPunto.html#primero-r-versión-4.6-o-superior",
+    "title": "Puesta a punto",
     "section": "",
-    "text": "ImportanteAvisos\n\n\n\n\nElección de evaluación, continua o no continua, en este formulario, hasta el viernes 20 de noviembre a las 23:59. Si no se elige, por defecto se sigue la evaluación continua (ver Evaluación)."
+    "text": "Descargad R desde https://cran.r-project.org/:\n\nWindows: “Download R for Windows” &gt; “base” &gt; “Download R-4.6.1 for Windows”.\nmacOS: “Download R for macOS”; elegid el .pkg de vuestra arquitectura (arm64 para Apple Silicon, x86_64 para Intel). Puede ser necesario instalar XQuartz.\nLinux: seguid las instrucciones de vuestra distribución."
   },
   {
-    "objectID": "Contenidos.html#semana-10",
-    "href": "Contenidos.html#semana-10",
-    "title": "Contenidos",
-    "section": "Semana 10",
-    "text": "Semana 10\n(9-Nov. a 13-Nov.)\n\nTema 06 - Regularización: Ridge regression y LASSO\nTema 06 - Ejercicios del tema\nEjercicio largo: entrega hasta el domingo 29 de noviembre a las 23:59."
-  },
-  {
-    "objectID": "Contenidos.html#semana-9",
-    "href": "Contenidos.html#semana-9",
-    "title": "Contenidos",
-    "section": "Semana 9",
-    "text": "Semana 9\n(2-Nov. a 6-Nov.)\n\nTema 05 - Modelización y Aprendizaje Estadístico\nTema 05 - Ejercicios del tema\nTema 05 - Anexo"
-  },
-  {
-    "objectID": "Contenidos.html#semana-8",
-    "href": "Contenidos.html#semana-8",
-    "title": "Contenidos",
-    "section": "Semana 8",
-    "text": "Semana 8\n(26-Oct. a 30-Oct.)\n\nTema 05 - Repaso previo: variabilidad muestral y regresión lineal\n\nPara estudiar antes de la primera clase del Tema 05."
-  },
-  {
-    "objectID": "Contenidos.html#semana-7",
-    "href": "Contenidos.html#semana-7",
-    "title": "Contenidos",
-    "section": "Semana 7",
-    "text": "Semana 7\n(19-Oct. a 23-Oct.)\n\nTema 04 - Análisis Exploratorio de Datos\nTema 04 - Ejercicios del tema\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 04 - Anexo: herramientas y fuentes"
-  },
-  {
-    "objectID": "Contenidos.html#semana-4",
-    "href": "Contenidos.html#semana-4",
-    "title": "Contenidos",
-    "section": "Semana 4",
-    "text": "Semana 4\n(28-Sept. a 2-Oct.)\n\nTema 03 - Datos: tratamiento, limpieza y preparación\nTema 03 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado.\n\nTema 03 - Anexo: chuleta de funciones auxiliares"
-  },
-  {
-    "objectID": "Contenidos.html#semana-3",
-    "href": "Contenidos.html#semana-3",
-    "title": "Contenidos",
-    "section": "Semana 3",
-    "text": "Semana 3\n(21-Sept. a 25-Sept.)\n\nTema 02 - Visualización de datos\nTema 02 - Ejercicio\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-2",
-    "href": "Contenidos.html#semana-2",
-    "title": "Contenidos",
-    "section": "Semana 2",
-    "text": "Semana 2\n(14-Sept. a 18-Sept.)\n\nTema 01 - Informes reproducibles con Quarto\nTema 01 - Ejercicio de Quarto\n\nEl ejercicio se va haciendo durante las clases del tema: las transparencias indican en qué momento toca cada apartado."
-  },
-  {
-    "objectID": "Contenidos.html#semana-1",
-    "href": "Contenidos.html#semana-1",
-    "title": "Contenidos",
-    "section": "Semana 1",
-    "text": "Semana 1\n(07-Sept. a 11-Sept.)\n\nPuesta a punto: instalar primero R y después Positron\nIntroducción al curso\nTema 00 - Introducción a R y Positron"
-  },
-  {
-    "objectID": "Datos.html",
-    "href": "Datos.html",
-    "title": "Datos",
+    "objectID": "PuestaAPunto.html#después-positron-el-editor",
+    "href": "PuestaAPunto.html#después-positron-el-editor",
+    "title": "Puesta a punto",
     "section": "",
-    "text": "A lo largo de las clases utilizaremos varios conjuntos de datos de ejemplo:\n\nTema 0:\n\nrenta.txt\nsex_data.csv\nbeauty.xls\nnsw.dta\nearn.RData\n\nTema 02 (visualización):\n\ndatosVisualizacion.RData\nhotels.csv\nempresas.RData\n\n\n\nTema 03 (datos: tratamiento, limpieza y preparación):\n\nretail_data.RData\nDosTablas.xlsx\n\nTema 04 (análisis exploratorio de datos):\n\nmarketplace.RData\n\nTema 05 (modelización y aprendizaje estadístico):\n\ntienda.csv\n\nTema 06 (regularización), además de tienda.csv:\n\nchurn_clientes.csv\n\nEjercicio largo, bloque II (los datos del bloque I se descargan del INE, ver el enunciado):\n\nGrowthData.csv"
+    "text": "En este curso usamos Positron, el entorno de Posit (los creadores de RStudio): funciona igual que un editor moderno estándar (VS Code) y sirve para R y también para Python, que os será útil en el futuro.\nDescargad desde https://positron.posit.co/download.html el instalador de vuestro sistema y ejecutadlo. Al abrirlo, Positron detecta la instalación de R que hicisteis en el paso 1 (por eso el orden).\nSi ya usáis VS Code: podéis seguir perfectamente con él. Instalad las extensiones “R” y “Quarto” y tendréis el mismo flujo de trabajo que veremos en clase; casi todo lo que se diga para Positron aplica igual.\nSi ya usáis RStudio: también sirve para casi todo el curso. Tenedlo actualizado. Eso sí, las instrucciones y capturas de clase serán con Positron.\n\nEl resto del software del curso (Quarto y los paquetes de R que vayamos necesitando) lo instalaremos JUNTOS en clase cuando toque: no hace falta que hagáis nada más ahora."
+  },
+  {
+    "objectID": "Evaluacion.html",
+    "href": "Evaluacion.html",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Nota: información adicional sobre segunda convocatoria y posibles contingencias en la guía docente de la asignatura.\nIMPORTANTE: quien quiera acogerse a la evaluación NO continua debe comunicarlo en este formulario. Si no, se aplica la evaluación continua.\nPlazo: viernes 20 de noviembre de 2026, 23:59.\n\n\n\n\nModalidad ordinaria de la asignatura (salvo opción expresa por evaluación no continua comunicada en plazo antes del 20 de noviembre). No contempla examen final.\nDinámica presencial y participación activa: el valor de estas sesiones reside en la intervención activa en las discusiones del aula. La entrega de ejercicios carece de valor sin haber intervenido activamente en el debate (lo que implica asistir a clase, si bien la sola presencia física resulta insuficiente). Trabajar los materiales de forma autónoma es fundamental para el seguimiento del curso, pero a efectos de evaluación no sustituye la participación en el aula.\nCálculo sobre el 80% de las sesiones: la calificación del trabajo de clase y de la participación se obtiene a partir del 80% de las mejores sesiones de cada estudiante, descartando hasta un 20% de calificaciones inferiores (incluyendo ausencias o sesiones sin intervención activa). Superar ese 20% de inasistencia o falta de participación reduce directamente la media de este bloque. Al estar vinculadas a la dinámica presencial del cuatrimestre, estas calificaciones no son recuperables en el segundo periodo de evaluación.\nEstructura de la calificación:\n\nTrabajo empírico final (50%): ver Proyecto Final.\nEjercicios durante el periodo de clases (35%):\n\nUn ejercicio largo individual, para realizar fuera de clase (15%).\nUna prueba presencial breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.\nEl trabajo desarrollado en clase (10%): lo que produzcáis en las sesiones podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nParticipación (15%):\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase.\n\n\n\n\n\n\n\nEjercicios teórico-prácticos (35%). Incluyen:\n\nEl mismo ejercicio largo que en la continua (20%), PERO se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (15%), en una cita aparte que se avisará con antelación.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-continua",
+    "href": "Evaluacion.html#evaluación-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Modalidad ordinaria de la asignatura (salvo opción expresa por evaluación no continua comunicada en plazo antes del 20 de noviembre). No contempla examen final.\nDinámica presencial y participación activa: el valor de estas sesiones reside en la intervención activa en las discusiones del aula. La entrega de ejercicios carece de valor sin haber intervenido activamente en el debate (lo que implica asistir a clase, si bien la sola presencia física resulta insuficiente). Trabajar los materiales de forma autónoma es fundamental para el seguimiento del curso, pero a efectos de evaluación no sustituye la participación en el aula.\nCálculo sobre el 80% de las sesiones: la calificación del trabajo de clase y de la participación se obtiene a partir del 80% de las mejores sesiones de cada estudiante, descartando hasta un 20% de calificaciones inferiores (incluyendo ausencias o sesiones sin intervención activa). Superar ese 20% de inasistencia o falta de participación reduce directamente la media de este bloque. Al estar vinculadas a la dinámica presencial del cuatrimestre, estas calificaciones no son recuperables en el segundo periodo de evaluación.\nEstructura de la calificación:\n\nTrabajo empírico final (50%): ver Proyecto Final.\nEjercicios durante el periodo de clases (35%):\n\nUn ejercicio largo individual, para realizar fuera de clase (15%).\nUna prueba presencial breve (10%), sobre los temas vistos en clase del Tema 5 en adelante. Se avisará con antelación.\nEl trabajo desarrollado en clase (10%): lo que produzcáis en las sesiones podrá recogerse al acabar la clase (en cualquier sesión). Se valora el progreso y la comprensión, no la perfección.\n\nParticipación (15%):\n\nMini-tests breves en clase: preguntas de comprensión sobre el material que habréis trabajado ANTES de cada sesión (ver “Cómo funciona el curso” más abajo).\nPreguntas y pequeños ejercicios en clase."
+  },
+  {
+    "objectID": "Evaluacion.html#evaluación-no-continua",
+    "href": "Evaluacion.html#evaluación-no-continua",
+    "title": "Evaluación",
+    "section": "",
+    "text": "Ejercicios teórico-prácticos (35%). Incluyen:\n\nEl mismo ejercicio largo que en la continua (20%), PERO se defiende presencialmente en el despacho: tendréis que explicar qué habéis hecho, por qué, y responder preguntas sobre vuestro propio código y resultados.\nLa misma prueba presencial que en la continua (15%), en una cita aparte que se avisará con antelación.\n\nTrabajo empírico final (65%), también con defensa presencial.\nSin mini-tests semanales ni trabajo de clase."
   },
   {
     "objectID": "docs/Tema04anexo.html#esto-es-material-de-consulta",
@@ -2685,7 +2734,7 @@
     "href": "docs/Tema06.html#los-datos-el-abandono-de-clientes",
     "title": "Tema 06 - Regularización",
     "section": "Los datos: el abandono de clientes",
-    "text": "Los datos: el abandono de clientes\n\nchurn_clientes.csv son 600 clientes de un servicio de suscripción. churn dice si abandonaron (Sí o No), y las candidatas son señales que a priori podrían anunciarlo:\n\nuso del servicio, pago, soporte y satisfacción, competencia\nla empresa cliente (tamaño, sector, país) y datos del registro (día, navegador, dispositivo)\n\nQuitamos el identificador y plan_tipo, que repite precio_mensual. El punto de churn ~ . pone todas las demás columnas como explicativas, y glmnet quiere la respuesta como factor\n\n\nchurn &lt;- read_csv(\"data/churn_clientes.csv\") |&gt;\n  select(-id_cliente, -plan_tipo)\nxc &lt;- model.matrix(churn ~ ., data = churn)\nyc &lt;- factor(churn$churn)\nset.seed(12345678)\ncv_logit &lt;- cv.glmnet(xc, yc, family = \"binomial\", alpha = 1,\n                      type.measure = \"auc\", nfolds = 10)\n\n\nRespecto a la regresión cambian dos cosas: family = \"binomial\" estima un logit, y type.measure = \"auc\" elige \\(\\lambda\\) por el AUC (Tema 05)\n\n\n\n362 abandonos de 600 (60,3%). 34 columnas tras crear las dummies, más la de la constante.\nglmnet toma como clase objetivo la última por orden alfabético: Sí.\nLos resultados se obtienen en la PRÁCTICA (2)."
+    "text": "Los datos: el abandono de clientes\n\nchurn_clientes.csv son 600 clientes de un servicio de suscripción. churn dice si abandonaron (Sí o No), y las candidatas son señales que a priori podrían anunciarlo:\n\nuso del servicio, pago, soporte y satisfacción, competencia\nla empresa cliente (tamaño, sector, país) y datos del registro (día, navegador, dispositivo)\n\nQuitamos el identificador y plan_tipo, que repite precio_mensual. El punto de churn ~ . pone todas las demás columnas como explicativas, y glmnet quiere la respuesta como factor\n\n\nchurn &lt;- read_csv(\"data/churn_clientes.csv\") |&gt;\n  select(-id_cliente, -plan_tipo)\nxc &lt;- model.matrix(churn ~ ., data = churn)\nyc &lt;- factor(churn$churn)\nset.seed(12345678)\ncv_logit &lt;- cv.glmnet(xc, yc, family = \"binomial\", alpha = 1,\n                      type.measure = \"auc\", nfolds = 10)\n\n\nCambian dos cosas: family = \"binomial\" estima un logit por verosimilitud (se minimiza la desviación más la penalización de los coeficientes), y type.measure = \"auc\" elige \\(\\lambda\\) por el AUC (Tema 05)\n\n\n\n362 abandonos de 600 (60,3%). 34 columnas tras crear las dummies, más la de la constante.\nglmnet toma como clase objetivo la última por orden alfabético: Sí.\nglmnet minimiza \\(-\\ell(\\beta)/n + \\lambda \\cdot\\) penalización con family = \"binomial\" (viñeta de glmnet). La verosimilitud estima; el AUC solo elige \\(\\lambda\\). Detalle de la verosimilitud: Tema05logitdoc. Añadido el 15-nov-2026 a propuesta de Henry.\nLos resultados se obtienen en la PRÁCTICA (2)."
   },
   {
     "objectID": "docs/Tema06.html#práctica-en-clase-2-señales-de-abandono",

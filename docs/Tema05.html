@@ -2439,7 +2439,7 @@ display:block!important;
 <ul>
 <li>Es lo que hacía <code>lm(parado ~ pareja_parada)</code> en el Tema 04.</li>
 <li><code>lm(descuento ~ renta)</code>: 0,378 y -0,000104; 35 predicciones por debajo de 0; a renta 4.000, -0,038. Verificado el 2-nov-2026. El 15% de los clientes (60) tiene descuento.</li>
-<li>El modelo lineal de probabilidad se usa mucho en economía aplicada precisamente por la lectura directa de los coeficientes. Aquí se pasa al logit porque T06 a T08 lo necesitan y porque las probabilidades fuera de rango estorban al clasificar.</li>
+<li>El modelo lineal de probabilidad se usa mucho en economía aplicada precisamente por la lectura directa de los coeficientes. Aquí se pasa al logit porque T06 a T08 lo necesitan y porque lo que se predice tiene que ser una probabilidad, entre 0 y 1.</li>
 </ul>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2455,7 +2455,7 @@ display:block!important;
 </section>
 <section id="regresión-logística" class="slide level2">
 <h2>Regresión logística</h2>
-<div style="font-size: 88%;">
+<div style="font-size: 85%;">
 <div class="columns">
 <div class="column" style="width:56%;">
 <ul>
@@ -2476,7 +2476,7 @@ display:block!important;
 <div class="columns">
 <div class="column" style="width:56%;">
 <ul>
-<li>Se estima con <code>glm()</code>, como <code>lm()</code> más el argumento <code>family</code>:</li>
+<li>Se estima por <strong>máxima verosimilitud</strong> (no es lineal en los parámetros): los <span class="math inline">\(\beta\)</span> que hacen más probables los unos y ceros observados (<a href="Tema05logitdoc.html">detalle</a>). Con <code>glm()</code>, como <code>lm()</code> más <code>family</code>:</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a>logit <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
@@ -2509,7 +2509,7 @@ display:block!important;
 <li><code>glm()</code> admite en la fórmula lo mismo que <code>lm()</code>: logaritmos, polinomios, factores e interacciones.</li>
 <li><code>glm(descuento ~ renta + edad + zona)</code>: constante 1,50 (ee 0,67), renta -0,00154 (ee 0,00027, z = -5,79), edad -0,012 (p = 0,27), zonaciudad 0,26 (p = 0,49), zonacapital -0,03 (p = 0,95). Probabilidades predichas entre 0,00005 y 0,60. Verificado el 2-nov-2026.</li>
 <li>Solo renta: 1,10 y -0,00155; probabilidades 0,389 (1.000), 0,226 (1.500), 0,119 (2.000), 0,028 (3.000).</li>
-<li>No se minimiza la SCR: se maximiza la verosimilitud de observar los unos y ceros. Fórmula y log-odds en el anexo.</li>
+<li>No se minimiza la SCR: se maximiza la verosimilitud de observar los unos y ceros. Explicación, ejemplo y predicciones en <code>Tema05logitdoc</code>; log-odds en el anexo. Frase visible añadida el 15-nov-2026 a propuesta de Henry.</li>
 <li><code>edad</code> y <code>zona</code> salen no significativas: ocasión de enseñar un no rechazo limpio. El descuento se asignó solo por renta.</li>
 </ul>
 <style type="text/css">
@@ -2570,7 +2570,7 @@ display:block!important;
 <span id="cb22-3"><a aria-label="3"></a><span class="fu">table</span>(<span class="at">predicho =</span> pred, <span class="at">observado =</span> tienda<span class="sc">$</span>descuento)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><p>Las clases son categorías: no tiene sentido restarlas, así que no se puede calcular el MSE ni medidas similares</p></li>
+<li><p>La verosimilitud mide cómo ajustan las probabilidades, pero la decisión es una <strong>clase</strong>: importa cuántas observaciones se clasifican bien y qué errores se cometen. Y las clases no se pueden restar como en el MSE</p></li>
 <li><p>Se comparan con la <strong>matriz de confusión</strong>, que tabula las clases observadas frente a las predichas:</p></li>
 </ul>
 <div style="font-size: 88%;">

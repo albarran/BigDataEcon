@@ -1498,12 +1498,13 @@ display:block!important;
 <span id="cb4-7"><a aria-label="7"></a>                      <span class="at">type.measure =</span> <span class="st">&quot;auc&quot;</span>, <span class="at">nfolds =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Respecto a la regresión cambian dos cosas: <code>family = &quot;binomial&quot;</code> estima un logit, y <code>type.measure = &quot;auc&quot;</code> elige <span class="math inline">\(\lambda\)</span> por el AUC (Tema 05)</li>
+<li>Cambian dos cosas: <code>family = &quot;binomial&quot;</code> estima un logit por verosimilitud (se minimiza la <strong>desviación</strong> más la penalización de los coeficientes), y <code>type.measure = &quot;auc&quot;</code> elige <span class="math inline">\(\lambda\)</span> por el AUC (Tema 05)</li>
 </ul>
 <aside class="notes">
 <ul>
 <li>362 abandonos de 600 (60,3%). 34 columnas tras crear las dummies, más la de la constante.</li>
 <li><code>glmnet</code> toma como clase objetivo la última por orden alfabético: <code>Sí</code>.</li>
+<li><code>glmnet</code> minimiza <span class="math inline">\(-\ell(\beta)/n + \lambda \cdot\)</span> penalización con <code>family = &quot;binomial&quot;</code> (viñeta de <code>glmnet</code>). La verosimilitud estima; el AUC solo elige <span class="math inline">\(\lambda\)</span>. Detalle de la verosimilitud: <code>Tema05logitdoc</code>. Añadido el 15-nov-2026 a propuesta de Henry.</li>
 <li>Los resultados se obtienen en la PRÁCTICA (2).</li>
 </ul>
 <style type="text/css">
