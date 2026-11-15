@@ -85,14 +85,20 @@ hace `glm()`.
 
 ## La idea de la máxima verosimilitud
 
-Una moneda está trucada, y no sabemos si su probabilidad de cara es 0,9 o 0,2. La lanzamos tres veces y
-salen tres caras. Si fuera 0,9, la probabilidad de lo observado sería $0{,}9^3 = 0{,}729$; si fuera 0,2,
-$0{,}2^3 = 0{,}008$. Nos quedamos con 0,9: el valor del parámetro con el que lo observado es más probable.
-Esa es la idea de la máxima verosimilitud.
+Una moneda está trucada y no sabemos su probabilidad de cara, $p$. La lanzamos tres veces y salen dos
+caras y una cruz. Para cada valor posible de $p$, la probabilidad de lo observado es
+$p \cdot p \cdot (1 - p)$:
 
-Si la probabilidad de cara $p$ puede ser cualquier valor y salen dos caras y una cruz, la probabilidad de
-lo observado es $L(p) = p \cdot p \cdot (1 - p)$, la **verosimilitud**. Es máxima en $p = 2/3$: la
-proporción de caras.
+| $p$   | $p \cdot p \cdot (1 - p)$                   | Probabilidad de lo observado |
+|:-----:|:--------------------------------------------:|-----------------------------:|
+| 0,2   | $0{,}2 \cdot 0{,}2 \cdot 0{,}8$              | 0,032                        |
+| 0,5   | $0{,}5 \cdot 0{,}5 \cdot 0{,}5$              | 0,125                        |
+| 2/3   | $2/3 \cdot 2/3 \cdot 1/3$                    | **0,148**                    |
+| 0,9   | $0{,}9 \cdot 0{,}9 \cdot 0{,}1$              | 0,081                        |
+
+Esa probabilidad, vista como función de $p$, es la **verosimilitud**, $L(p) = p \cdot p \cdot (1 - p)$.
+La **máxima verosimilitud** elige el $p$ con el que lo observado es más probable: $p = 2/3$, la proporción
+de caras.
 
 En la tienda, cada cliente es una tirada, y «cara» es recibir el descuento. La diferencia es que cada
 cliente tiene su propia probabilidad, que depende de sus características a través del logit,
@@ -200,29 +206,7 @@ Van de `r format(round(min(prob), 5), decimal.mark = ",", scientific = FALSE)` a
 y su media es `r coma(mean(prob), 3)`, la proporción de clientes con descuento. El modelo lineal de
 probabilidad con las mismas variables da a `r sum(q < 0)` clientes una probabilidad negativa.
 
-Con `newdata`, para los clientes que nos interesen, estén o no en la muestra. Por ejemplo, clientes de 40
-años de una ciudad con distintas rentas:
-
-```{r}
-#| echo: true
-#| output: false
-mlp <- lm(descuento ~ renta + edad + zona, data = tienda)
-perfiles <- tibble(renta = c(1000, 1500, 3000), edad = 40, zona = "ciudad")
-pp <- predict(logit, newdata = perfiles, type = "response")
-pl <- predict(mlp, newdata = perfiles)
-```
-
-| Renta | Probabilidad con el logit | Con el modelo lineal |
-|------:|--------------------------:|---------------------:|
-| 1.000 | `r coma(pp[1], 3)`        | `r coma(pl[1], 3)`   |
-| 1.500 | `r coma(pp[2], 3)`        | `r coma(pl[2], 3)`   |
-| 3.000 | `r coma(pp[3], 3)`        | `r coma(pl[3], 3)`   |
-
-Con el logit, pasar de 1.000 a 1.500 euros baja la probabilidad `r coma(100 * (pp[1] - pp[2]), 0)`
-puntos, y pasar de 1.500 a 3.000, otros `r coma(100 * (pp[2] - pp[3]), 0)` en total: el mismo aumento de
-renta pesa menos cuanto más cerca de cero está la probabilidad. En el modelo lineal, cada 500 euros restan
-siempre `r coma(100 * (pl[1] - pl[2]), 0)` puntos. Así se traducen los coeficientes del logit a
-probabilidades.
+Con `newdata`, las de clientes con las características que queramos, estén o no en la muestra.
 
 # Medir el error de un logit
 
