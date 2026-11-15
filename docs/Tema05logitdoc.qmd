@@ -86,19 +86,19 @@ hace `glm()`.
 ## La idea de la máxima verosimilitud
 
 Solo sabemos que hay tres tipos de moneda: equilibradas, con probabilidad de cara $p = 0{,}5$; trucadas a
-favor de cara, con $p = 0{,}9$, y trucadas a favor de cruz, con $p = 0{,}2$. Lanzamos una moneda tres
-veces y salen dos caras y una cruz. Con cada valor de $p$, la probabilidad de lo observado es
-$p \cdot p \cdot (1 - p)$:
+favor de cara, con $p = 0{,}9$, y trucadas a favor de cruz, con $p = 0{,}2$. Lanzamos una moneda cuatro
+veces y salen tres caras y una cruz. Con cada valor de $p$, la probabilidad de lo observado es
+$p \cdot p \cdot p \cdot (1 - p)$:
 
-| $p$   | $p \cdot p \cdot (1 - p)$                   | Probabilidad de lo observado |
-|:-----:|:--------------------------------------------:|-----------------------------:|
-| 0,2   | $0{,}2 \cdot 0{,}2 \cdot 0{,}8$              | 0,032                        |
-| 0,5   | $0{,}5 \cdot 0{,}5 \cdot 0{,}5$              | **0,125**                    |
-| 0,9   | $0{,}9 \cdot 0{,}9 \cdot 0{,}1$              | 0,081                        |
+| $p$   | $p \cdot p \cdot p \cdot (1 - p)$                     | Probabilidad de lo observado |
+|:-----:|:-----------------------------------------------------:|-----------------------------:|
+| 0,2   | $0{,}2 \cdot 0{,}2 \cdot 0{,}2 \cdot 0{,}8$            | 0,0064                       |
+| 0,5   | $0{,}5 \cdot 0{,}5 \cdot 0{,}5 \cdot 0{,}5$            | 0,0625                       |
+| 0,9   | $0{,}9 \cdot 0{,}9 \cdot 0{,}9 \cdot 0{,}1$            | **0,0729**                   |
 
-Esa probabilidad, vista como función de $p$, es la **verosimilitud**, $L(p) = p \cdot p \cdot (1 - p)$.
-La **máxima verosimilitud** elige el $p$ con el que lo observado es más probable: la moneda equilibrada,
-$p = 0{,}5$.
+Esa probabilidad, vista como función de $p$, es la **verosimilitud**, $L(p) = p \cdot p \cdot p \cdot (1 - p)$.
+La **máxima verosimilitud** elige el $p$ con el que lo observado es más probable: la moneda trucada a favor
+de cara, $p = 0{,}9$.
 
 En la tienda, cada cliente es una tirada, y «cara» es recibir el descuento. La diferencia es que cada
 cliente tiene su propia probabilidad, que depende de sus características a través del logit,
