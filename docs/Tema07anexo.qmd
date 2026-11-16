@@ -56,34 +56,36 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 
 ## Esto es material de consulta
 
-- Lo que hay aquí amplía el [Tema 07](Tema07.html): las dos capas de elegir y evaluar, la comparación con `cv.glmnet()` del Tema 06, la correspondencia con scikit-learn en Python, los errores más frecuentes y otros pasos de receta
+- Lo que hay aquí amplía el [Tema 07](Tema07.html): las dos capas de elegir y evaluar, las métricas, la comparación con `cv.glmnet()` del Tema 06, la correspondencia con scikit-learn en Python, los errores más frecuentes y otros pasos de receta
 
 - Se consulta cuando hace falta en un trabajo; en clase no se ve
 
 # Elegir y evaluar
 
-## Dos capas
+## Partir: entrenamiento, prueba y validación cruzada
 
 ::: {style="font-size: 90%;"}
 
-:::: {.columns}
-::: {.column width=55%}
+- Elegir $\lambda$ y evaluar el modelo elegido son **dos usos** de los datos, y piden dos capas:
 
-![](figure/resampling.svg){width=100% fig-align="center"}
+:::: {.columns}
+::: {.column width=50%}
+
+![](figure/train_test.png){width=90% fig-align="center"}
+
+- Fuera, **una** partición (`initial_split()`): la prueba se usa una vez
 
 :::
-::: {.column width=45%}
+::: {.column width=50%}
 
-- Elegir $\lambda$ y evaluar el modelo elegido son **dos usos** de los datos, y piden dos capas
+![](figure/train_cross_validate.png){width=90% fig-align="center"}
 
-- En el tema, la capa de fuera es **una** partición (`initial_split()`): la prueba se usa una vez. Dentro del entrenamiento, los bloques (`vfold_cv()`) eligen $\lambda$
-
-- Es el esquema de la figura: cada remuestra tiene una parte de **análisis**, con la que se estima, y otra de **evaluación**, en la que se mide
-
-- La capa de fuera también puede ser una validación cruzada en lugar de `initial_split()`: es la validación cruzada **anidada**
+- Dentro del entrenamiento, los bloques (`vfold_cv()`) eligen $\lambda$
 
 :::
 ::::
+
+- El error de prueba depende de qué clientes cayeron en ella. La capa de fuera también puede ser una validación cruzada en lugar de `initial_split()`: es la validación cruzada **anidada**
 
 :::
 
@@ -140,6 +142,27 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 - Fuentes: guías oficiales de scikit-learn (`model_selection`, `grid_search`, `compose`). Comprobado el 6-nov-2026 que en CRAN no hay una réplica de la API de scikit-learn; `reticulate` permite llamarla desde R.
 ::::
 
+# Métricas
+
+## Métricas: `metric_set()`
+
+::: {style="font-size: 90%;"}
+
+- Todas las métricas de `yardstick` se pasan a `metric_set()`, a `tune_grid()` y a `last_fit()` igual: [lista completa](https://yardstick.tidymodels.org/reference/index.html)
+
+- **Regresión**, con la respuesta y `.pred`:
+  - `rmse()`, `mae()`: errores en las unidades de la respuesta
+  - `rsq()`: $R^2$; `mape()`: error porcentual medio
+
+- **Clasificación con la clase predicha** (`.pred_class`, umbral 0,5):
+  - `accuracy()`: exactitud; `sens()` y `spec()`: sensibilidad y especificidad; `precision()`; `f_meas()`
+  - `conf_mat()`: la matriz de confusión
+
+- **Clasificación con la probabilidad** (`.pred_Sí`):
+  - `roc_auc()`: AUC; `mn_log_loss()`: menos la log-verosimilitud media; `brier_class()`: error cuadrático de la probabilidad
+
+:::
+
 # Errores frecuentes y otros pasos de receta
 
 ## Errores frecuentes
@@ -149,6 +172,7 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 | Cuidado con | Qué pasa | Cómo evitarlo |
 |---|---|---|
 | El orden de los niveles de un factor, p.e. `churn` con «No» y «Sí» en orden alfabético | Las métricas toman el primer nivel como el suceso: el AUC sale 0,25 en vez de 0,75 | Fijar el orden antes de partir: `factor(churn, levels = c("Sí", "No"))` |
+| Transformar la respuesta con un paso de la receta, p.e. `step_log(ventas)` | Sin `skip`, no se puede predecir; con `skip = TRUE`, las predicciones quedan en logaritmos | Transformarla antes de partir: `mutate(lventas = log(ventas))` |
 | Crear un factor dentro de la fórmula, p.e. `factor(educ)` | Falla en los bloques donde falta algún nivel | Crearlo antes de partir: `mutate(educ = factor(educ))` |
 | Elegir sin decir la métrica, p.e. `select_best(ajuste)` | Avisa y elige con la primera métrica | `select_best(ajuste, metric = "rmse")` |
 | Evaluar sin decir las métricas, p.e. `last_fit()` sin `metrics` | Calcula las de por defecto, que pueden no ser las usadas al afinar | `last_fit(..., metrics = metric_set(roc_auc, accuracy))` |
@@ -172,7 +196,11 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 
 - `step_other()` junta en «other» las categorías con pocos casos
 
-- `step_nzv()` y `step_corr()` quitan variables casi constantes o muy correlacionadas
+- `step_cut()` parte una variable numérica en tramos (p.e. `step_cut(edad, breaks = c(30, 50))`)
+
+- `step_zv()`, `step_nzv()` y `step_corr()` quitan variables sin variación, casi constantes o muy correlacionadas
+  - algunas IA los recomiendan siempre, pero muchos de estos problemas se detectan en el análisis exploratorio
+  - otros aparecen con el preprocesado (p.e. interacciones que crean columnas sin variación), y ahí sí tienen sentido
 
 :::
 

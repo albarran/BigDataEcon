@@ -1,0 +1,147 @@
+---
+title: "Tema 07 - Modelización con `tidymodels`"
+subtitle: "Ejercicios del tema"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- INTERNO (6-nov-2026; títulos de transparencias al día con el deck rehecho el 11-nov-2026).
+Correspondencia: E1 a-b <- PRACTICA 1; E2 a-c <- PRACTICA 2; E3 a-c <- PRACTICA 3.
+Soluciones en las PRACTICAS de Tema07.qmd. Las entregas 1 y 2 usan `tienda` y van separadas porque la 2 cambia la
+respuesta (gasto en logaritmos) y se entrega aparte; la 3 usa `churn_clientes`. El ejercicio del curso pasado,
+con RailTrail, está en Tema07ej3.qmd (reserva, sin publicar). -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+rm(list = ls())
+library(tidyverse)
+library(tidymodels)
+```
+
+# Antes de empezar
+
+Estos ejercicios se van haciendo **durante la clase**: las transparencias indican en qué momento toca cada uno.
+
+- Los datos son `tienda.csv` y `churn_clientes.csv`, de la página [Datos](../Datos.html). Descárgalos en tu subdirectorio `data`.
+- Necesitas `library(tidymodels)`, además de `library(tidyverse)`.
+- **Un documento por entrega**, `T07_E<n>_<ID>.qmd`.
+- Donde se pide una **semilla**, usa tu DNI (sin letra): `set.seed(12345678)`.
+- Las tres entregas usan la misma rejilla de las transparencias: `grid_regular(penalty(range = c(-4, 3)), levels = 71)`.
+
+# Entrega 1: la receta del modelo flexible
+
+La tienda quiere predecir el gasto de los clientes nuevos con el modelo flexible del Tema 06, pero escrito como
+receta, para poder añadirle después pasos que la fórmula no permite (estandarizar, imputar).
+
+Prepara `tienda`, `part`, `bloques`, `lasso` y `rejilla` como en las transparencias «Los datos: la tienda»,
+«Partición inicial», «Validación cruzada», «Definir el modelo» y «La rejilla de valores», con tu DNI como semilla.
+Para comparar con la fórmula en el apartado a), prepara también `formula`, `flujo` y `ajuste` como en «El
+preprocesado», «El flujo de trabajo» y «`tune_grid()`: qué hace por dentro».
+
+## Apartado a): la receta y afinar lambda
+
+Escribe el modelo flexible como receta: logaritmo de la renta, polinomios de grado 4 en edad y renta, dummies de
+estudios y zona, todas las interacciones de dos en dos, y estandariza las columnas. Afina $\lambda$ con `workflow(receta, lasso)`, los mismos
+bloques y la misma rejilla, y compara $\lambda$ y el RMSE de validación cruzada con los de la fórmula. Pista: los productos de dos
+categorías de una misma variable cualitativa valen siempre 0; `step_zv(all_predictors())` quita las columnas sin variación.
+
+## Apartado b): qué hace la receta por dentro
+
+En tres frases: qué aprende `prep()` en esta receta, qué hace `bake()` con la muestra de prueba, y por qué dentro de
+`tune_grid()` la receta se prepara en cada bloque y no una vez con todo el entrenamiento.
+
+# Entrega 2: ¿niveles o logaritmos?
+
+La tienda tiene que elegir un modelo para predecir el gasto de los clientes nuevos y quiere el error en euros,
+porque es lo que entiende quien decide.
+
+Prepara `tienda_l`, `part_l`, `bloques_l` y `formula_l` como en la transparencia «El gasto en logaritmos y el error
+en euros», con tu DNI como semilla, y los objetos de la entrega 1 (`lasso` y `rejilla`). Para el modelo en niveles
+necesitas también `final`, de la transparencia «Finalizar y evaluar».
+
+## Apartado a): el modelo en logaritmos
+
+Afina el LASSO con el gasto en logaritmos: la misma fórmula con `lventas`, la misma rejilla y los mismos bloques.
+¿Qué $\lambda$ sale? ¿Qué significa el RMSE de validación cruzada que da `show_best()`, y qué es `exp()` de ese número?
+
+## Apartado b): el error en euros
+
+Calcula el error en euros del modelo en logaritmos, en validación cruzada y en prueba, y ponlo al lado del modelo en
+niveles (RMSE y MAE). ¿Con cuál predices?
+
+## Apartado c): un cliente nuevo
+
+Un cliente nuevo tiene 55 años, 3.000 € de renta, 16 años de estudios, vive en la capital, es hombre y tiene
+descuento. ¿Cuánto gastará según cada modelo? ¿Qué predicción le darías a la tienda, y por qué?
+
+# Entrega 3: a quién vigilar, evaluado de verdad
+
+La empresa del Tema 06 quiere un modelo de abandono evaluado con clientes que el modelo no haya visto, y decidir con
+él cuántos meses gratis ofrecer.
+
+Prepara `churn`, `part_c`, `bloques_c`, `logit` y `flujo_c` como en la transparencia «El abandono con
+`logistic_reg()`», con tu DNI como semilla.
+
+## Apartado a): afinar lambda por AUC
+
+Afina $\lambda$ por AUC con `tune_grid()`. ¿Qué $\lambda$ elige `select_best()` y qué AUC de validación cruzada
+tiene? Con la regla de un error estándar, ¿cuántos coeficientes quedan distintos de cero y cuánto AUC se pierde?
+
+## Apartado b): evaluar en prueba
+
+Finaliza el flujo con el mejor $\lambda$ y evalúalo con `last_fit()`. Compara el AUC de prueba con el de validación
+cruzada. Explica qué ha hecho `last_fit()` por dentro, en qué orden, y por qué los dos números pueden diferir.
+
+## Apartado c): cuántos meses gratis
+
+Con los clientes de prueba, calcula para $k$ = 3, 6 y 9 meses cuántos recibirían la oferta y el ahorro neto de cada
+$k$: un año de cuota (12 × `precio_mensual`) por cada cliente con oferta que de verdad se iba, menos $k$ meses de
+cuota por cada oferta. ¿Qué $k$ eliges, y qué supuesto hace falta para que esa cuenta valga?
+
+# Cómo se entrega
+
+::: {.callout-important}
+Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
+
+- **Entrega 1**: la receta del modelo flexible. `T07_E1_ID.zip`
+- **Entrega 2**: ¿niveles o logaritmos? `T07_E2_ID.zip`
+- **Entrega 3**: a quién vigilar, evaluado de verdad. `T07_E3_ID.zip`
+:::
+
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
+identificador que escribís en el formulario (ver
+[Cómo trabajar](../ComoTrabajar.html)). Por ejemplo, `T07_E1_12345678.zip`.
+
+Se os dirá en clase **cuáles** hay que entregar y cuándo.
+
+Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
+confirmación si la entrega es correcta, o de rechazo si no lo es.
+
+Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo.
+
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
+
+::: {.callout-warning}
+Las entregas que se hagan en clase **se cierran al acabar la sesión**, con un margen de
+**15 minutos** desde el final. La hora de envío queda registrada.
+:::

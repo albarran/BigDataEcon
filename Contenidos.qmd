@@ -140,6 +140,13 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 11
+(16-Nov. a 20-Nov.)
+
+  * [Tema 07 - Modelización con `tidymodels`](docs/Tema07.qmd)
+  * [Tema 07 - Ejercicios del tema](docs/Tema07ej1.qmd)
+  * [Tema 07 - Anexo](docs/Tema07anexo.qmd)
+
 ## Semana 10
 (9-Nov. a 13-Nov.)
 
