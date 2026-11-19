@@ -311,6 +311,29 @@ augment(mco, new_data = training(part)) |>  # los datos más .pred
 :::
 
 ::::{.notes}
+ACLARATORIO para clase: el mismo MCO de la manera que ya conocen, con `lm()`, y con el flujo.
+
+```{r}
+#| label: aclara-lm-flujo
+#| eval: false
+mco_trad <- lm(data = training(part), formula)                  # como lo hacíais hasta ahora
+mco <- workflow(formula, linear_reg()) |> fit(training(part))   # lo mismo, con un flujo
+summary(mco_trad)   # coeficientes, errores estándar, R²: una lista que se imprime ordenada
+summary(mco)        # sobre un flujo no da los coeficientes
+tidy(mco)           # los mismos coeficientes, en una tabla
+```
+
+- En qué se parecen: es el mismo modelo con los mismos datos, y los coeficientes son idénticos (R² 0,953 con los dos).
+- En qué se diferencian:
+  - `lm()` estima y ya; el flujo junta la fórmula (o la receta) y el modelo en un objeto, que después se estima con `fit()`.
+  - `summary()` da una lista: para usar un número hay que sacarlo con `$` (`summary(mco_trad)$r.squared`); `tidy()` da una tabla, que se filtra, se ordena y se dibuja como cualquier otra.
+- Ventajas del flujo:
+  - cambiar de modelo es cambiar una pieza (`linear_reg()` por el lasso, un árbol o los vecinos) sin tocar lo demás;
+  - `tidy()`, `predict()` y `augment()` funcionan igual con todos los modelos;
+  - el preprocesado viaja con el modelo y se aplica igual a los datos nuevos.
+- Inconvenientes: para un MCO suelto es más código, y `summary()` ya no sirve.
+- Por qué lo usamos: en este tema hay que afinar $\lambda$ con validación cruzada y comparar modelos, y eso lo hacen `tune_grid()` y `last_fit()`, que reciben un flujo.
+
 - `workflow(formula, lasso)` es un atajo de `workflow() |> add_formula(formula) |> add_model(lasso)`, que es como lo escriben los tutoriales; con una receta, `add_recipe()`.
 - El flujo estimado guarda la receta preparada (si la lleva) y los resultados de la estimación, para usarlos de varias formas:
   - `extract_recipe(flujo_est) |> bake(testing(part))` aplica la receta preparada a otros datos (con una fórmula da error: «The workflow must have a recipe preprocessor»);
@@ -372,7 +395,7 @@ bloques <- vfold_cv(training(part), v = 10)   # 10 bloques de clientes al azar
 
 ## La rejilla y `tune_grid()`
 
-::: {style="font-size: 86%;"}
+::: {style="font-size: 80%;"}
 
 - La **rejilla** es una tabla con los valores de $\lambda$ que se van a probar: [`grid_regular()` u otras](https://dials.tidymodels.org/reference/index.html#grid-creation)
 
@@ -382,8 +405,8 @@ bloques <- vfold_cv(training(part), v = 10)   # 10 bloques de clientes al azar
   ```
 
   - `penalty()` trabaja en escala $\log_{10}$: `range = c(-4, 3)` va de $10^{-4}$ a $10^{3}$
-  - con `levels = 71`, un valor cada 0,1 en esa escala: 0,0001; 0,000126; 0,000158... cada $\lambda$ es el anterior por 1,26
-  - el rango se elige probando hasta que la U quede dentro de la rejilla
+    - los valores quedan a la misma distancia, (fin − inicio) / (valores − 1); en log, se multiplica por 10 elevado a esa distancia: $10^{7/70} = 10^{0{,}1} = 1{,}26$
+  - el rango se elige probando hasta que la U quede dentro de la rejilla (cuidado: es una solución [«interior»](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla))
 
 ```{r}
 #| eval: true
@@ -403,6 +426,20 @@ ajuste <- tune_grid(flujo, resamples = bloques, grid = rejilla,
 :::
 
 ::::{.notes}
+ACLARATORIO para clase: cómo construye `grid_regular()` la rejilla, primero con 8 valores.
+
+```{r}
+#| label: aclara-rejilla
+#| eval: false
+grid_regular(penalty(range = c(-4, 3), trans = NULL), levels = 8)   # -4, -3, -2, ..., 3
+grid_regular(penalty(range = c(-4, 3)), levels = 8)                 # 0,0001; 0,001; ...; 1000
+rejilla                                                             # la del tema: 71 valores
+```
+
+- La distancia entre valores es (fin − inicio) / (valores − 1). De −4 a 3, fin − inicio = 3 − (−4) = 7, aunque los enteros sean 8: 8 valores dejan 7 huecos entre ellos.
+- Sin transformar: 8 valores de −4 a 3, cada uno el anterior **más 1** ($7/7 = 1$).
+- En $\log_{10}$: los mismos números, como exponentes de 10; sumar 1 al exponente es multiplicar **por 10**.
+- Con 71 valores, el paso es $7/70 = 0{,}1$: cada $\lambda$ es el anterior por $10^{0{,}1} = 1{,}26$.
 - `grid_regular()` da valores igualmente espaciados, que es lo más visual con un solo hiperparámetro. Con varios a la vez (Tema 08) la rejilla regular crece como el producto, y se usa `grid_space_filling()`, que reparte un número fijo de puntos por todo el espacio; es lo que `tune_grid()` usa si no se le da rejilla. Sustituye a `grid_max_entropy()` y `grid_latin_hypercube()`, que avisan desde dials 1.3.0.
 - El deck viejo usaba `grid_regular(penalty(range = c(0, 15), trans = NULL), levels = 51)`: una rejilla **lineal** entre 0 y 15 que obligaba a tantear el rango a mano.
 - Verificado el 11-nov-2026: `tune_grid(flujo, bloques)` sin rejilla prueba 10 valores entre $10^{-10}$ y 1 (cambian con la semilla), todos con RMSE 645 salvo el mayor, que queda por encima de 500.
@@ -473,6 +510,7 @@ autoplot(ajuste, metric = "rmse") + labs(x = "lambda (escala log)", y = "RMSE de
 - `autoplot()` dibuja la media de cada $\lambda$, con $\lambda$ en escala logarítmica: es la U del Tema 06
 
 - `select_best()` devuelve el $\lambda$ de menor error medio: $\lambda^* = 20{,}0$, con RMSE 364,1
+  - si cayera en un extremo de la rejilla, habría que ampliar el rango ([anexo](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla))
 
 - `select_by_one_std_err()` aplica la **regla de un error estándar**: el mayor $\lambda$ cuyo error está a menos de un error estándar del mínimo. Sale $\lambda = 31{,}6$, con RMSE 371,1
   - `desc(penalty)` dice que el modelo más simple es el de $\lambda$ más grande

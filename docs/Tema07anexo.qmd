@@ -95,6 +95,25 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 - Cómo se haría con `nested_cv()`, con el código, las cifras de `tienda` y transparencias: `notes/Tema07/validacion-anidada.qmd`.
 ::::
 
+## Si el mejor valor cae en el borde de la rejilla
+
+::: {style="font-size: 86%;"}
+
+![](figure/rejilla-borde.png){width=62% fig-align="center"}
+
+- Con la rejilla, el error baja hasta el último valor y el mejor cae en el **borde**
+  - en la curva entera, el mínimo está fuera: se **amplía el rango** por ese lado hasta que el mejor quede dentro
+- Otros casos: el mínimo fuera por el otro extremo, y otro mínimo en una zona sin probar
+
+:::
+
+::::{.notes}
+- Esquema con curvas simuladas, no datos (código en `notes/Tema07/rejilla-borde.R`). Con la rejilla de este tema, $\lambda = 20$ queda dentro de la U: no hace falta ampliar.
+- Caso real en el Tema 09: en `churn`, el mejor $k$ es el último de la rejilla (200); ampliada hasta 400, la curva baja y 200 se mantiene.
+- En escala logarítmica, ampliar es añadir órdenes de magnitud por el lado del borde.
+- Las curvas son simuladas porque un caso real no cubre todos los casos (un mínimo local dentro de la rejilla puede no ser el global). Con la tienda, rejillas lineales de 8 valores: de 0 a 5, el mejor es el borde (RMSE 400); de 0 a 50, 21,4 (365) dentro de la U; de 0 a 1000, 143 (524), porque la rejilla salta la U; la del tema, 20,0 (364,1).
+::::
+
 # Del Tema 06 a `tidymodels`
 
 ## Los mismos pasos con `cv.glmnet()`
