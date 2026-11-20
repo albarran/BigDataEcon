@@ -1498,7 +1498,7 @@ display:block!important;
 <li><p>Del flujo estimado, <code>extract_fit_parsnip()</code> da los resultados (<code>tidy()</code>, <code>glance()</code>) y, si lleva una receta, <code>extract_recipe()</code> la aplica a otros datos con <code>bake()</code>; con una fórmula da error («The workflow must have a recipe preprocessor»). Verificado el 16-nov-2026.</p></li>
 <li><p><code>augment()</code> devuelve los datos con <code>.pred</code> y <code>.resid</code>: es la forma cómoda de predecir con un flujo estimado. <code>predict(mco, new_data = ...)</code> da solo la columna <code>.pred</code>.</p></li>
 <li><p>MCO da 256 en entrenamiento y 645 en validación cruzada (con el <span class="math inline">\(\lambda\)</span> más pequeño de la rejilla): el de entrenamiento engaña más cuanto menos se penaliza.</p></li>
-<li><p>Verificado el 11-nov-2026: <code>tidy(mco)</code> tiene 144 filas; el RMSE de entrenamiento de MCO es 256,0. En validación cruzada, el <span class="math inline">\(\lambda\)</span> más pequeño de la rejilla (casi sin penalización) da 645, y MCO exacto, con <code>fit_resamples(workflow(formula, linear_reg()), bloques)</code>, 831 (± 106): el sobreajuste del Tema 06. Se retoma en «Tres errores del mismo modelo».</p></li>
+<li><p>Verificado el 11-nov-2026: <code>tidy(mco)</code> tiene 144 filas; el RMSE de entrenamiento de MCO es 256,0. En validación cruzada, el <span class="math inline">\(\lambda\)</span> más pequeño de la rejilla (casi sin penalización) da 645, y MCO exacto, con <code>fit_resamples(workflow(formula, linear_reg()), bloques)</code>, 831 (± 106): el sobreajuste del Tema 06. Se retoma en el anexo, «Tres errores del mismo modelo».</p></li>
 <li><p>Las métricas son de <code>yardstick</code>: primero la columna observada y después la predicha.</p></li>
 </ul>
 <style type="text/css">
@@ -1588,7 +1588,7 @@ display:block!important;
 <ul>
 <li><code>penalty()</code> trabaja en escala <span class="math inline">\(\log_{10}\)</span>: <code>range = c(-4, 3)</code> va de <span class="math inline">\(10^{-4}\)</span> a <span class="math inline">\(10^{3}\)</span>
 <ul>
-<li>los valores quedan a la misma distancia, (fin − inicio) / (valores − 1); en log, se multiplica por 10 elevado a esa distancia: <span class="math inline">\(10^{7/70} = 10^{0{,}1} = 1{,}26\)</span></li>
+<li>cada valor es el anterior multiplicado por <span class="math inline">\(10^{(\text{fin} - \text{inicio})/(\text{valores} - 1)} = 10^{7/70} = 10^{0{,}1} = 1{,}26\)</span></li>
 </ul></li>
 <li>el rango se elige probando hasta que la U quede dentro de la rejilla (cuidado: es una solución <a href="Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla">«interior»</a>)</li>
 </ul></li>
@@ -1617,7 +1617,7 @@ display:block!important;
 <span id="cb19-3"><a aria-label="3"></a>rejilla                                                             <span class="co"># la del tema: 71 valores</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>La distancia entre valores es (fin − inicio) / (valores − 1). De −4 a 3, fin − inicio = 3 − (−4) = 7, aunque los enteros sean 8: 8 valores dejan 7 huecos entre ellos.</li>
+<li>Sin transformar, la distancia entre valores es (fin − inicio) / (valores − 1); en <span class="math inline">\(\log_{10}\)</span>, es la distancia entre los exponentes. De −4 a 3, fin − inicio = 3 − (−4) = 7, aunque los enteros sean 8: 8 valores dejan 7 huecos entre ellos.</li>
 <li>Sin transformar: 8 valores de −4 a 3, cada uno el anterior <strong>más 1</strong> (<span class="math inline">\(7/7 = 1\)</span>).</li>
 <li>En <span class="math inline">\(\log_{10}\)</span>: los mismos números, como exponentes de 10; sumar 1 al exponente es multiplicar <strong>por 10</strong>.</li>
 <li>Con 71 valores, el paso es <span class="math inline">\(7/70 = 0{,}1\)</span>: cada <span class="math inline">\(\lambda\)</span> es el anterior por <span class="math inline">\(10^{0{,}1} = 1{,}26\)</span>.</li>
@@ -1798,6 +1798,12 @@ display:block!important;
 <span id="cb27-2"><a aria-label="2"></a><span class="fu">collect_predictions</span>(final)          <span class="co"># ventas y .pred de los 81 clientes de prueba</span></span>
 <span id="cb27-3"><a aria-label="3"></a><span class="fu">extract_workflow</span>(final) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()   <span class="co"># coeficientes: 39 de 143 no son cero</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<ul>
+<li>Se informa del error de <strong>prueba</strong>: los de entrenamiento y validación cruzada también se han calculado, pero no sirven para eso
+<ul>
+<li>con el entrenamiento se estimó el modelo y se eligió <span class="math inline">\(\lambda\)</span>, y su error sale optimista (<a href="Tema07anexo.html#/tres-errores-del-mismo-modelo">anexo</a>)</li>
+</ul></li>
+</ul>
 </div>
 <aside class="notes">
 <ul>
@@ -1805,71 +1811,6 @@ display:block!important;
 <li>Para fijar <span class="math inline">\(\lambda\)</span> a mano: <code>finalize_workflow(flujo, tibble(penalty = 8.5))</code>.</li>
 <li>Con el <span class="math inline">\(\lambda\)</span> de la regla de un error estándar (<code>simple</code>): RMSE de prueba 350,2 y MAE 287,5, con 26 coeficientes distintos de cero. Verificado el 11-nov-2026.</li>
 <li>El flujo completo también se puede estimar con <code>fit(training(part))</code> y usar con <code>augment()</code> sobre datos nuevos; <code>last_fit()</code> hace eso y además evalúa.</li>
-</ul>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="tres-errores-del-mismo-modelo" class="slide level2">
-<h2>Tres errores del mismo modelo</h2>
-<div style="font-size: 86%;">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a><span class="fu">augment</span>(<span class="fu">extract_workflow</span>(final), <span class="at">new_data =</span> <span class="fu">training</span>(part)) <span class="sc">|&gt;</span> <span class="fu">rmse</span>(ventas, .pred)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<table class="caption-top" style="width:100%;">
-<colgroup>
-<col style="width: 23%">
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 23%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Error</th>
-<th style="text-align: right;">RMSE</th>
-<th>De dónde sale</th>
-<th>Para qué sirve</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Entrenamiento</td>
-<td style="text-align: right;">319</td>
-<td>el código de arriba: el modelo final predice sus propios clientes</td>
-<td>nada: es optimista</td>
-</tr>
-<tr class="even">
-<td>Validación cruzada</td>
-<td style="text-align: right;">364</td>
-<td><code>show_best()</code>, en «Lo que devuelve <code>tune_grid()</code>»</td>
-<td><strong>elegir</strong> <span class="math inline">\(\lambda\)</span></td>
-</tr>
-<tr class="odd">
-<td>Prueba</td>
-<td style="text-align: right;">340</td>
-<td><code>collect_metrics(final)</code>, en «Finalizar y evaluar»</td>
-<td><strong>informar</strong> del error</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><p>El 364 se mide en clientes de evaluación, que no se usaron para estimar. Pero <span class="math inline">\(\lambda\)</span> se eligió por dar el menor de 71 errores medios, y el menor de 71 cifras con ruido tiende a quedar por debajo del error real: <strong>sesgo de optimización</strong></p></li>
-<li><p>La prueba no intervino en ninguna decisión, y por eso su error es el que se informa. Aquí sale incluso más bajo (340): con 81 clientes, el azar de quiénes caen en la prueba pesa más que ese sesgo (<a href="Tema07anexo.html#/partir-entrenamiento-prueba-y-validación-cruzada">anexo</a>)</p></li>
-</ul>
-</div>
-<aside class="notes">
-<ul>
-<li>Cifras verificadas el 11-nov-2026: 319,1, 364,1 y 339,6. Aquí la prueba sale por debajo de la validación cruzada: variabilidad muestral con 81 clientes (el error estándar de la validación cruzada es 10,4, y la prueba es como un bloque algo mayor). Con la partición 75/25 del 6-nov salían 313, 356 y 358.</li>
-<li>El sesgo de optimización es pequeño con un solo hiperparámetro y 71 valores, y crece con más hiperparámetros y rejillas más grandes (Tema 08).</li>
-<li>Es la idea del tema. En las prácticas 2 y 3 los alumnos la reproducen con sus propias cifras.</li>
 </ul>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1892,12 +1833,12 @@ display:block!important;
 <h2>El gasto en logaritmos y el error en euros</h2>
 <div style="font-size: 80%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>tienda_l <span class="ot">&lt;-</span> tienda <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">lventas =</span> <span class="fu">log</span>(ventas))</span>
-<span id="cb29-2"><a aria-label="2"></a><span class="fu">set.seed</span>(<span class="dv">12345678</span>)</span>
-<span id="cb29-3"><a aria-label="3"></a>part_l    <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(tienda_l, <span class="at">prop =</span> <span class="fl">0.8</span>)       <span class="co"># paso 1: la misma partición</span></span>
-<span id="cb29-4"><a aria-label="4"></a>formula_l <span class="ot">&lt;-</span> lventas <span class="sc">~</span> (<span class="fu">poly</span>(edad, <span class="dv">4</span>) <span class="sc">+</span> <span class="fu">poly</span>(<span class="fu">log</span>(renta), <span class="dv">4</span>) <span class="sc">+</span>    <span class="co"># paso 2</span></span>
-<span id="cb29-5"><a aria-label="5"></a>                          educ <span class="sc">+</span> mujer <span class="sc">+</span> descuento <span class="sc">+</span> zona)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb29-6"><a aria-label="6"></a>bloques_l <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="fu">training</span>(part_l), <span class="at">v =</span> <span class="dv">10</span>)        <span class="co"># paso 3: los mismos bloques</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>tienda_l <span class="ot">&lt;-</span> tienda <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">lventas =</span> <span class="fu">log</span>(ventas))</span>
+<span id="cb28-2"><a aria-label="2"></a><span class="fu">set.seed</span>(<span class="dv">12345678</span>)</span>
+<span id="cb28-3"><a aria-label="3"></a>part_l    <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(tienda_l, <span class="at">prop =</span> <span class="fl">0.8</span>)       <span class="co"># paso 1: la misma partición</span></span>
+<span id="cb28-4"><a aria-label="4"></a>formula_l <span class="ot">&lt;-</span> lventas <span class="sc">~</span> (<span class="fu">poly</span>(edad, <span class="dv">4</span>) <span class="sc">+</span> <span class="fu">poly</span>(<span class="fu">log</span>(renta), <span class="dv">4</span>) <span class="sc">+</span>    <span class="co"># paso 2</span></span>
+<span id="cb28-5"><a aria-label="5"></a>                          educ <span class="sc">+</span> mujer <span class="sc">+</span> descuento <span class="sc">+</span> zona)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb28-6"><a aria-label="6"></a>bloques_l <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="fu">training</span>(part_l), <span class="at">v =</span> <span class="dv">10</span>)        <span class="co"># paso 3: los mismos bloques</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Los mismos cinco pasos con otra respuesta, que cambia solo en la fórmula
@@ -1906,10 +1847,10 @@ display:block!important;
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>ajuste_l <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(<span class="fu">workflow</span>(formula_l, lasso), <span class="at">resamples =</span> bloques_l,   <span class="co"># pasos 2 y 4</span></span>
-<span id="cb30-2"><a aria-label="2"></a>                      <span class="at">grid =</span> rejilla, <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
-<span id="cb30-3"><a aria-label="3"></a>                      <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb30-4"><a aria-label="4"></a>mejor_l  <span class="ot">&lt;-</span> <span class="fu">select_best</span>(ajuste_l, <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>ajuste_l <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(<span class="fu">workflow</span>(formula_l, lasso), <span class="at">resamples =</span> bloques_l,   <span class="co"># pasos 2 y 4</span></span>
+<span id="cb29-2"><a aria-label="2"></a>                      <span class="at">grid =</span> rejilla, <span class="at">metrics =</span> <span class="fu">metric_set</span>(rmse, mae),</span>
+<span id="cb29-3"><a aria-label="3"></a>                      <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb29-4"><a aria-label="4"></a>mejor_l  <span class="ot">&lt;-</span> <span class="fu">select_best</span>(ajuste_l, <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>El RMSE de validación cruzada sale <strong>en logaritmos</strong>: 0,113 (<span class="math inline">\(e^{0{,}113} = 1{,}12\)</span>, un error típico del 12 % del gasto)
@@ -1920,8 +1861,8 @@ display:block!important;
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a><span class="fu">collect_predictions</span>(ajuste_l, <span class="at">parameters =</span> mejor_l) <span class="sc">|&gt;</span></span>
-<span id="cb31-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">ventas =</span> <span class="fu">exp</span>(lventas), <span class="at">pred =</span> <span class="fu">exp</span>(.pred)) <span class="sc">|&gt;</span> <span class="fu">rmse</span>(ventas, pred)   <span class="co"># 400 euros</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a><span class="fu">collect_predictions</span>(ajuste_l, <span class="at">parameters =</span> mejor_l) <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">ventas =</span> <span class="fu">exp</span>(lventas), <span class="at">pred =</span> <span class="fu">exp</span>(.pred)) <span class="sc">|&gt;</span> <span class="fu">rmse</span>(ventas, pred)   <span class="co"># 400 euros</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>En euros, el modelo en logaritmos se equivoca más (400) que el de niveles (364): se predice en niveles</li>
@@ -1950,19 +1891,19 @@ display:block!important;
 <h2>Predecir un cliente nuevo en euros</h2>
 <div style="font-size: 86%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>final_l <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(<span class="fu">workflow</span>(formula_l, lasso), mejor_l) <span class="sc">|&gt;</span> <span class="fu">last_fit</span>(part_l)</span>
-<span id="cb32-2"><a aria-label="2"></a>nuevo <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">renta =</span> <span class="dv">2000</span>, <span class="at">edad =</span> <span class="dv">40</span>, <span class="at">mujer =</span> <span class="dv">1</span>, <span class="at">descuento =</span> <span class="dv">0</span>,</span>
-<span id="cb32-3"><a aria-label="3"></a>                <span class="at">educ =</span> <span class="fu">factor</span>(<span class="dv">12</span>, <span class="at">levels =</span> <span class="fu">levels</span>(tienda<span class="sc">$</span>educ)),</span>
-<span id="cb32-4"><a aria-label="4"></a>                <span class="at">zona =</span> <span class="fu">factor</span>(<span class="st">&quot;ciudad&quot;</span>, <span class="at">levels =</span> <span class="fu">levels</span>(tienda<span class="sc">$</span>zona)))</span>
-<span id="cb32-5"><a aria-label="5"></a><span class="fu">predict</span>(<span class="fu">extract_workflow</span>(final), <span class="at">new_data =</span> nuevo)       <span class="co"># en niveles: 5.028 €</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a>final_l <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(<span class="fu">workflow</span>(formula_l, lasso), mejor_l) <span class="sc">|&gt;</span> <span class="fu">last_fit</span>(part_l)</span>
+<span id="cb31-2"><a aria-label="2"></a>nuevo <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">renta =</span> <span class="dv">2000</span>, <span class="at">edad =</span> <span class="dv">40</span>, <span class="at">mujer =</span> <span class="dv">1</span>, <span class="at">descuento =</span> <span class="dv">0</span>,</span>
+<span id="cb31-3"><a aria-label="3"></a>                <span class="at">educ =</span> <span class="fu">factor</span>(<span class="dv">12</span>, <span class="at">levels =</span> <span class="fu">levels</span>(tienda<span class="sc">$</span>educ)),</span>
+<span id="cb31-4"><a aria-label="4"></a>                <span class="at">zona =</span> <span class="fu">factor</span>(<span class="st">&quot;ciudad&quot;</span>, <span class="at">levels =</span> <span class="fu">levels</span>(tienda<span class="sc">$</span>zona)))</span>
+<span id="cb31-5"><a aria-label="5"></a><span class="fu">predict</span>(<span class="fu">extract_workflow</span>(final), <span class="at">new_data =</span> nuevo)       <span class="co"># en niveles: 5.028 €</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   .pred
   &lt;dbl&gt;
 1 5028.</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a><span class="fu">predict</span>(<span class="fu">extract_workflow</span>(final_l), <span class="at">new_data =</span> nuevo) <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">euros =</span> <span class="fu">exp</span>(.pred))                            <span class="co"># en logaritmos: 5.088 €</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-label="1"></a><span class="fu">predict</span>(<span class="fu">extract_workflow</span>(final_l), <span class="at">new_data =</span> nuevo) <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">euros =</span> <span class="fu">exp</span>(.pred))                            <span class="co"># en logaritmos: 5.088 €</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   .pred euros
@@ -2031,18 +1972,18 @@ display:block!important;
 <h2>El abandono con <code>logistic_reg()</code></h2>
 <div style="font-size: 84%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a>churn <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/churn_clientes.csv&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a aria-label="2"></a>  <span class="fu">select</span>(<span class="sc">-</span>id_cliente, <span class="sc">-</span>plan_tipo) <span class="sc">|&gt;</span></span>
-<span id="cb36-3"><a aria-label="3"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), factor),</span>
-<span id="cb36-4"><a aria-label="4"></a>         <span class="at">churn =</span> <span class="fu">factor</span>(churn, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>)))</span>
-<span id="cb36-5"><a aria-label="5"></a><span class="fu">set.seed</span>(<span class="dv">12345678</span>)</span>
-<span id="cb36-6"><a aria-label="6"></a>part_c    <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(churn, <span class="at">prop =</span> <span class="fl">0.8</span>, <span class="at">strata =</span> churn)       <span class="co"># 1. partir</span></span>
-<span id="cb36-7"><a aria-label="7"></a>logit     <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>         <span class="co"># 2. modelo</span></span>
-<span id="cb36-8"><a aria-label="8"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;glmnet&quot;</span>)</span>
-<span id="cb36-9"><a aria-label="9"></a>flujo_c   <span class="ot">&lt;-</span> <span class="fu">workflow</span>(churn <span class="sc">~</span> ., logit)                             <span class="co">#    y flujo</span></span>
-<span id="cb36-10"><a aria-label="10"></a>bloques_c <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="fu">training</span>(part_c), <span class="at">v =</span> <span class="dv">10</span>, <span class="at">strata =</span> churn)     <span class="co"># 3. bloques</span></span>
-<span id="cb36-11"><a aria-label="11"></a>ajuste_c  <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(flujo_c, <span class="at">resamples =</span> bloques_c,              <span class="co"># 4. afinar</span></span>
-<span id="cb36-12"><a aria-label="12"></a>                       <span class="at">grid =</span> rejilla, <span class="at">metrics =</span> <span class="fu">metric_set</span>(roc_auc))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a>churn <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/churn_clientes.csv&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a aria-label="2"></a>  <span class="fu">select</span>(<span class="sc">-</span>id_cliente, <span class="sc">-</span>plan_tipo) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a aria-label="3"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), factor),</span>
+<span id="cb35-4"><a aria-label="4"></a>         <span class="at">churn =</span> <span class="fu">factor</span>(churn, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>)))</span>
+<span id="cb35-5"><a aria-label="5"></a><span class="fu">set.seed</span>(<span class="dv">12345678</span>)</span>
+<span id="cb35-6"><a aria-label="6"></a>part_c    <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(churn, <span class="at">prop =</span> <span class="fl">0.8</span>, <span class="at">strata =</span> churn)       <span class="co"># 1. partir</span></span>
+<span id="cb35-7"><a aria-label="7"></a>logit     <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>         <span class="co"># 2. modelo</span></span>
+<span id="cb35-8"><a aria-label="8"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;glmnet&quot;</span>)</span>
+<span id="cb35-9"><a aria-label="9"></a>flujo_c   <span class="ot">&lt;-</span> <span class="fu">workflow</span>(churn <span class="sc">~</span> ., logit)                             <span class="co">#    y flujo</span></span>
+<span id="cb35-10"><a aria-label="10"></a>bloques_c <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="fu">training</span>(part_c), <span class="at">v =</span> <span class="dv">10</span>, <span class="at">strata =</span> churn)     <span class="co"># 3. bloques</span></span>
+<span id="cb35-11"><a aria-label="11"></a>ajuste_c  <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(flujo_c, <span class="at">resamples =</span> bloques_c,              <span class="co"># 4. afinar</span></span>
+<span id="cb35-12"><a aria-label="12"></a>                       <span class="at">grid =</span> rejilla, <span class="at">metrics =</span> <span class="fu">metric_set</span>(roc_auc))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Los mismos cinco pasos con los 600 clientes del Tema 06 (60 % de abandono). Respecto a la regresión cambian tres cosas:
@@ -2077,10 +2018,10 @@ display:block!important;
 <h2>Evaluar en prueba y elegir el umbral a mano</h2>
 <div style="font-size: 84%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-label="1"></a>mejor_c <span class="ot">&lt;-</span> <span class="fu">select_best</span>(ajuste_c, <span class="at">metric =</span> <span class="st">&quot;roc_auc&quot;</span>)</span>
-<span id="cb37-2"><a aria-label="2"></a>final_c <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(flujo_c, mejor_c) <span class="sc">|&gt;</span>                    <span class="co"># 5. finalizar y evaluar</span></span>
-<span id="cb37-3"><a aria-label="3"></a>  <span class="fu">last_fit</span>(part_c, <span class="at">metrics =</span> <span class="fu">metric_set</span>(roc_auc, accuracy))</span>
-<span id="cb37-4"><a aria-label="4"></a><span class="fu">collect_metrics</span>(final_c) <span class="sc">|&gt;</span> <span class="fu">select</span>(.metric, .estimate)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a>mejor_c <span class="ot">&lt;-</span> <span class="fu">select_best</span>(ajuste_c, <span class="at">metric =</span> <span class="st">&quot;roc_auc&quot;</span>)</span>
+<span id="cb36-2"><a aria-label="2"></a>final_c <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(flujo_c, mejor_c) <span class="sc">|&gt;</span>                    <span class="co"># 5. finalizar y evaluar</span></span>
+<span id="cb36-3"><a aria-label="3"></a>  <span class="fu">last_fit</span>(part_c, <span class="at">metrics =</span> <span class="fu">metric_set</span>(roc_auc, accuracy))</span>
+<span id="cb36-4"><a aria-label="4"></a><span class="fu">collect_metrics</span>(final_c) <span class="sc">|&gt;</span> <span class="fu">select</span>(.metric, .estimate)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   .metric  .estimate
@@ -2094,10 +2035,10 @@ display:block!important;
 <li><p>El umbral es una decisión de la empresa, así que se elige a mano con <code>mutate()</code> y se mide con las métricas del Tema 05:</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a><span class="fu">augment</span>(final_c) <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">oferta =</span> .pred_Sí <span class="sc">&gt;</span> <span class="fl">0.5</span>,</span>
-<span id="cb39-3"><a aria-label="3"></a>         <span class="at">pred =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(oferta, <span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb39-4"><a aria-label="4"></a>  <span class="fu">sens</span>(churn, pred)      <span class="co"># 0,81; también spec(), precision(), accuracy(), conf_mat()</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-label="1"></a><span class="fu">augment</span>(final_c) <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">oferta =</span> .pred_Sí <span class="sc">&gt;</span> <span class="fl">0.5</span>,</span>
+<span id="cb38-3"><a aria-label="3"></a>         <span class="at">pred =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(oferta, <span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a aria-label="4"></a>  <span class="fu">sens</span>(churn, pred)      <span class="co"># 0,81; también spec(), precision(), accuracy(), conf_mat()</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>La regla del Tema 06: la oferta de <span class="math inline">\(k\)</span> meses gratis compensa si <span class="math inline">\(12\,p &gt; k\)</span>, es decir, con umbral <span class="math inline">\(k/12\)</span>. En la prueba se puede comprobar cuánto ahorra cada <span class="math inline">\(k\)</span>, porque ahí sabemos quién se fue de verdad</li>

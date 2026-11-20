@@ -1885,20 +1885,21 @@ display:block!important;
 </section>
 <section id="y-cuál-elegimos-el-r2-sube-siempre" class="slide level2">
 <h2>¿Y cuál elegimos? El <span class="math inline">\(R^2\)</span> sube siempre</h2>
+<div style="font-size: 90%;">
 <ul>
 <li>Con las cuatro formas y seis variables hay <strong>decenas de especificaciones</strong> plausibles. Elegir la de mayor <span class="math inline">\(R^2\)</span> no sirve, porque <strong>nunca baja</strong> al añadir una variable:</li>
 </ul>
 <div style="font-size: 76%;">
 <table class="caption-top">
 <colgroup>
-<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 14%">
 <col style="width: 9%">
-<col style="width: 15%">
 <col style="width: 10%">
-<col style="width: 11%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 26%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1909,7 +1910,7 @@ display:block!important;
 <th style="text-align: right;"><code>+ mujer</code></th>
 <th style="text-align: right;"><code>+ edad</code></th>
 <th style="text-align: right;"><code>+ educ</code></th>
-<th style="text-align: right;"><code>+ z1 + z2 + z3</code></th>
+<th style="text-align: right;"><code>+ edad:zona + educ:mujer</code></th>
 </tr>
 </thead>
 <tbody>
@@ -1921,16 +1922,16 @@ display:block!important;
 <td style="text-align: right;">0,61601</td>
 <td style="text-align: right;">0,61715</td>
 <td style="text-align: right;">0,62855</td>
-<td style="text-align: right;">0,62921</td>
+<td style="text-align: right;">0,62952</td>
 </tr>
 </tbody>
 </table>
 </div>
 <ul>
-<li><strong>Inclusión de variables irrelevantes</strong>: <code>z1</code>, <code>z2</code> y <code>z3</code> son números aleatorios y también suben el <span class="math inline">\(R^2\)</span>
+<li><strong>Inclusión de variables irrelevantes</strong>: dos interacciones con sentido (edad por zona, estudios por sexo), que aquí no son significativas, también suben el <span class="math inline">\(R^2\)</span>
 <ul>
 <li>en la muestra, cualquier variable “explica” algo por casualidad</li>
-<li>pero aumenta la varianza: el error estándar de <code>descuento</code> pasa de 110,1 a 110,6, y el de <code>renta</code> de 0,0389 a 0,0391</li>
+<li>pero aumenta la varianza: el error estándar de <code>descuento</code> pasa de 110,1 a 110,8, y el de <code>renta</code> de 0,0389 a 0,0391</li>
 </ul></li>
 </ul>
 <details>
@@ -1938,27 +1939,25 @@ display:block!important;
 Código
 </summary>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb14-2"><a aria-label="2"></a>tienda <span class="ot">&lt;-</span> tienda <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">z1 =</span> <span class="fu">rnorm</span>(<span class="dv">404</span>), <span class="at">z2 =</span> <span class="fu">rnorm</span>(<span class="dv">404</span>), <span class="at">z3 =</span> <span class="fu">rnorm</span>(<span class="dv">404</span>))</span>
-<span id="cb14-4"><a aria-label="4"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ventas <span class="sc">~</span> renta, <span class="at">data =</span> tienda)</span>
-<span id="cb14-5"><a aria-label="5"></a>m6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ventas <span class="sc">~</span> renta <span class="sc">+</span> descuento <span class="sc">+</span> zona <span class="sc">+</span> mujer <span class="sc">+</span> edad <span class="sc">+</span> educ,</span>
-<span id="cb14-6"><a aria-label="6"></a>         <span class="at">data =</span> tienda)</span>
-<span id="cb14-7"><a aria-label="7"></a>m9 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ventas <span class="sc">~</span> renta <span class="sc">+</span> descuento <span class="sc">+</span> zona <span class="sc">+</span> mujer <span class="sc">+</span> edad <span class="sc">+</span> educ <span class="sc">+</span></span>
-<span id="cb14-8"><a aria-label="8"></a>           z1 <span class="sc">+</span> z2 <span class="sc">+</span> z3, <span class="at">data =</span> tienda)</span>
-<span id="cb14-9"><a aria-label="9"></a><span class="fu">summary</span>(m1)<span class="sc">$</span>r.squared</span>
-<span id="cb14-10"><a aria-label="10"></a><span class="fu">summary</span>(m6)<span class="sc">$</span>r.squared</span>
-<span id="cb14-11"><a aria-label="11"></a><span class="fu">summary</span>(m9)<span class="sc">$</span>r.squared</span>
-<span id="cb14-12"><a aria-label="12"></a><span class="fu">summary</span>(m6)<span class="sc">$</span>coefficients[, <span class="st">&quot;Std. Error&quot;</span>]</span>
-<span id="cb14-13"><a aria-label="13"></a><span class="fu">summary</span>(m9)<span class="sc">$</span>coefficients[, <span class="st">&quot;Std. Error&quot;</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ventas <span class="sc">~</span> renta, <span class="at">data =</span> tienda)</span>
+<span id="cb14-2"><a aria-label="2"></a>m6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ventas <span class="sc">~</span> renta <span class="sc">+</span> descuento <span class="sc">+</span> zona <span class="sc">+</span> mujer <span class="sc">+</span> edad <span class="sc">+</span> educ,</span>
+<span id="cb14-3"><a aria-label="3"></a>         <span class="at">data =</span> tienda)</span>
+<span id="cb14-4"><a aria-label="4"></a>m9 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ventas <span class="sc">~</span> renta <span class="sc">+</span> descuento <span class="sc">+</span> zona <span class="sc">+</span> mujer <span class="sc">+</span> edad <span class="sc">+</span> educ <span class="sc">+</span></span>
+<span id="cb14-5"><a aria-label="5"></a>           edad<span class="sc">:</span>zona <span class="sc">+</span> educ<span class="sc">:</span>mujer, <span class="at">data =</span> tienda)</span>
+<span id="cb14-6"><a aria-label="6"></a><span class="fu">summary</span>(m1)<span class="sc">$</span>r.squared</span>
+<span id="cb14-7"><a aria-label="7"></a><span class="fu">summary</span>(m6)<span class="sc">$</span>r.squared</span>
+<span id="cb14-8"><a aria-label="8"></a><span class="fu">summary</span>(m9)<span class="sc">$</span>r.squared</span>
+<span id="cb14-9"><a aria-label="9"></a><span class="fu">summary</span>(m6)<span class="sc">$</span>coefficients[, <span class="st">&quot;Std. Error&quot;</span>]</span>
+<span id="cb14-10"><a aria-label="10"></a><span class="fu">summary</span>(m9)<span class="sc">$</span>coefficients[, <span class="st">&quot;Std. Error&quot;</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </details>
 <ul>
 <li>Hace falta otro criterio: el error con datos que el modelo <strong>no ha visto</strong></li>
 </ul>
+</div>
 <aside class="notes">
 <ul>
-<li>Tabla verificada el 2-nov-2026 con el código de la transparencia.</li>
+<li>Tabla verificada el 2-nov-2026 con el código de la transparencia; última columna (interacciones en lugar de ruido z1..z3, CLAUDE.md §10) verificada el 20-nov-2026: edad:zona y educ:mujer con p de 0,96, 0,45 y 0,72.</li>
 <li>Mini-test T05.2: “añades tres variables y el <span class="math inline">\(R^2\)</span> sube, ¿es mejor el modelo?”.</li>
 <li><span class="math inline">\(R^2\)</span> ajustado, AIC y BIC penalizan el número de coeficientes y van en la misma dirección: anexo. En este curso se elige con datos de prueba.</li>
 </ul>
@@ -1976,7 +1975,7 @@ display:block!important;
 </section>
 <section id="omisión-de-variables-relevantes" class="slide level2">
 <h2>Omisión de variables relevantes</h2>
-<div style="font-size: 92%;">
+<div style="font-size: 80%;">
 <ul>
 <li><p>Dejar fuera una variable relevante <strong>cambia los coeficientes</strong> de las que quedan</p></li>
 <li><p>El descuento, con y sin la renta en el modelo:</p></li>
@@ -2002,9 +2001,9 @@ display:block!important;
 <td style="text-align: right;">170</td>
 </tr>
 <tr class="even">
-<td><code>ventas ~ descuento + log(renta)</code></td>
-<td style="text-align: right;">+409</td>
-<td style="text-align: right;">167</td>
+<td><code>ventas ~ descuento + renta</code></td>
+<td style="text-align: right;">+320</td>
+<td style="text-align: right;">163</td>
 </tr>
 <tr class="odd">
 <td>modelo completo</td>
@@ -2029,7 +2028,7 @@ Código
 </summary>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a><span class="fu">lm</span>(ventas <span class="sc">~</span> descuento, <span class="at">data =</span> tienda)</span>
-<span id="cb15-2"><a aria-label="2"></a><span class="fu">lm</span>(ventas <span class="sc">~</span> descuento <span class="sc">+</span> <span class="fu">log</span>(renta), <span class="at">data =</span> tienda)</span>
+<span id="cb15-2"><a aria-label="2"></a><span class="fu">lm</span>(ventas <span class="sc">~</span> descuento <span class="sc">+</span> renta, <span class="at">data =</span> tienda)</span>
 <span id="cb15-3"><a aria-label="3"></a>tramos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>, <span class="dv">20</span>)</span>
 <span id="cb15-4"><a aria-label="4"></a><span class="fu">lm</span>(ventas <span class="sc">~</span> <span class="fu">log</span>(renta) <span class="sc">*</span> mujer <span class="sc">+</span> edad <span class="sc">+</span> <span class="fu">I</span>(edad<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb15-5"><a aria-label="5"></a>     <span class="fu">cut</span>(educ, tramos, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
@@ -2040,7 +2039,7 @@ Código
 </div>
 <aside class="notes">
 <ul>
-<li>Verificado el 2-nov-2026: descuento solo -97 (ee 170, p = 0,57); con log(renta) +409 (ee 167); con renta lineal +320; completo +500 (ee 48). Correlación renta-descuento -0,30.</li>
+<li>Verificado el 2-nov-2026: descuento solo -97 (ee 170, p = 0,57); con renta +320 (ee 163); completo +500 (ee 48). Con log(renta) saldría +409 (ee 167): se usa la renta en lineal, como en la Parte VI y el anexo (20-nov-2026). Correlación renta-descuento -0,30.</li>
 <li>Esto enlaza con el cierre (Parte VI): aun con la renta dentro, el +500 es una asociación entre clientes parecidos; lo que pasaría si la tienda diera el descuento a otro cliente es otra pregunta.</li>
 <li>Es el recuerdo de Econometría: sesgo por omisión de relevantes, varianza por inclusión de irrelevantes.</li>
 </ul>
@@ -2902,7 +2901,7 @@ display:block!important;
 <aside class="notes">
 <ul>
 <li>Contrafactual, selección y experimento, con la tienda: anexo.</li>
-<li>Cifras: -97 (ee 170), +320 con renta (ee 163), +409 con log(renta), +500 en el modelo completo (ee 48). Renta media de los que tienen descuento 1.497 frente a 2.336. Verificado el 2-nov-2026.</li>
+<li>Cifras: -97 (ee 170), +320 con renta (ee 163), +500 en el modelo completo (ee 48). Renta media de los que tienen descuento 1.497 frente a 2.336. Verificado el 2-nov-2026.</li>
 <li>Ejemplo de la prosa: los paraguas vendidos predicen la lluvia; prohibirlos no trae sequía.</li>
 <li>Ensayos aleatorios, pruebas A/B y la regla del signo del sesgo con más detalle: anexo. El ejercicio largo 2 lo pregunta (paso 6) y la prueba de bloque también.</li>
 <li>T06 vuelve con “predicción ≠ causalidad” al hablar de LASSO: coeficientes encogidos que predicen bien y no se interpretan.</li>

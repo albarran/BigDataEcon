@@ -1438,7 +1438,7 @@ display:block!important;
 <div class="fragment">
 <div style="font-size: 95%;">
 <ul>
-<li><p><code>datos %&gt;% filter(condicion)</code> equivale a <code>filter(datos, condicion)</code></p></li>
+<li><p><code>datos |&gt; filter(condicion)</code> equivale a <code>filter(datos, condicion)</code></p></li>
 <li><p>El anidamiento con tuberías sigue el flujo natural de lectura</p>
 <ul>
 <li>Toma una tabla y pásala a un comando que acepta y produce un <em>data frame</em></li>
@@ -1460,7 +1460,7 @@ display:block!important;
 <ul>
 <li><p><code>ggplot2</code> <code>+</code> en lugar de <code>%&gt;%</code> (desarrollado antes)</p></li>
 <li><p>Atajo de teclado: <code>Cmd / Ctrl + Mays + M</code></p></li>
-<li><p>También existe una tubería en R base: <code>|&gt;</code></p></li>
+<li><p>La tubería <code>%&gt;%</code> de <code>tidyverse</code> es equivalente a la de R base, <code>|&gt;</code>, que es la que usamos</p></li>
 </ul>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1602,7 +1602,7 @@ display:block!important;
 <span id="cb11-8"><a aria-label="8"></a>    <span class="at">descuento_total    =</span> <span class="fu">sum</span>(descuento_aplicado),</span>
 <span id="cb11-9"><a aria-label="9"></a>    <span class="at">unidades_vendidas  =</span> <span class="fu">sum</span>(cantidad),             <span class="co"># Productos</span></span>
 <span id="cb11-10"><a aria-label="10"></a>    <span class="at">clientes_unicos    =</span> <span class="fu">n_distinct</span>(id_cliente)     <span class="co"># Clientes </span></span>
-<span id="cb11-11"><a aria-label="11"></a>                         <span class="co"># (núm. de filas distintas)</span></span>
+<span id="cb11-11"><a aria-label="11"></a>                         <span class="co"># (núm. de valores distintos)</span></span>
 <span id="cb11-12"><a aria-label="12"></a>  )</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -1675,7 +1675,7 @@ display:block!important;
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a>ventas_prod <span class="ot">&lt;-</span> ventas <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a aria-label="2"></a>  <span class="fu">group_by</span>(producto) <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a aria-label="2"></a>  <span class="fu">group_by</span>(id_producto) <span class="sc">|&gt;</span></span>
 <span id="cb14-3"><a aria-label="3"></a>  <span class="fu">summarize</span>(</span>
 <span id="cb14-4"><a aria-label="4"></a>    <span class="at">sum_total =</span> <span class="fu">sum</span>(total),</span>
 <span id="cb14-5"><a aria-label="5"></a>    <span class="at">med_total =</span> <span class="fu">mean</span>(total),</span>
@@ -1687,7 +1687,7 @@ display:block!important;
 <span id="cb14-11"><a aria-label="11"></a></span>
 <span id="cb14-12"><a aria-label="12"></a><span class="co"># igual que antes pero con este nueva tabla de datos a nivel producto</span></span>
 <span id="cb14-13"><a aria-label="13"></a>ventas_prod <span class="sc">|&gt;</span></span>
-<span id="cb14-14"><a aria-label="14"></a>  <span class="fu">arrange</span>(med_cantidad) <span class="sc">|&gt;</span> </span>
+<span id="cb14-14"><a aria-label="14"></a>  <span class="fu">arrange</span>(med_cant) <span class="sc">|&gt;</span> </span>
 <span id="cb14-15"><a aria-label="15"></a>  <span class="fu">head</span>(<span class="dv">5</span>) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <style type="text/css">
