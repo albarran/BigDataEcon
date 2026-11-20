@@ -737,32 +737,31 @@ por 1%; log-log, elasticidad 0,275; R2 0,172. Máximo de la parábola a los 45,9
 
 ## ¿Y cuál elegimos? El $R^2$ sube siempre
 
+::: {style="font-size: 90%;"}
+
 - Con las cuatro formas y seis variables hay **decenas de especificaciones** plausibles. Elegir la de mayor $R^2$ no sirve, porque **nunca baja** al añadir una variable:
 
 ::: {style="font-size: 76%;"}
 
-| Variables | `renta` | `+ descuento` | `+ zona` | `+ mujer` | `+ edad` | `+ educ` | `+ z1 + z2 + z3` |
-|:----------|--------:|--------------:|---------:|----------:|---------:|---------:|-----------------:|
-| $R^2$     | 0,14995 | 0,15803 | 0,17366 | 0,61601 | 0,61715 | 0,62855 | 0,62921 |
+| Variables | `renta` | `+ descuento` | `+ zona` | `+ mujer` | `+ edad` | `+ educ` | `+ edad:zona + educ:mujer` |
+|:----------|--------:|--------------:|---------:|----------:|---------:|---------:|---------------------------:|
+| $R^2$     | 0,14995 | 0,15803 | 0,17366 | 0,61601 | 0,61715 | 0,62855 | 0,62952 |
 
 :::
 
-- **Inclusión de variables irrelevantes**: `z1`, `z2` y `z3` son números aleatorios y también suben el $R^2$
+- **Inclusión de variables irrelevantes**: dos interacciones con sentido (edad por zona, estudios por sexo), que aquí no son significativas, también suben el $R^2$
   - en la muestra, cualquier variable "explica" algo por casualidad
-  - pero aumenta la varianza: el error estándar de `descuento` pasa de 110,1 a 110,6, y el de `renta` de 0,0389 a 0,0391
+  - pero aumenta la varianza: el error estándar de `descuento` pasa de 110,1 a 110,8, y el de `renta` de 0,0389 a 0,0391
 
 <details>
 <summary>Código</summary>
 
 ```{r}
-set.seed(1)
-tienda <- tienda |>
-  mutate(z1 = rnorm(404), z2 = rnorm(404), z3 = rnorm(404))
 m1 <- lm(ventas ~ renta, data = tienda)
 m6 <- lm(ventas ~ renta + descuento + zona + mujer + edad + educ,
          data = tienda)
 m9 <- lm(ventas ~ renta + descuento + zona + mujer + edad + educ +
-           z1 + z2 + z3, data = tienda)
+           edad:zona + educ:mujer, data = tienda)
 summary(m1)$r.squared
 summary(m6)$r.squared
 summary(m9)$r.squared
@@ -774,15 +773,17 @@ summary(m9)$coefficients[, "Std. Error"]
 
 - Hace falta otro criterio: el error con datos que el modelo **no ha visto**
 
+:::
+
 ::::{.notes}
-- Tabla verificada el 2-nov-2026 con el código de la transparencia.
+- Tabla verificada el 2-nov-2026 con el código de la transparencia; última columna (interacciones en lugar de ruido z1..z3, CLAUDE.md §10) verificada el 20-nov-2026: edad:zona y educ:mujer con p de 0,96, 0,45 y 0,72.
 - Mini-test T05.2: "añades tres variables y el $R^2$ sube, ¿es mejor el modelo?".
 - $R^2$ ajustado, AIC y BIC penalizan el número de coeficientes y van en la misma dirección: anexo. En este curso se elige con datos de prueba.
 ::::
 
 ## Omisión de variables relevantes
 
-::: {style="font-size: 92%;"}
+::: {style="font-size: 80%;"}
 
 - Dejar fuera una variable relevante **cambia los coeficientes** de las que quedan
 
@@ -793,7 +794,7 @@ summary(m9)$coefficients[, "Std. Error"]
 | Modelo                                   | Coef. de `descuento` | Error estándar |
 |------------------------------------------|---------------------:|---------------:|
 | `ventas ~ descuento`                     |                  -97 |            170 |
-| `ventas ~ descuento + log(renta)`        |                 +409 |            167 |
+| `ventas ~ descuento + renta`             |                 +320 |            163 |
 | modelo completo                          |                 +500 |             48 |
 
 :::
@@ -811,7 +812,7 @@ summary(m9)$coefficients[, "Std. Error"]
 
 ```{r}
 lm(ventas ~ descuento, data = tienda)
-lm(ventas ~ descuento + log(renta), data = tienda)
+lm(ventas ~ descuento + renta, data = tienda)
 tramos <- c(0, 10, 12, 14, 16, 20)
 lm(ventas ~ log(renta) * mujer + edad + I(edad^2) +
      cut(educ, tramos, include.lowest = TRUE) +
@@ -824,7 +825,7 @@ tienda |> group_by(descuento) |> summarize(renta = mean(renta))
 :::
 
 ::::{.notes}
-- Verificado el 2-nov-2026: descuento solo -97 (ee 170, p = 0,57); con log(renta) +409 (ee 167); con renta lineal +320; completo +500 (ee 48). Correlación renta-descuento -0,30.
+- Verificado el 2-nov-2026: descuento solo -97 (ee 170, p = 0,57); con renta +320 (ee 163); completo +500 (ee 48). Con log(renta) saldría +409 (ee 167): se usa la renta en lineal, como en la Parte VI y el anexo (20-nov-2026). Correlación renta-descuento -0,30.
 - Esto enlaza con el cierre (Parte VI): aun con la renta dentro, el +500 es una asociación entre clientes parecidos; lo que pasaría si la tienda diera el descuento a otro cliente es otra pregunta.
 - Es el recuerdo de Econometría: sesgo por omisión de relevantes, varianza por inclusión de irrelevantes.
 ::::
@@ -1591,7 +1592,7 @@ mean(errores)
 
 ::::{.notes}
 - Contrafactual, selección y experimento, con la tienda: anexo.
-- Cifras: -97 (ee 170), +320 con renta (ee 163), +409 con log(renta), +500 en el modelo completo (ee 48). Renta media de los que tienen descuento 1.497 frente a 2.336. Verificado el 2-nov-2026.
+- Cifras: -97 (ee 170), +320 con renta (ee 163), +500 en el modelo completo (ee 48). Renta media de los que tienen descuento 1.497 frente a 2.336. Verificado el 2-nov-2026.
 - Ejemplo de la prosa: los paraguas vendidos predicen la lluvia; prohibirlos no trae sequía.
 - Ensayos aleatorios, pruebas A/B y la regla del signo del sesgo con más detalle: anexo. El ejercicio largo 2 lo pregunta (paso 6) y la prueba de bloque también.
 - T06 vuelve con "predicción ≠ causalidad" al hablar de LASSO: coeficientes encogidos que predicen bien y no se interpretan.

@@ -343,7 +343,7 @@ tidy(mco)           # los mismos coeficientes, en una tabla
 - Del flujo estimado, `extract_fit_parsnip()` da los resultados (`tidy()`, `glance()`) y, si lleva una receta, `extract_recipe()` la aplica a otros datos con `bake()`; con una fórmula da error («The workflow must have a recipe preprocessor»). Verificado el 16-nov-2026.
 - `augment()` devuelve los datos con `.pred` y `.resid`: es la forma cómoda de predecir con un flujo estimado. `predict(mco, new_data = ...)` da solo la columna `.pred`.
 - MCO da 256 en entrenamiento y 645 en validación cruzada (con el $\lambda$ más pequeño de la rejilla): el de entrenamiento engaña más cuanto menos se penaliza.
-- Verificado el 11-nov-2026: `tidy(mco)` tiene 144 filas; el RMSE de entrenamiento de MCO es 256,0. En validación cruzada, el $\lambda$ más pequeño de la rejilla (casi sin penalización) da 645, y MCO exacto, con `fit_resamples(workflow(formula, linear_reg()), bloques)`, 831 (± 106): el sobreajuste del Tema 06. Se retoma en «Tres errores del mismo modelo».
+- Verificado el 11-nov-2026: `tidy(mco)` tiene 144 filas; el RMSE de entrenamiento de MCO es 256,0. En validación cruzada, el $\lambda$ más pequeño de la rejilla (casi sin penalización) da 645, y MCO exacto, con `fit_resamples(workflow(formula, linear_reg()), bloques)`, 831 (± 106): el sobreajuste del Tema 06. Se retoma en el anexo, «Tres errores del mismo modelo».
 - Las métricas son de `yardstick`: primero la columna observada y después la predicha.
 ::::
 
@@ -405,7 +405,7 @@ bloques <- vfold_cv(training(part), v = 10)   # 10 bloques de clientes al azar
   ```
 
   - `penalty()` trabaja en escala $\log_{10}$: `range = c(-4, 3)` va de $10^{-4}$ a $10^{3}$
-    - los valores quedan a la misma distancia, (fin − inicio) / (valores − 1); en log, se multiplica por 10 elevado a esa distancia: $10^{7/70} = 10^{0{,}1} = 1{,}26$
+    - cada valor es el anterior multiplicado por $10^{(\text{fin} - \text{inicio})/(\text{valores} - 1)} = 10^{7/70} = 10^{0{,}1} = 1{,}26$
   - el rango se elige probando hasta que la U quede dentro de la rejilla (cuidado: es una solución [«interior»](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla))
 
 ```{r}
@@ -436,7 +436,7 @@ grid_regular(penalty(range = c(-4, 3)), levels = 8)                 # 0,0001; 0,
 rejilla                                                             # la del tema: 71 valores
 ```
 
-- La distancia entre valores es (fin − inicio) / (valores − 1). De −4 a 3, fin − inicio = 3 − (−4) = 7, aunque los enteros sean 8: 8 valores dejan 7 huecos entre ellos.
+- Sin transformar, la distancia entre valores es (fin − inicio) / (valores − 1); en $\log_{10}$, es la distancia entre los exponentes. De −4 a 3, fin − inicio = 3 − (−4) = 7, aunque los enteros sean 8: 8 valores dejan 7 huecos entre ellos.
 - Sin transformar: 8 valores de −4 a 3, cada uno el anterior **más 1** ($7/7 = 1$).
 - En $\log_{10}$: los mismos números, como exponentes de 10; sumar 1 al exponente es multiplicar **por 10**.
 - Con 71 valores, el paso es $7/70 = 0{,}1$: cada $\lambda$ es el anterior por $10^{0{,}1} = 1{,}26$.
@@ -590,6 +590,9 @@ collect_predictions(final)          # ventas y .pred de los 81 clientes de prueb
 extract_workflow(final) |> tidy()   # coeficientes: 39 de 143 no son cero
 ```
 
+- Se informa del error de **prueba**: los de entrenamiento y validación cruzada también se han calculado, pero no sirven para eso
+  - con el entrenamiento se estimó el modelo y se eligió $\lambda$, y su error sale optimista ([anexo](Tema07anexo.html#/tres-errores-del-mismo-modelo))
+
 :::
 
 ::::{.notes}
@@ -597,33 +600,6 @@ extract_workflow(final) |> tidy()   # coeficientes: 39 de 143 no son cero
 - Para fijar $\lambda$ a mano: `finalize_workflow(flujo, tibble(penalty = 8.5))`.
 - Con el $\lambda$ de la regla de un error estándar (`simple`): RMSE de prueba 350,2 y MAE 287,5, con 26 coeficientes distintos de cero. Verificado el 11-nov-2026.
 - El flujo completo también se puede estimar con `fit(training(part))` y usar con `augment()` sobre datos nuevos; `last_fit()` hace eso y además evalúa.
-::::
-
-## Tres errores del mismo modelo
-
-::: {style="font-size: 86%;"}
-
-```{r}
-#| eval: true
-augment(extract_workflow(final), new_data = training(part)) |> rmse(ventas, .pred)
-```
-
-| Error | RMSE | De dónde sale | Para qué sirve |
-|---|---:|---|---|
-| Entrenamiento | 319 | el código de arriba: el modelo final predice sus propios clientes | nada: es optimista |
-| Validación cruzada | 364 | `show_best()`, en «Lo que devuelve `tune_grid()`» | **elegir** $\lambda$ |
-| Prueba | 340 | `collect_metrics(final)`, en «Finalizar y evaluar» | **informar** del error |
-
-- El 364 se mide en clientes de evaluación, que no se usaron para estimar. Pero $\lambda$ se eligió por dar el menor de 71 errores medios, y el menor de 71 cifras con ruido tiende a quedar por debajo del error real: **sesgo de optimización**
-
-- La prueba no intervino en ninguna decisión, y por eso su error es el que se informa. Aquí sale incluso más bajo (340): con 81 clientes, el azar de quiénes caen en la prueba pesa más que ese sesgo ([anexo](Tema07anexo.html#/partir-entrenamiento-prueba-y-validación-cruzada))
-
-:::
-
-::::{.notes}
-- Cifras verificadas el 11-nov-2026: 319,1, 364,1 y 339,6. Aquí la prueba sale por debajo de la validación cruzada: variabilidad muestral con 81 clientes (el error estándar de la validación cruzada es 10,4, y la prueba es como un bloque algo mayor). Con la partición 75/25 del 6-nov salían 313, 356 y 358.
-- El sesgo de optimización es pequeño con un solo hiperparámetro y 71 valores, y crece con más hiperparámetros y rejillas más grandes (Tema 08).
-- Es la idea del tema. En las prácticas 2 y 3 los alumnos la reproducen con sus propias cifras.
 ::::
 
 # Niveles o logaritmos
@@ -840,7 +816,7 @@ La empresa del Tema 06 quiere un modelo de abandono evaluado con clientes que el
    encima, menos de un error estándar. Lo que vale para informar es 0,749.
 3) augment(final_c) |> mutate(oferta = .pred_Sí > k/12) |> filter(oferta) |>
    summarise(n = n(), ahorro = sum(12 * precio_mensual * (churn == "Sí")), coste = sum(k * precio_mensual))
-   k = 3 (umbral 0,25): 113 ofertas, sensibilidad 0,973, especificidad 0,125, ahorro 23.872, coste 9.207, neto 14.665.
+   k = 3 (umbral 0,25): 113 ofertas, sensibilidad 0,973, especificidad 0,125, ahorro 23.871, coste 9.207, neto 14.665.
    k = 6 (umbral 0,50): 83 ofertas, sensibilidad 0,808, especificidad 0,500, ahorro 19.793, coste 12.355, neto 7.438.
    k = 9 (umbral 0,75): 52 ofertas, sensibilidad 0,575, especificidad 0,792, ahorro 13.315, coste 11.155, neto 2.160.
    Con esta regla gana k = 3: la oferta barata a casi todos (113 de 121) deja el mayor ahorro neto, porque el 60 %

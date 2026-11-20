@@ -114,6 +114,31 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 - Las curvas son simuladas porque un caso real no cubre todos los casos (un mínimo local dentro de la rejilla puede no ser el global). Con la tienda, rejillas lineales de 8 valores: de 0 a 5, el mejor es el borde (RMSE 400); de 0 a 50, 21,4 (365) dentro de la U; de 0 a 1000, 143 (524), porque la rejilla salta la U; la del tema, 20,0 (364,1).
 ::::
 
+## Tres errores del mismo modelo
+
+::: {style="font-size: 86%;"}
+
+```{r}
+augment(extract_workflow(final), new_data = training(part)) |> rmse(ventas, .pred)
+```
+
+| Error | RMSE | De dónde sale | Para qué sirve |
+|---|---:|---|---|
+| Entrenamiento | 319 | el código de arriba: el modelo final predice sus propios clientes | nada: es optimista |
+| Validación cruzada | 364 | `show_best()`, en el [Tema 07](Tema07.html) | **elegir** $\lambda$ |
+| Prueba | 340 | `collect_metrics(final)`, en [«Finalizar y evaluar»](Tema07.html#/finalizar-y-evaluar) | **informar** del error |
+
+- El 364 se mide en clientes de evaluación, que no se usaron para estimar. Pero $\lambda$ se eligió por dar el menor de 71 errores medios, y el menor de 71 cifras con ruido tiende a quedar por debajo del error real: **sesgo de optimización**
+
+- La prueba no intervino en ninguna decisión, y por eso su error es el que se informa. Aquí sale incluso más bajo (340): con 81 clientes, el azar de quiénes caen en la prueba pesa más que ese sesgo ([«Partir: entrenamiento, prueba y validación cruzada»](#/partir-entrenamiento-prueba-y-validación-cruzada))
+
+:::
+
+::::{.notes}
+- Cifras verificadas el 11-nov-2026: 319,1, 364,1 y 339,6. Aquí la prueba sale por debajo de la validación cruzada: variabilidad muestral con 81 clientes (el error estándar de la validación cruzada es 10,4, y la prueba es como un bloque algo mayor). Con la partición 75/25 del 6-nov salían 313, 356 y 358.
+- El sesgo de optimización es pequeño con un solo hiperparámetro y 71 valores, y crece con más hiperparámetros y rejillas más grandes (Tema 08).
+::::
+
 # Del Tema 06 a `tidymodels`
 
 ## Los mismos pasos con `cv.glmnet()`

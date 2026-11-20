@@ -616,7 +616,7 @@ Con el data frame `clientes` (300 fichas de la clientela de nuestra cadena de gi
 5. Añadid `size = 4` dentro de `aes()` y luego fuera. Una de las dos no tiene sentido: ¿cuál y por qué? En una frase, ¿qué regla os sirve para decidirlo?
 
 ::: {.callout-note}
-**Esta práctica es el apartado a) del ejercicio 1**: id haciéndola ahí, en vuestro `.qmd`.
+**Esta práctica es el apartado a) de la entrega 1**: id haciéndola ahí, en vuestro `.qmd`.
 :::
 
 <!-- INTERNO (solución y guion del profesor): 25 min (15 de teclado, 5 de puesta en común
@@ -720,7 +720,7 @@ graf_base +
 - Esta idea se puede **generalizar**: usar distintos datos o estéticas en cada capa según las necesidades del gráfico
 
 ::: {.callout-note}
-**Ahora el ejercicio 1, apartado b)**: etiquetar a quienes más gastan, con su propia capa de datos.
+**Ahora el ejercicio: entrega 1, apartado b)**: etiquetar a quienes más gastan, con su propia capa de datos.
 :::
 
 ## Gráficos que muestran datos transformados
@@ -873,7 +873,7 @@ ggplot(clientes, aes(x = segmento, y = after_stat(prop), group = 1)) +
 3. En una frase: ¿qué significa que un `geom` "tiene una estadística por defecto"?
 
 ::: {.callout-note}
-**Esta práctica es el apartado c) del ejercicio 1.**
+**Esta práctica es el apartado c) de la entrega 1.**
 :::
 
 ## PRÁCTICA en clase (3): distribuciones
@@ -885,7 +885,7 @@ ggplot(clientes, aes(x = segmento, y = after_stat(prop), group = 1)) +
 3. Añadid un `geom_boxplot()` del `gasto` por `segmento`
 
 ::: {.callout-note}
-**Esta práctica es el apartado d) del ejercicio 1.**
+**Esta práctica es el apartado d) de la entrega 1.**
 :::
 
 <!-- INTERNO (solución y guion del profesor): 25 min.
@@ -1066,7 +1066,7 @@ empresas_info      # qué es cada variable
 4. Si esa variabilidad mide el riesgo de una inversión, ¿dónde es más arriesgado invertir?
 
 ::: {.callout-note}
-**Esta práctica es el ejercicio 2**, el de corporaciones y startups.
+**Esta práctica es la entrega 2**, la de corporaciones y startups.
 :::
 
 <!-- INTERNO (solución y guion del profesor): 25 min.
@@ -1269,7 +1269,7 @@ graf + theme_economist() + scale_fill_economist()
 ```
 
 ::: {.callout-note}
-**Ahora el ejercicio 1, apartado e)**: tendencia, facetas, línea de referencia, `labs()` y temas.
+**Ahora el ejercicio: entrega 1, apartado e)**: tendencia, facetas, línea de referencia, `labs()` y temas.
 :::
 
 

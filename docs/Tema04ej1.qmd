@@ -108,7 +108,7 @@ De este tema, lo que te hace falta:
   subdirectorio `data`. Dentro vienen las tablas de un marketplace tal y como salen de su
   sistema: `pedidos_bruto`, `vendedores`, `serie_ventas`, `ventas_prov` y `devoluciones`.
 - El **bloque 4** no usa ese fichero: baja los datos de la web del INE en el momento.
-- **Un documento por ejercicio**, `T04_E<n>_<ID>.qmd`. Cada uno carga los datos en su primera
+- **Un documento por entrega**, `T04_E<n>_<ID>.qmd`. Cada uno carga los datos en su primera
   celda.
 
 ```{r}
@@ -183,7 +183,7 @@ saldría mal si no se corrige. Esta es la parte que se corrige con más atenció
 
 # Entrega 2: limpiar, y cuánto cuesta no limpiar
 
-Sobre la auditoría del ejercicio anterior.
+Sobre la auditoría de la entrega anterior.
 
 ## Apartado a): un solo bloque de limpieza
 

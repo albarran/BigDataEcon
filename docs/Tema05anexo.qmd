@@ -678,7 +678,7 @@ $$
 
 - El signo del sesgo es el producto de los signos: efecto de $z$ sobre $y$ ($\beta_2$) por relación entre $z$ y $x$ ($\delta$)
 
-- El caso del tema: $x$ = descuento, $z$ = renta. La renta sube el gasto ($\beta_2 > 0$) y el descuento fue a rentas bajas ($\delta < 0$): sesgo **negativo**, y el +500 se queda en -97 al omitir la renta
+- El caso del tema: $x$ = descuento, $z$ = renta. La renta sube el gasto ($\beta_2 > 0$) y el descuento fue a rentas bajas ($\delta < 0$): sesgo **negativo**: el +320 con la renta se queda en -97 al omitirla
 
 - Lo mismo con el modelo completo: si la tienda eligió además por algo que no está en la tabla y que se relaciona con el gasto, el coeficiente sigue sesgado. Con datos observacionales nunca se sabe que no queda nada fuera
 

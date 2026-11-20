@@ -52,10 +52,11 @@ Estos ejercicios se van haciendo **durante la clase**: las transparencias indica
 La tienda quiere predecir el gasto de los clientes nuevos con el modelo flexible del Tema 06, pero escrito como
 receta, para poder añadirle después pasos que la fórmula no permite (estandarizar, imputar).
 
-Prepara `tienda`, `part`, `bloques`, `lasso` y `rejilla` como en las transparencias «Los datos: la tienda»,
-«Partición inicial», «Validación cruzada», «Definir el modelo» y «La rejilla de valores», con tu DNI como semilla.
-Para comparar con la fórmula en el apartado a), prepara también `formula`, `flujo` y `ajuste` como en «El
-preprocesado», «El flujo de trabajo» y «`tune_grid()`: qué hace por dentro».
+Prepara `tienda`, `part`, `lasso`, `bloques` y `rejilla` como en las transparencias «Los datos: la tienda»,
+«Partición inicial: `initial_split()`», «Definir el modelo: `linear_reg()`», «Validación cruzada: `vfold_cv()`» y
+«La rejilla y `tune_grid()`», con tu DNI como semilla. Para comparar con la fórmula en el apartado a), prepara también
+`formula`, `flujo` y `ajuste` como en «El preprocesado: fórmula o receta», «El flujo de trabajo: `workflow()`» y
+«La rejilla y `tune_grid()`».
 
 ## Apartado a): la receta y afinar lambda
 

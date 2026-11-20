@@ -27,7 +27,7 @@ strip-comments: true
 Henry, paralelo a Tema05previodoc.qmd (MCO). Sigue la Parte V de Tema05.qmd. Referencia principal:
 ECMTII Slides_2026/Tema02.qmd (modelo lineal de probabilidad, logit, máxima verosimilitud, probabilidades
 predichas). Apoyo para el logaritmo de la verosimilitud: Adams, Learning Microeconometrics with R, §5.4.
-Cifras verificadas con data/tienda.csv el 15-nov-2026. Registro en notes/logit-sugerencia-henry.md. -->
+Cifras verificadas con data/tienda.csv el 15-nov-2026. Registro en notes/Tema05/logit-sugerencia-henry.md. -->
 
 ```{r}
 #| include: false

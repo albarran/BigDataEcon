@@ -407,7 +407,7 @@ pedidos <- pedidos |> mutate(valoracion = na_if(valoracion, -99))
 
 ## PRÁCTICA en clase (1): auditoría de calidad
 
-Trabajad con `pedidos_bruto` y `vendedores`. En 25 minutos, y **sin corregir nada todavía**, elaborad un informe de una página con:
+Trabajad con `pedidos_bruto` y `vendedores`. **Sin corregir nada todavía**, elaborad un informe de una página con:
 
 1. Número de filas y comprobación de si `id_pedido` identifica de forma única cada pedido
 
@@ -441,7 +441,7 @@ count(is.na(valoracion)) basta para las ausencias.
 
 
 ::: {.callout-note}
-**Ahora el ejercicio 1**, los cinco apartados: es esta misma auditoría, apartado por apartado.
+**Ahora el ejercicio: entrega 1**, los cinco apartados: es esta misma auditoría, apartado por apartado.
 :::
 
 # Parte I (b). Decidir qué hacer
@@ -570,7 +570,7 @@ pedidos |> arrange(desc(importe)) |>
 
 ## PRÁCTICA en clase (2): limpiar y justificar
 
-Sobre la auditoría de la práctica anterior, en 30 minutos:
+Sobre la auditoría de la práctica anterior:
 
 1. Escribid un único bloque de limpieza que corrija tipos, categorías y ausentes centinela, y elimine los duplicados exactos
 
@@ -600,7 +600,7 @@ Tiempo: 5 min de puesta en común al final, comparando la cifra de ticket medio 
 
 
 ::: {.callout-note}
-**Ahora el ejercicio 2.** Los apartados a) a e) son esta práctica; f) y g) van un paso más allá, con la columna que viene dada y con la identidad que tiene que cumplirse.
+**Ahora el ejercicio: entrega 2, apartados a) a e).** Son esta práctica; f) y g) van un paso más allá, con la columna que viene dada y con la identidad que tiene que cumplirse.
 :::
 
 ## Un flujo de limpieza reproducible (puesta en común)
@@ -1063,7 +1063,7 @@ serie_ventas |>
 
 ## PRÁCTICA en clase (3): un cuadro de mando honesto
 
-Dirección pide **cinco** indicadores para la reunión mensual. En 30 minutos, sobre `pedidos_limpio` y `serie_ventas`:
+Dirección pide **cinco** indicadores para la reunión mensual. Sobre `pedidos` ya limpio y `serie_ventas`:
 
 1. Elegid los cinco KPI y escribid la definición exacta de cada uno (numerador, denominador, periodo)
 
@@ -1092,7 +1092,7 @@ y que vean cómo cambia el KPI sin que cambie el negocio.
 
 
 ::: {.callout-note}
-**Ahora el ejercicio 3.** Los apartados a), b), c), g) y h) son esta práctica; d), e) y f) son las tres trampas de estas transparencias: los promedios de promedios, la agregación que invierte el resultado y la base pequeña.
+**Ahora el ejercicio: entrega 3.** Los apartados a), b), c), g) y h) son esta práctica; d), e) y f) son las tres trampas de estas transparencias: los promedios de promedios, la agregación que invierte el resultado y la base pequeña.
 :::
 
 # Un caso con datos del INE
@@ -1169,7 +1169,7 @@ ggplot(ipc, aes(x = fecha, y = Total, color = `Grupos ECOICOP`)) +
 ::::
 
 ::: {.callout-note}
-**Ahora el ejercicio 4**: la EPA, con la tabla 65335 del INE.
+**Ahora el ejercicio: entrega 4**: la EPA, con la tabla 65335 del INE.
 :::
 
 

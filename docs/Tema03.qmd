@@ -374,7 +374,7 @@ ventas_top_markt <- select(filter(ventas, total > 1000),
 
 ::: {style="font-size: 95%;"}
 
-- `datos %>% filter(condicion)` equivale a `filter(datos, condicion)`
+- `datos |> filter(condicion)` equivale a `filter(datos, condicion)`
 
 - El anidamiento con tuberías sigue el flujo natural de lectura
 
@@ -423,7 +423,7 @@ ventas |> filter(total > 100) |> select(fecha, id_cliente, id_producto, total)
 
 - Atajo de teclado: `Cmd / Ctrl + Mays + M `
 
-- También existe una tubería en R base: `|>`
+- La tubería `%>%` de `tidyverse` es equivalente a la de R base, `|>`, que es la que usamos
 
 ::::
 
@@ -534,7 +534,7 @@ KPIs <- ventas |>
     descuento_total    = sum(descuento_aplicado),
     unidades_vendidas  = sum(cantidad),             # Productos
     clientes_unicos    = n_distinct(id_cliente)     # Clientes 
-                         # (núm. de filas distintas)
+                         # (núm. de valores distintos)
   )
 ```
 
@@ -628,7 +628,7 @@ ventas |>
   
 ```{r}
 ventas_prod <- ventas |>
-  group_by(producto) |>
+  group_by(id_producto) |>
   summarize(
     sum_total = sum(total),
     med_total = mean(total),
@@ -640,7 +640,7 @@ export(ventas, "ventas.xlsx")
 
 # igual que antes pero con este nueva tabla de datos a nivel producto
 ventas_prod |>
-  arrange(med_cantidad) |> 
+  arrange(med_cant) |> 
   head(5) 
 ```
 

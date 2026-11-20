@@ -135,8 +135,8 @@ De este tema, lo que te hace falta:
   subdirectorio `data`. Dentro vienen las tablas de una cadena de tiendas: `ventas`, `productos`,
   `categorias`, `clientes`, `empleados`, `tiendas`, `promociones_empleado`, `devoluciones`,
   `precios`, `objetivos` y `ventas_ancho`.
-- **Un documento por ejercicio**, `T03_E<n>_<ID>.qmd`: `T03_E1_12345678.qmd` para la entrega 1,
-  `T03_E2_12345678.qmd` para el 2, y así. Cada uno carga los datos en su primera celda.
+- **Un documento por entrega**, `T03_E<n>_<ID>.qmd`: `T03_E1_12345678.qmd` para la entrega 1,
+  `T03_E2_12345678.qmd` para la 2, y así. Cada uno carga los datos en su primera celda.
 
 ```{r}
 #| eval: false
@@ -180,7 +180,7 @@ Trabajamos con `ventas`, el registro de operaciones de una cadena de doce tienda
 2. ¿Cuáles son las tres ventas de mayor importe de 2023? Muestra `id_venta`, `id_tienda` y
    `total`.
 
-3. La misma pregunta, pero ordenando de menor a mayor. ¿Qué argumento cambia?
+3. La misma pregunta, pero ordenando de menor a mayor. ¿Qué cambia en `arrange()`?
 
 ## Apartado d): de datos individuales a datos agregados
 

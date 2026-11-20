@@ -263,12 +263,12 @@ seleccion <- datos2$Producto %in% c("X", "Y", "R")
 (media_nacional_XYR <- mean(datos2$Nacional[seleccion]))
 ```
 
-c) Se quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:
+d) Se quiere conocer el número de compradores de los productos a partir del valor de las ventas y la información de los precios de los productos disponible en la siguiente tabla:
 
 ```{r ej2.d}
 #| echo: false
 #| results: 'asis'
-### ---------- Problema 2.c) ----------------------------------------------------
+### ---------- Problema 2.d) ----------------------------------------------------
 
 # Estimar número de compradores
 

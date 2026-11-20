@@ -2445,13 +2445,14 @@ datos[pos, ]
 
 ::: {.notes}
 
-* Se pueden añadir filas y columnas a un *data frame* con `rbind()` y `cbind()`, respectivamente, a partir de vectores u otros *data frames* (no lo necesitaremos por ahora)
+* Se pueden añadir filas y columnas a un *data frame* con `rbind()` y `cbind()`, respectivamente, a partir de vectores u otros *data frames* (lo usaréis en el ejercicio del tema)
 
 :::
 
 ## PRÁCTICA en clase: las fichas (y 3)
 
 1. Reconstruid el *data frame* `datos` con `cliente`, `altura`, `peso`, `genero_f` y `gasto`, y añadid la columna `imc`
+    + Si añadisteis a Luis en la práctica (1), añadid también su género (hombre) a `genero` y volved a crear `genero_f`
 
 2. Extraed las fichas de los clientes con `imc > 25`: ¿data frame o vector?
 
@@ -3089,15 +3090,15 @@ export(nsw, "data/nsw.csv")
 
 Ahora que hemos visto `save()`/`load()` y `rio`:
 
-1. Guardad las fichas en `datos/fichas.RData` (con `save()`); borrad TODO el espacio de trabajo y recuperadlas con `load()`: ¿está todo?
+1. Guardad las fichas en `data/fichas.RData` (con `save()`); borrad TODO el espacio de trabajo y recuperadlas con `load()`: ¿está todo?
 
-2. Exportad las fichas a `datos/fichas.csv` (con `export()` de `rio`), abrid el csv con doble clic en el Explorador (Data Explorer) y volved a importarlo con `import()` a un objeto NUEVO
+2. Exportad las fichas a `data/fichas.csv` (con `export()` de `rio`), abrid el csv con doble clic en el Explorador (Data Explorer) y volved a importarlo con `import()` a un objeto NUEVO
 
 3. Comparad con `str()` el objeto original y el importado: ¿qué le ha pasado al factor? ¿Por qué?
 
 <!-- INTERNO (soluciones):
-save(datos, file="datos/fichas.RData"); rm(list=ls()); load("datos/fichas.RData")
-export(datos, "datos/fichas.csv"); datos2 <- import("datos/fichas.csv"); str(datos2)
+save(datos, file="data/fichas.RData"); rm(list=ls()); load("data/fichas.RData")
+export(datos, "data/fichas.csv"); datos2 <- import("data/fichas.csv"); str(datos2)
   # el factor vuelve como character/entero: el csv no guarda tipos -> enlaza "el tipo importa"
 Práctica creada 9-sep: guardar/cargar/importar DENTRO del running example (antes solo
 estaba en el ejercicio de reserva), y COLOCADA tras las slides de save/load y rio
