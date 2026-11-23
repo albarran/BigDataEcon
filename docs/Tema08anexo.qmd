@@ -62,52 +62,35 @@ ajeno va a las notas de cada transparencia del deck). Las otras familias pasaron
 
 # Árboles
 
-## Las partes de un árbol
+## Las partes de un árbol y cómo se construye
 
-::: {style="font-size: 88%;"}
+::: {style="font-size: 86%;"}
 
 :::: {.columns}
-::: {.column width=55%}
+::: {.column width=50%}
 
 ![](figure/tree.png){width=100% fig-align="center"}
 
 :::
-::: {.column width=45%}
+::: {.column width=50%}
 
 - Los árboles se dibujan al revés: la **raíz**, con todas las observaciones, arriba
 
 - Los puntos donde se divide el espacio son los **nodos internos**, y se unen por **ramas**
 
-- Las **hojas** o nodos terminales, abajo, son las regiones finales: cada una predice su media (o su clase mayoritaria)
+- Las **hojas** o nodos terminales, abajo, son las regiones finales
 
 :::
 ::::
 
-:::
-
-::::{.notes}
-- Del deck del curso pasado (`legacy2025-26/Tema08.qmd`, «Árboles de decisión»).
-::::
-
-
-## Árboles de regresión: cómo se construyen
-
-::: {style="font-size: 88%;"}
-
-- ¿Cómo se construye un árbol con una $y$ cuantitativa?
-  1. se divide el espacio de los regresores $X_1, X_2, \dots, X_p$ en $J$ regiones distintas y sin solapamiento, $R_1, R_2, \dots, R_J$
-     - cada vez más homogéneas o «puros»: mismas características, mismo valor esperado de $y$
-  2. a cada observación que cae en la región $R_j$ se le predice lo mismo: la media de $y$ de las observaciones de entrenamiento en $R_j$, $\hat y_{i \in R_j} = \bar y_{R_j}$
-
-- Considerar todas las particiones en $J$ regiones es **inviable**
-
-- La alternativa es heurística: un algoritmo **voraz** elige en cada paso la opción localmente óptima, con la esperanza de llegar a una solución global buena
-  - en lugar de elegir la partición que sería mejor para un paso futuro
+- Se construye en dos pasos:
+  1. se divide el espacio de los regresores $X_1, X_2, \dots, X_p$ en $J$ regiones distintas y sin solapamiento, $R_1, R_2, \dots, R_J$, cada vez más homogéneas o «puras»
+  2. a cada observación que cae en la región $R_j$ se le predice lo mismo: la media de $y$ de las observaciones de entrenamiento en $R_j$, $\hat y_{i \in R_j} = \bar y_{R_j}$, o su clase mayoritaria
 
 :::
 
 ::::{.notes}
-- Del deck del curso pasado (`legacy2025-26/Tema08.qmd`, «Árboles de regresión»). ISLR 2.ª ed. §8.1.1.
+- Del deck del curso pasado (`legacy2025-26/Tema08.qmd`, «Árboles de decisión» y «Árboles de regresión»). ISLR 2.ª ed. §8.1.1. La parte de «inviable» y «voraz» ya está en el deck.
 ::::
 
 ## Partición binaria recursiva: la formalización
@@ -148,7 +131,7 @@ ajeno va a las notas de cada transparencia del deck). Las otras familias pasaron
 
 - Gini y entropía se parecen mucho y son más sensibles que la tasa de error: un corte que no cambia la clase mayoritaria de ninguna hija deja la tasa de error igual, pero sí baja Gini y entropía si las hijas son más puras
 
-- Con la raíz de `churn` (60 % de abandonos): Gini 0,48 y entropía 0,67 (en nats). Con el corte `satisfaccion < 3.5`, 0,45 y 0,64
+- Con la raíz de `churn` (60 % de abandonos): Gini 0,48 y entropía 0,67 (en *nats*, la unidad que da el logaritmo natural; con logaritmo en base 2 se mide en bits). Con el corte `satisfaccion < 3.5`, 0,45 y 0,64
 
 :::
 
