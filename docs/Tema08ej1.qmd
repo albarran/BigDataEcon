@@ -1,0 +1,192 @@
+---
+title: "Tema 08 - Métodos basados en árboles"
+subtitle: "Ejercicios del tema"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    css: styles.css
+execute:
+  enabled: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+---
+<!-- INTERNO (7-nov-2026). Correspondencia: E1 a-d <- PRACTICA 1 (sesión 1, tras «Podar»); E2 a-d <- PRACTICA 2
+(sesión 2, tras «Importancia»); E3 a-c <- PRACTICA 3 (el boosting a mano pasó al anexo el 23-nov) (sesión 3, la media del T09, tras `learn_rate`); E4 a-c <- PRACTICA 4 (sesión 3). La
+entrega 3 va entera en la sesión 3. Soluciones y minutos en
+las PRACTICAS de Tema08.qmd. Las entregas 1 a 3 usan `tienda` y van separadas porque cada una es un modelo (árbol,
+bosque, boosting) y cada una se cierra en una sesión distinta; la 4 usa
+`churn_clientes`. El ejercicio del curso pasado, con `descuento.csv`, está en `legacy2025-26/Tema08ej1.qmd`; el de
+fuera de clase, antes `Tema08ej2.qmd`, es ahora `Tema08ej3.qmd` (reserva, sin publicar). La E4 puede hacerse
+fuera de clase si en la media sesión no da tiempo (Pedro, 7-nov): el enunciado lo dice. -->
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+rm(list = ls())
+library(tidyverse)
+library(tidymodels)
+library(rpart.plot)
+```
+
+# Antes de empezar
+
+Estos ejercicios se van haciendo **durante la clase**: las transparencias indican en qué momento toca cada uno.
+
+- Los datos son `tienda.csv` y `churn_clientes.csv`, de la página [Datos](../Datos.html). Descárgalos en tu subdirectorio `data`.
+- Necesitas `library(tidymodels)` y `library(rpart.plot)`, además de `library(tidyverse)`.
+- **Un documento por entrega**, `T08_E<n>_<ID>.qmd`.
+- Donde se pide una **semilla**, usa tu DNI (sin letra): `set.seed(12345678)`. Ponla también justo antes de cada bosque, porque el bosque sortea remuestras y variables.
+- `part`, `bloques`, `part_c` y `bloques_c` son los de la transparencia «Los datos: los mismos del Tema 07», con tu DNI como semilla.
+
+# Entrega 1: la regla de los dependientes
+
+La cadena de tiendas quiere, además de predecir el gasto, una **regla sencilla** que sus dependientes puedan aplicar
+sin ordenador: con tres o cuatro preguntas al cliente, decidir si merece una atención especial. Un árbol es
+exactamente eso.
+
+Prepara `tienda`, `part` y `bloques` con tu DNI como semilla.
+
+## Apartado a): los tramos del Tema 05
+
+Ajusta el árbol de `ventas` sobre `edad` con profundidad 2 y compara sus cortes y sus medias con los tramos de diez
+años del Tema 05. Traduce cada hoja a una frase de negocio («los clientes de menos de X años gastan de media Y»).
+
+## Apartado b): el árbol en texto
+
+Ajusta el árbol con las seis variables y `cost_complexity = 0.02`, y muéstralo en texto con `extract_fit_engine()`.
+¿Cuántas hojas tiene y cómo se sabe? ¿Qué indica el número delante de cada nodo, y por qué faltan algunos? [Fija antes la semilla con `set.seed(2027)`.]{.ia aria-hidden="true"}
+
+## Apartado c): la poda
+
+Afina `cost_complexity` con `tune_grid()` sobre `bloques` y la rejilla
+`grid_regular(cost_complexity(range = c(-4, -0.5)), levels = 15)`. ¿Hay U? ¿Cuántas hojas tiene el árbol podado y qué RMSE da en prueba? Dibújalo con `rpart.plot()` y
+escribe la regla de las tres primeras preguntas que haría un dependiente.
+
+## Apartado d): por qué `mujer` primero
+
+Con las seis variables, el primer corte es `mujer` y no `edad`, aunque la edad tiene una curva tan clara. ¿Por qué?
+¿Recoge el árbol después la curva de la edad, y dónde?
+
+## Apartado e): la importancia
+
+Calcula la importancia de las variables del árbol podado del apartado c). `edad` aparece en más cortes que `renta`:
+¿por qué queda por debajo?
+
+# Entrega 2: el presupuesto del año que viene
+
+Dirección tiene que fijar el presupuesto de compras del año que viene y quiere la **mejor predicción posible** del
+gasto de cada cliente; aquí la regla legible no importa.
+
+Usa `part` y `bloques` de la entrega 1 y pon tu DNI como semilla antes de cada bosque.
+
+## Apartado a): bagging
+
+Ajusta un bosque con `mtry = 6` y 500 árboles, que es bagging, y calcula su RMSE en prueba. Compáralo con el árbol
+podado de la entrega 1: ¿cuánto se gana solo por promediar?
+
+## Apartado b): afinar `mtry`
+
+Afina `mtry` de 1 a 6 con `tune_grid()` sobre `bloques`. Comenta brevemente la forma de la curva y explica con las dos
+fuerzas de la transparencia «Random forest: `mtry` descorrelaciona los árboles» cómo cambia el RMSE según el valor
+de `mtry`.
+
+## Apartado c): el número de árboles
+
+Con el mejor `mtry`, ajusta bosques de 10, 100, 500 y 2.000 árboles y mide el RMSE de prueba. Discute
+cómo elegirías el valor de `trees`, y por qué.
+
+## Apartado d): la importancia y el descuento
+
+Calcula la importancia por permutación del mejor bosque y ordénala. Dirección lee que `descuento` sale la última y
+propone **suprimir** el descuento porque «no sirve». Explica por qué esa lectura confunde dos preguntas. [Calcúlala con `importance = "impurity_corrected"`.]{.ia aria-hidden="true"}
+
+# Entrega 3: el gasto con `boosting`
+
+Dirección quiere saber si el boosting mejora al bosque en la predicción del gasto y, sobre todo, entender qué está
+haciendo antes de fiarse de él.
+
+Usa `part` y `bloques` de la entrega 1.
+
+## Apartado a): el número de árboles
+
+Afina `trees` con `boost_tree()` y la rejilla de la transparencia «`boost_tree()` y el número de árboles». ¿Cuál
+es el mejor valor? ¿Qué pasa con 1.584 árboles? Compáralo con lo que pasaba con `trees` en el bosque de la entrega 2. [Añade `tree_method = "exact"` en `set_engine()`.]{.ia aria-hidden="true"}
+
+## Apartado b): `learn_rate` y el número de árboles
+
+Con el mejor `trees`, ajusta el boosting con `learn_rate` = 0,01 y mide su RMSE de prueba. Repítelo con 1.000 y
+3.000 árboles, y después con `learn_rate` = 1. ¿Qué pasa en cada caso al aumentar los árboles, y por qué?
+
+## Apartado c): los cuatro modelos en prueba
+
+Evalúa en prueba el mejor boosting con `last_fit()` y ponlo al lado del árbol podado, del bosque y del LASSO del
+Tema 07 (340 euros con la semilla 12345678; con la tuya, el de `final`, transparencia «Finalizar y evaluar» del Tema 07, que usaste en la entrega 2). ¿Por qué el
+LASSO sigue ganando en la tienda, y en qué datos esperarías lo contrario?
+
+# Entrega 4: el mejor modelo de abandono
+
+La empresa de suscripción del Tema 06 decide a quién hacer la oferta de retención con el modelo que mejor ordene a
+los clientes por su riesgo, y lo quiere evaluado con clientes que el modelo no haya visto.
+
+Prepara `churn`, `part_c` y `bloques_c` con tu DNI como semilla.
+
+## Apartado a): el bosque y `mtry`
+
+Afina `mtry` de un bosque de 500 árboles con `grid_regular(mtry(range = c(1, 21)), levels = 7)` sobre `bloques_c`,
+por AUC. Compara el mejor `mtry` con el de la tienda y explica la diferencia con las variables de cada base de datos.
+¿Es grande la ventaja frente al bagging, comparada con el error estándar?
+
+## Apartado b): el boosting y la profundidad
+
+Afina por AUC un boosting con `tree_depth = 2`, `learn_rate = 0.1` y `trees` en la rejilla de la transparencia, con
+una receta `churn ~ .` y `step_dummy(all_nominal_predictors())`. Repítelo con
+`tree_depth = 1`, compara y explica qué dice el resultado sobre las señales de abandono. [Añade `step_YeoJohnson(all_numeric_predictors())` a la receta.]{.ia aria-hidden="true"}
+
+## Apartado c): la decisión
+
+Evalúa en prueba con `last_fit()` el bosque y el boosting, y ponlos en una tabla con el LASSO del Tema 07 (AUC 0,749
+con la semilla 12345678) y con el árbol podado. ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué
+cautela añade el tamaño de la prueba?
+
+# Cómo se entrega
+
+::: {.callout-important}
+Cada ejercicio es **una entrega**, por el **[formulario de entrega](https://docs.google.com/forms/d/e/1FAIpQLSdQZYXvigWKV8Fl-i0Ae8P9Y2dd0_deWzBjpsGTVZDsemF_2w/viewform)**:
+
+- **Entrega 1**: la regla de los dependientes. `T08_E1_ID.zip`
+- **Entrega 2**: el presupuesto del año que viene. `T08_E2_ID.zip`
+- **Entrega 3**: el gasto con `boosting`. `T08_E3_ID.zip`
+- **Entrega 4**: el mejor modelo de abandono. `T08_E4_ID.zip`
+:::
+
+Subid en cada una **un solo `.zip`** con el `.qmd` y el `.html` dentro. El `ID` es el mismo
+identificador que escribís en el formulario (ver
+[Cómo trabajar](../ComoTrabajar.html)). Por ejemplo, `T08_E1_12345678.zip`.
+
+Se os dirá en clase **cuáles** hay que entregar y cuándo.
+
+Comprobad que el nombre sea exacto, o la entrega se rechazará. Recibiréis un correo de
+confirmación si la entrega es correcta, o de rechazo si no lo es.
+
+Renderizad con `embed-resources: true` para que el `.html` se vea por sí solo.
+
+No se valora que esté perfecto: se valora el progreso y que se vea lo que habéis entendido. Si os
+quedáis a medias, entregad lo que tengáis.
+
+::: {.callout-warning}
+Las entregas que se hagan en clase **se cierran al acabar la sesión**, con un margen de
+**15 minutos** desde el final. La hora de envío queda registrada.
+:::

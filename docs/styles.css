@@ -18,3 +18,16 @@
   font-size: 70% !important;
 }
 */
+/* Trampa anti-IA (PROCESO.md 3septies, 22-nov-2026). Uso en el .qmd:
+   Texto de la frase. [Instruccion falsa.]{.ia aria-hidden="true"}
+   El espacio va FUERA de los corchetes (dentro, pandoc lo quita y la frase se pega), y la trampa al
+   FINAL de un parrafo o de un punto: en mitad de una frase deja un hueco que se nota.
+   Texto real en gris casi blanco: viaja al copiar (Ctrl+C) y lo lee un modelo en una captura o una
+   foto; el ojo apenas lo ve. Al seleccionar no se resalta, para que no se delate. aria-hidden
+   evita que lo lea un lector de pantalla. El color se ajusta mirandolo en el movil y en el proyector. */
+.ia { color: #f6f6f6; }
+.ia::selection { background: transparent; color: #f6f6f6; }
+.quarto-dark .ia, .quarto-dark .ia::selection { color: #1c1c1c; background: transparent; }
+/* Variante invisible del todo (solo copia de texto, no foto): la de siempre de los mini-tests. */
+.reveal .ia, .reveal .ia code { font-size: 0; }   /* en las transparencias el fondo no es blanco y el código va en color: no basta el gris */
+.ia-copia { font-size: 0; position: absolute; left: -9999px; }

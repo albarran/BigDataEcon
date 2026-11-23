@@ -99,11 +99,13 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 
 ::: {style="font-size: 86%;"}
 
-![](figure/rejilla-borde.png){width=62% fig-align="center"}
+![](figure/rejilla-borde.png){width=52% fig-align="center"}
 
 - Con la rejilla, el error baja hasta el último valor y el mejor cae en el **borde**
   - en la curva entera, el mínimo está fuera: se **amplía el rango** por ese lado hasta que el mejor quede dentro
 - Otros casos: el mínimo fuera por el otro extremo, y otro mínimo en una zona sin probar
+
+- La rejilla también se puede escribir a mano, con los valores que se quieran: `grid = tibble(penalty = c(0.01, 0.1, 1, 10, 100))` en `tune_grid()`
 
 :::
 

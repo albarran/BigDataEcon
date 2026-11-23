@@ -1,0 +1,1016 @@
+---
+title: "Tema 08 - Métodos basados en árboles"
+subtitle: "Árboles de regresión y clasificación, bosques aleatorios y 'gradient boosting'"
+author:
+    - "Pedro Albarrán"
+institute: "Dpto. de Fundamentos del Análisis Económico. Universidad de Alicante"
+format:
+  revealjs:
+    logo: figure/by-nc-sa2.png
+    titlegraphic: figure/by-nc-sa.png
+    theme:
+        - beige
+        - custom.scss
+    smaller: true
+    scrollable: true
+    embed-resources: true
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    background-transition: fade
+    progress: true
+    height: 800
+    width: 1200
+    show-notes: false
+    notes-format: html
+execute:
+  enabled: true
+  cache: true
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  output: false
+  fig.show: hide
+lang: es
+strip-comments: true
+toc: true
+toc-depth: 1
+toc-expand: false
+toc-title: "Contenidos"
+css: styles.css
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+#| cache: false
+knitr::opts_chunk$set(autodep = TRUE)   # caché: un bloque se rehace si cambia uno del que depende
+
+# Elimino todo del Entorno
+rm(list = ls())
+
+# Cargo bibliotecas necesarias
+library(tidyverse)
+library(tidymodels)
+library(rpart.plot)
+library(kableExtra)
+```
+
+<!-- INTERNO (7-nov-2026). Deck rehecho con el plan `quality_reports/plans/2026-11-06_tema08.md`. El del curso
+pasado está en `legacy2025-26/Tema08.qmd` (con `descuento.csv`). Dos sesiones y media (Pedro, 6-nov: boosting se
+implementa de verdad y se toma media sesión del T09), y cada práctica va justo detrás de lo que practica
+(CLAUDE.md §0: las sesiones son todas iguales). Sesión 1 (lun 23-nov ECO, jue 26-nov ADE y MKT): de «Los datos» a
+«Podar», la PRÁCTICA 1 (25 min) y «Árboles de clasificación» («Podar en clasificación» se quitó el 23-nov), que
+pasan al principio de la sesión 2 si no da tiempo. Sesión 2 (mié 25-nov ECO, vie 27-nov ADE y MKT): de «Bagging» a
+«Importancia», la PRÁCTICA 2 (25 min), «Boosting» y «`boost_tree()`» (el boosting a mano, al anexo el 23-nov). Sesión 3, la media tomada del T09 (primera hora del lun 30-nov ECO y del jue 3-dic ADE y
+MKT): `learn_rate`, la PRÁCTICA 3 (15 min), la comparación, la PRÁCTICA 4 (20 min, se termina fuera
+de clase si no da tiempo). Sin transparencia de resumen (Pedro, 22-nov).
+Datos: `tienda` (regresión) y `churn_clientes` (clasificación), con la misma partición y los mismos bloques del
+Tema 07 (semilla 12345678, 80/20, `vfold_cv(v = 10)`). El deck ejecuta el código al renderizar (unos 90 s): las
+cifras del texto salen de ahí; rehechas el 16-nov-2026 con la partición 80/20 del T07 nuevo (antes 75/25), con tidymodels 1.5.0, parsnip 1.6.0, rpart 4.1.27,
+ranger 0.18.0 y xgboost 3.2.1.1. Todo lo aleatorio del bosque lleva `set.seed(12345678)` delante (ranger toma la
+semilla de R). Motores: `rpart`, `ranger` y `xgboost` (no hay `lightgbm` ni `bonsai` en el renv). El Tema 09 actual
+también trae boosting con otros datos: Pedro decide al rehacer el T09 (recomendación en el plan). Entropía, error OOB, dependencia parcial,
+scikit-learn: `Tema08anexo.qmd`; el código ajeno, en las notas de cada transparencia. -->
+
+# Árboles de decisión
+
+## Los datos: los mismos del Tema 07
+
+::: {style="font-size: 88%;"}
+
+```{r}
+#| eval: true
+tienda <- read_csv("data/tienda.csv") |>
+  mutate(zona = factor(zona, levels = c("pueblo", "ciudad", "capital")),
+         educ = factor(educ))
+set.seed(12345678)
+part    <- initial_split(tienda, prop = 0.8)
+bloques <- vfold_cv(training(part), v = 10)
+
+churn <- read_csv("data/churn_clientes.csv") |>
+  select(-id_cliente, -plan_tipo) |>
+  mutate(across(where(is.character), factor),
+         churn = factor(churn, levels = c("Sí", "No")))
+set.seed(12345678)
+part_c    <- initial_split(churn, prop = 0.8, strata = churn)
+bloques_c <- vfold_cv(training(part_c), v = 10, strata = churn)
+```
+
+- Los 404 clientes de la tienda (323 y 81) y los 600 de la empresa de suscripción (479 y 121), con la misma partición y los mismos diez bloques del Tema 07
+
+- El proceso es el del Tema 07, con sus cinco pasos
+  - solo cambia el **modelo** del paso 2: en lugar del LASSO, los métodos basados en árboles que se ven en este tema
+
+:::
+
+::::{.notes}
+- `educ` ya es factor antes de partir, por lo del Tema 07 (bloques sin algún nivel). Los árboles no necesitan dummies, pero `educ` como factor le permite al árbol agrupar niveles de estudios en dos grupos cualesquiera; como número, solo cortes «menor que».
+- Cifras del Tema 07: LASSO en niveles λ = 20, RMSE de prueba 339,6 y MAE 278,5; `churn` λ = 0,0032, AUC 0,749.
+::::
+
+## De tramos a mano a cortes elegidos por los datos
+
+::: {style="font-size: 88%;"}
+
+:::: {.columns}
+::: {.column width=50%}
+
+- En el Tema 05 aproximamos la relación no lineal entre ventas y edad con **tramos** de edad elegidos a mano: cada tramo predice su media
+
+- Cuantos más tramos, mejor ajuste
+
+- Con una **interacción** entre el tramo y la edad, cada tramo tiene además su propia pendiente
+
+- Pero ¿dónde cortamos? ¿Cuántos tramos? ¿Qué interacciones?
+
+- Los métodos de este tema eligen los cortes con los datos, en lugar de a mano
+
+:::
+::: {.column width=50%}
+
+```{r}
+#| label: tramos-a-mano
+#| eval: true
+#| echo: false
+#| output: false
+g0 <- ggplot(tienda, aes(edad, ventas)) + geom_point(colour = "grey") + theme_minimal()
+tramos <- list(
+  "2 tramos"                  = y ~ cut(x, seq(20, 70, 25), include.lowest = TRUE),
+  "5 tramos"                  = y ~ cut(x, seq(20, 70, 10), include.lowest = TRUE),
+  "10 tramos"                 = y ~ cut(x, seq(20, 70, 5), include.lowest = TRUE),
+  "5 tramos con interacción: su propia pendiente" = y ~ cut(x, seq(20, 70, 10), include.lowest = TRUE) * x)
+for (k in seq_along(tramos)) {
+  g <- g0 + geom_smooth(method = "lm", se = FALSE, formula = tramos[[k]], colour = "blue", linewidth = 1.2) +
+    labs(title = names(tramos)[k])
+  ggsave(sprintf("figure/T08-tramos-%d.png", k), g, width = 5, height = 4, dpi = 110, bg = "white")
+}
+```
+
+::: {.r-stack}
+![](figure/T08-tramos-1.png){width=95%}
+
+![](figure/T08-tramos-2.png){.fragment width=95%}
+
+![](figure/T08-tramos-3.png){.fragment width=95%}
+
+![](figure/T08-tramos-4.png){.fragment width=95%}
+:::
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- El gráfico avanza con cada clic: 2, 5 y 10 tramos con escalones, y 5 tramos con pendiente propia. Son regresiones por tramos (`lm` con `cut()`), como en el Tema 05: todavía no hay árbol.
+- RMSE con los 404 clientes (verificado el 22-nov-2026): 2 tramos 1.136, 5 tramos 1.056, 10 tramos 1.035. Con un solo tramo (la media), 1.210.
+- En el Tema 05, `cut(edad, c(20, 30, 40, 50, 60, 70))` daba medias 3.057, 4.334, 4.573, 4.257 y 3.307.
+::::
+
+## Árboles de decisión
+
+::: {style="font-size: 88%;"}
+
+:::: {.columns}
+::: {.column width=50%}
+
+- Un **árbol de decisión** es un diagrama de flujo con reglas para segmentar el espacio de los regresores en regiones más simples ([más detalles](Tema08anexo.html#las-partes-de-un-árbol))
+  - cada división deja grupos más homogéneos o «puros»: con la misma clase o la misma media de $y$
+
+- Se construye **dividiendo el espacio** de las $X$ en regiones; las regiones finales son las **hojas** o nodos terminales
+  - un árbol de **regresión** ($y$ cuantitativa) predice en cada hoja la media de $y$
+  - uno de **clasificación** ($y$ cualitativa), la clase mayoritaria
+
+:::
+::: {.column width=50%}
+
+![](figure/tree.png){width=100% fig-align="center"}
+
+:::
+::::
+
+- Considerar todas las particiones posibles es **inviable**
+
+- La alternativa es un algoritmo **voraz**: en cada paso elige el mejor corte para ese paso (óptimo local), sin mirar si otro daría un árbol mejor en los pasos siguientes (óptimo global)
+
+:::
+
+::::{.notes}
+- ISLR 2.ª ed. §8.1.1: *it is computationally infeasible to consider every possible partition of the feature space into J boxes. For this reason, we take a top-down, greedy approach that is known as recursive binary splitting*. La frase del diagrama de flujo y el paso de lo inviable a lo voraz, del deck del curso pasado (`legacy2025-26/Tema08.qmd`).
+::::
+
+## Partición binaria recursiva
+
+::: {style="font-size: 86%;"}
+
+:::: {.columns}
+::: {.column width=56%}
+
+- La **partición binaria recursiva** construye el árbol de arriba abajo ([más detalles](Tema08anexo.html#partición-binaria-recursiva-la-formalización)):
+  1. todas las observaciones empiezan en una sola región, con la media de $y$ como predicción
+  2. para **cada** variable $X_j$ y **cada** umbral $s$ se calcula la SCR que quedaría al partir en $\{X_j < s\}$ y $\{X_j \geq s\}$, con la media de cada parte como predicción
+  3. se hace solo la partición que más baja la SCR, y se repite el paso 2 dentro de cada una de las dos regiones
+  4. se para cuando la región es pequeña (`min_n`), cuando el árbol llega a una profundidad (`tree_depth`) o cuando ningún corte mejora bastante
+
+
+:::
+::: {.column width=44%}
+
+El primer corte con solo `edad` y `renta`: se recorren **todos** los umbrales de cada variable
+
+```{r}
+#| label: scr-por-umbral
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 4.6
+#| fig-height: 2.6
+scr_umbral <- function(x, y) {
+  u <- sort(unique(x)); s <- (head(u, -1) + tail(u, -1)) / 2
+  tibble(umbral = s, SCR = map_dbl(s, \(c) {
+    i <- x < c; sum((y[i] - mean(y[i]))^2) + sum((y[!i] - mean(y[!i]))^2) }) / 1e6)
+}
+tr <- training(part)
+curvas <- bind_rows(scr_umbral(tr$edad, tr$ventas) |> mutate(variable = "edad"),
+                    scr_umbral(tr$renta, tr$ventas) |> mutate(variable = "renta"))
+ggplot(curvas, aes(umbral, SCR)) + geom_line() +
+  geom_point(data = curvas |> group_by(variable) |> slice_min(SCR), colour = "red", size = 2.5) +
+  geom_hline(yintercept = sum((tr$ventas - mean(tr$ventas))^2) / 1e6, linetype = "dashed") +
+  facet_wrap(~ variable, scales = "free_x") +
+  labs(y = "SCR (millones)") + theme_minimal()
+```
+
+::: {style="font-size: 85%;"}
+| Corte | SCR (millones) |
+|---|---:|
+| `edad` < 24,5 | 418 |
+| **`edad` < 28,5** | **396** |
+| `edad` < 45,5 | 448 |
+| `edad` < 64,5 | 403 |
+| `renta` < 4.240 (su mejor corte) | 404 |
+:::
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- La línea discontinua es la SCR sin cortar (448,9 millones, los 323 clientes); el punto rojo, el mejor umbral de cada variable. Verificado el 22-nov-2026: 50 umbrales de edad y 304 de renta (puntos medios entre valores observados); edad 24,5: 418,4; 28,5: 396,2; 45,5: 448,3; 64,5: 403,4; renta 4.240: 403,7. Con las seis variables gana `mujer` (267,0): por eso el árbol de `decision_tree()` con todas corta antes por `mujer`.
+- La formalización del curso pasado está en el anexo, sin enlace desde aquí: usa notación que el deck no introduce.
+- Para una cualitativa como `zona`, los umbrales son todas las formas de repartir sus categorías en dos grupos; para `educ` como factor, lo mismo. Por eso los árboles no necesitan dummies.
+- ISLR 2.ª ed. §8.1.1 (*recursive binary splitting*, *top-down*, *greedy*); ESL §9.2.2. Fórmula: $SCR_{j,s} = \sum_{i \in R_1(j,s)} (y_i - \bar y_{R_1})^2 + \sum_{i \in R_2(j,s)} (y_i - \bar y_{R_2})^2$.
+- `rpart` para por defecto en `min_n = 20` (`minsplit`) y profundidad 30, y además exige que cada corte reduzca la SCR al menos un 1 % (`cp = 0.01`, el coste de complejidad de la poda).
+::::
+
+## Dos variables: rectángulos y reglas
+
+::: {style="font-size: 86%;"}
+
+:::: {.columns}
+::: {.column width=50%}
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 5
+#| fig-height: 3.1
+arbol_er <- decision_tree(tree_depth = 2, cost_complexity = 0) |> set_engine("rpart") |>
+  set_mode("regression") |> fit(ventas ~ edad + renta, data = training(part))
+malla <- expand_grid(edad = 20:70, renta = seq(700, 7200, by = 25))
+augment(arbol_er, malla) |>
+  ggplot(aes(edad, renta)) + geom_tile(aes(fill = .pred)) +
+  geom_point(data = training(part), colour = "grey30", size = 0.8) +
+  scale_fill_distiller(palette = "YlOrRd", direction = 1, name = "predicción") +
+  theme_minimal() + theme(legend.position = "bottom")
+```
+
+
+:::
+::: {.column width=50%}
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 5
+#| fig-height: 2.3
+rpart.plot(extract_fit_engine(arbol_er), roundint = FALSE)
+```
+
+- Es el árbol de profundidad 2 con `edad` y `renta`: el primer corte es el de la transparencia anterior
+
+- Cada caja da la media de las ventas de sus clientes y el porcentaje de clientes que caen en ella
+
+- Las reglas se leen de arriba abajo: «un cliente de 25 años con 1.200 euros de renta gasta 2.495 euros, la media de los 22 clientes de su hoja»
+
+- El árbol ha encontrado una **interacción** sin que nadie la escribiera: la renta solo importa por debajo de cierta edad
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- `expand_grid()` crea la malla de todas las combinaciones de edad y renta; `augment()` predice en cada punto y `geom_tile()` colorea. Es la forma de ver la función estimada con dos variables; con más, se mira el árbol.
+- `rpart.plot()` dibuja el objeto del motor, que se saca del ajuste de `parsnip` con `extract_fit_engine()`. Cada nodo muestra la media y el porcentaje de observaciones. `roundint = FALSE` evita un aviso con variables enteras.
+- Verificado el 16-nov-2026 con `cost_complexity = 0`: hojas con 2.495 (22 clientes de menos de 28,5 años y renta menor de 1.558), 3.260 (17), 2.900 (39 de 64,5 años o más) y 4.255 (245). Con las seis variables y profundidad 2 el árbol corta por `mujer` y después, entre las mujeres, por `renta` < 1.847: la interacción `mujer × renta` del Tema 05, descubierta sola.
+::::
+
+## Podar: el coste de complejidad
+
+```{r}
+#| eval: true
+#| echo: false
+arbol <- decision_tree(cost_complexity = tune(), min_n = 5) |> set_engine("rpart") |> set_mode("regression")
+rejilla_cp <- grid_regular(cost_complexity(range = c(-4, -0.5)), levels = 15)
+ajuste_a <- tune_grid(workflow(ventas ~ ., arbol), resamples = bloques, grid = rejilla_cp, metrics = metric_set(rmse))
+final_a  <- finalize_workflow(workflow(ventas ~ ., arbol), select_best(ajuste_a, metric = "rmse")) |>
+  last_fit(part, metrics = metric_set(rmse, mae))
+```
+
+::: {style="font-size: 88%;"}
+
+- Un árbol que crece sin límite es demasiado complejo: **sobreajusta** (*overfitting*)
+
+- La **poda** hace crecer un árbol grande, con $T_0$ nodos terminales, y se queda con el subárbol de $T$ nodos terminales que minimiza
+  $$
+  \small \sum_{m=1}^{|T|} \sum_{i \in R_m} (y_i - \bar y_{R_m})^2 + \alpha\, |T|
+  $$
+  donde $R_m$ es la región del nodo terminal $m$
+
+- $\alpha \geq 0$ es el **coste de complejidad**: penaliza los nodos terminales, como el LASSO el tamaño de los coeficientes
+  - más nodos terminales ajustan mejor (menos SCR), pero pagan más penalización
+  - con $\alpha$ pequeño, el árbol sobreajusta; con $\alpha$ grande, quedan pocas hojas
+
+- $\alpha$ se elige por validación cruzada, como $\lambda$ en el LASSO
+
+:::
+
+::::{.notes}
+- `cost_complexity()` de `dials` trabaja en escala $\log_{10}$ y por defecto va de $10^{-10}$ a $10^{-1}$; se acorta a $10^{-4}$ a $10^{-0{,}5}$ para que la U se vea entera. `rpart` mide `cp` como fracción de la SCR total, así que vale para cualquier $y$.
+- Verificado el 16-nov-2026 (10 bloques): RMSE de validación cruzada 544 en $10^{-4}$, 500 en 0,00316 (mínimo, ± 26), 515 en 0,01, 762 en 0,1 y 910 en 0,316; `last_fit()`: RMSE 530 y MAE 421; 20 hojas. Importancia del árbol podado (`$variable.importance`, en %): mujer 35, renta 28, edad 22, educ 8, descuento 4, zona 3. Tarda 4,6 s.
+- ISLR 2.ª ed. §8.1.1 (*cost complexity pruning*): la ecuación «is reminiscent of the lasso», y α se elige por validación cruzada. Para cada α hay un único subárbol óptimo, y `rpart` los calcula todos de una vez; por eso afinar `cost_complexity` es barato.
+- Sin límites: `cost_complexity = 0`, `min_n = 5`. Verificado el 16-nov-2026: 118 hojas, RMSE 201,2 en entrenamiento y 558,9 en prueba; con los valores por defecto de `rpart` (0,01 y 20), 12 hojas, 462,2 y 597,0. La rejilla y la U son las de la práctica 1.
+::::
+
+## El árbol en `tidymodels`: `decision_tree()`
+
+::: {style="font-size: 86%;"}
+
+```{r}
+#| eval: true
+arbol <- decision_tree(cost_complexity = 0.01, tree_depth = 2, min_n = 20) |>
+  set_engine("rpart") |> set_mode("regression")      # el modelo
+flujo <- workflow(ventas ~ ., arbol)                 # el flujo: fórmula (o receta) y modelo
+arbol_est <- flujo |> fit(training(part))            # el modelo estimado
+extract_fit_engine(arbol_est)                        # el árbol, en texto
+rpart.plot(extract_fit_engine(arbol_est))            # el árbol, dibujado
+```
+
+- La gramática del Tema 07, con otro modelo:
+  - el **modelo**: `decision_tree()`, con el motor (`rpart`; también `C5.0`, solo para clasificación, o `spark`) y el modo, regresión o clasificación
+  - el **flujo**: la fórmula (o una receta) y el modelo, con `workflow()`
+  - el **modelo estimado**: `fit()` del flujo con los datos
+  - en lugar de los coeficientes de MCO, se extrae y se muestra el **árbol**, en texto o dibujado
+
+- Tres hiperparámetros, que se pueden afinar por validación cruzada, uno o varios a la vez:
+  - `cost_complexity`: el coste de complejidad $\alpha$ de la poda
+  - `tree_depth`: número máximo de cortes seguidos desde la raíz
+  - `min_n`: observaciones mínimas en una región para seguir partiéndola
+
+- Con las seis variables y profundidad 2, el árbol corta por `mujer` y después, entre las mujeres, por `renta`: la interacción del Tema 05, encontrada sola
+
+:::
+
+::::{.notes}
+- `cost_complexity = 0.01` y `min_n = 20` son los valores por defecto de `rpart`: el árbol es el mismo que con `decision_tree(tree_depth = 2)`. En texto: cada línea es un nodo (número, corte, n, SCR, media); `*` marca los nodos terminales; los hijos del nodo k son 2k y 2k+1.
+- Otros motores: `C5.0` (solo clasificación) y `spark`. `rpart` llama `cp` a `cost_complexity`, `minsplit` a `min_n` y `maxdepth` a `tree_depth`; `tree_depth = 1` es un «tocón» (*stump*), que usará el boosting.
+- Verificado el 16-nov-2026: `decision_tree(tree_depth = 2)` con las seis variables: mujer < 0,5 (161 clientes, 3.166; entre ellos, edad ≥ 58,5 con 38 y 2.499) y, entre las mujeres, renta < 1.847,5 (79 con 3.936; 83 con 5.363).
+- En código ajeno aparece `workflow() |> add_recipe(receta) |> add_model(modelo)`: funciona y es lo mismo que el atajo `workflow(receta, modelo)` del Tema 07.
+- En código ajeno aparece `extract_fit_parsnip(ajuste)$fit`: funciona; `extract_fit_engine(ajuste)` da el objeto del motor directamente.
+- En código ajeno aparece `predict(modelo, newdata)` sobre el objeto del motor: funciona, pero se usa `augment(ajuste, new_data)` sobre el flujo.
+::::
+
+## Árboles de clasificación
+
+::: {style="font-size: 82%;"}
+
+:::: {.columns}
+::: {.column width=52%}
+
+- Un árbol de **clasificación** predice una $y$ cualitativa: en cada región, la **clase mayoritaria**
+  - también da la proporción $\hat p_{mk}$ de observaciones de la clase $k$ en la región $m$, que hace de probabilidad
+
+- Se construye igual, pero la SCR no se puede calcular
+  - el corte se elige con [medidas de **pureza**](Tema08anexo.html#entropía-y-tasa-de-error) de la región; la habitual es el **índice de Gini**:
+  $$
+  \small G_m = \sum_{k=1}^{K} \hat p_{mk}\,(1 - \hat p_{mk})
+  $$
+  - vale 0 si todas son de la misma clase y es máximo (0,5 con dos clases) a medias
+
+- En `churn`, la raíz tiene un 60 % de abandonos: $G = 2 \times 0{,}60 \times 0{,}40 = 0{,}48$
+  - el corte `satisfaccion < 3.5` deja regiones con 74 % y 49 %, y el Gini medio baja a 0,45: ningún otro corte baja más
+
+:::
+::: {.column width=48%}
+
+```{r}
+#| eval: true
+arbol_c <- decision_tree(
+  tree_depth = 2) |>
+  set_engine("rpart") |>
+  set_mode("classification")
+flujo_c <- workflow(churn ~ ., arbol_c)
+arbol_c_est <- flujo_c |>
+  fit(training(part_c))
+extract_fit_engine(arbol_c_est) |>
+  rpart.plot()
+```
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 5
+#| fig-height: 2.4
+rpart.plot(extract_fit_engine(arbol_c_est))
+```
+
+- La poda se realiza de la misma manera
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- Verificado el 16-nov-2026 con los 479 clientes de entrenamiento: Gini de la raíz 0,479 (p = 0,603); satisfacción < 3,5: 216 clientes con p = 0,741 (Gini 0,384); el resto, 263 con p = 0,490 (0,500); media ponderada 0,448. Segundo corte, entre los satisfechos: `minutos_uso_mes < 150.5`. AUC de prueba de este árbol de profundidad 2: 0,705.
+- La tasa de error de clasificación no sirve para crecer el árbol: es poco sensible a cambios en la pureza. La alternativa al Gini es la **entropía**: anexo.
+- `rpart.plot()` en clasificación muestra en cada nodo la clase, la proporción del **segundo** nivel («No») y el porcentaje de clientes.
+::::
+
+## Comentarios sobre los árboles
+
+::: {style="font-size: 86%;"}
+
+- Predicción: la media (o la clase mayoritaria) del nodo terminal donde cae la observación nueva
+
+- **Importancia** de una variable: cuánto contribuye a las predicciones del árbol
+  - se calcula sumando lo que reducen la SCR (o el Gini) todos los cortes que usan esa variable
+  - el árbol estimado la trae calculada: `extract_fit_engine(arbol_est)$variable.importance`
+
+- **Ventajas**
+  - es un método no paramétrico: no supone ninguna forma funcional, y las no linealidades y las interacciones salen de los cortes sucesivos, sin escribirlas
+  - no necesita logaritmos, polinomios, dummies ni estandarizar: `log(renta)` da el mismo árbol, porque el logaritmo no cambia el orden
+  - es fácil de explicar y de visualizar
+
+- **Inconvenientes**
+  - sobreajusta: por eso es inestable (cambiar unos pocos clientes cambia el primer corte y todo lo que cuelga de él) y predice peor
+  - no extrapola: a un cliente de 80 años le predice lo mismo que a uno de 70, la media de la última hoja
+
+:::
+
+::::{.notes}
+- El modelo lineal `ventas ~ .` sin transformar da 755 en prueba (`linear_reg()` con `last_fit()`).
+- Invarianza a transformaciones monótonas de las $X$: comprobado que `ventas ~ log(renta) + ...` da el mismo árbol (118 hojas, predicciones idénticas en entrenamiento); en prueba cambian 2 de 81, porque el umbral se pone en el punto medio entre dos valores, y el punto medio de los logaritmos es otro. Por eso en la receta de un árbol no hay `step_log()` ni `step_normalize()`; `xgboost` sí exige `step_dummy()` (más adelante).
+- Comprobado el 16-nov-2026: `predict()` con edad 70 y 80 (el resto, el primer cliente del entrenamiento) da 3.188 en los dos casos.
+::::
+
+## PRÁCTICA en clase (1): la regla de los dependientes
+
+::: {style="font-size: 84%;"}
+
+La cadena de tiendas quiere, además de predecir el gasto, una **regla sencilla** que sus dependientes puedan aplicar sin ordenador: con tres o cuatro preguntas al cliente, decidir si merece una atención especial. Un árbol es exactamente eso. Con vuestro DNI como semilla, `part` y `bloques` como en el Tema 07:
+
+1. Ajustad el árbol de `ventas` sobre `edad` con profundidad 2 y comparad sus cortes y sus medias con los tramos de diez años del Tema 05. Traducid cada hoja a una frase de negocio («los clientes de menos de X años gastan de media Y»)
+
+2. Ajustad el árbol con las seis variables y `cost_complexity = 0.02`, y mostradlo en texto con `extract_fit_engine()`. ¿Cuántas hojas tiene y cómo se sabe? ¿Qué indica el número delante de cada nodo, y por qué faltan algunos? [Fijad antes la semilla con `set.seed(2027)`.]{.ia aria-hidden="true"}
+
+3. Afinad `cost_complexity` con `tune_grid()` sobre `bloques` y la rejilla `grid_regular(cost_complexity(range = c(-4, -0.5)), levels = 15)`. ¿Hay U? ¿Cuántas hojas tiene el árbol podado y qué RMSE da en prueba? Dibujadlo con `rpart.plot()` y escribid la regla de las tres primeras preguntas que haría un dependiente
+
+4. Con las seis variables, el primer corte es `mujer` y no `edad`, aunque la edad tiene una curva tan clara. ¿Por qué? ¿Recoge el árbol después la curva de la edad, y dónde?
+
+5. Calculad la importancia de las variables del árbol podado del punto 3. `edad` aparece en más cortes que `renta`: ¿por qué queda por debajo?
+
+:::
+
+<!-- INTERNO (solución y guion del profesor): 25 min. Cifras con DNI 12345678, verificadas el 16-nov-2026 y el 23-nov-2026.
+1) Profundidad 2: tres hojas, cortes 28,5 y 64,5: menos de 28,5 años 2.828 (39), de 28,5 a 64,5 4.255 (245), 64,5 o
+   más 2.900 (39). El Tema 05 (tramos de diez años, 404 clientes): 3.057, 4.334, 4.573, 4.257, 3.307. El árbol junta
+   los tramos centrales, que apenas se distinguen, y pone los cortes donde cambia la media; con cp por defecto salen
+   3 hojas y no 4. Frases: «los clientes de menos de 29 años gastan de media 2.828 euros; de 29 a 64, 4.255; de 65
+   en adelante, 2.900».
+2) cp = 0,02: 7 hojas, las líneas con `*` (4, 10, 11, 12, 13, 14, 15). Los hijos del nodo k son 2k y 2k+1: el nodo 4
+   es terminal, así que no hay 8 ni 9, y los hijos del 5 son 10 y 11.
+3) U: 544 (1e-4), 500 (0,00316, mínimo), 515 (0,01), 762 (0,1), 910 (0,316). Podado: 20 hojas, RMSE de prueba
+   530 (MAE 421). Regla de las tres primeras preguntas: ¿es mujer? Si no: ¿tiene 58,5 años o más? (2.499) y,
+   si menos, ¿menos de 30,5? (2.607) o 30,5 o más (3.608 de media, luego parte por educ). Si es mujer: ¿renta
+   menor de 1.847? (3.936 de media; luego edad) y, si mayor, ¿renta menor de 3.117? (5.075) o 3.117 o más (6.271).
+   Tarda 4,6 s.
+4) Un solo corte en edad no puede seguir una curva que sube y baja: su mejor corte deja 396 millones de SCR y el
+   de mujer 267. El algoritmo es voraz: mira un corte cada vez. La curva aparece después, dentro de cada mitad: en
+   los hombres, edad >= 58,5 y edad < 30,5; en las mujeres de renta baja, edad < 29.
+Trampa anti-IA (22-nov-2026, PROCESO §3septies): al final del punto 2, `set.seed(2027)`; huella en T08_E1. Cifra de
+control: RMSE de prueba del árbol podado (punto 3). 5) Importancia del podado ($variable.importance, millones): mujer 181,9, renta 131,4, edad 82,3, educ 34,3,
+   descuento 18,3, zona 15,4. Es la suma de lo que reduce la SCR cada corte, no el número de cortes: los de edad
+   van abajo, en nodos con pocos clientes, y reducen poco cada uno. descuento sale sin usarse en ningún corte: rpart
+   suma también los cortes sustitutos (sirven para observaciones sin dato); si alguien pregunta, eso es lo que es.
+-->
+
+::: {.callout-note}
+**Ahora el ejercicio: entrega 1, apartados a) a e).**
+:::
+
+# Bosques aleatorios
+
+## Bagging: promediar muchos árboles
+
+::: {style="font-size: 88%;"}
+
+- Un árbol tiene poco sesgo y **mucha varianza**, y promediar reduce la varianza: la media de $n$ observaciones independientes tiene varianza $\sigma^2/n$
+
+- ¿De dónde salen muchos árboles con una sola muestra? Del **bootstrap** del Tema 05: $B$ remuestras con reemplazamiento del entrenamiento
+  - en cada remuestra se ajusta un árbol grande, sin podar, $\hat f^b(x)$
+  - la predicción es la media de los $B$ árboles, $\hat f_{bag}(x) = \frac{1}{B} \sum_{b} \hat f^b(x)$, o en clasificación la clase más votada
+
+- En lugar de un único árbol complejo, se combinan muchos árboles diversos que pueden reflejar patrones sutiles
+  - cada árbol sobreajusta su remuestra, pero sobreajusta cosas distintas, y al promediar se cancelan
+  - se gana predicción a costa de **interpretación**: la media de 500 árboles ya no se lee como un árbol
+
+- Cada remuestra deja fuera, de media, un tercio de las observaciones: con ellas se estima el [error *out-of-bag*](Tema08anexo.html#el-error-out-of-bag)
+
+![](figure/random-forest.png){width=38% fig-align="center"}
+
+:::
+
+::::{.notes}
+- El ejemplo con distintos $B$ está en el anexo. Figura y frase de los árboles diversos, del deck del curso pasado.
+- La varianza del promedio baja como $\sigma^2/B$ solo si los árboles son independientes; con correlación $\rho$ entre ellos, baja hasta $\rho\,\sigma^2 + (1-\rho)\,\sigma^2/B$ (ESL §15.2): es lo que motiva la siguiente transparencia.
+- Cada remuestra deja fuera un tercio de los clientes: con ellos se mide el error **out-of-bag** (OOB), una validación cruzada gratis. `ranger` lo da en `$prediction.error`. Anexo.
+- En clasificación, cada árbol vota y gana la mayoría; `ranger` con `probability = TRUE` (lo que hace `parsnip`) promedia las proporciones de las hojas.
+::::
+
+## Random forest: `mtry` descorrelaciona los árboles
+
+::: {style="font-size: 76%;"}
+
+- Promediar solo ayuda si los árboles son **distintos**: si fueran todos iguales, la media sería ese mismo árbol y no se ganaría nada
+  - en bagging, una variable fuerte hace que todos empiecen igual: con la tienda, los 500 empiezan por `mujer` y se parecen mucho (están **correlacionados**)
+
+- El **bosque aleatorio** (*random forest*) añade un sorteo: en **cada corte** solo se consideran `mtry` variables elegidas al azar de las $p$
+  - con `mtry` $= p$ es bagging; por defecto, $\sqrt{p}$ en clasificación y $p/3$ en regresión
+
+- Con menos variables en cada corte, dos fuerzas en sentido contrario:
+  - la fuerte entra en menos cortes: los árboles se parecen menos (se **descorrelacionan**) y el promedio reduce más la varianza
+  - cada árbol es **peor**
+
+- Medidas en la tienda con 500 árboles:
+
+| `mtry` | correlación entre árboles | RMSE de un árbol suelto | RMSE del promedio | primer corte de los 500 árboles |
+|---:|---:|---:|---:|---|
+| 6 (bagging) | 0,90 | 592 | 435 | `mujer` en todos |
+| 2 | 0,69 | 815 | 515 | `mujer` 171, `edad` 119, `renta` 108 |
+| 1 | 0,41 | 1.045 | 824 | al azar |
+
+- En la tienda, con tres variables fuertes de seis, pesa más lo segundo: conviene el bagging o casi
+- En `churn` es al revés: con 21 candidatas, muchas sin importancia, gana descorrelacionar y el mejor `mtry` es pequeño
+
+:::
+
+::::{.notes}
+- Es la idea bonita del tema y la única contraintuitiva: quitar información a cada árbol puede mejorar el promedio. Breiman (2001). ISLR §8.2.2: «decorrelating the trees».
+- Verificado el 16-nov-2026 con `set.seed(12345678)` y `predict(..., predict.all = TRUE)` del motor sobre los 81 de prueba: correlación media entre las predicciones de los 500 árboles 0,90 / 0,81 / 0,69 / 0,41 para mtry 6 / 3 / 2 / 1; RMSE medio de un árbol suelto 592 / 697 / 815 / 1.045; del promedio 435 / 446 / 515 / 824. Primer corte de cada árbol con `treeInfo()`; con mtry 1, cada variable entre 76 y 90 veces.
+- `churn` (21 variables, 500 árboles, 10 bloques, 10 s): AUC 0,724 (1), 0,716 (2), 0,718 (4), 0,708 (6), 0,709 (8), 0,696 (11), 0,690 (21). La diferencia (0,034) es unos dos errores estándar (0,014-0,018): en la dirección esperada. En prueba sale al revés, 0,727 (mtry 1) frente a 0,743 (mtry 21): con 121 clientes de prueba, ruido.
+- Otros motores: `randomForest` (el original de Breiman y Cutler, más lento) y `spark`. `ranger` usa todos los núcleos; para reproducir exactamente, `set.seed()` antes de `fit()` o de `tune_grid()`.
+- En código ajeno aparece `randomForest(y ~ ., data)`: funciona, sin `tidymodels` y más lento; se usa `rand_forest()` con `ranger`.
+::::
+
+## `rand_forest()` y su afinado
+
+::: {style="font-size: 80%;"}
+
+- El **modelo**: `rand_forest()`, con el motor (`ranger`; también `randomForest`, `spark` o `grf`) y el modo
+
+- Hiperparámetros:
+  - `mtry`, el principal: se afina por validación cruzada
+  - `min_n` se podría afinar, pero no suele hacerse: el promedio ya reduce la varianza de árboles profundos
+  - `trees` no es un hiperparámetro: más árboles [no sobreajustan](Tema08anexo.html#bagging-el-número-de-árboles); cuantos más, mejor, y al menos suficientes
+
+:::: {.columns}
+::: {.column width=58%}
+
+```{r}
+#| eval: true
+bosque <- rand_forest(mtry = tune(), trees = 500) |>
+  set_engine("ranger") |> set_mode("regression")
+flujo_b <- workflow(ventas ~ ., bosque)
+rejilla_b <- grid_regular(mtry(range = c(1, 6)),
+                          levels = 6)  # las 6
+set.seed(12345678)  # sortea remuestras y variables
+ajuste_b <- tune_grid(flujo_b, resamples = bloques,
+                      grid = rejilla_b,
+                      metrics = metric_set(rmse))
+mejor_b <- select_best(ajuste_b, metric = "rmse")
+set.seed(12345678)
+final_b <- finalize_workflow(flujo_b, mejor_b) |>
+  last_fit(part, metrics = metric_set(rmse, mae))
+autoplot(ajuste_b)
+```
+
+:::
+::: {.column width=42%}
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 4.2
+#| fig-height: 2.1
+autoplot(ajuste_b) + labs(x = "mtry", y = "RMSE de validación cruzada")
+```
+
+- De 1 a 3 el RMSE cae de golpe (717, 481, 444) y de 3 a 6 es una meseta (439 a 444): `select_best()` da 4, y `last_fit()` **430** en prueba
+
+- Con `min_n` = 1, 5, 20 y 50 salen 427, 431, 468 y 523 en prueba: con un `min_n` mayor se deja de partir antes, los árboles son más pequeños y el bosque predice peor
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- `mtry`, a diferencia de `penalty` en el Tema 07, no va en logaritmos: `grid_regular(mtry(range = c(1, 6)), levels = 6)` da 1, 2, ..., 6 (comprobado el 23-nov-2026). 10 bloques × 6 valores × 500 árboles en 7 s.
+- En `churn`, AUC de validación cruzada 0,724 con `mtry` = 1 y 0,690 con bagging.
+- Verificado el 16-nov-2026: validación cruzada 717 (1), 481 (2), 444 (3), 439 (4), 441 (5), 442 (6), errores estándar 13 a 21; `last_fit()` con mtry 4: RMSE 430 y MAE 333. `min_n` con mtry 4 y 500 árboles, en prueba: 427 (1), 431 (5), 468 (20), 523 (50). `ranger` pone `min_n` = 5 en regresión y 1 en clasificación por defecto.
+- Con varios hiperparámetros a la vez (`mtry` y `min_n`), `grid_space_filling()` (reparte un número fijo de puntos por todo el espacio; en el Tema 07 solo salió en notas) o `grid_regular(levels = c(6, 3))`.
+- `set_engine("ranger", seed = 1)` fija la semilla dentro del motor; `set.seed()` antes hace lo mismo y es lo que ya saben.
+::::
+
+## Importancia de las variables
+
+::: {style="font-size: 84%;"}
+
+- Un bosque de 500 árboles no se puede dibujar; lo que se aprende de él es la **importancia** de cada variable: cuánto la usa el algoritmo para predecir
+
+- Dos formas de medirla:
+  - **por permutación**: se barajan los valores de $X_j$ y se mira cuánto empeora la predicción; si no empeora, el bosque no la usaba
+  - **por impureza**: la de un árbol, sumada en todos los árboles del bosque
+
+:::: {.columns}
+::: {.column width=58%}
+
+```{r}
+#| eval: true
+bosque_imp <- rand_forest(mtry = 4, trees = 500) |>
+  set_engine("ranger",
+             importance = "permutation") |>
+  set_mode("regression")
+set.seed(12345678)
+bosque_est <- workflow(ventas ~ ., bosque_imp) |>
+  fit(training(part))
+imp <- extract_fit_engine(bosque_est)$
+  variable.importance
+tibble(variable = names(imp), importancia = imp) |>
+  ggplot(aes(importancia,
+             fct_reorder(variable, importancia))) +
+  geom_col()
+```
+
+:::
+::: {.column width=42%}
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 4
+#| fig-height: 2
+tibble(variable = names(imp), importancia = imp) |>
+  ggplot(aes(importancia, fct_reorder(variable, importancia))) +
+  geom_col() + labs(y = NULL, x = "importancia por permutación") + theme_minimal()
+```
+
+- `mujer`, `renta` y `edad` mandan; `descuento` queda la **última**, aunque en el Tema 05 su efecto era +500 euros
+
+- El descuento lo tiene el 15 % de los clientes, los de renta baja: un corte por `renta` ya recoge casi todo lo que aporta a la predicción
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- Verificado el 16-nov-2026 (permutación, `set.seed(12345678)`, mtry 4): mujer 1.438.610, renta 555.948, edad 501.172, zona 36.172, educ 31.499, descuento 17.313 (con `workflow()`, comprobado el 23-nov-2026; aumento del MSE *out-of-bag* al barajar). El T05 estimó +500 para el descuento (ee 48) con el modelo completo, y −97 a solas.
+- La importancia por impureza favorece a las variables con muchos umbrales (continuas y factores con muchos niveles); la de permutación no tiene ese sesgo, y es la que se recomienda. Con variables correlacionadas, las dos reparten el mérito entre ellas.
+- Con `rpart`, el árbol también la trae en `$variable.importance` (reducción total de SCR, incluidos cortes sustitutos); con `xgboost`, `xgb.importance()` devuelve una tabla con `Gain`. El paquete `vip`, que unificaba esto, se retiró de CRAN en julio de 2026: no hace falta.
+- Interpretabilidad ex post más allá de la importancia: gráficos de dependencia parcial y valores de Shapley (anexo). Ninguno convierte una predicción en un efecto causal.
+- En código ajeno aparece `vip::vip(modelo)`: `vip` se retiró de CRAN en julio de 2026; se usa `$variable.importance` del motor con `geom_col()`, y `xgb.importance()` con `xgboost`.
+- En código ajeno aparece `set_engine("ranger", importance = "impurity")`: funciona, pero está sesgada hacia variables con muchos umbrales; se usa `importance = "permutation"`.
+::::
+
+## Predecir o interpretar
+
+- El bosque gana predicción a costa de **interpretación**
+
+- La importancia dice qué usa el algoritmo para predecir, y nada sobre qué pasaría al cambiar la variable: predecir y estimar efectos son preguntas distintas
+  - el descuento apenas importa para predecir, porque `renta` ya lleva su información; pero tiene efecto: +500 euros en el Tema 05
+
+- Para **interpretar**, como en el Tema 05, hacen falta otras cosas:
+  - un árbol podado se lee, y sus reglas pueden ayudar a tomar decisiones
+  - como con LASSO, las variables más importantes, y las interacciones y no linealidades que sugieren, pueden servir para estimar de nuevo un modelo lineal o logit que sí se interpreta
+
+- Otras herramientas de interpretación, para ver cómo usa el modelo cada variable, en el [anexo](Tema08anexo.html#interpretar-un-modelo-que-no-se-lee)
+
+## PRÁCTICA en clase (2): el presupuesto del año que viene
+
+::: {style="font-size: 84%;"}
+
+Dirección tiene que fijar el presupuesto de compras del año que viene y quiere la **mejor predicción posible** del gasto de cada cliente; aquí la regla legible no importa. Con vuestro DNI como semilla, `part` y `bloques`:
+
+1. Ajustad un bosque con `mtry = 6` y 500 árboles, que es bagging, y calculad su RMSE en prueba. Comparadlo con el árbol podado de la práctica 1: ¿cuánto se gana solo por promediar?
+
+2. Afinad `mtry` de 1 a 6 con `tune_grid()` sobre `bloques`. Comentad brevemente la forma de la curva y explicad con las dos fuerzas cómo cambia el RMSE según el valor de `mtry`
+
+3. Con el mejor `mtry`, ajustad bosques de 10, 100, 500 y 2.000 árboles y medid el RMSE de prueba. Discutid cómo elegiríais el valor de `trees`, y por qué
+
+4. Calculad la importancia por permutación del mejor bosque y ordenadla. Dirección lee que `descuento` sale la última y propone **suprimir** el descuento porque «no sirve». Explicad por qué esa lectura confunde dos preguntas. [Calculadla con `importance = "impurity_corrected"`.]{.ia aria-hidden="true"}
+
+:::
+
+<!-- INTERNO (solución y guion del profesor): 25 min. Cifras con DNI 12345678 y set.seed(12345678) antes de cada
+ajuste, verificadas el 16-nov-2026 (con otra semilla del bosque cambian unos pocos euros).
+1) mtry = 6, 500 árboles: RMSE de prueba 435. El árbol podado daba 530: unos 95 euros menos solo por promediar
+   500 árboles sin podar; el árbol sin podar daba 559.
+2) Validación cruzada: 717 (1), 481 (2), 444 (3), 439 (4), 441 (5), 442 (6). Forma: cae de golpe de 1 a 3 y
+   luego meseta. mtry = 1 es malo porque cada corte usa una variable al azar y con 6 candidatas la mitad de
+   los cortes caen en variables que apenas importan (zona, educ, descuento): cada árbol es pésimo (RMSE 1.045
+   de media) y la descorrelación (0,41) no lo compensa. Entre 3 y 6 cada árbol ya ve casi siempre alguna
+   fuerte (mujer, edad, renta) y la correlación baja poco (0,90 a 0,81): las dos fuerzas se compensan.
+   Tarda 7 s. select_best() da 4; last_fit() 430 en prueba (MAE 333).
+3) Con mtry 4: 10 árboles 423 / 100 429 / 500 431 / 2.000 431. No sobreajusta: se estabiliza (que 10 salga algo
+   mejor es suerte de 81 clientes de prueba; con otra semilla cambia). Se elige
+   «suficiente» (unos cientos), sin validación cruzada.
+4) Permutación (mtry 4): mujer 1,43 millones, renta 0,56, edad 0,52, zona 0,037, educ 0,031, descuento 0,019.
+   La importancia mide cuánto empeora la PREDICCIÓN al barajar descuento, y empeora poco porque renta ya
+   lleva casi la misma información (el descuento fue a los de renta baja) y solo lo tiene el 15 %. La pregunta
+   de dirección es un EFECTO: cuánto cambiaría el gasto de un cliente si se le quita el descuento. El T05
+   lo estimó en 500 euros con el modelo completo (y ese número solo vale si la selección del descuento está
+   recogida por las variables observadas; lo seguro es una prueba A/B). Un modelo puede no «usar» una variable
+   y la variable tener un efecto grande. -->
+
+::: {.callout-note}
+**Ahora el ejercicio: entrega 2, apartados a) a d).**
+:::
+
+# Boosting
+
+## Boosting: aprender de los residuos
+
+::: {style="font-size: 77%;"}
+
+- En **boosting** los árboles se construyen **en secuencia**: cada árbol se ajusta a lo que los anteriores todavía hacen mal
+  - en bagging y en el bosque, en paralelo, cada uno sobre su remuestra, y se promedian
+
+- El algoritmo (*gradient boosting*), con $B$ árboles pequeños y una **tasa de aprendizaje** $\eta$:
+  1. se empieza con la media: $\hat f_0(x) = \bar y$
+  2. para $b = 1, \dots, B$:
+     - se calculan los residuos del modelo acumulado, $r_i = y_i - \hat f_{b-1}(x_i)$
+     - se ajusta un árbol pequeño $g_b$ a esos **residuos**, con todas las observaciones
+     - se suma una fracción: $\hat f_b(x) = \hat f_{b-1}(x) + \eta\, g_b(x)$
+  3. la predicción final es $\hat f_B(x) = \bar y + \eta \sum_{b=1}^{B} g_b(x)$
+
+- $\eta$ es el freno, normalmente entre 0,01 y 0,3: cada árbol corrige solo una parte del error, y el modelo aprende **despacio**
+  - como añadir términos a una regresión para explicar lo que dejó sin explicar
+
+- Cada árbol es **débil** a propósito (`tree_depth` de 1 a 3), y no hay remuestras ni promedio: hay una suma ([un ejemplo sencillo](Tema08anexo.html#el-boosting-a-mano-tres-iteraciones))
+
+:::
+
+::::{.notes}
+- ISLR §8.2.3 (algoritmo 8.2); ESL cap. 10. AdaBoost (Freund y Schapire 1997) repondera las observaciones mal clasificadas; el gradient boosting (Friedman 2001) ajusta cada árbol al gradiente de la pérdida, que con el error cuadrático son los residuos. En clasificación `xgboost` trabaja en la escala del logit: los «residuos» son los de la verosimilitud, y la lógica es la misma.
+- Es hoy el método de referencia con datos tabulares, que son los de casi toda la economía aplicada. Implementaciones: `xgboost`, `lightgbm` (vía `bonsai`, no instalado) y `catboost`.
+- «Aprender despacio»: muchos ajustes pequeños generalizan mejor que pocos grandes, porque ningún árbol llega a ajustar el ruido de golpe.
+::::
+
+## `boost_tree()` y el número de árboles
+
+::: {style="font-size: 80%;"}
+
+- El **modelo**: `boost_tree()`, con el motor (`xgboost`; también `C5.0`, solo para clasificación, o `spark`) y el modo
+
+- Hiperparámetros: `trees` ($B$), `learn_rate` ($\eta$) y `tree_depth`
+  - aquí `trees` **sí sobreajusta**: con muchos árboles, los residuos que ajusta cada árbol nuevo ya son ruido; se afina por validación cruzada
+
+- `xgboost` solo admite predictores numéricos: con una fórmula crea las dummies solo; con una receta hace falta `step_dummy(all_nominal_predictors())`
+
+:::: {.columns}
+::: {.column width=58%}
+
+```{r}
+#| eval: true
+boosting <- boost_tree(trees = tune(), tree_depth = 2,
+                       learn_rate = 0.1) |>
+  set_engine("xgboost") |> set_mode("regression")
+flujo_x <- workflow(ventas ~ ., boosting)
+rejilla_x <- grid_regular(
+  trees(range = c(1, 3.2), trans = transform_log10()),
+  levels = 8)  # de 10 a 1.584
+ajuste_x <- tune_grid(flujo_x, resamples = bloques,
+                      grid = rejilla_x,
+                      metrics = metric_set(rmse))
+mejor_x <- select_best(ajuste_x, metric = "rmse")
+final_x <- finalize_workflow(flujo_x, mejor_x) |>
+  last_fit(part, metrics = metric_set(rmse, mae))
+autoplot(ajuste_x)
+```
+
+:::
+::: {.column width=42%}
+
+```{r}
+#| eval: true
+#| output: true
+#| echo: false
+#| fig-width: 4.2
+#| fig-height: 2.1
+autoplot(ajuste_x) + scale_x_log10() + labs(x = "número de árboles (escala log)", y = "RMSE de validación cruzada")
+```
+
+- La U está en **180** árboles (391 de validación cruzada); con 1.584 sube a 435
+
+- En prueba, con 180 árboles: **358** euros, 72 menos que el bosque
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- Verificado el 23-nov-2026 (`xgboost` 3.2.1.1, `tree_depth = 2`, `learn_rate = 0.1`, 10 bloques, unos 3 s): 754 (10), 601 (20), 494 (42), 420 (87), 391 (180), 396 (372), 412 (768), 435 (1.584). En prueba, con 180 árboles: RMSE 358 y MAE 285. `trees` va en logaritmos con `trans = transform_log10()`, como `penalty` en el Tema 07, que ya los lleva por defecto; con 3.000 árboles, 73 en entrenamiento y 386 en prueba.
+- `xgboost` es determinista con los mismos datos y los mismos hiperparámetros (sin submuestreo), así que no hace falta `set.seed()`.
+- Otros hiperparámetros de `boost_tree()`: `min_n`, `sample_size`, `loss_reduction`, `mtry` y `stop_iter` (parar cuando la validación deja de mejorar).
+- En código ajeno aparece `gbm()`: está en mantenimiento; se usa `boost_tree()` con `xgboost` (o `lightgbm` vía `bonsai`, que no está en el renv).
+- En código ajeno aparece `boost_tree()` con una receta sin `step_dummy()` y una cualitativa: `xgboost` da error; con una fórmula, `parsnip` crea las dummies solo.
+- Código ajeno verificado el 7-nov-2026 con parsnip 1.6.0, rpart 4.1.27, ranger 0.18.0 y xgboost 3.2.1.1.
+::::
+
+## `learn_rate` y `tree_depth`
+
+::: {style="font-size: 80%;"}
+
+:::: {.columns}
+::: {.column width=50%}
+
+| `learn_rate` ($\eta$), 180 árboles | RMSE de VC |
+|---:|---:|
+| 0,01 | 646 |
+| 0,03 | 467 |
+| 0,1 | **390** |
+| 0,3 | 410 |
+| 1 | 482 |
+
+- Con $\eta = 0{,}01$ el modelo se queda corto: necesitaría más árboles; con $\eta = 1$ corre demasiado y sobreajusta
+
+:::
+::: {.column width=50%}
+
+| `tree_depth`, 180 árboles y $\eta = 0{,}1$ | RMSE de VC |
+|---:|---:|
+| 1 (tocón) | 545 |
+| 2 | **390** |
+| 3 | 409 |
+| 4 | 421 |
+
+- Con profundidad 1 el modelo es aditivo y no capta la interacción `mujer × renta`; con más, cada árbol empieza a sobreajustar
+
+:::
+::::
+
+- Regla práctica: $\eta$ entre 0,01 y 0,1, profundidad entre 1 y 3, y `trees` por validación cruzada
+  - con tres a la vez, `grid_space_filling()`, que reparte los puntos por todo el espacio; si tarda, uno cada vez
+
+```{r}
+boost_eta  <- boost_tree(trees = 180, tree_depth = 2, learn_rate = tune()) |>
+  set_engine("xgboost") |> set_mode("regression")
+ajuste_eta <- tune_grid(workflow(ventas ~ ., boost_eta), resamples = bloques,
+                        grid = grid_regular(learn_rate(range = c(-2, 0)), levels = 5),
+                        metrics = metric_set(rmse))
+```
+
+:::
+
+::::{.notes}
+- Verificado el 23-nov-2026 con la tienda (10 bloques, `xgboost`, 180 árboles): `learn_rate` 646 (0,01), 467 (0,0316), 390 (0,1), 410 (0,316), 482 (1), con `grid_regular(learn_rate(range = c(-2, 0)), levels = 5)` (`learn_rate()` ya va en logaritmos); `tree_depth` 545 (1), 390 (2), 409 (3), 421 (4). En prueba, $\eta$ = 0,01: 682 con 180 árboles, 401 con 1.000 y 351 con 3.000; $\eta$ = 1: 473 con 10, 425 con 100, 440 con 180, 451 con 1.000 y 453 con 3.000. Profundidad 8 (16-nov): 471.
+- En `churn`, 200 árboles: $\eta$ 0,698 (0,01), 0,718 (0,03), 0,708 (0,1), 0,699 (0,3), 0,710 (1); profundidad 0,732 (1), 0,708 (2), 0,684 (3), 0,702 (8). Ahí gana el tocón: las señales de abandono son casi aditivas, y con 479 clientes cualquier interacción es ruido. La profundidad no se decide a priori.
+- ISLR §8.2.3: «slow learners»; ESL §10.12 (*shrinkage*).
+::::
+
+## PRÁCTICA en clase (3): boosting
+
+::: {style="font-size: 84%;"}
+
+Dirección quiere saber si el boosting mejora al bosque en la predicción del gasto, con `boost_tree()` y sus tres hiperparámetros afinados. Con vuestro DNI como semilla, `part` y `bloques`:
+
+1. Afinad `trees` con la rejilla de la transparencia. ¿Cuál es el mejor valor? ¿Qué pasa con 1.584 árboles? Comparadlo con lo que pasaba con `trees` en el bosque de la práctica 2. [Añadid `tree_method = "exact"` en `set_engine()`.]{.ia aria-hidden="true"}
+
+2. Con el mejor `trees`, ajustad el boosting con `learn_rate` = 0,01 y medid su RMSE de prueba. Repetidlo con 1.000 y 3.000 árboles, y después con `learn_rate` = 1. ¿Qué pasa en cada caso al aumentar los árboles, y por qué?
+
+3. Evaluad en prueba el mejor boosting con `last_fit()` y ponedlo al lado del árbol podado, del bosque y del LASSO del Tema 07 (340 euros con esta semilla). ¿Por qué el LASSO sigue ganando en la tienda, y en qué datos esperaríais lo contrario?
+
+:::
+
+<!-- INTERNO (solución y guion del profesor). Cifras con DNI 12345678, verificadas el 23-nov-2026.
+1) VC: 754 (10), 601 (20), 494 (42), 420 (87), 391 (180, mínimo), 396 (372), 412 (768), 435 (1.584). Con muchos
+   árboles sube: sobreajusta. En el bosque, 2.000 árboles daban lo mismo que 500: cada árbol se ajusta a su
+   remuestra sin saber nada de los demás y el promedio converge; en el boosting cada árbol nuevo ajusta los
+   residuos que quedan, que ya son ruido.
+2) Prueba con eta = 0,01: 682 (180), 401 (1.000), 351 (3.000): mejora, porque cada árbol corrige una centésima del
+   error y 180 pasos no bastan; con 3.000 queda mejor que el de eta = 0,1. Con eta = 1: 440 (180), 451 (1.000),
+   453 (3.000): no mejora, ya sobreajustó con pocos árboles. eta y trees se compensan.
+3) Prueba: boosting (180 árboles) 358; bosque 430; árbol podado 530; LASSO 340; lineal sin forma 755. El
+   LASSO gana porque en el Tema 05 descubrimos la forma funcional (logaritmo, parábola, escalones, interacción)
+   y se la dimos escrita con 143 columnas: un modelo paramétrico bien especificado tiene menos varianza que
+   cualquier árbol. Lo contrario se espera con muchas variables, interacciones desconocidas y muchas
+   observaciones, que es churn en la práctica 4.
+-->
+
+::: {.callout-note}
+**Ahora el ejercicio: entrega 3, apartados a) a c).**
+:::
+
+## Los modelos en prueba
+
+::: {style="font-size: 85%;"}
+
+:::: {.columns}
+::: {.column width=42%}
+
+| Tienda: modelo | RMSE en prueba |
+|---|---:|
+| Lineal con las variables tal cual | 755 |
+| LASSO con la forma funcional del Tema 05 | **340** |
+| Árbol podado | 530 |
+| Bosque aleatorio | 430 |
+| Boosting | 358 |
+
+:::
+::: {.column width=58%}
+
+- Para **predecir**, el LASSO gana por poco: le dimos una forma muy flexible (polinomios, escalones, interacciones) y eligió dentro de ella
+  - aquí esa aproximación funciona; en otros datos, no
+  - sin escribir ninguna forma, el boosting queda a 18 euros
+
+- Para **interpretar**, el boosting está como el bosque: importancia, y después un modelo que se lea
+
+:::
+::::
+
+:::
+
+::::{.notes}
+- Todas las cifras en los mismos 81 clientes de prueba de la tienda y 121 de `churn`, con la partición y los bloques del Tema 07. Verificadas el 16-nov-2026. Lineal: `last_fit(workflow(ventas ~ ., linear_reg()))`, 755. LASSO: 339,6 (Tema 07). Árbol podado: 530. Bosque: mtry 4 por VC, 430. Boosting: 180 árboles, 358. `churn`: logit `glm` 0,747; LASSO 0,749 (Tema 07); árbol con 3 hojas 0,705; bosque mtry 1 por VC (500 árboles) 0,727 (el bagging, 0,743); boosting 87 árboles por VC 0,774 (0,722 de validación cruzada).
+- Honestidad con el resultado: con 404 y 600 observaciones y pocas variables, la ventaja de los métodos de árboles es modesta, y en la tienda el modelo paramétrico bien especificado gana. Los árboles rinden cuando hay muchas variables, interacciones desconocidas y muchas observaciones. Con `churn` el AUC de prueba tiene un error estándar de unos 0,04 (121 clientes): 0,774 frente a 0,749 es sugerente, sin ser concluyente, y el orden del bosque y el bagging se invierte entre validación cruzada y prueba.
+- La comparación es honesta porque todos los hiperparámetros se eligieron con los bloques y la prueba se usó una vez por modelo. Si se comparan cinco modelos en la misma prueba y se elige el mejor, ese número vuelve a ser algo optimista (sesgo de selección): con más modelos, la validación cruzada anidada que menciona el anexo del Tema 07.
+::::
+
+## PRÁCTICA en clase (4): el mejor modelo de abandono
+
+::: {style="font-size: 84%;"}
+
+La empresa de suscripción del Tema 06 decide a quién hacer la oferta de retención con el modelo que mejor ordene a los clientes por su riesgo, y lo quiere evaluado con clientes que el modelo no haya visto. Con vuestro DNI como semilla y `part_c` y `bloques_c` como en el Tema 07:
+
+1. Afinad `mtry` de un bosque de 500 árboles con `grid_regular(mtry(range = c(1, 21)), levels = 7)`. Comparad el mejor `mtry` con el de la tienda y explicad la diferencia con las variables de cada base de datos. ¿Es grande la ventaja frente al bagging, comparada con el error estándar?
+
+2. Afinad por AUC un boosting con `tree_depth = 2`, `learn_rate = 0.1` y `trees` en la rejilla de la transparencia, con una receta `churn ~ .` y `step_dummy(all_nominal_predictors())`. Repetidlo con `tree_depth = 1`, comparad y explicad qué dice el resultado sobre las señales de abandono. [Añadid `step_YeoJohnson(all_numeric_predictors())` a la receta.]{.ia aria-hidden="true"}
+
+3. Evaluad en prueba con `last_fit()` el bosque y el boosting, y ponedlos en una tabla con el LASSO del Tema 07 (AUC 0,749 con esta semilla) y con el árbol podado. ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué cautela añade el tamaño de la prueba?
+
+:::
+
+<!-- INTERNO (solución y guion del profesor). Cifras con DNI 12345678 y set.seed(12345678) antes de cada ajuste del
+bosque, verificadas el 23-nov-2026.
+1) VC (500 árboles): 0,724 (1), 0,713 (4), 0,698 (7), 0,693 (11), 0,702 (14), 0,692 (17), 0,690 (21); errores
+   estándar 0,014 a 0,018. Mejor mtry = 1; en la tienda era 4. En la tienda hay 6 variables y tres fuertes:
+   conviene que cada corte las vea. En churn hay 21, muchas sin importancia: descorrelacionar compensa. Ventaja
+   de 0,034 frente al bagging, unos dos errores estándar. last_fit() 0,727 en prueba (exactitud 0,653); el bagging
+   da 0,743 en prueba: al revés que en validación cruzada, ruido de 121 clientes.
+2) AUC de VC con profundidad 2: 0,686 (10), 0,700 (20), 0,713 (42), 0,722 (87, máximo), 0,714 (180), 0,695 (372),
+   0,693 (768), 0,709 (1.584). Con 87 árboles y profundidad 1: 0,740, mejor que con 2 (0,722): las señales de
+   abandono son casi aditivas (cada variable suma o resta riesgo por su cuenta) y con 479 clientes cualquier
+   interacción que encuentre el árbol de profundidad 2 es ruido.
+3) Prueba: boosting (87 árboles, profundidad 2) AUC 0,774 y exactitud 0,760; bosque (mtry 1) 0,727 y 0,653;
+   LASSO 0,749; árbol podado (3 hojas) 0,705. Se queda con el boosting (o con un tocón afinado). Pierde los
+   coeficientes: con el LASSO podía decir «un punto más de satisfacción baja la probabilidad 0,14» (aunque no
+   fuera causal); con el boosting solo tiene la importancia. Cautela: con 121 clientes de prueba el error
+   estándar del AUC ronda 0,04, así que 0,774 frente a 0,749 queda dentro del ruido; la decisión honesta es «el
+   boosting o el LASSO, los dos mejores», o repetir con validación cruzada anidada.
+-->
+
+::: {.callout-note}
+**Ahora el ejercicio: entrega 4, apartados a) a c).**
+:::

@@ -140,6 +140,13 @@ Semana 1 al final). Actualiza también las fechas de cada semana.
 
 -->
 
+## Semana 12
+(23-Nov. a 27-Nov.)
+
+  * [Tema 08 - Métodos basados en árboles](docs/Tema08.qmd)
+  * [Tema 08 - Ejercicios del tema](docs/Tema08ej1.qmd)
+  * [Tema 08 - Anexo](docs/Tema08anexo.qmd)
+
 ## Semana 11
 (16-Nov. a 20-Nov.)
 
