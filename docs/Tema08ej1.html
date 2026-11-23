@@ -4188,7 +4188,7 @@ scrollbar-width: thin;
 </section>
 <section id="apartado-c-la-poda" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-c-la-poda">Apartado c): la poda</h2>
-<p>Afina <code>cost_complexity</code> con <code>tune_grid()</code> sobre <code>bloques</code> y la rejilla <code>grid_regular(cost_complexity(range = c(-4, -0.5)), levels = 15)</code>. ¿Hay U? ¿Cuántas hojas tiene el árbol podado y qué RMSE da en prueba? Dibújalo con <code>rpart.plot()</code> y escribe la regla de las tres primeras preguntas que haría un dependiente.</p>
+<p>Afina <code>cost_complexity</code> de <code>decision_tree(cost_complexity = tune(), min_n = 5)</code> con <code>tune_grid()</code> sobre <code>bloques</code> y la rejilla <code>grid_regular(cost_complexity(range = c(-4, -0.5)), levels = 15)</code>. ¿Hay U? ¿Cuántas hojas tiene el árbol podado y qué RMSE da en prueba? Dibújalo con <code>rpart.plot()</code> y escribe la regla de las tres primeras preguntas que haría un dependiente.</p>
 </section>
 <section id="apartado-d-por-qué-mujer-primero" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-d-por-qué-mujer-primero">Apartado d): por qué <code>mujer</code> primero</h2>
@@ -4222,7 +4222,7 @@ scrollbar-width: thin;
 </section>
 <section id="entrega-3-el-gasto-con-boosting" class="level1">
 <h1>Entrega 3: el gasto con <code>boosting</code></h1>
-<p>Dirección quiere saber si el boosting mejora al bosque en la predicción del gasto y, sobre todo, entender qué está haciendo antes de fiarse de él.</p>
+<p>Dirección quiere saber si el boosting mejora al bosque en la predicción del gasto.</p>
 <p>Usa <code>part</code> y <code>bloques</code> de la entrega 1.</p>
 <section id="apartado-a-el-número-de-árboles" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-a-el-número-de-árboles">Apartado a): el número de árboles</h2>
@@ -4234,7 +4234,7 @@ scrollbar-width: thin;
 </section>
 <section id="apartado-c-los-cuatro-modelos-en-prueba" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-c-los-cuatro-modelos-en-prueba">Apartado c): los cuatro modelos en prueba</h2>
-<p>Evalúa en prueba el mejor boosting con <code>last_fit()</code> y ponlo al lado del árbol podado, del bosque y del LASSO del Tema 07 (340 euros con la semilla 12345678; con la tuya, el de <code>final</code>, transparencia «Finalizar y evaluar» del Tema 07, que usaste en la entrega 2). ¿Por qué el LASSO sigue ganando en la tienda, y en qué datos esperarías lo contrario?</p>
+<p>Evalúa en prueba el mejor boosting con <code>last_fit()</code> y ponlo al lado del árbol podado, del bosque y del LASSO del Tema 07 (340 euros con la semilla 12345678; con la tuya, el RMSE de <code>final</code>, transparencia «Finalizar y evaluar» del Tema 07). ¿Cuál gana en la tienda, y por qué? ¿En qué datos esperarías lo contrario?</p>
 </section>
 </section>
 <section id="entrega-4-el-mejor-modelo-de-abandono" class="level1">
@@ -4251,7 +4251,7 @@ scrollbar-width: thin;
 </section>
 <section id="apartado-c-la-decisión" class="level2">
 <h2 class="anchored" data-anchor-id="apartado-c-la-decisión">Apartado c): la decisión</h2>
-<p>Evalúa en prueba con <code>last_fit()</code> el bosque y el boosting, y ponlos en una tabla con el LASSO del Tema 07 (AUC 0,749 con la semilla 12345678) y con el árbol podado. ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué cautela añade el tamaño de la prueba?</p>
+<p>Evalúa en prueba con <code>last_fit()</code> el mejor bosque y el mejor boosting, y ponlos en una tabla con el LASSO del Tema 07 (AUC 0,749 con la semilla 12345678) y con un árbol podado (afina <code>cost_complexity</code> por AUC, como en la entrega 1). ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué cautela añade el tamaño de la prueba?</p>
 </section>
 </section>
 <section id="cómo-se-entrega" class="level1">
