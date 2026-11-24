@@ -132,7 +132,7 @@ Con el mejor `trees`, ajusta el boosting con `learn_rate` = 0,01 y mide su RMSE 
 ## Apartado c): los cuatro modelos en prueba
 
 Evalúa en prueba el mejor boosting con `last_fit()` y ponlo al lado del árbol podado, del bosque y del LASSO del
-Tema 07 (340 euros con la semilla 12345678; con la tuya, el RMSE de `final`, transparencia «Finalizar y evaluar» del Tema 07). ¿Cuál
+Tema 07 (el RMSE de prueba de tu `final`, transparencia «Finalizar y evaluar» del Tema 07). ¿Cuál
 gana en la tienda, y por qué? ¿En qué datos esperarías lo contrario?
 
 # Entrega 4: el mejor modelo de abandono
@@ -156,8 +156,8 @@ una receta `churn ~ .` y `step_dummy(all_nominal_predictors())`. Repítelo con
 
 ## Apartado c): la decisión
 
-Evalúa en prueba con `last_fit()` el mejor bosque y el mejor boosting, y ponlos en una tabla con el LASSO del Tema 07 (AUC 0,749
-con la semilla 12345678) y con un árbol podado (afina `cost_complexity` por AUC, como en la entrega 1). ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué
+Evalúa en prueba con `last_fit()` el mejor bosque y el mejor boosting, y ponlos en una tabla con el LASSO del Tema 07
+y con un árbol podado (afina `cost_complexity` por AUC, como en la entrega 1). ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué
 cautela añade el tamaño de la prueba?
 
 # Cómo se entrega

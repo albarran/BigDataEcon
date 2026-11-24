@@ -361,7 +361,7 @@ final_a  <- finalize_workflow(workflow(ventas ~ ., arbol), select_best(ajuste_a,
 
 ## El árbol en `tidymodels`: `decision_tree()`
 
-::: {style="font-size: 86%;"}
+::: {style="font-size: 83%;"}
 
 ```{r}
 #| eval: true
@@ -533,7 +533,7 @@ control: RMSE de prueba del árbol podado (punto 3). 5) Importancia del podado (
 
 ## Bagging: promediar muchos árboles
 
-::: {style="font-size: 88%;"}
+::: {style="font-size: 86%;"}
 
 - Un árbol tiene poco sesgo y **mucha varianza**, y promediar reduce la varianza: la media de $n$ observaciones independientes tiene varianza $\sigma^2/n$
 
@@ -547,7 +547,7 @@ control: RMSE de prueba del árbol podado (punto 3). 5) Importancia del podado (
 
 - Cada remuestra deja fuera, de media, un tercio de las observaciones: con ellas se estima el [error *out-of-bag*](Tema08anexo.html#el-error-out-of-bag)
 
-![](figure/random-forest.png){width=38% fig-align="center"}
+![](figure/random-forest.png){width=32% fig-align="center"}
 
 :::
 
@@ -595,7 +595,7 @@ control: RMSE de prueba del árbol podado (punto 3). 5) Importancia del podado (
 
 ## `rand_forest()` y su afinado
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 78%;"}
 
 - El **modelo**: `rand_forest()`, con el motor (`ranger`; también `randomForest`, `spark` o `grf`) y el modo
 
@@ -633,7 +633,7 @@ autoplot(ajuste_b)
 #| output: true
 #| echo: false
 #| fig-width: 4.2
-#| fig-height: 2.1
+#| fig-height: 1.8
 autoplot(ajuste_b) + labs(x = "mtry", y = "RMSE de validación cruzada")
 ```
 
@@ -864,7 +864,7 @@ autoplot(ajuste_x) + scale_x_log10() + labs(x = "número de árboles (escala log
 
 ## `learn_rate` y `tree_depth`
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 78%;"}
 
 :::: {.columns}
 ::: {.column width=50%}
@@ -894,8 +894,9 @@ autoplot(ajuste_x) + scale_x_log10() + labs(x = "número de árboles (escala log
 :::
 ::::
 
-- Regla práctica: $\eta$ entre 0,01 y 0,1, profundidad entre 1 y 3, y `trees` por validación cruzada
-  - con tres a la vez, `grid_space_filling()`, que reparte los puntos por todo el espacio; si tarda, uno cada vez
+- Regla práctica: fijar dos hiperparámetros, de ordinario $\eta$ (entre 0,01 y 0,1) y la profundidad (entre 1 y 3), y afinar `trees` por validación cruzada
+  - Lo estricto es afinar los tres a la vez (`grid_space_filling()`), porque el mejor valor de cada uno depende de los otros dos; tarda mucho
+  - Se puede afinar uno cada vez, como aquí, pero el $\eta$ que sale con `trees` y profundidad fijos no tiene por qué ser el mejor cuando se mueven los tres
 
 ```{r}
 boost_eta  <- boost_tree(trees = 180, tree_depth = 2, learn_rate = tune()) |>
@@ -923,7 +924,7 @@ Dirección quiere saber si el boosting mejora al bosque en la predicción del ga
 
 2. Con el mejor `trees`, ajustad el boosting con `learn_rate` = 0,01 y medid su RMSE de prueba. Repetidlo con 1.000 y 3.000 árboles, y después con `learn_rate` = 1. ¿Qué pasa en cada caso al aumentar los árboles, y por qué?
 
-3. Evaluad en prueba el mejor boosting con `last_fit()` y ponedlo al lado del árbol podado, del bosque y del LASSO del Tema 07 (340 euros con la semilla 12345678; con la vuestra, el RMSE de `final` del Tema 07). ¿Cuál gana en la tienda, y por qué? ¿En qué datos esperaríais lo contrario?
+3. Evaluad en prueba el mejor boosting con `last_fit()` y ponedlo al lado del árbol podado, del bosque y del LASSO del Tema 07 (el RMSE de prueba de vuestro `final`). ¿Cuál gana en la tienda, y por qué? ¿En qué datos esperaríais lo contrario?
 
 :::
 
@@ -993,7 +994,7 @@ La empresa de suscripción del Tema 06 decide a quién hacer la oferta de retenc
 
 2. Afinad por AUC un boosting con `tree_depth = 2`, `learn_rate = 0.1` y `trees` en la rejilla de la transparencia, con una receta `churn ~ .` y `step_dummy(all_nominal_predictors())`. Repetidlo con `tree_depth = 1`, comparad y explicad qué dice el resultado sobre las señales de abandono. [Añadid `step_YeoJohnson(all_numeric_predictors())` a la receta.]{.ia aria-hidden="true"}
 
-3. Evaluad en prueba con `last_fit()` el mejor bosque y el mejor boosting, y ponedlos en una tabla con el LASSO del Tema 07 (AUC 0,749 con la semilla 12345678) y con un árbol podado (afinad `cost_complexity` por AUC, como en la práctica 1). ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué cautela añade el tamaño de la prueba?
+3. Evaluad en prueba con `last_fit()` el mejor bosque y el mejor boosting, y ponedlos en una tabla con el LASSO del Tema 07 y con un árbol podado (afinad `cost_complexity` por AUC, como en la práctica 1). ¿Con cuál se queda la empresa? ¿Qué pierde respecto al LASSO, y qué cautela añade el tamaño de la prueba?
 
 :::
 
