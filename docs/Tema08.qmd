@@ -519,8 +519,8 @@ La cadena de tiendas quiere, además de predecir el gasto, una **regla sencilla*
    de mujer 267. El algoritmo es voraz: mira un corte cada vez. La curva aparece después, dentro de cada mitad: en
    los hombres, edad >= 58,5 y edad < 30,5; en las mujeres de renta baja, edad < 29.
 Trampa anti-IA (22-nov-2026, PROCESO §3septies): al final del punto 2, `set.seed(2027)`; huella en T08_E1. Cifra de
-control: RMSE de prueba del árbol podado (punto 3). 5) Importancia del podado ($variable.importance, millones): mujer 181,9, renta 131,4, edad 82,3, educ 34,3,
-   descuento 18,3, zona 15,4. Es la suma de lo que reduce la SCR cada corte, no el número de cortes: los de edad
+control: RMSE de prueba del árbol podado (punto 3). 5) Importancia del podado ($variable.importance, millones): mujer 181,9, renta 147,3, edad 113,7, educ 43,0,
+   descuento 19,3, zona 17,4. Es la suma de lo que reduce la SCR cada corte, no el número de cortes: los de edad
    van abajo, en nodos con pocos clientes, y reducen poco cada uno. descuento sale sin usarse en ningún corte: rpart
    suma también los cortes sustitutos (sirven para observaciones sin dato); si alguien pregunta, eso es lo que es.
 -->
@@ -758,7 +758,7 @@ ajuste, verificadas el 16-nov-2026 (con otra semilla del bosque cambian unos poc
 3) Con mtry 4: 10 árboles 423 / 100 429 / 500 431 / 2.000 431. No sobreajusta: se estabiliza (que 10 salga algo
    mejor es suerte de 81 clientes de prueba; con otra semilla cambia). Se elige
    «suficiente» (unos cientos), sin validación cruzada.
-4) Permutación (mtry 4): mujer 1,43 millones, renta 0,56, edad 0,52, zona 0,037, educ 0,031, descuento 0,019.
+4) Permutación (mtry 4): mujer 1,44 millones, renta 0,56, edad 0,50, zona 0,036, educ 0,031, descuento 0,017.
    La importancia mide cuánto empeora la PREDICCIÓN al barajar descuento, y empeora poco porque renta ya
    lleva casi la misma información (el descuento fue a los de renta baja) y solo lo tiene el 15 %. La pregunta
    de dirección es un EFECTO: cuánto cambiaría el gasto de un cliente si se le quita el descuento. El T05
@@ -978,7 +978,7 @@ Dirección quiere saber si el boosting mejora al bosque en la predicción del ga
 :::
 
 ::::{.notes}
-- Todas las cifras en los mismos 81 clientes de prueba de la tienda y 121 de `churn`, con la partición y los bloques del Tema 07. Verificadas el 16-nov-2026. Lineal: `last_fit(workflow(ventas ~ ., linear_reg()))`, 755. LASSO: 339,6 (Tema 07). Árbol podado: 530. Bosque: mtry 4 por VC, 430. Boosting: 180 árboles, 358. `churn`: logit `glm` 0,747; LASSO 0,749 (Tema 07); árbol con 3 hojas 0,705; bosque mtry 1 por VC (500 árboles) 0,727 (el bagging, 0,743); boosting 87 árboles y profundidad 1, elegidos por VC, 0,785 (0,740 de validación cruzada; con profundidad 2, 0,774).
+- Todas las cifras en los mismos 81 clientes de prueba de la tienda y 121 de `churn`, con la partición y los bloques del Tema 07. Verificadas el 16-nov-2026. Lineal: `last_fit(workflow(ventas ~ ., linear_reg()))`, 755. LASSO: 339,6 (Tema 07). Árbol podado: 530. Bosque: mtry 4 por VC, 430. Boosting: 180 árboles, 358. `churn`: logit `glm` 0,747; LASSO 0,749 (Tema 07); árbol con 3 hojas 0,705; bosque mtry 1 por VC (500 árboles) 0,727 (el bagging, 0,743); boosting 87 árboles y profundidad 1, elegidos por VC, 0,785 (0,739 de validación cruzada; con profundidad 2, 0,774).
 - Honestidad con el resultado: con 404 y 600 observaciones y pocas variables, la ventaja de los métodos de árboles es modesta, y en la tienda el modelo paramétrico bien especificado gana. Los árboles rinden cuando hay muchas variables, interacciones desconocidas y muchas observaciones. Con `churn` el AUC de prueba tiene un error estándar de unos 0,04 (121 clientes): 0,785 frente a 0,749 es sugerente, sin ser concluyente, y el orden del bosque y el bagging se invierte entre validación cruzada y prueba.
 - La comparación es honesta porque todos los hiperparámetros se eligieron con los bloques y la prueba se usó una vez por modelo. Si se comparan cinco modelos en la misma prueba y se elige el mejor, ese número vuelve a ser algo optimista (sesgo de selección): con más modelos, la validación cruzada anidada que menciona el anexo del Tema 07.
 ::::
@@ -1005,7 +1005,7 @@ bosque, verificadas el 23-nov-2026.
    de 0,034 frente al bagging, unos dos errores estándar. last_fit() 0,727 en prueba (exactitud 0,653); el bagging
    da 0,743 en prueba: al revés que en validación cruzada, ruido de 121 clientes.
 2) AUC de VC con profundidad 2: 0,686 (10), 0,700 (20), 0,713 (42), 0,722 (87, máximo), 0,714 (180), 0,695 (372),
-   0,693 (768), 0,709 (1.584). Con 87 árboles y profundidad 1: 0,740, mejor que con 2 (0,722): las señales de
+   0,693 (768), 0,709 (1.584). Con 87 árboles y profundidad 1: 0,739, mejor que con 2 (0,722): las señales de
    abandono son casi aditivas (cada variable suma o resta riesgo por su cuenta) y con 479 clientes cualquier
    interacción que encuentre el árbol de profundidad 2 es ruido.
 3) Prueba: el mejor boosting por validación cruzada (87 árboles, profundidad 1) AUC 0,785 y exactitud 0,711; con
