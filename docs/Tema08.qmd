@@ -194,7 +194,7 @@ for (k in seq_along(tramos)) {
 
 - Considerar todas las particiones posibles es **inviable**
 
-- La alternativa es un algoritmo **voraz**: en cada paso elige el mejor corte para ese paso (óptimo local), sin mirar si otro daría un árbol mejor en los pasos siguientes (óptimo global)
+- La alternativa es un algoritmo **voraz**: en cada paso elige el mejor corte para ese paso (**óptimo local**), sin mirar si otro daría un árbol mejor en los pasos siguientes (**óptimo global**)
 
 :::
 

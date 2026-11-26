@@ -62,8 +62,7 @@ Prepara `tienda`, `part`, `lasso`, `bloques` y `rejilla` como en las transparenc
 
 Escribe el modelo flexible como receta: logaritmo de la renta, polinomios de grado 4 en edad y renta, dummies de
 estudios y zona, todas las interacciones de dos en dos, y estandariza las columnas. Afina $\lambda$ con `workflow(receta, lasso)`, los mismos
-bloques y la misma rejilla, y compara $\lambda$ y el RMSE de validación cruzada con los de la fórmula. Pista: los productos de dos
-categorías de una misma variable cualitativa valen siempre 0; `step_zv(all_predictors())` quita las columnas sin variación.
+bloques y la misma rejilla, y compara $\lambda$ y el RMSE de validación cruzada con los de la fórmula.
 
 ## Apartado b): qué hace la receta por dentro
 

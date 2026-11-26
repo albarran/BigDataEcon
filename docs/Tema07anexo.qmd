@@ -113,7 +113,24 @@ del deck, que pasó a `prop = 0.8`: 364 y 340, 11,0 s, 20,0 y 31,6, 0,25 y 0,75,
 - Esquema con curvas simuladas, no datos (código en `notes/Tema07/rejilla-borde.R`). Con la rejilla de este tema, $\lambda = 20$ queda dentro de la U: no hace falta ampliar.
 - Caso real en el Tema 09: en `churn`, el mejor $k$ es el último de la rejilla (200); ampliada hasta 400, la curva baja y 200 se mantiene.
 - En escala logarítmica, ampliar es añadir órdenes de magnitud por el lado del borde.
-- Las curvas son simuladas porque un caso real no cubre todos los casos (un mínimo local dentro de la rejilla puede no ser el global). Con la tienda, rejillas lineales de 8 valores: de 0 a 5, el mejor es el borde (RMSE 400); de 0 a 50, 21,4 (365) dentro de la U; de 0 a 1000, 143 (524), porque la rejilla salta la U; la del tema, 20,0 (364,1).
+- Las curvas son simuladas porque un caso real no cubre todos los casos (un mínimo local dentro de la rejilla puede no ser el global). Con la tienda, rejillas lineales de 8 valores: de 0 a 5, el mejor es el borde (RMSE 414); de 0 a 50, 21,4 (363,7) dentro de la U; de 0 a 1000, 143 (521), porque la rejilla salta la U; la del tema, 20,0 (363,3). Verificado el 26-nov-2026.
+::::
+
+## Zoom: una rejilla más fina alrededor del mejor
+
+::: {style="font-size: 86%;"}
+
+![](figure/rejilla-zoom.png){width=90% fig-align="center"}
+
+- Con una rejilla **gruesa**, el mínimo puede caer entre dos valores probados: el mejor de la rejilla queda lejos de él
+- Se hace **zoom**: una rejilla más fina entre los dos vecinos del mejor
+  - en escala logarítmica, `penalty(range = ...)` con los exponentes de esos vecinos y más `levels`
+
+:::
+
+::::{.notes}
+- Esquema con una curva simulada, no datos (código en `notes/Tema07/rejilla-zoom.R`).
+- Con la rejilla del tema (un valor cada 0,1 en $\log_{10}$), la tienda no lo necesita: los tres mejores están a menos de un error estándar.
 ::::
 
 ## Tres errores del mismo modelo
@@ -127,17 +144,17 @@ augment(extract_workflow(final), new_data = training(part)) |> rmse(ventas, .pre
 | Error | RMSE | De dónde sale | Para qué sirve |
 |---|---:|---|---|
 | Entrenamiento | 319 | el código de arriba: el modelo final predice sus propios clientes | nada: es optimista |
-| Validación cruzada | 364 | `show_best()`, en el [Tema 07](Tema07.html) | **elegir** $\lambda$ |
+| Validación cruzada | 363 | `show_best()`, en el [Tema 07](Tema07.html) | **elegir** $\lambda$ |
 | Prueba | 340 | `collect_metrics(final)`, en [«Finalizar y evaluar»](Tema07.html#/finalizar-y-evaluar) | **informar** del error |
 
-- El 364 se mide en clientes de evaluación, que no se usaron para estimar. Pero $\lambda$ se eligió por dar el menor de 71 errores medios, y el menor de 71 cifras con ruido tiende a quedar por debajo del error real: **sesgo de optimización**
+- El 363 se mide en clientes de evaluación, que no se usaron para estimar. Pero $\lambda$ se eligió por dar el menor de 71 errores medios, y el menor de 71 cifras con ruido tiende a quedar por debajo del error real: **sesgo de optimización**
 
 - La prueba no intervino en ninguna decisión, y por eso su error es el que se informa. Aquí sale incluso más bajo (340): con 81 clientes, el azar de quiénes caen en la prueba pesa más que ese sesgo ([«Partir: entrenamiento, prueba y validación cruzada»](#/partir-entrenamiento-prueba-y-validación-cruzada))
 
 :::
 
 ::::{.notes}
-- Cifras verificadas el 11-nov-2026: 319,1, 364,1 y 339,6. Aquí la prueba sale por debajo de la validación cruzada: variabilidad muestral con 81 clientes (el error estándar de la validación cruzada es 10,4, y la prueba es como un bloque algo mayor). Con la partición 75/25 del 6-nov salían 313, 356 y 358.
+- Cifras verificadas el 26-nov-2026: 319,1, 363,3 y 339,6. Aquí la prueba sale por debajo de la validación cruzada: variabilidad muestral con 81 clientes (el error estándar de la validación cruzada es 13,3, y la prueba es como un bloque algo mayor). Con la partición 75/25 del 6-nov salían 313, 356 y 358.
 - El sesgo de optimización es pequeño con un solo hiperparámetro y 71 valores, y crece con más hiperparámetros y rejillas más grandes (Tema 08).
 ::::
 
@@ -246,7 +263,7 @@ augment(extract_workflow(final), new_data = training(part)) |> rmse(ventas, .pre
 
 - `step_zv()`, `step_nzv()` y `step_corr()` quitan variables sin variación, casi constantes o muy correlacionadas
   - algunas IA los recomiendan siempre, pero muchos de estos problemas se detectan en el análisis exploratorio
-  - otros aparecen con el preprocesado (p.e. interacciones que crean columnas sin variación), y ahí sí tienen sentido
+  - otros aparecen con el preprocesado, y ahí sí tienen sentido: en la práctica 1, los productos de dos categorías de un mismo factor valen siempre 0
 
 :::
 
@@ -255,4 +272,5 @@ augment(extract_workflow(final), new_data = training(part)) |> rmse(ventas, .pre
 ::::{.notes}
 - Todo verificado el 6-nov-2026, y las cifras de `tienda` y `churn` de nuevo el 11-nov-2026, con las versiones del curso: tidymodels 1.5.0, recipes 1.4.0, dials 1.4.4, tune 2.1.0, rsample 1.3.2, yardstick 1.4.0, glmnet 5.0.
 - Las funciones antiguas y sus sustitutas, para el profesor: `notes/Tema07/cambios-tidymodels.md`.
+- Práctica 1: sin `step_zv()`, `step_normalize()` avisa de 16 columnas sin variación (productos de dummies de `educ` y de `zona`), sin NaN; con `step_zv(all_predictors())` antes desaparece el aviso, y el resultado no cambia (verificado el 26-nov-2026).
 ::::

@@ -62,7 +62,7 @@ comparaciones con el T06 y scikit-learn en el anexo. Siguen vigentes las seis ro
 Datos: `tienda` (regresión) y `churn_clientes` (clasificación), ya presentados en el T05 y el T06.
 Cifras con semilla 12345678, `initial_split(prop = 0.8)`, `vfold_cv(v = 10)` y UNA rejilla para todo el tema:
 `grid_regular(penalty(range = c(-4, 3)), levels = 71)`. Verificadas el 11-nov-2026 con tidymodels 1.5.0,
-recipes 1.4.0, tune 2.1.0 y glmnet 5.0: niveles, λ 20,0, RMSE de validación cruzada 364,1 y de prueba 339,6;
+recipes 1.4.0, tune 2.1.0 y glmnet 5.0: niveles, λ 20,0, RMSE de validación cruzada 363,3 y de prueba 339,6 (bloques tras crear la receta, como en el deck; 26-nov);
 logaritmos, 400 € de validación cruzada y 361 € en prueba; churn, λ 0,0032, AUC 0,737 y 0,749 en prueba.
 El reparto en sesiones y el tiempo los decide Pedro: el deck no menciona sesiones. -->
 
@@ -342,8 +342,8 @@ tidy(mco)           # los mismos coeficientes, en una tabla
   - En clasificación es igual: `workflow(receta, logistic_reg()) |> fit(...)`, y después `tidy()`, `glance()`, `predict()`. Verificado el 16-nov-2026.
 - Del flujo estimado, `extract_fit_parsnip()` da los resultados (`tidy()`, `glance()`) y, si lleva una receta, `extract_recipe()` la aplica a otros datos con `bake()`; con una fórmula da error («The workflow must have a recipe preprocessor»). Verificado el 16-nov-2026.
 - `augment()` devuelve los datos con `.pred` y `.resid`: es la forma cómoda de predecir con un flujo estimado. `predict(mco, new_data = ...)` da solo la columna `.pred`.
-- MCO da 256 en entrenamiento y 645 en validación cruzada (con el $\lambda$ más pequeño de la rejilla): el de entrenamiento engaña más cuanto menos se penaliza.
-- Verificado el 11-nov-2026: `tidy(mco)` tiene 144 filas; el RMSE de entrenamiento de MCO es 256,0. En validación cruzada, el $\lambda$ más pequeño de la rejilla (casi sin penalización) da 645, y MCO exacto, con `fit_resamples(workflow(formula, linear_reg()), bloques)`, 831 (± 106): el sobreajuste del Tema 06. Se retoma en el anexo, «Tres errores del mismo modelo».
+- MCO da 256 en entrenamiento y 814 en validación cruzada (con el $\lambda$ más pequeño de la rejilla): el de entrenamiento engaña más cuanto menos se penaliza.
+- Verificado el 11-nov-2026: `tidy(mco)` tiene 144 filas; el RMSE de entrenamiento de MCO es 256,0. En validación cruzada, el $\lambda$ más pequeño de la rejilla (casi sin penalización) da 814, y MCO exacto, con `fit_resamples(workflow(formula, linear_reg()), bloques)`, 969 (± 173) (26-nov): el sobreajuste del Tema 06. Se retoma en el anexo, «Tres errores del mismo modelo».
 - Las métricas son de `yardstick`: primero la columna observada y después la predicha.
 ::::
 
@@ -405,8 +405,8 @@ bloques <- vfold_cv(training(part), v = 10)   # 10 bloques de clientes al azar
   ```
 
   - `penalty()` trabaja en escala $\log_{10}$: `range = c(-4, 3)` va de $10^{-4}$ a $10^{3}$
-    - cada valor es el anterior multiplicado por $10^{(\text{fin} - \text{inicio})/(\text{valores} - 1)} = 10^{7/70} = 10^{0{,}1} = 1{,}26$
-  - el rango se elige probando hasta que la U quede dentro de la rejilla (cuidado: es una solución [«interior»](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla))
+    - el paso entre exponentes es (fin − inicio) / (valores − 1) = 7 / 70 = 0,1
+    - cada valor es el anterior multiplicado por $10^{0{,}1} = 1{,}26$
 
 ```{r}
 #| eval: true
@@ -415,13 +415,14 @@ ajuste <- tune_grid(flujo, resamples = bloques, grid = rejilla,
                     control = control_grid(save_pred = TRUE))
 ```
 
-- `tune_grid()` recibe el flujo, los bloques, la rejilla y las [métricas](Tema07anexo.html#/métricas-metric_set) (`metric_set()`). En cada uno de los 10 repartos:
+- `tune_grid()` recibe el flujo, los bloques, la rejilla y las [métricas](Tema07anexo.html#/métricas-metric_set) (`metric_set()`). Para cada valor de $\lambda$, en cada uno de los 10 repartos:
   1. prepara el preprocesado con el **análisis** (`prep()`) y lo aplica a la **evaluación** (`bake()`)
-  2. estima el modelo con el análisis, para cada valor de $\lambda$
-  3. predice la evaluación con cada uno de esos modelos y calcula el RMSE y el MAE
-  4. al final, para cada $\lambda$, promedia los 10 errores (media y error estándar)
+  2. estima el modelo con el análisis
+  3. predice la evaluación y calcula el RMSE y el MAE
+  4. promedia los 10 errores (media y error estándar)
 
-- Con medias y desviaciones (`step_normalize()`) de todo el entrenamiento, la evaluación entraría en el preprocesado: **fuga de información**, error optimista
+- Si `prep()` usara todo el entrenamiento (p. ej., las medias y desviaciones de `step_normalize()`), los datos de evaluación entrarían en el preprocesado
+  - es una **fuga de información**: el error sale optimista
 
 :::
 
@@ -442,57 +443,33 @@ rejilla                                                             # la del tem
 - Con 71 valores, el paso es $7/70 = 0{,}1$: cada $\lambda$ es el anterior por $10^{0{,}1} = 1{,}26$.
 - `grid_regular()` da valores igualmente espaciados, que es lo más visual con un solo hiperparámetro. Con varios a la vez (Tema 08) la rejilla regular crece como el producto, y se usa `grid_space_filling()`, que reparte un número fijo de puntos por todo el espacio; es lo que `tune_grid()` usa si no se le da rejilla. Sustituye a `grid_max_entropy()` y `grid_latin_hypercube()`, que avisan desde dials 1.3.0.
 - El deck viejo usaba `grid_regular(penalty(range = c(0, 15), trans = NULL), levels = 51)`: una rejilla **lineal** entre 0 y 15 que obligaba a tantear el rango a mano.
-- Verificado el 11-nov-2026: `tune_grid(flujo, bloques)` sin rejilla prueba 10 valores entre $10^{-10}$ y 1 (cambian con la semilla), todos con RMSE 645 salvo el mayor, que queda por encima de 500.
+- Verificado el 11-nov-2026: `tune_grid(flujo, bloques)` sin rejilla prueba 10 valores entre $10^{-10}$ y 1 (cambian con la semilla), todos con RMSE 814 salvo el mayor, 553 (26-nov).
 - Es la rejilla logarítmica que ya vieron en el gráfico de `cv.glmnet()`: pasos iguales en $\log(\lambda)$.
 - Son 10 repartos × 71 valores: 710 errores por métrica, en 2,5 s. Los 71 ajustes de cada reparto son uno solo para `glmnet`, que calcula el camino entero de $\lambda$.
 - `save_pred = TRUE` guarda las predicciones de cada bloque apartado, para calcular después otras cosas con ellas (`collect_predictions()`); se usa en «Niveles o logaritmos».
 - `collect_metrics(ajuste, summarize = FALSE)` da los 710 errores, bloque a bloque: de ahí salen los diez de $\lambda = 20$.
 - Con la fórmula de este tema la fuga sería pequeña (la base de `poly()` depende poco de 33 clientes); con pasos que aprenden más de los datos (estandarizar, imputar, seleccionar variables) es grande.
-- Los 10 RMSE de $\lambda = 20$: 391, 345, 364, 393, 418, 352, 343, 350, 302 y 382.
+- Los 10 RMSE de $\lambda = 20$: 376, 401, 414, 337, 341, 329, 285, 364, 418 y 368.
 - `rejilla |> slice(1, 36, 54, 71)` muestra 0,0001, 0,316, 15,8 y 1000: con `levels = 71` hay un valor cada 0,1 en $\log_{10}$ (cada $\lambda$ es el anterior por 1,26). Con el rango por defecto ($10^{-10}$ a 1) la U de la tienda, que ronda 20, queda fuera.
 ::::
 
 ## Lo que devuelve `tune_grid()`
 
-::: {style="font-size: 88%;"}
+::: {style="font-size: 80%;"}
 
 ```{r}
 #| eval: true
 collect_metrics(ajuste)        # una fila por lambda y métrica: 71 x 2 = 142 filas
 ```
 
-```{r}
-#| eval: true
-#| output: true
-show_best(ajuste, metric = "rmse", n = 3) |> select(penalty, mean, n, std_err)
-```
-
 - `collect_metrics()` da, para cada $\lambda$ y cada métrica, la media de los 10 bloques (`mean`), cuántos bloques hay (`n`) y el error estándar (`std_err`)
 
-- `show_best()` ordena esas medias de mejor a peor para una métrica: el menor RMSE de validación cruzada es 364,1, con $\lambda = 20{,}0$
-  - los tres primeros están a menos de un error estándar unos de otros: sus errores son indistinguibles
-
-:::
-
-::::{.notes}
-- `select_best()` y `show_best()` sin `metric =` avisan y cogen la primera métrica; siempre con `metric =`.
-- Si `n` sale menor que 10, algún bloque ha fallado (el caso de `factor(educ)` en la fórmula).
-- Por MAE el orden cambia poco: 15,8 (294,4), 20,0 (295,3) y 12,6 (295,7).
-::::
-
-## La U: `autoplot()` y la elección de $\lambda$
-
-::: {style="font-size: 86%;"}
-
 :::: {.columns}
-::: {.column width=55%}
+::: {.column width=50%}
 
 ```{r}
 #| eval: true
 autoplot(ajuste)
-mejor  <- select_best(ajuste, metric = "rmse")
-simple <- select_by_one_std_err(ajuste,
-            desc(penalty), metric = "rmse")
 ```
 
 ```{r}
@@ -500,22 +477,26 @@ simple <- select_by_one_std_err(ajuste,
 #| output: true
 #| echo: false
 #| fig-width: 6
-#| fig-height: 3.3
+#| fig-height: 2.7
 autoplot(ajuste, metric = "rmse") + labs(x = "lambda (escala log)", y = "RMSE de validación cruzada")
 ```
 
-:::
-::: {.column width=45%}
-
 - `autoplot()` dibuja la media de cada $\lambda$, con $\lambda$ en escala logarítmica: es la U del Tema 06
+- El rango se elige probando hasta que la U quede dentro de la rejilla
+  - cuidado: es una solución [«interior»](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla), y a veces hay que hacer [*zoom*](Tema07anexo.html#/zoom-una-rejilla-más-fina-alrededor-del-mejor)
 
-- `select_best()` devuelve el $\lambda$ de menor error medio: $\lambda^* = 20{,}0$, con RMSE 364,1
-  - si cayera en un extremo de la rejilla, habría que ampliar el rango ([anexo](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla))
+:::
+::: {.column width=50%}
 
-- `select_by_one_std_err()` aplica la **regla de un error estándar**: el mayor $\lambda$ cuyo error está a menos de un error estándar del mínimo. Sale $\lambda = 31{,}6$, con RMSE 371,1
-  - `desc(penalty)` dice que el modelo más simple es el de $\lambda$ más grande
+```{r}
+#| eval: true
+#| output: true
+show_best(ajuste, metric = "rmse", n = 3) |>
+  select(penalty, mean, n, std_err)
+```
 
-- Los dos devuelven una tabla de una fila con el valor de `penalty`: es lo que recibe el paso 5
+- `show_best()` ordena esas medias de mejor a peor para una métrica, p. ej. el RMSE de validación cruzada
+  - los tres primeros están a menos de un error estándar unos de otros: sus errores son indistinguibles, como el fondo plano de la U
 
 :::
 ::::
@@ -523,9 +504,35 @@ autoplot(ajuste, metric = "rmse") + labs(x = "lambda (escala log)", y = "RMSE de
 :::
 
 ::::{.notes}
+- `select_best()` y `show_best()` sin `metric =` avisan y cogen la primera métrica; siempre con `metric =`.
+- Si `n` sale menor que 10, algún bloque ha fallado (el caso de `factor(educ)` en la fórmula).
+- Por MAE el orden cambia poco: 15,8 (293,2), 20,0 (294,0) y 12,6 (294,7).
+::::
+
+## La elección de $\lambda$
+
+::: {style="font-size: 86%;"}
+
+```{r}
+#| eval: true
+mejor  <- select_best(ajuste, metric = "rmse")      # lambda = 20,0 (RMSE 363,3)
+simple <- select_by_one_std_err(ajuste,
+            desc(penalty), metric = "rmse")      # lambda = 31,6 (RMSE 369,2)
+```
+
+- `select_best()` devuelve el $\lambda$ de menor error medio
+
+- `select_by_one_std_err()` aplica la **regla de un error estándar**: el mayor $\lambda$ cuyo error está a menos de un error estándar del mínimo
+  - `desc(penalty)` dice que el modelo más simple es el de $\lambda$ más grande
+
+- Los dos devuelven una tabla de una fila con el valor de `penalty`: es lo que recibe el paso 5
+
+:::
+
+::::{.notes}
 - `autoplot(ajuste)` sin `metric` dibuja las dos métricas (RMSE y MAE) una debajo de la otra. En el gráfico de la transparencia el eje es $\lambda$ creciente; en `plot(cv)` del Tema 06 era $-\log(\lambda)$, así que la U está al revés.
-- Lectura del gráfico: a la izquierda es plano, con $\lambda$ tan pequeño que el modelo casi no penaliza (RMSE 645; MCO exacto da 831); el mínimo está en 20; a la derecha todos los coeficientes son cero y el modelo predice la media (RMSE 1.180).
-- `show_best(ajuste, metric = "rmse", n = 3)`: 20,0 (364,1), 15,8 (364,5) y 25,1 (366,5), todos dentro de un error estándar: la diferencia entre ellos es ruido de la validación cruzada, y de ahí la regla de un error estándar (principio de parsimonia).
+- Lectura del gráfico: a la izquierda es plano, con $\lambda$ tan pequeño que el modelo casi no penaliza (RMSE 814; MCO exacto da 969); el mínimo está en 20; a la derecha todos los coeficientes son cero y el modelo predice la media (RMSE 1.176).
+- `show_best(ajuste, metric = "rmse", n = 3)`: 20,0 (363,3), 15,8 (364,7) y 25,1 (365,0), todos dentro de un error estándar: la diferencia entre ellos es ruido de la validación cruzada, y de ahí la regla de un error estándar (principio de parsimonia).
 - En logaritmos y en `churn` salen 0,004 y 0,003: la misma rejilla, otro tramo.
 ::::
 
@@ -535,7 +542,7 @@ autoplot(ajuste, metric = "rmse") + labs(x = "lambda (escala log)", y = "RMSE de
 
 La tienda quiere predecir el gasto de los clientes nuevos con el modelo flexible del Tema 06, pero escrito como receta, para poder añadirle después pasos que la fórmula no permite (estandarizar, imputar). Con vuestro DNI como semilla y la partición de la transparencia «Partición inicial»:
 
-1. Escribid el modelo flexible como receta: logaritmo de la renta, polinomios de grado 4 en edad y renta, dummies de estudios y zona, y todas las interacciones de dos en dos, y estandarizad las columnas. Afinad $\lambda$ con `workflow(receta, lasso)`, los mismos bloques y la misma rejilla, y comparad $\lambda$ y el RMSE de validación cruzada con los de la fórmula. Pista: los productos de dos categorías de una misma variable cualitativa valen siempre 0; `step_zv(all_predictors())` quita las columnas sin variación
+1. Escribid el modelo flexible como receta: logaritmo de la renta, polinomios de grado 4 en edad y renta, dummies de estudios y zona, y todas las interacciones de dos en dos, y estandarizad las columnas. Afinad $\lambda$ con `workflow(receta, lasso)`, los mismos bloques y la misma rejilla, y comparad $\lambda$ y el RMSE de validación cruzada con los de la fórmula.
 
 2. En tres frases: qué aprende `prep()` en esta receta, qué hace `bake()` con la muestra de prueba, y por qué dentro de `tune_grid()` la receta se prepara en cada bloque y no una vez con todo el entrenamiento
 
@@ -547,9 +554,9 @@ La tienda quiere predecir el gasto de los clientes nuevos con el modelo flexible
    step_normalize(all_numeric_predictors())
    (Si sale la pregunta: bake() da 171 columnas, 153 productos de 18 columnas frente a las 125 interacciones de la
    fórmula, porque la receta multiplica columnas y no variables; 16 productos de dummies de un mismo factor valen
-   siempre 0 y step_zv(all_predictors()) los quita.)
-   Mismo lambda, 20,0, y casi el mismo RMSE de validación cruzada: 364,6 con la receta (con y sin step_zv, con y sin step_normalize, verificado el 16-nov-2026) frente a
-   364,1 con la fórmula; prueba 340,4 y MAE 278,8 (fórmula: 339,6 y 278,5); 39 coeficientes distintos de cero de 155.
+   siempre 0: step_normalize() avisa de ellos (sin NaN; verificado 26-nov-2026) y step_zv(all_predictors()) los quita; anexo, «Otros pasos de receta».)
+   Mismo lambda, 20,0, y casi el mismo RMSE de validación cruzada: 363,9 con la receta (con y sin step_zv, verificado el 26-nov-2026) frente a
+   363,3 con la fórmula; prueba 340,4 y MAE 278,8 (fórmula: 339,6 y 278,5); 39 coeficientes distintos de cero de 155.
    La receta tarda 4,4 s frente a 2,5 s.
 2) prep() aprende con el entrenamiento la base ortogonal de cada polinomio y los niveles de educ y zona (y en
    step_normalize, medias y desviaciones). bake() aplica esa misma base y esos niveles a la prueba, sin recalcular
@@ -569,10 +576,8 @@ La tienda quiere predecir el gasto de los clientes nuevos con el modelo flexible
 
 ```{r}
 #| eval: true
-#| output: true
 final <- finalize_workflow(flujo, mejor) |>   # a mano: tibble(penalty = 8.5)
   last_fit(part, metrics = metric_set(rmse, mae))
-collect_metrics(final) |> select(.metric, .estimate)
 ```
 
 - `finalize_workflow()` cambia `tune()` por el valor elegido ($\lambda = 20$): sale un flujo completo
@@ -582,6 +587,7 @@ collect_metrics(final) |> select(.metric, .estimate)
   2. predice los 81 clientes de prueba y calcula las métricas, una sola vez
 
 - En `final` queda guardado todo, y cada cosa se saca con una función:
+  - con `lm()` (Tema 05), el objeto ya era el modelo estimado y se usaba directamente (`predict(m, newdata = prueba)`); aquí se saca con `extract_workflow()`, y `predict()` lo aplica a cualquier dato con las mismas columnas
 
 ```{r}
 #| eval: true
@@ -606,7 +612,7 @@ extract_workflow(final) |> tidy()   # coeficientes: 39 de 143 no son cero
 
 ## El gasto en logaritmos y el error en euros
 
-::: {style="font-size: 80%;"}
+::: {style="font-size: 76%;"}
 
 ```{r}
 #| eval: true
@@ -615,19 +621,17 @@ set.seed(12345678)
 part_l    <- initial_split(tienda_l, prop = 0.8)       # paso 1: la misma partición
 formula_l <- lventas ~ (poly(edad, 4) + poly(log(renta), 4) +    # paso 2
                           educ + mujer + descuento + zona)^2
+flujo_l   <- workflow(formula_l, lasso)
 bloques_l <- vfold_cv(training(part_l), v = 10)        # paso 3: los mismos bloques
+ajuste_l  <- tune_grid(flujo_l, resamples = bloques_l, grid = rejilla,    # paso 4
+                       metrics = metric_set(rmse, mae),
+                       control = control_grid(save_pred = TRUE))
+mejor_l   <- select_best(ajuste_l, metric = "rmse")
+final_l   <- finalize_workflow(flujo_l, mejor_l) |> last_fit(part_l)     # paso 5
 ```
 
 - Los mismos cinco pasos con otra respuesta, que cambia solo en la fórmula
   - cualquier transformación de la respuesta se hace **antes** de partir, con `mutate()` ([errores frecuentes](Tema07anexo.html#/errores-frecuentes))
-
-```{r}
-#| eval: true
-ajuste_l <- tune_grid(workflow(formula_l, lasso), resamples = bloques_l,   # pasos 2 y 4
-                      grid = rejilla, metrics = metric_set(rmse, mae),
-                      control = control_grid(save_pred = TRUE))
-mejor_l  <- select_best(ajuste_l, metric = "rmse")
-```
 
 - El RMSE de validación cruzada sale **en logaritmos**: 0,113 ($e^{0{,}113} = 1{,}12$, un error típico del 12 % del gasto)
   - para elegir entre el modelo en niveles y el de logaritmos, los errores tienen que estar **en las mismas unidades**
@@ -640,25 +644,25 @@ collect_predictions(ajuste_l, parameters = mejor_l) |>
   mutate(ventas = exp(lventas), pred = exp(.pred)) |> rmse(ventas, pred)   # 400 euros
 ```
 
-- En euros, el modelo en logaritmos se equivoca más (400) que el de niveles (364): se predice en niveles
+- En euros, el modelo en logaritmos se equivoca más (400) que el de niveles (363): se predice en niveles
 
 :::
 
 ::::{.notes}
+- En euros, MAE 311 (logaritmos) frente a 293 (niveles): niveles gana también por MAE. Verificado el 26-nov-2026.
 - Si $\log y = f(x) + u$, entonces $E(y|x) = e^{f(x)} E(e^u)$ y $E(e^u) > 1$ (desigualdad de Jensen). El factor de Duan (1983, *JASA*; «smearing») es la media de $e^{\hat u}$ en el entrenamiento: 1,004 aquí, porque la desviación típica de los residuos en logaritmos es 0,09. Con $\sigma_u = 0{,}5$ sería $e^{0{,}125} = 1{,}13$: un 13 % de menos en cada predicción. Verificado el 11-nov-2026.
 - Para la prueba (paso 5): `collect_predictions(final_l)` tiene `lventas` y `.pred`, y se hace lo mismo.
 - Verificado el 16-nov-2026 (recipes 1.4.0, workflows 1.3.0): con `step_log(ventas)` en la receta, `predict()` del flujo falla («required column is missing from `new_data`: ventas»), incluso con `testing(part)`; con `skip = TRUE`, `.pred` sale en logaritmos (media 8,26) y `ventas` en euros, y el RMSE de `tune_grid()` sale sin sentido (4.077).
 - `select_best()` da $\lambda = 0{,}004$: la misma rejilla, otro tramo.
 ::::
 
-## Predecir un cliente nuevo en euros
+## Predecir un cliente nuevo: niveles y logaritmos
 
 ::: {style="font-size: 86%;"}
 
 ```{r}
 #| eval: true
 #| output: true
-final_l <- finalize_workflow(workflow(formula_l, lasso), mejor_l) |> last_fit(part_l)
 nuevo <- tibble(renta = 2000, edad = 40, mujer = 1, descuento = 0,
                 educ = factor(12, levels = levels(tienda$educ)),
                 zona = factor("ciudad", levels = levels(tienda$zona)))
@@ -667,10 +671,7 @@ predict(extract_workflow(final_l), new_data = nuevo) |>
   mutate(euros = exp(.pred))                            # en logaritmos: 5.088 €
 ```
 
-- `extract_workflow()` saca el flujo estimado del resultado de `last_fit()`, y `predict()` lo aplica a cualquier dato con las mismas columnas
-  - las variables cualitativas del cliente nuevo, con las mismas categorías que en los datos
-
-- Con el modelo en logaritmos, la predicción se pasa a euros con `exp()`
+- Las variables cualitativas del cliente nuevo llevan las mismas categorías que en los datos
 
 :::
 
@@ -702,8 +703,8 @@ La tienda tiene que elegir un modelo para predecir el gasto de los clientes nuev
    cifra 0,113 leída en euros carece de sentido.
 2) En euros, con exp(.pred): validación cruzada (collect_predictions con parameters = mejor_l, requiere save_pred)
    RMSE 400,2 y MAE 311,2 sobre las 323 predicciones de los bloques apartados (396 si se promedia bloque a bloque);
-   prueba RMSE 361,4 y MAE 286,5. Niveles: validación cruzada 364,1 y MAE 295,3; prueba 339,6 y MAE 278,5. Se
-   predice en niveles: 22 euros menos de RMSE y 8 de MAE en la prueba, 36 y 16 en validación cruzada. Con la
+   prueba RMSE 361,4 y MAE 286,5. Niveles: validación cruzada 363,3 y MAE 294,0; prueba 339,6 y MAE 278,5. Se
+   predice en niveles: 22 euros menos de RMSE y 8 de MAE en la prueba, 37 y 17 en validación cruzada. Con la
    corrección de Duan (1,004) la prueba en logaritmos queda en 362,6: no cambia nada. En el T06 salía lo mismo con
    glmnet (352,5 frente a 382,8).
    Pregunta para el aula: ¿y si el gasto fuera muy asimétrico (unos pocos clientes que gastan diez veces más)? Ahí los
@@ -721,7 +722,7 @@ La tienda tiene que elegir un modelo para predecir el gasto de los clientes nuev
 
 ## El abandono con `logistic_reg()`
 
-::: {style="font-size: 84%;"}
+::: {style="font-size: 80%;"}
 
 ```{r}
 #| eval: true
@@ -739,12 +740,15 @@ ajuste_c  <- tune_grid(flujo_c, resamples = bloques_c,              # 4. afinar
                        grid = rejilla, metrics = metric_set(roc_auc))
 ```
 
-- Los mismos cinco pasos con los 600 clientes del Tema 06 (60 % de abandono). Respecto a la regresión cambian tres cosas:
+- Los mismos cinco pasos con los 600 clientes del Tema 06 (60 % de abandono)
+
+- Respecto a la regresión cambian tres cosas:
   - el tipo de modelo, `logistic_reg()`, que se estima por verosimilitud más la penalización (Tema 06), y la métrica con la que solo se elige $\lambda$, `roc_auc`
   - `strata = churn` mantiene el 60 % de abandono en entrenamiento (479 clientes), prueba (121) y bloques
   - `churn` lleva «Sí» como **primer nivel**, porque las métricas toman el primer nivel como el suceso: así `roc_auc()` y `sens()` miran el abandono ([errores frecuentes](Tema07anexo.html#/errores-frecuentes))
 
 - Todas las cualitativas pasan a factor antes de partir, igual que `educ` en la tienda ([errores frecuentes](Tema07anexo.html#/errores-frecuentes))
+  - no toda columna de texto es cualitativa (un identificador), ni toda cualitativa es texto (`educ`)
 
 :::
 
