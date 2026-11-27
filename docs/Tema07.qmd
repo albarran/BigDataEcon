@@ -405,8 +405,7 @@ bloques <- vfold_cv(training(part), v = 10)   # 10 bloques de clientes al azar
   ```
 
   - `penalty()` trabaja en escala $\log_{10}$: `range = c(-4, 3)` va de $10^{-4}$ a $10^{3}$
-    - el paso entre exponentes es (fin − inicio) / (valores − 1) = 7 / 70 = 0,1
-    - cada valor es el anterior multiplicado por $10^{0{,}1} = 1{,}26$
+    - cada valor es el anterior multiplicado por $10^{(\text{fin} - \text{inicio})/(\text{valores} - 1)}$
 
 ```{r}
 #| eval: true
@@ -415,14 +414,15 @@ ajuste <- tune_grid(flujo, resamples = bloques, grid = rejilla,
                     control = control_grid(save_pred = TRUE))
 ```
 
-- `tune_grid()` recibe el flujo, los bloques, la rejilla y las [métricas](Tema07anexo.html#/métricas-metric_set) (`metric_set()`). Para cada valor de $\lambda$, en cada uno de los 10 repartos:
-  1. prepara el preprocesado con el **análisis** (`prep()`) y lo aplica a la **evaluación** (`bake()`)
-  2. estima el modelo con el análisis
-  3. predice la evaluación y calcula el RMSE y el MAE
-  4. promedia los 10 errores (media y error estándar)
+- `tune_grid()` recibe el flujo, los bloques, la rejilla y las [métricas](Tema07anexo.html#/métricas-metric_set) (`metric_set()`)
+  - para cada valor de $\lambda$, en cada uno de los 10 repartos:
+    1. prepara el preprocesado con el **análisis** (`prep()`) y lo aplica a la **evaluación** (`bake()`)
+    2. estima el modelo con el análisis
+    3. predice en la evaluación y calcula el RMSE y el MAE
+  - promedia los 10 errores de cada $\lambda$ (media y error estándar)
 
 - Si `prep()` usara todo el entrenamiento (p. ej., las medias y desviaciones de `step_normalize()`), los datos de evaluación entrarían en el preprocesado
-  - es una **fuga de información**: el error sale optimista
+  - es una **fuga de información** (el error sale optimista)
 
 :::
 
@@ -459,10 +459,8 @@ rejilla                                                             # la del tem
 
 ```{r}
 #| eval: true
-collect_metrics(ajuste)        # una fila por lambda y métrica: 71 x 2 = 142 filas
+collect_metrics(ajuste)   # una fila por lambda y métrica: medias, bloques (n) y std_err
 ```
-
-- `collect_metrics()` da, para cada $\lambda$ y cada métrica, la media de los 10 bloques (`mean`), cuántos bloques hay (`n`) y el error estándar (`std_err`)
 
 :::: {.columns}
 ::: {.column width=50%}
@@ -481,9 +479,8 @@ autoplot(ajuste)
 autoplot(ajuste, metric = "rmse") + labs(x = "lambda (escala log)", y = "RMSE de validación cruzada")
 ```
 
-- `autoplot()` dibuja la media de cada $\lambda$, con $\lambda$ en escala logarítmica: es la U del Tema 06
-- El rango se elige probando hasta que la U quede dentro de la rejilla
-  - cuidado: es una solución [«interior»](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla), y a veces hay que hacer [*zoom*](Tema07anexo.html#/zoom-una-rejilla-más-fina-alrededor-del-mejor)
+- `autoplot()` dibuja la media de cada $\lambda$ (en escala logarítmica); se prueba el rango hasta encontrar la U
+  - ojo: es solución [«interior»](Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla); a veces, [*zoom*](Tema07anexo.html#/zoom-una-rejilla-más-fina-alrededor-del-mejor)
 
 :::
 ::: {.column width=50%}
@@ -491,15 +488,24 @@ autoplot(ajuste, metric = "rmse") + labs(x = "lambda (escala log)", y = "RMSE de
 ```{r}
 #| eval: true
 #| output: true
-show_best(ajuste, metric = "rmse", n = 3) |>
-  select(penalty, mean, n, std_err)
+#| R.options:
+#|   width: 52
+show_best(ajuste, metric = "rmse", n = 3)
 ```
 
-- `show_best()` ordena esas medias de mejor a peor para una métrica, p. ej. el RMSE de validación cruzada
-  - los tres primeros están a menos de un error estándar unos de otros: sus errores son indistinguibles, como el fondo plano de la U
+- `show_best()` ordena de mejor a peor la media de una métrica (p. ej., RMSE)
+  - notad: diferencias en la métrica menores que un error estándar
 
 :::
 ::::
+
+```{r}
+#| eval: true
+mejor  <- select_best(ajuste, metric = "rmse")   # lambda = 20,0 (RMSE 363,3: menor error medio)
+simple <- select_by_one_std_err(ajuste, desc(penalty), metric = "rmse")   # lambda = 31,6 (RMSE 369,2)
+```
+
+- `select_by_one_std_err()` aplica la **regla de un error estándar**: el mayor $\lambda$ (`desc()`), es decir, el modelo más simple, cuyo error está a menos de un error estándar del mínimo
 
 :::
 
@@ -507,29 +513,7 @@ show_best(ajuste, metric = "rmse", n = 3) |>
 - `select_best()` y `show_best()` sin `metric =` avisan y cogen la primera métrica; siempre con `metric =`.
 - Si `n` sale menor que 10, algún bloque ha fallado (el caso de `factor(educ)` en la fórmula).
 - Por MAE el orden cambia poco: 15,8 (293,2), 20,0 (294,0) y 12,6 (294,7).
-::::
-
-## La elección de $\lambda$
-
-::: {style="font-size: 86%;"}
-
-```{r}
-#| eval: true
-mejor  <- select_best(ajuste, metric = "rmse")      # lambda = 20,0 (RMSE 363,3)
-simple <- select_by_one_std_err(ajuste,
-            desc(penalty), metric = "rmse")      # lambda = 31,6 (RMSE 369,2)
-```
-
-- `select_best()` devuelve el $\lambda$ de menor error medio
-
-- `select_by_one_std_err()` aplica la **regla de un error estándar**: el mayor $\lambda$ cuyo error está a menos de un error estándar del mínimo
-  - `desc(penalty)` dice que el modelo más simple es el de $\lambda$ más grande
-
-- Los dos devuelven una tabla de una fila con el valor de `penalty`: es lo que recibe el paso 5
-
-:::
-
-::::{.notes}
+- `select_best()` y `select_by_one_std_err()` devuelven una tabla de una fila con el valor de `penalty`: es lo que recibe `finalize_workflow()` en el paso 5.
 - `autoplot(ajuste)` sin `metric` dibuja las dos métricas (RMSE y MAE) una debajo de la otra. En el gráfico de la transparencia el eje es $\lambda$ creciente; en `plot(cv)` del Tema 06 era $-\log(\lambda)$, así que la U está al revés.
 - Lectura del gráfico: a la izquierda es plano, con $\lambda$ tan pequeño que el modelo casi no penaliza (RMSE 814; MCO exacto da 969); el mínimo está en 20; a la derecha todos los coeficientes son cero y el modelo predice la media (RMSE 1.176).
 - `show_best(ajuste, metric = "rmse", n = 3)`: 20,0 (363,3), 15,8 (364,7) y 25,1 (365,0), todos dentro de un error estándar: la diferencia entre ellos es ruido de la validación cruzada, y de ahí la regla de un error estándar (principio de parsimonia).
@@ -586,8 +570,8 @@ final <- finalize_workflow(flujo, mejor) |>   # a mano: tibble(penalty = 8.5)
   1. estima el flujo en **todo** el entrenamiento (los 323 clientes, sin bloques)
   2. predice los 81 clientes de prueba y calcula las métricas, una sola vez
 
-- En `final` queda guardado todo, y cada cosa se saca con una función:
-  - con `lm()` (Tema 05), el objeto ya era el modelo estimado y se usaba directamente (`predict(m, newdata = prueba)`); aquí se saca con `extract_workflow()`, y `predict()` lo aplica a cualquier dato con las mismas columnas
+- En `final` queda guardado todo, y se puede extraer con funciones:
+  - `extract_workflow()` saca el flujo estimado, que se usa con las mismas funciones que ya vimos para la estimación sin hiperparámetros de [`mco`](#/el-flujo-de-trabajo-workflow) (`tidy()`, `predict()`, `augment()`)
 
 ```{r}
 #| eval: true
@@ -774,21 +758,20 @@ collect_metrics(final_c) |> select(.metric, .estimate)
 
 - `augment(final_c)` devuelve los 121 clientes de prueba con tres columnas nuevas: las probabilidades `.pred_Sí` y `.pred_No`, y la clase predicha `.pred_class`, que usa el umbral 0,5
 
-- El umbral es una decisión de la empresa, así que se elige a mano con `mutate()` y se mide con las métricas del Tema 05:
+- El umbral puede ser una decisión de la empresa (para hacer distintas promociones): se elige a mano y se calculan las métricas habituales:
 
 ```{r}
 #| eval: true
 augment(final_c) |>
-  mutate(oferta = .pred_Sí > 0.5,
+  mutate(oferta = .pred_Sí > 0.5,   # 6 meses gratis: umbral 6/12 (Tema 06)
          pred = factor(if_else(oferta, "Sí", "No"), levels = c("Sí", "No"))) |>
   sens(churn, pred)      # 0,81; también spec(), precision(), accuracy(), conf_mat()
 ```
 
-- La regla del Tema 06: la oferta de $k$ meses gratis compensa si $12\,p > k$, es decir, con umbral $k/12$. En la prueba se puede comprobar cuánto ahorra cada $k$, porque ahí sabemos quién se fue de verdad
-
 :::
 
 ::::{.notes}
+- La regla del Tema 06: la oferta de $k$ meses gratis compensa si $12\,p > k$, es decir, con umbral $k/12$. En la prueba se puede comprobar cuánto ahorra cada $k$, porque ahí sabemos quién se fue de verdad.
 - `last_fit()` sin `metrics` añade `brier_class` (error cuadrático medio de la probabilidad): se pasa `metric_set()` para que salgan solo las conocidas.
 - Con umbral 0,5 en la prueba: sensibilidad 0,808, especificidad 0,500, exactitud 0,686; matriz: 59 abandonos acertados, 14 no detectados, 24 falsas alarmas, 24 fieles acertados. Verificado el 11-nov-2026.
 - `predict(extract_workflow(final_c), new_data = ..., type = "prob")` da solo las dos probabilidades; `augment()` lo da todo. En código ajeno, `type = "conf_int"` solo funciona con `lm`; con `glmnet` da error.
