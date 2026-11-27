@@ -1596,8 +1596,7 @@ display:block!important;
 <ul>
 <li><code>penalty()</code> trabaja en escala <span class="math inline">\(\log_{10}\)</span>: <code>range = c(-4, 3)</code> va de <span class="math inline">\(10^{-4}\)</span> a <span class="math inline">\(10^{3}\)</span>
 <ul>
-<li>el paso entre exponentes es (fin − inicio) / (valores − 1) = 7 / 70 = 0,1</li>
-<li>cada valor es el anterior multiplicado por <span class="math inline">\(10^{0{,}1} = 1{,}26\)</span></li>
+<li>cada valor es el anterior multiplicado por <span class="math inline">\(10^{(\text{fin} - \text{inicio})/(\text{valores} - 1)}\)</span></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1607,16 +1606,19 @@ display:block!important;
 <span id="cb18-3"><a aria-label="3"></a>                    <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><code>tune_grid()</code> recibe el flujo, los bloques, la rejilla y las <a href="Tema07anexo.html#/métricas-metric_set">métricas</a> (<code>metric_set()</code>). Para cada valor de <span class="math inline">\(\lambda\)</span>, en cada uno de los 10 repartos:
+<li><code>tune_grid()</code> recibe el flujo, los bloques, la rejilla y las <a href="Tema07anexo.html#/métricas-metric_set">métricas</a> (<code>metric_set()</code>)
+<ul>
+<li>para cada valor de <span class="math inline">\(\lambda\)</span>, en cada uno de los 10 repartos:
 <ol type="1">
 <li>prepara el preprocesado con el <strong>análisis</strong> (<code>prep()</code>) y lo aplica a la <strong>evaluación</strong> (<code>bake()</code>)</li>
 <li>estima el modelo con el análisis</li>
-<li>predice la evaluación y calcula el RMSE y el MAE</li>
-<li>promedia los 10 errores (media y error estándar)</li>
+<li>predice en la evaluación y calcula el RMSE y el MAE</li>
 </ol></li>
+<li>promedia los 10 errores de cada <span class="math inline">\(\lambda\)</span> (media y error estándar)</li>
+</ul></li>
 <li>Si <code>prep()</code> usara todo el entrenamiento (p. ej., las medias y desviaciones de <code>step_normalize()</code>), los datos de evaluación entrarían en el preprocesado
 <ul>
-<li>es una <strong>fuga de información</strong>: el error sale optimista</li>
+<li>es una <strong>fuga de información</strong> (el error sale optimista)</li>
 </ul></li>
 </ul>
 </div>
@@ -1659,11 +1661,8 @@ display:block!important;
 <h2>Lo que devuelve <code>tune_grid()</code></h2>
 <div style="font-size: 80%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="fu">collect_metrics</span>(ajuste)        <span class="co"># una fila por lambda y métrica: 71 x 2 = 142 filas</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="fu">collect_metrics</span>(ajuste)   <span class="co"># una fila por lambda y métrica: medias, bloques (n) y std_err</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<ul>
-<li><code>collect_metrics()</code> da, para cada <span class="math inline">\(\lambda\)</span> y cada métrica, la media de los 10 bloques (<code>mean</code>), cuántos bloques hay (<code>n</code>) y el error estándar (<code>std_err</code>)</li>
-</ul>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
@@ -1679,70 +1678,45 @@ display:block!important;
 </div>
 </div>
 <ul>
-<li><code>autoplot()</code> dibuja la media de cada <span class="math inline">\(\lambda\)</span>, con <span class="math inline">\(\lambda\)</span> en escala logarítmica: es la U del Tema 06</li>
-<li>El rango se elige probando hasta que la U quede dentro de la rejilla
+<li><code>autoplot()</code> dibuja la media de cada <span class="math inline">\(\lambda\)</span> (en escala logarítmica); se prueba el rango hasta encontrar la U
 <ul>
-<li>cuidado: es una solución <a href="Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla">«interior»</a>, y a veces hay que hacer <a href="Tema07anexo.html#/zoom-una-rejilla-más-fina-alrededor-del-mejor"><em>zoom</em></a></li>
+<li>ojo: es solución <a href="Tema07anexo.html#/si-el-mejor-valor-cae-en-el-borde-de-la-rejilla">«interior»</a>; a veces, <a href="Tema07anexo.html#/zoom-una-rejilla-más-fina-alrededor-del-mejor"><em>zoom</em></a></li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a><span class="fu">show_best</span>(ajuste, <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>, <span class="at">n =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a aria-label="2"></a>  <span class="fu">select</span>(penalty, mean, n, std_err)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a><span class="fu">show_best</span>(ajuste, <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 4
-  penalty  mean     n std_err
-    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-1   19.95 363.3    10   13.26
-2   15.85 364.7    10   13.84
-3   25.12 365.0    10   12.93</code></pre>
+<pre><code># A tibble: 3 × 7
+  penalty .metric .estimator  mean     n std_err
+    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+1   19.95 rmse    standard   363.3    10   13.26
+2   15.85 rmse    standard   364.7    10   13.84
+3   25.12 rmse    standard   365.0    10   12.93
+# ℹ 1 more variable: .config &lt;chr&gt;</code></pre>
 </div>
 </div>
 <ul>
-<li><code>show_best()</code> ordena esas medias de mejor a peor para una métrica, p. ej. el RMSE de validación cruzada
+<li><code>show_best()</code> ordena de mejor a peor la media de una métrica (p. ej., RMSE)
 <ul>
-<li>los tres primeros están a menos de un error estándar unos de otros: sus errores son indistinguibles, como el fondo plano de la U</li>
+<li>notad: diferencias en la métrica menores que un error estándar</li>
 </ul></li>
 </ul>
 </div></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>mejor  <span class="ot">&lt;-</span> <span class="fu">select_best</span>(ajuste, <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)   <span class="co"># lambda = 20,0 (RMSE 363,3: menor error medio)</span></span>
+<span id="cb24-2"><a aria-label="2"></a>simple <span class="ot">&lt;-</span> <span class="fu">select_by_one_std_err</span>(ajuste, <span class="fu">desc</span>(penalty), <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)   <span class="co"># lambda = 31,6 (RMSE 369,2)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><code>select_by_one_std_err()</code> aplica la <strong>regla de un error estándar</strong>: el mayor <span class="math inline">\(\lambda\)</span> (<code>desc()</code>), es decir, el modelo más simple, cuyo error está a menos de un error estándar del mínimo</li>
+</ul>
 </div>
 <aside class="notes">
 <ul>
 <li><code>select_best()</code> y <code>show_best()</code> sin <code>metric =</code> avisan y cogen la primera métrica; siempre con <code>metric =</code>.</li>
 <li>Si <code>n</code> sale menor que 10, algún bloque ha fallado (el caso de <code>factor(educ)</code> en la fórmula).</li>
 <li>Por MAE el orden cambia poco: 15,8 (293,2), 20,0 (294,0) y 12,6 (294,7).</li>
-</ul>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="la-elección-de-lambda" class="slide level2">
-<h2>La elección de <span class="math inline">\(\lambda\)</span></h2>
-<div style="font-size: 86%;">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>mejor  <span class="ot">&lt;-</span> <span class="fu">select_best</span>(ajuste, <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)      <span class="co"># lambda = 20,0 (RMSE 363,3)</span></span>
-<span id="cb24-2"><a aria-label="2"></a>simple <span class="ot">&lt;-</span> <span class="fu">select_by_one_std_err</span>(ajuste,</span>
-<span id="cb24-3"><a aria-label="3"></a>            <span class="fu">desc</span>(penalty), <span class="at">metric =</span> <span class="st">&quot;rmse&quot;</span>)      <span class="co"># lambda = 31,6 (RMSE 369,2)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li><p><code>select_best()</code> devuelve el <span class="math inline">\(\lambda\)</span> de menor error medio</p></li>
-<li><p><code>select_by_one_std_err()</code> aplica la <strong>regla de un error estándar</strong>: el mayor <span class="math inline">\(\lambda\)</span> cuyo error está a menos de un error estándar del mínimo</p>
-<ul>
-<li><code>desc(penalty)</code> dice que el modelo más simple es el de <span class="math inline">\(\lambda\)</span> más grande</li>
-</ul></li>
-<li><p>Los dos devuelven una tabla de una fila con el valor de <code>penalty</code>: es lo que recibe el paso 5</p></li>
-</ul>
-</div>
-<aside class="notes">
-<ul>
+<li><code>select_best()</code> y <code>select_by_one_std_err()</code> devuelven una tabla de una fila con el valor de <code>penalty</code>: es lo que recibe <code>finalize_workflow()</code> en el paso 5.</li>
 <li><code>autoplot(ajuste)</code> sin <code>metric</code> dibuja las dos métricas (RMSE y MAE) una debajo de la otra. En el gráfico de la transparencia el eje es <span class="math inline">\(\lambda\)</span> creciente; en <code>plot(cv)</code> del Tema 06 era <span class="math inline">\(-\log(\lambda)\)</span>, así que la U está al revés.</li>
 <li>Lectura del gráfico: a la izquierda es plano, con <span class="math inline">\(\lambda\)</span> tan pequeño que el modelo casi no penaliza (RMSE 814; MCO exacto da 969); el mínimo está en 20; a la derecha todos los coeficientes son cero y el modelo predice la media (RMSE 1.176).</li>
 <li><code>show_best(ajuste, metric = &quot;rmse&quot;, n = 3)</code>: 20,0 (363,3), 15,8 (364,7) y 25,1 (365,0), todos dentro de un error estándar: la diferencia entre ellos es ruido de la validación cruzada, y de ahí la regla de un error estándar (principio de parsimonia).</li>
@@ -1802,9 +1776,9 @@ display:block!important;
 <li>estima el flujo en <strong>todo</strong> el entrenamiento (los 323 clientes, sin bloques)</li>
 <li>predice los 81 clientes de prueba y calcula las métricas, una sola vez</li>
 </ol></li>
-<li><p>En <code>final</code> queda guardado todo, y cada cosa se saca con una función:</p>
+<li><p>En <code>final</code> queda guardado todo, y se puede extraer con funciones:</p>
 <ul>
-<li>con <code>lm()</code> (Tema 05), el objeto ya era el modelo estimado y se usaba directamente (<code>predict(m, newdata = prueba)</code>); aquí se saca con <code>extract_workflow()</code>, y <code>predict()</code> lo aplica a cualquier dato con las mismas columnas</li>
+<li><code>extract_workflow()</code> saca el flujo estimado, que se usa con las mismas funciones que ya vimos para la estimación sin hiperparámetros de <a href="#//el-flujo-de-trabajo-workflow"><code>mco</code></a> (<code>tidy()</code>, <code>predict()</code>, <code>augment()</code>)</li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -2044,20 +2018,18 @@ display:block!important;
 </div>
 <ul>
 <li><p><code>augment(final_c)</code> devuelve los 121 clientes de prueba con tres columnas nuevas: las probabilidades <code>.pred_Sí</code> y <code>.pred_No</code>, y la clase predicha <code>.pred_class</code>, que usa el umbral 0,5</p></li>
-<li><p>El umbral es una decisión de la empresa, así que se elige a mano con <code>mutate()</code> y se mide con las métricas del Tema 05:</p></li>
+<li><p>El umbral puede ser una decisión de la empresa (para hacer distintas promociones): se elige a mano y se calculan las métricas habituales:</p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a><span class="fu">augment</span>(final_c) <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">oferta =</span> .pred_Sí <span class="sc">&gt;</span> <span class="fl">0.5</span>,</span>
+<span id="cb36-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">oferta =</span> .pred_Sí <span class="sc">&gt;</span> <span class="fl">0.5</span>,   <span class="co"># 6 meses gratis: umbral 6/12 (Tema 06)</span></span>
 <span id="cb36-3"><a aria-label="3"></a>         <span class="at">pred =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(oferta, <span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Sí&quot;</span>, <span class="st">&quot;No&quot;</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb36-4"><a aria-label="4"></a>  <span class="fu">sens</span>(churn, pred)      <span class="co"># 0,81; también spec(), precision(), accuracy(), conf_mat()</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<ul>
-<li>La regla del Tema 06: la oferta de <span class="math inline">\(k\)</span> meses gratis compensa si <span class="math inline">\(12\,p &gt; k\)</span>, es decir, con umbral <span class="math inline">\(k/12\)</span>. En la prueba se puede comprobar cuánto ahorra cada <span class="math inline">\(k\)</span>, porque ahí sabemos quién se fue de verdad</li>
-</ul>
 </div>
 <aside class="notes">
 <ul>
+<li>La regla del Tema 06: la oferta de <span class="math inline">\(k\)</span> meses gratis compensa si <span class="math inline">\(12\,p &gt; k\)</span>, es decir, con umbral <span class="math inline">\(k/12\)</span>. En la prueba se puede comprobar cuánto ahorra cada <span class="math inline">\(k\)</span>, porque ahí sabemos quién se fue de verdad.</li>
 <li><code>last_fit()</code> sin <code>metrics</code> añade <code>brier_class</code> (error cuadrático medio de la probabilidad): se pasa <code>metric_set()</code> para que salgan solo las conocidas.</li>
 <li>Con umbral 0,5 en la prueba: sensibilidad 0,808, especificidad 0,500, exactitud 0,686; matriz: 59 abandonos acertados, 14 no detectados, 24 falsas alarmas, 24 fieles acertados. Verificado el 11-nov-2026.</li>
 <li><code>predict(extract_workflow(final_c), new_data = ..., type = &quot;prob&quot;)</code> da solo las dos probabilidades; <code>augment()</code> lo da todo. En código ajeno, <code>type = &quot;conf_int&quot;</code> solo funciona con <code>lm</code>; con <code>glmnet</code> da error.</li>
